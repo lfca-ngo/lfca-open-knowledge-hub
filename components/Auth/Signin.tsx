@@ -9,29 +9,24 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignIn = async (email, password) => {
+  const handleSignIn = async () => {
     setLoading(true);
     try {
       //  @TODO: Auth logic
-      if (error) throw error;
-      router.push({ pathname: HOME, hash: session?.access_token });
+      // if (error) throw error;
+      // router.push({ pathname: HOME, hash: session?.access_token });
     } catch (e) {
-      console.log(e.message);
-      setErrorMessage(e.message);
+      // console.log(e.message);
+      // setErrorMessage(e.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const onFinish = (values) => {
-    let { email, password } = { ...values };
-    setErrorMessage("");
-    handleSignIn(email, password);
-  };
 
   return (
     <div>
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form layout="vertical" onFinish={handleSignIn}>
         <Form.Item
           rules={[{ required: true, message: "Please input your email!" }]}
           label="Email"

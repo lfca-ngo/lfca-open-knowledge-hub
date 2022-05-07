@@ -5,7 +5,7 @@ require("./styles.less");
 
 const { Content, Footer } = Layout;
 
-const OneColLayout = ({ children }) => {
+export const OneColLayout = ({ children }: { children: any }) => {
   return (
     <Layout className="background" style={{ minHeight: "100vh" }}>
       <Layout className="site-layout">
@@ -27,4 +27,3 @@ const OneColLayout = ({ children }) => {
   );
 };
 
-export default OneColLayout;

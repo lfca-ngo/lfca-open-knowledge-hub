@@ -8,12 +8,19 @@ import React, {
 
 import { MOBILE_BREAKPOINT } from '../utils'
 
-const AppContext = createContext()
+const CLIENT = 'client'
+const SERVER = 'server'
+const DEFAULT = {
+    isClient: false,
+    isMobile: false,
+    key: SERVER
+}
+const AppContext = createContext(DEFAULT)
 
-export const AppProvider = ({ children }) => {
-    const [isMobile, setIsMobile] = useState(false)
-    const [isClient, setClient] = useState(false)
-    const key = isClient ? 'client' : 'server'
+export const AppProvider = ({ children }: { children: any }) => {
+    const [isMobile, setIsMobile] = useState(DEFAULT.isMobile)
+    const [isClient, setClient] = useState(DEFAULT.isClient)
+    const key = isClient ? CLIENT : SERVER
 
     // due to SSG we only know if it's mobile
     // after first client side render
@@ -23,13 +30,11 @@ export const AppProvider = ({ children }) => {
             document.documentElement.clientWidth ||
             document.body.clientWidth
 
-        console.log('render')
         setClient(true)
         setIsMobile(screenWidth <= MOBILE_BREAKPOINT)
 
     }, [])
 
-    console.log('isClient', isClient, key)
     return (
         <AppContext.Provider
             value={{

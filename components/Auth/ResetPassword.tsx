@@ -4,19 +4,16 @@ import { Button, Input, Form } from "antd";
 import { SIGN_IN } from "../../utils/routes";
 
 const ResetPassword = () => {
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isAfterSubmit, setIsAfterSubmit] = useState(false);
 
   const handleClick = async () => {
-    setErrorMessage("");
     setLoading(true);
     try {
       // @TODO: Auth logic
-      if (res.error) alert(res.error);
+      // if (res.error) alert(res.error);
     } catch (error) {
-      alert(error.message);
+      // alert(error.message);
     } finally {
       // setIsAfterSubmit(true);
       setLoading(false);
@@ -25,7 +22,7 @@ const ResetPassword = () => {
 
   return (
     <div>
-      {isAfterSubmit ? (
+      {success ? (
         <div>
           Bitte schauen Sie Ihr E-Mail Postfach. Wir haben Ihnen eine E-Mail zum
           Zurücksetzen des Passworts geschickt. Wenn Sie innerhalb von zehn Minuten keine
@@ -33,15 +30,12 @@ const ResetPassword = () => {
         </div>
       ) : (
         <div>
-          <Form layout='vertical'>
+          <Form layout='vertical' onFinish={handleClick}>
             <Form.Item label='Email'>
               <Input
-                value={email}
-                placeholder='prenzl@media.de'
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder='info@lfca.earth'
               />
             </Form.Item>
-            {errorMessage}
             <Form.Item>
               <Button block loading={loading} type='primary' onClick={handleClick}>
                 Passwort zurücksetzen

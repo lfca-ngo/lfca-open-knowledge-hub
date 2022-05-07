@@ -8,29 +8,24 @@ export default function Signup() {
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignUp = async (company, email, password, name) => {
+  const handleSignUp = async () => {
     setLoading(true);
 
     try {
       // @TODO: Auth logic
-      if (error) throw error;
+      // if (error) throw error;
       setSuccess(true);
     } catch (e) {
-      setErrorMessage(e.message);
+      // setErrorMessage(e.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const onFinish = (values) => {
-    let { company, email, password } = { ...values };
-    setErrorMessage("");
-    handleSignUp(company, email, password);
-  };
 
   return (
     <div>
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form layout="vertical" onFinish={handleSignUp}>
         <Form.Item
           rules={[{ required: true, message: "Please select a company!" }]}
           label={"Unternehmen"}

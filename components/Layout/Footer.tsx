@@ -1,6 +1,6 @@
 import { Row, Col } from "antd";
 
-export default function Footer() {
+export const Footer = () => {
   return (
     <Row>
       <Col xs={24}>

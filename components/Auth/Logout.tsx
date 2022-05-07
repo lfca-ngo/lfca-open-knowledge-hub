@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/router";
-import { SIGN_IN, API_AUTH_REMOVE } from "../../utils/routes";
+import { SIGN_IN } from "../../utils/routes";
 
 const Logout = () => {
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleClick = async () => {

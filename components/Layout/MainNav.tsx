@@ -17,11 +17,11 @@ const NAV_ITEMS = [
   },
 ];
 
-const MainNav = () => {
+export const MainNav = () => {
   const router = useRouter();
   const isClient = useIsClient();
 
-  const handleSelect = (item) => {
+  const handleSelect = (item: any) => {
     router.push(item.key);
   };
 
@@ -37,4 +37,3 @@ const MainNav = () => {
   );
 };
 
-export default MainNav;

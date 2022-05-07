@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Layout, Breadcrumb } from "antd";
 import Link from "next/link";
-import MainNav from "./MainNav";
+import { MainNav } from "./MainNav";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 require("./styles.less");
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const SiderLayout = ({ children, breadcrumbs }) => {
+export const SiderLayout = ({ children, breadcrumbs }: { children: any, breadcrumbs: any }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -37,7 +37,7 @@ const SiderLayout = ({ children, breadcrumbs }) => {
         <Content>
           {/* Later we can make these dynamic based on the route */}
           <Breadcrumb>
-            {breadcrumbs?.map((breadcrumb, i) => (
+            {breadcrumbs?.map((breadcrumb: any, i) => (
               <Breadcrumb.Item key={`bread-${i}`}>
                 {breadcrumb.link ? (
                   <Link href={breadcrumb.link}>{breadcrumb.text}</Link>
@@ -60,4 +60,4 @@ const SiderLayout = ({ children, breadcrumbs }) => {
   );
 };
 
-export default SiderLayout;
+
