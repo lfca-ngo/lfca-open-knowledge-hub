@@ -32,7 +32,6 @@ export const AppProvider = ({ children }: { children: any }) => {
 
         setClient(true)
         setIsMobile(screenWidth <= MOBILE_BREAKPOINT)
-
     }, [])
 
     return (

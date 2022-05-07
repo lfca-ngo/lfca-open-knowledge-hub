@@ -12,7 +12,7 @@ export const SiderLayout = ({ children, breadcrumbs }: { children: any, breadcru
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout hasSider style={{ minHeight: "100vh" }}>
       <Sider
         collapsible
         collapsed={collapsed}
@@ -35,18 +35,6 @@ export const SiderLayout = ({ children, breadcrumbs }: { children: any, breadcru
           )}
         </Header>
         <Content>
-          {/* Later we can make these dynamic based on the route */}
-          <Breadcrumb>
-            {breadcrumbs?.map((breadcrumb: any, i) => (
-              <Breadcrumb.Item key={`bread-${i}`}>
-                {breadcrumb.link ? (
-                  <Link href={breadcrumb.link}>{breadcrumb.text}</Link>
-                ) : (
-                  breadcrumb.text
-                )}
-              </Breadcrumb.Item>
-            ))}
-          </Breadcrumb>
           <div
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}
