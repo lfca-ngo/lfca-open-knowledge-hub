@@ -33,7 +33,7 @@
 @border-radius-base: 6px;
 
 // Fonts
-@font-family: 'Epilogue', -apple-system, Helvetica, Arial, sans-serif;
+@font-family: 'Inter', -apple-system, Helvetica, Arial, sans-serif;
 @font-size-base: 17px;
 @font-size-lg: 17px;
 @font-size-sm: 17px;
@@ -95,3 +95,51 @@
 // Tags
 // @tag-font-size: 13px;
 // @tag-line-height: 20px;
+
+
+// Media queries breakpoints
+// Extra small screen / phone
+@screen-xs: 480px;
+@screen-xs-min: @screen-xs;
+
+// Small screen / tablet
+@screen-sm: 576px;
+@screen-sm-min: @screen-sm;
+
+// Medium screen / desktop
+@screen-md: 768px;
+@screen-md-min: @screen-md;
+
+// Large screen / wide desktop
+@screen-lg: 992px;
+@screen-lg-min: @screen-lg;
+
+// Extra large screen / full hd
+@screen-xl: 1200px;
+@screen-xl-min: @screen-xl;
+
+// added in between step
+@screen-xl-small: 1300px;
+@screen-xl-small-min: @screen-xl-small;
+@screen-xl-small-factor: 1.11;
+
+// Extra extra large screen / large descktop
+@screen-xxl: 1601px;
+@screen-xxl-min: @screen-xxl;
+@screen-xxl-factor: 1.33;
+
+// Extra extra large screen / large descktop
+@screen-xxxl: 1900px;
+@screen-xxxl-min: @screen-xxl;
+@screen-xxl-factor: 1.5;
+
+// provide a maximum
+@screen-xs-max: (@screen-sm-min - 1px);
+@screen-sm-max: (@screen-md-min - 1px);
+@screen-md-max: (@screen-lg-min - 1px);
+@screen-lg-max: (@screen-xl-min - 1px);
+@screen-xl-max: (@screen-xxl-min - 1px);
+@screen-xxl-max: (@screen-xxxl-min - 1px);
+
+@mobile: ~'only screen and (max-width: @{screen-xs-max})';
+@desktop: ~'only screen and (min-width: @{screen-lg})';

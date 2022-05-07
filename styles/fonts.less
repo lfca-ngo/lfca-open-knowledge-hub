@@ -1,0 +1,108 @@
+@import (reference) './variables.less';
+
+.font-bold(@color: var(--heading-color)) {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color: @color;
+    line-height: 1.2;
+}
+
+.font-semi(@color: var(--heading-color)) {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: @color;
+    line-height: 1.2;
+}
+
+.font-medium(@color: var(--heading-color)) {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: @color;
+    line-height: 1.2;
+}
+
+.font-regular(@color: var(--text-color)) {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    color: @color;
+}
+
+.h1() {
+    .font-bold();
+    font-size: 32px;
+    color: @black;
+
+    @media @desktop {
+        font-size: 36px;
+    }
+}
+
+.h2() {
+    .font-bold();
+    font-size: 24px;
+    color: @black;
+
+    @media @desktop {
+        font-size: 28px;
+    }
+}
+
+.h3() {
+    .font-bold();
+    font-size: 21px;
+    color: @black;
+
+    @media @desktop {
+        font-size: 24px;
+    }
+}
+
+.h4() {
+    .font-bold();
+    font-size: 19px;
+
+    @media @desktop {
+        font-size: 21px;
+    }
+}
+
+.default-text() {
+    font-weight: 300;
+    line-height: 1.5;
+    font-size: @font-size-sm;
+
+    @media @desktop {
+        font-size: @font-size-base;
+    }
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: @heading-color;
+}
+
+h1 {
+    .h1();
+}
+
+h2 {
+    .h2();
+}
+
+h3 {
+    .h3();
+}
+
+h4 {
+    .h4();
+}
+
+p {
+    .default-text();
+}
