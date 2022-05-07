@@ -19,13 +19,11 @@ const NAV_ITEMS = [
 
 export const MainNav = () => {
   const router = useRouter();
-  const isClient = useIsClient();
 
   const handleSelect = (item: any) => {
     router.push(item.key);
   };
 
-  if (!isClient) return null;
   return (
     <Menu
       theme="dark"
