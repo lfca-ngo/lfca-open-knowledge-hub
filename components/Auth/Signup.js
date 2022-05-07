@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "../../services/supabaseClient";
 import NextLink from "next/link";
 import { Button, Input, Form, Alert } from "antd";
 import { SIGN_IN } from "../../utils/routes";
@@ -13,18 +12,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp(
-        {
-          email: email,
-          password: password,
-        },
-        {
-          data: {
-            company: company,
-            name: name,
-          },
-        }
-      );
+      // @TODO: Auth logic
       if (error) throw error;
       setSuccess(true);
     } catch (e) {

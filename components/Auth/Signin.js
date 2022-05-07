@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "../../services/supabaseClient";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Input, Form, Space, Alert } from "antd";
@@ -13,10 +12,7 @@ export default function Signin() {
   const handleSignIn = async (email, password) => {
     setLoading(true);
     try {
-      const { session, error } = await supabase.auth.signIn({
-        email: email,
-        password: password,
-      });
+      //  @TODO: Auth logic
       if (error) throw error;
       router.push({ pathname: HOME, hash: session?.access_token });
     } catch (e) {

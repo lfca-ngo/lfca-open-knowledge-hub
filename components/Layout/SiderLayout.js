@@ -3,7 +3,6 @@ import { Layout, Breadcrumb } from "antd";
 import Link from "next/link";
 import MainNav from "./MainNav";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-import Image from "next/image";
 
 require("./styles.less");
 
@@ -55,7 +54,7 @@ const SiderLayout = ({ children, breadcrumbs }) => {
             {children}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>Prenzlmedia ©2022</Footer>
+        <Footer style={{ textAlign: "center" }}>lfca.earth ©2022</Footer>
       </Layout>
     </Layout>
   );

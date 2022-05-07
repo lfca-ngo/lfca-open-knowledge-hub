@@ -23,11 +23,13 @@ export const AppProvider = ({ children }) => {
             document.documentElement.clientWidth ||
             document.body.clientWidth
 
+        console.log('render')
         setClient(true)
         setIsMobile(screenWidth <= MOBILE_BREAKPOINT)
 
     }, [])
 
+    console.log('isClient', isClient, key)
     return (
         <AppContext.Provider
             value={{

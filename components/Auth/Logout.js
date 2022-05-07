@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "antd";
-import { supabase } from "../../services/supabaseClient";
 import { useRouter } from "next/router";
 import { SIGN_IN, API_AUTH_REMOVE } from "../../utils/routes";
 
@@ -11,11 +10,11 @@ const Logout = () => {
   const handleClick = async () => {
     setLoading(true);
     try {
-      await supabase.auth.signOut();
-      await fetch(API_AUTH_REMOVE, {
-        method: "GET",
-        credentials: "same-origin",
-      });
+      // await supabase.auth.signOut();
+      // await fetch(API_AUTH_REMOVE, {
+      //   method: "GET",
+      //   credentials: "same-origin",
+      // });
     } finally {
       setLoading(false);
       router.push(SIGN_IN);

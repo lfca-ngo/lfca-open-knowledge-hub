@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import NextLink from "next/link";
-import { supabase } from "../../services/supabaseClient";
 import { Button, Input, Form } from "antd";
 import { SIGN_IN } from "../../utils/routes";
 
@@ -14,13 +13,7 @@ const ResetPassword = () => {
     setErrorMessage("");
     setLoading(true);
     try {
-      let { data } = await supabase.from("profiles").select("email").eq("email", email);
-
-      if (!data.length) {
-        setErrorMessage("E-Mail ist nicht vorhanden, bitte versuchen Sie es erneut");
-        return;
-      }
-      let res = await supabase.auth.api.resetPasswordForEmail(email);
+      // @TODO: Auth logic
       if (res.error) alert(res.error);
     } catch (error) {
       alert(error.message);
