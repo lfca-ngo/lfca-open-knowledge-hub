@@ -38,10 +38,10 @@ export const fetchAllActions = async () => {
     })
     // add every action to the 'All Actions' group
     acc.byTags[ALL_ACTIONS] = acc.byTags[ALL_ACTIONS] || []
-    acc.byTags[ALL_ACTIONS].push(action)
+    acc = addAtIndexByImpactValue(acc, action, ALL_ACTIONS)
 
     // make every action accessible in map by its id
-    acc = addAtIndexByImpactValue(acc, action, ALL_ACTIONS)
+    acc.byId[action.actionId] = action
 
     return acc
   }, { byTags: { [ALL_ACTIONS]: [] }, byId: {} })
