@@ -22,6 +22,12 @@ const Home: NextPage = (props: any) => {
           }
           } />
         </TabPane>
+        <TabPane tab='Ecommerce' key='2'>
+          Space
+        </TabPane>
+        <TabPane tab='Tech' key='3'>
+          Space
+        </TabPane>
       </Tabs>
 
     </SiderLayout>
