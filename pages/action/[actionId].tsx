@@ -6,6 +6,7 @@ import { CheckOutlined, CalendarOutlined, UploadOutlined } from '@ant-design/ico
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { ALL_ACTIONS } from '../../services/contentful'
 
 const { TabPane } = Tabs
 const { TextArea } = Input
@@ -98,7 +99,7 @@ const Action: NextPage = (props: any) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const actionId: any = params?.actionId
     const actions: any = await fetchAllActions()
-    const action = actions.find((action: any) => action.actionId === actionId)
+    const action = actions.byId[actionId]
 
     return {
         props: {
@@ -108,8 +109,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const actions = await fetchAllActions()
-    const paths = actions.map((action: any) => ({ params: { actionId: action.actionId } }))
+    const { byTags } = await fetchAllActions()
+    const paths = byTags[ALL_ACTIONS].map((action: any) => ({ params: { actionId: action.actionId } }))
     return {
         paths: paths,
         fallback: false

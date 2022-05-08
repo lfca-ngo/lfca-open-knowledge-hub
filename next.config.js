@@ -9,6 +9,16 @@ const nextConfig = {
     scrollRestoration: true,
   },
   webpack: (config) => {
+
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        "fs": false,
+        "path": false,
+        "os": false,
+      }
+    }
+
     // config.module.rules.push({
     //   issuer: /\.[jt]sx?$/,
     //   test: /\.svg$/i,

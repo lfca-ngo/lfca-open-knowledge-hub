@@ -3,31 +3,32 @@ import { Button, Tabs, List } from 'antd'
 import { SiderLayout } from '../components/Layout'
 import { fetchAllActions } from '../services/contentful'
 import { ActionCard } from '../components/ActionCard'
+import { ALL_ACTIONS } from '../services/contentful/fetch-all-actions'
 
 const { TabPane } = Tabs
 
 
 const Home: NextPage = (props: any) => {
+  const { byTags } = props.actions
   return (
     <SiderLayout breadcrumbs={[{ text: 'Home', link: '/admin' }]}>
       <h1>Hi Anna, take the next step</h1>
-      <Tabs defaultActiveKey='1'>
-        <TabPane tab='All Actions' key='1'>
-          <List pagination={{ pageSize: 10 }} dataSource={props.actions} renderItem={(item: any) => {
-            return (
-              <List.Item>
-                <ActionCard action={item} />
-              </List.Item>
-            )
-          }
-          } />
-        </TabPane>
-        <TabPane tab='Ecommerce' key='2'>
-          Space
-        </TabPane>
-        <TabPane tab='Tech' key='3'>
-          Space
-        </TabPane>
+      <Tabs defaultActiveKey={ALL_ACTIONS}>
+        {Object.keys(byTags).map((tag: string) => {
+          const actions = byTags[tag]
+          return (
+            <TabPane tab={tag} key={tag}>
+              <List pagination={{ pageSize: 10 }} dataSource={actions} renderItem={(item: any) => {
+                return (
+                  <List.Item>
+                    <ActionCard action={item} />
+                  </List.Item>
+                )
+              }
+              } />
+            </TabPane>
+          )
+        })}
       </Tabs>
 
     </SiderLayout>
@@ -39,7 +40,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      actions: actions
+      actions
     }
   }
 }
