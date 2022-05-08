@@ -22,6 +22,12 @@ body {
     margin: 20px 0 10px;
 }
 
+.main-section {
+    @media @desktop {
+        padding-right: 40px;
+    }
+}
+
 .action-header {
     display: flex;
 
@@ -29,12 +35,14 @@ body {
         display: flex;
 
         .hero {
+            padding-left: 25px;
+
             .wrapper {
                 position: relative;
                 overflow: hidden;
                 border-radius: 10px;
-                width: 80px;
-                height: 80px;
+                width: 90px;
+                height: 90px;
             }
         }
     }
