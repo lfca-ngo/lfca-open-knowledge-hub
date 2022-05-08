@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Layout, Breadcrumb } from "antd";
+import { Layout, Breadcrumb, Button } from "antd";
 import Link from "next/link";
 import { MainNav } from "./MainNav";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
 require("./styles.less");
 
 const { Header, Content, Footer, Sider } = Layout;
 
-export const SiderLayout = ({ children, breadcrumbs }: { children: any, breadcrumbs: any }) => {
+export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, breadcrumbs: any, goBack: any }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -26,13 +26,17 @@ export const SiderLayout = ({ children, breadcrumbs }: { children: any, breadcru
 
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          {React.createElement(
+          {goBack ? (
+            <Button type='link' style={{ color: 'black' }} onClick={goBack} icon={<ArrowLeftOutlined />}>Back</Button>
+          ) : React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
               className: "trigger",
               onClick: () => setCollapsed(!collapsed),
             }
-          )}
+          )
+          }
+
         </Header>
         <Content>
           <div

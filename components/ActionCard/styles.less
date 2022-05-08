@@ -1,0 +1,57 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
+.action-stat {
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+
+    .icon {
+        margin-right: 8px;
+    }
+}
+
+.action-card {
+    width: 100%;
+
+    .ant-card-body {
+        display: flex;
+        width: 100%;
+
+        .hero {
+            .wrapper {
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 0 20px;
+            justify-content: center;
+
+            .title {
+                font-size: 17px;
+                margin-bottom: 10px;
+                .font-semi();
+            }
+
+            .stats {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+
+}
