@@ -7,27 +7,30 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ALL_ACTIONS } from '../../services/contentful'
+import { ActionStat } from '../../components/ActionCard'
+import Image from 'next/image'
+import classnames from 'classnames'
 
 const { TabPane } = Tabs
 const { TextArea } = Input
 
 const Main = ({ children }: { children: any }) => (
-    <Col xs={24} md={16}>
+    <Col xs={24} md={16} className='main-section'>
         {children}
     </Col>
 
 )
 
 const Sider = ({ children }: { children: any }) => (
-    <Col xs={24} md={{ span: 6, offset: 2 }}>
+    <Col xs={24} md={{ span: 6, offset: 2 }} className='sider-section'>
         {children}
     </Col>
 
 )
 
-const Section = ({ children, title }: { children: any, title?: any }) => (
+const Section = ({ children, title, className }: { children: any, title?: any, className?: any }) => (
     <Row>
-        <Col xs={24} className='page-section'>
+        <Col xs={24} className={classnames('page-section', className)} >
             {title && <h2 className='title'>{title}</h2>}
             {children}
         </Col>
@@ -42,8 +45,20 @@ const Action: NextPage = (props: any) => {
         <SiderLayout goBack={() => router.back()} breadcrumbs={[{ text: 'Home', link: '/admin' }]}>
             <Row>
                 <Main>
-                    <Section>
-                        <h1>{action?.title}</h1>
+                    <Section className='action-header'>
+                        <div className='action-title'>
+                            <h1>{action?.title}</h1>
+                            <div className='hero'>
+                                <div className='wrapper'>
+                                    <Image src={action.heroImage.url} objectFit='cover' layout='fill' />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='action-stats'>
+                            <ActionStat count={'821'} label='did that' icon='home' />
+                            <ActionStat count={'121'} label='talking about it' icon='home' />
+                            <ActionStat count={'3'} label='documents' icon='home' />
+                        </div>
                     </Section>
                     <Section>
                         <Tabs defaultActiveKey='1'>
@@ -62,7 +77,7 @@ const Action: NextPage = (props: any) => {
 
                 <Sider>
                     <Section title='Your progress'>
-                        <Space direction='vertical'>
+                        <Space direction='vertical' style={{ width: '100%' }}>
                             <Button size='large' onClick={() => setIsOpen(true)} block icon={<CheckOutlined />} type='primary'>Mark as done</Button>
                             <Button size='large' block icon={<CalendarOutlined />} ghost>Mark as planned</Button>
                         </Space>

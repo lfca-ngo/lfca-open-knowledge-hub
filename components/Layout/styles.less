@@ -1,10 +1,14 @@
 @import (reference) '../../styles/variables.less';
 
+@default-padding: 40px;
+
 .site-layout-background {
   background: @white;
+  padding: calc(@default-padding / 2) @default-padding;
+
 
   .trigger {
-    padding: 0 24px;
+    padding: 0 calc(@default-padding / 2);
     font-size: 18px;
     line-height: 64px;
     cursor: pointer;
@@ -15,8 +19,12 @@
 .ant-layout {
   .ant-layout-content {
     .ant-breadcrumb {
-      padding: 24px 0;
+      padding: @default-padding 0;
     }
+  }
+
+  .ant-layout-header {
+    border-bottom: 1px solid #F1F1F1;
   }
 
   .ant-layout-sider {

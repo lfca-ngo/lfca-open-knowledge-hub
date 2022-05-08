@@ -9,7 +9,7 @@ require("./styles.less");
 const { Header, Content, Footer, Sider } = Layout;
 
 export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, breadcrumbs: any, goBack?: any }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <Layout hasSider style={{ minHeight: "100vh" }}>
@@ -41,7 +41,6 @@ export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, 
         <Content>
           <div
             className="site-layout-background"
-            style={{ padding: 24, minHeight: 360 }}
           >
             {children}
           </div>
