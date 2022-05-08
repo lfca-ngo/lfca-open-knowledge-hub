@@ -13,7 +13,7 @@ const Home: NextPage = (props: any) => {
       <h1>Hi Anna, take the next step</h1>
       <Tabs defaultActiveKey='1'>
         <TabPane tab='All Actions' key='1'>
-          <List dataSource={props.actions} renderItem={(item: any) => {
+          <List pagination={{ pageSize: 10 }} dataSource={props.actions} renderItem={(item: any) => {
             return (
               <List.Item>
                 <ActionCard action={item} />
