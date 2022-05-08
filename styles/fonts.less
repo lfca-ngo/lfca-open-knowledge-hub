@@ -1,7 +1,7 @@
 @import (reference) './variables.less';
 
 .font-bold(@color: var(--heading-color)) {
-    font-family: 'Inter', sans-serif;
+    font-family: @font-family;
     font-weight: 700;
     font-style: normal;
     color: @color;
@@ -9,7 +9,7 @@
 }
 
 .font-semi(@color: var(--heading-color)) {
-    font-family: 'Inter', sans-serif;
+    font-family: @font-family;
     font-weight: 500;
     font-style: normal;
     color: @color;
@@ -17,7 +17,7 @@
 }
 
 .font-medium(@color: var(--heading-color)) {
-    font-family: 'Inter', sans-serif;
+    font-family: @font-family;
     font-weight: 400;
     font-style: normal;
     color: @color;
@@ -25,8 +25,8 @@
 }
 
 .font-regular(@color: var(--text-color)) {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
+    font-family: @font-family;
+    font-weight: 400;
     font-style: normal;
     color: @color;
 }
@@ -37,7 +37,7 @@
     color: @black;
 
     @media @desktop {
-        font-size: 36px;
+        font-size: 40px;
     }
 }
 

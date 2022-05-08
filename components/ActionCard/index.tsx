@@ -10,7 +10,7 @@ export const ActionStat = ({ count, label, icon, color }: { count: String, label
     return (
         <div className={classNames('action-stat', color)}>
             <div className='icon'>
-                <Avatar size='small' icon={icon} />
+                <Avatar icon={icon} />
             </div>
             <div className='label'>
                 <span className='count'>{count}</span>{' '}
