@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     domains: ['images.ctfassets.net'],
   },
+  experimental: {
+    scrollRestoration: true,
+  },
   webpack: (config) => {
     // config.module.rules.push({
     //   issuer: /\.[jt]sx?$/,
