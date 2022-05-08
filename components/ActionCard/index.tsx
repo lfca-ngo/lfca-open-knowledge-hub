@@ -22,7 +22,7 @@ export const ActionStat = ({ count, label, icon, color }: { count: String, label
 
 export const ActionStats = () => {
     return (
-        <div className='stats'>
+        <div className='action-stats'>
             <ActionStat count={'821'} label='did that' icon={<CheckOutlined />} color='purple' />
             <ActionStat count={'121'} label='talking about it' icon={<MessageFilled />} color='orange' />
             <ActionStat count={'3'} label='documents' icon={<PaperClipOutlined />} color='green' />

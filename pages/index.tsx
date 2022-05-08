@@ -12,13 +12,13 @@ const Home: NextPage = (props: any) => {
   const { byTags } = props.actions
   return (
     <SiderLayout breadcrumbs={[{ text: 'Home', link: '/admin' }]}>
-      <h1>Hi Anna, take the next step</h1>
+      <h1 style={{ margin: '20px 0 20px' }}>Hi Anna, take the next step</h1>
       <Tabs defaultActiveKey={ALL_ACTIONS} className='tabs-full-width'>
         {Object.keys(byTags).map((tag: string) => {
           const actions = byTags[tag]
           return (
             <TabPane tab={tag} key={tag}>
-              <List pagination={{ pageSize: 10 }} dataSource={actions} renderItem={(item: any) => {
+              <List className='actions-list' pagination={{ pageSize: 10 }} dataSource={actions} renderItem={(item: any) => {
                 return (
                   <List.Item>
                     <ActionCard action={item} />
