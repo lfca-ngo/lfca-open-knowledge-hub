@@ -40,3 +40,19 @@ body {
     }
 
 }
+
+.ant-tabs.tabs-full-width {
+    .ant-tabs-nav {
+        margin-bottom: 0;
+    }
+
+    .ant-tabs-content-holder {
+        width: calc(100% + 2 * @default-padding);
+        margin: 0 -@default-padding;
+        background: #F8F8F8;
+
+        .ant-tabs-content {
+            padding: 10px @default-padding;
+        }
+    }
+}

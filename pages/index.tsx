@@ -13,7 +13,7 @@ const Home: NextPage = (props: any) => {
   return (
     <SiderLayout breadcrumbs={[{ text: 'Home', link: '/admin' }]}>
       <h1>Hi Anna, take the next step</h1>
-      <Tabs defaultActiveKey={ALL_ACTIONS}>
+      <Tabs defaultActiveKey={ALL_ACTIONS} className='tabs-full-width'>
         {Object.keys(byTags).map((tag: string) => {
           const actions = byTags[tag]
           return (
