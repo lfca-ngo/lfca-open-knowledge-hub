@@ -8,7 +8,7 @@ require("./styles.less");
 
 const { Header, Content, Footer, Sider } = Layout;
 
-export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, breadcrumbs: any, goBack: any }) => {
+export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, breadcrumbs: any, goBack?: any }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
