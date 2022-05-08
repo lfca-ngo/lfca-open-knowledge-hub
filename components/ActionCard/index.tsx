@@ -2,20 +2,30 @@ require('./styles.less')
 
 import Link from 'next/link'
 import { Button, Card, Avatar } from 'antd'
-import { HomeFilled } from '@ant-design/icons'
+import { CheckOutlined, MessageFilled, PaperClipOutlined } from '@ant-design/icons'
 import Image from 'next/image'
+import classNames from 'classnames'
 
-
-export const ActionStat = ({ count, label, icon }: { count: String, label: String, icon: String }) => {
+export const ActionStat = ({ count, label, icon, color }: { count: String, label: String, icon: any, color: String }) => {
     return (
-        <div className='action-stat'>
+        <div className={classNames('action-stat', color)}>
             <div className='icon'>
-                <Avatar size='small' icon={<HomeFilled />} />
+                <Avatar size='small' icon={icon} />
             </div>
             <div className='label'>
                 <span className='count'>{count}</span>{' '}
                 {label}
             </div>
+        </div>
+    )
+}
+
+export const ActionStats = () => {
+    return (
+        <div className='stats'>
+            <ActionStat count={'821'} label='did that' icon={<CheckOutlined />} color='purple' />
+            <ActionStat count={'121'} label='talking about it' icon={<MessageFilled />} color='orange' />
+            <ActionStat count={'3'} label='documents' icon={<PaperClipOutlined />} color='green' />
         </div>
     )
 }
@@ -33,11 +43,7 @@ export const ActionCard = ({ action }: { action: any }) => {
                     {action.title}
                     <span className='tags'></span>
                 </div>
-                <div className='stats'>
-                    <ActionStat count={'821'} label='did that' icon='home' />
-                    <ActionStat count={'121'} label='talking about it' icon='home' />
-                    <ActionStat count={'3'} label='documents' icon='home' />
-                </div>
+                <ActionStats />
             </div>
             <div className='actions'>
                 <div className='others'>

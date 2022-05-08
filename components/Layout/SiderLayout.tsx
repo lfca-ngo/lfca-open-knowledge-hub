@@ -3,6 +3,7 @@ import { Layout, Breadcrumb, Button } from "antd";
 import Link from "next/link";
 import { MainNav } from "./MainNav";
 import { MenuUnfoldOutlined, MenuFoldOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import Logo from '../../public/logo.svg'
 
 require("./styles.less");
 
@@ -19,7 +20,7 @@ export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, 
         onCollapse={(collapsed) => setCollapsed(collapsed)}
       >
         <div className="logo">
-          Logo
+          <Logo />
         </div>
         <MainNav />
       </Sider>

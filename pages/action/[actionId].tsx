@@ -7,9 +7,9 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ALL_ACTIONS } from '../../services/contentful'
-import { ActionStat } from '../../components/ActionCard'
+import { ActionStats } from '../../components/ActionCard'
 import Image from 'next/image'
-import classnames from 'classnames'
+import classNames from 'classnames'
 
 const { TabPane } = Tabs
 const { TextArea } = Input
@@ -30,7 +30,7 @@ const Sider = ({ children }: { children: any }) => (
 
 const Section = ({ children, title, className }: { children: any, title?: any, className?: any }) => (
     <Row>
-        <Col xs={24} className={classnames('page-section', className)} >
+        <Col xs={24} className={classNames('page-section', className)} >
             {title && <h2 className='title'>{title}</h2>}
             {children}
         </Col>
@@ -54,11 +54,7 @@ const Action: NextPage = (props: any) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='action-stats'>
-                            <ActionStat count={'821'} label='did that' icon='home' />
-                            <ActionStat count={'121'} label='talking about it' icon='home' />
-                            <ActionStat count={'3'} label='documents' icon='home' />
-                        </div>
+                        <ActionStats />
                     </Section>
                     <Section>
                         <Tabs defaultActiveKey='1'>

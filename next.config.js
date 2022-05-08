@@ -19,11 +19,11 @@ const nextConfig = {
       }
     }
 
-    // config.module.rules.push({
-    //   issuer: /\.[jt]sx?$/,
-    //   test: /\.svg$/i,
-    //   use: ['@svgr/webpack'],
-    // })
+    config.module.rules.push({
+      issuer: /\.[jt]sx?$/,
+      test: /\.svg$/i,
+      use: ['@svgr/webpack'],
+    })
     return config
   },
 }
