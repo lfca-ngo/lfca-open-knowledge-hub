@@ -2,7 +2,7 @@ require('./styles.less')
 
 import Link from 'next/link'
 import { Button, Card, Avatar } from 'antd'
-import { CheckOutlined, MessageFilled, PaperClipOutlined } from '@ant-design/icons'
+import { CheckOutlined, LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import classNames from 'classnames'
 
@@ -24,7 +24,7 @@ export const ActionStats = () => {
     return (
         <div className='action-stats'>
             <ActionStat count={'821'} label='did that' icon={<CheckOutlined />} color='purple' />
-            <ActionStat count={'121'} label='talking about it' icon={<MessageFilled />} color='orange' />
+            <ActionStat count={'121'} label='talking about it' icon={<LikeOutlined />} color='orange' />
             <ActionStat count={'3'} label='documents' icon={<PaperClipOutlined />} color='green' />
         </div>
     )
