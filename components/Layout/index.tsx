@@ -1,6 +1,6 @@
 require('../../styles/override-ant-globals.less')
 
-import { SiderLayout } from "./SiderLayout";
 import { OneColLayout } from "./OneColLayout";
+import { SiderLayout } from "./SiderLayout";
 
-export { SiderLayout, OneColLayout };
+export { OneColLayout,SiderLayout };

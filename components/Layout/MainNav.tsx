@@ -1,37 +1,32 @@
-import React from "react";
-import { Menu } from "antd";
-import { useRouter } from "next/router";
-import { useIsClient } from "../../hooks/app";
-import {
-  HomeOutlined,
-} from "@ant-design/icons";
-import {
-  HOME
-} from "../../utils/routes";
+import { HomeOutlined } from '@ant-design/icons'
+import { Menu } from 'antd'
+import { useRouter } from 'next/router'
+import React from 'react'
+
+import { HOME } from '../../utils/routes'
 
 const NAV_ITEMS = [
   {
-    key: HOME,
-    label: "All Campaigns",
     icon: <HomeOutlined />,
+    key: HOME,
+    label: 'All Campaigns',
   },
-];
+]
 
 export const MainNav = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleSelect = (item: any) => {
-    router.push(item.key);
-  };
+    router.push(item.key)
+  }
 
   return (
     <Menu
-      theme="dark"
-      selectedKeys={[router.pathname]}
+      items={NAV_ITEMS}
       mode="inline"
       onSelect={handleSelect}
-      items={NAV_ITEMS}
+      selectedKeys={[router.pathname]}
+      theme="dark"
     />
-  );
-};
-
+  )
+}

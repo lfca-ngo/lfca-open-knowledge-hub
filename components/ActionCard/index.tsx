@@ -1,64 +1,90 @@
 require('./styles.less')
 
-import Link from 'next/link'
-import { Button, Card, Avatar } from 'antd'
-import { CheckOutlined, MessageFilled, PaperClipOutlined } from '@ant-design/icons'
-import Image from 'next/image'
+import {
+  CheckOutlined,
+  MessageFilled,
+  PaperClipOutlined,
+} from '@ant-design/icons'
+import { Avatar, Button, Card } from 'antd'
 import classNames from 'classnames'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export const ActionStat = ({ count, label, icon, color }: { count: String, label: String, icon: any, color: String }) => {
-    return (
-        <div className={classNames('action-stat', color)}>
-            <div className='icon'>
-                <Avatar icon={icon} />
-            </div>
-            <div className='label'>
-                <span className='count'>{count}</span>{' '}
-                {label}
-            </div>
-        </div>
-    )
+export const ActionStat = ({
+  color,
+  count,
+  icon,
+  label,
+}: {
+  count: String
+  label: String
+  icon: any
+  color: String
+}) => {
+  return (
+    <div className={classNames('action-stat', color)}>
+      <div className="icon">
+        <Avatar icon={icon} />
+      </div>
+      <div className="label">
+        <span className="count">{count}</span> {label}
+      </div>
+    </div>
+  )
 }
 
 export const ActionStats = () => {
-    return (
-        <div className='action-stats'>
-            <ActionStat count={'821'} label='did that' icon={<CheckOutlined />} color='purple' />
-            <ActionStat count={'121'} label='talking about it' icon={<MessageFilled />} color='orange' />
-            <ActionStat count={'3'} label='documents' icon={<PaperClipOutlined />} color='green' />
-        </div>
-    )
+  return (
+    <div className="action-stats">
+      <ActionStat
+        color="purple"
+        count={'821'}
+        icon={<CheckOutlined />}
+        label="did that"
+      />
+      <ActionStat
+        color="orange"
+        count={'121'}
+        icon={<MessageFilled />}
+        label="talking about it"
+      />
+      <ActionStat
+        color="green"
+        count={'3'}
+        icon={<PaperClipOutlined />}
+        label="documents"
+      />
+    </div>
+  )
 }
 
 export const ActionCard = ({ action }: { action: any }) => {
-    return (
-        <Card hoverable className='action-card'>
-            <div className='hero'>
-                <div className='wrapper'>
-                    <Image src={action.heroImage.url} objectFit='cover' layout='fill' />
-                </div>
-            </div>
-            <div className='content'>
-                <div className='title'>
-                    {action.title}
-                    <span className='tags'></span>
-                </div>
-                <ActionStats />
-            </div>
-            <div className='actions'>
-                <div className='others'>
-                    <Avatar.Group>
-                        <Avatar src={'https://picsum.photos/200/200'} />
-                        <Avatar src={'https://picsum.photos/200/200'} />
-                        <Avatar src={'https://picsum.photos/200/200'} />
-                    </Avatar.Group>
-                </div>
-                <Link href={`/action/${action.actionId}`}>
-                    <Button type='primary'>
-                        View
-                    </Button>
-                </Link>
-            </div>
-        </Card>
-    )
+  return (
+    <Card className="action-card" hoverable>
+      <div className="hero">
+        <div className="wrapper">
+          <Image layout="fill" objectFit="cover" src={action.heroImage.url} />
+        </div>
+      </div>
+      <div className="content">
+        <div className="title">
+          {action.title}
+          <span className="tags"></span>
+        </div>
+        <ActionStats />
+      </div>
+      <div className="actions">
+        <div className="others">
+          <Avatar.Group>
+            <Avatar src={'https://picsum.photos/200/200'} />
+            <Avatar src={'https://picsum.photos/200/200'} />
+            <Avatar src={'https://picsum.photos/200/200'} />
+          </Avatar.Group>
+        </div>
+        <Link href={`/action/${action.actionId}`}>
+          <Button type="primary">View</Button>
+        </Link>
+      </div>
+    </Card>
+  )
 }

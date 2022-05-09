@@ -1,6 +1,7 @@
-import React, { useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+
 import { SIGN_IN } from "../../utils/routes";
 
 const Logout = () => {
