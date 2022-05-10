@@ -2,17 +2,24 @@ import { List, Tabs } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 
 import { ActionCard } from '../components/ActionCard'
+import Logout from '../components/Auth/Logout'
 import { SiderLayout } from '../components/Layout'
 import { fetchAllActions } from '../services/contentful'
 import { ALL_ACTIONS } from '../services/contentful/fetch-all-actions'
+import { useUserQuery } from '../services/lfca-backend'
 
 const { TabPane } = Tabs
 
 const Home: NextPage = (props: any) => {
+  const [{ data }] = useUserQuery()
+
   const { byTags } = props.actions
   return (
     <SiderLayout>
-      <h1 style={{ margin: '20px 0 20px' }}>Hi Anna, take the next step</h1>
+      <h1
+        style={{ margin: '20px 0 20px' }}
+      >{`Hi ${data?.user.firstName}, take the next step`}</h1>
+      <Logout />
       <Tabs className="tabs-full-width" defaultActiveKey={ALL_ACTIONS}>
         {Object.keys(byTags).map((tag: string) => {
           const actions = byTags[tag]

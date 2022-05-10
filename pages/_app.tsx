@@ -1,15 +1,18 @@
-require("../styles/global.less");
+require('../styles/global.less')
 
-import type { AppProps } from "next/app";
+import type { AppProps } from 'next/app'
 
-import { AppProvider } from "../hooks/app";
+import { AppProvider } from '../hooks/app'
+import { LFCABackendProvider } from '../services/lfca-backend'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppProvider>
-      <Component {...pageProps} />
+      <LFCABackendProvider>
+        <Component {...pageProps} />
+      </LFCABackendProvider>
     </AppProvider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

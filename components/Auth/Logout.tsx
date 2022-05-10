@@ -1,31 +1,24 @@
-import { Button } from "antd";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { Button } from 'antd'
+import React, { useState } from 'react'
 
-import { SIGN_IN } from "../../utils/routes";
+import { logout } from '../../services/firebase'
 
 const Logout = () => {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [loading, setLoading] = useState(false)
 
   const handleClick = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      // await supabase.auth.signOut();
-      // await fetch(API_AUTH_REMOVE, {
-      //   method: "GET",
-      //   credentials: "same-origin",
-      // });
+      await logout()
     } finally {
-      setLoading(false);
-      router.push(SIGN_IN);
+      setLoading(false)
     }
-  };
+  }
   return (
     <Button loading={loading} onClick={handleClick}>
       Logout
     </Button>
-  );
-};
+  )
+}
 
-export default Logout;
+export default Logout

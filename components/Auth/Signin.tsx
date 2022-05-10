@@ -1,22 +1,35 @@
 import { Alert, Button, Form, Input, Space } from 'antd'
+import { FirebaseError } from 'firebase/app'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { PW_RESET, SIGN_UP } from '../../utils/routes'
+import { login } from '../../services/firebase'
+import { PW_RESET, ROOT, SIGN_UP } from '../../utils/routes'
 
 export default function Signin() {
   const [loading, setLoading] = useState(false)
-  const [errorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSignIn = async () => {
+  const router = useRouter()
+
+  const handleSignIn = async ({
+    email,
+    password,
+  }: {
+    email: string
+    password: string
+  }) => {
     setLoading(true)
     try {
-      //  @TODO: Auth logic
-      // if (error) throw error;
-      // router.push({ pathname: HOME, hash: session?.access_token });
+      await login(email, password)
+      router.replace(ROOT)
     } catch (e) {
-      // console.log(e.message);
-      // setErrorMessage(e.message);
+      if (e instanceof FirebaseError) {
+        setErrorMessage(e.message)
+      } else {
+        setErrorMessage('Unknown error')
+      }
     } finally {
       setLoading(false)
     }

@@ -16,10 +16,10 @@ export const ActionStat = ({
   icon,
   label,
 }: {
-  count: String
-  label: String
-  icon: any
-  color: String
+  count: string
+  label: string
+  icon: React.ReactNode
+  color: string
 }) => {
   return (
     <div className={classNames('action-stat', color)}>
