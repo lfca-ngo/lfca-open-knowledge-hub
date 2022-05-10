@@ -1,23 +1,20 @@
 import { authExchange } from '@urql/exchange-auth'
-import { offlineExchange } from '@urql/exchange-graphcache'
-import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
-import { IntrospectionData } from '@urql/exchange-graphcache/dist/types/ast'
-import { useRouter } from 'next/router'
+import { User } from 'firebase/auth'
+import { NextRouter, useRouter } from 'next/router'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import {
-  createClient,
   // debugExchange,
+  cacheExchange,
+  createClient,
   dedupExchange,
   fetchExchange,
   makeOperation,
   Provider,
 } from 'urql'
 
-import { isBrowser } from '../../utils'
 import { SIGN_IN } from '../../utils/routes'
 import { firebaseAuth } from '../firebase'
-import schema from './schema.json'
 
 interface LFCABackendProviderProps {
   children: React.ReactNode
@@ -25,6 +22,7 @@ interface LFCABackendProviderProps {
 
 class Deferred {
   promise: Promise<null>
+  // eslint-disable-next-line no-unused-vars
   resolve: ((v: null) => void) | undefined
   reject: (() => void) | undefined
   constructor() {
@@ -38,7 +36,13 @@ class Deferred {
 export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
   const router = useRouter()
   const [user, loading] = useAuthState(firebaseAuth)
+
+  const routerRef = React.useRef<NextRouter>(router)
+  const userRef = React.useRef<User | null | undefined>(user)
   const waitUntilFirebaseReady = React.useRef(new Deferred())
+
+  routerRef.current = router
+  userRef.current = user
 
   React.useEffect(() => {
     async function start() {
@@ -56,18 +60,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
       exchanges: [
         dedupExchange,
         // debugExchange,
-        // `indexDB` (which is used by the offlineCache) is not available under NodeJS during build time
-        ...(!isBrowser()
-          ? []
-          : [
-              offlineExchange({
-                schema: schema as IntrospectionData,
-                storage: makeDefaultStorage({
-                  idbName: 'graphcache-v3',
-                  maxAge: 1,
-                }),
-              }),
-            ]),
+        cacheExchange,
         authExchange<{ token?: string }>({
           addAuthToOperation: ({ authState, operation }) => {
             // the token isn't in the auth state, return the operation without changes
@@ -102,7 +95,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
             // Get an initial token from firebase
             if (!authState?.token) {
               await waitUntilFirebaseReady.current.promise
-              const initialToken = await user?.getIdToken()
+              const initialToken = await userRef.current?.getIdToken()
               if (initialToken) {
                 return { token: initialToken }
               }
@@ -115,7 +108,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
              * the following code gets executed when an auth error has occurred
              * we should refresh the token if possible and return a new auth state
              **/
-            const refreshedToken = await user?.getIdToken(true)
+            const refreshedToken = await userRef.current?.getIdToken(true)
 
             if (refreshedToken) {
               return {
@@ -123,16 +116,16 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
               }
             }
 
-            router.replace(SIGN_IN)
+            routerRef.current.replace(SIGN_IN)
             return null
           },
         }),
         fetchExchange,
       ],
-      requestPolicy: 'cache-and-network',
+      requestPolicy: 'cache-first',
       url: process.env.NEXT_PUBLIC_LFCA_BACKED_URL,
     })
-  }, [router, user])
+  }, [])
 
   return <Provider value={client}>{children}</Provider>
 }
