@@ -44,6 +44,28 @@
   flex-direction: column;
 }
 
+.steps-layout {
+  .ant-layout-content {
+    display: flex;
+    flex-direction: row;
+
+    .steps-layout-wrapper {
+      background-color: @chalk;
+      width: @steps-sider-section-width;
+      padding: 20px;
+
+      .ant-steps {
+        margin: 40px 20px;
+      }
+    }
+
+    .content-layout-wrapper {
+      min-width: 0;
+      flex: 1;
+    }
+  }
+}
+
 
 .one-col-layout {
   .one-col-layout-wrapper {

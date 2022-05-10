@@ -1,11 +1,11 @@
 import { Col, Layout, Row } from 'antd'
 import React from 'react'
 import Image from 'next/image'
-import AppPreview from '../../public/app-preview.png'
-import LogoDark from '../../public/logo-dark.svg'
+import AppPreview from '../../public/img/app-preview.png'
+import LogoDark from '../../public/logos/logo-dark.svg'
 require('./styles.less')
 
-const { Content, Footer } = Layout
+const { Content } = Layout
 
 export const OneColLayout = ({ children }: { children: any }) => {
   return (

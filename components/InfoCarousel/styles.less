@@ -1,0 +1,60 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
+.info-carousel {
+  @padding-size: 15px;
+  margin: 20px 0 30px;
+
+  .navigator-elem {
+    justify-content: left;
+    border-bottom: none;
+    background: #fff;
+    padding: 0;
+    border-bottom: 1px solid rgb(238, 238, 238);
+
+    .icon {
+      width: 40px;
+      display: none;
+      margin-top: @padding-size;
+      margin-bottom: auto;
+    }
+
+    .text {
+      flex: 1;
+      padding: 10px 20px;
+    }
+
+    .title {
+      .font-medium();
+      color: @black;
+      margin-bottom: 4px;
+    }
+
+    .description {
+      display: none;
+      font-size: 15px;
+    }
+
+    &.active {
+      background: #f7f7f7;
+
+      .text {
+        border-left: 2px solid @black;
+        padding: @padding-size 20px;
+      }
+
+      .description {
+        display: block;
+      }
+
+      .icon {
+        display: block;
+      }
+    }
+  }
+
+  .preview {
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+  }
+}
