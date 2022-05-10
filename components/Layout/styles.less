@@ -14,7 +14,7 @@
   }
 }
 
-.ant-layout {
+.ant-layout.sider-layout {
   .ant-layout-content {
     .ant-breadcrumb {
       padding: @default-padding 0;
@@ -22,10 +22,12 @@
   }
 
   .ant-layout-header {
-    border-bottom: 1px solid #F1F1F1;
+    border-bottom: 1px solid @grey-light;
   }
 
   .ant-layout-sider {
+    border-right: 1px solid @grey-light;
+
     .logo {
       padding: 14px 10px;
       display: flex;

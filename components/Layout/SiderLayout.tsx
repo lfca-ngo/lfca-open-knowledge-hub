@@ -6,7 +6,7 @@ import {
 import { Button, Layout } from 'antd'
 import React, { useState } from 'react'
 
-import Logo from '../../public/logo.svg'
+import LogoDark from '../../public/logo-dark-sm.svg'
 import { MainNav } from './MainNav'
 
 require('./styles.less')
@@ -22,14 +22,16 @@ export const SiderLayout = ({ children, goBack }: SiderLayoutProps) => {
   const [collapsed, setCollapsed] = useState(true)
 
   return (
-    <Layout hasSider style={{ minHeight: '100vh' }}>
+    <Layout className='sider-layout' hasSider style={{ minHeight: '100vh' }}>
       <Sider
         collapsed={collapsed}
         collapsible
+        collapsedWidth={85}
+        theme='light'
         onCollapse={(collapsed) => setCollapsed(collapsed)}
       >
         <div className="logo">
-          <Logo />
+          <LogoDark />
         </div>
         <MainNav />
       </Sider>

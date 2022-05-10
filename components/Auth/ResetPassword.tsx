@@ -23,12 +23,12 @@ const ResetPassword = () => {
 
   return (
     <div>
+      <h1>Reset Password</h1>
       {success ? (
         <div>
-          Bitte schauen Sie Ihr E-Mail Postfach. Wir haben Ihnen eine E-Mail zum
-          Zurücksetzen des Passworts geschickt. Wenn Sie innerhalb von zehn
-          Minuten keine E-Mail erhalten, überprüfen Sie, ob die angegebene
-          E-Mail korrekt ist.
+          Please check your E-Mails. We sent you a link to reset your password.
+          If you did not receive an email, please check your spam folder and make sure
+          your email address is correct.
         </div>
       ) : (
         <div>
@@ -43,13 +43,13 @@ const ResetPassword = () => {
                 onClick={handleClick}
                 type="primary"
               >
-                Passwort zurücksetzen
+                Reset password
               </Button>
             </Form.Item>
           </Form>
         </div>
       )}
-      <NextLink href={SIGN_IN}>Zurück zum Login</NextLink>
+      <NextLink href={SIGN_IN}>Back to login</NextLink>
     </div>
   )
 }

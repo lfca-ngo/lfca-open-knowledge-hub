@@ -26,7 +26,7 @@ export const MainNav = () => {
       mode="inline"
       onSelect={handleSelect}
       selectedKeys={[router.pathname]}
-      theme="dark"
+      theme="light"
     />
   )
 }
