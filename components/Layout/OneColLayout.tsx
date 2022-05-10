@@ -1,25 +1,39 @@
 import { Col, Layout, Row } from 'antd'
 import React from 'react'
+import Image from 'next/image'
+import AppPreview from '../../public/app-preview.png'
+import LogoDark from '../../public/logo-dark.svg'
 require('./styles.less')
 
 const { Content, Footer } = Layout
 
 export const OneColLayout = ({ children }: { children: any }) => {
   return (
-    <Layout className="background" style={{ minHeight: '100vh' }}>
-      <Layout className="site-layout">
-        <Content>
-          <Row justify="center">
-            <Col md={6} xs={24}>
-              <div className="one-col-layout-wrapper">
-                <div className="logo">Logo</div>
+    <Layout className="one-col-layout" style={{ minHeight: '100vh' }}>
+      <Content>
+        <Row justify="center">
+          <Col md={12} xs={24}>
+            <div className="one-col-layout-wrapper">
+              <header>
+                <div className="logo">
+                  <LogoDark />
+                </div>
+              </header>
+              <main>
                 {children}
-              </div>
-            </Col>
-          </Row>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>lfca.earth ©2022</Footer>
-      </Layout>
+              </main>
+              <footer>
+                {`lfca.earth © ${new Date().getFullYear()}`}
+              </footer>
+            </div>
+          </Col>
+          <Col md={12} xs={24} className='bg'>
+            <div className='bg-wrapper'>
+              <Image src={AppPreview} layout='fill' objectFit='contain' objectPosition='center right' />
+            </div>
+          </Col>
+        </Row>
+      </Content>
     </Layout>
   )
 }
