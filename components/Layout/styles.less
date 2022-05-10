@@ -1,4 +1,5 @@
 @import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
 
 
 .ant-layout.sider-layout {
@@ -9,7 +10,7 @@
   }
 
   .ant-layout-content {
-    padding: calc(@default-padding / 2) @default-padding;
+    padding: calc(@default-padding / 2) 0 0 @default-padding;
     display: flex;
   }
 
@@ -95,10 +96,22 @@
   width: 100%;
   margin: 15px 0 20px;
 
+  .content {
+    padding-right: 30px;
+  }
+
   .title {
     width: 100%;
     border-bottom: 1px solid @black;
     padding: 0 0 15px;
+    .h2();
+  }
+
+  &.big {
+    .title {
+      border-bottom: none;
+      .h1();
+    }
   }
 }
 
@@ -119,8 +132,9 @@
 
 .main-section {
   flex: 1;
+  min-width: 0;
 
   @media @desktop {
-    padding-right: 120px;
+    padding-right: 60px;
   }
 }

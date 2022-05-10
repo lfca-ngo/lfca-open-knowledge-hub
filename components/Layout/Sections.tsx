@@ -17,15 +17,19 @@ export const Section = ({
     children,
     className,
     title,
+    titleSize
 }: {
     children: any
     title?: any
+    titleSize?: any
     className?: any
 }) => (
 
-    <div className={classNames('page-section', className)}>
+    <div className={classNames('page-section', className, titleSize)}>
         {title && <h2 className="title">{title}</h2>}
-        {children}
+        <div className='content'>
+            {children}
+        </div>
     </div>
 
 )

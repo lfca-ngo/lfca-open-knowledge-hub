@@ -19,7 +19,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { ActionStats } from '../../components/ActionCard'
+import { ActionDetails } from '../../components/ActionDetails'
 import { SiderLayout, Main, Section, Sider } from '../../components/Layout'
 import { fetchAllActions } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
@@ -34,20 +34,8 @@ const Action: NextPage = (props: any) => {
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
-        <Section className="action-header">
-          <div className="action-title">
-            <h1>{action?.title}</h1>
-            <div className="hero">
-              <div className="wrapper">
-                <Image
-                  layout="fill"
-                  objectFit="cover"
-                  src={action.heroImage.url}
-                />
-              </div>
-            </div>
-          </div>
-          <ActionStats />
+        <Section>
+          <ActionDetails action={action} />
         </Section>
         <Section>
           <Tabs defaultActiveKey="1">
