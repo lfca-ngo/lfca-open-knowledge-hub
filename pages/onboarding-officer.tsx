@@ -1,15 +1,15 @@
-import { Tabs } from 'antd'
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 
 import { useState } from 'react'
 import { StepsLayout } from '../components/Layout'
 import { InfoCarousel } from '../components/InfoCarousel'
+import { ActionsList } from '../components/ActionsList'
 import { ArrowRightOutlined } from '@ant-design/icons'
+import { fetchAllActions } from '../services/contentful'
 import Explore from '../public/img/explore.jpg'
 import Communicate from '../public/img/communicate.jpg'
 import Mastermind from '../public/img/mastermind.jpg'
 
-const { TabPane } = Tabs
 
 
 const ELEMENTS = [
@@ -38,18 +38,29 @@ const ELEMENTS = [
 
 
 const OnboardingOfficer: NextPage = (props: any) => {
+  const { byTags } = props.actions
   const [currentStep, setStep] = useState(0)
-
+  console.log('b', byTags)
   // Steps
   const STEPS = [{
-    title: 'Intro', description: 'Another', component: <div>
+    title: 'Intro', description: 'Get to know the platform', component: <div>
       <div>Intro</div>
       <h1>Welcome Timo, let's get you started!</h1>
       <p>The lfca platform is the place where we collect and share our community's knowledge. It's the place where we inspire you to realize the full climate action potential of your organization.</p>
       <InfoCarousel elements={ELEMENTS} />
       <button onClick={() => setStep(1)}>Continue</button>
     </div>
-  }, { title: 'Something', description: 'Another' }, { title: 'Something', description: 'Another' }]
+  }, {
+    title: 'Personalize', description: 'What’s your status quo', component: <div>
+      <div>Personalize</div>
+      <h1>Great! Now, please select all actions that you have already taken at LFCA</h1>
+      <ActionsList actionsByTags={byTags} />
+    </div>
+  }, {
+    title: 'Let’s go!', description: 'Get started', component: <div>
+      <h1>Let's go</h1>
+    </div>
+  }]
 
   const currentView = STEPS[currentStep].component
   return (
@@ -57,6 +68,17 @@ const OnboardingOfficer: NextPage = (props: any) => {
       {currentView}
     </StepsLayout>
   )
+}
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  const actions = await fetchAllActions()
+
+  return {
+    props: {
+      actions,
+    },
+  }
 }
 
 

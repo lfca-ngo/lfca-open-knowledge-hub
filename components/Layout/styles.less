@@ -64,16 +64,25 @@
       min-width: 0;
       flex: 1;
       max-width: 750px;
-      margin: 20px 70px;
+      margin: 40px 70px 20px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
 
+      @media @desktop {
+        margin: 120px 70px 20px;
+      }
 
       header {
         position: absolute;
         top: 10px;
         right: 10px;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: @font-size-xs;
       }
     }
   }

@@ -58,7 +58,7 @@ export const InfoCarousel = (props: any) => {
             beforeChange={(cur, next) => setActiveSlide(next)}
           >
             {props.elements.map((element: any, i: any) => {
-              return <Image src={element.image} layout='responsive' width={300} height={225} />
+              return <Image key={`img-${i}`} src={element.image} layout='responsive' width={300} height={225} />
             })}
           </Carousel>
         </Col>
