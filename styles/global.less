@@ -6,30 +6,10 @@ body {
     width: 100%;
 }
 
-.page-section {
-    width: 100%;
-    margin: 15px 0 20px;
-
-    .title {
-        width: 100%;
-        border-bottom: 1px solid @black;
-        padding: 0 0 15px;
-    }
-}
-
-.main-section,
-.sider-section {
-    margin: 20px 0 10px;
-}
-
-.main-section {
-    @media @desktop {
-        padding-right: 40px;
-    }
-}
 
 .action-header {
     display: flex;
+    flex-direction: column;
 
     .action-title {
         display: flex;
@@ -52,21 +32,5 @@ body {
     .ant-list-item {
         border-bottom: none;
         padding: 10px 0;
-    }
-}
-
-.ant-tabs.tabs-full-width {
-    .ant-tabs-nav {
-        margin-bottom: 0;
-    }
-
-    .ant-tabs-content-holder {
-        width: calc(100% + 2 * @default-padding);
-        margin: 0 -@default-padding;
-        background: #F8F8F8;
-
-        .ant-tabs-content {
-            padding: 10px @default-padding;
-        }
     }
 }

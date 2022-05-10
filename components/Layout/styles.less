@@ -1,24 +1,16 @@
 @import (reference) '../../styles/variables.less';
 
-.site-layout-background {
-  background: @white;
-  padding: calc(@default-padding / 2) @default-padding;
-
-
-  .trigger {
-    padding: 0 calc(@default-padding / 2);
-    font-size: 18px;
-    line-height: 64px;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-}
 
 .ant-layout.sider-layout {
   .ant-layout-content {
     .ant-breadcrumb {
       padding: @default-padding 0;
     }
+  }
+
+  .ant-layout-content {
+    padding: calc(@default-padding / 2) @default-padding;
+    display: flex;
   }
 
   .ant-layout-header {
@@ -34,6 +26,14 @@
       align-items: center;
       justify-content: center;
     }
+  }
+
+  .trigger {
+    padding: 0 calc(@default-padding / 2);
+    font-size: 18px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
   }
 }
 
@@ -87,5 +87,40 @@
       margin-right: 0;
       margin-left: auto;
     }
+  }
+}
+
+
+.page-section {
+  width: 100%;
+  margin: 15px 0 20px;
+
+  .title {
+    width: 100%;
+    border-bottom: 1px solid @black;
+    padding: 0 0 15px;
+  }
+}
+
+.main-section,
+.sider-section {
+  margin: 20px 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sider-section {
+  width: 100%;
+
+  @media @desktop {
+    width: @sider-section-width;
+  }
+}
+
+.main-section {
+  flex: 1;
+
+  @media @desktop {
+    padding-right: 120px;
   }
 }

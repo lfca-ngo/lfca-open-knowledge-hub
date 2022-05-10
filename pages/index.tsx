@@ -18,9 +18,9 @@ const Home: NextPage = (props: any) => {
     <SiderLayout>
       <h1
         style={{ margin: '20px 0 20px' }}
-      >{`Hi ${data?.user.firstName}, take the next step`}</h1>
+      >Dashboard</h1>
       <Logout />
-      <Tabs className="tabs-full-width" defaultActiveKey={ALL_ACTIONS}>
+      <Tabs defaultActiveKey={ALL_ACTIONS}>
         {Object.keys(byTags).map((tag: string) => {
           const actions = byTags[tag]
           return (

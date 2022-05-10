@@ -37,7 +37,7 @@ export const SiderLayout = ({ children, goBack }: SiderLayoutProps) => {
       </Sider>
 
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+        <Header style={{ padding: 0 }}>
           {goBack ? (
             <Button
               icon={<ArrowLeftOutlined />}
@@ -58,7 +58,7 @@ export const SiderLayout = ({ children, goBack }: SiderLayoutProps) => {
           )}
         </Header>
         <Content>
-          <div className="site-layout-background">{children}</div>
+          {children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>lfca.earth ©2022</Footer>
       </Layout>
