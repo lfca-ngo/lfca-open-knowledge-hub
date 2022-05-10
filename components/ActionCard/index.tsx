@@ -2,7 +2,7 @@ require('./styles.less')
 
 import {
   CheckOutlined,
-  MessageFilled,
+  LikeOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
 import { Avatar, Button, Card } from 'antd'
@@ -45,7 +45,7 @@ export const ActionStats = () => {
       <ActionStat
         color="orange"
         count={'121'}
-        icon={<MessageFilled />}
+        icon={<LikeOutlined />}
         label="talking about it"
       />
       <ActionStat
