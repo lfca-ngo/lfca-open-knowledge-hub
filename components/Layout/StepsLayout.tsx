@@ -1,12 +1,13 @@
-import { Layout, Steps } from 'antd'
+import { Layout, Steps, Button, Popconfirm } from 'antd'
 import React from 'react'
 import LogoDark from '../../public/logos/logo-dark-sm.svg'
+import { CloseOutlined } from '@ant-design/icons'
 require('./styles.less')
 
 const { Content } = Layout
 const { Step } = Steps
 
-export const StepsLayout = ({ children, currentStep = 0, setStep, steps }: { children: any, currentStep?: any, setStep?: any, steps?: any }) => {
+export const StepsLayout = ({ children, currentStep = 0, setStep, steps, canClose, onClose }: { children: any, canClose: Boolean, onClose: any, currentStep?: any, setStep?: any, steps?: any }) => {
 
     return (
         <Layout className="steps-layout" style={{ minHeight: '100vh' }}>
@@ -23,7 +24,9 @@ export const StepsLayout = ({ children, currentStep = 0, setStep, steps }: { chi
                 </div>
                 <div className="content-layout-wrapper">
                     <header>
-                        Exit
+                        {canClose && <Popconfirm placement='left' onConfirm={onClose} title="Are you sure?">
+                            <Button type='link' icon={<CloseOutlined />} />
+                        </Popconfirm>}
                     </header>
                     <main>
                         {children}

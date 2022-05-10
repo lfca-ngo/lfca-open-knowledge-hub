@@ -42,8 +42,10 @@ const OnboardingOfficer: NextPage = (props: any) => {
 
   // Steps
   const STEPS = [{
-    title: 'Something', description: 'Another', component: <div>
-      <h1>Hallo</h1>
+    title: 'Intro', description: 'Another', component: <div>
+      <div>Intro</div>
+      <h1>Welcome Timo, let's get you started!</h1>
+      <p>The lfca platform is the place where we collect and share our community's knowledge. It's the place where we inspire you to realize the full climate action potential of your organization.</p>
       <InfoCarousel elements={ELEMENTS} />
       <button onClick={() => setStep(1)}>Continue</button>
     </div>
@@ -51,7 +53,7 @@ const OnboardingOfficer: NextPage = (props: any) => {
 
   const currentView = STEPS[currentStep].component
   return (
-    <StepsLayout currentStep={currentStep} setStep={setStep} steps={STEPS}>
+    <StepsLayout canClose onClose={() => console.log('do something')} currentStep={currentStep} setStep={setStep} steps={STEPS}>
       {currentView}
     </StepsLayout>
   )

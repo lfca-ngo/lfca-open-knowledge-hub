@@ -48,6 +48,7 @@
   .ant-layout-content {
     display: flex;
     flex-direction: row;
+    position: relative;
 
     .steps-layout-wrapper {
       background-color: @chalk;
@@ -62,6 +63,18 @@
     .content-layout-wrapper {
       min-width: 0;
       flex: 1;
+      max-width: 750px;
+      margin: 20px 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+
+      header {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
     }
   }
 }
