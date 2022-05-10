@@ -1,8 +1,8 @@
 import { Col, Layout, Row } from 'antd'
 import React from 'react'
 import Image from 'next/image'
-import AppPreview from '../../public/img/app-preview.png'
-import LogoDark from '../../public/logos/logo-dark.svg'
+import AppPreview from '../../../public/img/app-preview.png'
+import LogoDark from '../../../public/logos/logo-dark.svg'
 require('./styles.less')
 
 const { Content } = Layout

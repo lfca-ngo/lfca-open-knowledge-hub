@@ -1,6 +1,6 @@
 import { Layout, Steps, Button, Popconfirm } from 'antd'
 import React from 'react'
-import LogoDark from '../../public/logos/logo-dark-sm.svg'
+import LogoDark from '../../../public/logos/logo-dark-sm.svg'
 import { CloseOutlined } from '@ant-design/icons'
 require('./styles.less')
 

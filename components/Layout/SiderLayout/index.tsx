@@ -6,8 +6,8 @@ import {
 import { Button, Layout } from 'antd'
 import React, { useState } from 'react'
 
-import LogoDark from '../../public/logos/logo-dark-sm.svg'
-import { MainNav } from './MainNav'
+import LogoDark from '../../../public/logos/logo-dark-sm.svg'
+import { MainNav } from '../MainNav'
 
 require('./styles.less')
 

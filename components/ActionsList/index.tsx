@@ -1,3 +1,5 @@
+require('./styles.less')
+
 import React from 'react'
 import { Tabs, List } from 'antd'
 import { ActionCard } from '../ActionCard'

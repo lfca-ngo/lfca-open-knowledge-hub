@@ -1,0 +1,50 @@
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+
+
+.page-section {
+    width: 100%;
+    margin: 15px 0 20px;
+
+    .content {
+        padding-right: 30px;
+    }
+
+    .title {
+        width: 100%;
+        border-bottom: 1px solid @black;
+        padding: 0 0 15px;
+        .h2();
+    }
+
+    &.big {
+        .title {
+            border-bottom: none;
+            .h1();
+        }
+    }
+}
+
+.main-section,
+.sider-section {
+    margin: 20px 0 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sider-section {
+    width: 100%;
+
+    @media @desktop {
+        width: @sider-section-width;
+    }
+}
+
+.main-section {
+    flex: 1;
+    min-width: 0;
+
+    @media @desktop {
+        padding-right: 60px;
+    }
+}

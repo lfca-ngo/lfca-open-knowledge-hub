@@ -1,0 +1,82 @@
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+
+
+.steps-layout {
+    .ant-layout-content {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        @media @desktop {
+            flex-direction: row;
+        }
+
+        .steps-layout-wrapper {
+            background-color: @chalk;
+            width: 100%;
+            padding: 20px;
+
+            @media @desktop {
+                width: @steps-sider-section-width;
+            }
+
+            .ant-steps {
+                margin: 40px 20px;
+
+                >.ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail::after {
+                    background-color: @black;
+                }
+
+                .ant-steps-item-wait .ant-steps-item-icon {
+                    background-color: fade(@black, 10%);
+                    border-color: transparent;
+
+                    >.ant-steps-icon {
+                        color: @black;
+                    }
+                }
+
+                .ant-steps-item-wait>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+                    color: @black;
+                }
+
+                .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
+                    background: @black;
+                    border-color: @black;
+                }
+
+                >.ant-steps-item .ant-steps-item-description {
+                    padding-bottom: 32px;
+                    color: @text-color-light;
+                }
+            }
+        }
+
+        .content-layout-wrapper {
+            min-width: 0;
+            flex: 1;
+            max-width: 750px;
+            margin: 40px 70px 20px;
+            display: flex;
+            flex-direction: column;
+
+            @media @desktop {
+                margin: 120px 70px 20px;
+            }
+
+            header {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            footer {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                font-size: @font-size-xs;
+            }
+        }
+    }
+}
