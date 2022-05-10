@@ -1,0 +1,154 @@
+@import "../../styles/variables.less";
+
+@icon-width: 40px;
+
+.carbon-calculator {
+  background: @white;
+
+  >.container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-container {
+    padding: 30px 0px;
+
+    @media (min-width: @screen-md) {
+      padding: 20px 25px;
+    }
+  }
+
+  .side-container {
+    padding: 30px 0px;
+    border-left: none;
+    flex: 1;
+
+    @media (min-width: @screen-md) {
+      padding: 50px 30px;
+      border-left: 1px solid #ebebeb;
+    }
+  }
+
+  .footprint {
+    padding: 20px 0;
+
+    .ant-card {
+      background: #f4f4f4;
+      text-align: center;
+
+      h1 {
+        font-size: 36px;
+        margin: 10px 0 0;
+      }
+
+      .sub {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .housing-input,
+  .electricity-input {
+    .line {
+      margin: 12px 0;
+    }
+  }
+
+  .custom-list-item {
+    padding: 15px 10px;
+    border-bottom: 1px solid #dedede;
+
+    .text {
+      display: inline-block;
+      width: calc(100% - @icon-width);
+
+      h5 {
+        text-transform: none;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .icon {
+      display: inline-block;
+      width: @icon-width;
+      vertical-align: top;
+      padding: 2px 4px;
+    }
+  }
+
+  // custom bars
+  .custom-bars {
+    .bar-container {
+      .bar-wrapper {
+        p {
+          font-size: 14px;
+          margin: 5px 0 10px;
+        }
+      }
+    }
+
+    .bar-1,
+    .bar-2,
+    .bar-3 {
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    .bar-1 {
+      background: @black;
+    }
+
+    .bar-2 {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .bar-3 {
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  // style questions
+  .ant-radio-wrapper {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .question-form {
+    .ant-btn-primary {
+      margin: 10px 0 10px;
+    }
+
+    .hints {
+      padding-inline-start: 21px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.6);
+
+      li {
+        padding: 2px 0;
+      }
+    }
+  }
+
+  .progress-bar {
+    height: 10px;
+    width: 100%;
+    border-bottom: 1px solid #ebebeb;
+
+    .active {
+      min-width: 2%;
+      height: 100%;
+      background: @black;
+      transition: width 0.5s ease-in-out;
+    }
+  }
+
+  .category {
+    .anticon {
+      margin: 20px 0;
+      margin-left: 6px;
+    }
+  }
+}

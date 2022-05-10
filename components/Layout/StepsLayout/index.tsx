@@ -18,7 +18,7 @@ export const StepsLayout = ({ children, currentStep = 0, setStep, steps, canClos
                     </div>
                     <Steps direction="vertical" current={currentStep}>
                         {steps?.map((step: any, i: any) => (
-                            <Step key={`step-${i}`} title={step.title} description={step.description} onClick={() => setStep(i)} />
+                            <Step key={`step-${i}`} title={step.title} description={step.description} />
                         ))}
                     </Steps>
                 </div>

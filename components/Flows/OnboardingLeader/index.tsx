@@ -20,17 +20,13 @@ const Invite = (props: any) => {
             <Tag className='super-text'>Intro</Tag>
             <h1>Invite at least one team member as a Climate Officer</h1>
             <p>The lfca platform is the place where we collect and share our community's knowledge. It's the place where we inspire you to realize the full climate action potential of your organization.</p>
-            <Button type='primary' size='large' onClick={() => props.setStep(1)}>Continue</Button>
+            <Button type='primary' size='large' onClick={() => props.setStep(2)}>Continue</Button>
         </div>
     )
 }
 
-const Personalize = (props: any) => {
+const Footprint = (props: any) => {
     const [drawerVisible, setDrawerVisible] = useState(false)
-    const onSelect = (e: any) => {
-        e.preventDefault();
-        setDrawerVisible(true);
-    }
 
     return (
         <div>
@@ -42,7 +38,7 @@ const Personalize = (props: any) => {
     )
 }
 
-const Start = (props: any) => {
+const Share = (props: any) => {
     const router = useRouter()
     return (
         <div>
@@ -57,6 +53,6 @@ const Start = (props: any) => {
 export const OnboardingLeaderSteps = (props: any) => [
     { title: 'Pledge', description: 'Commit to action', component: <Commit {...props} /> },
     { title: 'Invite', description: 'Get to know the platform', component: <Invite {...props} /> },
-    { title: 'Footprint', description: 'Understand your emissions', component: <Personalize {...props} /> },
-    { title: 'Share the news', description: 'Use your influence', component: <Start {...props} /> }
+    { title: 'Footprint', description: 'Understand your emissions', component: <Footprint {...props} /> },
+    { title: 'Share the news', description: 'Use your influence', component: <Share {...props} /> }
 ]
