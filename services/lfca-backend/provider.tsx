@@ -1,11 +1,11 @@
 import { authExchange } from '@urql/exchange-auth'
-import { User } from 'firebase/auth'
+import { cacheExchange } from '@urql/exchange-graphcache'
+import { IntrospectionData } from '@urql/exchange-graphcache/dist/types/ast'
 import { NextRouter, useRouter } from 'next/router'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import {
   // debugExchange,
-  cacheExchange,
   createClient,
   dedupExchange,
   fetchExchange,
@@ -15,6 +15,7 @@ import {
 
 import { SIGN_IN } from '../../utils/routes'
 import { firebaseAuth } from '../firebase'
+import schema from './schema.json'
 
 interface LFCABackendProviderProps {
   children: React.ReactNode
@@ -38,11 +39,9 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
   const [user, loading] = useAuthState(firebaseAuth)
 
   const routerRef = React.useRef<NextRouter>(router)
-  const userRef = React.useRef<User | null | undefined>(user)
   const waitUntilFirebaseReady = React.useRef(new Deferred())
 
   routerRef.current = router
-  userRef.current = user
 
   React.useEffect(() => {
     async function start() {
@@ -60,7 +59,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
       exchanges: [
         dedupExchange,
         // debugExchange,
-        cacheExchange,
+        cacheExchange({ schema: schema as IntrospectionData }),
         authExchange<{ token?: string }>({
           addAuthToOperation: ({ authState, operation }) => {
             // the token isn't in the auth state, return the operation without changes
@@ -95,7 +94,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
             // Get an initial token from firebase
             if (!authState?.token) {
               await waitUntilFirebaseReady.current.promise
-              const initialToken = await userRef.current?.getIdToken()
+              const initialToken = await user?.getIdToken()
               if (initialToken) {
                 return { token: initialToken }
               }
@@ -108,7 +107,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
              * the following code gets executed when an auth error has occurred
              * we should refresh the token if possible and return a new auth state
              **/
-            const refreshedToken = await userRef.current?.getIdToken(true)
+            const refreshedToken = await user?.getIdToken(true)
 
             if (refreshedToken) {
               return {
@@ -125,7 +124,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
       requestPolicy: 'cache-first',
       url: process.env.NEXT_PUBLIC_LFCA_BACKED_URL,
     })
-  }, [])
+  }, [user])
 
   return <Provider value={client}>{children}</Provider>
 }
