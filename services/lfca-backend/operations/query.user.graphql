@@ -1,0 +1,5 @@
+query user($input: UserInput) {
+  user(input: $input) {
+    ...UserFragment
+  }
+}

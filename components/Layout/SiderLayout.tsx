@@ -1,22 +1,31 @@
-import React, { useState } from "react";
-import { Layout, Breadcrumb, Button } from "antd";
-import Link from "next/link";
-import { MainNav } from "./MainNav";
-import { MenuUnfoldOutlined, MenuFoldOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from '@ant-design/icons'
+import { Button, Layout } from 'antd'
+import React, { useState } from 'react'
+
 import Logo from '../../public/logo.svg'
+import { MainNav } from './MainNav'
 
-require("./styles.less");
+require('./styles.less')
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Header, Sider } = Layout
 
-export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, breadcrumbs: any, goBack?: any }) => {
-  const [collapsed, setCollapsed] = useState(true);
+interface SiderLayoutProps {
+  children: React.ReactNode
+  goBack?: () => void
+}
+
+export const SiderLayout = ({ children, goBack }: SiderLayoutProps) => {
+  const [collapsed, setCollapsed] = useState(true)
 
   return (
-    <Layout hasSider style={{ minHeight: "100vh" }}>
+    <Layout hasSider style={{ minHeight: '100vh' }}>
       <Sider
-        collapsible
         collapsed={collapsed}
+        collapsible
         onCollapse={(collapsed) => setCollapsed(collapsed)}
       >
         <div className="logo">
@@ -28,28 +37,29 @@ export const SiderLayout = ({ children, breadcrumbs, goBack }: { children: any, 
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
           {goBack ? (
-            <Button type='link' style={{ color: 'black' }} onClick={goBack} icon={<ArrowLeftOutlined />}>Back</Button>
-          ) : React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: "trigger",
-              onClick: () => setCollapsed(!collapsed),
-            }
-          )
-          }
-
+            <Button
+              icon={<ArrowLeftOutlined />}
+              onClick={goBack}
+              style={{ color: 'black' }}
+              type="link"
+            >
+              Back
+            </Button>
+          ) : (
+            React.createElement(
+              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+              {
+                className: 'trigger',
+                onClick: () => setCollapsed(!collapsed),
+              }
+            )
+          )}
         </Header>
         <Content>
-          <div
-            className="site-layout-background"
-          >
-            {children}
-          </div>
+          <div className="site-layout-background">{children}</div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>lfca.earth ©2022</Footer>
+        <Footer style={{ textAlign: 'center' }}>lfca.earth ©2022</Footer>
       </Layout>
     </Layout>
-  );
-};
-
-
+  )
+}

@@ -1,50 +1,61 @@
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Button, Input, Form, Space, Alert } from "antd";
-import { SIGN_UP, PW_RESET, HOME } from "../../utils/routes";
+import { Alert, Button, Form, Input, Space } from 'antd'
+import { FirebaseError } from 'firebase/app'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+
+import { login } from '../../services/firebase'
+import { PW_RESET, ROOT, SIGN_UP } from '../../utils/routes'
 
 export default function Signin() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSignIn = async () => {
-    setLoading(true);
+  const router = useRouter()
+
+  const handleSignIn = async ({
+    email,
+    password,
+  }: {
+    email: string
+    password: string
+  }) => {
+    setLoading(true)
     try {
-      //  @TODO: Auth logic
-      // if (error) throw error;
-      // router.push({ pathname: HOME, hash: session?.access_token });
+      await login(email, password)
+      router.replace(ROOT)
     } catch (e) {
-      // console.log(e.message);
-      // setErrorMessage(e.message);
+      if (e instanceof FirebaseError) {
+        setErrorMessage(e.message)
+      } else {
+        setErrorMessage('Unknown error')
+      }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-
+  }
 
   return (
     <div>
       <Form layout="vertical" onFinish={handleSignIn}>
         <Form.Item
-          rules={[{ required: true, message: "Please input your email!" }]}
           label="Email"
           name="email"
+          rules={[{ message: 'Please input your email!', required: true }]}
         >
-          <Input type="email" placeholder="name@company.de" />
+          <Input placeholder="name@company.de" type="email" />
         </Form.Item>
         <Form.Item
-          rules={[{ required: true, message: "Please input a password!" }]}
           label="Password"
           name="password"
+          rules={[{ message: 'Please input a password!', required: true }]}
         >
           <Input.Password placeholder="********" />
         </Form.Item>
 
-        {errorMessage && <Alert showIcon message={errorMessage} type="error" />}
+        {errorMessage && <Alert message={errorMessage} showIcon type="error" />}
         <Form.Item>
-          <Button type="primary" block loading={loading} htmlType="submit">
+          <Button block htmlType="submit" loading={loading} type="primary">
             Anmelden
           </Button>
         </Form.Item>
@@ -54,5 +65,5 @@ export default function Signin() {
         <Link href={SIGN_UP}>Noch nicht registriert? Anmelden</Link>
       </Space>
     </div>
-  );
+  )
 }

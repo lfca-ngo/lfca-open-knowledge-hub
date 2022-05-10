@@ -1,131 +1,166 @@
-import type { NextPage, GetStaticProps, GetStaticPaths } from 'next'
-import { Button, Tabs, Row, Col, Space, Drawer, Form, Upload, Input } from 'antd'
+import {
+  CalendarOutlined,
+  CheckOutlined,
+  UploadOutlined,
+} from '@ant-design/icons'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import {
+  Button,
+  Col,
+  Drawer,
+  Form,
+  Input,
+  Row,
+  Space,
+  Tabs,
+  Upload,
+} from 'antd'
+import classNames from 'classnames'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+
+import { ActionStats } from '../../components/ActionCard'
 import { SiderLayout } from '../../components/Layout'
 import { fetchAllActions } from '../../services/contentful'
-import { CheckOutlined, CalendarOutlined, UploadOutlined } from '@ant-design/icons'
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { ALL_ACTIONS } from '../../services/contentful'
-import { ActionStats } from '../../components/ActionCard'
-import Image from 'next/image'
-import classNames from 'classnames'
 
 const { TabPane } = Tabs
 const { TextArea } = Input
 
 const Main = ({ children }: { children: any }) => (
-    <Col xs={24} md={16} className='main-section'>
-        {children}
-    </Col>
-
+  <Col className="main-section" md={16} xs={24}>
+    {children}
+  </Col>
 )
 
 const Sider = ({ children }: { children: any }) => (
-    <Col xs={24} md={{ span: 6, offset: 2 }} className='sider-section'>
-        {children}
-    </Col>
-
+  <Col className="sider-section" md={{ offset: 2, span: 6 }} xs={24}>
+    {children}
+  </Col>
 )
 
-const Section = ({ children, title, className }: { children: any, title?: any, className?: any }) => (
-    <Row>
-        <Col xs={24} className={classNames('page-section', className)} >
-            {title && <h2 className='title'>{title}</h2>}
-            {children}
-        </Col>
-    </Row>
+const Section = ({
+  children,
+  className,
+  title,
+}: {
+  children: any
+  title?: any
+  className?: any
+}) => (
+  <Row>
+    <Col className={classNames('page-section', className)} xs={24}>
+      {title && <h2 className="title">{title}</h2>}
+      {children}
+    </Col>
+  </Row>
 )
 
 const Action: NextPage = (props: any) => {
-    const [isOpen, setIsOpen] = useState(false)
-    const router = useRouter()
-    const action = props.action
-    return (
-        <SiderLayout goBack={() => router.back()} breadcrumbs={[{ text: 'Home', link: '/admin' }]}>
-            <Row>
-                <Main>
-                    <Section className='action-header'>
-                        <div className='action-title'>
-                            <h1>{action?.title}</h1>
-                            <div className='hero'>
-                                <div className='wrapper'>
-                                    <Image src={action.heroImage.url} objectFit='cover' layout='fill' />
-                                </div>
-                            </div>
-                        </div>
-                        <ActionStats />
-                    </Section>
-                    <Section>
-                        <Tabs defaultActiveKey='1'>
-                            <TabPane tab='Description' key='1'>
-                                {documentToReactComponents(action?.aboutText)}
-                            </TabPane>
-                            <TabPane tab='Benefits' key='2'>
-                                {documentToReactComponents(action?.benefits)}
-                            </TabPane>
-                        </Tabs>
-                    </Section>
-                    <Section title='Find the right tool'>
-                        Something
-                    </Section>
-                </Main>
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+  const action = props.action
+  return (
+    <SiderLayout goBack={() => router.back()}>
+      <Row>
+        <Main>
+          <Section className="action-header">
+            <div className="action-title">
+              <h1>{action?.title}</h1>
+              <div className="hero">
+                <div className="wrapper">
+                  <Image
+                    layout="fill"
+                    objectFit="cover"
+                    src={action.heroImage.url}
+                  />
+                </div>
+              </div>
+            </div>
+            <ActionStats />
+          </Section>
+          <Section>
+            <Tabs defaultActiveKey="1">
+              <TabPane key="1" tab="Description">
+                {documentToReactComponents(action?.aboutText)}
+              </TabPane>
+              <TabPane key="2" tab="Benefits">
+                {documentToReactComponents(action?.benefits)}
+              </TabPane>
+            </Tabs>
+          </Section>
+          <Section title="Find the right tool">Something</Section>
+        </Main>
 
-                <Sider>
-                    <Section title='Your progress'>
-                        <Space direction='vertical' style={{ width: '100%' }}>
-                            <Button size='large' onClick={() => setIsOpen(true)} block icon={<CheckOutlined />} type='primary'>Mark as done</Button>
-                            <Button size='large' block icon={<CalendarOutlined />} ghost>Mark as planned</Button>
-                        </Space>
-                    </Section>
-                    <Section title='Community'>
-                        Something
-                    </Section>
-                    <Section title='Attachments'>
-                        Something
-                    </Section>
-                </Sider>
-            </Row>
-            <Drawer visible={isOpen} onClose={() => setIsOpen(false)}>
-                <h1>Share learnings</h1>
-                <Form layout='vertical'>
-                    <Form.Item label='Any learnings to share?'>
-                        <TextArea rows={10} placeholder='We created an overview of 10 banks and evaluated them based on x,y,z...' />
-                    </Form.Item>
-                    <Form.Item label='Attachments'>
-                        <Upload>
-                            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                        </Upload>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button size='large' type='primary' htmlType='submit'>Submit</Button>
-                    </Form.Item>
-                </Form>
-            </Drawer>
-        </SiderLayout>
-    )
+        <Sider>
+          <Section title="Your progress">
+            <Space direction="vertical" style={{ width: '100%' }}>
+              <Button
+                block
+                icon={<CheckOutlined />}
+                onClick={() => setIsOpen(true)}
+                size="large"
+                type="primary"
+              >
+                Mark as done
+              </Button>
+              <Button block ghost icon={<CalendarOutlined />} size="large">
+                Mark as planned
+              </Button>
+            </Space>
+          </Section>
+          <Section title="Community">Something</Section>
+          <Section title="Attachments">Something</Section>
+        </Sider>
+      </Row>
+      <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
+        <h1>Share learnings</h1>
+        <Form layout="vertical">
+          <Form.Item label="Any learnings to share?">
+            <TextArea
+              placeholder="We created an overview of 10 banks and evaluated them based on x,y,z..."
+              rows={10}
+            />
+          </Form.Item>
+          <Form.Item label="Attachments">
+            <Upload>
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit" size="large" type="primary">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Drawer>
+    </SiderLayout>
+  )
 }
 
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const actionId: any = params?.actionId
-    const actions: any = await fetchAllActions()
-    const action = actions.byId[actionId]
+  const actionId: any = params?.actionId
+  const actions: any = await fetchAllActions()
+  const action = actions.byId[actionId]
 
-    return {
-        props: {
-            action
-        }
-    }
+  return {
+    props: {
+      action,
+    },
+  }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const { byTags } = await fetchAllActions()
-    const paths = byTags[ALL_ACTIONS].map((action: any) => ({ params: { actionId: action.actionId } }))
-    return {
-        paths: paths,
-        fallback: false
-    }
+  const { byTags } = await fetchAllActions()
+  const paths = byTags[ALL_ACTIONS].map((action: any) => ({
+    params: { actionId: action.actionId },
+  }))
+  return {
+    fallback: false,
+    paths: paths,
+  }
 }
 
 export default Action

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import NextLink from "next/link";
-import { Button, Input, Form } from "antd";
-import { SIGN_IN } from "../../utils/routes";
+import { Button, Form, Input } from 'antd'
+import NextLink from 'next/link'
+import React, { useState } from 'react'
+
+import { SIGN_IN } from '../../utils/routes'
 
 const ResetPassword = () => {
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [success] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleClick = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       // @TODO: Auth logic
       // if (res.error) alert(res.error);
@@ -16,28 +17,32 @@ const ResetPassword = () => {
       // alert(error.message);
     } finally {
       // setIsAfterSubmit(true);
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div>
       {success ? (
         <div>
           Bitte schauen Sie Ihr E-Mail Postfach. Wir haben Ihnen eine E-Mail zum
-          Zurücksetzen des Passworts geschickt. Wenn Sie innerhalb von zehn Minuten keine
-          E-Mail erhalten, überprüfen Sie, ob die angegebene E-Mail korrekt ist.
+          Zurücksetzen des Passworts geschickt. Wenn Sie innerhalb von zehn
+          Minuten keine E-Mail erhalten, überprüfen Sie, ob die angegebene
+          E-Mail korrekt ist.
         </div>
       ) : (
         <div>
-          <Form layout='vertical' onFinish={handleClick}>
-            <Form.Item label='Email'>
-              <Input
-                placeholder='info@lfca.earth'
-              />
+          <Form layout="vertical" onFinish={handleClick}>
+            <Form.Item label="Email">
+              <Input placeholder="info@lfca.earth" />
             </Form.Item>
             <Form.Item>
-              <Button block loading={loading} type='primary' onClick={handleClick}>
+              <Button
+                block
+                loading={loading}
+                onClick={handleClick}
+                type="primary"
+              >
                 Passwort zurücksetzen
               </Button>
             </Form.Item>
@@ -46,7 +51,7 @@ const ResetPassword = () => {
       )}
       <NextLink href={SIGN_IN}>Zurück zum Login</NextLink>
     </div>
-  );
-};
+  )
+}
 
-export default ResetPassword;
+export default ResetPassword

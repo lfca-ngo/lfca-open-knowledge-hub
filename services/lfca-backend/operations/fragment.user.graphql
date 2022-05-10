@@ -1,0 +1,12 @@
+fragment UserFragment on User {
+  companyId
+  country
+  email
+  firstName
+  id
+  lastName
+  phone
+  picture
+  roles
+  sortWeight
+}
