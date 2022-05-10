@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+require('./styles.less')
 
 
 export const Main = ({ children }: { children: any }) => (

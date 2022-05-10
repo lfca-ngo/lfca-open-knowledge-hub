@@ -13,7 +13,6 @@ const CarouselNav = (props: any) => {
           className={`navigator-elem ${i === props.activeSlide ? "active" : ""
             } `}
           onClick={() => props.goTo(i)}
-          onMouseOver={() => props.goTo(i)}
         >
           <div className="text">
             <div className="title">{element.title}</div>
@@ -37,6 +36,7 @@ export const InfoCarousel = (props: any) => {
   const carouselEl: any = useRef()
 
   const goTo = (i: any) => {
+    console.log('jo', i)
     carouselEl.current.goTo(i)
   }
 

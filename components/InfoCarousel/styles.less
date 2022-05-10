@@ -2,7 +2,7 @@
 @import (reference) '../../styles/fonts.less';
 
 .info-carousel {
-  @padding-size: 15px;
+  @padding-size: 20px;
   margin: 20px 0 30px;
 
   .navigator-elem {
@@ -11,23 +11,27 @@
     background: @white;
     padding: 0;
     border-bottom: 1px solid rgb(238, 238, 238);
+    cursor: pointer;
 
     .icon {
       width: 40px;
       display: none;
       margin-top: @padding-size;
       margin-bottom: auto;
+
+      .anticon {
+        color: @black;
+      }
     }
 
     .text {
       flex: 1;
-      padding: 10px 20px;
+      padding: @padding-size 25px;
     }
 
     .title {
       .font-medium();
       color: @black;
-      margin-bottom: 4px;
     }
 
     .description {
@@ -40,7 +44,11 @@
 
       .text {
         border-left: 2px solid @black;
-        padding: @padding-size 20px;
+        padding: @padding-size 25px;
+      }
+
+      .title {
+        margin-bottom: 10px;
       }
 
       .description {

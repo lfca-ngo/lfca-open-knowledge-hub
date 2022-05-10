@@ -58,7 +58,7 @@ export const ActionStats = () => {
   )
 }
 
-export const ActionCard = ({ action }: { action: any }) => {
+export const ActionCard = ({ action, onClick }: { action: any, onClick?: any }) => {
   return (
     <Card className="action-card" hoverable>
       <div className="hero">
@@ -82,7 +82,7 @@ export const ActionCard = ({ action }: { action: any }) => {
           </Avatar.Group>
         </div>
         <Link href={`/action/${action.actionId}`}>
-          <Button type="primary">View</Button>
+          <Button onClick={onClick} type="primary">View</Button>
         </Link>
       </div>
     </Card>

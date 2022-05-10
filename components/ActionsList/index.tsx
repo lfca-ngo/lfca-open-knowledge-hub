@@ -7,7 +7,7 @@ import { ALL_ACTIONS } from '../../services/contentful'
 
 const { TabPane } = Tabs
 
-export const ActionsList = ({ actionsByTags }: { actionsByTags: any }) => {
+export const ActionsList = ({ actionsByTags, onSelect }: { actionsByTags: any, onSelect?: any }) => {
     return (
         <Tabs defaultActiveKey={ALL_ACTIONS}>
             {Object.keys(actionsByTags).map((tag: string) => {
@@ -21,7 +21,7 @@ export const ActionsList = ({ actionsByTags }: { actionsByTags: any }) => {
                             renderItem={(item: any) => {
                                 return (
                                     <List.Item>
-                                        <ActionCard action={item} />
+                                        <ActionCard onClick={onSelect} action={item} />
                                     </List.Item>
                                 )
                             }}
