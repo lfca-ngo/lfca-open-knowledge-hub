@@ -35,7 +35,7 @@ export const CarbonCalculator = (props: any) => {
         <Row >
           <Col xs={24} md={18} className="main-container">
             {/* Show question block until last question reached */}
-            {activeQuestion !== 'done?' ? (
+            {activeQuestion.id > -1 ? (
               <div>
                 <QuestionBlock
                   activeQuestion={activeQuestion}
@@ -63,13 +63,7 @@ export const CarbonCalculator = (props: any) => {
                       </div>
                       <div className="text">
                         <h5>{item.resultTitle}</h5>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              item.resultText &&
-                              item.resultText.childMarkdownRemark.html,
-                          }}
-                        />
+                        <p>{item.resultText}</p>
                       </div>
                     </div>
                   )}
