@@ -1,4 +1,4 @@
-import { Button, Tag, Drawer } from 'antd'
+import { Button, Tag, Drawer, Checkbox, Space } from 'antd'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Pledge } from '../../Pledge'
@@ -17,6 +17,9 @@ const Commit = (props: any) => {
 }
 
 const Invite = (props: any) => {
+    const [hasMinimumInvited, setHasMinimumInvited] = useState(false)
+    const [isLeaderOfficer, setIsLeaderOfficer] = useState(false)
+    console.log('isLeaderOfficer', isLeaderOfficer)
     return (
         <div>
             <Tag className='super-text'>Intro</Tag>
@@ -30,8 +33,11 @@ const Invite = (props: any) => {
                     If you don't, pick someone who is genuinely passionate about the topicWe recommend to invite that colleague with a personal message
                 </li>
             </ul>
-            <InviteTeam />
-            <Button type='primary' size='large' onClick={() => props.setStep(2)}>Continue</Button>
+            <InviteTeam onMinimumInvited={() => setHasMinimumInvited(true)} />
+            <Space direction='vertical'>
+                <Checkbox checked={isLeaderOfficer} onChange={e => setIsLeaderOfficer(e.target.checked)} >I will take over the role of Climate Officer for my company (not-recommended)</Checkbox>
+                <Button disabled={!isLeaderOfficer && !hasMinimumInvited} type='primary' size='large' onClick={() => props.setStep(2)}>Continue</Button>
+            </Space>
         </div>
     )
 }
