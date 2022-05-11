@@ -2,6 +2,8 @@ import React from "react"
 import { Form, Button } from "antd"
 import renderSwitch from "./renderSwitch"
 import { Category } from "./Category"
+import classNames from "classnames"
+
 
 export const QuestionBlock = ({
   activeQuestion,
@@ -24,6 +26,7 @@ export const QuestionBlock = ({
     label,
     description,
   } = activeQuestion
+  const isHidden = activeQuestion.type === 'fixed'
 
   const handleSubmit = (allValues: any) => {
     submit(allValues[id], true)
@@ -47,7 +50,7 @@ export const QuestionBlock = ({
   const initialValue = activeAnswer ? activeAnswer.values : undefined
 
   return (
-    <Form onFinish={handleSubmit} onValuesChange={updateAnswer} className="question-form" initialValues={{ id: initialValue }}>
+    <Form onFinish={handleSubmit} onValuesChange={updateAnswer} className={classNames('question-form', { 'is-hidden': isHidden })} initialValues={{ id: initialValue }}>
       <Category category={category} />
       <h1>{question}</h1>
       {description && (

@@ -4,10 +4,20 @@
 
 .carbon-calculator {
   background: @white;
+  height: 100%;
+
+  .container,
+  .container>.ant-row {
+    height: 100%;
+  }
+
+  .offset-section {
+    margin: 30px 0;
+  }
 
   .provider-slider {
-    .slick-slider {
-      padding-right: 10px;
+    .slick-slide>div {
+      margin-right: 10px;
     }
 
     .slick-arrow.slick-next,
@@ -111,6 +121,13 @@
   }
 
   .question-form {
+
+    &.is-hidden {
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+    }
+
     .ant-btn-primary {
       margin: 10px 0 10px;
     }

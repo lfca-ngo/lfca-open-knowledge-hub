@@ -85,7 +85,7 @@ export const CarbonCalculator = (props: any) => {
                     </div>
                   )}
                 />
-                <div style={{ margin: "30px 0" }}>
+                <div className="offset-section">
                   <h3>Offset emissions that you can't reduce</h3>
                   <p>
                     While carbon offsetting does not replace reduction, it is an
