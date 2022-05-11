@@ -1,9 +1,9 @@
-import { HomeOutlined, RocketOutlined, ProfileOutlined } from '@ant-design/icons'
+import { UsergroupAddOutlined, BankOutlined, RocketOutlined, ProfileOutlined, LockOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { ACTIONS, ACTIONS_COMPLETED, ACTIONS_PLANNED, ACHIEVEMENTS } from '../../utils/routes'
+import { ACTIONS, ACTIONS_COMPLETED, ACTIONS_PLANNED, ACHIEVEMENTS, ADMIN_COMPANIES, ADMIN_USERS, ADMIN } from '../../utils/routes'
 
 const NAV_ITEMS = [
   {
@@ -32,6 +32,23 @@ const NAV_ITEMS = [
     icon: <RocketOutlined />,
     key: ACHIEVEMENTS,
     label: 'Achievements',
+  },
+  {
+    icon: <LockOutlined />,
+    key: ADMIN,
+    label: 'Admin',
+    children: [
+      {
+        icon: <UsergroupAddOutlined />,
+        key: ADMIN_USERS,
+        label: 'Users',
+      },
+      {
+        icon: <BankOutlined />,
+        key: ADMIN_COMPANIES,
+        label: 'Companies',
+      },
+    ]
   },
 ]
 

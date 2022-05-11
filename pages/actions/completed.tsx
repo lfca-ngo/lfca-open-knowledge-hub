@@ -2,7 +2,7 @@
 import type { NextPage } from 'next'
 
 import { SiderLayout, Main, Section } from '../../components/Layout'
-import { NAV } from '.'
+import { NAV } from './data'
 
 const CompletedActions: NextPage = (props: any) => {
     return (

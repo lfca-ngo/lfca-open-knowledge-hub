@@ -2,15 +2,14 @@
 import type { NextPage } from 'next'
 
 import { SiderLayout, Main, Section } from '../../components/Layout'
-import { NAV } from './data'
 
 const AdminUsers: NextPage = (props: any) => {
 
     return (
-        <SiderLayout nav={NAV}>
+        <SiderLayout>
             <Main>
-                <Section title='Users' titleSize='big'>
-                    Something
+                <Section title='Admin Dashboard' titleSize='big'>
+                    coming back one day
                 </Section>
             </Main>
         </SiderLayout>
