@@ -1,15 +1,32 @@
-import { HomeOutlined } from '@ant-design/icons'
+import { HomeOutlined, RocketOutlined, ProfileOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { HOME } from '../../utils/routes'
+import { ACTIONS, ACTIONS_COMPLETED, ACTIONS_PLANNED, ACHIEVEMENTS } from '../../utils/routes'
 
 const NAV_ITEMS = [
   {
-    icon: <HomeOutlined />,
-    key: HOME,
-    label: 'All Campaigns',
+    icon: <ProfileOutlined />,
+    key: ACTIONS,
+    label: 'Dashboard',
+    children: [
+      {
+        icon: <RocketOutlined />,
+        key: ACTIONS_PLANNED,
+        label: 'Actions planned',
+      },
+      {
+        icon: <RocketOutlined />,
+        key: ACTIONS_COMPLETED,
+        label: 'Actions completed',
+      }
+    ]
+  },
+  {
+    icon: <RocketOutlined />,
+    key: ACHIEVEMENTS,
+    label: 'Achievements',
   },
 ]
 

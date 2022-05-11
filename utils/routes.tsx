@@ -1,5 +1,8 @@
 export const ROOT = "/";
-export const HOME = "/app";
+export const ACTIONS = "/actions";
+export const ACTIONS_PLANNED = "/actions/planned";
+export const ACTIONS_COMPLETED = "/actions/completed";
+export const ACHIEVEMENTS = "/achievements";
 export const SIGN_IN = "/signin";
 export const SIGN_UP = "/signup";
 export const PW_RESET = "/password-reset";
