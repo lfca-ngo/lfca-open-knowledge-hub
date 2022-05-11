@@ -18,14 +18,14 @@ export const CarbonCalculator = (props: any) => {
     goBack,
     updateStatus,
     errorMessage,
-    setFootprint,
+    saveResult,
     progress,
-    footprint,
+    footprint = 0,
   } = props
 
-  const completeProcess = () => {
+  const onFinish = () => {
     const roundedFootprint = toFixedNumber(footprint, 2)
-    setFootprint(roundedFootprint)
+    saveResult(roundedFootprint)
   }
 
   return (
@@ -87,7 +87,7 @@ export const CarbonCalculator = (props: any) => {
                   style={{ marginRight: "12px" }}
                   size="large"
                   type="primary"
-                  onClick={completeProcess}
+                  onClick={onFinish}
                   loading={updateStatus === 'BUSY'}
                 >
                   Save result and continue

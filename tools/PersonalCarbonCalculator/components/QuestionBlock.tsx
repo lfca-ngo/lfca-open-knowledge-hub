@@ -29,8 +29,8 @@ export const QuestionBlock = ({
     submit(allValues[id], true)
   }
 
-  const updateAnswer = (val: any) => {
-    submit(val, false)
+  const updateAnswer = (changedValues: any) => {
+    submit(changedValues[id], false)
   }
 
   const housingValidator = (_: any, value: any, callback: any) => {
@@ -47,16 +47,12 @@ export const QuestionBlock = ({
   const initialValue = activeAnswer ? activeAnswer.values : undefined
 
   return (
-    <Form onFinish={handleSubmit} className="question-form" initialValues={{ id: initialValue }}>
+    <Form onFinish={handleSubmit} onValuesChange={updateAnswer} className="question-form" initialValues={{ id: initialValue }}>
       <Category category={category} />
       <h1>{question}</h1>
-      {/* {description && (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: description.childMarkdownRemark.html,
-          }}
-        />
-      )} */}
+      {description && (
+        <p>{description}</p>
+      )}
       {hints && (
         <ul className="hints">
           {hints.map((hint: any, i: any) => (
@@ -64,8 +60,8 @@ export const QuestionBlock = ({
           ))}
         </ul>
       )}
-      <Form.Item label={label} rules={[itemRules]}>
-        {renderSwitch(activeQuestion, updateAnswer)}
+      <Form.Item name={id} label={label} rules={[itemRules]}>
+        {renderSwitch(activeQuestion)}
       </Form.Item>
       <Form.Item>
         <Button size="large" type="primary" htmlType="submit">

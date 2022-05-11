@@ -4,7 +4,7 @@ import { FixedInput } from "./FixedInput"
 import { ElectricityInput } from "./ElectricityInput"
 import { Radio, InputNumber } from "antd"
 
-const renderSwitch = (activeQuestion: any, updateAnswer: any) => {
+const renderSwitch = (activeQuestion: any) => {
   const { type, options, initialValue, currency } = activeQuestion
 
   let initValue
@@ -20,7 +20,7 @@ const renderSwitch = (activeQuestion: any, updateAnswer: any) => {
     case "energy":
     case "radio":
       return (
-        <Radio.Group onChange={(e) => updateAnswer(e.target.value)}>
+        <Radio.Group >
           {options.map((option: any, i: any) => (
             <Radio key={`option-${i}`} value={option.value}>
               {option.title}
@@ -33,7 +33,6 @@ const renderSwitch = (activeQuestion: any, updateAnswer: any) => {
         <InputNumber
           placeholder={initValue}
           min={0}
-          onChange={(val) => updateAnswer(val)}
         />
       )
     case "inputCurrency":
@@ -44,24 +43,22 @@ const renderSwitch = (activeQuestion: any, updateAnswer: any) => {
           }
           min={0}
           parser={(value: any) => value.replace(currencyRegex, "")}
-          onChange={(val) => updateAnswer(val)}
           placeholder={initValue}
         />
       )
     case "housing":
       return (
-        <HousingInput options={options} onChange={(val) => updateAnswer(val)} />
+        <HousingInput options={options} />
       )
     case "electricity":
       return (
         <ElectricityInput
           options={options}
-          onChange={(val) => updateAnswer(val)}
         />
       )
     case "fixed":
       return (
-        <FixedInput options={options} onChange={(val: any) => updateAnswer(val)} />
+        <FixedInput options={options} />
       )
     default:
       return null
