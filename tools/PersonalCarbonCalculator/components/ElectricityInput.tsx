@@ -4,7 +4,7 @@ import { InputNumber, Select } from 'antd';
 const { Option } = Select;
 
 interface ElectricityValue {
-  amount?: number;
+  people?: number;
   type?: string;
 }
 
@@ -12,18 +12,17 @@ interface ElectricityInputProps {
   value?: ElectricityValue;
   onChange?: (value: ElectricityValue) => void;
   options?: any;
+  placeholderValue?: any
 }
 
-export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, options, onChange }) => {
-  const [amount, setAmount] = useState(0);
-  const [type, setType] = useState('');
+export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, options, onChange, placeholderValue }) => {
 
-  const triggerChange = (changedValue: { amount?: number; type?: string }) => {
-    onChange?.({ amount, type, ...value, ...changedValue });
+  const triggerChange = (changedValue: { people?: number; type?: string }) => {
+    onChange?.({ ...value, ...changedValue });
   };
 
   const onAmountChange = (val: number) => {
-    triggerChange({ amount: val });
+    triggerChange({ people: val });
   };
 
   const onTypeChange = (val: string) => {
@@ -36,9 +35,9 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, 
         <span>We are </span>
         <InputNumber
           type="text"
-          placeholder="2"
+          placeholder={placeholderValue?.people || 2}
           min={1}
-          value={value && value.amount}
+          value={value && value.people}
           onChange={onAmountChange}
           style={{ width: "100px", marginRight: "6px" }}
         />

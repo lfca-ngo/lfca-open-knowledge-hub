@@ -33,7 +33,7 @@ const calculateFootprint = (val: any, type: string, factor: number) => {
         case "inputCurrency":
             return val * factor
         case "electricity":
-            return mapPeopleElectricty(val.people) * val.type
+            return val.type && val.people && mapPeopleElectricty(val.people) * val.type || 0
         case "housing": {
             const flatSize = val.flatsize || 0
             const flatMates = val.flatmates || 1

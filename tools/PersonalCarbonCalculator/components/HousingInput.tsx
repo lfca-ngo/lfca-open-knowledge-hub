@@ -13,9 +13,10 @@ interface HousingInputProps {
   value?: HousingValue;
   onChange?: (value: HousingValue) => void;
   options?: any;
+  placeholderValue?: any;
 }
 
-export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options, onChange }) => {
+export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options, onChange, placeholderValue }) => {
 
   const triggerChange = (changedValue: { flatsize?: number; flatmates?: number; heattype?: string }) => {
     onChange?.({ ...value, ...changedValue });
@@ -39,7 +40,7 @@ export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options,
         <span>I live on </span>
         <InputNumber
           type="text"
-          placeholder="100"
+          placeholder={placeholderValue?.flatsize || 1}
           min={1}
           value={value && value.flatsize}
           onChange={onFlatsizeChange}
@@ -51,7 +52,7 @@ export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options,
         <span>We are </span>
         <InputNumber
           type="text"
-          placeholder="1"
+          placeholder={placeholderValue?.flatmates || 1}
           min={1}
           value={value && value.flatmates}
           onChange={onFlatmatesChange}

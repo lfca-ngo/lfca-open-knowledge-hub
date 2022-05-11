@@ -7,11 +7,17 @@ import { Radio, InputNumber } from "antd"
 const renderSwitch = (activeQuestion: any) => {
   const { type, options, initialValue, currency } = activeQuestion
 
-  let initValue
+  let placeholderValue
   try {
-    initValue = JSON.parse(initialValue)
+    // try to parse as int
+    placeholderValue = parseInt(initialValue)
+    // if it fails, try to parse as json
+    if (!placeholderValue) {
+      placeholderValue = JSON.parse(`${initialValue}`)
+    }
   } catch (error) {
-    initValue = ""
+    // if it fails, set to undefined
+    placeholderValue = ""
   }
 
   const currencyRegex = new RegExp(`\\${currency}\\s?|(,*)`, "g")
@@ -31,7 +37,7 @@ const renderSwitch = (activeQuestion: any) => {
     case "inputNumber":
       return (
         <InputNumber
-          placeholder={initValue}
+          placeholder={placeholderValue || 0}
           min={0}
         />
       )
@@ -43,12 +49,12 @@ const renderSwitch = (activeQuestion: any) => {
           }
           min={0}
           parser={(value: any) => value.replace(currencyRegex, "")}
-          placeholder={initValue}
+          placeholder={placeholderValue}
         />
       )
     case "housing":
       return (
-        <HousingInput options={options} />
+        <HousingInput options={options} placeholderValue={placeholderValue} />
       )
     case "electricity":
       return (

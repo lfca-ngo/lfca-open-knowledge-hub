@@ -16,7 +16,7 @@ const Calc: NextPage = (props: any) => {
             <Main>
                 <Section title='Test' titleSize='big'>
                     <CarbonCalculator
-                        questionnaire={props.questionnaires['eu-DE']}
+                        questionnaire={props.questionnaires['oc-AU']}
                         saveResult={saveResult}
                     />
                 </Section>
