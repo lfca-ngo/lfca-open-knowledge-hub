@@ -1,3 +1,5 @@
+require('./styles.less')
+
 import React from "react"
 import { QuestionBlock } from "./components/QuestionBlock"
 import { Footprint } from "./components/Footprint"
@@ -7,7 +9,6 @@ import { CustomIcon } from "./components/Category"
 import { Row, Col, Button, List, Alert } from "antd"
 import { PieChartOutlined } from '@ant-design/icons'
 import { toFixedNumber } from "../../utils"
-import "./styles.less"
 
 export const CarbonCalculator = (props: any) => {
   const {

@@ -102,8 +102,10 @@ export const CarbonCalculatorContainer = ({ saveResult, questionnaire }: { saveR
     const [tips, setTips] = useState([])
 
     // init questionnaries
-    const isLast = activeQuestionIndex === questionnaire.questions.length
-    const isBeforeLast = activeQuestionIndex === questionnaire.questions.length - 1
+    const questionsCount = questionnaire.questions.length
+    const progress = (activeQuestionIndex / questionsCount) * 100
+    const isLast = activeQuestionIndex === questionsCount
+    const isBeforeLast = activeQuestionIndex === questionsCount - 1
     const activeAnswer = answers[activeQuestionIndex]
     const activeQuestion = {
         ...questionnaire.questions[activeQuestionIndex],
@@ -156,7 +158,7 @@ export const CarbonCalculatorContainer = ({ saveResult, questionnaire }: { saveR
 
     return (
         <CarbonCalculator
-            progress={0}
+            progress={progress}
             footprint={total / 1000}
             saveResult={saveResult}
             answerQuestion={answerQuestion}

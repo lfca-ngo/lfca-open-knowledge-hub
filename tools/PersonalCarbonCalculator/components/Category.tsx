@@ -23,8 +23,8 @@ export const CustomIcon = ({ category }: { category: string }) => {
 export const Category = ({ category }: { category: string }) => {
   return (
     <div className="category">
-      {category}
       <CustomIcon category={category} />
+      {category}
     </div>
   )
 }
