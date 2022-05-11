@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Pledge } from '../../Pledge'
 import { CarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
+import { InviteTeam } from '../../InviteTeam'
 
 const Commit = (props: any) => {
     return (
@@ -20,7 +21,16 @@ const Invite = (props: any) => {
         <div>
             <Tag className='super-text'>Intro</Tag>
             <h1>Invite at least one team member as a Climate Officer</h1>
-            <p>The lfca platform is the place where we collect and share our community's knowledge. It's the place where we inspire you to realize the full climate action potential of your organization.</p>
+            <p>Calculating the carbon footprint of an entire company and doing reduction and goal setting workshops takes quite a bit of time. We therefore ask you to appoint at least one motivated team member that helps to coordinate these efforts.</p>
+            <ul>
+                <li>
+                    If you already have a person or team that takes care of sustainabality, the choice is obvious
+                </li>
+                <li>
+                    If you don't, pick someone who is genuinely passionate about the topicWe recommend to invite that colleague with a personal message
+                </li>
+            </ul>
+            <InviteTeam />
             <Button type='primary' size='large' onClick={() => props.setStep(2)}>Continue</Button>
         </div>
     )

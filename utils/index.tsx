@@ -11,3 +11,20 @@ export const openInNewTab = (url: string) => {
     const win = window.open(url, "_blank")
     win?.focus()
 }
+
+export const copyTextToClipboard = (text: string, cb: any) => {
+    if (!navigator.clipboard) {
+        cb('Clipboard API not supported', false)
+    }
+    navigator.clipboard.writeText(text).then(
+        () => {
+            const message = `Copying text was successful`
+            return cb(message, true)
+        },
+        (err) => {
+            console.error(err)
+            const message = `Could not copy text`
+            return cb(message, false)
+        }
+    )
+}
