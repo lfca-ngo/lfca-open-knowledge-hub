@@ -12,6 +12,11 @@ const NAV_ITEMS = [
     label: 'Dashboard',
     children: [
       {
+        icon: <ProfileOutlined />,
+        key: ACTIONS,
+        label: 'Dashboard',
+      },
+      {
         icon: <RocketOutlined />,
         key: ACTIONS_PLANNED,
         label: 'Actions planned',
