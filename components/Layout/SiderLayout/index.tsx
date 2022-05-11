@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
 import { MainNav } from '../MainNav'
 import { TopNav } from '../TopNav'
+import { SettingsNav } from '../SettingsNav'
 
 require('./styles.less')
 
@@ -36,6 +37,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
       <Layout className="site-layout">
         <Header>
           <TopNav nav={nav} goBack={goBack} />
+          <SettingsNav />
         </Header>
         <Content>
           {children}

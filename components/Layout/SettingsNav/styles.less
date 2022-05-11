@@ -1,0 +1,34 @@
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+
+.settings-nav {
+    font-size: @font-size-base;
+    height: 100%;
+    border-bottom: 2px solid @black;
+    width: @sider-section-width;
+    display: flex;
+    text-decoration: none;
+
+    .profile-pic {
+        margin-right: 20px;
+    }
+
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+
+        .name {
+            color: @black;
+            line-height: normal;
+            margin-bottom: 2px;
+            margin-top: 6px;
+        }
+
+        .company {
+            font-size: @font-size-sm;
+            line-height: normal;
+        }
+    }
+}
