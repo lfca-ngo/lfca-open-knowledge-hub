@@ -1,13 +1,9 @@
-import {
-  ArrowLeftOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from '@ant-design/icons'
-import { Button, Layout } from 'antd'
+import { Layout } from 'antd'
 import React, { useState } from 'react'
 
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
 import { MainNav } from '../MainNav'
+import { TopNav } from '../TopNav'
 
 require('./styles.less')
 
@@ -15,10 +11,11 @@ const { Content, Footer, Header, Sider } = Layout
 
 interface SiderLayoutProps {
   children: React.ReactNode
+  nav?: Array<any>,
   goBack?: () => void
 }
 
-export const SiderLayout = ({ children, goBack }: SiderLayoutProps) => {
+export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
   const [collapsed, setCollapsed] = useState(true)
 
   return (
@@ -37,25 +34,8 @@ export const SiderLayout = ({ children, goBack }: SiderLayoutProps) => {
       </Sider>
 
       <Layout className="site-layout">
-        <Header style={{ padding: 0 }}>
-          {goBack ? (
-            <Button
-              icon={<ArrowLeftOutlined />}
-              onClick={goBack}
-              style={{ color: 'black' }}
-              type="link"
-            >
-              Back
-            </Button>
-          ) : (
-            React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )
-          )}
+        <Header>
+          <TopNav nav={nav} goBack={goBack} />
         </Header>
         <Content>
           {children}

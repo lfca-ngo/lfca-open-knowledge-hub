@@ -8,6 +8,15 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/actions',
+        permanent: true,
+      },
+    ]
+  },
   webpack: (config) => {
 
     config.resolve = {

@@ -73,10 +73,13 @@ const Share = (props: any) => {
     const router = useRouter()
     return (
         <div>
-            <Tag className='super-text'>Intro</Tag>
-            <h1>Welcome Timo, let's get you started!</h1>
-            <p>The lfca platform is the place where we collect and share our community's knowledge. It's the place where we inspire you to realize the full climate action potential of your organization.</p>
-            <Button type='primary' size='large' onClick={() => props.setStep(1)}>Continue</Button>
+            <Tag className='super-text'>Share</Tag>
+            <h1>Great job, you are now part of our community! Share these news and help us spread the word</h1>
+            <p>Did you know? LFCA has grown entirely by word of mouth. As a non-profit organization we rely on our community to increase our impact!</p>
+
+            <div style={{ background: 'black', height: '100px' }}>SHARING FEATURE</div>
+
+            <Button type='primary' size='large' onClick={() => router.push('/')}>Show Dashboard</Button>
         </div>
     )
 }
