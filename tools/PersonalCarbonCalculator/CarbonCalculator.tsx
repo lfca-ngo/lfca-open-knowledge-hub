@@ -4,11 +4,27 @@ import React from "react"
 import { QuestionBlock } from "./components/QuestionBlock"
 import { Footprint } from "./components/Footprint"
 import { ProgressBar } from "./components/ProgressBar"
-// import PartnerSelector from "../../components/PartnerSelector"
 import { CustomIcon } from "./components/Category"
-import { Row, Col, Button, List, Alert } from "antd"
-import { PieChartOutlined } from '@ant-design/icons'
-import { toFixedNumber } from "../../utils"
+import { Row, Col, Button, List, Alert, Carousel, Card, Modal } from "antd"
+import { PieChartOutlined, WarningOutlined, ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
+import { toFixedNumber, openInNewTab } from "../../utils"
+import { OFFSETTING_PROVIDERS } from './data'
+
+const { confirm } = Modal
+
+const showConfirm = (url: string) => {
+  confirm({
+    title: "Before you leave: Don't forget to return!",
+    content:
+      "Once you completed your carbon compensation, return to this page to finish your onboarding.",
+    icon: <WarningOutlined />,
+    okText: "Open in new tab",
+    onOk() {
+      openInNewTab(url)
+    },
+    onCancel() { },
+  })
+}
 
 export const CarbonCalculator = (props: any) => {
   const {
@@ -49,8 +65,8 @@ export const CarbonCalculator = (props: any) => {
               <div>
                 {/* Show the test results */}
                 <div className="category">
-                  Results
                   <PieChartOutlined />
+                  Results
                 </div>
                 <h1>Thanks! Here are some tips for you to reduce your carbon footprint. Please click "save result" below to continue</h1>
                 <p>Here are a few tips on how to reduce your carbon footprint. We will also send you a full list with all suggested measures via e-mail.</p>
@@ -70,12 +86,42 @@ export const CarbonCalculator = (props: any) => {
                   )}
                 />
                 <div style={{ margin: "30px 0" }}>
-                  <h3>Offset your carbon footprint</h3>
+                  <h3>Offset emissions that you can't reduce</h3>
                   <p>
                     While carbon offsetting does not replace reduction, it is an
-                    essential step to reach global net 0 emissions.
+                    essential step to reach global net 0 emissions. We can recommend the following services:
                   </p>
-                  {/* <PartnerSelector slidesToShow={3} /> */}
+
+                  <Carousel
+                    className="provider-slider"
+                    slidesToShow={3}
+                    infinite={false}
+                    slidesToScroll={3}
+                    arrows
+                    dots={false}
+                    prevArrow={<ArrowLeftOutlined />}
+                    nextArrow={<ArrowRightOutlined />}
+                  >
+                    {OFFSETTING_PROVIDERS.map((partner: any, i) => (
+                      <Card
+                        title={partner.name}
+                        className="partner-sm"
+                        key={`partner-${i}`}
+                        extra={
+                          <Button
+                            type="primary"
+                            ghost
+                            size="small"
+                            onClick={() => showConfirm(partner.url)}
+                          >
+                            Visit
+                          </Button>
+                        }
+                      >
+                        <img style={{ maxWidth: '100%' }} src={partner.logo} />
+                      </Card>
+                    ))}
+                  </Carousel>
                 </div>
 
                 <Button

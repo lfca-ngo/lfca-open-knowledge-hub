@@ -5,6 +5,31 @@
 .carbon-calculator {
   background: @white;
 
+  .provider-slider {
+    .slick-slider {
+      padding-right: 10px;
+    }
+
+    .slick-arrow.slick-next,
+    .slick-arrow.slick-prev {
+      color: black;
+      font-size: 20px;
+      z-index: 10;
+
+      &.slick-disabled {
+        display: none !important;
+      }
+    }
+
+    .slick-next {
+      right: 20px;
+    }
+
+    .slick-prev {
+      left: 10px;
+    }
+  }
+
   >.container {
     display: flex;
     flex-direction: column;
