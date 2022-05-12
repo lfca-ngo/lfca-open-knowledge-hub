@@ -5,6 +5,7 @@ import LogoDark from '../../../public/logos/logo-dark-sm.svg'
 import { MainNav } from '../MainNav'
 import { TopNav } from '../TopNav'
 import { SettingsNav } from '../SettingsNav'
+import { useScreenSize } from '../../../hooks/app'
 
 require('./styles.less')
 
@@ -18,11 +19,12 @@ interface SiderLayoutProps {
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
   const [collapsed, setCollapsed] = useState(true)
-
+  const screenSizeType = useScreenSize()
+  console.log('screenSizeType', screenSizeType)
   return (
     <Layout className='sider-layout' hasSider style={{ minHeight: '100vh' }}>
       <Sider
-        collapsed={collapsed}
+        collapsed={screenSizeType !== 'xl'}
         collapsible
         collapsedWidth={85}
         theme='light'

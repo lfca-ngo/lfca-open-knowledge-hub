@@ -8,7 +8,7 @@ import { ACTIONS, ACTIONS_COMPLETED, ACTIONS_PLANNED, ACHIEVEMENTS, ADMIN_COMPAN
 const NAV_ITEMS = [
   {
     icon: <ProfileOutlined />,
-    key: ACTIONS,
+    key: 'dashboard',
     label: 'Dashboard',
     children: [
       {

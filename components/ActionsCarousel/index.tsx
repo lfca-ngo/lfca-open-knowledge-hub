@@ -2,7 +2,7 @@ require('./styles.less')
 
 import React from 'react'
 import { Card, Carousel, Tag } from 'antd'
-import { MOBILE_BREAKPOINT } from '../../utils'
+import { SM_BREAKPOINT } from '../../utils'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 
@@ -18,7 +18,7 @@ export const ActionsCarousel = ({ actions, onSelect }: { actions: any, onSelect?
 
     const responsiveConfig = [
         {
-            breakpoint: MOBILE_BREAKPOINT,
+            breakpoint: SM_BREAKPOINT,
             settings: {
                 slidesToShow: 1,
                 slidesToScroll: 1,
