@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
@@ -22,7 +22,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
   const screenSizeType = useScreenSize()
 
   useEffect(() => {
-    if (screenSizeType !== 'xl') setCollapsed(false)
+    if (screenSizeType === 'xl') setCollapsed(false)
   }, [screenSizeType])
 
   return (
