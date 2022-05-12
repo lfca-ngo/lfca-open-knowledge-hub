@@ -6,24 +6,26 @@
     width: 100%;
     margin: 15px 0 20px;
 
-    .content {
+    .section-content {
+        margin: 20px 0 0;
         padding-right: 30px;
     }
 
-    .title {
+    .section-title {
         width: 100%;
         margin: 0 0 10px;
         .h2();
     }
 
     &.bordered {
-        .title {
+        .section-title {
             border-bottom: 1px solid @black;
+            padding-bottom: 15px;
         }
     }
 
     &.big {
-        .title {
+        .section-title {
             border-bottom: none;
             .h1();
         }
@@ -56,6 +58,10 @@
     min-width: 0;
 
     @media @desktop {
+        padding-right: 40px;
+    }
+
+    @media @desktop-xxl {
         padding-right: 60px;
     }
 }

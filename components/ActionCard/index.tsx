@@ -5,7 +5,7 @@ import {
   LikeOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card } from 'antd'
+import { Avatar, Button, Card, Tag } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -25,12 +25,13 @@ export const ActionStat = ({
 }) => {
   return (
     <div className={classNames('action-stat', color)}>
-      <div className="icon">
+      <Tag icon={icon}>{count} {label}</Tag>
+      {/* <div className="icon">
         <Avatar icon={icon} />
       </div>
       <div className="label">
         <span className="count">{count}</span> {label}
-      </div>
+      </div> */}
     </div>
   )
 }
