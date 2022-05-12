@@ -18,6 +18,8 @@ const Home: NextPage = (props: any) => {
       <Main>
         <Section title='Dashboard' titleSize='big'>
           <ActionsCarousel actions={highlightedActions} />
+        </Section>
+        <Section title='Browse all actions' bordered={false} >
           <ActionsList actionsByTags={byTags} />
           <Logout />
         </Section>
