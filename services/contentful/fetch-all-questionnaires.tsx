@@ -9,10 +9,8 @@ export const fetchAllQuestionnaires = async () => {
     locale: 'en-US',
   })
 
-  const stringifiedData = safeJsonStringify(res)
+  const stringifiedData = safeJsonStringify(res.items)
   const questionnaires = JSON.parse(stringifiedData)
-
-  if (!questionnaires) return {}
 
   const byCountryCode = questionnaires?.reduce((acc: any, q: any) => {
     acc[q.countryCode] = q
