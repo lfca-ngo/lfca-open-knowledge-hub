@@ -6,29 +6,21 @@
   flex-direction: row;
   align-items: center;
 
-  .ant-tag {
-    font-size: 14px;
-    border-color: transparent;
+  .icon {
+    margin-right: 6px;
   }
 
-  &.purple {
-    .ant-tag {
-      color: #763bc1;
-      background: fade(#763bc1, 10%);
+  &.wine {
+    .icon .ant-avatar {
+      background: @wine;
+      color: #d5c2ef;
     }
   }
 
-  &.orange {
-    .ant-tag {
-      color: #fc8053;
-      background: fade(#fc8053, 10%);
-    }
-  }
-
-  &.green {
-    .ant-tag {
-      color: #42a6af;
-      background: fade(#42a6af, 12%);
+  &.blue {
+    .icon .ant-avatar {
+      background: @blue;
+      color: #e6eaed;
     }
   }
 }
@@ -39,6 +31,8 @@
 }
 
 .action-card {
+  @card-padding: 14px;
+
   width: 100%;
   border-radius: 0;
 
@@ -46,13 +40,22 @@
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    // background: #f7f7f7;
-    padding-left: 6px;
+    background: #f7f7f7;
+    padding-left: @card-padding;
   }
+
+  .logo-group,
+  .action-stat {
+    margin-right: 14px;
+    .label {
+      font-size: @font-size-sm;
+    }
+  }
+
   .ant-card-body {
     display: flex;
     width: 100%;
-    padding: 12px 0;
+    padding: @card-padding 0;
 
     .hero {
       .wrapper {
@@ -87,13 +90,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-
-      .others {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 12px;
-      }
+      margin-right: @card-padding;
     }
   }
 }

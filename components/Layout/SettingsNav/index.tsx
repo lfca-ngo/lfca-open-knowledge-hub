@@ -1,39 +1,64 @@
 require('./styles.less')
-
-import { BankOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  BankOutlined,
+  LikeOutlined,
+  LoadingOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
+import { logout } from '../../../services/firebase'
 import {
   SETTINGS,
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
 } from '../../../utils/routes'
 
-const ITEMS = [
-  {
-    icon: <UserOutlined />,
-    key: SETTINGS,
-    label: 'Edit profile',
-  },
-  {
-    icon: <BankOutlined />,
-    key: SETTINGS_COMPANY,
-    label: 'Edit company',
-  },
-  {
-    icon: <LikeOutlined />,
-    key: SETTINGS_INVITE,
-    label: 'Invite Team',
-  },
-]
+const LOGOUT = 'logout'
 
 export const SettingsNav = () => {
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const handleSelect = (item: any) => {
-    router.push(item.key)
+  const handleLogout = async () => {
+    setLoading(true)
+    try {
+      await logout()
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const handleSelect = (item: any) => {
+    if (item.key === LOGOUT) handleLogout()
+    else router.push(item.key)
+  }
+
+  const ITEMS = [
+    {
+      icon: <UserOutlined />,
+      key: SETTINGS,
+      label: 'Edit profile',
+    },
+    {
+      icon: <BankOutlined />,
+      key: SETTINGS_COMPANY,
+      label: 'Edit company',
+    },
+    {
+      icon: <LikeOutlined />,
+      key: SETTINGS_INVITE,
+      label: 'Invite Team',
+    },
+    {
+      icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,
+      key: LOGOUT,
+      label: 'Logout',
+    },
+  ]
 
   return (
     <Dropdown

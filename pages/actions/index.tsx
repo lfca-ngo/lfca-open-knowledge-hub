@@ -2,7 +2,6 @@ import type { GetStaticProps, NextPage } from 'next'
 
 import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
-import Logout from '../../components/Auth/Logout'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllActions } from '../../services/contentful'
 import { ACTIONS_NAV } from '../../utils/navs'
@@ -19,7 +18,6 @@ const Home: NextPage = (props: any) => {
         </Section>
         <Section bordered={false} title="Browse all actions">
           <ActionsList actionsByTags={byTags} />
-          <Logout />
         </Section>
       </Main>
       <Sider>

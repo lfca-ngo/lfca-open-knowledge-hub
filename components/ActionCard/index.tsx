@@ -1,11 +1,7 @@
 require('./styles.less')
 
-import {
-  CheckOutlined,
-  LikeOutlined,
-  PaperClipOutlined,
-} from '@ant-design/icons'
-import { Button, Card, Tag } from 'antd'
+import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
+import { Avatar, Button, Card } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -26,9 +22,12 @@ export const ActionStat = ({
 }) => {
   return (
     <div className={classNames('action-stat', color)}>
-      <Tag icon={icon}>
-        {count} {label}
-      </Tag>
+      <div className="icon">
+        <Avatar icon={icon} size="small" />
+      </div>
+      <div className="label">
+        <span className="count">{count}</span> {label}
+      </div>
     </div>
   )
 }
@@ -36,20 +35,15 @@ export const ActionStat = ({
 export const ActionStats = () => {
   return (
     <div className="action-stats">
+      <LogoGroup data={FAKE_LOGOS} label="did that" size="small" />
       <ActionStat
-        color="purple"
-        count={'821'}
-        icon={<CheckOutlined />}
-        label="did that"
-      />
-      <ActionStat
-        color="orange"
+        color="wine"
         count={'121'}
         icon={<LikeOutlined />}
         label="talking about it"
       />
       <ActionStat
-        color="green"
+        color="blue"
         count={'3'}
         icon={<PaperClipOutlined />}
         label="documents"
@@ -80,9 +74,6 @@ export const ActionCard = ({
         <ActionStats />
       </div>
       <div className="actions">
-        <div className="others">
-          <LogoGroup data={FAKE_LOGOS} />
-        </div>
         <Link href={`/action/${action.actionId}`}>
           <Button onClick={onClick} type="primary">
             View
