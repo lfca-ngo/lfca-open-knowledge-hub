@@ -26,12 +26,6 @@ export const ActionStat = ({
   return (
     <div className={classNames('action-stat', color)}>
       <Tag icon={icon}>{count} {label}</Tag>
-      {/* <div className="icon">
-        <Avatar icon={icon} />
-      </div>
-      <div className="label">
-        <span className="count">{count}</span> {label}
-      </div> */}
     </div>
   )
 }

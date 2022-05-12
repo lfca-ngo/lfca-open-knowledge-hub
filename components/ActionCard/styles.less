@@ -4,42 +4,31 @@
 .action-stat {
     display: flex;
     flex-direction: row;
-    // margin-right: 30px;
     align-items: center;
-
 
     .ant-tag {
         font-size: 14px;
-    }
-
-    .icon {
-        margin-right: 8px;
-    }
-
-    .label {
-        .font-medium();
-        font-size: 16px;
-        color: #7D7D7D;
+        border-color: transparent;
     }
 
     &.purple {
-        .icon .ant-avatar {
+        .ant-tag {
             color: #763BC1;
             background: fade(#763BC1, 10%);
         }
     }
 
     &.orange {
-        .icon .ant-avatar {
+        .ant-tag {
             color: #fc8053;
-            background: fade(#fc8053, 20%);
+            background: fade(#fc8053, 10%);
         }
     }
 
     &.green {
-        .icon .ant-avatar {
+        .ant-tag {
             color: #42a6af;
-            background: fade(#42a6af, 15%);
+            background: fade(#42a6af, 12%);
         }
     }
 }
