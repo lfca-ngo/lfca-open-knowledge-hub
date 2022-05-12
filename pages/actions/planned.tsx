@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
-import { NAV } from './data'
+import { ACTIONS_NAV } from '../../utils/navs'
 
 const PlannedActions: NextPage = () => {
   return (
-    <SiderLayout nav={NAV}>
+    <SiderLayout nav={ACTIONS_NAV}>
       <Main>
         <Section title="Planned Actions" titleSize="big">
           Planned Actions

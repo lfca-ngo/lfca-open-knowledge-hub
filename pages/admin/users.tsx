@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
-import { NAV } from './data'
+import { ADMIN_NAV } from '../../utils/navs'
 
 const AdminUsers: NextPage = () => {
   return (
-    <SiderLayout nav={NAV}>
+    <SiderLayout nav={ADMIN_NAV}>
       <Main>
         <Section title="Users" titleSize="big">
           Something

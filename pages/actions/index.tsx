@@ -5,14 +5,14 @@ import { ActionsList } from '../../components/ActionsList'
 import Logout from '../../components/Auth/Logout'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllActions } from '../../services/contentful'
-import { NAV } from './data'
+import { ACTIONS_NAV } from '../../utils/navs'
 
 const Home: NextPage = (props: any) => {
   const { byTags } = props.actions
   const highlightedActions = byTags['Tech'] // @TODO: replace with recommended, required, expired
 
   return (
-    <SiderLayout nav={NAV}>
+    <SiderLayout nav={ACTIONS_NAV}>
       <Main>
         <Section title="Dashboard" titleSize="big">
           <ActionsCarousel actions={highlightedActions} />
