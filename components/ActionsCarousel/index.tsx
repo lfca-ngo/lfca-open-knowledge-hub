@@ -5,6 +5,7 @@ import { Card, Carousel, Tag } from 'antd'
 import { SM_BREAKPOINT } from '../../utils'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
+import Link from 'next/link'
 
 export const FAKE_LOGOS = [
     { logoUrl: 'https://via.placeholder.com/150' },
@@ -39,15 +40,18 @@ export const ActionsCarousel = ({ actions, onSelect }: { actions: any, onSelect?
             {
                 actions.map((action: any, i: any) => {
                     return (
-                        <Card key={`action-${i}`}>
-                            <Tag>Required</Tag>
-                            <div className='action-card-content'>
-                                <div className='action-card-title'>
-                                    {action.title}
+                        <Link href={`/action/${action.actionId}`}>
+                            <Card hoverable key={`action-${i}`}>
+                                <Tag>Required</Tag>
+                                <div className='action-card-content'>
+                                    <div className='action-card-title'>
+                                        {action.title}
+                                    </div>
+                                    <LogoGroup data={FAKE_LOGOS} label={'doing this'} size="small" />
                                 </div>
-                                <LogoGroup data={FAKE_LOGOS} label={'doing this'} size="small" />
-                            </div>
-                        </Card>
+                            </Card>
+                        </Link>
+
                     )
                 })
             }
