@@ -14,6 +14,11 @@
         display: flex;
     }
 
+    .ant-menu-vertical .ant-menu-submenu-selected {
+        background: fade(@black, 10%);
+        border-left: 3px solid @black;
+    }
+
     .ant-layout-header {
         border-bottom: 1px solid @grey-light;
         display: flex;
@@ -33,6 +38,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            height: @layout-header-height;
+        }
+
+        .divider {
+            width: 55px;
+            margin: 0 auto 30px;
+            border-bottom: 1px solid @black;
         }
     }
 

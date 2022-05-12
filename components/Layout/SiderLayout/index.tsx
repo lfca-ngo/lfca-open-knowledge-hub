@@ -31,6 +31,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
         <div className="logo">
           <LogoDark />
         </div>
+        <div className='divider' />
         <MainNav />
       </Sider>
 
