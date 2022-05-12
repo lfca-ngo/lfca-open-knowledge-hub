@@ -7,7 +7,7 @@ const AdminCompanies: NextPage = () => {
   return (
     <SiderLayout nav={ADMIN_NAV}>
       <Main>
-        <Section title="Users" titleSize="big">
+        <Section title="Companies" titleSize="big">
           Something
         </Section>
       </Main>

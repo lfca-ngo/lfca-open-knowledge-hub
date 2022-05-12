@@ -1,14 +1,33 @@
+import { Button, Form, Input } from 'antd'
 import type { NextPage } from 'next'
 
+import { FileUpload } from '../../components/FileUpload/FileUpload'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { SETTINGS_NAV } from '../../utils/navs'
 
 const Settings: NextPage = () => {
+  const updateProfile = (allValues: any) => {
+    console.log(allValues)
+    // @TODO: update profile
+  }
+
   return (
     <SiderLayout nav={SETTINGS_NAV}>
       <Main>
         <Section title="Settings" titleSize="big">
-          Hello
+          <Form layout="vertical" onFinish={updateProfile}>
+            <Form.Item label="Name" name="name">
+              <Input placeholder="Your name" />
+            </Form.Item>
+            <Form.Item label="Change picture" name="picture">
+              <FileUpload />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" type="primary">
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
         </Section>
       </Main>
     </SiderLayout>
