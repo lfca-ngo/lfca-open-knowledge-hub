@@ -40,7 +40,7 @@ export const SettingsNav = () => {
         }>
             <a onClick={e => e.preventDefault()}>
                 <div className='profile-pic'>
-                    <Avatar size={45} icon={<UserOutlined />} />
+                    <Avatar style={{ backgroundColor: '#6A1246' }} size={45} icon={<UserOutlined />} />
                 </div>
                 <div className='profile-info'>
                     <div className='name'>
