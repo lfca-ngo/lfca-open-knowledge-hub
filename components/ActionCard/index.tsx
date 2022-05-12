@@ -4,7 +4,6 @@ import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, Button, Card } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { FAKE_LOGOS } from '../ActionsCarousel'
 import { LogoGroup } from '../LogoGroup'
@@ -14,16 +13,18 @@ export const ActionStat = ({
   count,
   icon,
   label,
+  size,
 }: {
   count: string
   label: string
   icon: React.ReactNode
   color: string
+  size: any
 }) => {
   return (
     <div className={classNames('action-stat', color)}>
       <div className="icon">
-        <Avatar icon={icon} size="small" />
+        <Avatar icon={icon} size={size} />
       </div>
       <div className="label">
         <span className="count">{count}</span> {label}
@@ -32,21 +33,23 @@ export const ActionStat = ({
   )
 }
 
-export const ActionStats = () => {
+export const ActionStats = ({ size }: { size?: any }) => {
   return (
-    <div className="action-stats">
-      <LogoGroup data={FAKE_LOGOS} label="did that" size="small" />
+    <div className={classNames('action-stats', size)}>
+      <LogoGroup data={FAKE_LOGOS} label="did that" size={size} />
       <ActionStat
         color="wine"
         count={'121'}
         icon={<LikeOutlined />}
         label="talking about it"
+        size={size}
       />
       <ActionStat
         color="blue"
         count={'3'}
         icon={<PaperClipOutlined />}
         label="documents"
+        size={size}
       />
     </div>
   )
@@ -60,7 +63,7 @@ export const ActionCard = ({
   onClick?: any
 }) => {
   return (
-    <Card bordered={false} className="action-card">
+    <Card bordered={false} className="action-card" onClick={onClick}>
       <div className="hero">
         <div className="wrapper">
           <Image layout="fill" objectFit="cover" src={action.heroImage.url} />
@@ -74,11 +77,7 @@ export const ActionCard = ({
         <ActionStats />
       </div>
       <div className="actions">
-        <Link href={`/action/${action.actionId}`}>
-          <Button onClick={onClick} type="primary">
-            View
-          </Button>
-        </Link>
+        <Button type="primary">View</Button>
       </div>
     </Card>
   )

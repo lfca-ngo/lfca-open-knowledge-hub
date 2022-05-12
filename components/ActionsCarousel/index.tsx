@@ -30,7 +30,6 @@ export const ActionsCarousel = ({
       },
     },
   ]
-
   return (
     <Carousel
       className="actions-carousel"
@@ -43,7 +42,11 @@ export const ActionsCarousel = ({
     >
       {actions.map((action: any, i: any) => {
         return (
-          <Card hoverable key={`action-${i}`} onClick={onSelect}  >
+          <Card
+            hoverable
+            key={`action-${i}`}
+            onClick={() => onSelect(action.actionId)}
+          >
             <Tag>Required</Tag>
             <div className="action-card-content">
               <div className="action-card-title">{action.title}</div>
