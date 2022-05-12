@@ -9,6 +9,8 @@ import { Avatar, Button, Card } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
+import { LogoGroup } from '../LogoGroup'
+import { FAKE_LOGOS } from '../ActionsCarousel'
 
 export const ActionStat = ({
   color,
@@ -75,11 +77,7 @@ export const ActionCard = ({ action, onClick }: { action: any, onClick?: any }) 
       </div>
       <div className="actions">
         <div className="others">
-          <Avatar.Group>
-            <Avatar src={'https://picsum.photos/200/200'} />
-            <Avatar src={'https://picsum.photos/200/200'} />
-            <Avatar src={'https://picsum.photos/200/200'} />
-          </Avatar.Group>
+          <LogoGroup data={FAKE_LOGOS} />
         </div>
         <Link href={`/action/${action.actionId}`}>
           <Button onClick={onClick} type="primary">View</Button>

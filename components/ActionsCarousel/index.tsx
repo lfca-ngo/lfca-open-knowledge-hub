@@ -6,7 +6,7 @@ import { MOBILE_BREAKPOINT } from '../../utils'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 
-const FAKE_LOGOS = [
+export const FAKE_LOGOS = [
     { logoUrl: 'https://via.placeholder.com/150' },
     { logoUrl: 'https://via.placeholder.com/150' },
     { logoUrl: 'https://via.placeholder.com/150' },
