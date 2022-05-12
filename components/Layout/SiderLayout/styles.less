@@ -1,0 +1,60 @@
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+
+.ant-layout.sider-layout {
+  .ant-layout-content {
+    .ant-breadcrumb {
+      padding: @default-padding 0;
+    }
+  }
+
+  .ant-layout-content {
+    padding: calc(@default-padding / 2) 0 0 @default-padding;
+    display: flex;
+    width: 100%;
+    max-width: @max-container-width;
+    margin: 0 auto;
+  }
+
+  .ant-menu-vertical .ant-menu-submenu-selected {
+    background: fade(@black, 10%);
+    border-left: 3px solid @black;
+  }
+
+  .ant-layout-header {
+    border-bottom: 1px solid @grey-light;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 50px;
+  }
+
+  .ant-layout-sider,
+  .ant-layout-sider-trigger {
+    border-right: 1px solid @grey-light;
+  }
+
+  .ant-layout-sider {
+    .logo {
+      padding: 14px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: @layout-header-height;
+    }
+
+    .divider {
+      width: 70%;
+      margin: 0 auto 30px;
+      border-bottom: 1px solid @black;
+    }
+  }
+
+  .trigger {
+    padding: 0 calc(@default-padding / 2);
+    font-size: 18px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+}

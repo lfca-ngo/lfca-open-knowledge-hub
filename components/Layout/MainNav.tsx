@@ -1,15 +1,68 @@
-import { HomeOutlined } from '@ant-design/icons'
+import {
+  BankOutlined,
+  LockOutlined,
+  ProfileOutlined,
+  RocketOutlined,
+  UsergroupAddOutlined,
+} from '@ant-design/icons'
 import { Menu } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { HOME } from '../../utils/routes'
+import {
+  ACHIEVEMENTS,
+  ACTIONS,
+  ACTIONS_COMPLETED,
+  ACTIONS_PLANNED,
+  ADMIN,
+  ADMIN_COMPANIES,
+  ADMIN_USERS,
+} from '../../utils/routes'
 
 const NAV_ITEMS = [
   {
-    icon: <HomeOutlined />,
-    key: HOME,
-    label: 'All Campaigns',
+    children: [
+      {
+        icon: <ProfileOutlined />,
+        key: ACTIONS,
+        label: 'Dashboard',
+      },
+      {
+        icon: <RocketOutlined />,
+        key: ACTIONS_PLANNED,
+        label: 'Actions planned',
+      },
+      {
+        icon: <RocketOutlined />,
+        key: ACTIONS_COMPLETED,
+        label: 'Actions completed',
+      },
+    ],
+    icon: <ProfileOutlined />,
+    key: 'dashboard',
+    label: 'Dashboard',
+  },
+  {
+    icon: <RocketOutlined />,
+    key: ACHIEVEMENTS,
+    label: 'Achievements',
+  },
+  {
+    children: [
+      {
+        icon: <UsergroupAddOutlined />,
+        key: ADMIN_USERS,
+        label: 'Users',
+      },
+      {
+        icon: <BankOutlined />,
+        key: ADMIN_COMPANIES,
+        label: 'Companies',
+      },
+    ],
+    icon: <LockOutlined />,
+    key: ADMIN,
+    label: 'Admin',
   },
 ]
 
@@ -26,7 +79,7 @@ export const MainNav = () => {
       mode="inline"
       onSelect={handleSelect}
       selectedKeys={[router.pathname]}
-      theme="dark"
+      theme="light"
     />
   )
 }

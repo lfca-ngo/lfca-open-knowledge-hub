@@ -3,70 +3,26 @@
 
 html,
 body {
-    width: 100%;
+  width: 100%;
 }
 
-.page-section {
-    width: 100%;
-    margin: 15px 0 20px;
-
-    .title {
-        width: 100%;
-        border-bottom: 1px solid @black;
-        padding: 0 0 15px;
-    }
+.site-layout {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.main-section,
-.sider-section {
-    margin: 20px 0 10px;
+// Tags
+.ant-tag.super-text {
+  border-color: transparent;
+  background-color: @grey-white;
+  margin: 0 0 15px;
 }
 
-.main-section {
-    @media @desktop {
-        padding-right: 40px;
+.ant-drawer.fullscreen-drawer-bottom {
+  @media @desktop {
+    .ant-drawer-body {
+      padding: 40px 100px;
     }
-}
-
-.action-header {
-    display: flex;
-
-    .action-title {
-        display: flex;
-
-        .hero {
-            padding-left: 25px;
-
-            .wrapper {
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-                width: 90px;
-                height: 90px;
-            }
-        }
-    }
-}
-
-.actions-list.ant-list-split {
-    .ant-list-item {
-        border-bottom: none;
-        padding: 10px 0;
-    }
-}
-
-.ant-tabs.tabs-full-width {
-    .ant-tabs-nav {
-        margin-bottom: 0;
-    }
-
-    .ant-tabs-content-holder {
-        width: calc(100% + 2 * @default-padding);
-        margin: 0 -@default-padding;
-        background: #F8F8F8;
-
-        .ant-tabs-content {
-            padding: 10px @default-padding;
-        }
-    }
+  }
 }

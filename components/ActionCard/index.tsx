@@ -5,10 +5,13 @@ import {
   LikeOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card } from 'antd'
+import { Button, Card, Tag } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { FAKE_LOGOS } from '../ActionsCarousel'
+import { LogoGroup } from '../LogoGroup'
 
 export const ActionStat = ({
   color,
@@ -23,12 +26,9 @@ export const ActionStat = ({
 }) => {
   return (
     <div className={classNames('action-stat', color)}>
-      <div className="icon">
-        <Avatar icon={icon} />
-      </div>
-      <div className="label">
-        <span className="count">{count}</span> {label}
-      </div>
+      <Tag icon={icon}>
+        {count} {label}
+      </Tag>
     </div>
   )
 }
@@ -58,9 +58,15 @@ export const ActionStats = () => {
   )
 }
 
-export const ActionCard = ({ action }: { action: any }) => {
+export const ActionCard = ({
+  action,
+  onClick,
+}: {
+  action: any
+  onClick?: any
+}) => {
   return (
-    <Card className="action-card" hoverable>
+    <Card bordered={false} className="action-card">
       <div className="hero">
         <div className="wrapper">
           <Image layout="fill" objectFit="cover" src={action.heroImage.url} />
@@ -75,14 +81,12 @@ export const ActionCard = ({ action }: { action: any }) => {
       </div>
       <div className="actions">
         <div className="others">
-          <Avatar.Group>
-            <Avatar src={'https://picsum.photos/200/200'} />
-            <Avatar src={'https://picsum.photos/200/200'} />
-            <Avatar src={'https://picsum.photos/200/200'} />
-          </Avatar.Group>
+          <LogoGroup data={FAKE_LOGOS} />
         </div>
         <Link href={`/action/${action.actionId}`}>
-          <Button type="primary">View</Button>
+          <Button onClick={onClick} type="primary">
+            View
+          </Button>
         </Link>
       </div>
     </Card>

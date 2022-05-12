@@ -8,15 +8,23 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/actions',
+        permanent: true,
+      },
+    ]
+  },
   webpack: (config) => {
-
     config.resolve = {
       ...config.resolve,
       fallback: {
-        "fs": false,
-        "path": false,
-        "os": false,
-      }
+        fs: false,
+        path: false,
+        os: false,
+      },
     }
 
     config.module.rules.push({

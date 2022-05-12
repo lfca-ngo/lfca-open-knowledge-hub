@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { login } from '../../services/firebase'
-import { PW_RESET, ROOT, SIGN_UP } from '../../utils/routes'
+import { PW_RESET, ROOT } from '../../utils/routes'
 
 export default function Signin() {
   const [loading, setLoading] = useState(false)
@@ -37,6 +37,7 @@ export default function Signin() {
 
   return (
     <div>
+      <h1>Sign in</h1>
       <Form layout="vertical" onFinish={handleSignIn}>
         <Form.Item
           label="Email"
@@ -62,7 +63,6 @@ export default function Signin() {
       </Form>
       <Space>
         <Link href={PW_RESET}>Passwort vergessen</Link>
-        <Link href={SIGN_UP}>Noch nicht registriert? Anmelden</Link>
       </Space>
     </div>
   )

@@ -1,58 +1,50 @@
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import React, {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-} from 'react'
-
-import { MOBILE_BREAKPOINT } from '../utils'
+import { getScreenSizeType, DESKTOP } from '../utils'
 
 const CLIENT = 'client'
 const SERVER = 'server'
-const DEFAULT = {
-    isClient: false,
-    isMobile: false,
-    key: SERVER
+
+const initialState = {
+  isClient: false,
+  screenSize: DESKTOP,
+  key: SERVER,
 }
-const AppContext = createContext(DEFAULT)
+
+const AppContext = createContext(initialState)
 
 export const AppProvider = ({ children }: { children: any }) => {
-    const [isMobile, setIsMobile] = useState(DEFAULT.isMobile)
-    const [isClient, setClient] = useState(DEFAULT.isClient)
-    const key = isClient ? CLIENT : SERVER
+  const [screenSize, setScreenSize] = useState(initialState.screenSize)
+  const [isClient, setClient] = useState(initialState.isClient)
+  const key = isClient ? CLIENT : SERVER
 
-    // due to SSG we only know if it's mobile
-    // after first client side render
-    useEffect(() => {
-        const screenWidth =
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth
+  // due to SSG we only know if it's mobile
+  // after first client side render
+  useEffect(() => {
+    const screenSize = getScreenSizeType(window, document)
+    setClient(true)
+    setScreenSize(screenSize)
+  }, [])
 
-        setClient(true)
-        setIsMobile(screenWidth <= MOBILE_BREAKPOINT)
-    }, [])
-
-    return (
-        <AppContext.Provider
-            value={{
-                isClient,
-                isMobile,
-                key,
-            }}
-        >
-            {children}
-        </AppContext.Provider>
-    )
+  return (
+    <AppContext.Provider
+      value={{
+        isClient,
+        screenSize,
+        key,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  )
 }
 
-export const useIsMobile = () => {
-    const { isMobile } = useContext(AppContext)
-    return isMobile
+export const useScreenSize = () => {
+  const { screenSize } = useContext(AppContext)
+  return screenSize
 }
 
 export const useIsClient = () => {
-    const { isClient } = useContext(AppContext)
-    return isClient
+  const { isClient } = useContext(AppContext)
+  return isClient
 }

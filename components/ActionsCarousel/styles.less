@@ -1,0 +1,74 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
+.color-card(@color) {
+  .ant-card {
+    background-color: @color;
+    color: @white;
+    height: 155px;
+
+    .ant-card-body {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      height: 100%;
+      padding: 14px;
+    }
+
+    .action-card-content {
+      display: flex;
+      flex-direction: column;
+      margin-top: auto;
+      margin-bottom: 0;
+
+      .action-card-title {
+        margin-bottom: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    .ant-tag {
+      border-color: transparent;
+      background-color: fade(@white, 45%);
+      color: @black;
+      display: flex;
+      margin-right: 0;
+      margin-left: auto;
+      font-size: 13px;
+      margin-top: 0;
+      margin-bottom: auto;
+    }
+  }
+}
+
+.actions-carousel {
+  @gutter-width: 7px;
+
+  .slick-list {
+    margin: 0 -@gutter-width;
+    padding: 20px 0;
+  }
+
+  .slick-slide {
+    > div {
+      margin: 0 @gutter-width;
+    }
+
+    &:nth-child(1n) {
+      .color-card(@wine);
+    }
+
+    &:nth-child(2n) {
+      .color-card(@blue);
+    }
+
+    &:nth-child(3n) {
+      .color-card(@green);
+    }
+  }
+}

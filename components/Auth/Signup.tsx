@@ -25,6 +25,7 @@ export default function Signup() {
 
   return (
     <div>
+      <h1>Create account</h1>
       <Form layout="vertical" onFinish={handleSignUp}>
         <Form.Item
           label={'Unternehmen'}

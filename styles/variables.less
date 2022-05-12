@@ -2,21 +2,18 @@
 
 // -------- Colors -----------
 // Palette
-@blue: #1f335e;
-@blue-dark: #0d1a37;
-@green: #009976;
+@blue: #042b4f;
+@green: #06503d;
 @orange: #ff832c;
-@red: #ef3636;
-@pink: #d82086;
-@lila: #622860;
-@yellow: #FFC839;
-@purple: #5001ab;
-@chalk: #FBF7F0;
-@purple-light: #c899fd;
+@wine: #6a1246;
+@yellow: #ffc839;
+@chalk: #fbf7f0;
 
 // White and black
 @white: #fff;
-@black: #0B0B0C;
+@black: #0b0b0c;
+@grey-light: #e4e4e4;
+@grey-white: #f1f1f1;
 
 // Ant design colors
 @primary-color: @yellow;
@@ -24,27 +21,35 @@
 
 // Layout
 @layout-header-background: @white;
-@layout-body-background: #f1eeff;
-@layout-footer-background: #f1eeff;
-@layout-sider-background: @black;
-@layout-trigger-background: fade(@white, 10%);
-@menu-dark-bg: @black;
-@menu-dark-inline-submenu-bg: fade(@white, 10%);
+@layout-body-background: @white;
+@layout-footer-background: @white;
+@layout-sider-background-light: @chalk;
+@layout-trigger-background: fade(@black, 10%);
+@layout-header-height: 95px;
+@layout-trigger-background-light: fade(@black, 5%);
 @border-radius-base: 6px;
+@sider-section-width: 270px;
+@steps-sider-section-width: 320px;
+
+// Menu
+@menu-item-active-bg: fade(@black, 5%);
+@menu-bg: @chalk;
+@menu-highlight-color: @black;
 
 // Fonts
 @font-family: 'DM Sans', -apple-system, Helvetica, Arial, sans-serif;
 @font-size-base: 17px;
-@font-size-lg: 17px;
-@font-size-sm: 17px;
-@font-size-xs: 16px;
-@line-height-base: 1.3;
+@font-size-lg: 18px;
+@font-size-sm: 16px;
+@font-size-xs: 15px;
+@line-height-base: 1.4;
 @text-color: fade(@black, 65%);
 @text-color-strong: fade(@black, 95%);
+@text-color-light: fade(@black, 55%);
 @heading-color: @black;
 @typography-title-font-weight: 800;
 @link-decoration: underline;
-@link-color: @text-color;
+@link-color: @black;
 
 // Border radius
 @border-radius-base: 10px;
@@ -56,11 +61,12 @@
 @height-lg: 44px;
 @height-sm: 36px;
 
-// @select-multiple-item-height-lg: @height-lg;
-// @select-dropdown-height-lg: @height-lg;
-// @select-single-item-height-lg: @height-lg;
+@select-multiple-item-height-lg: @height-lg;
+@select-dropdown-height-lg: @height-lg;
+@select-single-item-height-lg: @height-lg;
 
-// @dropdown-line-height: 28px;
+@dropdown-line-height: 28px;
+@dropdown-vertical-padding: 7px;
 
 // Buttons
 @btn-font-weight: 400;
@@ -72,6 +78,7 @@
 @btn-text-shadow: none;
 @btn-primary-color: @black;
 @btn-primary-bg: @primary-color;
+@btn-default-color: @black;
 
 @btn-default-ghost-color: @black;
 @btn-default-ghost-bg: transparent;
@@ -97,6 +104,12 @@
 // @tag-font-size: 13px;
 // @tag-line-height: 20px;
 
+// Steps
+@steps-vertical-tail-width: 16px;
+@steps-icon-margin: 0 8px 0 0;
+@steps-icon-size: 28px;
+@steps-icon-font-size: @font-size-base;
+@steps-vertical-tail-width: 14px;
 
 // Media queries breakpoints
 // Extra small screen / phone
@@ -144,6 +157,9 @@
 
 @mobile: ~'only screen and (max-width: @{screen-xs-max})';
 @desktop: ~'only screen and (min-width: @{screen-lg})';
+@desktop-xl: ~'only screen and (min-width: @{screen-xl})';
+@desktop-xxl: ~'only screen and (min-width: @{screen-xxl})';
 
 // Defaults
 @default-padding: 60px;
+@max-container-width: 1400px;

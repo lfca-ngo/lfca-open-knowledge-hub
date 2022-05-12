@@ -1,0 +1,48 @@
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+
+.one-col-layout {
+  .one-col-layout-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+
+    header,
+    footer {
+      margin-left: 60px;
+      margin-right: auto;
+    }
+
+    header {
+      margin-top: 40px;
+    }
+
+    footer {
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+
+  .bg {
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+    display: flex;
+    background-color: @chalk;
+
+    .bg-wrapper {
+      position: relative;
+      width: 490px;
+      height: 430px;
+      margin-right: 0;
+      margin-left: auto;
+    }
+  }
+}
