@@ -13,7 +13,7 @@ const Home: NextPage = (props: any) => {
   const highlightedActions = byTags['Tech'] // @TODO: replace with recommended, required, expired
 
   const handleActionClick = (actionId: string) => {
-    router.push(`/actions/${actionId}`)
+    router.push(`/action/${actionId}`)
   }
 
   return (
