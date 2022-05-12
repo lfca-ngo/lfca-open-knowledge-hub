@@ -13,12 +13,7 @@ export const TopNav = ({ goBack, nav }: { nav: any; goBack: any }) => {
   // go back button precedes list of nav items
   if (shouldRenderGoBack) {
     return (
-      <Button
-        icon={<ArrowLeftOutlined />}
-        onClick={goBack}
-        style={{ color: 'black' }}
-        type="link"
-      >
+      <Button icon={<ArrowLeftOutlined />} onClick={goBack}>
         Back
       </Button>
     )
