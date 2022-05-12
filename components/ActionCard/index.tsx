@@ -66,7 +66,7 @@ export const ActionCard = ({
   onClick?: any
 }) => {
   return (
-    <Card className="action-card" hoverable>
+    <Card bordered={false} className="action-card">
       <div className="hero">
         <div className="wrapper">
           <Image layout="fill" objectFit="cover" src={action.heroImage.url} />

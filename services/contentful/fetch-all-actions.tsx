@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const safeJsonStringify = require('safe-json-stringify')
 import { getEntries } from './api'
 
@@ -47,7 +48,7 @@ export const fetchAllActions = async () => {
 
       return acc
     },
-    { byTags: { [ALL_ACTIONS]: [] }, byId: {} }
+    { byId: {}, byTags: { [ALL_ACTIONS]: [] } }
   )
 
   return formattedActions
