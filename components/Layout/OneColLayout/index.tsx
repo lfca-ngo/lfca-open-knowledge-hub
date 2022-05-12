@@ -1,6 +1,7 @@
 import { Col, Layout, Row } from 'antd'
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
+
 import AppPreview from '../../../public/img/app-preview.png'
 import LogoDark from '../../../public/logos/logo-dark.svg'
 require('./styles.less')
@@ -19,17 +20,18 @@ export const OneColLayout = ({ children }: { children: any }) => {
                   <LogoDark />
                 </div>
               </header>
-              <main>
-                {children}
-              </main>
-              <footer>
-                {`lfca.earth © ${new Date().getFullYear()}`}
-              </footer>
+              <main>{children}</main>
+              <footer>{`lfca.earth © ${new Date().getFullYear()}`}</footer>
             </div>
           </Col>
-          <Col md={12} xs={24} className='bg'>
-            <div className='bg-wrapper'>
-              <Image src={AppPreview} layout='fill' objectFit='contain' objectPosition='center right' />
+          <Col className="bg" md={12} xs={24}>
+            <div className="bg-wrapper">
+              <Image
+                layout="fill"
+                objectFit="contain"
+                objectPosition="center right"
+                src={AppPreview}
+              />
             </div>
           </Col>
         </Row>

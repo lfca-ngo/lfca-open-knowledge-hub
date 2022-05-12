@@ -1,19 +1,18 @@
-
 import type { NextPage } from 'next'
 
-import { SiderLayout, Main, Section } from '../../components/Layout'
+import { Main, Section, SiderLayout } from '../../components/Layout'
 import { NAV } from './data'
 
-const PlannedActions: NextPage = (props: any) => {
-    return (
-        <SiderLayout nav={NAV}>
-            <Main>
-                <Section title='Planned Actions' titleSize='big'>
-                    Planned Actions
-                </Section>
-            </Main>
-        </SiderLayout>
-    )
+const PlannedActions: NextPage = () => {
+  return (
+    <SiderLayout nav={NAV}>
+      <Main>
+        <Section title="Planned Actions" titleSize="big">
+          Planned Actions
+        </Section>
+      </Main>
+    </SiderLayout>
+  )
 }
 
 export default PlannedActions

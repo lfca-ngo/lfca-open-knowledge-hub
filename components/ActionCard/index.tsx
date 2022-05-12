@@ -5,12 +5,13 @@ import {
   LikeOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card, Tag } from 'antd'
+import { Button, Card, Tag } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
-import { LogoGroup } from '../LogoGroup'
+
 import { FAKE_LOGOS } from '../ActionsCarousel'
+import { LogoGroup } from '../LogoGroup'
 
 export const ActionStat = ({
   color,
@@ -25,7 +26,9 @@ export const ActionStat = ({
 }) => {
   return (
     <div className={classNames('action-stat', color)}>
-      <Tag icon={icon}>{count} {label}</Tag>
+      <Tag icon={icon}>
+        {count} {label}
+      </Tag>
     </div>
   )
 }
@@ -55,7 +58,13 @@ export const ActionStats = () => {
   )
 }
 
-export const ActionCard = ({ action, onClick }: { action: any, onClick?: any }) => {
+export const ActionCard = ({
+  action,
+  onClick,
+}: {
+  action: any
+  onClick?: any
+}) => {
   return (
     <Card className="action-card" hoverable>
       <div className="hero">
@@ -75,7 +84,9 @@ export const ActionCard = ({ action, onClick }: { action: any, onClick?: any }) 
           <LogoGroup data={FAKE_LOGOS} />
         </div>
         <Link href={`/action/${action.actionId}`}>
-          <Button onClick={onClick} type="primary">View</Button>
+          <Button onClick={onClick} type="primary">
+            View
+          </Button>
         </Link>
       </div>
     </Card>

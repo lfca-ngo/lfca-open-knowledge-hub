@@ -1,13 +1,18 @@
 require('./styles.less')
 
-import React from "react"
-import { QuestionBlock } from "./components/QuestionBlock"
-import { Footprint } from "./components/Footprint"
-import { ProgressBar } from "./components/ProgressBar"
-import { CustomIcon } from "./components/Category"
-import { Row, Col, Button, List, Alert, Carousel, Card, Modal } from "antd"
-import { PieChartOutlined, WarningOutlined, ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
-import { toFixedNumber, openInNewTab } from "../../utils"
+import React from 'react'
+import { QuestionBlock } from './components/QuestionBlock'
+import { Footprint } from './components/Footprint'
+import { ProgressBar } from './components/ProgressBar'
+import { CustomIcon } from './components/Category'
+import { Row, Col, Button, List, Alert, Carousel, Card, Modal } from 'antd'
+import {
+  PieChartOutlined,
+  WarningOutlined,
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+} from '@ant-design/icons'
+import { toFixedNumber, openInNewTab } from '../../utils'
 import { OFFSETTING_PROVIDERS } from './data'
 
 const { confirm } = Modal
@@ -16,13 +21,13 @@ const showConfirm = (url: string) => {
   confirm({
     title: "Before you leave: Don't forget to return!",
     content:
-      "Once you completed your carbon compensation, return to this page to finish your onboarding.",
+      'Once you completed your carbon compensation, return to this page to finish your onboarding.',
     icon: <WarningOutlined />,
-    okText: "Open in new tab",
+    okText: 'Open in new tab',
     onOk() {
       openInNewTab(url)
     },
-    onCancel() { },
+    onCancel() {},
   })
 }
 
@@ -49,7 +54,7 @@ export const CarbonCalculator = (props: any) => {
     <div className="carbon-calculator">
       <ProgressBar progress={progress} />
       <div className="container">
-        <Row >
+        <Row>
           <Col xs={24} md={18} className="main-container">
             {/* Show question block until last question reached */}
             {activeQuestion.id > -1 ? (
@@ -68,8 +73,15 @@ export const CarbonCalculator = (props: any) => {
                   <PieChartOutlined />
                   Results
                 </div>
-                <h1>Thanks! Here are some tips for you to reduce your carbon footprint. Please click "save result" below to continue</h1>
-                <p>Here are a few tips on how to reduce your carbon footprint. We will also send you a full list with all suggested measures via e-mail.</p>
+                <h1>
+                  Thanks! Here are some tips for you to reduce your carbon
+                  footprint. Please click "save result" below to continue
+                </h1>
+                <p>
+                  Here are a few tips on how to reduce your carbon footprint. We
+                  will also send you a full list with all suggested measures via
+                  e-mail.
+                </p>
                 <List
                   bordered
                   dataSource={reductionTips}
@@ -89,7 +101,8 @@ export const CarbonCalculator = (props: any) => {
                   <h3>Offset emissions that you can't reduce</h3>
                   <p>
                     While carbon offsetting does not replace reduction, it is an
-                    essential step to reach global net 0 emissions. We can recommend the following services:
+                    essential step to reach global net 0 emissions. We can
+                    recommend the following services:
                   </p>
 
                   <Carousel
@@ -125,7 +138,7 @@ export const CarbonCalculator = (props: any) => {
                 </div>
 
                 <Button
-                  style={{ marginRight: "12px" }}
+                  style={{ marginRight: '12px' }}
                   size="large"
                   type="primary"
                   onClick={onFinish}
@@ -138,9 +151,9 @@ export const CarbonCalculator = (props: any) => {
                   Back
                 </Button>
 
-                {updateStatus === "ERROR" && (
+                {updateStatus === 'ERROR' && (
                   <Alert
-                    style={{ margin: "15px 0" }}
+                    style={{ margin: '15px 0' }}
                     showIcon
                     type="error"
                     message={errorMessage}

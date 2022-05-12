@@ -2,65 +2,65 @@
 @import (reference) '../../styles/fonts.less';
 
 .pledge {
-    margin: 35px 0 0;
+  margin: 35px 0 0;
 
-    .checklist-element {
-        display: flex;
+  .checklist-element {
+    display: flex;
 
-        .checkbox {
-            width: 50px;
-            margin-top: 2px;
+    .checkbox {
+      width: 50px;
+      margin-top: 2px;
 
-            .ant-checkbox {
-                .ant-checkbox-inner {
-                    width: 22px;
-                    height: 22px;
-                }
-
-                .ant-checkbox-inner::after {
-                    top: 43%;
-                    left: 25%;
-                    width: 6.5px;
-                    height: 11.8px;
-                }
-            }
+      .ant-checkbox {
+        .ant-checkbox-inner {
+          width: 22px;
+          height: 22px;
         }
 
-        .content {
-            flex: 1;
-            margin-bottom: 20px;
-
-            .title {
-                .font-medium();
-                color: @black;
-                font-size: 17px;
-                margin-bottom: 5px;
-            }
+        .ant-checkbox-inner::after {
+          top: 43%;
+          left: 25%;
+          width: 6.5px;
+          height: 11.8px;
         }
+      }
     }
 
-    .signature-wrapper {
-        margin: 10px 0;
-        position: relative;
+    .content {
+      flex: 1;
+      margin-bottom: 20px;
 
-        .written-name {
-            display: flex;
-            justify-content: space-between;
-            font-style: italic;
-
-            .btn-wrapper {
-                text-align: right;
-                display: inline-block;
-            }
-        }
-
-        .sig-canvas {
-            border: 1px dashed #ccc;
-            border-radius: 2px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            border-bottom: 1px solid @black;
-            cursor: crosshair;
-        }
+      .title {
+        .font-medium();
+        color: @black;
+        font-size: 17px;
+        margin-bottom: 5px;
+      }
     }
+  }
+
+  .signature-wrapper {
+    margin: 10px 0;
+    position: relative;
+
+    .written-name {
+      display: flex;
+      justify-content: space-between;
+      font-style: italic;
+
+      .btn-wrapper {
+        text-align: right;
+        display: inline-block;
+      }
+    }
+
+    .sig-canvas {
+      border: 1px dashed #ccc;
+      border-radius: 2px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: 1px solid @black;
+      cursor: crosshair;
+    }
+  }
 }

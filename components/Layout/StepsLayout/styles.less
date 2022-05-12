@@ -1,100 +1,103 @@
 @import (reference) '../../../styles/variables.less';
 @import (reference) '../../../styles/fonts.less';
 
-
 .steps-layout {
-    .ant-layout-content {
-        display: flex;
-        flex-direction: column;
-        position: relative;
+  .ant-layout-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
 
-        @media @desktop {
-            flex-direction: row;
-        }
-
-        .steps-layout-wrapper {
-            background-color: @chalk;
-            width: 100%;
-            padding: 20px;
-
-            @media @desktop {
-                width: @steps-sider-section-width;
-            }
-
-            @media @desktop-xxl {
-                position: absolute;
-                left: 0;
-                top: 0;
-                bottom: 0;
-            }
-
-            .ant-steps {
-                margin: 40px 20px;
-
-                >.ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail::after {
-                    background-color: @black;
-                }
-
-                .ant-steps-item-wait,
-                .ant-steps-item-finish {
-                    .ant-steps-item-icon {
-                        background-color: fade(@black, 10%);
-                        border-color: transparent;
-
-                        >.ant-steps-icon {
-                            color: @black;
-                        }
-                    }
-                }
-
-                .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
-                    background: @black;
-                    border-color: @black;
-                }
-
-                >.ant-steps-item .ant-steps-item-description {
-                    padding-bottom: 32px;
-                }
-            }
-        }
-
-        .content-layout-wrapper {
-            min-width: 0;
-            flex: 1;
-            margin: 40px 70px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            @media @desktop {
-                margin: 120px 70px;
-            }
-
-            main {
-                width: 100%;
-
-                @media @desktop-xl {
-                    max-width: 520px;
-                }
-
-                @media @desktop-xl {
-                    max-width: 780px;
-                }
-            }
-
-            header {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-            }
-
-            footer {
-                position: absolute;
-                bottom: 10px;
-                right: 10px;
-                font-size: @font-size-xs;
-            }
-        }
+    @media @desktop {
+      flex-direction: row;
     }
+
+    .steps-layout-wrapper {
+      background-color: @chalk;
+      width: 100%;
+      padding: 20px;
+
+      @media @desktop {
+        width: @steps-sider-section-width;
+      }
+
+      @media @desktop-xxl {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+      }
+
+      .ant-steps {
+        margin: 40px 20px;
+
+        > .ant-steps-item
+          > .ant-steps-item-container
+          > .ant-steps-item-tail::after {
+          background-color: @black;
+        }
+
+        .ant-steps-item-wait,
+        .ant-steps-item-finish {
+          .ant-steps-item-icon {
+            background-color: fade(@black, 10%);
+            border-color: transparent;
+
+            > .ant-steps-icon {
+              color: @black;
+            }
+          }
+        }
+
+        .ant-steps-item-process
+          > .ant-steps-item-container
+          > .ant-steps-item-icon {
+          background: @black;
+          border-color: @black;
+        }
+
+        > .ant-steps-item .ant-steps-item-description {
+          padding-bottom: 32px;
+        }
+      }
+    }
+
+    .content-layout-wrapper {
+      min-width: 0;
+      flex: 1;
+      margin: 40px 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      @media @desktop {
+        margin: 120px 70px;
+      }
+
+      main {
+        width: 100%;
+
+        @media @desktop-xl {
+          max-width: 520px;
+        }
+
+        @media @desktop-xl {
+          max-width: 780px;
+        }
+      }
+
+      header {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: @font-size-xs;
+      }
+    }
+  }
 }

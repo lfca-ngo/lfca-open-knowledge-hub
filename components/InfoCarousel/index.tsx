@@ -1,17 +1,18 @@
-import React, { useState, useRef } from "react"
-import { Col, Row, Carousel, List } from "antd"
+import { Carousel, Col, List, Row } from 'antd'
 import Image from 'next/image'
-require("./styles.less")
+import React, { useRef, useState } from 'react'
+require('./styles.less')
 
 const CarouselNav = (props: any) => {
-  const isIconString = typeof props.icon === "string"
+  const isIconString = typeof props.icon === 'string'
   return (
     <List
       dataSource={props.elements}
       renderItem={(element: any, i) => (
         <List.Item
-          className={`navigator-elem ${i === props.activeSlide ? "active" : ""
-            } `}
+          className={`navigator-elem ${
+            i === props.activeSlide ? 'active' : ''
+          } `}
           onClick={() => props.goTo(i)}
         >
           <div className="text">
@@ -20,7 +21,7 @@ const CarouselNav = (props: any) => {
           </div>
           <div className="icon">
             {isIconString ? (
-              <img src={element.icon} alt="icon" />
+              <img alt="icon" src={element.icon} />
             ) : (
               element.icon
             )}
@@ -36,29 +37,36 @@ export const InfoCarousel = (props: any) => {
   const carouselEl: any = useRef()
 
   const goTo = (i: any) => {
-    console.log('jo', i)
     carouselEl.current.goTo(i)
   }
 
   return (
     <div className="info-carousel">
       <Row className="container-half">
-        <Col xs={24} md={14}>
+        <Col md={14} xs={24}>
           <div className="has-max-width">
             <CarouselNav
-              elements={props.elements}
               activeSlide={activeSlide}
+              elements={props.elements}
               goTo={goTo}
             />
           </div>
         </Col>
-        <Col xs={24} md={10}>
+        <Col md={10} xs={24}>
           <Carousel
-            ref={carouselEl}
             beforeChange={(cur, next) => setActiveSlide(next)}
+            ref={carouselEl}
           >
             {props.elements.map((element: any, i: any) => {
-              return <Image key={`img-${i}`} src={element.image} layout='responsive' width={300} height={225} />
+              return (
+                <Image
+                  height={225}
+                  key={`img-${i}`}
+                  layout="responsive"
+                  src={element.image}
+                  width={300}
+                />
+              )
             })}
           </Carousel>
         </Col>

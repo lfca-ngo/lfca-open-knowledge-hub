@@ -1,8 +1,8 @@
-import React from "react"
-import { HousingInput } from "./HousingInput"
-import { FixedInput } from "./FixedInput"
-import { ElectricityInput } from "./ElectricityInput"
-import { Radio, InputNumber } from "antd"
+import React from 'react'
+import { HousingInput } from './HousingInput'
+import { FixedInput } from './FixedInput'
+import { ElectricityInput } from './ElectricityInput'
+import { Radio, InputNumber } from 'antd'
 
 const renderSwitch = (activeQuestion: any) => {
   const { type, options, initialValue, currency } = activeQuestion
@@ -17,16 +17,16 @@ const renderSwitch = (activeQuestion: any) => {
     }
   } catch (error) {
     // if it fails, set to undefined
-    placeholderValue = ""
+    placeholderValue = ''
   }
 
-  const currencyRegex = new RegExp(`\\${currency}\\s?|(,*)`, "g")
+  const currencyRegex = new RegExp(`\\${currency}\\s?|(,*)`, 'g')
 
   switch (type) {
-    case "energy":
-    case "radio":
+    case 'energy':
+    case 'radio':
       return (
-        <Radio.Group >
+        <Radio.Group>
           {options.map((option: any, i: any) => (
             <Radio key={`option-${i}`} value={option.value}>
               {option.title}
@@ -34,38 +34,27 @@ const renderSwitch = (activeQuestion: any) => {
           ))}
         </Radio.Group>
       )
-    case "inputNumber":
-      return (
-        <InputNumber
-          placeholder={placeholderValue || 0}
-          min={0}
-        />
-      )
-    case "inputCurrency":
+    case 'inputNumber':
+      return <InputNumber placeholder={placeholderValue || 0} min={0} />
+    case 'inputCurrency':
       return (
         <InputNumber
           formatter={(value) =>
-            `${currency} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            `${currency} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           }
           min={0}
-          parser={(value: any) => value.replace(currencyRegex, "")}
+          parser={(value: any) => value.replace(currencyRegex, '')}
           placeholder={placeholderValue}
         />
       )
-    case "housing":
+    case 'housing':
       return (
         <HousingInput options={options} placeholderValue={placeholderValue} />
       )
-    case "electricity":
-      return (
-        <ElectricityInput
-          options={options}
-        />
-      )
-    case "fixed":
-      return (
-        <FixedInput options={options} />
-      )
+    case 'electricity':
+      return <ElectricityInput options={options} />
+    case 'fixed':
+      return <FixedInput options={options} />
     default:
       return null
   }

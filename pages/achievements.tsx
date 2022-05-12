@@ -1,18 +1,17 @@
-
 import type { NextPage } from 'next'
 
-import { SiderLayout, Main, Section } from '../components/Layout'
+import { Main, Section, SiderLayout } from '../components/Layout'
 
-const Achievements: NextPage = (props: any) => {
-    return (
-        <SiderLayout>
-            <Main>
-                <Section title='Achievements' titleSize='big'>
-                    Hello
-                </Section>
-            </Main>
-        </SiderLayout>
-    )
+const Achievements: NextPage = () => {
+  return (
+    <SiderLayout>
+      <Main>
+        <Section title="Achievements" titleSize="big">
+          Hello
+        </Section>
+      </Main>
+    </SiderLayout>
+  )
 }
 
 export default Achievements

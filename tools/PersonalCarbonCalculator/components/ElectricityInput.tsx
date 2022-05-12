@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
-import { InputNumber, Select } from 'antd';
+import React, { useState } from 'react'
+import { InputNumber, Select } from 'antd'
 
-const { Option } = Select;
+const { Option } = Select
 
 interface ElectricityValue {
-  people?: number;
-  type?: string;
+  people?: number
+  type?: string
 }
 
 interface ElectricityInputProps {
-  value?: ElectricityValue;
-  onChange?: (value: ElectricityValue) => void;
-  options?: any;
+  value?: ElectricityValue
+  onChange?: (value: ElectricityValue) => void
+  options?: any
   placeholderValue?: any
 }
 
-export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, options, onChange, placeholderValue }) => {
-
+export const ElectricityInput: React.FC<ElectricityInputProps> = ({
+  value = {},
+  options,
+  onChange,
+  placeholderValue,
+}) => {
   const triggerChange = (changedValue: { people?: number; type?: string }) => {
-    onChange?.({ ...value, ...changedValue });
-  };
+    onChange?.({ ...value, ...changedValue })
+  }
 
   const onAmountChange = (val: number) => {
-    triggerChange({ people: val });
-  };
+    triggerChange({ people: val })
+  }
 
   const onTypeChange = (val: string) => {
-    triggerChange({ type: val });
-  };
+    triggerChange({ type: val })
+  }
 
   return (
-    <span className="electricity-input" >
+    <span className="electricity-input">
       <div className="line">
         <span>We are </span>
         <InputNumber
@@ -39,7 +43,7 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, 
           min={1}
           value={value && value.people}
           onChange={onAmountChange}
-          style={{ width: "100px", marginRight: "6px" }}
+          style={{ width: '100px', marginRight: '6px' }}
         />
         people in our household.
       </div>
@@ -49,7 +53,7 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, 
           onSelect={onTypeChange}
           value={value && value.type}
           placeholder="Please select your electricity type"
-          style={{ maxWidth: "280px", marginRight: "6px" }}
+          style={{ maxWidth: '280px', marginRight: '6px' }}
         >
           {options.map((option: any, i: number) => (
             <Option key={`option-${i}`} value={option.value}>
@@ -60,5 +64,5 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({ value = {}, 
         <span>.</span>
       </div>
     </span>
-  );
-};
+  )
+}

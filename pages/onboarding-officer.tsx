@@ -1,12 +1,10 @@
 import type { GetStaticProps, NextPage } from 'next'
-
-import { useState } from 'react'
-import { StepsLayout } from '../components/Layout'
-import { fetchAllActions } from '../services/contentful'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
-
+import { StepsLayout } from '../components/Layout'
+import { fetchAllActions } from '../services/contentful'
 
 const OnboardingOfficer: NextPage = (props: any) => {
   const router = useRouter()
@@ -16,12 +14,17 @@ const OnboardingOfficer: NextPage = (props: any) => {
   const currentView = steps[currentStep].component
 
   return (
-    <StepsLayout canClose onClose={() => router.push('/')} currentStep={currentStep} setStep={setStep} steps={steps}>
+    <StepsLayout
+      canClose
+      currentStep={currentStep}
+      onClose={() => router.push('/')}
+      setStep={setStep}
+      steps={steps}
+    >
       {currentView}
     </StepsLayout>
   )
 }
-
 
 export const getStaticProps: GetStaticProps = async () => {
   const actions = await fetchAllActions()
@@ -32,6 +35,5 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   }
 }
-
 
 export default OnboardingOfficer

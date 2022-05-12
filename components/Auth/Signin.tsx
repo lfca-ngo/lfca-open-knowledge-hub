@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { login } from '../../services/firebase'
-import { PW_RESET, ROOT, SIGN_UP } from '../../utils/routes'
+import { PW_RESET, ROOT } from '../../utils/routes'
 
 export default function Signin() {
   const [loading, setLoading] = useState(false)

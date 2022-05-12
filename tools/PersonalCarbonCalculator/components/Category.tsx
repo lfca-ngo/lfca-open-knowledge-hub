@@ -1,5 +1,12 @@
-import React from "react"
-import { HomeOutlined, MenuOutlined, CoffeeOutlined, ThunderboltOutlined, CarOutlined, SkinOutlined } from '@ant-design/icons'
+import React from 'react'
+import {
+  HomeOutlined,
+  MenuOutlined,
+  CoffeeOutlined,
+  ThunderboltOutlined,
+  CarOutlined,
+  SkinOutlined,
+} from '@ant-design/icons'
 
 export const CustomIcon = ({ category }: { category: string }) => {
   switch (category) {

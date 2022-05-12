@@ -1,41 +1,49 @@
-import React from 'react';
-import { InputNumber, Select } from 'antd';
+import React from 'react'
+import { InputNumber, Select } from 'antd'
 
-const { Option } = Select;
+const { Option } = Select
 
 interface HousingValue {
-  flatsize?: number;
-  flatmates?: number;
-  heattype?: string;
+  flatsize?: number
+  flatmates?: number
+  heattype?: string
 }
 
 interface HousingInputProps {
-  value?: HousingValue;
-  onChange?: (value: HousingValue) => void;
-  options?: any;
-  placeholderValue?: any;
+  value?: HousingValue
+  onChange?: (value: HousingValue) => void
+  options?: any
+  placeholderValue?: any
 }
 
-export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options, onChange, placeholderValue }) => {
-
-  const triggerChange = (changedValue: { flatsize?: number; flatmates?: number; heattype?: string }) => {
-    onChange?.({ ...value, ...changedValue });
-  };
+export const HousingInput: React.FC<HousingInputProps> = ({
+  value = {},
+  options,
+  onChange,
+  placeholderValue,
+}) => {
+  const triggerChange = (changedValue: {
+    flatsize?: number
+    flatmates?: number
+    heattype?: string
+  }) => {
+    onChange?.({ ...value, ...changedValue })
+  }
 
   const onFlatsizeChange = (val: number) => {
-    triggerChange({ flatsize: val });
-  };
+    triggerChange({ flatsize: val })
+  }
 
   const onFlatmatesChange = (val: number) => {
-    triggerChange({ flatmates: val });
-  };
+    triggerChange({ flatmates: val })
+  }
 
   const onHeattypeChange = (val: string) => {
-    triggerChange({ heattype: val });
-  };
+    triggerChange({ heattype: val })
+  }
 
   return (
-    <span className="housing-input" >
+    <span className="housing-input">
       <div className="line">
         <span>I live on </span>
         <InputNumber
@@ -44,7 +52,7 @@ export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options,
           min={1}
           value={value && value.flatsize}
           onChange={onFlatsizeChange}
-          style={{ width: "100px", marginRight: "6px" }}
+          style={{ width: '100px', marginRight: '6px' }}
         />
         m².
       </div>
@@ -56,7 +64,7 @@ export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options,
           min={1}
           value={value && value.flatmates}
           onChange={onFlatmatesChange}
-          style={{ width: "100px", marginRight: "6px" }}
+          style={{ width: '100px', marginRight: '6px' }}
         />
         <span>people in our household.</span>
       </div>
@@ -66,7 +74,7 @@ export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options,
           onSelect={onHeattypeChange}
           value={value && value.heattype}
           placeholder="Please select your heating type"
-          style={{ maxWidth: "280px", marginRight: "6px" }}
+          style={{ maxWidth: '280px', marginRight: '6px' }}
         >
           {options.map((option: any, i: any) => (
             <Option key={`option-${i}`} value={option.value}>
@@ -77,5 +85,5 @@ export const HousingInput: React.FC<HousingInputProps> = ({ value = {}, options,
         <span>.</span>
       </div>
     </span>
-  );
-};
+  )
+}

@@ -4,23 +4,13 @@ import {
   UploadOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import {
-  Button,
-  Drawer,
-  Form,
-  Input,
-  Row,
-  Space,
-  Tabs,
-  Upload,
-} from 'antd'
+import { Button, Drawer, Form, Input, Space, Tabs, Upload } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails } from '../../components/ActionDetails'
-import { SiderLayout, Main, Section, Sider } from '../../components/Layout'
+import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllActions } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
 

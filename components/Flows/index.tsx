@@ -1,4 +1,4 @@
-import { OnboardingOfficerSteps } from "./OnboardingOfficer";
-import { OnboardingLeaderSteps } from "./OnboardingLeader";
+import { OnboardingLeaderSteps } from './OnboardingLeader'
+import { OnboardingOfficerSteps } from './OnboardingOfficer'
 
-export { OnboardingOfficerSteps, OnboardingLeaderSteps }
+export { OnboardingLeaderSteps, OnboardingOfficerSteps }

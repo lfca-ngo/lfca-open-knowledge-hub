@@ -27,8 +27,8 @@ const ResetPassword = () => {
       {success ? (
         <div>
           Please check your E-Mails. We sent you a link to reset your password.
-          If you did not receive an email, please check your spam folder and make sure
-          your email address is correct.
+          If you did not receive an email, please check your spam folder and
+          make sure your email address is correct.
         </div>
       ) : (
         <div>

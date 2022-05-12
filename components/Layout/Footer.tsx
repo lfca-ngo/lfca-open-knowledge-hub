@@ -1,4 +1,4 @@
-import { Col,Row } from "antd";
+import { Col, Row } from 'antd'
 
 export const Footer = () => {
   return (
@@ -8,5 +8,5 @@ export const Footer = () => {
         <a href="https://google.de">Datenschutz</a>
       </Col>
     </Row>
-  );
+  )
 }

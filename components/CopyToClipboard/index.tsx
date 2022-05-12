@@ -1,18 +1,18 @@
 require('./styles.less')
 
-import React from "react"
-import { Button, Input, message } from "antd"
-import { copyTextToClipboard } from "../../utils"
+import { Button, Input, message } from 'antd'
+import React from 'react'
 
+import { copyTextToClipboard } from '../../utils'
 
 const CopyButton = (props: any) => {
   return (
     <Button
-      type={props.type}
       block={props.block}
       icon="copy"
-      size={props.size || "large"}
       onClick={props.handleCopy}
+      size={props.size || 'large'}
+      type={props.type}
     >
       Copy
     </Button>
@@ -23,17 +23,17 @@ export const CopyToClipboard = (props: any) => {
   const handleCopy = () => {
     copyTextToClipboard(props.text, (_: any, hasCopied: boolean) => {
       if (hasCopied) {
-        message.success("Text copied to your clipboard!")
+        message.success('Text copied to your clipboard!')
         props.onAfterCopy && props.onAfterCopy()
-      } else message.error("Could not copy text")
+      } else message.error('Could not copy text')
     })
   }
   const MyButton = (
     <CopyButton
-      type={props.type}
-      size={props.size}
       block={props.block}
       handleCopy={handleCopy}
+      size={props.size}
+      type={props.type}
     >
       Copy
     </CopyButton>
@@ -43,7 +43,7 @@ export const CopyToClipboard = (props: any) => {
       {props.hidePreview ? (
         MyButton
       ) : (
-        <Input size="large" suffix={MyButton} value={props.text} disabled />
+        <Input disabled size="large" suffix={MyButton} value={props.text} />
       )}
     </div>
   )

@@ -1,6 +1,6 @@
-import React from "react"
-import { Card } from "antd"
-import CountUp from "react-countup"
+import React from 'react'
+import { Card } from 'antd'
+import CountUp from 'react-countup'
 
 export const Footprint = ({ footprint }: { footprint: number }) => {
   return (

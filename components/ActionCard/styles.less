@@ -2,99 +2,98 @@
 @import (reference) '../../styles/fonts.less';
 
 .action-stat {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
+  .ant-tag {
+    font-size: 14px;
+    border-color: transparent;
+  }
+
+  &.purple {
     .ant-tag {
-        font-size: 14px;
-        border-color: transparent;
+      color: #763bc1;
+      background: fade(#763bc1, 10%);
     }
+  }
 
-    &.purple {
-        .ant-tag {
-            color: #763BC1;
-            background: fade(#763BC1, 10%);
-        }
+  &.orange {
+    .ant-tag {
+      color: #fc8053;
+      background: fade(#fc8053, 10%);
     }
+  }
 
-    &.orange {
-        .ant-tag {
-            color: #fc8053;
-            background: fade(#fc8053, 10%);
-        }
+  &.green {
+    .ant-tag {
+      color: #42a6af;
+      background: fade(#42a6af, 12%);
     }
-
-    &.green {
-        .ant-tag {
-            color: #42a6af;
-            background: fade(#42a6af, 12%);
-        }
-    }
+  }
 }
 
 .action-stats {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .action-card {
+  width: 100%;
+
+  &.ant-card-hoverable {
+    box-shadow: 0 2px 2px 0px rgb(0 0 0 / 10%);
+
+    &:hover {
+      box-shadow: 0 4px 4px 0px rgb(0 0 0 / 10%);
+    }
+  }
+
+  .ant-card-body {
+    display: flex;
     width: 100%;
+    padding: 18px;
 
-    &.ant-card-hoverable {
-        box-shadow: 0 2px 2px 0px rgb(0 0 0 / 10%);
-
-        &:hover {
-            box-shadow: 0 4px 4px 0px rgb(0 0 0 / 10%);
-        }
+    .hero {
+      .wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        width: 80px;
+        height: 80px;
+      }
     }
 
-    .ant-card-body {
+    .content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0 30px;
+      justify-content: center;
+
+      .title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        .font-semi(@black);
+      }
+
+      .stats {
         display: flex;
-        width: 100%;
-        padding: 18px;
-
-        .hero {
-            .wrapper {
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        .content {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding: 0 30px;
-            justify-content: center;
-
-            .title {
-                font-size: 18px;
-                margin-bottom: 10px;
-                .font-semi(@black);
-            }
-
-            .stats {
-                display: flex;
-                flex-direction: row;
-            }
-        }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-
-            .others {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 12px;
-            }
-        }
+        flex-direction: row;
+      }
     }
 
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .others {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+      }
+    }
+  }
 }
