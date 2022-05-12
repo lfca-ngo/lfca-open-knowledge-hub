@@ -1,0 +1,22 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
+.logo-group {
+    display: flex;
+    margin: 6px 0 0;
+
+    .label {
+        font-size: @font-size-base;
+        .font-regular();
+    }
+
+    .ant-avatar-group {
+        margin-right: 6px;
+    }
+
+    &.small {
+        .label {
+            font-size: @font-size-xs;
+        }
+    }
+}
