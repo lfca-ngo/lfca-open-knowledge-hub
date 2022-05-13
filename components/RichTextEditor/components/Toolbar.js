@@ -1,7 +1,8 @@
-import { Button, Input, Popover } from "antd"
-import React from "react"
-import { useSlate } from "slate-react"
+import { Button, Input, Popover } from 'antd'
+import React from 'react'
+import { useSlate } from 'slate-react'
 
+import { isValidUrl } from '../../../utils'
 import {
   getEntryByTypeFromSelection,
   isBlockActiveWithinSelection,
@@ -10,8 +11,7 @@ import {
   toggleMark,
   unwrapLink,
   wrapLink,
-} from "../utils"
-import { isValidUrl } from "../../../utils"
+} from '../utils'
 
 const ButtonGroup = Button.Group
 
@@ -26,14 +26,14 @@ const BlockButton = ({ disabled, format, icon }) => {
         toggleBlock(editor, format)
       }}
       type={
-        isBlockActiveWithinSelection(editor, format) ? "primary" : "secondary"
+        isBlockActiveWithinSelection(editor, format) ? 'primary' : 'secondary'
       }
     />
   )
 }
 
 const LinkButton = ({ disabled, format }) => {
-  const [url, setUrl] = React.useState("")
+  const [url, setUrl] = React.useState('')
   const [isPopoverVisible, setIsPopoverVisible] = React.useState(false)
   const [hasExistingLink, setHasExistingLink] = React.useState(false)
   const editor = useSlate()
@@ -42,13 +42,13 @@ const LinkButton = ({ disabled, format }) => {
 
   React.useEffect(() => {
     if (isPopoverVisible) {
-      const linkEntry = getEntryByTypeFromSelection(editor, "link")
+      const linkEntry = getEntryByTypeFromSelection(editor, 'link')
       if (linkEntry) {
         const [linkNode] = linkEntry
-        setUrl(linkNode?.url || "")
+        setUrl(linkNode?.url || '')
         setHasExistingLink(true)
       } else {
-        setUrl("")
+        setUrl('')
         setHasExistingLink(false)
       }
     }
@@ -59,27 +59,27 @@ const LinkButton = ({ disabled, format }) => {
       content={
         <div className="link-form">
           <Input
-            className={!isValidUrl(url) ? "error" : undefined}
-            placeholder="Paste link"
-            value={url}
+            className={!isValidUrl(url) ? 'error' : undefined}
+            onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 e.preventDefault()
                 insertLink(url)
               }
             }}
             onPaste={(e) => {
               e.preventDefault()
-              const pasted = e.clipboardData.getData("Text")
+              const pasted = e.clipboardData.getData('Text')
               if (pasted) {
                 setUrl(pasted)
                 insertLink(pasted)
               }
             }}
-            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Paste link"
+            value={url}
           />
           {hasExistingLink && (
-            <Button type="link" size="small" onClick={removeLink}>
+            <Button onClick={removeLink} size="small" type="link">
               Remove link
             </Button>
           )}
@@ -97,7 +97,7 @@ const LinkButton = ({ disabled, format }) => {
         onMouseDown={(e) => {
           e.preventDefault()
         }}
-        type={isActive ? "primary" : "secondary"}
+        type={isActive ? 'primary' : 'secondary'}
       />
     </Popover>
   )
@@ -108,13 +108,13 @@ const LinkButton = ({ disabled, format }) => {
     }
     wrapLink(editor, url)
     setIsPopoverVisible(false)
-    setUrl("")
+    setUrl('')
   }
 
   function removeLink() {
     unwrapLink(editor)
     setIsPopoverVisible(false)
-    setUrl("")
+    setUrl('')
   }
 }
 
@@ -129,7 +129,7 @@ const MarkButton = ({ disabled, format, icon }) => {
         toggleMark(editor, format)
       }}
       type={
-        isMarkActiveWithinSelection(editor, format) ? "primary" : "secondary"
+        isMarkActiveWithinSelection(editor, format) ? 'primary' : 'secondary'
       }
     />
   )

@@ -7,14 +7,9 @@ import { CommentItem } from './CommentItem'
 import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
 
-export const ActionComments = ({
+export const Comments = ({
   actionId,
-  comments = {
-    '1': {
-      id: '1',
-      message: 'Hellow',
-    },
-  },
+  comments,
 }: {
   actionId: string
   comments: any

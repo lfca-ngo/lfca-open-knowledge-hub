@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
+import { Comments } from '../../components/Comments'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -56,7 +57,17 @@ const Action: NextPage = (props: any) => {
         <Section title="Your progress">
           <ActionsBar onComplete={() => setIsOpen(true)} />
         </Section>
-        <Section title="Community">Something</Section>
+        <Section title="Community">
+          <Comments
+            actionId={action?.actionId}
+            comments={{
+              '1': {
+                id: '1',
+                message: 'Hellow',
+              },
+            }}
+          />
+        </Section>
         <Section title="Attachments">Something</Section>
         {/* Render additional sections */}
         {renderTools(
