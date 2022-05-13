@@ -6,8 +6,7 @@ import { Main, Section, SiderLayout } from '../../components/Layout'
 import { SETTINGS_NAV } from '../../utils/navs'
 
 const Settings: NextPage = () => {
-  const updateProfile = (allValues: any) => {
-    console.log(allValues)
+  const updateProfile = () => {
     // @TODO: update profile
   }
 
