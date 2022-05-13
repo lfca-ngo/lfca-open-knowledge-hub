@@ -1,21 +1,21 @@
-import { Editor, Element, Range, Transforms } from "slate"
+import { Editor, Element, Range, Transforms } from 'slate'
 
 const SHORTCUTS = {
-  "*": {
-    type: "list-item",
-    wrap: "bulleted-list",
+  '*': {
+    type: 'list-item',
+    wrap: 'bulleted-list',
   },
-  "-": {
-    type: "list-item",
-    wrap: "bulleted-list",
+  '+': {
+    type: 'list-item',
+    wrap: 'bulleted-list',
   },
-  "+": {
-    type: "list-item",
-    wrap: "bulleted-list",
+  '-': {
+    type: 'list-item',
+    wrap: 'bulleted-list',
   },
-  "1.": {
-    type: "list-item",
-    wrap: "numbered-list",
+  '1.': {
+    type: 'list-item',
+    wrap: 'numbered-list',
   },
 }
 
@@ -25,7 +25,7 @@ export function withMarkdownShortcuts(editor) {
   editor.insertText = (text) => {
     const { selection } = editor
 
-    if (text === " " && selection && Range.isCollapsed(selection)) {
+    if (text === ' ' && selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
       const block = Editor.above(editor, {
         match: (n) => Editor.isBlock(editor, n),
@@ -49,14 +49,14 @@ export function withMarkdownShortcuts(editor) {
 
         if (wrap) {
           const wrapper = {
-            type: wrap,
             children: [],
+            type: wrap,
           }
           Transforms.wrapNodes(editor, wrapper, {
             match: (n) =>
               !Editor.isEditor(n) &&
               Element.isElement(n) &&
-              n.type === "list-item",
+              n.type === 'list-item',
           })
         }
 

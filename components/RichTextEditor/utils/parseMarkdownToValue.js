@@ -1,9 +1,9 @@
-import unescape from "lodash.unescape"
-import { marked } from "marked"
+import unescape from 'lodash.unescape'
+import { marked } from 'marked'
 
-import { DEFAULT_ELEMENT_TYPE } from "../config"
+import { DEFAULT_ELEMENT_TYPE } from '../config'
 
-export function parseMarkdownToValue(md = "") {
+export function parseMarkdownToValue(md = '') {
   const tokens = marked.lexer(md, {
     breaks: false,
   })
@@ -14,11 +14,11 @@ export function parseMarkdownToValue(md = "") {
 function deserialize(tokens, options) {
   return tokens.reduce((acc, t) => {
     switch (t.type) {
-      case "space": {
+      case 'space': {
         return acc
       }
 
-      case "text": {
+      case 'text': {
         return [
           ...acc,
           ...(t.tokens
@@ -32,20 +32,19 @@ function deserialize(tokens, options) {
         ]
       }
 
-      case "em": {
+      case 'em': {
         return [...acc, ...deserialize(t.tokens, { ...options, italic: true })]
       }
 
-      case "strong": {
+      case 'strong': {
         return [...acc, ...deserialize(t.tokens, { ...options, bold: true })]
       }
 
-      case "link":
-      case "list":
-      case "list_item":
-      case "paragraph": {
+      case 'link':
+      case 'list':
+      case 'list_item':
+      case 'paragraph': {
         const node = {
-          type: getTypeFromMarkdownToken(t),
           children: t.tokens
             ? deserialize(t.tokens, options)
             : t.items
@@ -55,9 +54,10 @@ function deserialize(tokens, options) {
                   text: t.text || t.raw,
                 },
               ],
+          type: getTypeFromMarkdownToken(t),
         }
-        if (t.type === "link") {
-          node.url = t.href || ""
+        if (t.type === 'link') {
+          node.url = t.href || ''
         }
         return [...acc, node]
       }
@@ -70,16 +70,16 @@ function deserialize(tokens, options) {
 
 function getTypeFromMarkdownToken(t) {
   switch (t.type) {
-    case "list":
-      return t.ordered ? "numbered-list" : "bulleted-list"
+    case 'list':
+      return t.ordered ? 'numbered-list' : 'bulleted-list'
 
-    case "list_item":
-      return "list-item"
+    case 'list_item':
+      return 'list-item'
 
-    case "link":
-      return "link"
+    case 'link':
+      return 'link'
 
-    case "paragraph":
+    case 'paragraph':
     default:
       return DEFAULT_ELEMENT_TYPE
   }

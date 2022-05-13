@@ -1,10 +1,10 @@
-import { Range, Transforms } from "slate"
+import { Range, Transforms } from 'slate'
 
-import { getEntryByTypeFromSelection } from "./getEntryByTypeFromSelection"
-import { unwrapLink } from "./unwrapLink"
+import { getEntryByTypeFromSelection } from './getEntryByTypeFromSelection'
+import { unwrapLink } from './unwrapLink'
 
 export function wrapLink(editor, url) {
-  const existingLinkInSelection = getEntryByTypeFromSelection(editor, "link")
+  const existingLinkInSelection = getEntryByTypeFromSelection(editor, 'link')
   const { selection } = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
 
@@ -33,21 +33,20 @@ export function wrapLink(editor, url) {
   const shouldInsertNewElement = isCollapsed && !existingLinkInSelection
 
   const link = {
-    type: "link",
-    url,
-    // If a new element is created, we use the URL as text
     children: shouldInsertNewElement ? [{ text: url }] : [],
+    type: 'link',
+    url,
   }
 
   if (shouldInsertNewElement) {
     Transforms.insertNodes(editor, [
       link,
       {
-        text: " ",
+        text: ' ',
       },
     ])
   } else {
     Transforms.wrapNodes(editor, link, { split: true })
   }
-  Transforms.collapse(editor, { edge: "end" })
+  Transforms.collapse(editor, { edge: 'end' })
 }

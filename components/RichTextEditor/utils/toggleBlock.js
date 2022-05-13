@@ -1,7 +1,7 @@
-import { Transforms, Editor, Element } from "slate"
+import { Editor, Element, Transforms } from 'slate'
 
-import { isBlockActiveWithinSelection } from "./isBlockActiveWithinSelection"
-import { DEFAULT_ELEMENT_TYPE, LIST_TYPES } from "../config"
+import { DEFAULT_ELEMENT_TYPE, LIST_TYPES } from '../config'
+import { isBlockActiveWithinSelection } from './isBlockActiveWithinSelection'
 
 export function toggleBlock(editor, format) {
   const isActive = isBlockActiveWithinSelection(editor, format)
@@ -15,12 +15,12 @@ export function toggleBlock(editor, format) {
     split: true,
   })
   const newProperties = {
-    type: isActive ? DEFAULT_ELEMENT_TYPE : isList ? "list-item" : format,
+    type: isActive ? DEFAULT_ELEMENT_TYPE : isList ? 'list-item' : format,
   }
   Transforms.setNodes(editor, newProperties)
 
   if (!isActive && isList) {
-    const block = { type: format, children: [] }
+    const block = { children: [], type: format }
     Transforms.wrapNodes(editor, block)
   }
 }

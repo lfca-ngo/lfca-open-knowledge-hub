@@ -1,14 +1,14 @@
-import { DEFAULT_ELEMENT_TYPE } from "../config"
+import { DEFAULT_ELEMENT_TYPE } from '../config'
 
 export function createEmptyValue() {
   return [
     {
-      type: DEFAULT_ELEMENT_TYPE,
       children: [
         {
-          text: "",
+          text: '',
         },
       ],
+      type: DEFAULT_ELEMENT_TYPE,
     },
   ]
 }

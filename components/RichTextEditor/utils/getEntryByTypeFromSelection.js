@@ -1,6 +1,6 @@
-import { Editor, Element } from "slate"
+import { Editor, Element } from 'slate'
 
-export function getEntryByTypeFromSelection(editor, type) {
+export function getEntryByTypeFromSelection(editor) {
   const { selection } = editor
   if (!selection) return false
 
@@ -8,7 +8,7 @@ export function getEntryByTypeFromSelection(editor, type) {
     Editor.nodes(editor, {
       at: Editor.unhangRange(editor, selection),
       match: (n) =>
-        !Editor.isEditor(n) && Element.isElement(n) && n.type === "link",
+        !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
     })
   )
 
