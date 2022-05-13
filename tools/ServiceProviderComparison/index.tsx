@@ -7,7 +7,7 @@ import { ProviderCard } from './ProviderCard'
 
 const { Option } = Select
 
-const getUniqueTags = (array: any, key) =>
+const getUniqueTags = (array: any, key: any) =>
   array?.reduce((acc: any, provider: any) => {
     for (const tag of provider?.[key]) {
       if (!acc.includes(tag.name)) {
