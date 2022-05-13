@@ -54,8 +54,7 @@ const Intro = (props: any) => {
 
 const Personalize = (props: any) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
-  const onSelect = (e: any) => {
-    e.preventDefault()
+  const onSelect = () => {
     setDrawerVisible(true)
   }
 
