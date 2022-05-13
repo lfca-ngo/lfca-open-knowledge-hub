@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import { InputNumber, Select } from 'antd'
+import React from 'react'
 
 const { Option } = Select
 
@@ -10,7 +10,7 @@ interface ElectricityValue {
 
 interface ElectricityInputProps {
   value?: ElectricityValue
-  onChange?: (value: ElectricityValue) => void
+  onChange?: any
   options?: any
   placeholderValue?: any
 }
@@ -38,12 +38,12 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({
       <div className="line">
         <span>We are </span>
         <InputNumber
-          type="text"
-          placeholder={placeholderValue?.people || 2}
           min={1}
-          value={value && value.people}
           onChange={onAmountChange}
-          style={{ width: '100px', marginRight: '6px' }}
+          placeholder={placeholderValue?.people || 2}
+          style={{ marginRight: '6px', width: '100px' }}
+          type="text"
+          value={value && value.people}
         />
         people in our household.
       </div>
@@ -51,9 +51,9 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({
         <span>My electricity is </span>
         <Select
           onSelect={onTypeChange}
-          value={value && value.type}
           placeholder="Please select your electricity type"
-          style={{ maxWidth: '280px', marginRight: '6px' }}
+          style={{ marginRight: '6px', maxWidth: '280px' }}
+          value={value && value.type}
         >
           {options.map((option: any, i: number) => (
             <Option key={`option-${i}`} value={option.value}>

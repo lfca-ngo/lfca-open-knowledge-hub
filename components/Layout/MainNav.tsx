@@ -1,5 +1,7 @@
 import {
   BankOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
   LockOutlined,
   ProfileOutlined,
   RocketOutlined,
@@ -28,12 +30,12 @@ const NAV_ITEMS = [
         label: 'Dashboard',
       },
       {
-        icon: <RocketOutlined />,
+        icon: <CalendarOutlined />,
         key: ACTIONS_PLANNED,
         label: 'Actions planned',
       },
       {
-        icon: <RocketOutlined />,
+        icon: <CheckCircleOutlined />,
         key: ACTIONS_COMPLETED,
         label: 'Actions completed',
       },

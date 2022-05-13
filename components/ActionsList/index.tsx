@@ -63,7 +63,10 @@ export const ActionsList = ({
               renderItem={(item: any) => {
                 return (
                   <List.Item>
-                    <ActionCard action={item} onClick={onSelect} />
+                    <ActionCard
+                      action={item}
+                      onClick={() => onSelect(item.actionId)}
+                    />
                   </List.Item>
                 )
               }}

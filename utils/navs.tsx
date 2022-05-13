@@ -21,7 +21,7 @@ export const ADMIN_NAV = [
 ]
 
 export const SETTINGS_NAV = [
-  { path: SETTINGS, title: 'User' },
-  { path: SETTINGS_COMPANY, title: 'Company' },
+  { path: SETTINGS, title: 'Edit Profile' },
+  { path: SETTINGS_COMPANY, title: 'Edit Company' },
   { path: SETTINGS_INVITE, title: 'Invite Team' },
 ]
