@@ -46,6 +46,7 @@
 
 .action-card {
   @card-padding: 14px;
+  @inkbar-width: 4px;
 
   width: 100%;
   border-radius: 0;
@@ -54,7 +55,9 @@
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    padding-left: 6px;
+    padding-left: calc(@card-padding + @inkbar-width);
+    border-left: @inkbar-width solid @yellow;
+    background-color: #f9f9f9;
   }
 
   .ant-card-body {

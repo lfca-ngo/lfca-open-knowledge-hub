@@ -41,7 +41,7 @@ export const ActionStats = ({ size }: { size?: any }) => {
         color="wine"
         count={'121'}
         icon={<LikeOutlined />}
-        label="talking about it"
+        label="messages"
         size={size}
       />
       <ActionStat
