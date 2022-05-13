@@ -13,17 +13,17 @@ import { InfoCarousel } from '../../InfoCarousel'
 const ELEMENTS = [
   {
     description:
-      'We are with you all the way: From kickstarting your carbon accounting, over reduction measures towards participation in meaningful campaigns.',
-    icon: <ArrowRightOutlined />,
-    image: Explore,
-    title: 'Measure, plan, reduce & contribute',
-  },
-  {
-    description:
       'See who else is working on your actions and get in touch using our Slack channel (check your emails for the invite link)',
     icon: <ArrowRightOutlined />,
     image: Communicate,
     title: 'Collaborate and co-create knowledge',
+  },
+  {
+    description:
+      'We are with you all the way: From kickstarting your carbon accounting, over reduction measures towards participation in meaningful campaigns.',
+    icon: <ArrowRightOutlined />,
+    image: Explore,
+    title: 'Measure, plan, reduce & contribute',
   },
   {
     description:

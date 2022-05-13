@@ -60,7 +60,7 @@ export const InfoCarousel = (props: any) => {
             {props.elements.map((element: any, i: any) => {
               return (
                 <Image
-                  height={225}
+                  height={243}
                   key={`img-${i}`}
                   layout="responsive"
                   src={element.image}
