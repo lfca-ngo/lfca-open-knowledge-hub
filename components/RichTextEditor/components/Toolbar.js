@@ -1,13 +1,13 @@
-import { Button, Input, Popover } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { useSlate } from 'slate-react'
 import {
   BoldOutlined,
   ItalicOutlined,
-  UnorderedListOutlined,
-  OrderedListOutlined,
   LinkOutlined,
+  OrderedListOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons'
+import { Button, Input, Popover } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useSlate } from 'slate-react'
 
 import { isValidUrl } from '../../../utils'
 import {

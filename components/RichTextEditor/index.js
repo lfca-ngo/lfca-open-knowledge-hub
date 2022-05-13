@@ -47,8 +47,8 @@ export const RichTextEditor = ({ disabled, initialValue, onChange }) => {
     <div className="richtext-editor">
       <Slate
         editor={editor}
-        value={initialValue || createEmptyValue()} // This is only the initial value
         onChange={onChange}
+        value={initialValue || createEmptyValue()} // This is only the initial value
       >
         <Toolbar disabled={disabled} />
         <Editable
