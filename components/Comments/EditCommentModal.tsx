@@ -1,7 +1,7 @@
 import { Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import { parseMarkdownToValue } from '../RichTextEditor/utils'
+// import { parseMarkdownToValue } from '../RichTextEditor/utils'
 import { CommentInput } from './CommentInput'
 
 export const EditCommentModal = ({
@@ -14,13 +14,13 @@ export const EditCommentModal = ({
   onSave: any
 }) => {
   const [attachments, setAttachments] = useState([])
-  const [initialRichTextValue, setInitialRichTextValue] = useState(null)
+  // const [initialRichTextValue, setInitialRichTextValue] = useState(null)
   const [richTextValue, setRichTextValue] = useState(null)
 
   useEffect(() => {
     if (editingComment) {
       setAttachments(
-        editingComment?.attachments?.map((a) => ({
+        editingComment?.attachments?.map((a: any) => ({
           name: a.name,
           percent: 100,
           size: a.size,
@@ -29,7 +29,7 @@ export const EditCommentModal = ({
           uid: `rc-upload-${Math.floor(Math.random() * 1000000000)}`,
         })) || []
       )
-      setInitialRichTextValue(parseMarkdownToValue(editingComment.message))
+      // setInitialRichTextValue(parseMarkdownToValue(editingComment.message))
     }
   }, [editingComment])
 
@@ -43,7 +43,7 @@ export const EditCommentModal = ({
     >
       <div className="action-comments edit-action-comment-modal">
         <CommentInput
-          initialRichTextValue={initialRichTextValue}
+          initialRichTextValue={'initialRichTextValue'}
           onRichTextValueChange={setRichTextValue}
         />
       </div>

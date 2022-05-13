@@ -1,12 +1,12 @@
 require('./styles.less')
 
-import { List, message as notification, Skeleton } from 'antd'
-import React, { useState } from 'react'
+import { List, Skeleton } from 'antd'
+import React from 'react'
 
-import { convertValueToMarkdown } from '../RichTextEditor/utils'
+// import { convertValueToMarkdown } from '../RichTextEditor/utils'
 import { CommentInput } from './CommentInput'
 import { CommentItem } from './CommentItem'
-import { EditCommentModal } from './EditCommentModal'
+// import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
 
 export const Comments = ({
@@ -16,9 +16,9 @@ export const Comments = ({
   actionId: string
   comments: any
 }) => {
-  const [authorIds, setAuthorIds] = useState([])
-  const [errorMsg, setErrorMsg] = useState('')
-  const [editingCommentId, setEditingCommentId] = useState(null)
+  // const [authorIds, setAuthorIds] = useState([])
+  // const [errorMsg, setErrorMsg] = useState('')
+  // const [editingCommentId, setEditingCommentId] = useState(null)
 
   if (!actionId) return null
 
@@ -50,15 +50,19 @@ export const Comments = ({
               authorProfile={authorProfile}
               comment={comments[commentId]}
               isAdmin={isAuthUserAdmin}
-              onDelete={() => onDelete(commentId)}
-              onEdit={() => setEditingCommentId(commentId)}
+              onDelete={() => {
+                // onDelete(commentId)
+              }}
+              onEdit={() => {
+                // setEditingCommentId(commentId)
+              }}
             />
           )}
         ></List>
       )}
       <CommentInput
         disabled={isFetching || isUpdating}
-        errorMsg={errorMsg}
+        errorMsg={'errorMsg'}
         isSaving={isUpdating}
         onSave={onSave}
       />
@@ -70,34 +74,31 @@ export const Comments = ({
     </div>
   )
 
-  function onSave(
-    {
-      attachments,
-      richTextValue,
-    }: {
-      attachments: any
-      richTextValue: string
-    },
-    successCB: any
-  ) {
-    const markdownValue = convertValueToMarkdown(richTextValue)
-    if (!markdownValue) return
-
-    setErrorMsg('')
-    // Create comment object and store in Firebase
-    const comment = {
-      attachments: attachments.map((a: any) => ({
-        name: a.name,
-        size: a.size,
-        source: a.response.secure_url,
-        type: a.type,
-      })),
-      // author: authUser.uid,
-      // createdAt: firebase.serverValue.TIMESTAMP,
-      // editedAt: firebase.serverValue.TIMESTAMP,
-      message: markdownValue,
-    }
-
+  function onSave() {
+    // {
+    //   attachments,
+    //   richTextValue,
+    // }: {
+    //   attachments: any
+    //   richTextValue: string
+    // },
+    // successCB: any
+    // const markdownValue = convertValueToMarkdown(richTextValue)
+    // if (!markdownValue) return
+    // setErrorMsg('')
+    // // Create comment object and store in Firebase
+    // const comment = {
+    //   attachments: attachments.map((a: any) => ({
+    //     name: a.name,
+    //     size: a.size,
+    //     source: a.response.secure_url,
+    //     type: a.type,
+    //   })),
+    //   author: authUser.uid,
+    //   createdAt: firebase.serverValue.TIMESTAMP,
+    //   editedAt: firebase.serverValue.TIMESTAMP,
+    //   message: markdownValue,
+    // }
     // pushActionComment(actionId, comment, (error) => {
     //   if (error) {
     //     setErrorMsg(error.message)
@@ -107,27 +108,27 @@ export const Comments = ({
     // })
   }
 
-  function onUpdate({ attachments, richTextValue }, successCB) {
-    const markdownValue = convertValueToMarkdown(richTextValue)
-    if (!markdownValue) return
+  // function onUpdate({ attachments, richTextValue }, successCB) {
+  //   const markdownValue = convertValueToMarkdown(richTextValue)
+  //   if (!markdownValue) return
 
-    // updateActionComment(
-    //   actionId,
-    //   editingCommentId,
-    //   attachments,
-    //   markdownValue,
-    //   (error) => {
-    //     if (error) {
-    //       notification.error(`Could not update comment: ${error.message}`)
-    //     } else {
-    //       setEditingCommentId(null)
-    //       successCB && successCB()
-    //     }
-    //   }
-    // )
-  }
+  //   // updateActionComment(
+  //   //   actionId,
+  //   //   editingCommentId,
+  //   //   attachments,
+  //   //   markdownValue,
+  //   //   (error) => {
+  //   //     if (error) {
+  //   //       notification.error(`Could not update comment: ${error.message}`)
+  //   //     } else {
+  //   //       setEditingCommentId(null)
+  //   //       successCB && successCB()
+  //   //     }
+  //   //   }
+  //   // )
+  // }
 
-  function onDelete(commentId) {
-    // deleteActionComment(actionId, commentId)
-  }
+  // function onDelete(commentId) {
+  //   // deleteActionComment(actionId, commentId)
+  // }
 }
