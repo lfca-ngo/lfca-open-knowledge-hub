@@ -8,11 +8,17 @@
     align-items: center;
     flex-direction: column;
     height: 100%;
+    min-height: 100vh;
 
     header,
     footer {
-      margin-left: 60px;
-      margin-right: auto;
+      margin: 0 auto;
+      max-width: 400px;
+
+      @media @desktop {
+        margin-left: 60px;
+        margin-right: auto;
+      }
     }
 
     header {
@@ -27,6 +33,7 @@
     main {
       width: 100%;
       max-width: 400px;
+      margin: 30px 0;
     }
   }
 
@@ -34,8 +41,12 @@
     align-items: center;
     min-height: 100vh;
     justify-content: center;
-    display: flex;
+    display: none;
     background-color: @chalk;
+
+    @media @desktop {
+      display: flex;
+    }
 
     .bg-wrapper {
       position: relative;
