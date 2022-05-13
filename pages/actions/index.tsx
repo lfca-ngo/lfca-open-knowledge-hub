@@ -19,7 +19,7 @@ const Home: NextPage = (props: any) => {
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
-        <Section title="Dashboard" titleSize="big">
+        <Section className="mb-40" title="Dashboard" titleSize="big">
           <ActionsCarousel
             actions={highlightedActions}
             onSelect={handleActionClick}
@@ -30,9 +30,7 @@ const Home: NextPage = (props: any) => {
         </Section>
       </Main>
       <Sider>
-        <Section>
-          <Section title="Rewards">Something</Section>
-        </Section>
+        <Section title="Rewards">Something</Section>
       </Sider>
     </SiderLayout>
   )
