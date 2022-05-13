@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
@@ -8,6 +8,9 @@ import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
 
 require('./styles.less')
+
+const COLLAPSED_WIDTH = 85
+const COLLAPSED_WIDTH_MOBILE = 0
 
 const { Content, Footer, Header, Sider } = Layout
 
@@ -20,16 +23,15 @@ interface SiderLayoutProps {
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
   const [collapsed, setCollapsed] = useState(true)
   const screenSizeType = useScreenSize()
-
-  useEffect(() => {
-    if (screenSizeType === 'xl') setCollapsed(false)
-  }, [screenSizeType])
+  const collapsedWidth =
+    screenSizeType === 'sm' ? COLLAPSED_WIDTH_MOBILE : COLLAPSED_WIDTH
 
   return (
     <Layout className="sider-layout" hasSider style={{ minHeight: '100vh' }}>
       <Sider
+        breakpoint="xxl"
         collapsed={collapsed}
-        collapsedWidth={85}
+        collapsedWidth={collapsedWidth}
         collapsible
         onCollapse={(collapsed) => setCollapsed(collapsed)}
         theme="light"

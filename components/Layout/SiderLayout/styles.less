@@ -3,17 +3,21 @@
 
 .ant-layout.sider-layout {
   .ant-layout-content {
-    .ant-breadcrumb {
-      padding: @default-padding 0;
-    }
-  }
-
-  .ant-layout-content {
-    padding: calc(@default-padding / 2) 0 0 @default-padding;
+    padding: 20px;
     display: flex;
     width: 100%;
     max-width: @max-container-width;
     margin: 0 auto;
+    flex-direction: column;
+
+    @media @desktop {
+      flex-direction: row;
+      padding: calc(@default-padding / 2) 0 0 @default-padding;
+    }
+
+    .ant-breadcrumb {
+      padding: @default-padding 0;
+    }
   }
 
   .ant-menu-vertical .ant-menu-submenu-selected {

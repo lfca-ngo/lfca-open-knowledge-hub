@@ -11,5 +11,6 @@ export const fetchAllServiceProviders = async () => {
 
   const stringifiedData = safeJsonStringify(res)
   const serviceProviders = JSON.parse(stringifiedData)
+
   return serviceProviders
 }
