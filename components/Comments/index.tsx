@@ -1,3 +1,5 @@
+require('./styles.less')
+
 import { List, message as notification, Skeleton } from 'antd'
 import React, { useState } from 'react'
 
@@ -25,7 +27,8 @@ export const Comments = ({
   const isFetching = false
   const authorProfile = {
     firstname: 'Timo',
-    picture: '',
+    picture:
+      'https://u4d2z7k9.rocketcdn.me/wp-content/uploads/2022/01/rsz_51512070416_5844c18397_k.jpg',
   }
   const isAuthUserAdmin = true
 
@@ -40,6 +43,7 @@ export const Comments = ({
           dataSource={Object.keys(comments)}
           pagination={{
             pageSize: 5,
+            size: 'small',
           }}
           renderItem={(commentId: any) => (
             <CommentItem

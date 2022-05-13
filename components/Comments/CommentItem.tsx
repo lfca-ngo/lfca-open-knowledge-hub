@@ -1,5 +1,5 @@
 import { FileOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Avatar, Button, Popconfirm, Popover, Skeleton } from 'antd'
+import { Avatar, Button, Popconfirm, Popover, Skeleton, Space } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
 
@@ -100,22 +100,20 @@ export const CommentItem = ({
           ))}
         </div>
         {isAdmin && (
-          <div className="admin-actions">
+          <Space className="admin-actions">
             <Popconfirm
               cancelText="No"
               okText="Yes"
               onConfirm={onDelete}
               title="Are you sure to delete this comment?"
             >
-              <Button size="small" type="link">
-                Delete
-              </Button>
+              <Button size="small">Delete</Button>
             </Popconfirm>
 
-            <Button onClick={onEdit} size="small" type="link">
+            <Button onClick={onEdit} size="small">
               Edit
             </Button>
-          </div>
+          </Space>
         )}
       </div>
     </div>

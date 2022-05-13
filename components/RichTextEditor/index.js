@@ -1,19 +1,19 @@
-import "./styles.less"
+require('./styles.less')
 
-import isHotkey from "is-hotkey"
-import React from "react"
-import { createEditor, Transforms } from "slate"
-import { withHistory } from "slate-history"
-import { Editable, Slate, withReact } from "slate-react"
+import isHotkey from 'is-hotkey'
+import React from 'react'
+import { createEditor, Transforms } from 'slate'
+import { withHistory } from 'slate-history'
+import { Editable, Slate, withReact } from 'slate-react'
 
-import { Element, Leaf, Toolbar } from "./components"
-import { HOTKEYS } from "./config"
+import { Element, Leaf, Toolbar } from './components'
+import { HOTKEYS } from './config'
 import {
   withEscapeListsOnReturn,
   withLinks,
   withMarkdownShortcuts,
-} from "./plugins"
-import { createEmptyValue, toggleMark } from "./utils"
+} from './plugins'
+import { createEmptyValue, toggleMark } from './utils'
 
 export const RichTextEditor = ({ disabled, initialValue, onChange }) => {
   const editor = React.useMemo(

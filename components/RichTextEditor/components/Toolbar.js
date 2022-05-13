@@ -1,6 +1,13 @@
 import { Button, Input, Popover } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSlate } from 'slate-react'
+import {
+  BoldOutlined,
+  ItalicOutlined,
+  UnorderedListOutlined,
+  OrderedListOutlined,
+  LinkOutlined,
+} from '@ant-design/icons'
 
 import { isValidUrl } from '../../../utils'
 import {
@@ -33,14 +40,14 @@ const BlockButton = ({ disabled, format, icon }) => {
 }
 
 const LinkButton = ({ disabled, format }) => {
-  const [url, setUrl] = React.useState('')
-  const [isPopoverVisible, setIsPopoverVisible] = React.useState(false)
-  const [hasExistingLink, setHasExistingLink] = React.useState(false)
+  const [url, setUrl] = useState('')
+  const [isPopoverVisible, setIsPopoverVisible] = useState(false)
+  const [hasExistingLink, setHasExistingLink] = useState(false)
   const editor = useSlate()
 
   const isActive = isBlockActiveWithinSelection(editor, format)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isPopoverVisible) {
       const linkEntry = getEntryByTypeFromSelection(editor, 'link')
       if (linkEntry) {
@@ -93,7 +100,7 @@ const LinkButton = ({ disabled, format }) => {
     >
       <Button
         disabled={disabled}
-        icon="link"
+        icon={<LinkOutlined />}
         onMouseDown={(e) => {
           e.preventDefault()
         }}
@@ -139,20 +146,22 @@ export const Toolbar = ({ disabled }) => {
   return (
     <div className="toolbar">
       <ButtonGroup>
-        <MarkButton disabled={disabled} format="bold" icon="bold" />
-        <MarkButton disabled={disabled} format="italic" icon="italic" />
-      </ButtonGroup>
-      <ButtonGroup>
+        <MarkButton disabled={disabled} format="bold" icon={<BoldOutlined />} />
+        <MarkButton
+          disabled={disabled}
+          format="italic"
+          icon={<ItalicOutlined />}
+        />
         <LinkButton disabled={disabled} format="link" />
         <BlockButton
           disabled={disabled}
           format="bulleted-list"
-          icon="unordered-list"
+          icon={<UnorderedListOutlined />}
         />
         <BlockButton
           disabled={disabled}
           format="numbered-list"
-          icon="ordered-list"
+          icon={<OrderedListOutlined />}
         />
       </ButtonGroup>
     </div>

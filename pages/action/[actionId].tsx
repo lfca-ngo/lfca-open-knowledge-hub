@@ -63,7 +63,11 @@ const Action: NextPage = (props: any) => {
             comments={{
               '1': {
                 id: '1',
-                message: 'Hellow',
+                message: `Something about this action is great. I don't know what though`,
+              },
+              '2': {
+                id: '2',
+                message: 'This action is great! I love it!',
               },
             }}
           />

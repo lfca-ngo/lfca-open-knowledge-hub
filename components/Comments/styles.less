@@ -1,0 +1,30 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
+.action-comments {
+  .comment-item {
+    margin: 0 0 20px;
+    .author {
+      margin-bottom: 12px;
+      .ant-avatar {
+        margin-right: 12px;
+      }
+    }
+    .message {
+      .body {
+        border: 1px solid @grey-light;
+        border-radius: @border-radius-base;
+        padding: 12px;
+        margin-bottom: 12px;
+        .show-more {
+          .content {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+  .richtext-editor {
+    margin: 12px 0;
+  }
+}
