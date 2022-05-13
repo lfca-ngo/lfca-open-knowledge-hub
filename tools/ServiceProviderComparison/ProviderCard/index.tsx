@@ -1,14 +1,9 @@
 require('./styles.less')
 
-import {
-  LikeOutlined,
-  PaperClipOutlined,
-  LinkOutlined,
-} from '@ant-design/icons'
-import { Avatar, Button, Card } from 'antd'
-import classNames from 'classnames'
-import Image from 'next/image'
+import { LinkOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { Button, Card } from 'antd'
+import Image from 'next/image'
 
 export const ProviderCard = ({
   onClick,
@@ -17,7 +12,6 @@ export const ProviderCard = ({
   provider: any
   onClick?: any
 }) => {
-  console.log('p', provider)
   return (
     <Card bordered={false} className="provider-card" onClick={onClick}>
       <div className="hero">

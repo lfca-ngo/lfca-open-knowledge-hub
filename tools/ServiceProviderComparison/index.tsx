@@ -1,6 +1,7 @@
 require('./styles.less')
 
 import { List } from 'antd'
+
 import { ProviderCard } from './ProviderCard'
 
 export const ServiceProviderComparison = (props: any) => {
