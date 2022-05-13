@@ -9,7 +9,11 @@ export const renderTools = (sections: any, props: any) => {
     switch (section.componentId) {
       case 'measurement-services-comparison':
         return (
-          <Section key={section.componentId} {...section}>
+          <Section
+            className={section?.className}
+            key={section?.componentId}
+            {...section}
+          >
             <ServiceProviderComparison providers={props?.serviceProviders} />
           </Section>
         )

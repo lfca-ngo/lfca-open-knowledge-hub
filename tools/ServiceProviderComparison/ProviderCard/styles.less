@@ -3,16 +3,30 @@
 @import (reference) '../../../styles/mixins.less';
 
 .provider-card {
-  @card-padding: 14px;
-  .list-hover-effect(@card-padding);
+  .list-hover-effect(2px);
 
   width: 100%;
   border-radius: 0;
 
+  .ant-tag {
+    font-size: 13px;
+  }
+
+  .type-tag {
+    border-color: @black;
+    background: transparent;
+    font-size: 13px;
+    .font-regular(@black);
+  }
+
+  .services {
+    margin: 10px 0 10px;
+  }
+
   .ant-card-body {
     display: flex;
     width: 100%;
-    padding: @card-padding 0;
+    padding: 24px 0;
 
     .hero {
       .wrapper {
@@ -35,12 +49,17 @@
       position: relative;
 
       .content-wrapper {
-        max-width: calc(100% - @card-padding);
+        max-width: calc(100% - 2px);
+      }
+
+      .title-wrapper {
+        margin-bottom: 10px;
+        display: flex;
       }
 
       .title {
         font-size: 18px;
-        margin-bottom: 10px;
+        margin-right: 12px;
         .font-semi(@black);
       }
 
@@ -54,7 +73,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      margin-right: @card-padding;
+      margin-right: 16px;
     }
   }
 }
