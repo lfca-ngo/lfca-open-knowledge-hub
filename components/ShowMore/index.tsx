@@ -3,7 +3,13 @@ require('./styles.less')
 import { Button } from 'antd'
 import React from 'react'
 
-const ShowMore = ({ maxHeight, text }: { text: any; maxHeight: any }) => {
+export const ShowMore = ({
+  maxHeight,
+  text,
+}: {
+  text: any
+  maxHeight: any
+}) => {
   const [isShowMoreVisible, setIsShowMoreVisible] = React.useState(false)
   const [isExpanded, setIsExpanded] = React.useState(false)
   const contentRef: any = React.createRef()
@@ -32,12 +38,7 @@ const ShowMore = ({ maxHeight, text }: { text: any; maxHeight: any }) => {
               opacity: isExpanded ? 0 : 1,
             }}
           />
-          <Button
-            ghost
-            onClick={() => setIsExpanded((v) => !v)}
-            size="small"
-            type="primary"
-          >
+          <Button ghost onClick={() => setIsExpanded((v) => !v)} size="small">
             {`show ${isExpanded ? 'less' : 'more'}`}
           </Button>
         </div>
@@ -45,5 +46,3 @@ const ShowMore = ({ maxHeight, text }: { text: any; maxHeight: any }) => {
     </div>
   )
 }
-
-export default ShowMore

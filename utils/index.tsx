@@ -8,8 +8,10 @@ export const MOBILE = 'sm'
 export const TABLET = 'md'
 export const DESKTOP = 'lg'
 export const DESKTOP_XL = 'xl'
+export const SIDER = 'sider'
+export const MAIN = 'main'
 
-export function toFixedNumber(num: number, digits: number, base: number = 10) {
+export function toFixedNumber(base = 10, digits: number, num: number) {
   const pow = Math.pow(base, digits)
   return Math.round(num * pow) / pow
 }

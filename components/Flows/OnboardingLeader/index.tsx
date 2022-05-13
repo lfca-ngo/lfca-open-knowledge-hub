@@ -2,7 +2,7 @@ import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { CarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
+import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
 
@@ -25,7 +25,7 @@ const Commit = (props: any) => {
 const Invite = (props: any) => {
   const [hasMinimumInvited, setHasMinimumInvited] = useState(false)
   const [isLeaderOfficer, setIsLeaderOfficer] = useState(false)
-  
+
   return (
     <div>
       <Tag className="super-text">Intro</Tag>
@@ -102,7 +102,7 @@ const Footprint = (props: any) => {
         placement="bottom"
         visible={drawerVisible}
       >
-        <CarbonCalculator
+        <PersonalCarbonCalculator
           questionnaire={props.questionnaire}
           saveResult={saveAndContinue}
         />
