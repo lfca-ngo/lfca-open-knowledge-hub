@@ -1,0 +1,14 @@
+@import (reference) './variables.less';
+@import (reference) './fonts.less';
+
+.list-hover-effect(@card-padding) {
+  @inkbar-width: 4px;
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    padding-left: calc(@card-padding + @inkbar-width);
+    border-left: @inkbar-width solid @yellow;
+    background-color: #f9f9f9;
+  }
+}

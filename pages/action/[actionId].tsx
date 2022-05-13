@@ -1,15 +1,11 @@
-import {
-  CalendarOutlined,
-  CheckOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
+import { UploadOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Drawer, Form, Input, Space, Tabs, Upload } from 'antd'
+import { Button, Drawer, Form, Input, Tabs, Upload } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { ActionDetails } from '../../components/ActionDetails'
+import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -58,20 +54,7 @@ const Action: NextPage = (props: any) => {
 
       <Sider>
         <Section title="Your progress">
-          <Space direction="vertical" style={{ width: '100%' }}>
-            <Button
-              block
-              icon={<CheckOutlined />}
-              onClick={() => setIsOpen(true)}
-              size="large"
-              type="primary"
-            >
-              Mark as done
-            </Button>
-            <Button block ghost icon={<CalendarOutlined />} size="large">
-              Mark as planned
-            </Button>
-          </Space>
+          <ActionsBar onComplete={() => setIsOpen(true)} />
         </Section>
         <Section title="Community">Something</Section>
         <Section title="Attachments">Something</Section>

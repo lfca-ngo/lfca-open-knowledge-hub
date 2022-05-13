@@ -9,8 +9,7 @@ export const fetchAllServiceProviders = async () => {
     locale: 'en-US',
   })
 
-  const stringifiedData = safeJsonStringify(res.items)
+  const stringifiedData = safeJsonStringify(res)
   const serviceProviders = JSON.parse(stringifiedData)
-
   return serviceProviders
 }

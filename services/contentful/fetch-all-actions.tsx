@@ -22,7 +22,7 @@ export const fetchAllActions = async () => {
     locale: 'en-US',
   })
 
-  const stringifiedData = safeJsonStringify(res.items)
+  const stringifiedData = safeJsonStringify(res)
   const actions = JSON.parse(stringifiedData)
 
   // group by tags
