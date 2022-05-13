@@ -11,7 +11,7 @@ export const DESKTOP_XL = 'xl'
 export const SIDER = 'sider'
 export const MAIN = 'main'
 
-export function toFixedNumber(base = 10, digits: number, num: number) {
+export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)
   return Math.round(num * pow) / pow
 }
