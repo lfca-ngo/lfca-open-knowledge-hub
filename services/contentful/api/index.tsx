@@ -34,6 +34,6 @@ export const getEntries = async (query: any) => {
 
     setData(cacheKey, parsed.items)
 
-    return parsed
+    return parsed.items
   }
 }

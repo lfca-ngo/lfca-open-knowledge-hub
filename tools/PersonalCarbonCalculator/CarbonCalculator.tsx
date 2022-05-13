@@ -1,48 +1,51 @@
 require('./styles.less')
 
-import React from 'react'
-import { QuestionBlock } from './components/QuestionBlock'
-import { Footprint } from './components/Footprint'
-import { ProgressBar } from './components/ProgressBar'
-import { CustomIcon } from './components/Category'
-import { Row, Col, Button, List, Alert, Carousel, Card, Modal } from 'antd'
 import {
-  PieChartOutlined,
-  WarningOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
+  PieChartOutlined,
+  WarningOutlined,
 } from '@ant-design/icons'
-import { toFixedNumber, openInNewTab } from '../../utils'
+import { Alert, Button, Card, Carousel, Col, List, Modal, Row } from 'antd'
+import React from 'react'
+
+import { openInNewTab, toFixedNumber } from '../../utils'
+import { CustomIcon } from './components/Category'
+import { Footprint } from './components/Footprint'
+import { ProgressBar } from './components/ProgressBar'
+import { QuestionBlock } from './components/QuestionBlock'
 import { OFFSETTING_PROVIDERS } from './data'
 
 const { confirm } = Modal
 
 const showConfirm = (url: string) => {
   confirm({
-    title: "Before you leave: Don't forget to return!",
     content:
       'Once you completed your carbon compensation, return to this page to finish your onboarding.',
     icon: <WarningOutlined />,
     okText: 'Open in new tab',
+    onCancel() {
+      // console.log('Cancel')
+    },
     onOk() {
       openInNewTab(url)
     },
-    onCancel() {},
+    title: "Before you leave: Don't forget to return!",
   })
 }
 
 export const CarbonCalculator = (props: any) => {
   const {
-    activeQuestion,
     activeAnswer,
-    reductionTips,
+    activeQuestion,
     answerQuestion,
-    goBack,
-    updateStatus,
     errorMessage,
-    saveResult,
-    progress,
     footprint = 0,
+    goBack,
+    progress,
+    reductionTips,
+    saveResult,
+    updateStatus,
   } = props
 
   const onFinish = () => {
@@ -55,15 +58,15 @@ export const CarbonCalculator = (props: any) => {
       <ProgressBar progress={progress} />
       <div className="container">
         <Row>
-          <Col xs={24} md={18} className="main-container">
+          <Col className="main-container" md={18} xs={24}>
             {/* Show question block until last question reached */}
             {activeQuestion.id > -1 ? (
               <div>
                 <QuestionBlock
-                  activeQuestion={activeQuestion}
                   activeAnswer={activeAnswer}
-                  submit={answerQuestion}
+                  activeQuestion={activeQuestion}
                   goBack={goBack}
+                  submit={answerQuestion}
                 />
               </div>
             ) : (
@@ -74,13 +77,13 @@ export const CarbonCalculator = (props: any) => {
                   Results
                 </div>
                 <h1>
-                  Thanks! Here are some tips for you to reduce your carbon
-                  footprint. Please click "save result" below to continue
+                  {`Thanks! Here are some tips for you to reduce your carbon
+                  footprint. Please click "save result" below to continue`}
                 </h1>
                 <p>
-                  Here are a few tips on how to reduce your carbon footprint. We
+                  {`Here are a few tips on how to reduce your carbon footprint. We
                   will also send you a full list with all suggested measures via
-                  e-mail.
+                  e-mail.`}
                 </p>
                 <List
                   bordered
@@ -98,72 +101,72 @@ export const CarbonCalculator = (props: any) => {
                   )}
                 />
                 <div className="offset-section">
-                  <h3>Offset emissions that you can't reduce</h3>
+                  <h3>{`Offset emissions that you can't reduce`}</h3>
                   <p>
-                    While carbon offsetting does not replace reduction, it is an
+                    {`While carbon offsetting does not replace reduction, it is an
                     essential step to reach global net 0 emissions. We can
-                    recommend the following services:
+                    recommend the following services:`}
                   </p>
 
                   <Carousel
-                    className="provider-slider"
-                    slidesToShow={3}
-                    infinite={false}
-                    slidesToScroll={3}
                     arrows
+                    className="provider-slider"
                     dots={false}
-                    prevArrow={<ArrowLeftOutlined />}
+                    infinite={false}
                     nextArrow={<ArrowRightOutlined />}
+                    prevArrow={<ArrowLeftOutlined />}
+                    slidesToScroll={3}
+                    slidesToShow={3}
                   >
                     {OFFSETTING_PROVIDERS.map((partner: any, i) => (
                       <Card
-                        title={partner.name}
                         className="partner-sm"
-                        key={`partner-${i}`}
                         extra={
                           <Button
-                            type="primary"
                             ghost
-                            size="small"
                             onClick={() => showConfirm(partner.url)}
+                            size="small"
+                            type="primary"
                           >
                             Visit
                           </Button>
                         }
+                        key={`partner-${i}`}
+                        title={partner.name}
                       >
-                        <img style={{ maxWidth: '100%' }} src={partner.logo} />
+                        <img src={partner.logo} style={{ maxWidth: '100%' }} />
                       </Card>
                     ))}
                   </Carousel>
                 </div>
 
                 <Button
-                  style={{ marginRight: '12px' }}
-                  size="large"
-                  type="primary"
-                  onClick={onFinish}
                   loading={updateStatus === 'BUSY'}
+                  onClick={onFinish}
+                  size="large"
+                  style={{ marginRight: '12px' }}
+                  type="primary"
                 >
                   Save result and continue
                 </Button>
 
-                <Button type="link" size="large" onClick={goBack}>
+                <Button onClick={goBack} size="large" type="link">
                   Back
                 </Button>
 
                 {updateStatus === 'ERROR' && (
                   <Alert
-                    style={{ margin: '15px 0' }}
-                    showIcon
-                    type="error"
                     message={errorMessage}
+                    showIcon
+                    style={{ margin: '15px 0' }}
+                    type="error"
                   />
                 )}
               </div>
             )}
           </Col>
           {/* Always show the current footprint on the side */}
-          <Col xs={24} md={6} className="side-container">
+          <Col className="side-container" md={6} xs={24}>
             <Footprint footprint={footprint} />
           </Col>
         </Row>

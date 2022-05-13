@@ -3,7 +3,11 @@
 
 .page-section {
   width: 100%;
-  margin: 15px 0 20px;
+  margin: 20px 0;
+
+  &:not(:first-child) {
+    margin: 0 0 60px;
+  }
 
   .section-content {
     margin: 20px 0 0;
@@ -14,6 +18,10 @@
     width: 100%;
     margin: 0 0 10px;
     .h2();
+  }
+
+  &.mb-40 {
+    margin-bottom: 40px;
   }
 
   &.bordered {
@@ -40,6 +48,7 @@
 
 .sider-section {
   width: 100%;
+  margin-top: 15px;
 
   .page-section {
     .content {

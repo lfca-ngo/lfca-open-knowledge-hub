@@ -1,18 +1,19 @@
-import {
-  CalendarOutlined,
-  CheckOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
+import { UploadOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Drawer, Form, Input, Space, Tabs, Upload } from 'antd'
+import { Button, Drawer, Form, Input, Tabs, Upload } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { ActionDetails } from '../../components/ActionDetails'
+import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
-import { fetchAllActions } from '../../services/contentful'
+import { ShowMore } from '../../components/ShowMore'
+import {
+  fetchAllActions,
+  fetchAllServiceProviders,
+} from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
+import { renderTools } from '../../tools'
 
 const { TabPane } = Tabs
 const { TextArea } = Input
@@ -21,6 +22,7 @@ const Action: NextPage = (props: any) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const action = props.action
+
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
@@ -30,35 +32,37 @@ const Action: NextPage = (props: any) => {
         <Section>
           <Tabs defaultActiveKey="1">
             <TabPane key="1" tab="Description">
-              {documentToReactComponents(action?.aboutText)}
+              <ShowMore
+                maxHeight={140}
+                text={documentToReactComponents(action?.aboutText)}
+              />
             </TabPane>
             <TabPane key="2" tab="Benefits">
-              {documentToReactComponents(action?.benefits)}
+              <ShowMore
+                maxHeight={140}
+                text={documentToReactComponents(action?.benefits)}
+              />
             </TabPane>
           </Tabs>
         </Section>
-        <Section title="Find the right tool">Something</Section>
+        {/* Render additional sections */}
+        {renderTools(
+          action?.customSections?.filter((s: any) => s.position === 'main'),
+          props
+        )}
       </Main>
 
       <Sider>
         <Section title="Your progress">
-          <Space direction="vertical" style={{ width: '100%' }}>
-            <Button
-              block
-              icon={<CheckOutlined />}
-              onClick={() => setIsOpen(true)}
-              size="large"
-              type="primary"
-            >
-              Mark as done
-            </Button>
-            <Button block ghost icon={<CalendarOutlined />} size="large">
-              Mark as planned
-            </Button>
-          </Space>
+          <ActionsBar onComplete={() => setIsOpen(true)} />
         </Section>
         <Section title="Community">Something</Section>
         <Section title="Attachments">Something</Section>
+        {/* Render additional sections */}
+        {renderTools(
+          action?.customSections?.filter((s: any) => s.position === 'sider'),
+          props
+        )}
       </Sider>
 
       <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
@@ -90,10 +94,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const actionId: any = params?.actionId
   const actions: any = await fetchAllActions()
   const action = actions.byId[actionId]
+  // @TODO: fetch additional data only if needed
+  const serviceProviders = await fetchAllServiceProviders()
 
   return {
     props: {
       action,
+      serviceProviders,
     },
   }
 }

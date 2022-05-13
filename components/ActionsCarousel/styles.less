@@ -6,6 +6,11 @@
     background-color: @color;
     color: @white;
     height: 155px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: fade(@color, 90%);
+    }
 
     .ant-card-body {
       display: flex;

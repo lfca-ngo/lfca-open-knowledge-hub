@@ -1,0 +1,30 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
+.show-more {
+  .content {
+    overflow: hidden;
+    padding-bottom: 50px;
+
+    > :last-child {
+      margin-bottom: 0px;
+    }
+
+    ol,
+    ul {
+      margin-bottom: 15px;
+    }
+
+    strong {
+      font-family: 'Graphik-Semibold', sans-serif;
+    }
+  }
+  .fade-out {
+    background-image: linear-gradient(to bottom, transparent, @white);
+    height: 50px;
+    margin-top: -50px;
+    transform: translate(
+      0
+    ); // Ensures that the fade-out is place above the text
+  }
+}

@@ -1,3 +1,3 @@
-import { CarbonCalculatorContainer as CarbonCalculator } from './CarbonCalculatorContainer'
+import { CarbonCalculatorContainer as PersonalCarbonCalculator } from './CarbonCalculatorContainer'
 
-export { CarbonCalculator }
+export { PersonalCarbonCalculator }

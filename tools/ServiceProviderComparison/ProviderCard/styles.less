@@ -1,51 +1,8 @@
-@import (reference) '../../styles/variables.less';
-@import (reference) '../../styles/fonts.less';
-@import (reference) '../../styles/mixins.less';
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+@import (reference) '../../../styles/mixins.less';
 
-.action-stat {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  .icon {
-    margin-right: 6px;
-  }
-
-  &.wine {
-    .icon .ant-avatar {
-      background: @wine;
-      color: @white;
-    }
-  }
-
-  &.blue {
-    .icon .ant-avatar {
-      background: @blue;
-      color: @white;
-    }
-  }
-}
-
-.action-stats {
-  display: flex;
-  flex-direction: row;
-  .logo-group,
-  .action-stat {
-    margin-right: 22px;
-    .label {
-      font-size: @font-size-sm;
-    }
-  }
-
-  &.small {
-    .logo-group,
-    .action-stat {
-      margin-right: 14px;
-    }
-  }
-}
-
-.action-card {
+.provider-card {
   @card-padding: 14px;
   .list-hover-effect(@card-padding);
 
@@ -64,6 +21,8 @@
         border-radius: 10px;
         width: 80px;
         height: 80px;
+        background: @white;
+        border-radius: @border-radius-base;
       }
     }
 
@@ -73,6 +32,11 @@
       flex: 1;
       padding: 0 30px;
       justify-content: center;
+      position: relative;
+
+      .content-wrapper {
+        max-width: calc(100% - @card-padding);
+      }
 
       .title {
         font-size: 18px;
