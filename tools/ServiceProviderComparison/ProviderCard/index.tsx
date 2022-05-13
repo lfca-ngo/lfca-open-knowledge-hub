@@ -5,7 +5,6 @@ import {
   CalculatorOutlined,
   LikeOutlined,
   LinkOutlined,
-  MessageOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Tag } from 'antd'
@@ -37,7 +36,6 @@ export const ProviderCard = ({
   provider: any
   onClick?: any
 }) => {
-  console.log(provider)
   return (
     <Card bordered={false} className="provider-card" onClick={onClick}>
       <div className="hero">
