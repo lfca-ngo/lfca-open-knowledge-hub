@@ -2,6 +2,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
 import React from 'react'
 
+import { useScreenSize } from '../../../hooks/app'
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
 require('./styles.less')
 
@@ -22,6 +23,9 @@ export const StepsLayout = ({
   setStep?: any
   steps?: any
 }) => {
+  const screenSizeType = useScreenSize()
+  const isMobile = screenSizeType === 'sm'
+
   return (
     <Layout className="steps-layout" style={{ minHeight: '100vh' }}>
       <Content>
@@ -29,7 +33,11 @@ export const StepsLayout = ({
           <div className="logo">
             <LogoDark />
           </div>
-          <Steps current={currentStep} direction="vertical">
+          <Steps
+            current={currentStep}
+            direction={isMobile ? 'horizontal' : 'vertical'}
+            size={isMobile ? 'small' : 'default'}
+          >
             {steps?.map((step: any, i: any) => (
               <Step
                 description={step.description}

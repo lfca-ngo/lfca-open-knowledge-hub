@@ -28,7 +28,13 @@
       }
 
       .ant-steps {
-        margin: 40px 20px;
+        max-width: 200px;
+        margin: 10px auto 0;
+
+        @media @desktop {
+          margin: 40px 20px;
+          max-width: none;
+        }
 
         > .ant-steps-item
           > .ant-steps-item-container
@@ -58,13 +64,23 @@
         > .ant-steps-item .ant-steps-item-description {
           padding-bottom: 32px;
         }
+
+        .ant-steps-item-content {
+          .ant-steps-item-title,
+          .ant-steps-item-description {
+            display: none;
+            @media @desktop {
+              display: block;
+            }
+          }
+        }
       }
     }
 
     .content-layout-wrapper {
       min-width: 0;
       flex: 1;
-      margin: 40px 70px;
+      margin: 20px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;

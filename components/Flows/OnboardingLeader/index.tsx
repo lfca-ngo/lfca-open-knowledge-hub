@@ -81,18 +81,16 @@ const Footprint = (props: any) => {
   return (
     <div>
       <Tag className="super-text">Intro</Tag>
-      <h1>{`Welcome Timo, let's get you started!`}</h1>
+      <h1>{`Great! Change starts with yourself. Let's start by examining your personal footprint`}</h1>
       <p>
-        {`The lfca platform is the place where we collect and share our
-        community's knowledge. It's the place where we inspire you to realize
-        the full climate action potential of your organization.`}
+        {`To understand the issue of climate change, it's important to realize where we cause emissions in our day-to-day lifes and to learn how we can reduce our output of carbon.`}
       </p>
       <Button
         onClick={() => setDrawerVisible(true)}
         size="large"
         type="primary"
       >
-        Start
+        Calculate my footprint
       </Button>
 
       <Drawer

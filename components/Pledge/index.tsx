@@ -29,8 +29,8 @@ const PLEDGE = (company: string) => [
     title: `At ${company} we commit to aligning our longterm business strategy with the Paris Accords`,
   },
   {
-    text: 'I acknowledge that to understand and reduce the real impact of our business we need to understand our carbon footprint including our value chain.',
-    title: `At ${company} we commit to yearly measurement of our carbon footprint (incl. Scope 3)`,
+    text: 'I acknowledge that to understand and reduce the real impact of our business we need to understand our carbon emissions including our value chain.',
+    title: `At ${company} we commit to yearly measurement of our carbon emissions`,
   },
   {
     text: 'I acknowledge that it takes more than carbon reduction to stop the climate crisis. We are aware and ready to make our influence count with stakeholders such as partners, customers.',
