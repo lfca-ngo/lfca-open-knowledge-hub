@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { getScreenSizeType, DESKTOP } from '../utils'
+import { DESKTOP, getScreenSizeType } from '../utils'
 
 const CLIENT = 'client'
 const SERVER = 'server'
 
 const initialState = {
   isClient: false,
-  screenSize: DESKTOP,
   key: SERVER,
+  screenSize: DESKTOP,
 }
 
 const AppContext = createContext(initialState)
@@ -26,12 +26,16 @@ export const AppProvider = ({ children }: { children: any }) => {
     setScreenSize(screenSize)
   }, [])
 
+  // wait with initial render until client side
+  // to avoid SSR flashing
+  if (!isClient) return null
+
   return (
     <AppContext.Provider
       value={{
         isClient,
-        screenSize,
         key,
+        screenSize,
       }}
     >
       {children}
