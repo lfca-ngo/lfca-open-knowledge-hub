@@ -1,6 +1,6 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
@@ -35,7 +35,7 @@ export const StepsLayout = ({
           </div>
           <Steps
             current={currentStep}
-            direction={isMobile ? 'horizontal' : 'vertical'}
+            direction={'vertical'}
             size={isMobile ? 'small' : 'default'}
           >
             {steps?.map((step: any, i: any) => (

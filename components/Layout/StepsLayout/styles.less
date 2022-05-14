@@ -11,13 +11,19 @@
       flex-direction: row;
     }
 
+    .logo {
+      display: flex;
+    }
+
     .steps-layout-wrapper {
       background-color: @chalk;
       width: 100%;
       padding: 20px;
+      display: flex;
 
       @media @desktop {
         width: @steps-sider-section-width;
+        display: block;
       }
 
       @media @desktop-xxl {
@@ -28,12 +34,44 @@
       }
 
       .ant-steps {
-        max-width: 200px;
-        padding: 10px auto 0;
+        flex-direction: row;
+        margin-left: 20px;
 
         @media @desktop {
+          margin-left: 0;
           padding: 40px 0 0 30px;
           max-width: none;
+          flex-direction: column;
+        }
+
+        .ant-steps-item {
+          flex: 0;
+          @media @desktop {
+            flex: 1 0 auto;
+          }
+        }
+
+        .ant-steps-item-tail {
+          display: none;
+          @media @desktop {
+            display: block;
+          }
+        }
+
+        .ant-steps-item-container {
+          display: flex;
+          align-items: center;
+          @media @desktop {
+            display: block;
+          }
+        }
+
+        .ant-steps-item {
+          &:last-child {
+            .ant-steps-item-tail {
+              display: none;
+            }
+          }
         }
 
         > .ant-steps-item
