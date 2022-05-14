@@ -5,21 +5,32 @@
   font-size: @font-size-base;
   height: 100%;
   border-bottom: 2px solid @black;
-  width: @sider-section-width;
   display: flex;
   text-decoration: none;
   margin-right: 0;
   margin-left: auto;
 
+  @media @desktop {
+    width: @sider-section-width;
+  }
+
   .profile-pic {
-    margin-right: 20px;
+    margin: 0 20px;
+
+    @media @desktop {
+      margin: 0 20px 0 0;
+    }
   }
 
   .profile-info {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     height: auto;
+
+    display: none;
+    @media @desktop {
+      display: flex;
+    }
 
     .name {
       color: @black;
@@ -31,6 +42,14 @@
     .company {
       font-size: @font-size-sm;
       line-height: normal;
+    }
+  }
+}
+
+.settings-nav-overlay {
+  .ant-dropdown-menu {
+    @media @mobile {
+      min-width: 200px;
     }
   }
 }

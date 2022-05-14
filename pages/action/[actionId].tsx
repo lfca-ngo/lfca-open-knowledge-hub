@@ -58,7 +58,7 @@ const Action: NextPage = (props: any) => {
           <ActionsBar onComplete={() => setIsOpen(true)} />
         </Section>
         <Section title="Community">
-          <Comments
+          {/* <Comments
             actionId={action?.actionId}
             comments={{
               '1': {
@@ -70,7 +70,7 @@ const Action: NextPage = (props: any) => {
                 message: 'This action is great! I love it!',
               },
             }}
-          />
+          /> */}
         </Section>
         <Section title="Attachments">Something</Section>
         {/* Render additional sections */}

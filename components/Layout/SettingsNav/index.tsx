@@ -64,6 +64,7 @@ export const SettingsNav = () => {
     <Dropdown
       className="settings-nav"
       overlay={<Menu items={ITEMS} onClick={handleSelect} />}
+      overlayClassName="settings-nav-overlay"
     >
       <a onClick={(e) => e.preventDefault()}>
         <div className="profile-pic">

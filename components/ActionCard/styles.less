@@ -6,6 +6,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 4px 0;
+
+  @media @desktop {
+    margin: 0;
+  }
 
   .icon {
     margin-right: 6px;
@@ -28,7 +33,12 @@
 
 .action-stats {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+
+  @media @desktop {
+    flex-direction: row;
+  }
+
   .logo-group,
   .action-stat {
     margin-right: 22px;
@@ -56,8 +66,19 @@
     display: flex;
     width: 100%;
     padding: @card-padding 0;
+    flex-direction: column;
+
+    @media @desktop {
+      flex-direction: row;
+    }
 
     .hero {
+      display: none;
+
+      @media @desktop {
+        display: block;
+      }
+
       .wrapper {
         position: relative;
         overflow: hidden;
@@ -71,8 +92,12 @@
       display: flex;
       flex-direction: column;
       flex: 1;
-      padding: 0 30px;
+      padding: 0 0;
       justify-content: center;
+
+      @media @desktop {
+        padding: 0 30px;
+      }
 
       .title {
         font-size: 18px;
@@ -90,7 +115,10 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      margin-right: @card-padding;
+
+      @media @desktop {
+        margin-right: @card-padding;
+      }
     }
   }
 }

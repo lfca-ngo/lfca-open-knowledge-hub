@@ -1,3 +1,7 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+@import (reference) '../../styles/mixins.less';
+
 .action-details {
   display: flex;
   flex-direction: column;
@@ -7,6 +11,11 @@
 
     .hero {
       padding-left: 25px;
+      display: none;
+
+      @media @desktop {
+        display: block;
+      }
 
       .wrapper {
         position: relative;

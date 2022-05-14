@@ -2,6 +2,12 @@
 @import (reference) '../../../styles/fonts.less';
 
 .ant-layout.sider-layout {
+  &.ant-layout-has-sider > .ant-layout {
+    @media @mobile {
+      width: 100%;
+    }
+  }
+
   .ant-layout-content {
     padding: 20px;
     display: flex;
@@ -30,7 +36,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 0 0 50px;
+    padding: 0 0 0 20px;
+
+    @media @desktop {
+      padding: 0 0 0 50px;
+    }
   }
 
   .ant-layout-sider,
