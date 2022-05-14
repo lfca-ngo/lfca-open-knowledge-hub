@@ -12,7 +12,14 @@
     }
 
     .logo {
-      display: flex;
+      position: relative;
+      width: 48px;
+      height: 48px;
+
+      @media @desktop {
+        width: 64px;
+        height: 64px;
+      }
     }
 
     .steps-layout-wrapper {

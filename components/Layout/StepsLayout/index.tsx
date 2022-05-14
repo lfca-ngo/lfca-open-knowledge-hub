@@ -1,9 +1,9 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
-import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import React from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
-import LogoDark from '../../../public/logos/logo-dark-sm.svg'
 require('./styles.less')
 
 const { Content } = Layout
@@ -31,7 +31,11 @@ export const StepsLayout = ({
       <Content>
         <div className="steps-layout-wrapper">
           <div className="logo">
-            <LogoDark />
+            <Image
+              alt="lfca-logo"
+              layout="fill"
+              src={'/logos/logo-dark-sm.svg'}
+            />
           </div>
           <Steps
             current={currentStep}
