@@ -4,7 +4,7 @@ import { List, Skeleton } from 'antd'
 import React from 'react'
 
 // import { convertValueToMarkdown } from '../RichTextEditor/utils'
-import { CommentInput } from './CommentInput'
+// import { CommentInput } from './CommentInput'
 import { CommentItem } from './CommentItem'
 // import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
@@ -23,7 +23,7 @@ export const Comments = ({
   if (!actionId) return null
 
   // test data
-  const isUpdating = false
+  // const isUpdating = false
   const isFetching = false
   const authorProfile = {
     firstname: 'Timo',
@@ -60,12 +60,12 @@ export const Comments = ({
           )}
         ></List>
       )}
-      <CommentInput
+      {/* <CommentInput
         disabled={isFetching || isUpdating}
         errorMsg={'errorMsg'}
         isSaving={isUpdating}
         onSave={onSave}
-      />
+      /> */}
       {/* <EditCommentModal
         editingComment={comments[editingCommentId]}
         onCancel={() => setEditingCommentId(null)}
@@ -74,39 +74,39 @@ export const Comments = ({
     </div>
   )
 
-  function onSave() {
-    // {
-    //   attachments,
-    //   richTextValue,
-    // }: {
-    //   attachments: any
-    //   richTextValue: string
-    // },
-    // successCB: any
-    // const markdownValue = convertValueToMarkdown(richTextValue)
-    // if (!markdownValue) return
-    // setErrorMsg('')
-    // // Create comment object and store in Firebase
-    // const comment = {
-    //   attachments: attachments.map((a: any) => ({
-    //     name: a.name,
-    //     size: a.size,
-    //     source: a.response.secure_url,
-    //     type: a.type,
-    //   })),
-    //   author: authUser.uid,
-    //   createdAt: firebase.serverValue.TIMESTAMP,
-    //   editedAt: firebase.serverValue.TIMESTAMP,
-    //   message: markdownValue,
-    // }
-    // pushActionComment(actionId, comment, (error) => {
-    //   if (error) {
-    //     setErrorMsg(error.message)
-    //   } else {
-    //     successCB && successCB()
-    //   }
-    // })
-  }
+  // function onSave() {
+  // {
+  //   attachments,
+  //   richTextValue,
+  // }: {
+  //   attachments: any
+  //   richTextValue: string
+  // },
+  // successCB: any
+  // const markdownValue = convertValueToMarkdown(richTextValue)
+  // if (!markdownValue) return
+  // setErrorMsg('')
+  // // Create comment object and store in Firebase
+  // const comment = {
+  //   attachments: attachments.map((a: any) => ({
+  //     name: a.name,
+  //     size: a.size,
+  //     source: a.response.secure_url,
+  //     type: a.type,
+  //   })),
+  //   author: authUser.uid,
+  //   createdAt: firebase.serverValue.TIMESTAMP,
+  //   editedAt: firebase.serverValue.TIMESTAMP,
+  //   message: markdownValue,
+  // }
+  // pushActionComment(actionId, comment, (error) => {
+  //   if (error) {
+  //     setErrorMsg(error.message)
+  //   } else {
+  //     successCB && successCB()
+  //   }
+  // })
+  // }
 
   // function onUpdate({ attachments, richTextValue }, successCB) {
   //   const markdownValue = convertValueToMarkdown(richTextValue)
