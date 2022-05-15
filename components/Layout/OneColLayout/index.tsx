@@ -4,6 +4,7 @@ import React from 'react'
 
 import AppPreview from '../../../public/img/app-preview.png'
 import LogoDark from '../../../public/logos/logo-dark.svg'
+import { Footer } from '../Footer'
 require('./styles.less')
 
 const { Content } = Layout
@@ -21,7 +22,7 @@ export const OneColLayout = ({ children }: { children: any }) => {
                 </div>
               </header>
               <main>{children}</main>
-              <footer>{`lfca.earth © ${new Date().getFullYear()}`}</footer>
+              <Footer />
             </div>
           </Col>
           <Col className="bg" md={12} xs={24}>

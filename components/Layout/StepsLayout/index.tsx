@@ -4,6 +4,7 @@ import Image from 'next/image'
 import React from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
+import { Footer } from '../Footer'
 require('./styles.less')
 
 const { Content } = Layout
@@ -64,7 +65,7 @@ export const StepsLayout = ({
             )}
           </header>
           <main>{children}</main>
-          <footer>{`lfca.earth © ${new Date().getFullYear()}`}</footer>
+          <Footer />
         </div>
       </Content>
     </Layout>

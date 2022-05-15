@@ -20,7 +20,11 @@
     }
   }
   .fade-out {
-    background-image: linear-gradient(to bottom, transparent, @white);
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      var(--layout-body-background)
+    );
     height: 50px;
     margin-top: -50px;
     transform: translate(

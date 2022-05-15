@@ -7,6 +7,7 @@
   flex-direction: row;
   align-items: center;
   margin: 4px 0;
+  color: var(--text-color);
 
   @media @desktop {
     margin: 0;
@@ -61,6 +62,7 @@
 
   width: 100%;
   border-radius: 0;
+  background-color: transparent;
 
   .ant-card-body {
     display: flex;
@@ -102,7 +104,7 @@
       .title {
         font-size: 18px;
         margin-bottom: 10px;
-        .font-semi(@black);
+        .font-semi();
       }
 
       .stats {

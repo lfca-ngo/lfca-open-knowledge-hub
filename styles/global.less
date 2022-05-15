@@ -22,7 +22,34 @@ body {
   }
 }
 
+// Tabs
+.ant-tabs {
+  .ant-tabs-content {
+    color: var(--text-color);
+  }
+
+  .ant-tabs-tab-btn {
+    color: var(--text-color);
+  }
+
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--heading-color);
+  }
+}
+
 // Buttons
+button.ant-btn {
+  background: var(--btn-default-bg);
+  color: var(--btn-default-color);
+}
+button.ant-btn.ant-btn-primary {
+  background: @btn-primary-bg;
+  color: @btn-primary-color;
+}
+button.ant-btn.ant-btn-background-ghost {
+  color: var(--heading-color);
+  border-color: var(--heading-color);
+}
 button.ant-btn:hover,
 button.ant-btn:focus,
 button.ant-btn:active {

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
 import LogoDark from '../../../public/logos/logo-dark-sm.svg'
+import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
@@ -12,7 +13,7 @@ require('./styles.less')
 const COLLAPSED_WIDTH = 85
 const COLLAPSED_WIDTH_MOBILE = 0
 
-const { Content, Footer, Header, Sider } = Layout
+const { Content, Header, Sider } = Layout
 
 interface SiderLayoutProps {
   children: React.ReactNode
@@ -49,7 +50,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
           <SettingsNav />
         </Header>
         <Content>{children}</Content>
-        <Footer style={{ textAlign: 'center' }}>lfca.earth ©2022</Footer>
+        <Footer />
       </Layout>
     </Layout>
   )

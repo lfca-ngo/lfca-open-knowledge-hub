@@ -49,6 +49,7 @@ export const ActionsList = ({
 }) => {
   return (
     <Tabs
+      className="actions-list-wrapper"
       defaultActiveKey={ALL_ACTIONS}
       tabBarExtraContent={{ right: <ListActions /> }}
     >

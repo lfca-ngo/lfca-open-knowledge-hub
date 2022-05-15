@@ -6,7 +6,7 @@ export const ArrowWrapper = ({
   onClick,
   style,
 }: {
-  onClick: () => void
+  onClick?: () => void
   className?: string
   icon: React.ReactNode
   style?: React.CSSProperties
