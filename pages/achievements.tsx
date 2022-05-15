@@ -1,11 +1,25 @@
 import type { NextPage } from 'next'
 
-import { Main, Section, SiderLayout } from '../components/Layout'
 import { AchievementsList } from '../components/AchievementsList'
+import { Main, Section, SiderLayout } from '../components/Layout'
 
 export const FAKE_ACHIEVEMENTS = [
   {
     name: 'Custom Microsite',
+    options: [
+      {
+        name: 'Edit Microsite',
+        type: 'primary',
+      },
+      {
+        ghost: true,
+        name: 'Get badge',
+      },
+      {
+        ghost: true,
+        name: 'Visit Microsite',
+      },
+    ],
     recommendedActions: [
       {
         completedAt: '2020-01-01',
@@ -16,6 +30,16 @@ export const FAKE_ACHIEVEMENTS = [
   },
   {
     name: 'TFCA Qualification',
+    options: [
+      {
+        name: 'Edit Microsite',
+        type: 'primary',
+      },
+      {
+        ghost: true,
+        name: 'Visit Microsite',
+      },
+    ],
     recommendedActions: [
       {
         completedAt: '2020-01-01',

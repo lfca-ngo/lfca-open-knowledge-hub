@@ -1,7 +1,12 @@
 require('./styles.less')
 
-import { Card, List } from 'antd'
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+  CheckCircleOutlined,
+} from '@ant-design/icons'
+import { Card, List, Button, Space, Drawer } from 'antd'
+import classNames from 'classnames'
 
 const ActionsStatusList = ({
   items,
@@ -19,7 +24,11 @@ const ActionsStatusList = ({
           <List.Item>
             <List.Item.Meta
               avatar={
-                item.completedAt ? <CheckCircleFilled /> : <CloseCircleFilled />
+                item.completedAt ? (
+                  <CheckCircleFilled className="green" />
+                ) : (
+                  <CloseCircleFilled className="red" />
+                )
               }
               title={item.title}
             />
@@ -31,9 +40,23 @@ const ActionsStatusList = ({
 }
 
 export const AchievementCard = (props: any) => {
+  const achievementReached = props.requiredActions.every(
+    (a: any) => a.completedAt
+  )
+
   return (
-    <Card className="achievement-card" onClick={props.onClick}>
-      <div className="achievement-title">{props.name}</div>
+    <Card
+      className={classNames('achievement-card', {
+        'achievement-reached': achievementReached,
+      })}
+      onClick={props.onClick}
+    >
+      <div className="achievement-title">
+        {props.name}
+        {achievementReached && (
+          <CheckCircleOutlined className="title-icon green" />
+        )}
+      </div>
       <ActionsStatusList
         items={props.recommendedActions}
         title={'Recommended Actions'}
@@ -42,6 +65,20 @@ export const AchievementCard = (props: any) => {
         items={props.requiredActions}
         title={'Required Actions'}
       />
+
+      <Space direction="vertical" style={{ width: '100%' }}>
+        {props.options?.map((option: any) => (
+          <Button
+            block
+            ghost={option.ghost}
+            key={option.key}
+            onClick={() => props.openDrawer()}
+            type={option.type}
+          >
+            {option.name}
+          </Button>
+        ))}
+      </Space>
     </Card>
   )
 }

@@ -3,12 +3,32 @@
 @import (reference) '../../styles/mixins.less';
 
 .achievement-card {
+  border-width: 2px;
   .achievement-title {
     .font-semi();
     font-size: 19px;
     margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+
+    .title-icon {
+      margin-left: 5px;
+      font-size: 24px;
+    }
   }
   .ant-list-item-meta-title {
     .font-semi();
+  }
+  .anticon {
+    &.green {
+      color: @green;
+    }
+    &.red {
+      color: @wine;
+    }
+  }
+
+  &.achievement-reached {
+    border-color: @green;
   }
 }
