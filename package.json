@@ -20,6 +20,7 @@
     "contentful": "^9.1.28",
     "crypto": "^1.0.1",
     "firebase": "^9.8.0",
+    "framer-motion": "^6.3.3",
     "graphql": "^16.4.0",
     "is-hotkey": "^0.2.0",
     "lodash.unescape": "^4.0.1",

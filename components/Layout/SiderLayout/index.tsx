@@ -2,7 +2,7 @@ import { Layout } from 'antd'
 import React, { useState } from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
-import LogoDark from '../../../public/logos/logo-dark-sm.svg'
+import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
 import { SettingsNav } from '../SettingsNav'
@@ -37,9 +37,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
         onCollapse={(collapsed) => setCollapsed(collapsed)}
         theme="light"
       >
-        <div className="logo">
-          <LogoDark />
-        </div>
+        <Logo />
         <div className="divider" />
         <MainNav />
       </Sider>
