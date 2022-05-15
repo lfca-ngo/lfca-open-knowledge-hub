@@ -1,5 +1,7 @@
 @import '~antd/lib/style/themes/default.less';
 
+@THEME--DARK: ~'theme-dark';
+
 // -------- Colors -----------
 // Palette
 @blue: #042b4f;
@@ -14,12 +16,17 @@
 @black: #0b0b0c;
 @grey-light: #e4e4e4;
 @grey-white: #f1f1f1;
+@bg-accent: #f0f0f0;
+@bg-accent-darkmode: #252528;
+@bg-accent-strong: @grey-light;
+@bg-accent-strong-darkmode: #48484e;
 
 // Ant design colors
 @primary-color: @yellow;
 // @secondary-color: @yellow;
 
 // Layout
+@layout-highlight: @black;
 @layout-header-background: @white;
 @layout-body-background: @white;
 @layout-footer-background: @white;
@@ -35,6 +42,7 @@
 @menu-item-active-bg: fade(@black, 5%);
 @menu-bg: @chalk;
 @menu-highlight-color: @black;
+@menu-inline-submenu-bg: fade(@black, 3%);
 
 // Fonts
 @font-family: 'DM Sans', -apple-system, Helvetica, Arial, sans-serif;
@@ -44,8 +52,11 @@
 @font-size-xs: 15px;
 @line-height-base: 1.4;
 @text-color: fade(@black, 65%);
+@text-color-darkmode: fade(@white, 65%);
 @text-color-strong: fade(@black, 95%);
+@text-color-strong-darkmode: fade(@white, 95%);
 @text-color-light: fade(@black, 55%);
+@text-color-light-darkmode: fade(@white, 55%);
 @heading-color: @black;
 @typography-title-font-weight: 800;
 @link-decoration: underline;
@@ -79,6 +90,7 @@
 @btn-primary-color: @black;
 @btn-primary-bg: @primary-color;
 @btn-default-color: @black;
+@btn-default-bg: @white;
 
 @btn-default-ghost-color: @black;
 @btn-default-ghost-bg: transparent;

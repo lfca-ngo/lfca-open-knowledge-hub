@@ -1,9 +1,10 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
-import Image from 'next/image'
 import React from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
+import { Logo } from '../../Logo'
+import { Footer } from '../Footer'
 require('./styles.less')
 
 const { Content } = Layout
@@ -30,13 +31,7 @@ export const StepsLayout = ({
     <Layout className="steps-layout" style={{ minHeight: '100vh' }}>
       <Content>
         <div className="steps-layout-wrapper">
-          <div className="logo">
-            <Image
-              alt="lfca-logo"
-              layout="fill"
-              src={'/logos/logo-dark-sm.svg'}
-            />
-          </div>
+          <Logo size="large" />
           <Steps
             current={currentStep}
             direction={'vertical'}
@@ -64,7 +59,7 @@ export const StepsLayout = ({
             )}
           </header>
           <main>{children}</main>
-          <footer>{`lfca.earth © ${new Date().getFullYear()}`}</footer>
+          <Footer />
         </div>
       </Content>
     </Layout>

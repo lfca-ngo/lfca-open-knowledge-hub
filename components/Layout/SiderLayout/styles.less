@@ -1,7 +1,12 @@
 @import (reference) '../../../styles/variables.less';
 @import (reference) '../../../styles/fonts.less';
+@import (reference) '../../../styles/variables-css.less';
 
 .ant-layout.sider-layout {
+  .ant-layout.site-layout {
+    background: var(--layout-body-background);
+  }
+
   .ant-layout-content {
     padding: 20px;
     display: flex;
@@ -26,14 +31,15 @@
   }
 
   .ant-layout-header {
-    border-bottom: 1px solid @grey-light;
+    border-bottom: 1px solid var(--bg-accent-strong);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 0 0 20px;
+    background: var(--layout-body-background);
 
     @media @desktop {
-      padding: 0 0 0 50px;
+      padding: 0 0 0 @default-padding;
     }
   }
 
@@ -43,11 +49,8 @@
   }
 
   .ant-layout-sider {
-    .logo {
+    .logo-wrapper {
       padding: 14px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       height: @layout-header-height;
     }
 

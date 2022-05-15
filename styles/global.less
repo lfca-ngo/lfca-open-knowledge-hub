@@ -1,15 +1,10 @@
 @import (reference) './variables.less';
 @import (reference) './fonts.less';
+@import (reference) './variables-css.less';
 
 html,
 body {
   width: 100%;
-}
-
-.site-layout {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 
 // Tags
@@ -27,7 +22,49 @@ body {
   }
 }
 
+// Tabs
+.ant-tabs {
+  .ant-tabs-content {
+    color: var(--text-color);
+  }
+
+  .ant-tabs-tab-btn {
+    color: var(--text-color);
+  }
+
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--heading-color);
+  }
+}
+
+// Form
+.ant-form {
+  .ant-form-item-label > label {
+    color: var(--heading-color);
+  }
+}
+
+// List
+.ant-list.ant-list-split {
+  .ant-list-item {
+    border-color: var(--bg-accent);
+    color: var(--text-color);
+  }
+}
+
 // Buttons
+button.ant-btn {
+  background: var(--btn-default-bg);
+  color: var(--btn-default-color);
+}
+button.ant-btn.ant-btn-primary {
+  background: @btn-primary-bg;
+  color: @btn-primary-color;
+}
+button.ant-btn.ant-btn-background-ghost {
+  color: var(--heading-color);
+  border-color: var(--heading-color);
+}
 button.ant-btn:hover,
 button.ant-btn:focus,
 button.ant-btn:active {

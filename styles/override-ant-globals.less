@@ -1,2 +1,26 @@
+@import './variables-css.less';
 @import './variables.less';
 @import './fonts.less';
+@import './mixins.less';
+
+// Dark mode
+.theme-dark {
+  --layout-body-background: @black;
+  --heading-color: @white;
+  --text-color: @text-color-darkmode;
+  --text-color-light: @text-color-light-darkmode;
+  --text-color-strong: @text-color-strong-darkmode;
+  --bg-accent: @bg-accent-darkmode;
+  --bg-accent-strong: @bg-accent-strong-darkmode;
+  --layout-highlight: @white;
+  --btn-default-color: @white;
+  --btn-default-bg: @black;
+  --link-color: @white;
+}
+
+body {
+  color: var(--text-color);
+  a {
+    color: var(--link-color);
+  }
+}

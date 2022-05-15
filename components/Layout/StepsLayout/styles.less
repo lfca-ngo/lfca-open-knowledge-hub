@@ -2,6 +2,8 @@
 @import (reference) '../../../styles/fonts.less';
 
 .steps-layout {
+  background-color: var(--layout-body-background);
+
   .ant-layout-content {
     display: flex;
     flex-direction: column;
@@ -40,15 +42,21 @@
         bottom: 0;
       }
 
+      .logo-wrapper {
+        justify-content: flex-start;
+      }
+
       .ant-steps {
         flex-direction: row;
         margin-left: 20px;
+        align-items: center;
 
         @media @desktop {
           margin-left: 0;
           padding: 40px 0 0 30px;
           max-width: none;
           flex-direction: column;
+          align-items: initial;
         }
 
         .ant-steps-item {
