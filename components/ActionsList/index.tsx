@@ -5,7 +5,7 @@ import { Button, Input, List, Popover, Select, Space, Tabs } from 'antd'
 import React from 'react'
 
 import { ALL_ACTIONS } from '../../services/contentful'
-import { ActionCard } from '../ActionCard'
+import { ActionCardWrapper } from '../ActionCard'
 
 const { TabPane } = Tabs
 const { Search } = Input
@@ -41,10 +41,12 @@ const ListActions = () => {
 }
 
 export const ActionsList = ({
+  actionLink,
   actionsByTags,
   onSelect,
 }: {
   actionsByTags: any
+  actionLink?: any
   onSelect?: any
 }) => {
   return (
@@ -62,11 +64,13 @@ export const ActionsList = ({
               dataSource={actions}
               pagination={{ pageSize: 10 }}
               renderItem={(item: any) => {
+                const link = actionLink?.(item.actionId)
                 return (
                   <List.Item>
-                    <ActionCard
+                    <ActionCardWrapper
                       action={item}
-                      onClick={() => onSelect(item.actionId)}
+                      href={link}
+                      onClick={() => onSelect?.(item.actionId)}
                     />
                   </List.Item>
                 )

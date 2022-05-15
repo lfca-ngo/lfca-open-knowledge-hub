@@ -26,7 +26,10 @@ const Home: NextPage = (props: any) => {
           />
         </Section>
         <Section bordered={false} title="Browse all actions">
-          <ActionsList actionsByTags={byTags} onSelect={handleActionClick} />
+          <ActionsList
+            actionLink={(key: string) => `/action/${key}`}
+            actionsByTags={byTags}
+          />
         </Section>
       </Main>
       <Sider>

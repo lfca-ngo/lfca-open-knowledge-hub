@@ -4,6 +4,7 @@ import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, Button, Card } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { FAKE_LOGOS } from '../ActionsCarousel'
 import { LogoGroup } from '../LogoGroup'
@@ -81,4 +82,19 @@ export const ActionCard = ({
       </div>
     </Card>
   )
+}
+
+// the next/link component allows us to prefetch the action pages
+// speeding up the experience for the user, alternatively an onclick
+// handler is used to trigger an action
+export const ActionCardWrapper = (props: any) => {
+  if (props.href) {
+    return (
+      <Link href={props.href}>
+        <a className="action-card-wrapper">
+          <ActionCard {...props} />
+        </a>
+      </Link>
+    )
+  } else return <ActionCard {...props} />
 }
