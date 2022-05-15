@@ -10,6 +10,7 @@ export const DESKTOP = 'lg'
 export const DESKTOP_XL = 'xl'
 export const SIDER = 'sider'
 export const MAIN = 'main'
+export const THEME_DARK = 'theme-dark'
 
 export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)
@@ -61,4 +62,25 @@ export function isValidUrl(url: string) {
   return !!String(url).match(
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
   )
+}
+
+export const CSS_THEME_DARK = !isBrowser()
+  ? THEME_DARK
+  : getComputedStyle(document.documentElement)
+      ?.getPropertyValue('--THEME--DARK')
+      .trim() || THEME_DARK
+
+export const setCookie = (name: string, value: any) => {
+  if (!isBrowser()) return
+  window.localStorage.setItem(name, value)
+}
+
+export const getCookie = (name: string) => {
+  if (!isBrowser()) return null
+  return window.localStorage.getItem(name)
+}
+
+export const deleteCookie = (name: string) => {
+  if (!isBrowser()) return
+  window.localStorage.removeItem(name)
 }

@@ -16,6 +16,7 @@ import {
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
 } from '../../../utils/routes'
+import { DarkModeSelector } from '../../DarkModeSelector'
 
 const LOGOUT = 'logout'
 
@@ -77,6 +78,7 @@ export const SettingsNav = () => {
         <div className="profile-info">
           <div className="name">Timo Müller</div>
           <div className="company">lfca.earth</div>
+          <DarkModeSelector />
         </div>
       </a>
     </Dropdown>

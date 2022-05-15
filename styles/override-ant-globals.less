@@ -1,2 +1,13 @@
+@import './variables-css.less';
 @import './variables.less';
 @import './fonts.less';
+@import './mixins.less';
+
+// Dark mode
+.theme-dark {
+  --layout-body-background: @black;
+  --heading-color: @white;
+  --text-color: @text-color-darkmode;
+  --text-color-light: @text-color-light-darkmode;
+  --text-color-strong: @text-color-strong-darkmode;
+}

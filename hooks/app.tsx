@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 import { DESKTOP, getScreenSizeType } from '../utils'
+import { useDarkMode } from './useDarkMode'
 
 const CLIENT = 'client'
 const SERVER = 'server'
@@ -17,6 +18,9 @@ export const AppProvider = ({ children }: { children: any }) => {
   const [screenSize, setScreenSize] = useState(initialState.screenSize)
   const [isClient, setClient] = useState(initialState.isClient)
   const key = isClient ? CLIENT : SERVER
+
+  // set dark mode
+  useDarkMode()
 
   // due to SSG we only know if it's mobile
   // after first client side render
