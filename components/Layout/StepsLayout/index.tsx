@@ -31,7 +31,7 @@ export const StepsLayout = ({
     <Layout className="steps-layout" style={{ minHeight: '100vh' }}>
       <Content>
         <div className="steps-layout-wrapper">
-          <Logo animated size="large" />
+          <Logo size="large" />
           <Steps
             current={currentStep}
             direction={'vertical'}
