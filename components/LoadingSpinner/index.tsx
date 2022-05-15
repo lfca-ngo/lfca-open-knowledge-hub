@@ -8,7 +8,9 @@ import React from 'react'
 
 const DEFAULT_COLOR = '#fff'
 
-const COLOR_MAP = {
+const COLOR_MAP: {
+  [key: string]: any
+} = {
   'color-1': {
     from: DEFAULT_COLOR,
     to: '#00e0ad',
@@ -31,20 +33,35 @@ const COLOR_MAP = {
   },
 }
 
-const variants = (color) => ({
+type SpinnerProps = {
+  color?: string
+  spinning?: boolean
+  type?: 'politics' | 'energy' | 'check' | 'home' | 'leaf'
+}
+
+type IconSelectorProps = {
+  color?: string
+  type?: 'politics' | 'energy' | 'check' | 'home' | 'leaf'
+}
+
+type IconSpinnerProps = {
+  color?: string
+}
+
+const variants = (color?: string) => ({
   animate: {
     pathLength: 0,
-    stroke: COLOR_MAP[color]?.to || DEFAULT_COLOR,
+    stroke: color ? COLOR_MAP[color]?.to : DEFAULT_COLOR,
     strokeWidth: 1,
   },
   initial: {
     pathLength: 1,
-    stroke: COLOR_MAP[color]?.from || DEFAULT_COLOR,
+    stroke: color ? COLOR_MAP[color]?.from : DEFAULT_COLOR,
     strokeWidth: 1.5,
   },
 })
 
-const BullhornSpinner = ({ color }) => {
+const BullhornSpinner = ({ color }: IconSpinnerProps) => {
   const transition = { duration: 2, ease: 'easeInOut', yoyo: Infinity }
   const pathVariants = variants(color)
 
@@ -67,7 +84,7 @@ const BullhornSpinner = ({ color }) => {
   )
 }
 
-const LeafSpinner = ({ color }) => {
+const LeafSpinner = ({ color }: IconSpinnerProps) => {
   const transition = { duration: 2, ease: 'easeInOut', yoyo: Infinity }
   const pathVariants = variants(color)
 
@@ -91,7 +108,7 @@ const LeafSpinner = ({ color }) => {
   )
 }
 
-const LayerSpinner = ({ color }) => {
+const LayerSpinner = ({ color }: IconSpinnerProps) => {
   const transition = { duration: 2, ease: 'easeInOut', yoyo: Infinity }
   const pathVariants = variants(color)
 
@@ -114,7 +131,7 @@ const LayerSpinner = ({ color }) => {
   )
 }
 
-const CheckmarkSpinner = ({ color }) => {
+const CheckmarkSpinner = ({ color }: IconSpinnerProps) => {
   const transition = { duration: 2, ease: 'easeInOut', yoyo: Infinity }
   const pathVariants = variants(color)
 
@@ -137,7 +154,7 @@ const CheckmarkSpinner = ({ color }) => {
   )
 }
 
-const EnergySpinner = ({ color }) => {
+const EnergySpinner = ({ color }: IconSpinnerProps) => {
   const transition = { duration: 2, ease: 'easeInOut', yoyo: Infinity }
   const pathVariants = variants(color)
 
@@ -160,7 +177,7 @@ const EnergySpinner = ({ color }) => {
   )
 }
 
-const IconSelector = ({ color, type }) => {
+const IconSelector = ({ color, type }: IconSelectorProps) => {
   switch (type) {
     case 'politics':
       return <BullhornSpinner color={color} />
@@ -177,7 +194,11 @@ const IconSelector = ({ color, type }) => {
   }
 }
 
-export const spinnerProps = ({ color, spinning = true, type }) => ({
+export const spinnerProps = ({
+  color,
+  spinning = true,
+  type,
+}: SpinnerProps) => ({
   indicator: <IconSelector color={color} type={type} />,
   spinning: spinning,
   wrapperClassName: 'loading-wrapper',
@@ -188,6 +209,11 @@ export const LoadingSpinner = ({
   className,
   label,
   title,
+}: {
+  additionalSpinnerProps?: SpinnerProps
+  className?: string
+  label?: string
+  title?: string
 }) => {
   return (
     <div className={classNames('loading-wrapper', 'centered', className)}>
