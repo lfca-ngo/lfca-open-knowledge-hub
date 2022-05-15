@@ -1,11 +1,13 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 
+import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllActions } from '../../services/contentful'
 import { ACTIONS_NAV } from '../../utils/navs'
+import { FAKE_ACHIEVEMENTS } from '../achievements'
 
 const Home: NextPage = (props: any) => {
   const router = useRouter()
@@ -33,7 +35,9 @@ const Home: NextPage = (props: any) => {
         </Section>
       </Main>
       <Sider>
-        <Section title="Rewards">Something</Section>
+        <Section title="Rewards">
+          <AchievementsListMini achievements={FAKE_ACHIEVEMENTS} />
+        </Section>
       </Sider>
     </SiderLayout>
   )

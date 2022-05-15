@@ -1,7 +1,9 @@
+require('./styles.less')
+
 import { Drawer, List } from 'antd'
 import { useState } from 'react'
 
-import { AchievementCard } from '../AchievementCard'
+import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 
 export const AchievementsList = (props: any) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
@@ -33,5 +35,19 @@ export const AchievementsList = (props: any) => {
         Form
       </Drawer>
     </div>
+  )
+}
+
+export const AchievementsListMini = (props: any) => {
+  return (
+    <List
+      className="achievements-list-mini"
+      dataSource={props.achievements}
+      renderItem={(item: any) => (
+        <List.Item>
+          <AchievementCardMini {...item} />
+        </List.Item>
+      )}
+    />
   )
 }
