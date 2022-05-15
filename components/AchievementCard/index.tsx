@@ -27,7 +27,7 @@ const ActionsStatusList = ({
                 item.completedAt ? (
                   <CheckCircleFilled className="green" />
                 ) : (
-                  <CloseCircleFilled className="red" />
+                  <CloseCircleFilled className="wine" />
                 )
               }
               title={item.title}
@@ -85,15 +85,20 @@ export const AchievementCard = (props: any) => {
 
 const AchievementStat = ({
   completedCount,
-  icon,
+
   totalCount,
 }: {
   totalCount: number
   completedCount: number
-  icon: any
 }) => (
   <div className="achievement-stat">
-    <div className="icon">{icon}</div>
+    <div className="icon">
+      {totalCount === completedCount ? (
+        <CheckCircleFilled className="green" />
+      ) : (
+        <CloseCircleFilled className="wine" />
+      )}
+    </div>
     <div className="label">{`${completedCount}/${totalCount}`}</div>
   </div>
 )
@@ -114,12 +119,10 @@ export const AchievementCardMini = (props: any) => {
         <div className="achievement-stats">
           <AchievementStat
             completedCount={completedRequiredActionsCount}
-            icon={<CheckCircleFilled />}
             totalCount={props.requiredActions.length}
           />
           <AchievementStat
             completedCount={completedRecommendedActionsCount}
-            icon={<CheckCircleFilled />}
             totalCount={props.recommendedActions.length}
           />
         </div>
