@@ -1,25 +1,25 @@
-import { FileOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
 
-interface FileUploadProps {
+interface ImageUploadProps {
   value?: any
   onChange?: any
   customPreset?: any
 }
 
-export const FileUpload: React.FC<FileUploadProps> = ({
+export const ImageUpload: React.FC<ImageUploadProps> = ({
   customPreset,
   onChange,
   value,
 }) => {
   const [loading, setLoading] = useState(false)
-  const [fileUrl, setFileUrl] = useState(value)
+  const [imageUrl, setImageUrl] = useState(value)
 
   useEffect(() => {
-    setFileUrl(value)
+    setImageUrl(value)
   }, [value])
 
   const handleChange = (info: any) => {
@@ -28,11 +28,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       return
     }
     if (info.file.status === 'done') {
-      const fileUrl = info?.file?.response?.secure_url
-      setFileUrl(fileUrl)
-      onChange?.(fileUrl)
+      onChange?.(info?.file?.response?.secure_url)
     }
-    // @TODO: else throw error
   }
 
   const uploadButton = (
@@ -45,17 +42,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <div className="clearfix">
       <Upload
-        accept={'*'}
+        accept={'image/*'}
         action={UPLOAD_API}
         customRequest={(props) => handleCustomRequest(props, customPreset)}
         listType="picture-card"
         onChange={handleChange}
         showUploadList={false}
       >
-        {fileUrl ? (
-          <span>
-            <FileOutlined /> <a href={fileUrl}> file</a>
-          </span>
+        {imageUrl ? (
+          <img alt="avatar" src={imageUrl} style={{ width: '100%' }} />
         ) : (
           uploadButton
         )}

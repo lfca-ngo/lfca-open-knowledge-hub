@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
 
-interface FileUploadProps {
+interface ImageUploadMultiProps {
   value?: any
   onChange?: any
   customPreset?: any
 }
 
-export const FileUploadMulti: React.FC<FileUploadProps> = ({
+export const ImageUploadMulti: React.FC<ImageUploadMultiProps> = ({
   onChange,
   customPreset,
   value = [],

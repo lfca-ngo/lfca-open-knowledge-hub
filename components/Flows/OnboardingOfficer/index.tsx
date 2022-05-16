@@ -53,8 +53,10 @@ const Intro = (props: any) => {
 }
 
 const Personalize = (props: any) => {
+  const [activeActionId, setActiveActionId] = useState('')
   const [drawerVisible, setDrawerVisible] = useState(false)
-  const onSelect = () => {
+  const onSelect = (key: string) => {
+    setActiveActionId(key)
     setDrawerVisible(true)
   }
 
@@ -75,7 +77,10 @@ const Personalize = (props: any) => {
         onClose={() => setDrawerVisible(false)}
         visible={drawerVisible}
       >
-        <CompleteActionForm onComplete={() => setDrawerVisible(false)} />
+        <CompleteActionForm
+          actionId={activeActionId}
+          onComplete={() => setDrawerVisible(false)}
+        />
       </Drawer>
     </div>
   )

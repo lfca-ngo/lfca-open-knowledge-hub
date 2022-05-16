@@ -2,7 +2,7 @@ import { Button, Form, Input } from 'antd'
 import type { NextPage } from 'next'
 
 import { DarkModeSelector } from '../../components/DarkModeSelector'
-import { FileUpload } from '../../components/FileUpload/FileUpload'
+import { ImageUpload } from '../../components/FileUpload/ImageUpload'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { SETTINGS_NAV } from '../../utils/navs'
 
@@ -20,7 +20,7 @@ const Settings: NextPage = () => {
               <Input placeholder="Your name" />
             </Form.Item>
             <Form.Item label="Change picture" name="picture">
-              <FileUpload />
+              <ImageUpload />
             </Form.Item>
             <Form.Item label="Darkmode">
               <DarkModeSelector />

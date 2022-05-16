@@ -1,7 +1,7 @@
 import { Button, Form } from 'antd'
 import React from 'react'
 
-import { FileUploadMulti } from '../FileUpload/FileUploadMulti'
+import { ImageUploadMulti } from '../FileUpload/ImageUploadMulti'
 import { RichTextEditor } from '../RichTextEditor'
 
 export const CommentInput = ({
@@ -49,7 +49,7 @@ export const CommentInput = ({
           onFinish={(values) => onSave(values, richTextValue)}
         >
           <Form.Item name="attachment">
-            <FileUploadMulti />
+            <ImageUploadMulti />
           </Form.Item>
           <Form.Item name="attachment">
             <Button loading={isSaving}>Save</Button>

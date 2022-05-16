@@ -80,7 +80,10 @@ const Action: NextPage = (props: any) => {
       </Sider>
 
       <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
-        <CompleteActionForm />
+        <CompleteActionForm
+          actionId={action?.actionId}
+          onComplete={() => setIsOpen(false)}
+        />
       </Drawer>
     </SiderLayout>
   )

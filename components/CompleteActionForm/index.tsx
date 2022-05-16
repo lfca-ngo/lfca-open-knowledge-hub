@@ -1,7 +1,7 @@
-import { CheckCircleFilled, UploadOutlined } from '@ant-design/icons'
-import { Button, Form, Input, notification, Upload } from 'antd'
+import { Button, Form, Input, notification, Rate, Select } from 'antd'
 import { useState } from 'react'
 
+import { FileUpload } from '../FileUpload/FileUpload'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
 import { Section } from '../Layout'
@@ -18,8 +18,10 @@ const openNotification = () => {
 }
 
 export const CompleteActionForm = ({
+  actionId,
   onComplete,
 }: {
+  actionId: string
   onComplete: () => void
 }) => {
   const [loading, setLoading] = useState(false)
@@ -38,6 +40,20 @@ export const CompleteActionForm = ({
   return (
     <Section title="Complete Action" titleSize="big">
       <Form layout="vertical" onFinish={handleFinish}>
+        {actionId === 'companyPledge' && (
+          <>
+            <Form.Item label="Did you work with a service provider?">
+              <Select placeholder="Select an option...">
+                <Select.Option key="planetly">Planetly</Select.Option>
+                <Select.Option key="cp">Climate Partner</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item label="What was your overall experience?">
+              <Rate />
+            </Form.Item>
+          </>
+        )}
+
         <Form.Item label="Any learnings to share?">
           <TextArea
             placeholder="We created an overview of 10 banks and evaluated them based on x,y,z..."
@@ -45,9 +61,7 @@ export const CompleteActionForm = ({
           />
         </Form.Item>
         <Form.Item label="Upload docs">
-          <Upload>
-            <Button icon={<UploadOutlined />}>Upload</Button>
-          </Upload>
+          <FileUpload />
         </Form.Item>
         <Form.Item>
           <Button block htmlType="submit" loading={loading} type="primary">

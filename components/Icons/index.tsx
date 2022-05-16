@@ -65,7 +65,7 @@ const variants = (color?: string) => ({
   initial: {
     pathLength: 0,
     stroke: color ? COLOR_MAP[color]?.from : DEFAULT_COLOR,
-    strokeWidth: 2.5,
+    strokeWidth: 2.3,
   },
 })
 
