@@ -8,20 +8,23 @@ import { ActionsList } from '../../components/ActionsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import {
   sortCompanyActionsByTag,
+  useCompanyAchievementsMiniQuery,
   useCompanyActionsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
-import { FAKE_ACHIEVEMENTS } from '../achievements'
 
 const Home: NextPage = () => {
   const router = useRouter()
 
-  // TODO: loading & error UI
-  const [{ data, error, fetching }] = useCompanyActionsQuery()
+  // TODO: UI for error & fetching state
+  const [{ data: actionsData }] = useCompanyActionsQuery()
+
+  // TODO: UI for error & fetching state
+  const [{ data: companyAchievementsData }] = useCompanyAchievementsMiniQuery()
 
   const actionsByTags = React.useMemo(
-    () => sortCompanyActionsByTag(data?.companyActions || []),
-    [data]
+    () => sortCompanyActionsByTag(actionsData?.companyActions || []),
+    [actionsData]
   )
 
   /**
@@ -31,13 +34,13 @@ const Home: NextPage = () => {
    */
   const highlightedActions = React.useMemo(
     () =>
-      (data?.companyActions || []).filter(
+      (actionsData?.companyActions || []).filter(
         (companyAction) =>
           (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
             companyAction.requiredForCompanyAchievementIds.length > 0) &&
           !companyAction.completedAt
       ),
-    [data]
+    [actionsData]
   )
 
   return (
@@ -57,7 +60,11 @@ const Home: NextPage = () => {
       </Main>
       <Sider>
         <Section title="Rewards">
-          <AchievementsListMini achievements={FAKE_ACHIEVEMENTS} />
+          <AchievementsListMini
+            achievements={
+              companyAchievementsData?.company.program.achievements || []
+            }
+          />
         </Section>
         <Section title="...">...</Section>
       </Sider>

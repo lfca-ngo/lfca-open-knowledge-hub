@@ -1,0 +1,11 @@
+query companyAchievementsMini {
+  company {
+    id
+    program {
+      contentId
+      achievements {
+        ...CompanyAchievementMini
+      }
+    }
+  }
+}

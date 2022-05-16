@@ -3,15 +3,23 @@ require('./styles.less')
 import { Drawer, List } from 'antd'
 import { useState } from 'react'
 
+import {
+  CompanyAchievementFragment,
+  CompanyAchievementMiniFragment,
+} from '../../services/lfca-backend'
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 
-export const AchievementsList = (props: any) => {
+interface AchievementsListProps {
+  achievements: CompanyAchievementFragment[]
+}
+
+export const AchievementsList = ({ achievements }: AchievementsListProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
   return (
     <div>
       <List
         className="achievements-list"
-        dataSource={props.achievements}
+        dataSource={achievements}
         grid={{
           gutter: 16,
           lg: 3,
@@ -21,11 +29,11 @@ export const AchievementsList = (props: any) => {
           xs: 1,
           xxl: 3,
         }}
-        renderItem={(item: any) => (
+        renderItem={(item) => (
           <List.Item>
             <AchievementCard
-              {...item}
-              openDrawer={() => setDrawerVisible(true)}
+              achievement={item}
+              onClickEdit={() => setDrawerVisible(true)}
             />
           </List.Item>
         )}
@@ -38,14 +46,20 @@ export const AchievementsList = (props: any) => {
   )
 }
 
-export const AchievementsListMini = (props: any) => {
+interface AchievementsListMiniProps {
+  achievements: CompanyAchievementMiniFragment[]
+}
+
+export const AchievementsListMini = ({
+  achievements,
+}: AchievementsListMiniProps) => {
   return (
     <List
       className="achievements-list-mini"
-      dataSource={props.achievements}
-      renderItem={(item: any) => (
+      dataSource={achievements}
+      renderItem={(item) => (
         <List.Item>
-          <AchievementCardMini {...item} />
+          <AchievementCardMini achievement={item} />
         </List.Item>
       )}
     />
