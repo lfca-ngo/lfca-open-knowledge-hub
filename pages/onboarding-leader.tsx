@@ -1,28 +1,38 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { cloneElement, useState } from 'react'
+import { useState } from 'react'
 
 import { OnboardingLeaderSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
 import { fetchAllQuestionnaires } from '../services/contentful'
 
 const OnboardingLeader: NextPage = (props: any) => {
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
-  const [currentStep, setStep] = useState(0)
-  const steps = OnboardingLeaderSteps({ setStep })
-  const currentView = steps[currentStep].component
+
+  const handleOnNext = () => {
+    if (currentStepIndex === OnboardingLeaderSteps.length - 1) {
+      router.push('/')
+    } else {
+      setCurrentStepIndex((i) => i + 1)
+    }
+  }
+
+  const Step = OnboardingLeaderSteps[currentStepIndex]?.component
 
   return (
     <StepsLayout
       canClose
-      currentStep={currentStep}
+      currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}
-      setStep={setStep}
-      steps={steps}
+      steps={OnboardingLeaderSteps}
     >
-      {cloneElement(currentView, {
-        questionnaire: props?.questionnaires['oc-AU'],
-      })}
+      {Step ? (
+        <Step
+          onNext={handleOnNext}
+          questionnaire={props?.questionnaires['oc-AU']}
+        />
+      ) : null}
     </StepsLayout>
   )
 }

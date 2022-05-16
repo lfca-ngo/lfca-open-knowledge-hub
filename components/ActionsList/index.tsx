@@ -5,7 +5,8 @@ import { Button, Input, List, Popover, Select, Space, Tabs } from 'antd'
 import React from 'react'
 
 import { ALL_ACTIONS } from '../../services/contentful'
-import { ActionCardWrapper } from '../ActionCard'
+import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 
 const { TabPane } = Tabs
 const { Search } = Input
@@ -40,24 +41,22 @@ const ListActions = () => {
   )
 }
 
+export interface ActionListProps {
+  actionsByTags: Record<string, CompanyActionListItemFragment[]>
+  actionListItemProps?: Omit<ActionCardProps, 'action'>
+}
+
 export const ActionsList = ({
-  actionLink,
-  actionText = 'View',
+  actionListItemProps,
   actionsByTags,
-  onSelect,
-}: {
-  actionsByTags: any
-  actionText?: string
-  actionLink?: any
-  onSelect?: any
-}) => {
+}: ActionListProps) => {
   return (
     <Tabs
       className="actions-list-wrapper"
       defaultActiveKey={ALL_ACTIONS}
       tabBarExtraContent={{ right: <ListActions /> }}
     >
-      {Object.keys(actionsByTags).map((tag: string) => {
+      {Object.keys(actionsByTags).map((tag) => {
         const actions = actionsByTags[tag]
         return (
           <TabPane key={tag} tab={tag}>
@@ -65,16 +64,10 @@ export const ActionsList = ({
               className="actions-list"
               dataSource={actions}
               pagination={{ pageSize: 10 }}
-              renderItem={(item: any) => {
-                const link = actionLink?.(item.actionId)
+              renderItem={(item) => {
                 return (
                   <List.Item>
-                    <ActionCardWrapper
-                      action={item}
-                      actionText={actionText}
-                      href={link}
-                      onClick={() => onSelect?.(item.actionId)}
-                    />
+                    <ActionCardWrapper {...actionListItemProps} action={item} />
                   </List.Item>
                 )
               }}

@@ -475,7 +475,7 @@ export enum ValueContentType {
   UPLOAD = 'UPLOAD'
 }
 
-export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
+export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
 export type UserFragmentFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
 
@@ -484,7 +484,7 @@ export type CompanyActionsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyActionsQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
+export type CompanyActionsQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
@@ -497,6 +497,7 @@ export const CompanyActionListItemFragmentDoc = gql`
     fragment CompanyActionListItem on CompanyAction {
   companiesCompletedCount
   companiesPlannedCount
+  contentId
   heroImage {
     id
     url

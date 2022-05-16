@@ -1,39 +1,49 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
-import { fetchAllActions } from '../services/contentful'
+import {
+  sortCompanyActionsByTag,
+  useCompanyActionsQuery,
+} from '../services/lfca-backend'
 
-const OnboardingOfficer: NextPage = (props: any) => {
+const OnboardingOfficer: NextPage = () => {
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
-  const { byTags } = props.actions
-  const [currentStep, setStep] = useState(0)
-  const steps = OnboardingOfficerSteps({ byTags, setStep })
-  const currentView = steps[currentStep].component
+
+  // TODO: loading & error UI
+  const [{ data, error, fetching }] = useCompanyActionsQuery()
+
+  const actionsByTags = React.useMemo(
+    () => sortCompanyActionsByTag(data?.companyActions || []),
+    [data]
+  )
+
+  const handleOnNext = () => {
+    if (currentStepIndex === OnboardingOfficerSteps.length - 1) {
+      router.push('/')
+    } else {
+      setCurrentStepIndex((i) => i + 1)
+    }
+  }
+
+  const Step = OnboardingOfficerSteps[currentStepIndex]?.component
 
   return (
     <StepsLayout
       canClose
-      currentStep={currentStep}
+      currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}
-      setStep={setStep}
-      steps={steps}
+      steps={OnboardingOfficerSteps}
     >
-      {currentView}
+      {Step ? (
+        <Step actionsByTags={actionsByTags} onNext={handleOnNext} />
+      ) : null}
     </StepsLayout>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const actions = await fetchAllActions()
-
-  return {
-    props: {
-      actions,
-    },
-  }
 }
 
 export default OnboardingOfficer

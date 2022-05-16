@@ -1,6 +1,7 @@
 fragment CompanyActionListItem on CompanyAction {
   companiesCompletedCount
   companiesPlannedCount
+  contentId
   heroImage {
     id
     url
