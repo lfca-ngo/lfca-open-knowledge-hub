@@ -8,24 +8,20 @@ import {
 import { Card, Carousel, Tag } from 'antd'
 import React from 'react'
 
+import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { SM_BREAKPOINT } from '../../utils'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
 
-export const FAKE_LOGOS = [
-  { logoUrl: 'https://via.placeholder.com/150' },
-  { logoUrl: 'https://via.placeholder.com/150' },
-  { logoUrl: 'https://via.placeholder.com/150' },
-  { logoUrl: 'https://via.placeholder.com/150' },
-]
+interface ActionsCarouselProps {
+  actions: CompanyActionListItemFragment[]
+  onSelect: (action: CompanyActionListItemFragment) => void
+}
 
 export const ActionsCarousel = ({
   actions,
   onSelect,
-}: {
-  actions: any
-  onSelect?: any
-}) => {
+}: ActionsCarouselProps) => {
   const responsiveConfig = [
     {
       breakpoint: SM_BREAKPOINT,
@@ -47,17 +43,25 @@ export const ActionsCarousel = ({
       slidesToScroll={3}
       slidesToShow={3}
     >
-      {actions.map((action: any, i: any) => {
+      {actions.map((action, i) => {
         return (
           <Card
             bordered={false}
             key={`action-${i}`}
-            onClick={() => onSelect(action.actionId)}
+            onClick={() => onSelect(action)}
           >
-            <Tag icon={<StarFilled />}>Required</Tag>
+            <Tag icon={<StarFilled />}>
+              {action.requiredForCompanyAchievementIds.length
+                ? 'Required'
+                : 'Recommended'}
+            </Tag>
             <div className="action-card-content">
               <div className="action-card-title">{action.title}</div>
-              <LogoGroup data={FAKE_LOGOS} label={'doing this'} size="small" />
+              <LogoGroup
+                data={action.recentCompaniesCompleted}
+                label={'doing this'}
+                size="small"
+              />
             </div>
           </Card>
         )

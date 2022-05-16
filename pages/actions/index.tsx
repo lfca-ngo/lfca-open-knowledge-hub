@@ -24,20 +24,21 @@ const Home: NextPage = () => {
     [data]
   )
 
-  // Highlight actions that are either required or mandatory for one of the company's achievements
+  /**
+   * Highlight actions that are
+   * - required or mandatory for one of the company's achievements
+   * - not completed
+   */
   const highlightedActions = React.useMemo(
     () =>
       (data?.companyActions || []).filter(
         (companyAction) =>
-          companyAction.recommendedForCompanyAchievementIds.length > 0 ||
-          companyAction.requiredForCompanyAchievementIds.length > 0
+          (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
+            companyAction.requiredForCompanyAchievementIds.length > 0) &&
+          !companyAction.completedAt
       ),
     [data]
   )
-
-  const handleActionClick = (actionId: string) => {
-    router.push(`/action/${actionId}`)
-  }
 
   return (
     <SiderLayout nav={ACTIONS_NAV}>
@@ -45,7 +46,9 @@ const Home: NextPage = () => {
         <Section className="mb-40" title="Dashboard" titleSize="big">
           <ActionsCarousel
             actions={highlightedActions}
-            onSelect={handleActionClick}
+            onSelect={(action) => {
+              router.push(`/action/${action.contentId}`)
+            }}
           />
         </Section>
         <Section bordered={false} title="Browse all actions">
