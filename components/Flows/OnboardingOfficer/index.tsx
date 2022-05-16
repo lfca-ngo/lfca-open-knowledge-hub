@@ -65,9 +65,17 @@ const Personalize = (props: any) => {
         Great! Now, please select all actions that you have already taken at
         LFCA
       </h1>
-      <ActionsList actionsByTags={props.byTags} onSelect={onSelect} />
-      <Drawer onClose={() => setDrawerVisible(false)} visible={drawerVisible}>
-        <CompleteActionForm />
+      <ActionsList
+        actionText="Select"
+        actionsByTags={props.byTags}
+        onSelect={onSelect}
+      />
+      <Drawer
+        destroyOnClose
+        onClose={() => setDrawerVisible(false)}
+        visible={drawerVisible}
+      >
+        <CompleteActionForm onComplete={() => setDrawerVisible(false)} />
       </Drawer>
     </div>
   )

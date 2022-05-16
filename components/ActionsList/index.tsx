@@ -42,10 +42,12 @@ const ListActions = () => {
 
 export const ActionsList = ({
   actionLink,
+  actionText = 'View',
   actionsByTags,
   onSelect,
 }: {
   actionsByTags: any
+  actionText: string
   actionLink?: any
   onSelect?: any
 }) => {
@@ -69,6 +71,7 @@ export const ActionsList = ({
                   <List.Item>
                     <ActionCardWrapper
                       action={item}
+                      actionText={actionText}
                       href={link}
                       onClick={() => onSelect?.(item.actionId)}
                     />

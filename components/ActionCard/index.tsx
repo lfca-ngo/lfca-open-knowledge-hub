@@ -58,9 +58,11 @@ export const ActionStats = ({ size }: { size?: any }) => {
 
 export const ActionCard = ({
   action,
+  actionText,
   onClick,
 }: {
   action: any
+  actionText: string
   onClick?: any
 }) => {
   return (
@@ -78,7 +80,7 @@ export const ActionCard = ({
         <ActionStats />
       </div>
       <div className="actions">
-        <Button type="primary">View</Button>
+        <Button type="primary">{actionText}</Button>
       </div>
     </Card>
   )

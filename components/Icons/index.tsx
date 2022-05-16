@@ -33,15 +33,24 @@ const COLOR_MAP: {
   },
 }
 
+export enum IconTypes {
+  'politics',
+  'energy',
+  'check',
+  'home',
+  'leaf',
+  'heart',
+}
+
 type SpinnerProps = {
   color?: string
   spinning?: boolean
-  type?: 'politics' | 'energy' | 'check' | 'home' | 'leaf'
+  type?: IconTypes
 }
 
 type IconSelectorProps = {
   color?: string
-  type?: 'politics' | 'energy' | 'check' | 'home' | 'leaf'
+  type?: IconTypes
 }
 
 type IconSpinnerProps = {
@@ -50,14 +59,13 @@ type IconSpinnerProps = {
 
 const variants = (color?: string) => ({
   animate: {
-    pathLength: 0,
+    pathLength: 1,
     stroke: color ? COLOR_MAP[color]?.to : DEFAULT_COLOR,
-    strokeWidth: 1,
   },
   initial: {
-    pathLength: 1,
+    pathLength: 0,
     stroke: color ? COLOR_MAP[color]?.from : DEFAULT_COLOR,
-    strokeWidth: 1.5,
+    strokeWidth: 2.5,
   },
 })
 
@@ -177,18 +185,47 @@ const EnergySpinner = ({ color }: IconSpinnerProps) => {
   )
 }
 
-const IconSelector = ({ color, type }: IconSelectorProps) => {
+const HeartFill = ({ color }: IconSpinnerProps) => {
+  const transition = {
+    duration: 2,
+    ease: 'easeInOut',
+  }
+  const pathVariants = variants(color)
+
+  return (
+    <svg height="25.9" viewBox="0 0 44 37.299" width="30.8">
+      <title>heart</title>
+      <motion.path
+        animate="animate"
+        d="M1.913,17.245A11.8,11.8,0,0,1,7.876,1.94,11.1,11.1,0,0,1,20.868,5.012a1.483,1.483,0,0,0,2.264,0A11.1,11.1,0,0,1,36.124,1.94a11.8,11.8,0,0,1,5.963,15.305c-1.631,3.931-13.368,14.263-18.106,18.33a2.993,2.993,0,0,1-3.926-.019C16.341,32.3,8.309,25.166,4.828,21.33"
+        fill="none"
+        fillRule="evenodd"
+        initial="initial"
+        stroke="#000"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        transition={transition}
+        variants={pathVariants}
+      />
+    </svg>
+  )
+}
+
+export const IconSelector = ({ color, type }: IconSelectorProps) => {
   switch (type) {
-    case 'politics':
+    case IconTypes.politics:
       return <BullhornSpinner color={color} />
-    case 'energy':
+    case IconTypes.energy:
       return <EnergySpinner color={color} />
-    case 'check':
+    case IconTypes.check:
       return <CheckmarkSpinner color={color} />
-    case 'home':
+    case IconTypes.home:
       return <LayerSpinner color={color} />
-    case 'leaf':
+    case IconTypes.leaf:
       return <LeafSpinner color={color} />
+    case IconTypes.heart:
+      return <HeartFill color={color} />
     default:
       return <LoadingOutlined />
   }
@@ -220,21 +257,6 @@ export const LoadingSpinner = ({
       <Spin {...spinnerProps(additionalSpinnerProps)} />
       {title && <h4 className="title">{title}</h4>}
       {label && <p className="label">{label}</p>}
-    </div>
-  )
-}
-
-export const HomeLoader = () => {
-  return (
-    <div>
-      <LoadingSpinner
-        additionalSpinnerProps={{ color: 'color-3', type: 'leaf' }}
-        className="home-loader"
-        label={
-          'Did you know that the last decade was the hottest in 125,000 years?'
-        }
-        title="...loading"
-      />
     </div>
   )
 }

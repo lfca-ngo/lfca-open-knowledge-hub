@@ -1,12 +1,12 @@
-import { UploadOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Drawer, Form, Input, Tabs, Upload } from 'antd'
+import { Drawer, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { Comments } from '../../components/Comments'
+import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -17,7 +17,6 @@ import { ALL_ACTIONS } from '../../services/contentful'
 import { renderTools } from '../../tools'
 
 const { TabPane } = Tabs
-const { TextArea } = Input
 
 const Action: NextPage = (props: any) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -81,25 +80,7 @@ const Action: NextPage = (props: any) => {
       </Sider>
 
       <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
-        <h1>Share learnings</h1>
-        <Form layout="vertical">
-          <Form.Item label="Any learnings to share?">
-            <TextArea
-              placeholder="We created an overview of 10 banks and evaluated them based on x,y,z..."
-              rows={10}
-            />
-          </Form.Item>
-          <Form.Item label="Attachments">
-            <Upload>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
-          </Form.Item>
-          <Form.Item>
-            <Button htmlType="submit" size="large" type="primary">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+        <CompleteActionForm />
       </Drawer>
     </SiderLayout>
   )

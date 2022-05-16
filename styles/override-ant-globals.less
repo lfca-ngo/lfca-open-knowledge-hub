@@ -24,3 +24,93 @@ body {
     color: var(--link-color);
   }
 }
+
+// Tags
+.ant-tag.super-text {
+  border-color: transparent;
+  background-color: @grey-white;
+  margin: 0 0 15px;
+}
+
+.ant-drawer.fullscreen-drawer-bottom {
+  @media @desktop {
+    .ant-drawer-body {
+      padding: 40px 100px;
+    }
+  }
+}
+
+// Tabs
+.ant-tabs {
+  .ant-tabs-content {
+    color: var(--text-color);
+  }
+
+  .ant-tabs-tab-btn {
+    color: var(--text-color);
+  }
+
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--heading-color);
+  }
+}
+
+// Form
+.ant-form {
+  .ant-form-item-label > label {
+    color: var(--heading-color);
+  }
+}
+
+// List
+.ant-list.ant-list-split {
+  .ant-list-item {
+    border-color: var(--bg-accent);
+    color: var(--text-color);
+  }
+}
+
+// Icons
+.anticon {
+  &.green {
+    color: @green;
+  }
+  &.wine {
+    color: @wine;
+  }
+}
+
+// Buttons
+.ant-btn {
+  background: var(--btn-default-bg);
+  color: var(--btn-default-color);
+}
+.ant-btn.ant-btn-primary {
+  background: @btn-primary-bg;
+  color: @btn-primary-color;
+}
+.ant-btn.ant-btn-background-ghost {
+  color: var(--heading-color);
+  border-color: var(--heading-color);
+}
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active {
+  background: @grey-white;
+  border-color: transparent;
+  color: @black;
+}
+
+.ant-btn.ant-btn-background-ghost:hover,
+.ant-btn.ant-btn-background-ghost:focus {
+  background: @grey-white;
+  border-color: transparent;
+  color: @black;
+}
+
+.ant-btn.ant-btn-primary:hover,
+.ant-btn.ant-btn-primary:focus {
+  background: fade(@yellow, 80%);
+  border-color: transparent;
+  color: @black;
+}
