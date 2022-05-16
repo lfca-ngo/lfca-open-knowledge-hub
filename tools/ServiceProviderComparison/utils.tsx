@@ -2,19 +2,6 @@ import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { Reviews } from '.'
 import { ServiceProvider } from '.'
 
-export const mergeProviderData = (
-  providers: ContentfulServiceProviderFields[],
-  reviews: Reviews
-) => {
-  return providers.map((provider) => {
-    const matchedReviews = reviews[provider.providerId]
-    return {
-      ...provider,
-      reviews: matchedReviews,
-    }
-  }) as ServiceProvider[]
-}
-
 export const getUniqueTags = (
   array: ContentfulServiceProviderFields[],
   key: keyof Pick<ContentfulServiceProviderFields, 'model' | 'services'>
@@ -33,7 +20,7 @@ export const getUniqueTags = (
 export const FAKE_REVIEWS: Reviews = {
   ecoVadis: [
     {
-      author: '3',
+      author: 'A',
       content: 'Very thorough and easy to use',
       createdAt: '2020-01-01',
       pricing: {
@@ -43,7 +30,7 @@ export const FAKE_REVIEWS: Reviews = {
       rating: 5,
     },
     {
-      author: '4',
+      author: 'E',
       content: 'Great',
       createdAt: '2020-01-01',
       pricing: {
@@ -55,7 +42,7 @@ export const FAKE_REVIEWS: Reviews = {
   ],
   planetly: [
     {
-      author: '1',
+      author: 'F',
       content: 'I love Planetly!',
       createdAt: '2020-01-01',
       pricing: {
@@ -65,7 +52,7 @@ export const FAKE_REVIEWS: Reviews = {
       rating: 5,
     },
     {
-      author: '2',
+      author: 'G',
       content: 'It was great but too pricey',
       createdAt: '2020-01-02',
       pricing: {
@@ -77,7 +64,25 @@ export const FAKE_REVIEWS: Reviews = {
   ],
 }
 
-export const calculateProviderStats = (provider: ServiceProvider) => {
+export const MIN_PRICE = 0
+export const MAX_PRICE = 25000
+
+export const PRICE_FILTER_OPTIONS = [
+  {
+    label: 'Free',
+    value: [0, 0],
+  },
+  {
+    label: '<1000€',
+    value: [0, 1000],
+  },
+  {
+    label: '1000-5000€',
+    value: [1000, 5000],
+  },
+]
+
+const calculateProviderStats = (provider: ServiceProvider) => {
   // calculate cost range
   const ranges = provider.reviews?.reduce(
     (acc, review) => {
@@ -127,6 +132,23 @@ export const calculateProviderStats = (provider: ServiceProvider) => {
   return {
     avgRating,
     ranges,
-    total: ratings?.length || 0,
+    totalReviews: ratings?.length || 0,
   }
+}
+
+export const mergeProviderData = (
+  providers: ContentfulServiceProviderFields[],
+  reviews: Reviews
+) => {
+  return providers.map((provider) => {
+    const matchedReviews = reviews[provider.providerId]
+    const serviceProvider = {
+      ...provider,
+      reviews: matchedReviews,
+    }
+    return {
+      ...serviceProvider,
+      reviewStats: calculateProviderStats(serviceProvider),
+    }
+  }) as ServiceProvider[]
 }

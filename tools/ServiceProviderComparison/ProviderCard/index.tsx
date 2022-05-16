@@ -9,11 +9,9 @@ import {
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Popover, Rate, Tag } from 'antd'
 import Image from 'next/image'
-import { useMemo } from 'react'
 
 import { ContentfulTagFields } from '../../../services/contentful'
 import { ServiceProvider } from '..'
-import { calculateProviderStats } from '../utils'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -49,8 +47,6 @@ export const ProviderCard = ({
   onOpenWebsite,
   provider,
 }: ProviderCardProps) => {
-  const stats = useMemo(() => calculateProviderStats(provider), [provider])
-
   return (
     <Card bordered={false} className="provider-card">
       <div className="hero">
@@ -93,12 +89,12 @@ export const ProviderCard = ({
       </div>
       <div className="actions">
         <div className="reviews">
-          <Rate allowHalf value={stats.avgRating} />
+          <Rate allowHalf value={provider.reviewStats?.avgRating} />
           <Button
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
             type="link"
-          >{`See all ${stats.total} reviews`}</Button>
+          >{`See all ${provider.reviewStats?.totalReviews} reviews`}</Button>
 
           <div className="ranges">
             <Popover
@@ -106,7 +102,8 @@ export const ProviderCard = ({
               overlayClassName="popover-sm"
             >
               <Tag>
-                {stats.ranges?.cost?.from}€ - {stats.ranges?.cost?.to}€
+                {provider.reviewStats?.ranges?.cost?.from}€ -{' '}
+                {provider.reviewStats?.ranges?.cost?.to}€
               </Tag>
             </Popover>
           </div>

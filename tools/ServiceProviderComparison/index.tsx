@@ -1,12 +1,18 @@
 require('./styles.less')
 
-import { Col, Drawer, Form, List, Row, Select } from 'antd'
+import { Col, Drawer, Form, List, Row, Select, Slider } from 'antd'
 import { useMemo, useState } from 'react'
 
 import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
-import { FAKE_REVIEWS, getUniqueTags, mergeProviderData } from './utils'
+import {
+  FAKE_REVIEWS,
+  getUniqueTags,
+  MAX_PRICE,
+  mergeProviderData,
+  MIN_PRICE,
+} from './utils'
 
 const { Option } = Select
 
@@ -25,8 +31,23 @@ export interface Reviews {
   [key: string]: Review[]
 }
 
+interface Range {
+  from: number
+  to: number
+}
+
+export interface DerivedReviewStats {
+  ranges?: {
+    cost: Range
+    companySize: Range
+  }
+  avgRating?: number
+  totalReviews?: number
+}
+
 export interface ServiceProvider extends ContentfulServiceProviderFields {
   reviews: Review[]
+  reviewStats?: DerivedReviewStats
 }
 
 interface ServiceProviderComparisonProps {
@@ -36,6 +57,7 @@ interface ServiceProviderComparisonProps {
 interface FilterFormProps {
   services?: string[]
   models?: string[]
+  cost?: number[]
 }
 
 export const ServiceProviderComparison = ({
@@ -54,16 +76,28 @@ export const ServiceProviderComparison = ({
   const modelOptions = getUniqueTags(providers, 'model')
 
   const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
+    const { cost, models, services } = allValues
     const filtered = mergedData.filter((provider) => {
-      const { models, services } = allValues
       const providerModels = provider.model?.map((model) => model.name)
       const providerServices = provider.services?.map((service) => service.name)
-      // only return providers that mal all of the criteria
+      const lowestPrice = provider.reviewStats?.ranges?.cost?.from
+      // if a form value is undefined, return true
+      // if lowestPrice is in range of cost, return true
+      // if lowestPrice is undefined, return true
+      // if providerModels contains any of the models, return true
+      // if providerServices contains any of the services, return true
       return (
-        (models?.length === 0 ||
-          models?.some((model) => providerModels?.includes(model))) &&
-        (services?.length === 0 ||
-          services?.some((service) => providerServices?.includes(service)))
+        (models === undefined ||
+          models.length === 0 ||
+          providerModels?.some((model) => models.includes(model))) &&
+        (services === undefined ||
+          services.length === 0 ||
+          providerServices?.some((service) => services.includes(service))) &&
+        (cost === undefined ||
+          cost.length === 0 ||
+          (lowestPrice !== undefined &&
+            cost[0] <= lowestPrice &&
+            cost[1] >= lowestPrice))
       )
     })
     setList(filtered)
@@ -76,7 +110,11 @@ export const ServiceProviderComparison = ({
 
   return (
     <div className="service-provider-comparison">
-      <Form layout="vertical" onValuesChange={handleChange}>
+      <Form
+        initialValues={{ cost: [MIN_PRICE, MAX_PRICE] }}
+        layout="vertical"
+        onValuesChange={handleChange}
+      >
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item label="Services" name="services">
@@ -102,6 +140,11 @@ export const ServiceProviderComparison = ({
                   <Option key={model}>{model}</Option>
                 ))}
               </Select>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label="Cost" name="cost">
+              <Slider max={25000} min={0} range />
             </Form.Item>
           </Col>
         </Row>
