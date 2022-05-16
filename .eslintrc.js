@@ -3,6 +3,8 @@ module.exports = {
   plugins: ['simple-import-sort', 'sort-destructure-keys'],
   rules: {
     '@typescript-eslint/ban-ts-ignore': 'off',
+    // See: https://github.com/import-js/eslint-plugin-import/issues/653#issuecomment-840228881
+    '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-use-before-define': [
       'error',
       {
@@ -16,7 +18,7 @@ module.exports = {
         allow: ['info', 'error'],
       },
     ],
-    'no-unused-vars': ['error'],
+    'no-unused-vars': 'off',
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-sort-props': [
       'error',

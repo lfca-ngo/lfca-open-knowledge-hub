@@ -10,20 +10,24 @@ require('./styles.less')
 const { Content } = Layout
 const { Step } = Steps
 
+interface StepsLayoutProps {
+  canClose: boolean
+  children: React.ReactNode
+  currentStepIndex: number
+  onClose?: () => void
+  steps: {
+    description: string
+    title: string
+  }[]
+}
+
 export const StepsLayout = ({
   canClose,
   children,
-  currentStep = 0,
+  currentStepIndex,
   onClose,
   steps,
-}: {
-  children: any
-  canClose: boolean
-  onClose: any
-  currentStep?: any
-  setStep?: any
-  steps?: any
-}) => {
+}: StepsLayoutProps) => {
   const screenSizeType = useScreenSize()
   const isMobile = screenSizeType === 'sm'
 
@@ -33,11 +37,11 @@ export const StepsLayout = ({
         <div className="steps-layout-wrapper">
           <Logo size="large" />
           <Steps
-            current={currentStep}
+            current={currentStepIndex}
             direction={'vertical'}
             size={isMobile ? 'small' : 'default'}
           >
-            {steps?.map((step: any, i: any) => (
+            {steps?.map((step, i) => (
               <Step
                 description={step.description}
                 key={`step-${i}`}

@@ -1,0 +1,23 @@
+fragment CompanyActionListItem on CompanyAction {
+  companiesCompletedCount
+  companiesPlannedCount
+  completedAt
+  contentId
+  heroImage {
+    id
+    url
+  }
+  id
+  recentCompaniesCompleted(limit: 3) {
+    id
+    logoUrl
+    name
+  }
+  recommendedForCompanyAchievementIds
+  requiredForCompanyAchievementIds
+  tags {
+    id
+    name
+  }
+  title
+}

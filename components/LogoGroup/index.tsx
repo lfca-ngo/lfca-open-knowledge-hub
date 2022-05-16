@@ -1,24 +1,21 @@
 require('./styles.less')
 
-import { Avatar } from 'antd'
+import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
-export const LogoGroup = ({
-  data,
-  label,
-  previewCount = 3,
-  size,
-}: {
-  data: any
-  label?: any
-  previewCount?: number
-  size?: any
-}) => {
-  const items = data.slice(0, previewCount)
+import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+
+interface LogoGroupProps {
+  data?: CompanyActionListItemFragment['recentCompaniesCompleted']
+  label?: string
+  size: AvatarProps['size']
+}
+
+export const LogoGroup = ({ data, label, size }: LogoGroupProps) => {
   return (
     <div className={classNames('logo-group', size)}>
       <Avatar.Group size={size}>
-        {items.map((item: any, i: any) => (
+        {data?.map((item, i) => (
           <Avatar key={`avatar-${i}`} src={item.logoUrl} />
         ))}
       </Avatar.Group>

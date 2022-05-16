@@ -1,12 +1,15 @@
 import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
 
-const Commit = (props: any) => {
+interface StepProps {
+  onNext: () => void
+}
+
+const Commit = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">Pledge</Tag>
@@ -17,12 +20,12 @@ const Commit = (props: any) => {
         influence on a personal, business and political level. Please start by
         signing our Green Pledge as a leader of LFCA.`}
       </p>
-      <Pledge onFinish={() => props.setStep(1)} />
+      <Pledge onFinish={onNext} />
     </div>
   )
 }
 
-const Invite = (props: any) => {
+const Invite = ({ onNext }: StepProps) => {
   const [hasMinimumInvited, setHasMinimumInvited] = useState(false)
   const [isLeaderOfficer, setIsLeaderOfficer] = useState(false)
 
@@ -57,7 +60,7 @@ const Invite = (props: any) => {
         </Checkbox>
         <Button
           disabled={!isLeaderOfficer && !hasMinimumInvited}
-          onClick={() => props.setStep(2)}
+          onClick={onNext}
           size="large"
           type="primary"
         >
@@ -68,14 +71,18 @@ const Invite = (props: any) => {
   )
 }
 
-const Footprint = (props: any) => {
+interface FootprintProps extends StepProps {
+  questionnaire: any
+}
+
+const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
 
   const saveAndContinue = () => {
     // @TODO: save to database
     // show loading spinner
     setDrawerVisible(false)
-    props.setStep(3)
+    onNext()
   }
 
   return (
@@ -101,7 +108,7 @@ const Footprint = (props: any) => {
         visible={drawerVisible}
       >
         <PersonalCarbonCalculator
-          questionnaire={props.questionnaire}
+          questionnaire={questionnaire}
           saveResult={saveAndContinue}
         />
       </Drawer>
@@ -109,8 +116,7 @@ const Footprint = (props: any) => {
   )
 }
 
-const Share = () => {
-  const router = useRouter()
+const Share = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">Share</Tag>
@@ -127,31 +133,31 @@ const Share = () => {
         SHARING FEATURE
       </div>
 
-      <Button onClick={() => router.push('/')} size="large" type="primary">
+      <Button onClick={onNext} size="large" type="primary">
         Show Dashboard
       </Button>
     </div>
   )
 }
 
-export const OnboardingLeaderSteps = (props: any) => [
+export const OnboardingLeaderSteps = [
   {
-    component: <Commit {...props} />,
+    component: Commit,
     description: 'Commit to action',
     title: 'Pledge',
   },
   {
-    component: <Invite {...props} />,
+    component: Invite,
     description: 'Get to know the platform',
     title: 'Invite',
   },
   {
-    component: <Footprint {...props} />,
+    component: Footprint,
     description: 'Understand your emissions',
     title: 'Footprint',
   },
   {
-    component: <Share {...props} />,
+    component: Share,
     description: 'Use your influence',
     title: 'Share the news',
   },

@@ -1,13 +1,21 @@
 require('./styles.less')
 
 import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
-import { Avatar, Button, Card } from 'antd'
+import { Avatar, AvatarProps, Button, Card } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FAKE_LOGOS } from '../ActionsCarousel'
+import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LogoGroup } from '../LogoGroup'
+
+interface ActionStatProps {
+  count: string
+  label: string
+  icon: AvatarProps['icon']
+  color: string
+  size: AvatarProps['size']
+}
 
 export const ActionStat = ({
   color,
@@ -15,13 +23,7 @@ export const ActionStat = ({
   icon,
   label,
   size,
-}: {
-  count: string
-  label: string
-  icon: React.ReactNode
-  color: string
-  size: any
-}) => {
+}: ActionStatProps) => {
   return (
     <div className={classNames('action-stat', color)}>
       <div className="icon">
@@ -34,10 +36,18 @@ export const ActionStat = ({
   )
 }
 
-export const ActionStats = ({ size }: { size?: any }) => {
+interface ActionStatsProps {
+  recentCompaniesCompleted: CompanyActionListItemFragment['recentCompaniesCompleted']
+  size?: AvatarProps['size']
+}
+
+export const ActionStats = ({
+  recentCompaniesCompleted,
+  size,
+}: ActionStatsProps) => {
   return (
     <div className={classNames('action-stats', size)}>
-      <LogoGroup data={FAKE_LOGOS} label="did that" size={size} />
+      <LogoGroup data={recentCompaniesCompleted} label="did that" size={size} />
       <ActionStat
         color="wine"
         count={'121'}
@@ -56,20 +66,31 @@ export const ActionStats = ({ size }: { size?: any }) => {
   )
 }
 
+export interface ActionCardProps {
+  action: CompanyActionListItemFragment
+  ctaText?: string
+  onCtaClick?: (action: CompanyActionListItemFragment) => void
+}
+
 export const ActionCard = ({
   action,
-  actionText,
-  onClick,
-}: {
-  action: any
-  actionText: string
-  onClick?: any
-}) => {
+  ctaText = 'View',
+  onCtaClick,
+}: ActionCardProps) => {
   return (
-    <Card bordered={false} className="action-card" onClick={onClick}>
+    <Card
+      bordered={false}
+      className="action-card"
+      onClick={onCtaClick ? () => onCtaClick(action) : undefined}
+    >
       <div className="hero">
         <div className="wrapper">
-          <Image layout="fill" objectFit="cover" src={action.heroImage.url} />
+          <Image
+            alt={action.title || ''}
+            layout="fill"
+            objectFit="cover"
+            src={action.heroImage?.url || ''}
+          />
         </div>
       </div>
       <div className="content">
@@ -77,10 +98,12 @@ export const ActionCard = ({
           {action.title}
           <span className="tags"></span>
         </div>
-        <ActionStats />
+        <ActionStats
+          recentCompaniesCompleted={action.recentCompaniesCompleted}
+        />
       </div>
       <div className="actions">
-        <Button type="primary">{actionText}</Button>
+        <Button type="primary">{ctaText}</Button>
       </div>
     </Card>
   )
@@ -89,14 +112,16 @@ export const ActionCard = ({
 // the next/link component allows us to prefetch the action pages
 // speeding up the experience for the user, alternatively an onclick
 // handler is used to trigger an action
-export const ActionCardWrapper = (props: any) => {
-  if (props.href) {
+export const ActionCardWrapper = (props: ActionCardProps) => {
+  if (props.onCtaClick) {
+    return <ActionCard {...props} />
+  } else {
     return (
-      <Link href={props.href}>
+      <Link href={`action/${props.action.contentId}`}>
         <a className="action-card-wrapper">
           <ActionCard {...props} />
         </a>
       </Link>
     )
-  } else return <ActionCard {...props} />
+  }
 }

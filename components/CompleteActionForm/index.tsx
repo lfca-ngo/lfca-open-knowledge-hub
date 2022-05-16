@@ -1,4 +1,4 @@
-import { Button, Form, Input, notification, Rate, Select, Divider } from 'antd'
+import { Button, Divider, Form, Input, notification, Rate, Select } from 'antd'
 import { useState } from 'react'
 
 import { FileUpload } from '../FileUpload/FileUpload'

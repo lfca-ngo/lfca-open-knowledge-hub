@@ -13,6 +13,7 @@ import {
   Provider,
 } from 'urql'
 
+import { isDev } from '../../utils'
 import { SIGN_IN } from '../../utils/routes'
 import { firebaseAuth } from '../firebase'
 import schema from './schema.json'
@@ -95,6 +96,10 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
             if (!authState?.token) {
               await waitUntilFirebaseReady.current.promise
               const initialToken = await user?.getIdToken()
+              if (isDev) {
+                console.info('>>>JWT<<<')
+                console.info(initialToken)
+              }
               if (initialToken) {
                 return { token: initialToken }
               }
