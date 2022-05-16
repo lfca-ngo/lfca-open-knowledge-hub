@@ -1,87 +1,86 @@
 require('./styles.less')
 
-import { Col, Form, List, Row, Select } from 'antd'
-import { useState } from 'react'
+import { Col, Drawer, Form, List, Row, Select } from 'antd'
+import { useMemo, useState } from 'react'
 
+import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { ProviderCard } from './ProviderCard'
+import { ReviewsList } from './ReviewsList'
+import { FAKE_REVIEWS, getUniqueTags, mergeProviderData } from './utils'
 
 const { Option } = Select
 
-const getUniqueTags = (array: any, key: any) =>
-  array?.reduce((acc: any, provider: any) => {
-    for (const tag of provider?.[key]) {
-      if (!acc.includes(tag.name)) {
-        acc.push(tag.name)
-      }
-    }
-    return acc
-  }, [])
-
-const FAKE_REVIEWS: {
-  [key: string]: any
-} = {
-  ecoVadis: [
-    {
-      author: '3',
-      content: 'Very thorough and easy to use',
-      createdAt: '2020-01-01',
-      pricing: {
-        companySize: 1000,
-        cost: 10000,
-      },
-      rating: 5,
-    },
-  ],
-  planetly: [
-    {
-      author: '1',
-      content: 'I love Planetly!',
-      createdAt: '2020-01-01',
-      pricing: {
-        companySize: 50,
-        cost: 1000,
-      },
-      rating: 5,
-    },
-    {
-      author: '2',
-      content: 'It was great but too pricey',
-      createdAt: '2020-01-02',
-      pricing: {
-        companySize: 10,
-        cost: 500,
-      },
-      rating: 4.5,
-    },
-  ],
+export interface Review {
+  author: string
+  content: string
+  createdAt: string
+  pricing: {
+    companySize: number
+    cost: number
+  }
+  rating: number
 }
 
-export const ServiceProviderComparison = (props: any) => {
+export interface Reviews {
+  [key: string]: Review[]
+}
+
+export interface ServiceProvider extends ContentfulServiceProviderFields {
+  reviews: Review[]
+}
+
+interface ServiceProviderComparisonProps {
+  providers: ContentfulServiceProviderFields[]
+}
+
+interface FilterFormProps {
+  services?: string[]
+  models?: string[]
+}
+
+export const ServiceProviderComparison = ({
+  providers,
+}: ServiceProviderComparisonProps) => {
   // merge reviews and provider data into one object
-  const mergedData = props?.providers.map((provider: any) => {
-    const reviews = FAKE_REVIEWS[provider.providerId]
-    return {
-      ...provider,
-      reviews,
-    }
-  })
+  const mergedData = useMemo(
+    () => mergeProviderData(providers, FAKE_REVIEWS),
+    [providers]
+  )
 
+  const [activeProvider, setActiveProvider] = useState<ServiceProvider>()
+  const [visible, setVisible] = useState(false)
   const [list, setList] = useState(mergedData)
-  const serviceOptions = getUniqueTags(props.providers, 'services')
-  const modelOptions = getUniqueTags(props.providers, 'model')
 
-  const handleChange = (_: any, allValues: any) => {
-    const filtered = mergedData.filter((provider: any) => {
+  const serviceOptions = getUniqueTags(providers, 'services')
+  const modelOptions = getUniqueTags(providers, 'model')
+
+  const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
+    const filtered = mergedData.filter((provider) => {
       const { models, services } = allValues
       if (services && services.length > 0) {
-        return services.includes(provider.services[0].name)
+        // check if provider has any of the selected services
+        const providerServices = provider.services || []
+        return services.some((service) =>
+          providerServices.some(
+            (providerService) => providerService.name === service
+          )
+        )
       }
       if (models && models.length > 0) {
-        return models.includes(provider.model[0].name)
+        // check if provider has any of the selected models
+        const providerModels = provider.model || []
+        return models.some((model) =>
+          providerModels.some((providerModel) => providerModel.name === model)
+        )
       }
       return true
     })
     setList(filtered)
+  }
+
+  const handleOpenReviews = (provider: ServiceProvider) => {
+    setActiveProvider(provider)
+    setVisible(true)
   }
 
   return (
@@ -95,7 +94,7 @@ export const ServiceProviderComparison = (props: any) => {
                 placeholder="Please select"
                 style={{ width: '100%' }}
               >
-                {serviceOptions.map((service: any) => (
+                {serviceOptions.map((service) => (
                   <Option key={service}>{service}</Option>
                 ))}
               </Select>
@@ -108,7 +107,7 @@ export const ServiceProviderComparison = (props: any) => {
                 placeholder="Please select"
                 style={{ width: '100%' }}
               >
-                {modelOptions.map((model: any) => (
+                {modelOptions.map((model) => (
                   <Option key={model}>{model}</Option>
                 ))}
               </Select>
@@ -119,12 +118,16 @@ export const ServiceProviderComparison = (props: any) => {
 
       <List
         dataSource={list}
-        renderItem={(item: any) => (
+        renderItem={(item: ServiceProvider) => (
           <List.Item>
-            <ProviderCard provider={item} />
+            <ProviderCard onOpenReviews={handleOpenReviews} provider={item} />
           </List.Item>
         )}
       />
+
+      <Drawer onClose={() => setVisible(false)} visible={visible}>
+        <ReviewsList reviews={activeProvider?.reviews} />
+      </Drawer>
     </div>
   )
 }

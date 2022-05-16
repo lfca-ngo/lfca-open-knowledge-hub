@@ -7,63 +7,13 @@ import {
   LinkOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Card, Tag, Rate } from 'antd'
+import { Button, Card, Rate, Tag } from 'antd'
 import Image from 'next/image'
 import { useMemo } from 'react'
 
-const calculateProviderStats = (provider: any) => {
-  // calculate cost range
-  const ranges = provider.reviews?.reduce(
-    (acc: any, review: any) => {
-      // cost range
-      if (review.pricing.cost <= acc.cost.from || acc.cost.from < 0) {
-        acc.cost.from = review.pricing.cost
-      }
-      if (review.pricing.cost > acc.cost.to || acc.cost.from < 0) {
-        acc.cost.to = review.pricing.cost
-      }
-      // companySize range
-      if (
-        review.pricing.companySize <= acc.companySize.from ||
-        acc.companySize.from < 0
-      ) {
-        acc.companySize.from = review.pricing.companySize
-      }
-      if (
-        review.pricing.companySize > acc.companySize.to ||
-        acc.companySize.from < 0
-      ) {
-        acc.companySize.to = review.pricing.companySize
-      }
-      return acc
-    },
-    {
-      companySize: {
-        from: -1,
-        to: -1,
-      },
-      cost: {
-        from: -1,
-        to: -1,
-      },
-    }
-  )
-
-  // calculate average review rating only once or when reviews change
-  const ratings = provider?.reviews?.map(
-    ({ rating }: { rating: number }) => rating
-  )
-
-  const avgRating =
-    ratings?.reduce((acc: number, rating: number) => acc + rating, 0) /
-    ratings?.length
-
-  return {
-    avgRating,
-    ranges,
-    total: ratings?.length || 0,
-  }
-}
+import { ContentfulTagFields } from '../../../services/contentful'
+import { ServiceProvider } from '..'
+import { calculateProviderStats } from '../utils'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -76,30 +26,42 @@ const MAP_ICONS = (name: string) => {
   }
 }
 
-const TypeTags = ({ tags }: { tags: any }) => {
-  return tags?.map(({ name }: { name: string }) => (
-    <Tag className="type-tag" icon={MAP_ICONS(name)} key={name}>
-      {name}
-    </Tag>
-  ))
+const TypeTags = ({ tags }: { tags?: ContentfulTagFields[] }) => {
+  return (
+    <div className="type-tags">
+      {tags?.map(({ name }) => (
+        <Tag className="type-tag" icon={MAP_ICONS(name)} key={name}>
+          {name}
+        </Tag>
+      ))}
+    </div>
+  )
+}
+
+interface ProviderCardProps {
+  provider: ServiceProvider
+  onOpenReviews?: (provider: ServiceProvider) => void
+  onOpenWebsite?: () => void
 }
 
 export const ProviderCard = ({
-  onClick,
+  onOpenReviews,
+  onOpenWebsite,
   provider,
-}: {
-  provider: any
-  onClick?: any
-}) => {
+}: ProviderCardProps) => {
   const stats = useMemo(() => calculateProviderStats(provider), [provider])
 
-  console.log(stats)
   return (
-    <Card bordered={false} className="provider-card" onClick={onClick}>
+    <Card bordered={false} className="provider-card">
       <div className="hero">
         <div className="wrapper">
           {provider.logo && (
-            <Image layout="fill" objectFit="contain" src={provider.logo?.url} />
+            <Image
+              alt={provider.name || ''}
+              layout="fill"
+              objectFit="contain"
+              src={provider.logo?.url}
+            />
           )}
         </div>
       </div>
@@ -121,7 +83,7 @@ export const ProviderCard = ({
             </Tag>
           </div>
           <div className="services">
-            {provider?.services?.map((service: any, i: any) => (
+            {provider.services?.map((service, i: number) => (
               <Tag className="service-tag" key={`service-${i}`}>
                 {service?.name}
               </Tag>
@@ -133,6 +95,7 @@ export const ProviderCard = ({
         <div className="reviews">
           <Rate value={stats.avgRating} />
           <Button
+            onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
             type="link"
           >{`See all ${stats.total} reviews`}</Button>
@@ -142,7 +105,7 @@ export const ProviderCard = ({
             <Tag>{stats.ranges?.cost?.to} €</Tag>
           </div>
         </div>
-        <Button icon={<LinkOutlined />} type="primary">
+        <Button icon={<LinkOutlined />} onClick={onOpenWebsite} type="primary">
           View
         </Button>
       </div>
