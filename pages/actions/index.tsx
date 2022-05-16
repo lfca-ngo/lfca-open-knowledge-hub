@@ -38,6 +38,7 @@ const Home: NextPage = (props: any) => {
         <Section title="Rewards">
           <AchievementsListMini achievements={FAKE_ACHIEVEMENTS} />
         </Section>
+        <Section title="...">...</Section>
       </Sider>
     </SiderLayout>
   )
