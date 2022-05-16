@@ -11,7 +11,6 @@ import {
   useCompanyActionsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
-import { FAKE_ACHIEVEMENTS } from '../achievements'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -57,7 +56,7 @@ const Home: NextPage = () => {
       </Main>
       <Sider>
         <Section title="Rewards">
-          <AchievementsListMini achievements={FAKE_ACHIEVEMENTS} />
+          <AchievementsListMini />
         </Section>
         <Section title="...">...</Section>
       </Sider>

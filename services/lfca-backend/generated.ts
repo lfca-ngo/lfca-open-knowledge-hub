@@ -475,6 +475,8 @@ export enum ValueContentType {
   UPLOAD = 'UPLOAD'
 }
 
+export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, requiredActions: Array<{ __typename?: 'CompanyAction', id: string }> };
+
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
 export type UserFragmentFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
@@ -486,6 +488,11 @@ export type CompanyActionsQueryVariables = Exact<{
 
 export type CompanyActionsQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
+export type CompanyProgramQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompanyProgramQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, requiredActions: Array<{ __typename?: 'CompanyAction', id: string }> }> } } };
+
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
 }>;
@@ -493,6 +500,18 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
+export const CompanyAchievementFragmentDoc = gql`
+    fragment CompanyAchievement on CompanyAchievement {
+  completedCompanyActionsCount
+  completedRequiredCompanyActionsCount
+  contentId
+  minCompletedCompanyActionsCount
+  name
+  requiredActions {
+    id
+  }
+}
+    `;
 export const CompanyActionListItemFragmentDoc = gql`
     fragment CompanyActionListItem on CompanyAction {
   companiesCompletedCount
@@ -542,6 +561,23 @@ export const CompanyActionsDocument = gql`
 
 export function useCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyActionsQuery>({ query: CompanyActionsDocument, ...options });
+};
+export const CompanyProgramDocument = gql`
+    query companyProgram {
+  company {
+    id
+    program {
+      contentId
+      achievements {
+        ...CompanyAchievement
+      }
+    }
+  }
+}
+    ${CompanyAchievementFragmentDoc}`;
+
+export function useCompanyProgramQuery(options?: Omit<Urql.UseQueryArgs<CompanyProgramQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyProgramQuery>({ query: CompanyProgramDocument, ...options });
 };
 export const UserDocument = gql`
     query user($input: UserInput) {

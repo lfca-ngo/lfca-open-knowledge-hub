@@ -1,0 +1,11 @@
+query companyProgram {
+  company {
+    id
+    program {
+      contentId
+      achievements {
+        ...CompanyAchievement
+      }
+    }
+  }
+}

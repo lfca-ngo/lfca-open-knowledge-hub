@@ -8,6 +8,8 @@ import {
 import { Avatar, Button, Card, List, Space } from 'antd'
 import classNames from 'classnames'
 
+import { CompanyAchievementFragment } from '../../services/lfca-backend'
+
 const ActionsStatusList = ({
   items,
   title,
@@ -83,47 +85,47 @@ export const AchievementCard = (props: any) => {
   )
 }
 
+interface AchievementStatProps {
+  targetCount: number
+  completedCount: number
+}
+
 const AchievementStat = ({
   completedCount,
-
-  totalCount,
-}: {
-  totalCount: number
-  completedCount: number
-}) => (
+  targetCount,
+}: AchievementStatProps) => (
   <div className="achievement-stat">
     <div className="icon">
-      {totalCount === completedCount ? (
+      {completedCount >= targetCount ? (
         <CheckCircleFilled className="green" />
       ) : (
         <CloseCircleFilled className="wine" />
       )}
     </div>
-    <div className="label">{`${completedCount}/${totalCount}`}</div>
+    <div className="label">{`${completedCount}/${targetCount}`}</div>
   </div>
 )
 
-export const AchievementCardMini = (props: any) => {
-  const completedRequiredActionsCount = props.requiredActions.filter(
-    (a: any) => a.completedAt
-  ).length
-  const completedRecommendedActionsCount = props.recommendedActions.filter(
-    (a: any) => a.completedAt
-  ).length
+interface AchievementCardMiniProps {
+  achievement: CompanyAchievementFragment
+}
 
+export const AchievementCardMini = ({
+  achievement,
+}: AchievementCardMiniProps) => {
   return (
-    <div className={'achievement-card-mini'} onClick={props.onClick}>
+    <div className={'achievement-card-mini'}>
       <Avatar size="default" />
       <div className="achievement-content">
-        <div className="achievement-title">{props.name}</div>
+        <div className="achievement-title">{achievement.name}</div>
         <div className="achievement-stats">
           <AchievementStat
-            completedCount={completedRequiredActionsCount}
-            totalCount={props.requiredActions.length}
+            completedCount={achievement.completedRequiredCompanyActionsCount}
+            targetCount={achievement.requiredActions.length}
           />
           <AchievementStat
-            completedCount={completedRecommendedActionsCount}
-            totalCount={props.recommendedActions.length}
+            completedCount={achievement.completedCompanyActionsCount}
+            targetCount={achievement.minCompletedCompanyActionsCount || 0}
           />
         </div>
       </div>

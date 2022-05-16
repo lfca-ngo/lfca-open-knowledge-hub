@@ -3,6 +3,7 @@ require('./styles.less')
 import { Drawer, List } from 'antd'
 import { useState } from 'react'
 
+import { useCompanyProgramQuery } from '../../services/lfca-backend'
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 
 export const AchievementsList = (props: any) => {
@@ -38,14 +39,17 @@ export const AchievementsList = (props: any) => {
   )
 }
 
-export const AchievementsListMini = (props: any) => {
+export const AchievementsListMini = () => {
+  // TODO: UI for error & fetching state
+  const [{ data, error, fetching }] = useCompanyProgramQuery()
+
   return (
     <List
       className="achievements-list-mini"
-      dataSource={props.achievements}
-      renderItem={(item: any) => (
+      dataSource={data?.company.program.achievements}
+      renderItem={(item) => (
         <List.Item>
-          <AchievementCardMini {...item} />
+          <AchievementCardMini achievement={item} />
         </List.Item>
       )}
     />
