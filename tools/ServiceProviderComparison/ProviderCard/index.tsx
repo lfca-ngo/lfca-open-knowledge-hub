@@ -7,8 +7,63 @@ import {
   LinkOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Card, Tag } from 'antd'
+import { Button, Card, Tag, Rate } from 'antd'
 import Image from 'next/image'
+import { useMemo } from 'react'
+
+const calculateProviderStats = (provider: any) => {
+  // calculate cost range
+  const ranges = provider.reviews?.reduce(
+    (acc: any, review: any) => {
+      // cost range
+      if (review.pricing.cost <= acc.cost.from || acc.cost.from < 0) {
+        acc.cost.from = review.pricing.cost
+      }
+      if (review.pricing.cost > acc.cost.to || acc.cost.from < 0) {
+        acc.cost.to = review.pricing.cost
+      }
+      // companySize range
+      if (
+        review.pricing.companySize <= acc.companySize.from ||
+        acc.companySize.from < 0
+      ) {
+        acc.companySize.from = review.pricing.companySize
+      }
+      if (
+        review.pricing.companySize > acc.companySize.to ||
+        acc.companySize.from < 0
+      ) {
+        acc.companySize.to = review.pricing.companySize
+      }
+      return acc
+    },
+    {
+      companySize: {
+        from: -1,
+        to: -1,
+      },
+      cost: {
+        from: -1,
+        to: -1,
+      },
+    }
+  )
+
+  // calculate average review rating only once or when reviews change
+  const ratings = provider?.reviews?.map(
+    ({ rating }: { rating: number }) => rating
+  )
+
+  const avgRating =
+    ratings?.reduce((acc: number, rating: number) => acc + rating, 0) /
+    ratings?.length
+
+  return {
+    avgRating,
+    ranges,
+    total: ratings?.length || 0,
+  }
+}
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -36,6 +91,9 @@ export const ProviderCard = ({
   provider: any
   onClick?: any
 }) => {
+  const stats = useMemo(() => calculateProviderStats(provider), [provider])
+
+  console.log(stats)
   return (
     <Card bordered={false} className="provider-card" onClick={onClick}>
       <div className="hero">
@@ -72,6 +130,18 @@ export const ProviderCard = ({
         </div>
       </div>
       <div className="actions">
+        <div className="reviews">
+          <Rate value={stats.avgRating} />
+          <Button
+            size="small"
+            type="link"
+          >{`See all ${stats.total} reviews`}</Button>
+
+          <div className="ranges">
+            <Tag>{stats.ranges?.cost?.from} €</Tag> -{' '}
+            <Tag>{stats.ranges?.cost?.to} €</Tag>
+          </div>
+        </div>
         <Button icon={<LinkOutlined />} type="primary">
           View
         </Button>

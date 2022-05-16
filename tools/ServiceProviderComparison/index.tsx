@@ -17,13 +17,61 @@ const getUniqueTags = (array: any, key: any) =>
     return acc
   }, [])
 
+const FAKE_REVIEWS: {
+  [key: string]: any
+} = {
+  ecoVadis: [
+    {
+      author: '3',
+      content: 'Very thorough and easy to use',
+      createdAt: '2020-01-01',
+      pricing: {
+        companySize: 1000,
+        cost: 10000,
+      },
+      rating: 5,
+    },
+  ],
+  planetly: [
+    {
+      author: '1',
+      content: 'I love Planetly!',
+      createdAt: '2020-01-01',
+      pricing: {
+        companySize: 50,
+        cost: 1000,
+      },
+      rating: 5,
+    },
+    {
+      author: '2',
+      content: 'It was great but too pricey',
+      createdAt: '2020-01-02',
+      pricing: {
+        companySize: 10,
+        cost: 500,
+      },
+      rating: 4.5,
+    },
+  ],
+}
+
 export const ServiceProviderComparison = (props: any) => {
-  const [list, setList] = useState(props?.providers)
+  // merge reviews and provider data into one object
+  const mergedData = props?.providers.map((provider: any) => {
+    const reviews = FAKE_REVIEWS[provider.providerId]
+    return {
+      ...provider,
+      reviews,
+    }
+  })
+
+  const [list, setList] = useState(mergedData)
   const serviceOptions = getUniqueTags(props.providers, 'services')
   const modelOptions = getUniqueTags(props.providers, 'model')
 
   const handleChange = (_: any, allValues: any) => {
-    const filtered = props.providers.filter((provider: any) => {
+    const filtered = mergedData.filter((provider: any) => {
       const { models, services } = allValues
       if (services && services.length > 0) {
         return services.includes(provider.services[0].name)
