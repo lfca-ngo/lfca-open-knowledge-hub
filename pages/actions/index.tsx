@@ -9,18 +9,22 @@ import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import {
   sortCompanyActionsByTag,
   useCompanyActionsQuery,
+  useCompanyProgramQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 
 const Home: NextPage = () => {
   const router = useRouter()
 
-  // TODO: loading & error UI
-  const [{ data, error, fetching }] = useCompanyActionsQuery()
+  // TODO: UI for error & fetching state
+  const [{ data: actionsData }] = useCompanyActionsQuery()
+
+  // TODO: UI for error & fetching state
+  const [{ data: companyProgramData }] = useCompanyProgramQuery()
 
   const actionsByTags = React.useMemo(
-    () => sortCompanyActionsByTag(data?.companyActions || []),
-    [data]
+    () => sortCompanyActionsByTag(actionsData?.companyActions || []),
+    [actionsData]
   )
 
   /**
@@ -30,13 +34,13 @@ const Home: NextPage = () => {
    */
   const highlightedActions = React.useMemo(
     () =>
-      (data?.companyActions || []).filter(
+      (actionsData?.companyActions || []).filter(
         (companyAction) =>
           (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
             companyAction.requiredForCompanyAchievementIds.length > 0) &&
           !companyAction.completedAt
       ),
-    [data]
+    [actionsData]
   )
 
   return (
@@ -56,7 +60,11 @@ const Home: NextPage = () => {
       </Main>
       <Sider>
         <Section title="Rewards">
-          <AchievementsListMini />
+          <AchievementsListMini
+            achievements={
+              companyProgramData?.company.program.achievements || []
+            }
+          />
         </Section>
         <Section title="...">...</Section>
       </Sider>
