@@ -1,0 +1,10 @@
+fragment CompanyAchievementMini on CompanyAchievement {
+  completedCompanyActionsCount
+  completedRequiredCompanyActionsCount
+  contentId
+  minCompletedCompanyActionsCount
+  name
+  requiredActions {
+    id
+  }
+}

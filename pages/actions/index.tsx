@@ -8,8 +8,8 @@ import { ActionsList } from '../../components/ActionsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import {
   sortCompanyActionsByTag,
+  useCompanyAchievementsMiniQuery,
   useCompanyActionsQuery,
-  useCompanyProgramQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
   const [{ data: actionsData }] = useCompanyActionsQuery()
 
   // TODO: UI for error & fetching state
-  const [{ data: companyProgramData }] = useCompanyProgramQuery()
+  const [{ data: companyAchievementsData }] = useCompanyAchievementsMiniQuery()
 
   const actionsByTags = React.useMemo(
     () => sortCompanyActionsByTag(actionsData?.companyActions || []),
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
         <Section title="Rewards">
           <AchievementsListMini
             achievements={
-              companyProgramData?.company.program.achievements || []
+              companyAchievementsData?.company.program.achievements || []
             }
           />
         </Section>

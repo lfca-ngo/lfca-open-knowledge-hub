@@ -7,23 +7,31 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Button, Card, List, Space } from 'antd'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
 
-import { CompanyAchievementFragment } from '../../services/lfca-backend'
+import {
+  CompanyAchievementFragment,
+  CompanyAchievementMiniFragment,
+  isAchievementReached,
+} from '../../services/lfca-backend'
 
-const ActionsStatusList = ({
-  items,
-  title,
-}: {
-  items: any
-  title?: string
-}) => {
+interface ActionsStatusListProps {
+  items:
+    | CompanyAchievementFragment['recommendedActions']
+    | CompanyAchievementFragment['requiredActions']
+  title: string
+}
+
+const ActionsStatusList = ({ items, title }: ActionsStatusListProps) => {
+  const router = useRouter()
+
   return (
     <div>
       <div className="title">{title}</div>
       <List
         dataSource={items}
-        renderItem={(item: any) => (
-          <List.Item>
+        renderItem={(item) => (
+          <List.Item onClick={() => router.push(`action/${item.contentId}`)}>
             <List.Item.Meta
               avatar={
                 item.completedAt ? (
@@ -41,46 +49,55 @@ const ActionsStatusList = ({
   )
 }
 
-export const AchievementCard = (props: any) => {
-  const achievementReached = props.requiredActions.every(
-    (a: any) => a.completedAt
-  )
+interface AchievementCardProps {
+  achievement: CompanyAchievementFragment
+  onClickEdit: (achievement: CompanyAchievementFragment) => void
+}
+
+export const AchievementCard = ({
+  achievement,
+  onClickEdit,
+}: AchievementCardProps) => {
+  const achievementReached = isAchievementReached(achievement)
 
   return (
     <Card
       className={classNames('achievement-card', {
         'achievement-reached': achievementReached,
       })}
-      onClick={props.onClick}
     >
       <div className="achievement-title">
-        {props.name}
+        {achievement.name}
         {achievementReached && (
           <CheckCircleOutlined className="title-icon green" />
         )}
       </div>
       <ActionsStatusList
-        items={props.recommendedActions}
+        items={achievement.recommendedActions}
         title={'Recommended Actions'}
       />
       <ActionsStatusList
-        items={props.requiredActions}
+        items={achievement.requiredActions}
         title={'Required Actions'}
       />
 
-      <Space direction="vertical" style={{ width: '100%' }}>
-        {props.options?.map((option: any) => (
+      {achievement.micrositeUrl ? (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Button block onClick={() => onClickEdit(achievement)} type="primary">
+            Edit Microsite
+          </Button>
           <Button
             block
-            ghost={option.ghost}
-            key={option.key}
-            onClick={() => props.openDrawer()}
-            type={option.type}
+            disabled={!achievementReached}
+            ghost
+            onClick={() => {
+              window.open(achievement.micrositeUrl ?? undefined, '_blank')
+            }}
           >
-            {option.name}
+            Visit Microsite
           </Button>
-        ))}
-      </Space>
+        </Space>
+      ) : null}
     </Card>
   )
 }
@@ -107,7 +124,7 @@ const AchievementStat = ({
 )
 
 interface AchievementCardMiniProps {
-  achievement: CompanyAchievementFragment
+  achievement: CompanyAchievementMiniFragment
 }
 
 export const AchievementCardMini = ({

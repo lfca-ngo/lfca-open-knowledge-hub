@@ -1,10 +1,10 @@
-query companyProgram {
+query companyAchievementsMini {
   company {
     id
     program {
       contentId
       achievements {
-        ...CompanyAchievement
+        ...CompanyAchievementMini
       }
     }
   }

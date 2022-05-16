@@ -475,11 +475,23 @@ export enum ValueContentType {
   UPLOAD = 'UPLOAD'
 }
 
-export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, requiredActions: Array<{ __typename?: 'CompanyAction', id: string }> };
+export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, requiredActions: Array<{ __typename?: 'CompanyAction', id: string }> };
+
+export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
 export type UserFragmentFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
+
+export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompanyAchievementsMiniQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, requiredActions: Array<{ __typename?: 'CompanyAction', id: string }> }> } } };
+
+export type CompanyAchievementsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompanyAchievementsQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> }> } } };
 
 export type CompanyActionsQueryVariables = Exact<{
   input?: InputMaybe<CompanyActionsInput>;
@@ -488,11 +500,6 @@ export type CompanyActionsQueryVariables = Exact<{
 
 export type CompanyActionsQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
-export type CompanyProgramQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CompanyProgramQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, requiredActions: Array<{ __typename?: 'CompanyAction', id: string }> }> } } };
-
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
 }>;
@@ -500,8 +507,8 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
-export const CompanyAchievementFragmentDoc = gql`
-    fragment CompanyAchievement on CompanyAchievement {
+export const CompanyAchievementMiniFragmentDoc = gql`
+    fragment CompanyAchievementMini on CompanyAchievement {
   completedCompanyActionsCount
   completedRequiredCompanyActionsCount
   contentId
@@ -509,6 +516,28 @@ export const CompanyAchievementFragmentDoc = gql`
   name
   requiredActions {
     id
+  }
+}
+    `;
+export const CompanyAchievementFragmentDoc = gql`
+    fragment CompanyAchievement on CompanyAchievement {
+  completedCompanyActionsCount
+  completedRequiredCompanyActionsCount
+  contentId
+  micrositeUrl
+  minCompletedCompanyActionsCount
+  name
+  recommendedActions {
+    id
+    title
+    completedAt
+    contentId
+  }
+  requiredActions {
+    id
+    title
+    completedAt
+    contentId
   }
 }
     `;
@@ -551,19 +580,25 @@ export const UserFragmentFragmentDoc = gql`
   sortWeight
 }
     `;
-export const CompanyActionsDocument = gql`
-    query companyActions($input: CompanyActionsInput) {
-  companyActions(input: $input) {
-    ...CompanyActionListItem
+export const CompanyAchievementsMiniDocument = gql`
+    query companyAchievementsMini {
+  company {
+    id
+    program {
+      contentId
+      achievements {
+        ...CompanyAchievementMini
+      }
+    }
   }
 }
-    ${CompanyActionListItemFragmentDoc}`;
+    ${CompanyAchievementMiniFragmentDoc}`;
 
-export function useCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyActionsQuery>({ query: CompanyActionsDocument, ...options });
+export function useCompanyAchievementsMiniQuery(options?: Omit<Urql.UseQueryArgs<CompanyAchievementsMiniQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyAchievementsMiniQuery>({ query: CompanyAchievementsMiniDocument, ...options });
 };
-export const CompanyProgramDocument = gql`
-    query companyProgram {
+export const CompanyAchievementsDocument = gql`
+    query companyAchievements {
   company {
     id
     program {
@@ -576,8 +611,19 @@ export const CompanyProgramDocument = gql`
 }
     ${CompanyAchievementFragmentDoc}`;
 
-export function useCompanyProgramQuery(options?: Omit<Urql.UseQueryArgs<CompanyProgramQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyProgramQuery>({ query: CompanyProgramDocument, ...options });
+export function useCompanyAchievementsQuery(options?: Omit<Urql.UseQueryArgs<CompanyAchievementsQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyAchievementsQuery>({ query: CompanyAchievementsDocument, ...options });
+};
+export const CompanyActionsDocument = gql`
+    query companyActions($input: CompanyActionsInput) {
+  companyActions(input: $input) {
+    ...CompanyActionListItem
+  }
+}
+    ${CompanyActionListItemFragmentDoc}`;
+
+export function useCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyActionsQuery>({ query: CompanyActionsDocument, ...options });
 };
 export const UserDocument = gql`
     query user($input: UserInput) {
