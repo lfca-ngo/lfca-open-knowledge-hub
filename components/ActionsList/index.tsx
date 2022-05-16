@@ -47,7 +47,7 @@ export const ActionsList = ({
   onSelect,
 }: {
   actionsByTags: any
-  actionText: string
+  actionText?: string
   actionLink?: any
   onSelect?: any
 }) => {

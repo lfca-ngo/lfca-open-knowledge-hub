@@ -38,7 +38,7 @@ export const CompleteActionForm = ({
   }
 
   return (
-    <Section title="Complete Action" titleSize="big">
+    <Section title="Complete Action">
       <Form layout="vertical" onFinish={handleFinish}>
         {actionId === 'companyPledge' && (
           <>
