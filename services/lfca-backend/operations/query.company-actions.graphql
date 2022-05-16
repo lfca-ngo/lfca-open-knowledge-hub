@@ -1,0 +1,5 @@
+query companyActions($input: CompanyActionsInput) {
+  companyActions(input: $input) {
+    ...CompanyActionListItem
+  }
+}
