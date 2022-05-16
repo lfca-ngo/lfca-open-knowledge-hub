@@ -10,11 +10,11 @@ interface FileUploadProps {
   customPreset?: any
 }
 
-export const FileUpload: React.FC<FileUploadProps> = ({
+export const FileUpload = ({
   customPreset,
   onChange,
   value,
-}) => {
+}: FileUploadProps) => {
   const [loading, setLoading] = useState(false)
   const [fileUrl, setFileUrl] = useState(value)
 

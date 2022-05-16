@@ -1,4 +1,4 @@
-import { Button, Form, Input, notification, Rate, Select } from 'antd'
+import { Button, Form, Input, notification, Rate, Select, Divider } from 'antd'
 import { useState } from 'react'
 
 import { FileUpload } from '../FileUpload/FileUpload'
@@ -24,6 +24,7 @@ export const CompleteActionForm = ({
   actionId: string
   onComplete: () => void
 }) => {
+  const [provider, setProvider] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleFinish = () => {
@@ -43,14 +44,30 @@ export const CompleteActionForm = ({
         {actionId === 'companyPledge' && (
           <>
             <Form.Item label="Did you work with a service provider?">
-              <Select placeholder="Select an option...">
+              <Select
+                onSelect={(val: string) => setProvider(val)}
+                placeholder="Select an option..."
+              >
                 <Select.Option key="planetly">Planetly</Select.Option>
                 <Select.Option key="cp">Climate Partner</Select.Option>
+                <Select.Option key="a">Plan A</Select.Option>
+                <Select.Option key="">None</Select.Option>
               </Select>
             </Form.Item>
-            <Form.Item label="What was your overall experience?">
-              <Rate />
-            </Form.Item>
+            {provider && (
+              <>
+                <Form.Item label="What was your overall experience?">
+                  <Rate />
+                </Form.Item>
+                <Form.Item label="Describe your experience">
+                  <TextArea
+                    placeholder="The service was great, but it was a bit pricy..."
+                    rows={6}
+                  />
+                </Form.Item>
+              </>
+            )}
+            <Divider />
           </>
         )}
 
