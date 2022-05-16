@@ -7,21 +7,31 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Button, Card, List, Space } from 'antd'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
 
-const ActionsStatusList = ({
-  items,
-  title,
-}: {
-  items: any
-  title?: string
-}) => {
+import {
+  CompanyAchievementFragment,
+  CompanyAchievementMiniFragment,
+  isAchievementReached,
+} from '../../services/lfca-backend'
+
+interface ActionsStatusListProps {
+  items:
+    | CompanyAchievementFragment['recommendedActions']
+    | CompanyAchievementFragment['requiredActions']
+  title: string
+}
+
+const ActionsStatusList = ({ items, title }: ActionsStatusListProps) => {
+  const router = useRouter()
+
   return (
     <div>
       <div className="title">{title}</div>
       <List
         dataSource={items}
-        renderItem={(item: any) => (
-          <List.Item>
+        renderItem={(item) => (
+          <List.Item onClick={() => router.push(`action/${item.contentId}`)}>
             <List.Item.Meta
               avatar={
                 item.completedAt ? (
@@ -39,91 +49,100 @@ const ActionsStatusList = ({
   )
 }
 
-export const AchievementCard = (props: any) => {
-  const achievementReached = props.requiredActions.every(
-    (a: any) => a.completedAt
-  )
+interface AchievementCardProps {
+  achievement: CompanyAchievementFragment
+  onClickEdit: (achievement: CompanyAchievementFragment) => void
+}
+
+export const AchievementCard = ({
+  achievement,
+  onClickEdit,
+}: AchievementCardProps) => {
+  const achievementReached = isAchievementReached(achievement)
 
   return (
     <Card
       className={classNames('achievement-card', {
         'achievement-reached': achievementReached,
       })}
-      onClick={props.onClick}
     >
       <div className="achievement-title">
-        {props.name}
+        {achievement.name}
         {achievementReached && (
           <CheckCircleOutlined className="title-icon green" />
         )}
       </div>
       <ActionsStatusList
-        items={props.recommendedActions}
+        items={achievement.recommendedActions}
         title={'Recommended Actions'}
       />
       <ActionsStatusList
-        items={props.requiredActions}
+        items={achievement.requiredActions}
         title={'Required Actions'}
       />
 
-      <Space direction="vertical" style={{ width: '100%' }}>
-        {props.options?.map((option: any) => (
+      {achievement.micrositeUrl ? (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Button block onClick={() => onClickEdit(achievement)} type="primary">
+            Edit Microsite
+          </Button>
           <Button
             block
-            ghost={option.ghost}
-            key={option.key}
-            onClick={() => props.openDrawer()}
-            type={option.type}
+            disabled={!achievementReached}
+            ghost
+            onClick={() => {
+              window.open(achievement.micrositeUrl ?? undefined, '_blank')
+            }}
           >
-            {option.name}
+            Visit Microsite
           </Button>
-        ))}
-      </Space>
+        </Space>
+      ) : null}
     </Card>
   )
 }
 
+interface AchievementStatProps {
+  targetCount: number
+  completedCount: number
+}
+
 const AchievementStat = ({
   completedCount,
-
-  totalCount,
-}: {
-  totalCount: number
-  completedCount: number
-}) => (
+  targetCount,
+}: AchievementStatProps) => (
   <div className="achievement-stat">
     <div className="icon">
-      {totalCount === completedCount ? (
+      {completedCount >= targetCount ? (
         <CheckCircleFilled className="green" />
       ) : (
         <CloseCircleFilled className="wine" />
       )}
     </div>
-    <div className="label">{`${completedCount}/${totalCount}`}</div>
+    <div className="label">{`${completedCount}/${targetCount}`}</div>
   </div>
 )
 
-export const AchievementCardMini = (props: any) => {
-  const completedRequiredActionsCount = props.requiredActions.filter(
-    (a: any) => a.completedAt
-  ).length
-  const completedRecommendedActionsCount = props.recommendedActions.filter(
-    (a: any) => a.completedAt
-  ).length
+interface AchievementCardMiniProps {
+  achievement: CompanyAchievementMiniFragment
+}
 
+export const AchievementCardMini = ({
+  achievement,
+}: AchievementCardMiniProps) => {
   return (
-    <div className={'achievement-card-mini'} onClick={props.onClick}>
+    <div className={'achievement-card-mini'}>
       <Avatar size="default" />
       <div className="achievement-content">
-        <div className="achievement-title">{props.name}</div>
+        <div className="achievement-title">{achievement.name}</div>
         <div className="achievement-stats">
           <AchievementStat
-            completedCount={completedRequiredActionsCount}
-            totalCount={props.requiredActions.length}
+            completedCount={achievement.completedRequiredCompanyActionsCount}
+            targetCount={achievement.requiredActions.length}
           />
           <AchievementStat
-            completedCount={completedRecommendedActionsCount}
-            totalCount={props.recommendedActions.length}
+            completedCount={achievement.completedCompanyActionsCount}
+            targetCount={achievement.minCompletedCompanyActionsCount || 0}
           />
         </div>
       </div>

@@ -1,12 +1,11 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Tag } from 'antd'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
-import { ActionsList } from '../../ActionsList'
+import { ActionListProps, ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
 
@@ -34,7 +33,11 @@ const ELEMENTS = [
   },
 ]
 
-const Intro = (props: any) => {
+interface StepProps {
+  onNext: () => void
+}
+
+const Intro = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">Intro</Tag>
@@ -45,20 +48,20 @@ const Intro = (props: any) => {
         the full climate action potential of your organization.`}
       </p>
       <InfoCarousel elements={ELEMENTS} />
-      <Button onClick={() => props.setStep(1)} size="large" type="primary">
+      <Button onClick={onNext} size="large" type="primary">
         Continue
       </Button>
     </div>
   )
 }
 
-const Personalize = (props: any) => {
+interface PersonalizeProps extends StepProps {
+  actionsByTags: ActionListProps['actionsByTags']
+}
+
+const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
   const [activeActionId, setActiveActionId] = useState('')
   const [drawerVisible, setDrawerVisible] = useState(false)
-  const onSelect = (key: string) => {
-    setActiveActionId(key)
-    setDrawerVisible(true)
-  }
 
   return (
     <div>
@@ -68,10 +71,18 @@ const Personalize = (props: any) => {
         LFCA
       </h1>
       <ActionsList
-        actionText="Select"
-        actionsByTags={props.byTags}
-        onSelect={onSelect}
+        actionListItemProps={{
+          ctaText: 'Select',
+          onCtaClick: (action) => {
+            setActiveActionId(action.contentId)
+            setDrawerVisible(true)
+          },
+        }}
+        actionsByTags={actionsByTags}
       />
+      <Button onClick={onNext} size="large" type="primary">
+        Continue
+      </Button>
       <Drawer
         destroyOnClose
         onClose={() => setDrawerVisible(false)}
@@ -86,8 +97,7 @@ const Personalize = (props: any) => {
   )
 }
 
-const Start = () => {
-  const router = useRouter()
+const Start = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">{`Let's go!`}</Tag>
@@ -99,7 +109,7 @@ const Start = () => {
       </p>
       <Button
         icon={<ArrowRightOutlined />}
-        onClick={() => router.push('/')}
+        onClick={onNext}
         size="large"
         type="primary"
       >
@@ -109,19 +119,19 @@ const Start = () => {
   )
 }
 
-export const OnboardingOfficerSteps = (props: any) => [
+export const OnboardingOfficerSteps = [
   {
-    component: <Intro {...props} />,
+    component: Intro,
     description: 'Get to know the platform',
     title: 'Intro',
   },
   {
-    component: <Personalize {...props} />,
+    component: Personalize,
     description: 'What’s your status quo',
     title: 'Personalize',
   },
   {
-    component: <Start {...props} />,
+    component: Start,
     description: 'Get started',
     title: 'Let’s go!',
   },

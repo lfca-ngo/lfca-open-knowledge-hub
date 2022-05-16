@@ -1,0 +1,20 @@
+fragment CompanyAchievement on CompanyAchievement {
+  completedCompanyActionsCount
+  completedRequiredCompanyActionsCount
+  contentId
+  micrositeUrl
+  minCompletedCompanyActionsCount
+  name
+  recommendedActions {
+    id
+    title
+    completedAt
+    contentId
+  }
+  requiredActions {
+    id
+    title
+    completedAt
+    contentId
+  }
+}
