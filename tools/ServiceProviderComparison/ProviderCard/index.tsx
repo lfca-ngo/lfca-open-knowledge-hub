@@ -7,7 +7,7 @@ import {
   LinkOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Card, Rate, Tag } from 'antd'
+import { Button, Card, Popover, Rate, Tag } from 'antd'
 import Image from 'next/image'
 import { useMemo } from 'react'
 
@@ -93,7 +93,7 @@ export const ProviderCard = ({
       </div>
       <div className="actions">
         <div className="reviews">
-          <Rate value={stats.avgRating} />
+          <Rate allowHalf value={stats.avgRating} />
           <Button
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
@@ -101,8 +101,14 @@ export const ProviderCard = ({
           >{`See all ${stats.total} reviews`}</Button>
 
           <div className="ranges">
-            <Tag>{stats.ranges?.cost?.from} €</Tag> -{' '}
-            <Tag>{stats.ranges?.cost?.to} €</Tag>
+            <Popover
+              content="The price range is based on experiences shared by other members"
+              overlayClassName="popover-sm"
+            >
+              <Tag>
+                {stats.ranges?.cost?.from}€ - {stats.ranges?.cost?.to}€
+              </Tag>
+            </Popover>
           </div>
         </div>
         <Button icon={<LinkOutlined />} onClick={onOpenWebsite} type="primary">

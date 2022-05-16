@@ -41,7 +41,6 @@ interface FilterFormProps {
 export const ServiceProviderComparison = ({
   providers,
 }: ServiceProviderComparisonProps) => {
-  // merge reviews and provider data into one object
   const mergedData = useMemo(
     () => mergeProviderData(providers, FAKE_REVIEWS),
     [providers]
@@ -57,23 +56,15 @@ export const ServiceProviderComparison = ({
   const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
     const filtered = mergedData.filter((provider) => {
       const { models, services } = allValues
-      if (services && services.length > 0) {
-        // check if provider has any of the selected services
-        const providerServices = provider.services || []
-        return services.some((service) =>
-          providerServices.some(
-            (providerService) => providerService.name === service
-          )
-        )
-      }
-      if (models && models.length > 0) {
-        // check if provider has any of the selected models
-        const providerModels = provider.model || []
-        return models.some((model) =>
-          providerModels.some((providerModel) => providerModel.name === model)
-        )
-      }
-      return true
+      const providerModels = provider.model?.map((model) => model.name)
+      const providerServices = provider.services?.map((service) => service.name)
+      // only return providers that mal all of the criteria
+      return (
+        (models?.length === 0 ||
+          models?.some((model) => providerModels?.includes(model))) &&
+        (services?.length === 0 ||
+          services?.some((service) => providerServices?.includes(service)))
+      )
     })
     setList(filtered)
   }
