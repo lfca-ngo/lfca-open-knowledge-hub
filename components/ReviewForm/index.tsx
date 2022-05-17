@@ -111,6 +111,13 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
             </Form.List>
           </Form.Item>
 
+          <Form.Item label="Price per year (anonymous)">
+            <Input
+              addonAfter={<span className="currency">€</span>}
+              placeholder="500"
+            />
+          </Form.Item>
+
           <Form.Item>
             <Button htmlType="submit" type="primary">
               Submit

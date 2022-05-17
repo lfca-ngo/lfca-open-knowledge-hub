@@ -1,5 +1,5 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Drawer, Tabs, Divider } from 'antd'
+import { Divider, Drawer, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -82,6 +82,8 @@ const Action: NextPage = (props: any) => {
 
       <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
         <Section title="Complete action">
+          {/* @TODO: render the review form conditionally */}
+          {/* Move the logic to the onboarding as well */}
           <ReviewForm serviceProviders={props.serviceProviders} />
           <Divider />
           <CompleteActionForm onComplete={() => setIsOpen(false)} />
