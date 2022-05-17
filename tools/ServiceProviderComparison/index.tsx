@@ -1,6 +1,7 @@
 require('./styles.less')
 
 import { ArrowRightOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 import {
   Alert,
   Avatar,
@@ -9,7 +10,9 @@ import {
   Divider,
   Drawer,
   Form,
+  Input,
   List,
+  Popover,
   Row,
   Select,
 } from 'antd'
@@ -29,6 +32,7 @@ import {
 } from './utils'
 
 const { Option } = Select
+const { Search } = Input
 
 export interface Review {
   author: string
@@ -195,7 +199,13 @@ export const ServiceProviderComparison = ({
         type="info"
       />
 
-      <Divider />
+      <div className="search-bar">
+        <div className="search-results-count">{list.length} results</div>
+        <Divider />
+        <Popover content={<Search placeholder="Search..." />}>
+          <Button icon={<SearchOutlined />} />
+        </Popover>
+      </div>
 
       <List
         dataSource={list}
