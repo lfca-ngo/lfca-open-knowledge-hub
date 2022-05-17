@@ -89,7 +89,7 @@ export const ProviderCard = ({
       </div>
       <div className="actions">
         <div className="reviews">
-          <Rate allowHalf value={provider.reviewStats?.avgRating} />
+          <Rate allowHalf disabled value={provider.reviewStats?.avgRating} />
           <Button
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
