@@ -194,8 +194,6 @@ export const ServiceProviderComparison = ({
         </Row>
       </Form>
 
-      <Divider />
-
       <Alert
         action={[
           <Button icon={<ArrowRightOutlined />} key="start" type="primary">
