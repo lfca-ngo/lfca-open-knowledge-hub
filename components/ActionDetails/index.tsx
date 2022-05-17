@@ -22,7 +22,7 @@ export const ActionDetails = ({ action }: { action: any }) => {
           </div>
         </div>
       </div>
-      <ActionStats />
+      <ActionStats recentCompaniesCompleted={[]} />
     </div>
   )
 }
