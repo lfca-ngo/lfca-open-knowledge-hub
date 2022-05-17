@@ -5,7 +5,7 @@ import {
   ArrowRightOutlined,
   StarFilled,
 } from '@ant-design/icons'
-import { Card, Carousel, Tag } from 'antd'
+import { Card, Carousel, Skeleton, Tag } from 'antd'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
@@ -47,25 +47,29 @@ export const ActionsCarousel = ({
     >
       {actions.map((action, i) => {
         return (
-          <Card
-            bordered={false}
+          <Skeleton
+            active
             key={`action-${i}`}
-            onClick={() => onSelect(action)}
+            loading={fetching}
+            paragraph={false}
+            title={{ width: '100%' }}
           >
-            <Tag icon={<StarFilled />}>
-              {action.requiredForCompanyAchievementIds.length
-                ? 'Required'
-                : 'Recommended'}
-            </Tag>
-            <div className="action-card-content">
-              <div className="action-card-title">{action.title}</div>
-              <LogoGroup
-                data={action.recentCompaniesCompleted}
-                label={'doing this'}
-                size="small"
-              />
-            </div>
-          </Card>
+            <Card bordered={false} onClick={() => onSelect(action)}>
+              <Tag icon={<StarFilled />}>
+                {action.requiredForCompanyAchievementIds.length
+                  ? 'Required'
+                  : 'Recommended'}
+              </Tag>
+              <div className="action-card-content">
+                <div className="action-card-title">{action.title}</div>
+                <LogoGroup
+                  data={action.recentCompaniesCompleted}
+                  label={'doing this'}
+                  size="small"
+                />
+              </div>
+            </Card>
+          </Skeleton>
         )
       })}
     </Carousel>

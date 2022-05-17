@@ -79,6 +79,7 @@ export const ActionsList = ({
                 return (
                   <List.Item>
                     <Skeleton
+                      active
                       avatar={{ shape: 'square', size: 'large' }}
                       loading={fetching}
                       paragraph={{ rows: 1 }}

@@ -35,7 +35,7 @@ export const AchievementsList = ({
         }}
         renderItem={(item) => (
           <List.Item>
-            <Skeleton avatar loading={fetching} paragraph={{ rows: 3 }}>
+            <Skeleton active avatar loading={fetching} paragraph={{ rows: 3 }}>
               <AchievementCard
                 achievement={item}
                 onClickEdit={() => setDrawerVisible(true)}
@@ -67,7 +67,7 @@ export const AchievementsListMini = ({
       dataSource={achievements}
       renderItem={(item) => (
         <List.Item>
-          <Skeleton avatar loading={fetching} paragraph={{ rows: 1 }}>
+          <Skeleton active avatar loading={fetching} paragraph={{ rows: 1 }}>
             <AchievementCardMini achievement={item} />
           </Skeleton>
         </List.Item>

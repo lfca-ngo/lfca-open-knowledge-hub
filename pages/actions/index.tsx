@@ -6,6 +6,7 @@ import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
 import {
   sortCompanyActionsByTag,
   useCompanyAchievementsMiniQuery,
@@ -25,7 +26,10 @@ const Home: NextPage = () => {
     useCompanyAchievementsMiniQuery()
 
   const actionsByTags = React.useMemo(
-    () => sortCompanyActionsByTag(actionsData?.companyActions || []),
+    () =>
+      sortCompanyActionsByTag(
+        actionsData?.companyActions || EMPTY_ACTIONS_ARRAY
+      ),
     [actionsData]
   )
 
@@ -36,7 +40,7 @@ const Home: NextPage = () => {
    */
   const highlightedActions = React.useMemo(
     () =>
-      (actionsData?.companyActions || []).filter(
+      (actionsData?.companyActions || EMPTY_ACTIONS_ARRAY).filter(
         (companyAction) =>
           (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
             companyAction.requiredForCompanyAchievementIds.length > 0) &&
@@ -44,6 +48,8 @@ const Home: NextPage = () => {
       ),
     [actionsData]
   )
+
+  console.log('highlightedActions', highlightedActions)
 
   return (
     <SiderLayout nav={ACTIONS_NAV}>

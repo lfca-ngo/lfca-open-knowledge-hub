@@ -19,8 +19,14 @@ const CompanyPopover = ({ company }: { company: any }) => {
     <div className="action-comments-company-popover ">
       {!company ? (
         <>
-          <Skeleton avatar={{ size: 35 }} paragraph={false} title={false} />
           <Skeleton
+            active
+            avatar={{ size: 35 }}
+            paragraph={false}
+            title={false}
+          />
+          <Skeleton
+            active
             avatar={false}
             paragraph={{ rows: 1, width: 40 }}
             title={false}
