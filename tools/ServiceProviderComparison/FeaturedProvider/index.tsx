@@ -9,7 +9,7 @@ export const FeaturedProvider = () => {
           Open now
         </Button>,
       ]}
-      description="As a lfca member you can use the Normative calculator for free. It is an expense based tool that covers all emissions including Scope 3."
+      description="As an LFCA member, you can make use of Normative's Business Carbon Calculator free of charge. The tool is optimised for smaller businesses operating in a single market."
       icon={
         <Avatar
           shape="square"
@@ -17,7 +17,7 @@ export const FeaturedProvider = () => {
           src="/img/providers/normative.png"
         />
       }
-      message="Get started with a free estimation"
+      message="Jumpstart your journey to net zero for free"
       showIcon
       type="info"
     />

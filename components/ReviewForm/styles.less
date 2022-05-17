@@ -1,0 +1,25 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+@import (reference) '../../styles/mixins.less';
+
+.review-form {
+  .panel {
+    .panel-title {
+      .font-semi();
+      margin: 10px 0 10px;
+    }
+    border: 1px solid @yellow;
+    border-radius: @border-radius-base;
+    background-color: fade(@yellow, 2%);
+    padding: 15px;
+    .ant-rate-star {
+      font-size: 24px;
+    }
+  }
+
+  .item-sm {
+    .ant-form-item {
+      margin-bottom: 12px;
+    }
+  }
+}
