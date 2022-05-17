@@ -5,6 +5,7 @@ import {
   CalculatorOutlined,
   LikeOutlined,
   LinkOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Popover, Rate, Tag } from 'antd'
@@ -47,6 +48,13 @@ export const ProviderCard = ({
   onOpenWebsite,
   provider,
 }: ProviderCardProps) => {
+  const priceRange = `${provider.reviewStats?.ranges?.cost?.from || ''}€ - ${
+    provider.reviewStats?.ranges?.cost?.to || ''
+  }€`
+  const teamSizeRange = `${
+    provider.reviewStats?.ranges?.companySize?.from || '?'
+  } - ${provider.reviewStats?.ranges?.companySize?.to || '?'}`
+
   return (
     <Card bordered={false} className="provider-card">
       <div className="hero">
@@ -98,14 +106,11 @@ export const ProviderCard = ({
 
           <div className="ranges">
             <Popover
-              content="The price range is based on experiences shared by other members"
+              content={`The price range is based on experiences shared by other members. Team size of reviewing companies: ${teamSizeRange}`}
               overlayClassName="popover-sm"
               placement="bottom"
             >
-              <Tag>
-                {provider.reviewStats?.ranges?.cost?.from}€ -{' '}
-                {provider.reviewStats?.ranges?.cost?.to}€
-              </Tag>
+              <Tag icon={<InfoCircleOutlined />}>{priceRange}</Tag>
             </Popover>
           </div>
         </div>

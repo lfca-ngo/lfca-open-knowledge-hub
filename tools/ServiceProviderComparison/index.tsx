@@ -147,6 +147,18 @@ export const ServiceProviderComparison = ({
               <MultiSelect mode="single" options={PRICE_FILTER_OPTIONS} />
             </Form.Item>
           </Col>
+          <Col span={12}>
+            <Form.Item label="Supply chain" name="supplychain">
+              <MultiSelect
+                mode="single"
+                options={[
+                  { key: 'simple', label: 'Simple' },
+                  { key: 'normal', label: 'Normal' },
+                  { key: 'complex', label: 'Complex' },
+                ]}
+              />
+            </Form.Item>
+          </Col>
         </Row>
       </Form>
 
