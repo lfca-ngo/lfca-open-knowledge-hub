@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { MinusCircleOutlined } from '@ant-design/icons'
+import { MinusOutlined } from '@ant-design/icons'
 import { Button, Input } from 'antd'
 
 interface RemovableInputProps {
@@ -8,12 +8,14 @@ interface RemovableInputProps {
   value?: string
   onChange?: (value: string) => void
   onRemove?: () => void
+  placeholder: string
 }
 
 export const RemovableInput = ({
   icon,
   onChange,
   onRemove,
+  placeholder = '',
   value = '',
 }: RemovableInputProps) => {
   const handleChange = (e: any) => {
@@ -26,10 +28,10 @@ export const RemovableInput = ({
       <Input.Group compact>
         <Input
           onChange={handleChange}
-          placeholder="...great UX!"
+          placeholder={placeholder}
           value={value || ''}
         />
-        <Button icon={<MinusCircleOutlined />} onClick={onRemove} />
+        <Button icon={<MinusOutlined />} onClick={onRemove} />
       </Input.Group>
     </div>
   )

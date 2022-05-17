@@ -1,6 +1,11 @@
 require('./styles.less')
 
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import {
+  MinusOutlined,
+  PlusOutlined,
+  MinusCircleFilled,
+  PlusCircleFilled,
+} from '@ant-design/icons'
 import { Button, Form, Input, Rate, Select } from 'antd'
 import { useState } from 'react'
 
@@ -66,8 +71,9 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
                     <Form.Item key={field.key} required={false}>
                       <Form.Item {...field} noStyle>
                         <RemovableInput
-                          icon={<PlusOutlined />}
+                          icon={<PlusCircleFilled className="black" />}
                           onRemove={() => remove(field.name)}
+                          placeholder="Great UX!"
                         />
                       </Form.Item>
                     </Form.Item>
@@ -89,8 +95,9 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
                     <Form.Item key={field.key} required={false}>
                       <Form.Item {...field} noStyle>
                         <RemovableInput
-                          icon={<MinusOutlined />}
+                          icon={<MinusCircleFilled className="black" />}
                           onRemove={() => remove(field.name)}
+                          placeholder="Very high pricing"
                         />
                       </Form.Item>
                     </Form.Item>
