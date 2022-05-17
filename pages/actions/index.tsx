@@ -7,6 +7,10 @@ import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import {
+  EMPTY_ACHIEVEMENTS_ARRAY,
+  EMPTY_ACTIONS_ARRAY,
+} from '../../services/contentful/utils'
+import {
   sortCompanyActionsByTag,
   useCompanyAchievementsMiniQuery,
   useCompanyActionsQuery,
@@ -17,13 +21,18 @@ const Home: NextPage = () => {
   const router = useRouter()
 
   // TODO: UI for error & fetching state
-  const [{ data: actionsData }] = useCompanyActionsQuery()
+  const [{ data: actionsData, fetching: fetchingActions }] =
+    useCompanyActionsQuery()
 
   // TODO: UI for error & fetching state
-  const [{ data: companyAchievementsData }] = useCompanyAchievementsMiniQuery()
+  const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
+    useCompanyAchievementsMiniQuery()
 
   const actionsByTags = React.useMemo(
-    () => sortCompanyActionsByTag(actionsData?.companyActions || []),
+    () =>
+      sortCompanyActionsByTag(
+        actionsData?.companyActions || EMPTY_ACTIONS_ARRAY
+      ),
     [actionsData]
   )
 
@@ -34,7 +43,7 @@ const Home: NextPage = () => {
    */
   const highlightedActions = React.useMemo(
     () =>
-      (actionsData?.companyActions || []).filter(
+      (actionsData?.companyActions || EMPTY_ACTIONS_ARRAY).filter(
         (companyAction) =>
           (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
             companyAction.requiredForCompanyAchievementIds.length > 0) &&
@@ -49,21 +58,27 @@ const Home: NextPage = () => {
         <Section className="mb-40" title="Dashboard" titleSize="big">
           <ActionsCarousel
             actions={highlightedActions}
+            fetching={fetchingActions}
             onSelect={(action) => {
               router.push(`/action/${action.contentId}`)
             }}
           />
         </Section>
         <Section bordered={false} title="Browse all actions">
-          <ActionsList actionsByTags={actionsByTags} />
+          <ActionsList
+            actionsByTags={actionsByTags}
+            fetching={fetchingActions}
+          />
         </Section>
       </Main>
       <Sider>
         <Section title="Rewards">
           <AchievementsListMini
             achievements={
-              companyAchievementsData?.company.program.achievements || []
+              companyAchievementsData?.company.program.achievements ||
+              EMPTY_ACHIEVEMENTS_ARRAY
             }
+            fetching={fetchingAchievements}
           />
         </Section>
         <Section title="...">...</Section>

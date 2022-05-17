@@ -1,5 +1,47 @@
-.ant-list.ant-list-split.achievements-list-mini {
-  .ant-list-item {
-    padding: 16px 0;
+.ant-list.ant-list-split {
+  &.achievements-list {
+    .ant-skeleton {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .ant-skeleton-header {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          margin-top: 30px;
+        }
+        .ant-skeleton-paragraph {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  &.achievements-list-mini {
+    .ant-list-item {
+      padding: 16px 0;
+    }
+
+    .ant-skeleton {
+      display: flex;
+      align-items: center;
+
+      .ant-skeleton-header {
+        display: flex;
+        align-items: center;
+      }
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          margin: 0;
+        }
+        .ant-skeleton-paragraph {
+          margin-top: 10px;
+        }
+      }
+    }
   }
 }

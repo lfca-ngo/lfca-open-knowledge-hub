@@ -1,11 +1,13 @@
 @import (reference) '../../styles/variables.less';
 @import (reference) '../../styles/fonts.less';
 
+@card-height: 155px;
+
 .color-card(@color) {
   .ant-card {
     background-color: @color;
     color: @white;
-    height: 155px;
+    height: @card-height;
     cursor: pointer;
 
     &:hover {
@@ -102,6 +104,20 @@
 
     &:nth-child(3n) {
       .color-card(@green);
+    }
+  }
+
+  // Skeleton loader
+  .ant-skeleton {
+    display: flex !important;
+    align-items: center;
+
+    .ant-skeleton-content {
+      .ant-skeleton-title {
+        margin: 0;
+        height: @card-height;
+        border-radius: @border-radius-base;
+      }
     }
   }
 }

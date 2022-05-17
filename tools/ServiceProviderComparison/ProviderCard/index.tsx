@@ -7,8 +7,11 @@ import {
   LinkOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Card, Tag } from 'antd'
+import { Button, Card, Popover, Rate, Tag } from 'antd'
 import Image from 'next/image'
+
+import { ContentfulTagFields } from '../../../services/contentful'
+import { ServiceProvider } from '..'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -21,27 +24,40 @@ const MAP_ICONS = (name: string) => {
   }
 }
 
-const TypeTags = ({ tags }: { tags: any }) => {
-  return tags?.map(({ name }: { name: string }) => (
-    <Tag className="type-tag" icon={MAP_ICONS(name)} key={name}>
-      {name}
-    </Tag>
-  ))
+const TypeTags = ({ tags }: { tags?: ContentfulTagFields[] }) => {
+  return (
+    <div className="type-tags">
+      {tags?.map(({ name }) => (
+        <Tag className="type-tag" icon={MAP_ICONS(name)} key={name}>
+          {name}
+        </Tag>
+      ))}
+    </div>
+  )
+}
+
+interface ProviderCardProps {
+  provider: ServiceProvider
+  onOpenReviews?: (provider: ServiceProvider) => void
+  onOpenWebsite?: () => void
 }
 
 export const ProviderCard = ({
-  onClick,
+  onOpenReviews,
+  onOpenWebsite,
   provider,
-}: {
-  provider: any
-  onClick?: any
-}) => {
+}: ProviderCardProps) => {
   return (
-    <Card bordered={false} className="provider-card" onClick={onClick}>
+    <Card bordered={false} className="provider-card">
       <div className="hero">
         <div className="wrapper">
           {provider.logo && (
-            <Image layout="fill" objectFit="contain" src={provider.logo?.url} />
+            <Image
+              alt={provider.name || ''}
+              layout="fill"
+              objectFit="contain"
+              src={provider.logo?.url}
+            />
           )}
         </div>
       </div>
@@ -63,7 +79,7 @@ export const ProviderCard = ({
             </Tag>
           </div>
           <div className="services">
-            {provider?.services?.map((service: any, i: any) => (
+            {provider.services?.map((service, i: number) => (
               <Tag className="service-tag" key={`service-${i}`}>
                 {service?.name}
               </Tag>
@@ -72,7 +88,28 @@ export const ProviderCard = ({
         </div>
       </div>
       <div className="actions">
-        <Button icon={<LinkOutlined />} type="primary">
+        <div className="reviews">
+          <Rate allowHalf disabled value={provider.reviewStats?.avgRating} />
+          <Button
+            onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
+            size="small"
+            type="link"
+          >{`See all ${provider.reviewStats?.totalReviews} reviews`}</Button>
+
+          <div className="ranges">
+            <Popover
+              content="The price range is based on experiences shared by other members"
+              overlayClassName="popover-sm"
+              placement="bottom"
+            >
+              <Tag>
+                {provider.reviewStats?.ranges?.cost?.from}€ -{' '}
+                {provider.reviewStats?.ranges?.cost?.to}€
+              </Tag>
+            </Popover>
+          </div>
+        </div>
+        <Button icon={<LinkOutlined />} onClick={onOpenWebsite} type="primary">
           View
         </Button>
       </div>
