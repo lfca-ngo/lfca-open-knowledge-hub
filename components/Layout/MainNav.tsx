@@ -74,7 +74,7 @@ const NAV_ITEMS_ADMIN = [
 
 export const MainNav = () => {
   const [items, setItems] =
-    React.useState<NonNullable<MenuProps['items']>>(NAV_ITEMS_DEFAULT)
+    React.useState<MenuProps['items']>(NAV_ITEMS_DEFAULT)
   const { isAdmin } = useUser()
 
   const router = useRouter()
