@@ -53,7 +53,7 @@ const ListActions = () => {
 export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
-  fetching: boolean
+  fetching?: boolean
 }
 
 export const ActionsList = ({

@@ -45,8 +45,6 @@ const Home: NextPage = () => {
     [actionsData]
   )
 
-  console.log(fetchingActions)
-
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
@@ -72,6 +70,7 @@ const Home: NextPage = () => {
             achievements={
               companyAchievementsData?.company.program.achievements || []
             }
+            fetching={fetchingAchievements}
           />
         </Section>
         <Section title="...">...</Section>

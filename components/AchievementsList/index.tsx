@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Drawer, List } from 'antd'
+import { Drawer, List, Skeleton } from 'antd'
 import { useState } from 'react'
 
 import {
@@ -11,9 +11,13 @@ import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 
 interface AchievementsListProps {
   achievements: CompanyAchievementFragment[]
+  fetching?: boolean
 }
 
-export const AchievementsList = ({ achievements }: AchievementsListProps) => {
+export const AchievementsList = ({
+  achievements,
+  fetching,
+}: AchievementsListProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
   return (
     <div>
@@ -31,10 +35,12 @@ export const AchievementsList = ({ achievements }: AchievementsListProps) => {
         }}
         renderItem={(item) => (
           <List.Item>
-            <AchievementCard
-              achievement={item}
-              onClickEdit={() => setDrawerVisible(true)}
-            />
+            <Skeleton avatar loading={fetching} paragraph={{ rows: 3 }}>
+              <AchievementCard
+                achievement={item}
+                onClickEdit={() => setDrawerVisible(true)}
+              />
+            </Skeleton>
           </List.Item>
         )}
       />
@@ -48,10 +54,12 @@ export const AchievementsList = ({ achievements }: AchievementsListProps) => {
 
 interface AchievementsListMiniProps {
   achievements: CompanyAchievementMiniFragment[]
+  fetching?: boolean
 }
 
 export const AchievementsListMini = ({
   achievements,
+  fetching,
 }: AchievementsListMiniProps) => {
   return (
     <List
@@ -59,7 +67,9 @@ export const AchievementsListMini = ({
       dataSource={achievements}
       renderItem={(item) => (
         <List.Item>
-          <AchievementCardMini achievement={item} />
+          <Skeleton avatar loading={fetching} paragraph={{ rows: 1 }}>
+            <AchievementCardMini achievement={item} />
+          </Skeleton>
         </List.Item>
       )}
     />

@@ -15,7 +15,7 @@ import { ArrowWrapper } from './ArrowWrapper'
 
 interface ActionsCarouselProps {
   actions: CompanyActionListItemFragment[]
-  fetching: boolean
+  fetching?: boolean
   onSelect: (action: CompanyActionListItemFragment) => void
 }
 
