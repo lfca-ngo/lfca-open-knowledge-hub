@@ -21,44 +21,61 @@ export const FAKE_REVIEWS: Reviews = {
   ecoVadis: [
     {
       author: 'A',
-      content: 'Very thorough and easy to use',
+      cons: [
+        'But we also found it difficult to standardise processes within our unique company structure.',
+      ],
+      content:
+        'Finally, I really love the fact that planetly is living up to their values and is continuously developing and improving.',
       createdAt: '2020-01-01',
       pricing: {
         companySize: 1000,
         cost: 10000,
       },
+      pros: ['Very thorough and easy to use', 'Great UX of the product'],
       rating: 5,
     },
     {
       author: 'E',
+      cons: [
+        'But we also found it difficult to standardise processes within our unique company structure.',
+      ],
       content: 'Great',
       createdAt: '2020-01-01',
       pricing: {
         companySize: 400,
         cost: 500,
       },
+      pros: ['Very thorough and easy to use', 'Great UX of the product'],
       rating: 3,
     },
   ],
   planetly: [
     {
       author: 'F',
+      cons: [
+        'But we also found it difficult to standardise processes within our unique company structure.',
+      ],
       content: 'I love Planetly!',
       createdAt: '2020-01-01',
       pricing: {
         companySize: 50,
         cost: 1000,
       },
+      pros: ['Very thorough and easy to use', 'Great UX of the product'],
       rating: 5,
     },
     {
       author: 'G',
+      cons: [
+        'But we also found it difficult to standardise processes within our unique company structure.',
+      ],
       content: 'It was great but too pricey',
       createdAt: '2020-01-02',
       pricing: {
         companySize: 10,
         cost: 500,
       },
+      pros: ['Very thorough and easy to use', 'Great UX of the product'],
       rating: 4.5,
     },
   ],

@@ -100,6 +100,7 @@ export const ProviderCard = ({
             <Popover
               content="The price range is based on experiences shared by other members"
               overlayClassName="popover-sm"
+              placement="bottom"
             >
               <Tag>
                 {provider.reviewStats?.ranges?.cost?.from}€ -{' '}

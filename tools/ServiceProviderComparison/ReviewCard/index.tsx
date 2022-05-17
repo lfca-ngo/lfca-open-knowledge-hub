@@ -1,6 +1,10 @@
 require('./styles.less')
 
-import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons'
+import {
+  ClockCircleOutlined,
+  MinusCircleFilled,
+  PlusCircleFilled,
+} from '@ant-design/icons'
 import { Avatar, Comment, Rate, Tooltip } from 'antd'
 import moment from 'moment'
 
@@ -10,17 +14,31 @@ interface ReviewCardProps {
   review: Review
 }
 
-const ReviewContent = ({ content }: { content?: string }) => {
+const ReviewContent = ({
+  cons,
+  content,
+  pros,
+}: {
+  cons: string[]
+  content?: string
+  pros: string[]
+}) => {
   return (
     <div className="review-content">
       <div className="general">{content}</div>
       <div className="details">
-        <div className="details-item">
-          <PlusCircleFilled className="green" /> <span>Great service</span>
-        </div>
-        <div className="details-item">
-          <MinusCircleFilled className="wine" /> <span>Expensive</span>
-        </div>
+        {pros.map((pro, i) => (
+          <div className="details-item" key={`pro-${i}`}>
+            <PlusCircleFilled className="green" />
+            <span>{pro}</span>
+          </div>
+        ))}
+        {cons.map((con, i) => (
+          <div className="details-item" key={`con-${i}`}>
+            <MinusCircleFilled className="wine" />
+            <span>{con}</span>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -29,13 +47,19 @@ const ReviewContent = ({ content }: { content?: string }) => {
 export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
     <Comment
-      actions={[<Rate disabled key="rating" value={review.rating} />]}
-      author={review.author}
+      author={<Rate disabled key="rating" value={review.rating} />}
       avatar={<Avatar>{review.author}</Avatar>}
-      content={<ReviewContent content={review.content} />}
+      className="review-card"
+      content={
+        <ReviewContent
+          cons={review.cons}
+          content={review.content}
+          pros={review.pros}
+        />
+      }
       datetime={
         <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().fromNow()}</span>
+          <ClockCircleOutlined />
         </Tooltip>
       }
     />

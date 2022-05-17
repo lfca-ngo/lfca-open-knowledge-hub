@@ -18,12 +18,14 @@ const { Option } = Select
 
 export interface Review {
   author: string
+  cons: string[]
   content: string
   createdAt: string
   pricing: {
     companySize: number
     cost: number
   }
+  pros: string[]
   rating: number
 }
 
