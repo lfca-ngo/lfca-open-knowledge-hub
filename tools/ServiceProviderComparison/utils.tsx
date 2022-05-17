@@ -1,11 +1,14 @@
+import { Option } from '../../components/MultiSelect'
 import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { Reviews } from '.'
 import { ServiceProvider } from '.'
-import { Option } from '../../components/MultiSelect'
 
 export const getUniqueTags = (
   array: ContentfulServiceProviderFields[],
-  key: keyof Pick<ContentfulServiceProviderFields, 'model' | 'services'>
+  key: keyof Pick<
+    ContentfulServiceProviderFields,
+    'model' | 'services' | 'supplyChainComplexity'
+  >
 ) =>
   array?.reduce((acc, provider) => {
     const tags = provider[key] || []
@@ -163,19 +166,31 @@ const calculateProviderStats = (provider: ServiceProvider) => {
   }
 }
 
+const sortByRating = (a: ServiceProvider, b: ServiceProvider) => {
+  const avgRatingA = a?.reviewStats?.avgRating || 0
+  const avgRatingB = b?.reviewStats?.avgRating || 0
+  return (
+    (isNaN(avgRatingB) ? 0 : avgRatingB) - (isNaN(avgRatingA) ? 0 : avgRatingA)
+  )
+}
+
 export const mergeProviderData = (
   providers: ContentfulServiceProviderFields[],
   reviews: Reviews
 ) => {
-  return providers.map((provider) => {
-    const matchedReviews = reviews[provider.providerId]
-    const serviceProvider = {
-      ...provider,
-      reviews: matchedReviews,
-    }
-    return {
-      ...serviceProvider,
-      reviewStats: calculateProviderStats(serviceProvider),
-    }
-  }) as ServiceProvider[]
+  // merge the reviews with the providers based on the providerId
+  // and sort them based on the average review rating derived from calculateProviderStats
+  return providers
+    .map((provider) => {
+      const matchedReviews = reviews[provider.providerId]
+      const serviceProvider = {
+        ...provider,
+        reviews: matchedReviews,
+      }
+      return {
+        ...serviceProvider,
+        reviewStats: calculateProviderStats(serviceProvider),
+      }
+    })
+    .sort(sortByRating) as ServiceProvider[]
 }

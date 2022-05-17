@@ -11,6 +11,7 @@ interface Image {
 export interface ContentfulServiceProviderFields {
   model?: ContentfulTagFields[]
   services?: ContentfulTagFields[]
+  supplyChainComplexity?: ContentfulTagFields[]
   name?: string
   providerId: string
   logo?: Image

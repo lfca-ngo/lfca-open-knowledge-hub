@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { ArrowRightOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, SortAscendingOutlined } from '@ant-design/icons'
 import { SearchOutlined } from '@ant-design/icons'
 import {
   Alert,
@@ -15,6 +15,7 @@ import {
   Popover,
   Row,
   Select,
+  Space,
 } from 'antd'
 import { useMemo, useState } from 'react'
 
@@ -76,6 +77,7 @@ interface ServiceProviderComparisonProps {
 
 interface FilterFormProps {
   services?: string[]
+  supplyChainComplexity?: string[]
   models?: string[]
   cost?: number[][]
 }
@@ -94,14 +96,19 @@ export const ServiceProviderComparison = ({
 
   const serviceOptions = getUniqueTags(providers, 'services')
   const modelOptions = getUniqueTags(providers, 'model')
+  const supplyChainComplexityOptions = getUniqueTags(
+    providers,
+    'supplyChainComplexity'
+  )
 
   const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
-    const { models, services } = allValues
+    const { models, services, supplyChainComplexity } = allValues
     const [cost] = allValues.cost || []
 
     const filtered = mergedData.filter((provider) => {
-      const providerModels = provider.model?.map((model) => model.name)
-      const providerServices = provider.services?.map((service) => service.name)
+      const providerSupplyChainComplexity = provider.model?.map((s) => s.name)
+      const providerModels = provider.model?.map((m) => m.name)
+      const providerServices = provider.services?.map((s) => s.name)
       const lowestPrice = provider.reviewStats?.ranges?.cost?.from
       // if a form value is undefined, return true
       // if lowestPrice is in range of cost, return true
@@ -115,6 +122,11 @@ export const ServiceProviderComparison = ({
         (services === undefined ||
           services.length === 0 ||
           providerServices?.some((service) => services.includes(service))) &&
+        (supplyChainComplexity === undefined ||
+          supplyChainComplexity.length === 0 ||
+          providerSupplyChainComplexity?.some((supplyChain) =>
+            providerSupplyChainComplexity.includes(supplyChain)
+          )) &&
         (cost === undefined ||
           cost.length === 0 ||
           (lowestPrice !== undefined &&
@@ -180,14 +192,13 @@ export const ServiceProviderComparison = ({
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Supply chain" name="supplychain">
+            <Form.Item label="Supply chain" name="supplyChainComplexity">
               <MultiSelect
                 mode="single"
-                options={[
-                  { key: 'simple', label: 'Simple' },
-                  { key: 'normal', label: 'Normal' },
-                  { key: 'complex', label: 'Complex' },
-                ]}
+                options={supplyChainComplexityOptions.map((m) => ({
+                  key: m,
+                  label: m,
+                }))}
               />
             </Form.Item>
           </Col>
@@ -216,11 +227,24 @@ export const ServiceProviderComparison = ({
       <div className="search-bar">
         <div className="search-results-count">{list.length} results</div>
         <Divider />
-        <Popover
-          content={<Search onSearch={handleSearch} placeholder="Search..." />}
-        >
-          <Button icon={<SearchOutlined />} />
-        </Popover>
+        <Space>
+          <Popover
+            content={
+              <Select placeholder="Please select" value="rating">
+                <Select.Option key="rating" value="rating">
+                  Rating
+                </Select.Option>
+              </Select>
+            }
+          >
+            <Button icon={<SortAscendingOutlined />} />
+          </Popover>
+          <Popover
+            content={<Search onSearch={handleSearch} placeholder="Search..." />}
+          >
+            <Button icon={<SearchOutlined />} />
+          </Popover>
+        </Space>
       </div>
 
       <List
