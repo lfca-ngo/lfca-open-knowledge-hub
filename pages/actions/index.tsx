@@ -10,6 +10,7 @@ import {
   EMPTY_ACHIEVEMENTS_ARRAY,
   EMPTY_ACTIONS_ARRAY,
 } from '../../services/contentful/utils'
+import { withAuth } from '../../services/firebase'
 import {
   sortCompanyActionsByTag,
   useCompanyAchievementsMiniQuery,
@@ -87,4 +88,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default withAuth(Home)

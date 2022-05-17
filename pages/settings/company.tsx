@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { withAuth } from '../../services/firebase'
 import { SETTINGS_NAV } from '../../utils/navs'
 
 const CompanySettings: NextPage = () => {
@@ -15,4 +16,4 @@ const CompanySettings: NextPage = () => {
   )
 }
 
-export default CompanySettings
+export default withAuth(CompanySettings)

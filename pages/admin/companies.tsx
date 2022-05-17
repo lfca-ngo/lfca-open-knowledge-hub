@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { withAuth } from '../../services/firebase'
 import { ADMIN_NAV } from '../../utils/navs'
 
 const AdminCompanies: NextPage = () => {
@@ -15,4 +16,4 @@ const AdminCompanies: NextPage = () => {
   )
 }
 
-export default AdminCompanies
+export default withAuth(AdminCompanies)

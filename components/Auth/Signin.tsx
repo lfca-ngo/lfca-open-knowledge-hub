@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { login } from '../../services/firebase'
+import { useFirebase } from '../../hooks/firebase'
 import { PW_RESET, ROOT } from '../../utils/routes'
 
 export default function Signin() {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const { login } = useFirebase()
 
   const router = useRouter()
 

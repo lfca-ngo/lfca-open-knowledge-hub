@@ -5,6 +5,7 @@ import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
+import { withAuth } from '../services/firebase'
 import {
   sortCompanyActionsByTag,
   useCompanyActionsQuery,
@@ -46,4 +47,4 @@ const OnboardingOfficer: NextPage = () => {
   )
 }
 
-export default OnboardingOfficer
+export default withAuth(OnboardingOfficer)
