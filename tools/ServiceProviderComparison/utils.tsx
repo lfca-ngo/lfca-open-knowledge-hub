@@ -1,6 +1,7 @@
 import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { Reviews } from '.'
 import { ServiceProvider } from '.'
+import { Option } from '../../components/MultiSelect'
 
 export const getUniqueTags = (
   array: ContentfulServiceProviderFields[],
@@ -84,26 +85,27 @@ export const FAKE_REVIEWS: Reviews = {
 export const MIN_PRICE = 0
 export const MAX_PRICE = 25000
 
-export const PRICE_FILTER_OPTIONS = [
+export const PRICE_FILTER_OPTIONS: Option[] = [
   {
+    key: [0, 0],
     label: 'Free',
-    value: [0, 0],
   },
   {
+    key: [0, 1000],
     label: '<1k€',
-    value: [0, 1000],
   },
   {
+    key: [1000, 5000],
+
     label: '1-5k€',
-    value: [1000, 5000],
   },
   {
+    key: [5000, 10000],
     label: '5-10k€',
-    value: [5000, 10000],
   },
   {
+    key: [10000, -1],
     label: '>10k€',
-    value: [10000, -1],
   },
 ]
 

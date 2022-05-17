@@ -1,30 +1,19 @@
 require('./styles.less')
 
-import {
-  Col,
-  Drawer,
-  Form,
-  List,
-  Row,
-  Select,
-  Button,
-  Slider,
-  Divider,
-  Radio,
-} from 'antd'
+import { Col, Divider, Drawer, Form, List, Row, Select } from 'antd'
 import { useMemo, useState } from 'react'
 
+import { MultiSelect } from '../../components/MultiSelect'
 import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
-import { MultiSelect } from '../../components/MultiSelect'
 import {
   FAKE_REVIEWS,
   getUniqueTags,
   MAX_PRICE,
   mergeProviderData,
-  PRICE_FILTER_OPTIONS,
   MIN_PRICE,
+  PRICE_FILTER_OPTIONS,
 } from './utils'
 
 const { Option } = Select
@@ -72,7 +61,7 @@ interface ServiceProviderComparisonProps {
 interface FilterFormProps {
   services?: string[]
   models?: string[]
-  cost?: number[]
+  cost?: number[][]
 }
 
 export const ServiceProviderComparison = ({
@@ -91,8 +80,9 @@ export const ServiceProviderComparison = ({
   const modelOptions = getUniqueTags(providers, 'model')
 
   const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
-    const { cost, models, services } = allValues
-    console.log(cost, models, services)
+    const { models, services } = allValues
+    const [cost] = allValues.cost || []
+
     const filtered = mergedData.filter((provider) => {
       const providerModels = provider.model?.map((model) => model.name)
       const providerServices = provider.services?.map((service) => service.name)
@@ -145,19 +135,6 @@ export const ServiceProviderComparison = ({
               </Select>
             </Form.Item>
           </Col>
-          {/* <Col span={12}>
-            <Form.Item label="Models" name="models">
-              <Select
-                mode="multiple"
-                placeholder="Please select"
-                style={{ width: '100%' }}
-              >
-                {modelOptions.map((model) => (
-                  <Option key={model}>{model}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
           <Col span={12}>
             <Form.Item label="Business Model" name="models">
               <MultiSelect
@@ -167,13 +144,7 @@ export const ServiceProviderComparison = ({
           </Col>
           <Col span={12}>
             <Form.Item label="Cost" name="cost">
-              <Radio.Group className="radio-select" optionType="button">
-                {PRICE_FILTER_OPTIONS.map((option, i) => (
-                  <Radio key={`option-${i}`} value={option.value}>
-                    {option.label}
-                  </Radio>
-                ))}
-              </Radio.Group>
+              <MultiSelect mode="single" options={PRICE_FILTER_OPTIONS} />
             </Form.Item>
           </Col>
         </Row>
