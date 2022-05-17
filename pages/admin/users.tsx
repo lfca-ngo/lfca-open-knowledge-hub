@@ -3,8 +3,8 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
-import { withAuth } from '../../services/firebase'
 import { ADMIN_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const { Search } = Input
 
@@ -80,4 +80,4 @@ const AdminUsers: NextPage = () => {
   )
 }
 
-export default withAuth(AdminUsers)
+export default withAuth(AdminUsers, { adminOnly: true })

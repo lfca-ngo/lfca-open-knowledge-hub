@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { OnboardingLeaderSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
 import { fetchAllQuestionnaires } from '../services/contentful'
-import { withAuth } from '../services/firebase'
+import { withAuth } from '../utils/with-auth'
 
 const OnboardingLeader: NextPage = (props: any) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)

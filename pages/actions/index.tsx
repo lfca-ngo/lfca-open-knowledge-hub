@@ -10,13 +10,13 @@ import {
   EMPTY_ACHIEVEMENTS_ARRAY,
   EMPTY_ACTIONS_ARRAY,
 } from '../../services/contentful/utils'
-import { withAuth } from '../../services/firebase'
 import {
   sortCompanyActionsByTag,
   useCompanyAchievementsMiniQuery,
   useCompanyActionsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const Home: NextPage = () => {
   const router = useRouter()

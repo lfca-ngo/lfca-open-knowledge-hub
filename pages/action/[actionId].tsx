@@ -14,8 +14,8 @@ import {
   fetchAllServiceProviders,
 } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
-import { withAuth } from '../../services/firebase'
 import { renderTools } from '../../tools'
+import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
 
