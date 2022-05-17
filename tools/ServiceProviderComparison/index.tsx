@@ -106,10 +106,15 @@ export const ServiceProviderComparison = ({
     const [cost] = allValues.cost || []
 
     const filtered = mergedData.filter((provider) => {
-      const providerSupplyChainComplexity = provider.model?.map((s) => s.name)
+      const providerSupplyChainComplexity = provider.supplyChainComplexity?.map(
+        (s) => s.name
+      )
       const providerModels = provider.model?.map((m) => m.name)
       const providerServices = provider.services?.map((s) => s.name)
       const lowestPrice = provider.reviewStats?.ranges?.cost?.from
+
+      console.log(supplyChainComplexity, providerSupplyChainComplexity)
+
       // if a form value is undefined, return true
       // if lowestPrice is in range of cost, return true
       // if lowestPrice is undefined, return true
@@ -125,7 +130,7 @@ export const ServiceProviderComparison = ({
         (supplyChainComplexity === undefined ||
           supplyChainComplexity.length === 0 ||
           providerSupplyChainComplexity?.some((supplyChain) =>
-            providerSupplyChainComplexity.includes(supplyChain)
+            supplyChainComplexity.includes(supplyChain)
           )) &&
         (cost === undefined ||
           cost.length === 0 ||
