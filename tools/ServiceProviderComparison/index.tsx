@@ -125,6 +125,22 @@ export const ServiceProviderComparison = ({
     setList(filtered)
   }
 
+  // searches name and services
+  const handleSearch = (value: string) => {
+    const filtered = mergedData.filter((provider) => {
+      const providerName = provider.name
+      const providerServices = provider.services?.map((service) => service.name)
+      // find results regardless of case and completeness of search term
+      return (
+        providerName?.toLowerCase().includes(value.toLowerCase()) ||
+        providerServices?.some((service) =>
+          service.toLowerCase().includes(value.toLowerCase())
+        )
+      )
+    })
+    setList(filtered)
+  }
+
   const handleOpenReviews = (provider: ServiceProvider) => {
     setActiveProvider(provider)
     setVisible(true)
@@ -202,7 +218,9 @@ export const ServiceProviderComparison = ({
       <div className="search-bar">
         <div className="search-results-count">{list.length} results</div>
         <Divider />
-        <Popover content={<Search placeholder="Search..." />}>
+        <Popover
+          content={<Search onSearch={handleSearch} placeholder="Search..." />}
+        >
           <Button icon={<SearchOutlined />} />
         </Popover>
       </div>
