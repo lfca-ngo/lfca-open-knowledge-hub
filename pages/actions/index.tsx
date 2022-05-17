@@ -6,7 +6,10 @@ import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
-import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
+import {
+  EMPTY_ACHIEVEMENTS_ARRAY,
+  EMPTY_ACTIONS_ARRAY,
+} from '../../services/contentful/utils'
 import {
   sortCompanyActionsByTag,
   useCompanyAchievementsMiniQuery,
@@ -49,8 +52,6 @@ const Home: NextPage = () => {
     [actionsData]
   )
 
-  console.log('highlightedActions', highlightedActions)
-
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
@@ -74,7 +75,8 @@ const Home: NextPage = () => {
         <Section title="Rewards">
           <AchievementsListMini
             achievements={
-              companyAchievementsData?.company.program.achievements || []
+              companyAchievementsData?.company.program.achievements ||
+              EMPTY_ACHIEVEMENTS_ARRAY
             }
             fetching={fetchingAchievements}
           />
