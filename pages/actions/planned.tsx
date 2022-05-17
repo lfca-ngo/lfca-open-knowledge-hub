@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
-import { withAuth } from '../../services/firebase'
 import { ACTIONS_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const PlannedActions: NextPage = () => {
   return (

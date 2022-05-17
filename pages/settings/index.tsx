@@ -4,8 +4,8 @@ import type { NextPage } from 'next'
 import { DarkModeSelector } from '../../components/DarkModeSelector'
 import { ImageUpload } from '../../components/FileUpload/ImageUpload'
 import { Main, Section, SiderLayout } from '../../components/Layout'
-import { withAuth } from '../../services/firebase'
 import { SETTINGS_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const Settings: NextPage = () => {
   const updateProfile = () => {

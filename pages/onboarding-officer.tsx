@@ -5,11 +5,11 @@ import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
-import { withAuth } from '../services/firebase'
 import {
   sortCompanyActionsByTag,
   useCompanyActionsQuery,
 } from '../services/lfca-backend'
+import { withAuth } from '../utils/with-auth'
 
 const OnboardingOfficer: NextPage = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
