@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { withAuth } from '../../services/firebase'
 import { ACTIONS_NAV } from '../../utils/navs'
 
 const PlannedActions: NextPage = () => {
@@ -15,4 +16,4 @@ const PlannedActions: NextPage = () => {
   )
 }
 
-export default PlannedActions
+export default withAuth(PlannedActions)

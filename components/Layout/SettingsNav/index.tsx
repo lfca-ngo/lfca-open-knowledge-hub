@@ -10,7 +10,7 @@ import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { logout } from '../../../services/firebase'
+import { useFirebase } from '../../../hooks/firebase'
 import {
   SETTINGS,
   SETTINGS_COMPANY,
@@ -22,6 +22,7 @@ const LOGOUT = 'logout'
 export const SettingsNav = () => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { logout } = useFirebase()
 
   const handleLogout = async () => {
     setLoading(true)

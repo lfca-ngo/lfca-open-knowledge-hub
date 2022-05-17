@@ -14,6 +14,7 @@ import {
   fetchAllServiceProviders,
 } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
+import { withAuth } from '../../services/firebase'
 import { renderTools } from '../../tools'
 
 const { TabPane } = Tabs
@@ -115,4 +116,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default Action
+export default withAuth(Action)

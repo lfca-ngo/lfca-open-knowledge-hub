@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { withAuth } from '../../services/firebase'
 import { SETTINGS_NAV } from '../../utils/navs'
 
 const Invite: NextPage = () => {
@@ -15,4 +16,4 @@ const Invite: NextPage = () => {
   )
 }
 
-export default Invite
+export default withAuth(Invite)
