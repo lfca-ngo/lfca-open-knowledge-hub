@@ -199,17 +199,19 @@ export const arrayContains = (
   selectedArray?: string[],
   searchArray?: string[]
 ) => {
-  return (
+  const isValid =
     selectedArray === undefined ||
     selectedArray.length === 0 ||
     searchArray?.some((entry) => selectedArray.includes(entry))
-  )
+
+  return isValid
 }
 
 export const numberInRange = (number?: number, range?: number[]) => {
-  return (
+  const isValid =
     range === undefined ||
     range.length === 0 ||
     (number !== undefined && range[0] <= number && range[1] >= number)
-  )
+
+  return isValid
 }

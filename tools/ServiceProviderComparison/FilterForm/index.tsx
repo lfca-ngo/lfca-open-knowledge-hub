@@ -1,7 +1,7 @@
 import { Col, Form, Row, Select } from 'antd'
 
 import { MultiSelect } from '../../../components/MultiSelect'
-import { ServiceProvider } from '..'
+import { ContentfulServiceProviderFields } from '../../../services/contentful'
 import {
   getUniqueTags,
   MAX_PRICE,
@@ -20,7 +20,7 @@ export interface FilterFormItems {
 
 interface FilterFormProps {
   onValuesChange: (_: FilterFormItems, allValues: FilterFormItems) => void
-  providers: ServiceProvider[]
+  providers: ContentfulServiceProviderFields[]
 }
 
 export const FilterForm = ({ onValuesChange, providers }: FilterFormProps) => {

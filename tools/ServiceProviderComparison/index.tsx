@@ -82,9 +82,9 @@ export const ServiceProviderComparison = ({
       const lowestPrice = provider.reviewStats?.ranges?.cost?.from
 
       return (
-        arrayContains(providerModels, models) &&
-        arrayContains(providerServices, services) &&
-        arrayContains(providerSupplyChainComplexity, supplyChainComplexity) &&
+        arrayContains(models, providerModels) &&
+        arrayContains(services, providerServices) &&
+        arrayContains(supplyChainComplexity, providerSupplyChainComplexity) &&
         numberInRange(lowestPrice, cost)
       )
     })
@@ -114,7 +114,7 @@ export const ServiceProviderComparison = ({
 
   return (
     <div className="service-provider-comparison">
-      <FilterForm onValuesChange={handleChange} providers={list} />
+      <FilterForm onValuesChange={handleChange} providers={providers} />
       <FeaturedProvider />
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
