@@ -15,7 +15,7 @@ const OnboardingOfficer: NextPage = () => {
   const router = useRouter()
 
   // TODO: loading & error UI
-  const [{ data, error, fetching }] = useCompanyActionsQuery()
+  const [{ data }] = useCompanyActionsQuery()
 
   const actionsByTags = React.useMemo(
     () => sortCompanyActionsByTag(data?.companyActions || []),
