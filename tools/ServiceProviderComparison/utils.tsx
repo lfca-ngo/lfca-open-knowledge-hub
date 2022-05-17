@@ -194,3 +194,22 @@ export const mergeProviderData = (
     })
     .sort(sortByRating) as ServiceProvider[]
 }
+
+export const arrayContains = (
+  selectedArray?: string[],
+  searchArray?: string[]
+) => {
+  return (
+    selectedArray === undefined ||
+    selectedArray.length === 0 ||
+    searchArray?.some((entry) => selectedArray.includes(entry))
+  )
+}
+
+export const numberInRange = (number?: number, range?: number[]) => {
+  return (
+    range === undefined ||
+    range.length === 0 ||
+    (number !== undefined && range[0] <= number && range[1] >= number)
+  )
+}

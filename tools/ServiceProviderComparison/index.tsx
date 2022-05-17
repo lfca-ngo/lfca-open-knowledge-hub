@@ -1,39 +1,20 @@
 require('./styles.less')
 
-import { ArrowRightOutlined, SortAscendingOutlined } from '@ant-design/icons'
-import { SearchOutlined } from '@ant-design/icons'
-import {
-  Alert,
-  Avatar,
-  Button,
-  Col,
-  Divider,
-  Drawer,
-  Form,
-  Input,
-  List,
-  Popover,
-  Row,
-  Select,
-  Space,
-} from 'antd'
+import { Drawer, List } from 'antd'
 import { useMemo, useState } from 'react'
 
-import { MultiSelect } from '../../components/MultiSelect'
 import { ContentfulServiceProviderFields } from '../../services/contentful'
+import { FeaturedProvider } from './FeaturedProvider'
+import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
+import { SearchBar } from './SearchBar'
 import {
+  arrayContains,
   FAKE_REVIEWS,
-  getUniqueTags,
-  MAX_PRICE,
   mergeProviderData,
-  MIN_PRICE,
-  PRICE_FILTER_OPTIONS,
+  numberInRange,
 } from './utils'
-
-const { Option } = Select
-const { Search } = Input
 
 export interface Review {
   author: string
@@ -75,13 +56,6 @@ interface ServiceProviderComparisonProps {
   providers: ContentfulServiceProviderFields[]
 }
 
-interface FilterFormProps {
-  services?: string[]
-  supplyChainComplexity?: string[]
-  models?: string[]
-  cost?: number[][]
-}
-
 export const ServiceProviderComparison = ({
   providers,
 }: ServiceProviderComparisonProps) => {
@@ -94,14 +68,8 @@ export const ServiceProviderComparison = ({
   const [visible, setVisible] = useState(false)
   const [list, setList] = useState(mergedData)
 
-  const serviceOptions = getUniqueTags(providers, 'services')
-  const modelOptions = getUniqueTags(providers, 'model')
-  const supplyChainComplexityOptions = getUniqueTags(
-    providers,
-    'supplyChainComplexity'
-  )
-
-  const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
+  // filtering function
+  const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
     const { models, services, supplyChainComplexity } = allValues
     const [cost] = allValues.cost || []
 
@@ -113,30 +81,11 @@ export const ServiceProviderComparison = ({
       const providerServices = provider.services?.map((s) => s.name)
       const lowestPrice = provider.reviewStats?.ranges?.cost?.from
 
-      console.log(supplyChainComplexity, providerSupplyChainComplexity)
-
-      // if a form value is undefined, return true
-      // if lowestPrice is in range of cost, return true
-      // if lowestPrice is undefined, return true
-      // if providerModels contains any of the models, return true
-      // if providerServices contains any of the services, return true
       return (
-        (models === undefined ||
-          models.length === 0 ||
-          providerModels?.some((model) => models.includes(model))) &&
-        (services === undefined ||
-          services.length === 0 ||
-          providerServices?.some((service) => services.includes(service))) &&
-        (supplyChainComplexity === undefined ||
-          supplyChainComplexity.length === 0 ||
-          providerSupplyChainComplexity?.some((supplyChain) =>
-            supplyChainComplexity.includes(supplyChain)
-          )) &&
-        (cost === undefined ||
-          cost.length === 0 ||
-          (lowestPrice !== undefined &&
-            cost[0] <= lowestPrice &&
-            cost[1] >= lowestPrice))
+        arrayContains(providerModels, models) &&
+        arrayContains(providerServices, services) &&
+        arrayContains(providerSupplyChainComplexity, supplyChainComplexity) &&
+        numberInRange(lowestPrice, cost)
       )
     })
     setList(filtered)
@@ -165,93 +114,9 @@ export const ServiceProviderComparison = ({
 
   return (
     <div className="service-provider-comparison">
-      <Form
-        initialValues={{ cost: [MIN_PRICE, MAX_PRICE] }}
-        layout="vertical"
-        onValuesChange={handleChange}
-      >
-        <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item label="Services" name="services">
-              <Select
-                mode="multiple"
-                placeholder="Please select"
-                style={{ width: '100%' }}
-              >
-                {serviceOptions.map((service) => (
-                  <Option key={service}>{service}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Model" name="models">
-              <MultiSelect
-                options={modelOptions.map((m) => ({ key: m, label: m }))}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Budget" name="cost">
-              <MultiSelect mode="single" options={PRICE_FILTER_OPTIONS} />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Supply chain" name="supplyChainComplexity">
-              <MultiSelect
-                mode="single"
-                options={supplyChainComplexityOptions.map((m) => ({
-                  key: m,
-                  label: m,
-                }))}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-
-      <Alert
-        action={[
-          <Button icon={<ArrowRightOutlined />} key="start" type="primary">
-            Open now
-          </Button>,
-        ]}
-        description="As a lfca member you can use the Normative calculator for free. It is an expense based tool that covers all emissions including Scope 3."
-        icon={
-          <Avatar
-            shape="square"
-            size="large"
-            src="/img/providers/normative.png"
-          />
-        }
-        message="Get started with a free estimation"
-        showIcon
-        type="info"
-      />
-
-      <div className="search-bar">
-        <div className="search-results-count">{list.length} results</div>
-        <Divider />
-        <Space>
-          <Popover
-            content={
-              <Select placeholder="Please select" value="rating">
-                <Select.Option key="rating" value="rating">
-                  Rating
-                </Select.Option>
-              </Select>
-            }
-          >
-            <Button icon={<SortAscendingOutlined />} />
-          </Popover>
-          <Popover
-            content={<Search onSearch={handleSearch} placeholder="Search..." />}
-          >
-            <Button icon={<SearchOutlined />} />
-          </Popover>
-        </Space>
-      </div>
-
+      <FilterForm onValuesChange={handleChange} providers={list} />
+      <FeaturedProvider />
+      <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
         renderItem={(item: ServiceProvider) => (
@@ -260,7 +125,7 @@ export const ServiceProviderComparison = ({
           </List.Item>
         )}
       />
-
+      {/* Review Drawer */}
       <Drawer onClose={() => setVisible(false)} visible={visible}>
         <ReviewsList reviews={activeProvider?.reviews} />
       </Drawer>
