@@ -12,15 +12,6 @@ export const ReviewsList = ({ reviews = [] }: { reviews?: Review[] }) => {
       <List
         className="reviews-list"
         dataSource={reviews}
-        grid={{
-          gutter: 16,
-          lg: 2,
-          md: 2,
-          sm: 1,
-          xl: 2,
-          xs: 1,
-          xxl: 2,
-        }}
         renderItem={(item) => (
           <List.Item>
             <ReviewCard review={item} />
