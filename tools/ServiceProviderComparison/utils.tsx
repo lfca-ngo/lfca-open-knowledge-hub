@@ -90,12 +90,20 @@ export const PRICE_FILTER_OPTIONS = [
     value: [0, 0],
   },
   {
-    label: '<1000€',
+    label: '<1k€',
     value: [0, 1000],
   },
   {
-    label: '1000-5000€',
+    label: '1-5k€',
     value: [1000, 5000],
+  },
+  {
+    label: '5-10k€',
+    value: [5000, 10000],
+  },
+  {
+    label: '>10k€',
+    value: [10000, -1],
   },
 ]
 

@@ -1,7 +1,27 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+@import (reference) '../../styles/mixins.less';
+
 .service-provider-comparison {
   .ant-list-split {
     .ant-list-item {
       padding: 0;
+    }
+  }
+  .multi-select .ant-btn,
+  .radio-select .ant-radio-button-wrapper {
+    font-size: 15px;
+  }
+  .radio-select {
+    width: 100%;
+    display: flex;
+    .ant-radio-button-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }
