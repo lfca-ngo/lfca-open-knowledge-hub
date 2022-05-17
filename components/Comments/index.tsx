@@ -30,7 +30,7 @@ export const Comments = ({
     picture:
       'https://u4d2z7k9.rocketcdn.me/wp-content/uploads/2022/01/rsz_51512070416_5844c18397_k.jpg',
   }
-  const isAuthUserAdmin = true
+  const isAuthUserAdmin = false
 
   return (
     <div className="action-comments">

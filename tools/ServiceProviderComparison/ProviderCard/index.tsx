@@ -3,9 +3,9 @@ require('./styles.less')
 import {
   BankOutlined,
   CalculatorOutlined,
+  InfoCircleOutlined,
   LikeOutlined,
   LinkOutlined,
-  InfoCircleOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Popover, Rate, Tag } from 'antd'

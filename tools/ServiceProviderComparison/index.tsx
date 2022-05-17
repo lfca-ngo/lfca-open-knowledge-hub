@@ -1,6 +1,18 @@
 require('./styles.less')
 
-import { Col, Divider, Drawer, Form, List, Row, Select } from 'antd'
+import { ArrowRightOutlined } from '@ant-design/icons'
+import {
+  Alert,
+  Avatar,
+  Button,
+  Col,
+  Divider,
+  Drawer,
+  Form,
+  List,
+  Row,
+  Select,
+} from 'antd'
 import { useMemo, useState } from 'react'
 
 import { MultiSelect } from '../../components/MultiSelect'
@@ -136,14 +148,14 @@ export const ServiceProviderComparison = ({
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Business Model" name="models">
+            <Form.Item label="Model" name="models">
               <MultiSelect
                 options={modelOptions.map((m) => ({ key: m, label: m }))}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Cost" name="cost">
+            <Form.Item label="Budget" name="cost">
               <MultiSelect mode="single" options={PRICE_FILTER_OPTIONS} />
             </Form.Item>
           </Col>
@@ -161,6 +173,27 @@ export const ServiceProviderComparison = ({
           </Col>
         </Row>
       </Form>
+
+      <Divider />
+
+      <Alert
+        action={[
+          <Button icon={<ArrowRightOutlined />} key="start" type="primary">
+            Open now
+          </Button>,
+        ]}
+        description="As a lfca member you can use the Normative calculator for free. It is an expense based tool that covers all emissions including Scope 3."
+        icon={
+          <Avatar
+            shape="square"
+            size="large"
+            src="/img/providers/normative.png"
+          />
+        }
+        message="Get started with a free estimation"
+        showIcon
+        type="info"
+      />
 
       <Divider />
 
