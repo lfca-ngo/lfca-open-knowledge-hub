@@ -15,11 +15,13 @@ import { ArrowWrapper } from './ArrowWrapper'
 
 interface ActionsCarouselProps {
   actions: CompanyActionListItemFragment[]
+  fetching: boolean
   onSelect: (action: CompanyActionListItemFragment) => void
 }
 
 export const ActionsCarousel = ({
   actions,
+  fetching,
   onSelect,
 }: ActionsCarouselProps) => {
   const responsiveConfig = [

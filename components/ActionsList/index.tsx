@@ -1,7 +1,16 @@
 require('./styles.less')
 
 import { FilterOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, List, Popover, Select, Space, Tabs } from 'antd'
+import {
+  Button,
+  Input,
+  List,
+  Popover,
+  Select,
+  Skeleton,
+  Space,
+  Tabs,
+} from 'antd'
 import React from 'react'
 
 import { ALL_ACTIONS } from '../../services/contentful'
@@ -44,11 +53,13 @@ const ListActions = () => {
 export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
+  fetching: boolean
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actionsByTags,
+  fetching,
 }: ActionListProps) => {
   return (
     <Tabs
@@ -67,7 +78,16 @@ export const ActionsList = ({
               renderItem={(item) => {
                 return (
                   <List.Item>
-                    <ActionCardWrapper {...actionListItemProps} action={item} />
+                    <Skeleton
+                      avatar={{ shape: 'square', size: 'large' }}
+                      loading={fetching}
+                      paragraph={{ rows: 1 }}
+                    >
+                      <ActionCardWrapper
+                        {...actionListItemProps}
+                        action={item}
+                      />
+                    </Skeleton>
                   </List.Item>
                 )
               }}

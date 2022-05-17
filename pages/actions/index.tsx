@@ -17,10 +17,12 @@ const Home: NextPage = () => {
   const router = useRouter()
 
   // TODO: UI for error & fetching state
-  const [{ data: actionsData }] = useCompanyActionsQuery()
+  const [{ data: actionsData, fetching: fetchingActions }] =
+    useCompanyActionsQuery()
 
   // TODO: UI for error & fetching state
-  const [{ data: companyAchievementsData }] = useCompanyAchievementsMiniQuery()
+  const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
+    useCompanyAchievementsMiniQuery()
 
   const actionsByTags = React.useMemo(
     () => sortCompanyActionsByTag(actionsData?.companyActions || []),
@@ -43,19 +45,25 @@ const Home: NextPage = () => {
     [actionsData]
   )
 
+  console.log(fetchingActions)
+
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
         <Section className="mb-40" title="Dashboard" titleSize="big">
           <ActionsCarousel
             actions={highlightedActions}
+            fetching={fetchingActions}
             onSelect={(action) => {
               router.push(`/action/${action.contentId}`)
             }}
           />
         </Section>
         <Section bordered={false} title="Browse all actions">
-          <ActionsList actionsByTags={actionsByTags} />
+          <ActionsList
+            actionsByTags={actionsByTags}
+            fetching={fetchingActions}
+          />
         </Section>
       </Main>
       <Sider>
