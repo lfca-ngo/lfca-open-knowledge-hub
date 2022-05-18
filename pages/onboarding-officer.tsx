@@ -41,6 +41,8 @@ const OnboardingOfficer: NextPage = ({
 
   const Step = OnboardingOfficerSteps[currentStepIndex]?.component
 
+  console.log(actionsByTags)
+
   return (
     <StepsLayout
       canClose

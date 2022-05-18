@@ -3,6 +3,9 @@ fragment CompanyActionListItem on CompanyAction {
   companiesPlannedCount
   completedAt
   contentId
+  customSections {
+    componentId
+  }
   heroImage {
     id
     url
