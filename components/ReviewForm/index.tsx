@@ -91,10 +91,10 @@ export const ReviewForm = ({
           onSelect={(val: string) => setProviderId(val)}
           placeholder="Select an option..."
         >
+          <Select.Option key={''}>-- None of those</Select.Option>
           {serviceProviders.map((provider) => (
             <Option key={provider.providerId}>{provider.name}</Option>
           ))}
-          <Select.Option key={''}>None of those</Select.Option>
         </Select>
       </Form.Item>
 

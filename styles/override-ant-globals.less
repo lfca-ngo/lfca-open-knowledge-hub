@@ -134,3 +134,25 @@ body {
     }
   }
 }
+
+// Drawer
+.ant-drawer {
+  &.drawer-md {
+    .ant-drawer-content-wrapper {
+      width: 100% !important;
+      @media @desktop {
+        width: @default-drawer-width !important;
+      }
+    }
+    .ant-drawer-content {
+      .ant-drawer-body {
+        padding: 20px;
+        color: var(--text-color);
+        background: var(--layout-body-background);
+        @media @desktop {
+          padding: 40px 60px;
+        }
+      }
+    }
+  }
+}

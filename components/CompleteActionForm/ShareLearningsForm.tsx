@@ -55,7 +55,7 @@ export const ShareLearningsForm = ({
           rows={4}
         />
         <div className="buzzwords">
-          <span>Topics:</span> <Tag>Costs</Tag>
+          <span>Think of:</span> <Tag>Costs</Tag>
           <Tag>Team benefits</Tag>
           <Tag>Hurdles</Tag>
           <Tag>Successes</Tag>

@@ -15,7 +15,7 @@ export const CompleteActionForm = ({
   withReviewForm?: boolean
 }) => {
   return (
-    <Section title="Complete action">
+    <Section title="Share your learnings">
       {withReviewForm && (
         <>
           <ReviewForm serviceProviders={serviceProviders || []} />
