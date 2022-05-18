@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { withAuth } from '../../utils/with-auth'
 
 const AdminUsers: NextPage = () => {
   return (
@@ -14,4 +15,4 @@ const AdminUsers: NextPage = () => {
   )
 }
 
-export default AdminUsers
+export default withAuth(AdminUsers, { adminOnly: true })

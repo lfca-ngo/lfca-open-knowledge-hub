@@ -85,12 +85,14 @@ export const ActionCard = ({
     >
       <div className="hero">
         <div className="wrapper">
-          <Image
-            alt={action.title || ''}
-            layout="fill"
-            objectFit="cover"
-            src={action.heroImage?.url || ''}
-          />
+          {action.heroImage?.url ? (
+            <Image
+              alt={action.title || ''}
+              layout="fill"
+              objectFit="cover"
+              src={action.heroImage.url}
+            />
+          ) : null}
         </div>
       </div>
       <div className="content">

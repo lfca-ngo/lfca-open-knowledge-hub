@@ -16,6 +16,7 @@ import {
 import { ALL_ACTIONS } from '../../services/contentful'
 import { renderTools } from '../../tools'
 import { actionHasReviews } from '../../utils'
+import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
 
@@ -120,4 +121,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default Action
+export default withAuth(Action)

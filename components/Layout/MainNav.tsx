@@ -7,10 +7,11 @@ import {
   RocketOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
-import { Menu } from 'antd'
+import { Menu, MenuProps } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
+import { useUser } from '../../hooks/user'
 import {
   ACHIEVEMENTS,
   ACTIONS,
@@ -21,7 +22,7 @@ import {
   ADMIN_USERS,
 } from '../../utils/routes'
 
-const NAV_ITEMS = [
+const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {
     children: [
       {
@@ -49,6 +50,9 @@ const NAV_ITEMS = [
     key: ACHIEVEMENTS,
     label: 'Achievements',
   },
+]
+
+const NAV_ITEMS_ADMIN = [
   {
     children: [
       {
@@ -69,17 +73,27 @@ const NAV_ITEMS = [
 ]
 
 export const MainNav = () => {
+  const [items, setItems] =
+    React.useState<MenuProps['items']>(NAV_ITEMS_DEFAULT)
+  const { isAdmin } = useUser()
+
   const router = useRouter()
 
-  const handleSelect = (item: any) => {
-    router.push(item.key)
-  }
+  React.useEffect(() => {
+    if (isAdmin) {
+      setItems([...NAV_ITEMS_DEFAULT, ...NAV_ITEMS_ADMIN])
+    } else {
+      setItems(NAV_ITEMS_DEFAULT)
+    }
+  }, [isAdmin])
 
   return (
     <Menu
-      items={NAV_ITEMS}
+      items={items}
       mode="inline"
-      onSelect={handleSelect}
+      onSelect={(item) => {
+        router.push(item.key)
+      }}
       selectedKeys={[router.pathname]}
       theme="light"
     />

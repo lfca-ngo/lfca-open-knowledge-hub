@@ -10,7 +10,8 @@ import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { logout } from '../../../services/firebase'
+import { useFirebase } from '../../../hooks/firebase'
+import { useUser } from '../../../hooks/user'
 import {
   SETTINGS,
   SETTINGS_COMPANY,
@@ -22,6 +23,8 @@ const LOGOUT = 'logout'
 export const SettingsNav = () => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { logout } = useFirebase()
+  const { user } = useUser()
 
   const handleLogout = async () => {
     setLoading(true)
@@ -75,8 +78,10 @@ export const SettingsNav = () => {
           />
         </div>
         <div className="profile-info">
-          <div className="name">Timo Müller</div>
-          <div className="company">lfca.earth</div>
+          <div className="name">
+            {user?.firstName || ''} {user?.lastName || ''}
+          </div>
+          <div className="company">{}</div>
         </div>
       </a>
     </Dropdown>

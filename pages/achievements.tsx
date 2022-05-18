@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { AchievementsList } from '../components/AchievementsList'
 import { Main, Section, SiderLayout } from '../components/Layout'
 import { useCompanyAchievementsQuery } from '../services/lfca-backend'
+import { withAuth } from '../utils/with-auth'
 
 const Achievements: NextPage = () => {
   const [{ data }] = useCompanyAchievementsQuery()
@@ -20,4 +21,4 @@ const Achievements: NextPage = () => {
   )
 }
 
-export default Achievements
+export default withAuth(Achievements)

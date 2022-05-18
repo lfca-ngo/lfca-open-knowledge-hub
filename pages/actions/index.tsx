@@ -16,6 +16,7 @@ import {
   useCompanyActionsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -87,4 +88,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default withAuth(Home)

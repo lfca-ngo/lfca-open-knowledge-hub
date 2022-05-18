@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { ADMIN_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const { Search } = Input
 
@@ -79,4 +80,4 @@ const AdminUsers: NextPage = () => {
   )
 }
 
-export default AdminUsers
+export default withAuth(AdminUsers, { adminOnly: true })

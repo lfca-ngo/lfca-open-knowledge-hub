@@ -14,6 +14,7 @@ import {
   sortCompanyActionsByTag,
   useCompanyActionsQuery,
 } from '../services/lfca-backend'
+import { withAuth } from '../utils/with-auth'
 
 const OnboardingOfficer: NextPage = ({
   serviceProviders,
@@ -69,4 +70,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default OnboardingOfficer
+export default withAuth(OnboardingOfficer)

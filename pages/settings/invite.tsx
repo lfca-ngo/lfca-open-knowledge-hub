@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { SETTINGS_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const Invite: NextPage = () => {
   return (
@@ -15,4 +16,4 @@ const Invite: NextPage = () => {
   )
 }
 
-export default Invite
+export default withAuth(Invite)
