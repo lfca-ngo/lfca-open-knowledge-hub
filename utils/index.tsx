@@ -11,6 +11,7 @@ export const DESKTOP_XL = 'xl'
 export const SIDER = 'sider'
 export const MAIN = 'main'
 export const THEME_DARK = 'theme-dark'
+export const MEASUREMENT_SERVICES_COMPARISON = 'measurement-services-comparison'
 
 export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)
@@ -83,4 +84,10 @@ export const getCookie = (name: string) => {
 export const deleteCookie = (name: string) => {
   if (!isBrowser()) return
   window.localStorage.removeItem(name)
+}
+
+export const actionHasReviews = (action: any) => {
+  return action?.customSections?.find(
+    (s: any) => s.componentId === MEASUREMENT_SERVICES_COMPARISON
+  )
 }

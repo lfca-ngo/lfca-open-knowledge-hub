@@ -4,10 +4,12 @@ import { ServiceProviderComparison } from './ServiceProviderComparison'
 
 export { PersonalCarbonCalculator, ServiceProviderComparison }
 
+import { MEASUREMENT_SERVICES_COMPARISON } from '../utils'
+
 export const renderTools = (sections: any, props: any) => {
   const renderTool = (section: any) => {
     switch (section.componentId) {
-      case 'measurement-services-comparison':
+      case MEASUREMENT_SERVICES_COMPARISON:
         return (
           <Section
             className={section?.className}

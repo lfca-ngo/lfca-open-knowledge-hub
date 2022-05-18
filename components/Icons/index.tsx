@@ -31,6 +31,10 @@ const COLOR_MAP: {
     from: '#622860',
     to: '#d82086',
   },
+  wine: {
+    from: '#6a1246',
+    to: '#6a1246',
+  },
 }
 
 export enum IconTypes {

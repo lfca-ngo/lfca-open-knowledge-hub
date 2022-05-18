@@ -1,33 +1,20 @@
 require('./styles.less')
 
-import {
-  Col,
-  Drawer,
-  Form,
-  List,
-  Row,
-  Select,
-  Button,
-  Slider,
-  Divider,
-  Radio,
-} from 'antd'
+import { Drawer, List } from 'antd'
 import { useMemo, useState } from 'react'
 
 import { ContentfulServiceProviderFields } from '../../services/contentful'
+import { FeaturedProvider } from './FeaturedProvider'
+import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
-import { MultiSelect } from '../../components/MultiSelect'
+import { SearchBar } from './SearchBar'
 import {
+  arrayContains,
   FAKE_REVIEWS,
-  getUniqueTags,
-  MAX_PRICE,
   mergeProviderData,
-  PRICE_FILTER_OPTIONS,
-  MIN_PRICE,
+  numberInRange,
 } from './utils'
-
-const { Option } = Select
 
 export interface Review {
   author: string
@@ -69,12 +56,6 @@ interface ServiceProviderComparisonProps {
   providers: ContentfulServiceProviderFields[]
 }
 
-interface FilterFormProps {
-  services?: string[]
-  models?: string[]
-  cost?: number[]
-}
-
 export const ServiceProviderComparison = ({
   providers,
 }: ServiceProviderComparisonProps) => {
@@ -87,33 +68,40 @@ export const ServiceProviderComparison = ({
   const [visible, setVisible] = useState(false)
   const [list, setList] = useState(mergedData)
 
-  const serviceOptions = getUniqueTags(providers, 'services')
-  const modelOptions = getUniqueTags(providers, 'model')
+  // filtering function
+  const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
+    const { models, services, supplyChainComplexity } = allValues
+    const [cost] = allValues.cost || []
 
-  const handleChange = (_: FilterFormProps, allValues: FilterFormProps) => {
-    const { cost, models, services } = allValues
-    console.log(cost, models, services)
     const filtered = mergedData.filter((provider) => {
-      const providerModels = provider.model?.map((model) => model.name)
-      const providerServices = provider.services?.map((service) => service.name)
+      const providerSupplyChainComplexity = provider.supplyChainComplexity?.map(
+        (s) => s.name
+      )
+      const providerModels = provider.model?.map((m) => m.name)
+      const providerServices = provider.services?.map((s) => s.name)
       const lowestPrice = provider.reviewStats?.ranges?.cost?.from
-      // if a form value is undefined, return true
-      // if lowestPrice is in range of cost, return true
-      // if lowestPrice is undefined, return true
-      // if providerModels contains any of the models, return true
-      // if providerServices contains any of the services, return true
+
       return (
-        (models === undefined ||
-          models.length === 0 ||
-          providerModels?.some((model) => models.includes(model))) &&
-        (services === undefined ||
-          services.length === 0 ||
-          providerServices?.some((service) => services.includes(service))) &&
-        (cost === undefined ||
-          cost.length === 0 ||
-          (lowestPrice !== undefined &&
-            cost[0] <= lowestPrice &&
-            cost[1] >= lowestPrice))
+        arrayContains(models, providerModels) &&
+        arrayContains(services, providerServices) &&
+        arrayContains(supplyChainComplexity, providerSupplyChainComplexity) &&
+        numberInRange(lowestPrice, cost)
+      )
+    })
+    setList(filtered)
+  }
+
+  // searches name and services
+  const handleSearch = (value: string) => {
+    const filtered = mergedData.filter((provider) => {
+      const providerName = provider.name
+      const providerServices = provider.services?.map((service) => service.name)
+      // find results regardless of case and completeness of search term
+      return (
+        providerName?.toLowerCase().includes(value.toLowerCase()) ||
+        providerServices?.some((service) =>
+          service.toLowerCase().includes(value.toLowerCase())
+        )
       )
     })
     setList(filtered)
@@ -126,61 +114,9 @@ export const ServiceProviderComparison = ({
 
   return (
     <div className="service-provider-comparison">
-      <Form
-        initialValues={{ cost: [MIN_PRICE, MAX_PRICE] }}
-        layout="vertical"
-        onValuesChange={handleChange}
-      >
-        <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item label="Services" name="services">
-              <Select
-                mode="multiple"
-                placeholder="Please select"
-                style={{ width: '100%' }}
-              >
-                {serviceOptions.map((service) => (
-                  <Option key={service}>{service}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          {/* <Col span={12}>
-            <Form.Item label="Models" name="models">
-              <Select
-                mode="multiple"
-                placeholder="Please select"
-                style={{ width: '100%' }}
-              >
-                {modelOptions.map((model) => (
-                  <Option key={model}>{model}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-          <Col span={12}>
-            <Form.Item label="Business Model" name="models">
-              <MultiSelect
-                options={modelOptions.map((m) => ({ key: m, label: m }))}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Cost" name="cost">
-              <Radio.Group className="radio-select" optionType="button">
-                {PRICE_FILTER_OPTIONS.map((option, i) => (
-                  <Radio key={`option-${i}`} value={option.value}>
-                    {option.label}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-
-      <Divider />
-
+      <FilterForm onValuesChange={handleChange} providers={providers} />
+      <FeaturedProvider />
+      <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
         renderItem={(item: ServiceProvider) => (
@@ -189,7 +125,7 @@ export const ServiceProviderComparison = ({
           </List.Item>
         )}
       />
-
+      {/* Review Drawer */}
       <Drawer onClose={() => setVisible(false)} visible={visible}>
         <ReviewsList reviews={activeProvider?.reviews} />
       </Drawer>

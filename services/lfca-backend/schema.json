@@ -611,6 +611,24 @@
             "args": []
           },
           {
+            "name": "customSections",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CustomSectionContent",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "description",
             "type": {
               "kind": "SCALAR",
@@ -958,6 +976,32 @@
             "type": {
               "kind": "SCALAR",
               "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CustomSectionContent",
+        "fields": [
+          {
+            "name": "componentId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
             },
             "args": []
           }

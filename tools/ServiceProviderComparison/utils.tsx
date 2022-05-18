@@ -1,10 +1,14 @@
+import { Option } from '../../components/MultiSelect'
 import { ContentfulServiceProviderFields } from '../../services/contentful'
 import { Reviews } from '.'
 import { ServiceProvider } from '.'
 
 export const getUniqueTags = (
   array: ContentfulServiceProviderFields[],
-  key: keyof Pick<ContentfulServiceProviderFields, 'model' | 'services'>
+  key: keyof Pick<
+    ContentfulServiceProviderFields,
+    'model' | 'services' | 'supplyChainComplexity'
+  >
 ) =>
   array?.reduce((acc, provider) => {
     const tags = provider[key] || []
@@ -84,26 +88,27 @@ export const FAKE_REVIEWS: Reviews = {
 export const MIN_PRICE = 0
 export const MAX_PRICE = 25000
 
-export const PRICE_FILTER_OPTIONS = [
+export const PRICE_FILTER_OPTIONS: Option[] = [
   {
+    key: [0, 0],
     label: 'Free',
-    value: [0, 0],
   },
   {
+    key: [0, 1000],
     label: '<1k€',
-    value: [0, 1000],
   },
   {
+    key: [1000, 5000],
+
     label: '1-5k€',
-    value: [1000, 5000],
   },
   {
+    key: [5000, 10000],
     label: '5-10k€',
-    value: [5000, 10000],
   },
   {
+    key: [10000, -1],
     label: '>10k€',
-    value: [10000, -1],
   },
 ]
 
@@ -161,19 +166,52 @@ const calculateProviderStats = (provider: ServiceProvider) => {
   }
 }
 
+const sortByRating = (a: ServiceProvider, b: ServiceProvider) => {
+  const avgRatingA = a?.reviewStats?.avgRating || 0
+  const avgRatingB = b?.reviewStats?.avgRating || 0
+  return (
+    (isNaN(avgRatingB) ? 0 : avgRatingB) - (isNaN(avgRatingA) ? 0 : avgRatingA)
+  )
+}
+
 export const mergeProviderData = (
   providers: ContentfulServiceProviderFields[],
   reviews: Reviews
 ) => {
-  return providers.map((provider) => {
-    const matchedReviews = reviews[provider.providerId]
-    const serviceProvider = {
-      ...provider,
-      reviews: matchedReviews,
-    }
-    return {
-      ...serviceProvider,
-      reviewStats: calculateProviderStats(serviceProvider),
-    }
-  }) as ServiceProvider[]
+  // merge the reviews with the providers based on the providerId
+  // and sort them based on the average review rating derived from calculateProviderStats
+  return providers
+    .map((provider) => {
+      const matchedReviews = reviews[provider.providerId]
+      const serviceProvider = {
+        ...provider,
+        reviews: matchedReviews,
+      }
+      return {
+        ...serviceProvider,
+        reviewStats: calculateProviderStats(serviceProvider),
+      }
+    })
+    .sort(sortByRating) as ServiceProvider[]
+}
+
+export const arrayContains = (
+  selectedArray?: string[],
+  searchArray?: string[]
+) => {
+  const isValid =
+    selectedArray === undefined ||
+    selectedArray.length === 0 ||
+    searchArray?.some((entry) => selectedArray.includes(entry))
+
+  return isValid
+}
+
+export const numberInRange = (number?: number, range?: number[]) => {
+  const isValid =
+    range === undefined ||
+    range.length === 0 ||
+    (number !== undefined && range[0] <= number && range[1] >= number)
+
+  return isValid
 }

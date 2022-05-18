@@ -21,11 +21,11 @@ import { withAuth } from '../../utils/with-auth'
 const Home: NextPage = () => {
   const router = useRouter()
 
-  // TODO: UI for error & fetching state
+  // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
     useCompanyActionsQuery()
 
-  // TODO: UI for error & fetching state
+  // TODO: UI for error state
   const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
     useCompanyAchievementsMiniQuery()
 

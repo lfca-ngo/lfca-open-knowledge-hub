@@ -126,6 +126,7 @@ export type CompanyAction = {
   completedAt?: Maybe<Scalars['DateTime']>;
   contentId: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
+  customSections: Array<CustomSectionContent>;
   description?: Maybe<Scalars['String']>;
   editedAt?: Maybe<Scalars['DateTime']>;
   heroImage?: Maybe<ContentAsset>;
@@ -227,6 +228,12 @@ export type CreateUserInput = {
 
 export type CreateUserInviteInput = {
   email: Scalars['String'];
+};
+
+export type CustomSectionContent = {
+  __typename?: 'CustomSectionContent';
+  componentId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
 };
 
 export type DeleteUserInput = {
@@ -479,7 +486,7 @@ export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement'
 
 export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
-export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
+export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
 export type UserFragmentFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
 
@@ -498,7 +505,7 @@ export type CompanyActionsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyActionsQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
+export type CompanyActionsQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
@@ -547,6 +554,9 @@ export const CompanyActionListItemFragmentDoc = gql`
   companiesPlannedCount
   completedAt
   contentId
+  customSections {
+    componentId
+  }
   heroImage {
     id
     url

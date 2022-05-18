@@ -5,6 +5,9 @@ import { useState } from 'react'
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
+import { ContentfulServiceProviderFields } from '../../../services/contentful'
+import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
+import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
@@ -57,10 +60,16 @@ const Intro = ({ onNext }: StepProps) => {
 
 interface PersonalizeProps extends StepProps {
   actionsByTags: ActionListProps['actionsByTags']
+  serviceProviders?: ContentfulServiceProviderFields[]
 }
 
-const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
-  const [activeActionId, setActiveActionId] = useState('')
+const Personalize = ({
+  actionsByTags,
+  onNext,
+  serviceProviders,
+}: PersonalizeProps) => {
+  const [activeAction, setActiveAction] =
+    useState<CompanyActionListItemFragment>()
   const [drawerVisible, setDrawerVisible] = useState(false)
 
   return (
@@ -74,7 +83,7 @@ const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
         actionListItemProps={{
           ctaText: 'Select',
           onCtaClick: (action) => {
-            setActiveActionId(action.contentId)
+            setActiveAction(action)
             setDrawerVisible(true)
           },
         }}
@@ -89,8 +98,9 @@ const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
         visible={drawerVisible}
       >
         <CompleteActionForm
-          actionId={activeActionId}
           onComplete={() => setDrawerVisible(false)}
+          serviceProviders={serviceProviders}
+          withReviewForm={actionHasReviews(activeAction)}
         />
       </Drawer>
     </div>

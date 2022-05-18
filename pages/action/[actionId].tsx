@@ -15,6 +15,7 @@ import {
 } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
 import { renderTools } from '../../tools'
+import { actionHasReviews } from '../../utils'
 import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
@@ -38,7 +39,10 @@ const Action: NextPage = (props: any) => {
                 text={documentToReactComponents(action?.aboutText)}
               />
             </TabPane>
-            <TabPane key="2" tab="Benefits">
+            <TabPane key="2" tab="How To">
+              Requirements
+            </TabPane>
+            <TabPane key="3" tab="Benefits">
               <ShowMore
                 maxHeight={140}
                 text={documentToReactComponents(action?.benefits)}
@@ -82,8 +86,9 @@ const Action: NextPage = (props: any) => {
 
       <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
         <CompleteActionForm
-          actionId={action?.actionId}
           onComplete={() => setIsOpen(false)}
+          serviceProviders={props.serviceProviders}
+          withReviewForm={actionHasReviews(action)}
         />
       </Drawer>
     </SiderLayout>

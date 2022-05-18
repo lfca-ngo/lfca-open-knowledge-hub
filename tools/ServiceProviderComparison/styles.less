@@ -8,20 +8,34 @@
       padding: 0;
     }
   }
-  .multi-select .ant-btn,
-  .radio-select .ant-radio-button-wrapper {
+  .multi-select .ant-btn {
     font-size: 15px;
   }
-  .radio-select {
+  .multi-select {
     width: 100%;
-    display: flex;
-    .ant-radio-button-wrapper {
+    .ant-btn {
       flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+    }
+  }
+
+  .ant-alert {
+    margin: 10px 0;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    .search-results-count {
+      margin-right: 10px;
+    }
+    .ant-btn {
+      margin-left: 10px;
+    }
+    .ant-divider {
+      flex: 1;
+      width: auto;
+      min-width: auto;
     }
   }
 }

@@ -1,31 +1,39 @@
 import { Button } from 'antd'
 import { useState } from 'react'
 
-interface Option {
-  key: string
+type OptionKey = string | number | string[] | number[]
+
+export interface Option {
+  key: OptionKey
   label: string
 }
 
 interface MultiSelectProps {
-  value?: string[]
-  onChange?: (value: string[]) => void
+  value?: OptionKey[]
+  mode?: 'multiple' | 'single'
+  onChange?: (value: OptionKey[]) => void
   options?: Option[]
 }
 
 export const MultiSelect = ({
+  mode = 'multiple',
   onChange,
   options,
   value = [],
 }: MultiSelectProps) => {
   const [selected, setSelected] = useState(value)
 
-  const handleChange = (value: string) => {
-    // if is clicked and value is already selected, remove it
+  const handleChange = (value: OptionKey) => {
     let newSelected
+
     if (selected?.includes(value)) {
       newSelected = selected.filter((item) => item !== value)
     } else {
-      newSelected = [...selected, value]
+      if (mode === 'single') {
+        newSelected = [value]
+      } else {
+        newSelected = [...selected, value]
+      }
     }
     // trigger change
     setSelected(newSelected)
@@ -34,11 +42,11 @@ export const MultiSelect = ({
 
   return (
     <Button.Group className="multi-select">
-      {options?.map((item) => {
+      {options?.map((item, i) => {
         const isSelected = selected?.includes(item.key)
         return (
           <Button
-            key={item.key}
+            key={`key-${i}`}
             onClick={() => handleChange(item.key)}
             type={isSelected ? 'primary' : 'default'}
           >

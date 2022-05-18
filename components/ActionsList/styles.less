@@ -8,10 +8,16 @@
   .ant-skeleton {
     display: flex;
     align-items: center;
-    padding: 20px 0;
+    padding: @action-card-padding 0;
+    .ant-skeleton-avatar {
+      width: @action-card-hero-size;
+      height: @action-card-hero-size;
+      border-radius: @border-radius-base;
+    }
     .ant-skeleton-header {
       display: flex;
       align-items: center;
+      margin-right: 16px;
     }
     .ant-skeleton-content {
       .ant-skeleton-title {
