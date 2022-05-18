@@ -83,6 +83,34 @@ body {
   }
 }
 
+// Avatars
+.ant-avatar {
+  &.green {
+    background: @green;
+  }
+  &.wine {
+    background: @wine;
+  }
+  &.black {
+    background: @black;
+  }
+  &.yellow {
+    background: @black;
+  }
+  &.green-inverse {
+    .inverse-color(@green);
+  }
+  &.blue-inverse {
+    .inverse-color(@blue);
+  }
+  &.wine-inverse {
+    .inverse-color(@wine);
+  }
+  &.yellow-inverse {
+    .inverse-color(@yellow);
+  }
+}
+
 // Buttons
 .ant-btn {
   background: var(--btn-default-bg);
@@ -123,6 +151,11 @@ body {
   &.popover-sm {
     font-size: @font-size-xs;
     max-width: 180px;
+    .ant-list {
+      .ant-list-item {
+        font-size: @font-size-xs;
+      }
+    }
   }
 }
 
