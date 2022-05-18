@@ -27,7 +27,7 @@ const { Option } = Select
 const { TextArea } = Input
 
 interface ReviewFormProps {
-  onComplete: () => void
+  onComplete?: () => void
   serviceProviders: ContentfulServiceProviderFields[]
 }
 
@@ -71,7 +71,7 @@ export const ReviewForm = ({
     // TODO: send to server
     setTimeout(() => {
       setProviderId('')
-      onComplete()
+      onComplete?.()
       // show a success message
       form.resetFields()
       message.success(`Thanks, we will review it!`)

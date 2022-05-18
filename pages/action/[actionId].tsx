@@ -1,5 +1,5 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Drawer, Tabs } from 'antd'
+import { Drawer, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -8,14 +8,13 @@ import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
-import { ReviewForm } from '../../components/ReviewForm'
 import { ShowMore } from '../../components/ShowMore'
 import {
   fetchAllActions,
   fetchAllServiceProviders,
 } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
-import { renderTools } from '../../tools'
+import { MEASUREMENT_SERVICES_COMPARISON, renderTools } from '../../tools'
 
 const { TabPane } = Tabs
 
@@ -81,16 +80,13 @@ const Action: NextPage = (props: any) => {
       </Sider>
 
       <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
-        <Section title="Complete action">
-          {/* @TODO: render the review form conditionally */}
-          {/* Move the logic to the onboarding as well */}
-          <ReviewForm
-            onComplete={() => console.log('done!')}
-            serviceProviders={props.serviceProviders}
-          />
-          <Divider />
-          <CompleteActionForm onComplete={() => setIsOpen(false)} />
-        </Section>
+        <CompleteActionForm
+          onComplete={() => setIsOpen(false)}
+          serviceProviders={props.serviceProviders}
+          withReviewForm={action?.customSections?.find(
+            (s: any) => s.componentId === MEASUREMENT_SERVICES_COMPARISON
+          )}
+        />
       </Drawer>
     </SiderLayout>
   )
