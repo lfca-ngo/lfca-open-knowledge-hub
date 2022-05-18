@@ -13,6 +13,7 @@ import {
   Form,
   Input,
   InputNumber,
+  message,
   Rate,
   Select,
   Tooltip,
@@ -54,6 +55,7 @@ export const ReviewForm = ({
   onComplete,
   serviceProviders,
 }: ReviewFormProps) => {
+  const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [providerId, setProviderId] = useState('')
 
@@ -70,13 +72,20 @@ export const ReviewForm = ({
     setTimeout(() => {
       setProviderId('')
       onComplete()
-      // openNotification()
+      // show a success message
+      form.resetFields()
+      message.success(`Thanks, we will review it!`)
       setLoading(false)
     }, 600)
   }
 
   return (
-    <Form className="review-form" layout="vertical" onFinish={handleFinish}>
+    <Form
+      className="review-form"
+      form={form}
+      layout="vertical"
+      onFinish={handleFinish}
+    >
       <Form.Item label="Did you work with a service provider?">
         <Select
           onSelect={(val: string) => setProviderId(val)}

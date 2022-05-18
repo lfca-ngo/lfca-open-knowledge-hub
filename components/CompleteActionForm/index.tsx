@@ -1,9 +1,10 @@
-import { Button, Form, Input, notification } from 'antd'
+import { Button, Form, Input, notification, Tooltip } from 'antd'
 import { useState } from 'react'
 
 import { FileUpload } from '../FileUpload/FileUpload'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 const { TextArea } = Input
 
@@ -36,18 +37,30 @@ export const CompleteActionForm = ({
 
   return (
     <Form layout="vertical" onFinish={handleFinish}>
-      <Form.Item label="Any learnings to share?">
+      <Form.Item
+        label={
+          <Tooltip title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?">
+            Leave a comment about this action <QuestionCircleOutlined />
+          </Tooltip>
+        }
+      >
         <TextArea
           placeholder="We created an overview of 10 banks and evaluated them based on x,y,z..."
           rows={4}
         />
       </Form.Item>
-      <Form.Item label="Upload docs">
+      <Form.Item
+        label={
+          <Tooltip title="Think about: Research that you did, resources that you found useful">
+            Useful documents <QuestionCircleOutlined />
+          </Tooltip>
+        }
+      >
         <FileUpload />
       </Form.Item>
       <Form.Item>
         <Button block htmlType="submit" loading={loading} type="primary">
-          Submit
+          Complete action
         </Button>
       </Form.Item>
     </Form>
