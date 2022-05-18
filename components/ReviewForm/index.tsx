@@ -1,12 +1,12 @@
 require('./styles.less')
 
 import {
-  MinusOutlined,
-  PlusOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
+  PlusOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { Button, Form, Input, Rate, Select } from 'antd'
+import { Button, Checkbox, Form, Input, Rate, Select, Tooltip } from 'antd'
 import { useState } from 'react'
 
 import { ContentfulServiceProviderFields } from '../../services/contentful'
@@ -19,10 +19,24 @@ interface ReviewFormProps {
   serviceProviders: ContentfulServiceProviderFields[]
 }
 
-const AddButton = ({ add }: { add: () => void }) => (
-  <Button icon={<PlusOutlined />} onClick={() => add()} type="dashed">
-    Add argument
-  </Button>
+const LabelWithButton = ({
+  add,
+  label,
+}: {
+  add: () => void
+  label: string | React.ReactElement
+}) => (
+  <div className="label-with-button">
+    <div className="label">{label}</div>
+    <Button
+      icon={<PlusOutlined />}
+      onClick={() => add()}
+      size="small"
+      type="dashed"
+    >
+      Add argument
+    </Button>
+  </div>
 )
 
 export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
@@ -53,20 +67,38 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
       {providerId && (
         <div className="panel">
           <div className="panel-title">Write a review</div>
-          <Form.Item label="How would you rate your overall experience?">
+          <Form.Item
+            label="How would you rate your overall experience?"
+            name="rating"
+          >
             <Rate allowHalf />
           </Form.Item>
-          <Form.Item label="Describe your experience">
+          <Form.Item
+            label={
+              <Tooltip title="Give a quick summary of your experience">
+                Describe your experience <QuestionCircleOutlined />
+              </Tooltip>
+            }
+            name="content"
+          >
             <TextArea
               placeholder="The service was great, but it was a bit pricy..."
               rows={4}
             />
           </Form.Item>
 
-          <Form.Item className="item-sm" label="Pros">
+          <Form.Item className="item-sm">
             <Form.List name="pros" rules={[{ validator: argumentsValidator }]}>
               {(fields, { add, remove }, { errors }) => (
                 <>
+                  <LabelWithButton
+                    add={add}
+                    label={
+                      <Tooltip title="Arguments for the provider">
+                        {`Pro's`} <QuestionCircleOutlined />
+                      </Tooltip>
+                    }
+                  />
                   {fields.map((field) => (
                     <Form.Item key={field.key} required={false}>
                       <Form.Item {...field} noStyle>
@@ -78,19 +110,24 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
                       </Form.Item>
                     </Form.Item>
                   ))}
-                  <Form.Item>
-                    <AddButton add={add} />
-                    <Form.ErrorList errors={errors} />
-                  </Form.Item>
+                  <Form.ErrorList errors={errors} />
                 </>
               )}
             </Form.List>
           </Form.Item>
 
-          <Form.Item className="item-sm" label="Cons">
+          <Form.Item className="item-sm">
             <Form.List name="cons" rules={[{ validator: argumentsValidator }]}>
               {(fields, { add, remove }, { errors }) => (
                 <>
+                  <LabelWithButton
+                    add={add}
+                    label={
+                      <Tooltip title="Arguments against the provider">
+                        {`Con's`} <QuestionCircleOutlined />
+                      </Tooltip>
+                    }
+                  />
                   {fields.map((field) => (
                     <Form.Item key={field.key} required={false}>
                       <Form.Item {...field} noStyle>
@@ -102,10 +139,7 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
                       </Form.Item>
                     </Form.Item>
                   ))}
-                  <Form.Item>
-                    <AddButton add={add} />
-                    <Form.ErrorList errors={errors} />
-                  </Form.Item>
+                  <Form.ErrorList errors={errors} />
                 </>
               )}
             </Form.List>
@@ -116,6 +150,10 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
               addonAfter={<span className="currency">€</span>}
               placeholder="500"
             />
+          </Form.Item>
+
+          <Form.Item name="isAnonymous">
+            <Checkbox>Review anonymously</Checkbox>
           </Form.Item>
 
           <Form.Item>
