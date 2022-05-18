@@ -1,11 +1,14 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
+import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { ContentfulContentCollection } from '../../services/contentful'
+import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
   EMPTY_ACHIEVEMENTS_ARRAY,
   EMPTY_ACTIONS_ARRAY,
@@ -18,7 +21,11 @@ import {
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({
+  content,
+}: {
+  content?: ContentfulContentCollection[]
+}) => {
   const router = useRouter()
 
   // TODO: UI for error state
@@ -82,10 +89,22 @@ const Home: NextPage = () => {
             fetching={fetchingAchievements}
           />
         </Section>
-        <Section title="...">...</Section>
+        <Section title="Community">
+          <ContentListMini content={content} />
+        </Section>
       </Sider>
     </SiderLayout>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const content = await fetchAllContentCollections()
+
+  return {
+    props: {
+      content,
+    },
+  }
 }
 
 export default withAuth(Home)

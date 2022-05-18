@@ -2,6 +2,7 @@ import {
   BankOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
+  LikeOutlined,
   LockOutlined,
   ProfileOutlined,
   RocketOutlined,
@@ -20,6 +21,7 @@ import {
   ADMIN,
   ADMIN_COMPANIES,
   ADMIN_USERS,
+  COMMUNITY,
 } from '../../utils/routes'
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
@@ -49,6 +51,11 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     icon: <RocketOutlined />,
     key: ACHIEVEMENTS,
     label: 'Achievements',
+  },
+  {
+    icon: <LikeOutlined />,
+    key: COMMUNITY,
+    label: 'Community',
   },
 ]
 

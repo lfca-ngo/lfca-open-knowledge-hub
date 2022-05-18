@@ -21,3 +21,15 @@ export interface ContentfulServiceProviderFields {
   website?: string
   memberId?: string
 }
+
+export interface ContentfulCommunityContent {
+  title: string
+  description: Document
+  link: string
+  preview?: Image
+}
+
+export interface ContentfulContentCollection {
+  collectionId: string
+  content: ContentfulCommunityContent[]
+}
