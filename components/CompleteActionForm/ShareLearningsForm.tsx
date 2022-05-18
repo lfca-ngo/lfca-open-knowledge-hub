@@ -1,5 +1,7 @@
+require('./styles.less')
+
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Form, Input, notification, Tooltip } from 'antd'
+import { Button, Form, Input, notification, Tooltip, Tag } from 'antd'
 import { useState } from 'react'
 
 import { FileUpload } from '../FileUpload/FileUpload'
@@ -36,7 +38,11 @@ export const ShareLearningsForm = ({
   }
 
   return (
-    <Form layout="vertical" onFinish={handleFinish}>
+    <Form
+      className="share-learnings-form"
+      layout="vertical"
+      onFinish={handleFinish}
+    >
       <Form.Item
         label={
           <Tooltip title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?">
@@ -48,6 +54,13 @@ export const ShareLearningsForm = ({
           placeholder="The most difficult thing was solving xyz. Luckily we found this overview that really helped us (attached)."
           rows={4}
         />
+        <div className="buzzwords">
+          <span>Topics:</span> <Tag>Costs</Tag>
+          <Tag>Team benefits</Tag>
+          <Tag>Hurdles</Tag>
+          <Tag>Successes</Tag>
+          <Tag>How to's</Tag>
+        </div>
       </Form.Item>
       <Form.Item
         label={

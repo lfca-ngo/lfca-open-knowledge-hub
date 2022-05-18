@@ -16,8 +16,12 @@ export const CompleteActionForm = ({
 }) => {
   return (
     <Section title="Complete action">
-      {withReviewForm && <ReviewForm serviceProviders={serviceProviders} />}
-      <Divider />
+      {withReviewForm && (
+        <>
+          <ReviewForm serviceProviders={serviceProviders} />
+          <Divider />
+        </>
+      )}
       <ShareLearningsForm onComplete={onComplete} />
     </Section>
   )
