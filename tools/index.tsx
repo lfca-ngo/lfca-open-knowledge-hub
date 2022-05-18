@@ -4,7 +4,7 @@ import { ServiceProviderComparison } from './ServiceProviderComparison'
 
 export { PersonalCarbonCalculator, ServiceProviderComparison }
 
-export const MEASUREMENT_SERVICES_COMPARISON = 'measurement-services-comparison'
+import { MEASUREMENT_SERVICES_COMPARISON } from '../utils'
 
 export const renderTools = (sections: any, props: any) => {
   const renderTool = (section: any) => {

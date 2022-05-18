@@ -1,7 +1,7 @@
 require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Form, Input, notification, Tooltip, Tag } from 'antd'
+import { Button, Form, Input, notification, Tag, Tooltip } from 'antd'
 import { useState } from 'react'
 
 import { FileUpload } from '../FileUpload/FileUpload'
@@ -13,7 +13,7 @@ const { TextArea } = Input
 const openNotification = () => {
   notification.info({
     description: `The more you share, the more you'll get out of the community.`,
-    icon: <IconSelector color="pink" type={IconTypes.heart} />,
+    icon: <IconSelector color="wine" type={IconTypes.heart} />,
     message: `Awesome, Thanks for sharing!`,
     placement: 'top',
   })
@@ -59,7 +59,7 @@ export const ShareLearningsForm = ({
           <Tag>Team benefits</Tag>
           <Tag>Hurdles</Tag>
           <Tag>Successes</Tag>
-          <Tag>How to's</Tag>
+          <Tag>{`How to's`}</Tag>
         </div>
       </Form.Item>
       <Form.Item

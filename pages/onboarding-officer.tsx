@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import React from 'react'
@@ -6,11 +6,19 @@ import React from 'react'
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
 import {
+  ContentfulServiceProviderFields,
+  fetchAllServiceProviders,
+} from '../services/contentful'
+import {
   sortCompanyActionsByTag,
   useCompanyActionsQuery,
 } from '../services/lfca-backend'
 
-const OnboardingOfficer: NextPage = () => {
+const OnboardingOfficer: NextPage = ({
+  serviceProviders,
+}: {
+  serviceProviders?: ContentfulServiceProviderFields[]
+}) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
 
@@ -40,10 +48,24 @@ const OnboardingOfficer: NextPage = () => {
       steps={OnboardingOfficerSteps}
     >
       {Step ? (
-        <Step actionsByTags={actionsByTags} onNext={handleOnNext} />
+        <Step
+          actionsByTags={actionsByTags}
+          onNext={handleOnNext}
+          serviceProviders={serviceProviders}
+        />
       ) : null}
     </StepsLayout>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const serviceProviders = await fetchAllServiceProviders()
+
+  return {
+    props: {
+      serviceProviders,
+    },
+  }
 }
 
 export default OnboardingOfficer

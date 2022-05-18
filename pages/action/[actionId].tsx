@@ -14,7 +14,8 @@ import {
   fetchAllServiceProviders,
 } from '../../services/contentful'
 import { ALL_ACTIONS } from '../../services/contentful'
-import { MEASUREMENT_SERVICES_COMPARISON, renderTools } from '../../tools'
+import { renderTools } from '../../tools'
+import { actionHasReviews } from '../../utils'
 
 const { TabPane } = Tabs
 
@@ -83,9 +84,7 @@ const Action: NextPage = (props: any) => {
         <CompleteActionForm
           onComplete={() => setIsOpen(false)}
           serviceProviders={props.serviceProviders}
-          withReviewForm={action?.customSections?.find(
-            (s: any) => s.componentId === MEASUREMENT_SERVICES_COMPARISON
-          )}
+          withReviewForm={actionHasReviews(action)}
         />
       </Drawer>
     </SiderLayout>
