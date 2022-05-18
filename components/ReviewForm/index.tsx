@@ -1,12 +1,22 @@
 require('./styles.less')
 
 import {
+  InfoCircleOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
   PlusOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { Button, Checkbox, Form, Input, Rate, Select, Tooltip } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  InputNumber,
+  Rate,
+  Select,
+  Tooltip,
+} from 'antd'
 import { useState } from 'react'
 
 import { ContentfulServiceProviderFields } from '../../services/contentful'
@@ -16,6 +26,7 @@ const { Option } = Select
 const { TextArea } = Input
 
 interface ReviewFormProps {
+  onComplete: () => void
   serviceProviders: ContentfulServiceProviderFields[]
 }
 
@@ -39,20 +50,33 @@ const LabelWithButton = ({
   </div>
 )
 
-export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
+export const ReviewForm = ({
+  onComplete,
+  serviceProviders,
+}: ReviewFormProps) => {
+  const [loading, setLoading] = useState(false)
   const [providerId, setProviderId] = useState('')
-  const argumentsValidator = (_: any, names: string[]) => {
+
+  const argumentsValidator = async (_: object, names: string[]) => {
     if (names.length > 5) {
       return Promise.reject(new Error('Max 5 arguments'))
     }
   }
 
+  const handleFinish = () => {
+    setLoading(true)
+
+    // TODO: send to server
+    setTimeout(() => {
+      setProviderId('')
+      onComplete()
+      // openNotification()
+      setLoading(false)
+    }, 600)
+  }
+
   return (
-    <Form
-      className="review-form"
-      layout="vertical"
-      onFinish={(v) => console.log(v)}
-    >
+    <Form className="review-form" layout="vertical" onFinish={handleFinish}>
       <Form.Item label="Did you work with a service provider?">
         <Select
           onSelect={(val: string) => setProviderId(val)}
@@ -64,12 +88,18 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
           <Select.Option key={''}>None of those</Select.Option>
         </Select>
       </Form.Item>
+
       {providerId && (
         <div className="panel">
-          <div className="panel-title">Write a review</div>
+          <div className="panel-title">
+            <Tooltip title="Help other members make the right decision. Tip: you can review anonymously">
+              Leave a review <InfoCircleOutlined />
+            </Tooltip>
+          </div>
           <Form.Item
             label="How would you rate your overall experience?"
             name="rating"
+            rules={[{ message: 'Please select an option', required: true }]}
           >
             <Rate allowHalf />
           </Form.Item>
@@ -80,6 +110,7 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
               </Tooltip>
             }
             name="content"
+            rules={[{ message: 'Please write a summary!', required: true }]}
           >
             <TextArea
               placeholder="The service was great, but it was a bit pricy..."
@@ -88,7 +119,7 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
           </Form.Item>
 
           <Form.Item className="item-sm">
-            <Form.List name="pros" rules={[{ validator: argumentsValidator }]}>
+            <Form.List name="pros">
               {(fields, { add, remove }, { errors }) => (
                 <>
                   <LabelWithButton
@@ -145,19 +176,27 @@ export const ReviewForm = ({ serviceProviders }: ReviewFormProps) => {
             </Form.List>
           </Form.Item>
 
-          <Form.Item label="Price per year (anonymous)">
-            <Input
+          <Form.Item
+            label={
+              <Tooltip title="The price review is always anonymous. We map it with your team size to make it more meaningful.">
+                ~Price per year <QuestionCircleOutlined />
+              </Tooltip>
+            }
+            name="pricePerYear"
+            rules={[{ required: false }]}
+          >
+            <InputNumber
               addonAfter={<span className="currency">€</span>}
-              placeholder="500"
+              placeholder="1200"
             />
           </Form.Item>
 
-          <Form.Item name="isAnonymous">
+          <Form.Item name="isAnonymous" valuePropName="checked">
             <Checkbox>Review anonymously</Checkbox>
           </Form.Item>
 
           <Form.Item>
-            <Button htmlType="submit" type="primary">
+            <Button htmlType="submit" loading={loading} type="primary">
               Submit
             </Button>
           </Form.Item>

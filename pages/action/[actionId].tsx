@@ -84,7 +84,10 @@ const Action: NextPage = (props: any) => {
         <Section title="Complete action">
           {/* @TODO: render the review form conditionally */}
           {/* Move the logic to the onboarding as well */}
-          <ReviewForm serviceProviders={props.serviceProviders} />
+          <ReviewForm
+            onComplete={() => console.log('done!')}
+            serviceProviders={props.serviceProviders}
+          />
           <Divider />
           <CompleteActionForm onComplete={() => setIsOpen(false)} />
         </Section>
