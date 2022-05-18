@@ -93,6 +93,7 @@ const Personalize = ({
         Continue
       </Button>
       <Drawer
+        className="drawer-md"
         destroyOnClose
         onClose={() => setDrawerVisible(false)}
         visible={drawerVisible}

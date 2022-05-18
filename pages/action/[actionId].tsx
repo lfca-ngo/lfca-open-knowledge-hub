@@ -84,7 +84,11 @@ const Action: NextPage = (props: any) => {
         )}
       </Sider>
 
-      <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
+      <Drawer
+        className="drawer-md"
+        onClose={() => setIsOpen(false)}
+        visible={isOpen}
+      >
         <CompleteActionForm
           onComplete={() => setIsOpen(false)}
           serviceProviders={props.serviceProviders}

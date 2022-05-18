@@ -58,7 +58,11 @@ const AdminUsers: NextPage = () => {
             )}
           />
 
-          <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
+          <Drawer
+            className="drawer-md"
+            onClose={() => setIsOpen(false)}
+            visible={isOpen}
+          >
             <h1>User</h1>
             <Form layout="vertical" onFinish={updateUser}>
               <Form.Item label="Name">
