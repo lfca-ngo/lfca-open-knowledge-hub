@@ -9,6 +9,7 @@ import {
   ContentfulServiceProviderFields,
   fetchAllServiceProviders,
 } from '../services/contentful'
+import { EMPTY_ACTIONS_ARRAY } from '../services/contentful/utils'
 import {
   sortCompanyActionsByTag,
   useCompanyActionsQuery,
@@ -26,7 +27,7 @@ const OnboardingOfficer: NextPage = ({
   const [{ data }] = useCompanyActionsQuery()
 
   const actionsByTags = React.useMemo(
-    () => sortCompanyActionsByTag(data?.companyActions || []),
+    () => sortCompanyActionsByTag(data?.companyActions || EMPTY_ACTIONS_ARRAY),
     [data]
   )
 

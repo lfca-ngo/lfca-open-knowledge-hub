@@ -6,6 +6,8 @@ import {
   InfoCircleOutlined,
   LikeOutlined,
   LinkOutlined,
+  MailOutlined,
+  StarOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Popover, Rate, Tag } from 'antd'
@@ -74,6 +76,15 @@ export const ProviderCard = ({
           <div className="title-wrapper">
             <div className="title">{provider.name}</div>
             <TypeTags tags={provider?.model} />
+            {provider?.memberId && (
+              <Popover
+                content={<Button icon={<MailOutlined />}>Get Intro</Button>}
+              >
+                <Tag className="member-tag" icon={<StarOutlined />}>
+                  Community Member
+                </Tag>
+              </Popover>
+            )}
           </div>
           <div className="description">
             {documentToReactComponents(provider.description)}

@@ -11,14 +11,14 @@ export const CompleteActionForm = ({
   withReviewForm = false,
 }: {
   onComplete: () => void
-  serviceProviders: ContentfulServiceProviderFields[]
+  serviceProviders?: ContentfulServiceProviderFields[]
   withReviewForm?: boolean
 }) => {
   return (
     <Section title="Complete action">
       {withReviewForm && (
         <>
-          <ReviewForm serviceProviders={serviceProviders} />
+          <ReviewForm serviceProviders={serviceProviders || []} />
           <Divider />
         </>
       )}

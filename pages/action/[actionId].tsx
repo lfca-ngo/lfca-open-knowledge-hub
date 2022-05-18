@@ -38,7 +38,10 @@ const Action: NextPage = (props: any) => {
                 text={documentToReactComponents(action?.aboutText)}
               />
             </TabPane>
-            <TabPane key="2" tab="Benefits">
+            <TabPane key="2" tab="How To">
+              Requirements
+            </TabPane>
+            <TabPane key="3" tab="Benefits">
               <ShowMore
                 maxHeight={140}
                 text={documentToReactComponents(action?.benefits)}

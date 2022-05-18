@@ -19,4 +19,5 @@ export interface ContentfulServiceProviderFields {
   year?: string
   size?: string
   website?: string
+  memberId?: string
 }
