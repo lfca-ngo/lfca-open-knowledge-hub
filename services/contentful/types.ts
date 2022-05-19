@@ -21,3 +21,51 @@ export interface ContentfulServiceProviderFields {
   website?: string
   memberId?: string
 }
+
+export interface ContentfulCommunityContentFields {
+  title: string
+  description: Document
+  link: string
+  preview?: Image
+}
+
+export interface ContentfulContentCollectionFields {
+  collectionId: string
+  content: ContentfulCommunityContentFields[]
+}
+
+export interface ContentfulRequirementFields {
+  title: string
+  reqId: string
+  howTo: Document
+}
+
+export interface ContentfulCategoryFields {
+  categoryId: string
+  name: string
+  sortingWeight?: number
+}
+
+interface ContentfulCustomSectionFields {
+  componentId: string
+  title: string
+  bordered: boolean
+  size: string
+  position: string
+  className: string
+}
+
+export interface ContentfulActionFields {
+  title: string
+  actionId: string
+  requirements: ContentfulRequirementFields[]
+  tags: ContentfulCategoryFields[]
+  heroImage: Image
+  impactValue: number
+  aboutText: Document
+  benefits: Document
+  examples: Document
+  extraMile: Document
+  expiresAfterDays: number
+  customSections: ContentfulCustomSectionFields[]
+}

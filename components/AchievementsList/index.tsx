@@ -45,7 +45,11 @@ export const AchievementsList = ({
         )}
       />
 
-      <Drawer onClose={() => setDrawerVisible(false)} visible={drawerVisible}>
+      <Drawer
+        className="drawer-md"
+        onClose={() => setDrawerVisible(false)}
+        visible={drawerVisible}
+      >
         Form
       </Drawer>
     </div>

@@ -126,7 +126,11 @@ export const ServiceProviderComparison = ({
         )}
       />
       {/* Review Drawer */}
-      <Drawer onClose={() => setVisible(false)} visible={visible}>
+      <Drawer
+        className="drawer-md"
+        onClose={() => setVisible(false)}
+        visible={visible}
+      >
         <ReviewsList reviews={activeProvider?.reviews} />
       </Drawer>
     </div>

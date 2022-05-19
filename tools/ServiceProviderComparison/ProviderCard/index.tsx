@@ -61,7 +61,7 @@ export const ProviderCard = ({
     <Card bordered={false} className="provider-card">
       <div className="hero">
         <div className="wrapper">
-          {provider.logo && (
+          {provider.logo?.url && (
             <Image
               alt={provider.name || ''}
               layout="fill"

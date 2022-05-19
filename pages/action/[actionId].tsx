@@ -8,22 +8,29 @@ import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
+  ContentfulActionFields,
+  ContentfulServiceProviderFields,
   fetchAllActions,
   fetchAllServiceProviders,
 } from '../../services/contentful'
-import { ALL_ACTIONS } from '../../services/contentful'
 import { renderTools } from '../../tools'
 import { actionHasReviews } from '../../utils'
 import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
 
-const Action: NextPage = (props: any) => {
+interface ActionProps {
+  action?: ContentfulActionFields
+  serviceProviders?: ContentfulServiceProviderFields[]
+}
+
+const Action: NextPage<ActionProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const action = props.action
+  const { action } = props
 
   return (
     <SiderLayout goBack={() => router.back()}>
@@ -36,23 +43,32 @@ const Action: NextPage = (props: any) => {
             <TabPane key="1" tab="Description">
               <ShowMore
                 maxHeight={140}
-                text={documentToReactComponents(action?.aboutText)}
+                text={
+                  action?.aboutText &&
+                  documentToReactComponents(action?.aboutText)
+                }
               />
             </TabPane>
             <TabPane key="2" tab="How To">
-              Requirements
+              <ShowMore
+                maxHeight={140}
+                text={<RequirementsList requirements={action?.requirements} />}
+              />
             </TabPane>
             <TabPane key="3" tab="Benefits">
               <ShowMore
                 maxHeight={140}
-                text={documentToReactComponents(action?.benefits)}
+                text={
+                  action?.benefits &&
+                  documentToReactComponents(action?.benefits)
+                }
               />
             </TabPane>
           </Tabs>
         </Section>
         {/* Render additional sections */}
         {renderTools(
-          action?.customSections?.filter((s: any) => s.position === 'main'),
+          action?.customSections?.filter((s) => s.position === 'main'),
           props
         )}
       </Main>
@@ -63,7 +79,7 @@ const Action: NextPage = (props: any) => {
         </Section>
         <Section title="Community">
           <Comments
-            actionId={action?.actionId}
+            actionId={action?.actionId || ''}
             comments={{
               '1': {
                 id: '1',
@@ -79,12 +95,16 @@ const Action: NextPage = (props: any) => {
         <Section title="Attachments">Something</Section>
         {/* Render additional sections */}
         {renderTools(
-          action?.customSections?.filter((s: any) => s.position === 'sider'),
+          action?.customSections?.filter((s) => s.position === 'sider'),
           props
         )}
       </Sider>
 
-      <Drawer onClose={() => setIsOpen(false)} visible={isOpen}>
+      <Drawer
+        className="drawer-md"
+        onClose={() => setIsOpen(false)}
+        visible={isOpen}
+      >
         <CompleteActionForm
           onComplete={() => setIsOpen(false)}
           serviceProviders={props.serviceProviders}
@@ -96,11 +116,14 @@ const Action: NextPage = (props: any) => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const actionId: any = params?.actionId
-  const actions: any = await fetchAllActions()
-  const action = actions.byId[actionId]
-  // @TODO: fetch additional data only if needed
-  const serviceProviders = await fetchAllServiceProviders()
+  const actionId = params?.actionId as string
+  const actionsById = await fetchAllActions()
+  const action = actionsById[actionId]
+
+  let serviceProviders = []
+  if (actionHasReviews(action)) {
+    serviceProviders = await fetchAllServiceProviders()
+  }
 
   return {
     props: {
@@ -111,9 +134,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { byTags } = await fetchAllActions()
-  const paths = byTags[ALL_ACTIONS].map((action: any) => ({
-    params: { actionId: action.actionId },
+  const actionsById = await fetchAllActions()
+  const paths = Object.keys(actionsById).map((actionId) => ({
+    params: { actionId },
   }))
   return {
     fallback: false,

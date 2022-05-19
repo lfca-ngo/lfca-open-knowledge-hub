@@ -4,9 +4,12 @@ import {
   CheckCircleFilled,
   CheckCircleOutlined,
   CloseCircleFilled,
+  MehOutlined,
+  SmileOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card, List, Space } from 'antd'
+import { Avatar, Button, Card, List, Popover, Space } from 'antd'
 import classNames from 'classnames'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import {
@@ -130,22 +133,54 @@ interface AchievementCardMiniProps {
 export const AchievementCardMini = ({
   achievement,
 }: AchievementCardMiniProps) => {
+  const achievementReached = isAchievementReached(achievement)
   return (
-    <div className={'achievement-card-mini'}>
-      <Avatar size="default" />
-      <div className="achievement-content">
-        <div className="achievement-title">{achievement.name}</div>
-        <div className="achievement-stats">
-          <AchievementStat
-            completedCount={achievement.completedRequiredCompanyActionsCount}
-            targetCount={achievement.requiredActions.length}
-          />
-          <AchievementStat
-            completedCount={achievement.completedCompanyActionsCount}
-            targetCount={achievement.minCompletedCompanyActionsCount || 0}
-          />
+    <Link href={`/achievements`}>
+      <div className={'achievement-card-mini'}>
+        <Avatar
+          className={achievementReached ? 'green-inverse' : 'blue-inverse'}
+          icon={achievementReached ? <SmileOutlined /> : <MehOutlined />}
+          shape="square"
+          size={58}
+        />
+        <div className="achievement-content">
+          <div className="achievement-title">{achievement.name}</div>
+          <div className="achievement-stats">
+            <Popover
+              content={
+                <List
+                  dataSource={achievement.requiredActions}
+                  renderItem={(item) => <List.Item>{item.title}</List.Item>}
+                />
+              }
+              overlayClassName="popover-sm"
+              trigger="hover"
+            >
+              <div>
+                <AchievementStat
+                  completedCount={
+                    achievement.completedRequiredCompanyActionsCount
+                  }
+                  targetCount={achievement.requiredActions.length}
+                />
+              </div>
+            </Popover>
+
+            <Popover
+              content={`You have to fulfill at least ${achievement.minCompletedCompanyActionsCount} actions in total`}
+              overlayClassName="popover-sm"
+              trigger="hover"
+            >
+              <div>
+                <AchievementStat
+                  completedCount={achievement.completedCompanyActionsCount}
+                  targetCount={achievement.minCompletedCompanyActionsCount || 0}
+                />
+              </div>
+            </Popover>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

@@ -4,7 +4,12 @@ fragment CompanyAchievementMini on CompanyAchievement {
   contentId
   minCompletedCompanyActionsCount
   name
+  recommendedActions {
+    id
+    title
+  }
   requiredActions {
     id
+    title
   }
 }

@@ -17,3 +17,5 @@ export const ADMIN = '/admin'
 export const SETTINGS = '/settings'
 export const SETTINGS_INVITE = '/settings/invite'
 export const SETTINGS_COMPANY = '/settings/company'
+// Community
+export const COMMUNITY = '/community'

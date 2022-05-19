@@ -12,3 +12,8 @@
     background-color: var(--bg-accent);
   }
 }
+
+.inverse-color(@color) {
+  color: @color;
+  background: fade(@color, 10%);
+}
