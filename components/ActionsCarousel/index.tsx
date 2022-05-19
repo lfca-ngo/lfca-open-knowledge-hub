@@ -3,7 +3,8 @@ require('./styles.less')
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
-  StarFilled,
+  HeartOutlined,
+  StarOutlined,
 } from '@ant-design/icons'
 import { Card, Carousel, Skeleton, Tag } from 'antd'
 import React from 'react'
@@ -46,6 +47,7 @@ export const ActionsCarousel = ({
       slidesToShow={3}
     >
       {actions.map((action, i) => {
+        const isRequired = action.requiredForCompanyAchievementIds.length
         return (
           <Skeleton
             active
@@ -55,11 +57,12 @@ export const ActionsCarousel = ({
             title={{ width: '100%' }}
           >
             <Card bordered={false} onClick={() => onSelect(action)}>
-              <Tag icon={<StarFilled />}>
-                {action.requiredForCompanyAchievementIds.length
-                  ? 'Required'
-                  : 'Recommended'}
-              </Tag>
+              {isRequired ? (
+                <Tag icon={<StarOutlined />}>Required</Tag>
+              ) : (
+                <Tag icon={<HeartOutlined />}>Recommended</Tag>
+              )}
+
               <div className="action-card-content">
                 <div className="action-card-title">{action.title}</div>
                 <LogoGroup
