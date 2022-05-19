@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
@@ -20,20 +20,13 @@ import {
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
-import { useScrollPosition } from '../../hooks/useScrollPosition'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
 }
 
 const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
-  // Restore scroll beteen navigation and content
-  const { options, savePosition } = useScrollPosition('Dashboard_Home', true)
-
-  console.log('options', options)
-
   const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(options?.currentPage || 0)
 
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
@@ -81,16 +74,8 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
         <Section bordered={false} title="Browse all actions">
           <ActionsList
-            actionListItemProps={{
-              onCtaClick: () => savePosition({ currentPage: currentPage }),
-            }}
             actionsByTags={actionsByTags}
             fetching={fetchingActions}
-            pagination={{
-              current: currentPage,
-              defaultCurrent: options?.currentPage || currentPage,
-              onChange: (page) => setCurrentPage(page),
-            }}
           />
         </Section>
       </Main>

@@ -1,11 +1,13 @@
 require('./styles.less')
 
-import { Divider, Input, List, Select, Skeleton, Space } from 'antd'
+import { Divider, Input, List, Select, Skeleton, Space, Form } from 'antd'
 import React, { useMemo, useState } from 'react'
 
+import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
+import { DropdownSelect } from '../DropdownSelect'
 
 const { Search } = Input
 
@@ -35,16 +37,14 @@ const ListFilters = ({
 }) => {
   return (
     <div className="list-filters">
-      <Select
-        mode="multiple"
-        onChange={setSelectedTags}
-        placeholder="Please select"
-        value={selectedTags}
+      <Form
+        initialValues={{ tags: selectedTags }}
+        onValuesChange={(_, { tags }) => setSelectedTags(tags)}
       >
-        {tags.map((tag) => (
-          <Select.Option key={tag}>{tag}</Select.Option>
-        ))}
-      </Select>
+        <Form.Item name="tags">
+          <DropdownSelect items={tags.map((t) => ({ label: t, value: t }))} />
+        </Form.Item>
+      </Form>
       <Space>
         <SortOptions />
         <Search placeholder="Search..." />
@@ -57,28 +57,35 @@ export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  pagination?: {
-    current: number
-    defaultCurrent: number
-    onChange: (page: number) => void
-  }
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actionsByTags,
   fetching,
-  pagination,
 }: ActionListProps) => {
-  const [selectedTags, setSelectedTags] = useState<string[]>([
-    ALL_ACTIONS_LABEL,
-  ])
+  // Restore scroll and selectedTags between navigation
+  const { options, savePosition } = useScrollPosition(
+    'ActionList_Dashboard',
+    true
+  )
+  const [currentPage, setCurrentPage] = useState(options?.currentPage || 0)
+
+  const [selectedTags, setSelectedTags] = useState<string[]>(
+    options?.selectedTags || [ALL_ACTIONS_LABEL]
+  )
   const actions = actionsByTags[ALL_ACTIONS_LABEL]
   const tags = Object.keys(actionsByTags)
 
   const filteredActions = useMemo(() => {
     return actions.filter((action) => {
-      if (selectedTags.includes(ALL_ACTIONS_LABEL)) return true
+      if (
+        selectedTags.includes(ALL_ACTIONS_LABEL) ||
+        selectedTags.length === 0
+      ) {
+        return true
+      }
+
       const tags = action.tags.map((a) => a.name)
       return selectedTags.some((tag) => tags.includes(tag))
     })
@@ -94,7 +101,12 @@ export const ActionsList = ({
       <Divider />
       <List
         dataSource={filteredActions}
-        pagination={{ ...pagination, pageSize: 10 }}
+        pagination={{
+          current: currentPage,
+          defaultCurrent: options?.currentPage || currentPage,
+          onChange: (page) => setCurrentPage(page),
+          pageSize: 10,
+        }}
         renderItem={(item) => {
           return (
             <List.Item>
@@ -104,7 +116,14 @@ export const ActionsList = ({
                 loading={fetching}
                 paragraph={{ rows: 1 }}
               >
-                <ActionCardWrapper {...actionListItemProps} action={item} />
+                <ActionCardWrapper
+                  action={item}
+                  onSavePosition={() =>
+                    savePosition({ currentPage, selectedTags })
+                  }
+                  renderAsLink
+                  {...actionListItemProps}
+                />
               </Skeleton>
             </List.Item>
           )

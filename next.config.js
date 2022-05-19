@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withAntdLess = require('next-plugin-antd-less')
 const withPlugins = require('next-compose-plugins')
 
@@ -5,15 +6,12 @@ const nextConfig = {
   images: {
     domains: ['images.ctfassets.net'],
   },
-  experimental: {
-    scrollRestoration: true,
-  },
   async redirects() {
     return [
       {
-        source: '/',
         destination: '/actions',
         permanent: true,
+        source: '/',
       },
     ]
   },
@@ -22,8 +20,8 @@ const nextConfig = {
       ...config.resolve,
       fallback: {
         fs: false,
-        path: false,
         os: false,
+        path: false,
       },
     }
 

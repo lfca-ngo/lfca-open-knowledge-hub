@@ -6,13 +6,20 @@
   }
 
   > .ant-divider {
-    margin: 15px 0 5px;
+    margin: 15px 0 0;
+    border-color: @grey-light;
   }
 
   .list-filters {
     width: 100%;
     display: flex;
     justify-content: space-between;
+
+    .ant-form {
+      .ant-form-item {
+        margin: 0;
+      }
+    }
   }
 
   .ant-skeleton {
