@@ -89,7 +89,7 @@ const Home: NextPage = ({
             fetching={fetchingAchievements}
           />
         </Section>
-        <Section title="Community">
+        <Section title="Links">
           <ContentListMini content={content} />
         </Section>
       </Sider>
