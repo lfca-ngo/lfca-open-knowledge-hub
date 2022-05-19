@@ -2,12 +2,7 @@ import { Col, Form, Row, Select } from 'antd'
 
 import { MultiSelect } from '../../../components/MultiSelect'
 import { ContentfulServiceProviderFields } from '../../../services/contentful'
-import {
-  getUniqueTags,
-  MAX_PRICE,
-  MIN_PRICE,
-  PRICE_FILTER_OPTIONS,
-} from '../utils'
+import { getUniqueTags, PRICE_FILTER_OPTIONS } from '../utils'
 
 const { Option } = Select
 
@@ -32,11 +27,7 @@ export const FilterForm = ({ onValuesChange, providers }: FilterFormProps) => {
   )
 
   return (
-    <Form
-      initialValues={{ cost: [MIN_PRICE, MAX_PRICE] }}
-      layout="vertical"
-      onValuesChange={onValuesChange}
-    >
+    <Form layout="vertical" onValuesChange={onValuesChange}>
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item label="Services" name="services">
