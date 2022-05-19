@@ -20,6 +20,7 @@ import {
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
+import { useScrollPosition } from '../../hooks/useScrollPosition'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
@@ -43,6 +44,9 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
       ),
     [actionsData]
   )
+
+  // Restore scroll beteen navigation
+  useScrollPosition('Dashboard_Home', !fetchingActions)
 
   /**
    * Highlight actions that are
