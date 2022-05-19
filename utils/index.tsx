@@ -39,6 +39,9 @@ export const numberInRange = (number?: number, range?: number[]) => {
   return isValid
 }
 
+export const lowerCaseSearch = (searchTerm: string, toSearch?: string) =>
+  toSearch?.toLowerCase().includes(searchTerm.toLowerCase()) || false
+
 export const openInNewTab = (url: string) => {
   const win = window.open(url, '_blank')
   win?.focus()

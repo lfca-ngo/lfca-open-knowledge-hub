@@ -1,4 +1,4 @@
-import { Form, FormInstance, Input, Select, Space } from 'antd'
+import { Form, Input, Select, Space } from 'antd'
 import React from 'react'
 
 import { DropdownSelect } from '../DropdownSelect'
@@ -25,34 +25,37 @@ export interface FilterFormItems {
 }
 
 interface FilterBarProps {
-  form: FormInstance<FilterFormItems>
   initialValues?: FilterFormItems
   tags: string[]
   onSearch?: (value: string) => void
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
+  searchValue: string
 }
 
 export const FilterBar = ({
-  form,
   initialValues,
   onSearch,
   onValuesChange,
+  searchValue,
   tags,
 }: FilterBarProps) => {
   return (
     <div className="filter-bar">
-      <Form
-        form={form}
-        initialValues={initialValues}
-        onValuesChange={onValuesChange}
-      >
+      <Form initialValues={initialValues} onValuesChange={onValuesChange}>
         <Form.Item name="tags">
-          <DropdownSelect items={tags.map((t) => ({ label: t, value: t }))} />
+          <DropdownSelect
+            items={tags.map((t) => ({ label: t, value: t }))}
+            singleMode
+          />
         </Form.Item>
       </Form>
       <Space>
         <SortOptions />
-        <Search onSearch={onSearch} placeholder="Search..." />
+        <Search
+          onChange={(e) => onSearch?.(e.target.value)}
+          placeholder="Search..."
+          value={searchValue}
+        />
       </Space>
     </div>
   )

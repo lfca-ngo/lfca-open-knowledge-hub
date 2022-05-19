@@ -5,7 +5,8 @@ import { useLocalStorage } from './useLocalStorage'
 interface ScrollPositionOptions {
   // extend if needed
   currentPage?: number
-  selectedTags?: string[]
+  search?: string
+  tags?: string[]
 }
 
 interface UseScrollPositionProps {
