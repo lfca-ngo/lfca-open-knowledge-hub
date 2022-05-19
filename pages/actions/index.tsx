@@ -16,7 +16,7 @@ import {
 import {
   sortCompanyActionsByTag,
   useCompanyAchievementsMiniQuery,
-  useCompanyActionsQuery,
+  useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
@@ -30,7 +30,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
 
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
-    useCompanyActionsQuery()
+    useCompanyActionsListQuery()
 
   // TODO: UI for error state
   const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =

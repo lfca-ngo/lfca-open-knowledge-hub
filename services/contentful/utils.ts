@@ -5,6 +5,8 @@ import {
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
 export const EMPTY_ACTION: CompanyActionListItemFragment = {
+  commentAttachmentCount: 0,
+  commentCount: 0,
   companiesCompletedCount: 0,
   companiesPlannedCount: 0,
   completedAt: null,
