@@ -4,21 +4,60 @@
 
 .achievement-card {
   border-width: 2px;
-  .achievement-title {
-    .font-semi();
-    font-size: 19px;
-    margin: 0 0 20px;
-    display: flex;
-    align-items: center;
+  height: 100%;
 
-    .title-icon {
-      margin-left: 5px;
-      font-size: 24px;
+  .ant-card-body {
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    header {
+      text-align: center;
+      margin: 0 0 30px;
+    }
+
+    main {
+      .achievement-title {
+        .font-semi();
+        font-size: 21px;
+        display: flex;
+        align-items: center;
+
+        .title-icon {
+          margin-left: 5px;
+          font-size: 24px;
+        }
+      }
+      .action-status-list {
+        margin-bottom: 15px;
+        .title {
+          .font-semi();
+        }
+      }
+      .ant-list-item-meta-title {
+        .font-regular();
+        cursor: pointer;
+        .anticon {
+          transition: all 0.3s ease-in-out;
+          opacity: 0;
+        }
+        &:hover {
+          .anticon {
+            margin-left: 4px;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    footer {
+      margin-bottom: 0;
+      margin-top: auto;
     }
   }
-  .ant-list-item-meta-title {
-    .font-semi();
-  }
+
   &.achievement-reached {
     border-color: @green;
   }
