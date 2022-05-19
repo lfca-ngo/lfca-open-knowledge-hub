@@ -74,6 +74,9 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
         <Section bordered={false} title="Browse all actions">
           <ActionsList
+            actionListItemProps={{
+              renderAsLink: true,
+            }}
             actionsByTags={actionsByTags}
             fetching={fetchingActions}
           />

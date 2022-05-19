@@ -79,6 +79,12 @@ const Personalize = ({
         Great! Now, please select all actions that you have already taken at
         LFCA
       </h1>
+      <p style={{ margin: '20px 0 30px' }}>
+        {`Let's start with a simple exercise: Did you already take climate action
+        in your company? Which actions have you taken and what have you learned?
+        No need to go through the entire list now, you can always add actions
+        later.`}
+      </p>
       <ActionsList
         actionListItemProps={{
           ctaText: 'Select',

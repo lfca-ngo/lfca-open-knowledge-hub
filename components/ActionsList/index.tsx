@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Divider, Input, List, Select, Skeleton, Space, Form } from 'antd'
+import { Divider, Form, Input, List, Select, Skeleton, Space } from 'antd'
 import React, { useMemo, useState } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -121,7 +121,6 @@ export const ActionsList = ({
                   onSavePosition={() =>
                     savePosition({ currentPage, selectedTags })
                   }
-                  renderAsLink
                   {...actionListItemProps}
                 />
               </Skeleton>

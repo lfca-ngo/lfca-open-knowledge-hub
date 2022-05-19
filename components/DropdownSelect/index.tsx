@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { CheckOutlined, DownOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, CheckOutlined } from '@ant-design/icons'
 import { Badge, Button, Dropdown, Menu } from 'antd'
 import classNames from 'classnames'
 import React, { useState } from 'react'
@@ -82,7 +82,7 @@ export const DropdownSelect = ({
       <Button
         className={classNames('dropdown-select-btn', { 'is-empty': isEmpty })}
         data-testid="dropdown-select-btn"
-        icon={<DownOutlined />}
+        icon={<AppstoreOutlined />}
       >
         {isEmpty ? (
           placeholder
