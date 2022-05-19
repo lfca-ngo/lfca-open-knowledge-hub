@@ -81,12 +81,13 @@ export const ServiceProviderComparison = ({
       const providerServices = provider.services?.map((s) => s.name)
       const lowestPrice = provider.reviewStats?.ranges?.cost?.from
 
-      return (
+      const isValid =
         arrayContains(models, providerModels) &&
         arrayContains(services, providerServices) &&
         arrayContains(supplyChainComplexity, providerSupplyChainComplexity) &&
         numberInRange(lowestPrice, cost)
-      )
+
+      return isValid
     })
     setList(filtered)
   }

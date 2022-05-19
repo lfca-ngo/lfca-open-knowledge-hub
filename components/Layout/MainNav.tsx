@@ -1,6 +1,7 @@
 import {
   BankOutlined,
   CalendarOutlined,
+  CarryOutOutlined,
   CheckCircleOutlined,
   LikeOutlined,
   LockOutlined,
@@ -30,7 +31,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       {
         icon: <ProfileOutlined />,
         key: ACTIONS,
-        label: 'Dashboard',
+        label: 'Overview',
       },
       {
         icon: <CalendarOutlined />,
@@ -43,7 +44,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
         label: 'Actions completed',
       },
     ],
-    icon: <ProfileOutlined />,
+    icon: <CarryOutOutlined />,
     key: 'dashboard',
     label: 'Dashboard',
   },

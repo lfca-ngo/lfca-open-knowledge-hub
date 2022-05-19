@@ -22,7 +22,7 @@ export const AchievementsList = ({
   return (
     <div>
       <List
-        className="achievements-list"
+        className="achievements-list equal-height"
         dataSource={achievements}
         grid={{
           gutter: 16,

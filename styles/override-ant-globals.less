@@ -25,6 +25,15 @@ body {
   }
 }
 
+// Row
+.ant-row {
+  &.equal-height {
+    > div {
+      display: flex;
+    }
+  }
+}
+
 // Tags
 .ant-tag.super-text {
   border-color: transparent;
@@ -67,6 +76,18 @@ body {
   .ant-list-item {
     border-color: var(--bg-accent);
     color: var(--text-color);
+  }
+}
+.ant-list {
+  &.equal-height {
+    .ant-row {
+      > div {
+        display: flex;
+        .ant-list-item {
+          height: 100%;
+        }
+      }
+    }
   }
 }
 

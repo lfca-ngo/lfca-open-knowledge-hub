@@ -6,8 +6,10 @@ import {
   CloseCircleFilled,
   MehOutlined,
   SmileOutlined,
+  ArrowRightOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card, List, Popover, Space } from 'antd'
+import { Avatar, Button, Card, List, Popover, Space, Divider } from 'antd'
+import { AvatarSize } from 'antd/lib/avatar/SizeContext'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -25,27 +27,48 @@ interface ActionsStatusListProps {
   title: string
 }
 
+const SuccessAvatar = ({
+  isSuccess,
+  size,
+}: {
+  isSuccess: boolean
+  size: AvatarSize
+}) => (
+  <Avatar
+    className={isSuccess ? 'green-inverse' : 'blue-inverse'}
+    icon={isSuccess ? <SmileOutlined /> : <MehOutlined />}
+    shape="square"
+    size={size}
+  />
+)
+
 const ActionsStatusList = ({ items, title }: ActionsStatusListProps) => {
   const router = useRouter()
 
   return (
-    <div>
+    <div className="action-status-list">
       <div className="title">{title}</div>
       <List
         dataSource={items}
         renderItem={(item) => (
-          <List.Item onClick={() => router.push(`action/${item.contentId}`)}>
-            <List.Item.Meta
-              avatar={
-                item.completedAt ? (
-                  <CheckCircleFilled className="green" />
-                ) : (
-                  <CloseCircleFilled className="wine" />
-                )
-              }
-              title={item.title}
-            />
-          </List.Item>
+          <Link href={`/action/${item.contentId}`}>
+            <List.Item onClick={() => router.push(`action/${item.contentId}`)}>
+              <List.Item.Meta
+                avatar={
+                  item.completedAt ? (
+                    <CheckCircleFilled className="green" />
+                  ) : (
+                    <CloseCircleFilled className="wine" />
+                  )
+                }
+                title={
+                  <span>
+                    {item.title} <ArrowRightOutlined />
+                  </span>
+                }
+              />
+            </List.Item>
+          </Link>
         )}
       />
     </div>
@@ -69,38 +92,50 @@ export const AchievementCard = ({
         'achievement-reached': achievementReached,
       })}
     >
-      <div className="achievement-title">
-        {achievement.name}
-        {achievementReached && (
-          <CheckCircleOutlined className="title-icon green" />
-        )}
-      </div>
-      <ActionsStatusList
-        items={achievement.recommendedActions}
-        title={'Recommended Actions'}
-      />
-      <ActionsStatusList
-        items={achievement.requiredActions}
-        title={'Required Actions'}
-      />
+      <header>
+        <SuccessAvatar isSuccess={achievementReached} size={72} />
+      </header>
+      <main>
+        <div className="achievement-title">
+          {achievement.name}
+          {achievementReached && (
+            <CheckCircleOutlined className="title-icon green" />
+          )}
+        </div>
+        <Divider />
+        <ActionsStatusList
+          items={achievement.recommendedActions}
+          title={'Recommended Actions'}
+        />
+        <ActionsStatusList
+          items={achievement.requiredActions}
+          title={'Required Actions'}
+        />
+      </main>
 
-      {achievement.micrositeUrl ? (
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Button block onClick={() => onClickEdit(achievement)} type="primary">
-            Edit Microsite
-          </Button>
-          <Button
-            block
-            disabled={!achievementReached}
-            ghost
-            onClick={() => {
-              window.open(achievement.micrositeUrl ?? undefined, '_blank')
-            }}
-          >
-            Visit Microsite
-          </Button>
-        </Space>
-      ) : null}
+      <footer>
+        {achievement.micrositeUrl ? (
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <Button
+              block
+              onClick={() => onClickEdit(achievement)}
+              type="primary"
+            >
+              Edit Microsite
+            </Button>
+            <Button
+              block
+              disabled={!achievementReached}
+              ghost
+              onClick={() => {
+                window.open(achievement.micrositeUrl ?? undefined, '_blank')
+              }}
+            >
+              Visit Microsite
+            </Button>
+          </Space>
+        ) : null}
+      </footer>
     </Card>
   )
 }
@@ -137,12 +172,7 @@ export const AchievementCardMini = ({
   return (
     <Link href={`/achievements`}>
       <div className={'achievement-card-mini'}>
-        <Avatar
-          className={achievementReached ? 'green-inverse' : 'blue-inverse'}
-          icon={achievementReached ? <SmileOutlined /> : <MehOutlined />}
-          shape="square"
-          size={58}
-        />
+        <SuccessAvatar isSuccess={achievementReached} size={58} />
         <div className="achievement-content">
           <div className="achievement-title">{achievement.name}</div>
           <div className="achievement-stats">
