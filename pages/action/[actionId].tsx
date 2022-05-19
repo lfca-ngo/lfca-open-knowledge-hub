@@ -16,6 +16,8 @@ import {
   fetchAllActions,
   fetchAllServiceProviders,
 } from '../../services/contentful'
+import { EMPTY_ACTION } from '../../services/contentful/utils'
+import { useCompanyActionListItemQuery } from '../../services/lfca-backend'
 import { renderTools } from '../../tools'
 import { actionHasReviews } from '../../utils'
 import { withAuth } from '../../utils/with-auth'
@@ -23,7 +25,7 @@ import { withAuth } from '../../utils/with-auth'
 const { TabPane } = Tabs
 
 interface ActionProps {
-  action?: ContentfulActionFields
+  action: ContentfulActionFields
   serviceProviders?: ContentfulServiceProviderFields[]
 }
 
@@ -31,12 +33,19 @@ const Action: NextPage<ActionProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { action } = props
+  const [{ data: actionData, fetching: fetchingActionData }] =
+    useCompanyActionListItemQuery({
+      variables: { input: { actionContentId: action.actionId } },
+    })
 
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
         <Section>
-          <ActionDetails action={action} />
+          <ActionDetails
+            action={actionData?.companyAction || EMPTY_ACTION}
+            fetching={fetchingActionData}
+          />
         </Section>
         <Section>
           <Tabs defaultActiveKey="1">

@@ -10,7 +10,7 @@ import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LogoGroup } from '../LogoGroup'
 
 interface ActionStatProps {
-  count: string
+  count: number
   label: string
   icon: AvatarProps['icon']
   color: string
@@ -37,11 +37,15 @@ export const ActionStat = ({
 }
 
 interface ActionStatsProps {
+  commentAttachmentCount: CompanyActionListItemFragment['commentAttachmentCount']
+  commentCount: CompanyActionListItemFragment['commentCount']
   recentCompaniesCompleted: CompanyActionListItemFragment['recentCompaniesCompleted']
   size?: AvatarProps['size']
 }
 
 export const ActionStats = ({
+  commentAttachmentCount,
+  commentCount,
   recentCompaniesCompleted,
   size,
 }: ActionStatsProps) => {
@@ -50,14 +54,14 @@ export const ActionStats = ({
       <LogoGroup data={recentCompaniesCompleted} label="did that" size={size} />
       <ActionStat
         color="wine"
-        count={'121'}
+        count={commentCount}
         icon={<LikeOutlined />}
         label="messages"
         size={size}
       />
       <ActionStat
         color="blue"
-        count={'3'}
+        count={commentAttachmentCount}
         icon={<PaperClipOutlined />}
         label="documents"
         size={size}
@@ -101,6 +105,8 @@ export const ActionCard = ({
           <span className="tags"></span>
         </div>
         <ActionStats
+          commentAttachmentCount={action.commentAttachmentCount}
+          commentCount={action.commentCount}
           recentCompaniesCompleted={action.recentCompaniesCompleted}
         />
       </div>

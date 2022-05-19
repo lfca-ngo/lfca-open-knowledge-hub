@@ -12,7 +12,7 @@ import {
 import { EMPTY_ACTIONS_ARRAY } from '../services/contentful/utils'
 import {
   sortCompanyActionsByTag,
-  useCompanyActionsQuery,
+  useCompanyActionsListQuery,
 } from '../services/lfca-backend'
 import { withAuth } from '../utils/with-auth'
 
@@ -25,7 +25,7 @@ const OnboardingOfficer: NextPage = ({
   const router = useRouter()
 
   // TODO: loading & error UI
-  const [{ data }] = useCompanyActionsQuery()
+  const [{ data }] = useCompanyActionsListQuery()
 
   const actionsByTags = React.useMemo(
     () => sortCompanyActionsByTag(data?.companyActions || EMPTY_ACTIONS_ARRAY),

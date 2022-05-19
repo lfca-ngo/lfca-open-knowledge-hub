@@ -1,4 +1,6 @@
 fragment CompanyActionListItem on CompanyAction {
+  commentAttachmentCount
+  commentCount
   companiesCompletedCount
   companiesPlannedCount
   completedAt

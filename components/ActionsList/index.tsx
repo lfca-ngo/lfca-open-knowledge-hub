@@ -28,7 +28,7 @@ const SORT_OPTIONS = [
 const SortOptions = () => {
   return (
     <Select placeholder="Please select">
-      {SORT_OPTIONS.map((option: any) => (
+      {SORT_OPTIONS.map((option) => (
         <Select.Option key={option.key}>{option.label}</Select.Option>
       ))}
     </Select>
