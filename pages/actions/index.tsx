@@ -45,9 +45,6 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
     [actionsData]
   )
 
-  // Restore scroll beteen navigation
-  useScrollPosition('Dashboard_Home', !fetchingActions)
-
   /**
    * Highlight actions that are
    * - required or mandatory for one of the company's achievements
@@ -64,6 +61,10 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
     [actionsData]
   )
 
+  // Restore scroll beteen navigation
+  console.log('render', JSON.stringify(actionsByTags))
+  const { savePosition } = useScrollPosition('Dashboard_Home', actionsByTags)
+
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
@@ -78,6 +79,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
         <Section bordered={false} title="Browse all actions">
           <ActionsList
+            actionListItemProps={{ onCtaClick: savePosition }}
             actionsByTags={actionsByTags}
             fetching={fetchingActions}
           />

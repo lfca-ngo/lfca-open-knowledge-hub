@@ -3,8 +3,6 @@ const safeJsonStringify = require('safe-json-stringify')
 import { getEntries } from './api'
 import { ContentfulActionFields } from './types'
 
-export const ALL_ACTIONS = 'All Actions'
-
 export const fetchAllActions = async () => {
   const res = await getEntries({
     content_type: 'action',

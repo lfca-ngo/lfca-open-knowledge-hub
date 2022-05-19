@@ -115,15 +115,15 @@ export const ActionCard = ({
 // speeding up the experience for the user, alternatively an onclick
 // handler is used to trigger an action
 export const ActionCardWrapper = (props: ActionCardProps) => {
-  if (props.onCtaClick) {
-    return <ActionCard {...props} />
-  } else {
-    return (
-      <Link href={`action/${props.action.contentId}`}>
-        <a className="action-card-wrapper">
-          <ActionCard {...props} />
-        </a>
-      </Link>
-    )
-  }
+  // if (props.onCtaClick) {
+  //   return <ActionCard {...props} />
+  // } else {
+  return (
+    <Link href={`action/${props.action.contentId}`} onClick={props.onCtaClick}>
+      <a className="action-card-wrapper">
+        <ActionCard {...props} />
+      </a>
+    </Link>
+  )
+  // }
 }

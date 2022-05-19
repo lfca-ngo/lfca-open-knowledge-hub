@@ -1,23 +1,12 @@
 require('./styles.less')
 
-import { FilterOutlined, SearchOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Input,
-  List,
-  Popover,
-  Select,
-  Skeleton,
-  Space,
-  Tabs,
-} from 'antd'
-import React from 'react'
+import { Divider, Input, List, Select, Skeleton, Space } from 'antd'
+import React, { useMemo, useState } from 'react'
 
-import { ALL_ACTIONS } from '../../services/contentful'
+import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 
-const { TabPane } = Tabs
 const { Search } = Input
 
 const SORT_OPTIONS = [
@@ -35,18 +24,32 @@ const SortOptions = () => {
   )
 }
 
-const ListActions = () => {
+const ListFilters = ({
+  selectedTags,
+  setSelectedTags,
+  tags,
+}: {
+  tags: string[]
+  selectedTags: string[]
+  setSelectedTags: (tags: string[]) => void
+}) => {
   return (
-    <span>
+    <div className="list-filters">
+      <Select
+        mode="multiple"
+        onChange={setSelectedTags}
+        placeholder="Please select"
+        value={selectedTags}
+      >
+        {tags.map((tag) => (
+          <Select.Option key={tag}>{tag}</Select.Option>
+        ))}
+      </Select>
       <Space>
-        <Popover content={<SortOptions />}>
-          <Button icon={<FilterOutlined />} />
-        </Popover>
-        <Popover content={<Search placeholder="Search..." />}>
-          <Button icon={<SearchOutlined />} />
-        </Popover>
+        <SortOptions />
+        <Search placeholder="Search..." />
       </Space>
-    </span>
+    </div>
   )
 }
 
@@ -61,41 +64,46 @@ export const ActionsList = ({
   actionsByTags,
   fetching,
 }: ActionListProps) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([
+    ALL_ACTIONS_LABEL,
+  ])
+  const actions = actionsByTags[ALL_ACTIONS_LABEL]
+  const tags = Object.keys(actionsByTags)
+
+  const filteredActions = useMemo(() => {
+    return actions.filter((action) => {
+      if (selectedTags.includes(ALL_ACTIONS_LABEL)) return true
+      const tags = action.tags.map((a) => a.name)
+      return selectedTags.some((tag) => tags.includes(tag))
+    })
+  }, [selectedTags, actions])
+
   return (
-    <Tabs
-      className="actions-list-wrapper"
-      defaultActiveKey={ALL_ACTIONS}
-      tabBarExtraContent={{ right: <ListActions /> }}
-    >
-      {Object.keys(actionsByTags).map((tag) => {
-        const actions = actionsByTags[tag]
-        return (
-          <TabPane key={tag} tab={tag}>
-            <List
-              className="actions-list"
-              dataSource={actions}
-              pagination={{ pageSize: 10 }}
-              renderItem={(item) => {
-                return (
-                  <List.Item>
-                    <Skeleton
-                      active
-                      avatar={{ shape: 'square', size: 'large' }}
-                      loading={fetching}
-                      paragraph={{ rows: 1 }}
-                    >
-                      <ActionCardWrapper
-                        {...actionListItemProps}
-                        action={item}
-                      />
-                    </Skeleton>
-                  </List.Item>
-                )
-              }}
-            />
-          </TabPane>
-        )
-      })}
-    </Tabs>
+    <div className="actions-list">
+      <ListFilters
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+        tags={tags}
+      />
+      <Divider />
+      <List
+        dataSource={filteredActions}
+        pagination={{ pageSize: 10 }}
+        renderItem={(item) => {
+          return (
+            <List.Item>
+              <Skeleton
+                active
+                avatar={{ shape: 'square', size: 'large' }}
+                loading={fetching}
+                paragraph={{ rows: 1 }}
+              >
+                <ActionCardWrapper {...actionListItemProps} action={item} />
+              </Skeleton>
+            </List.Item>
+          )
+        }}
+      />
+    </div>
   )
 }
