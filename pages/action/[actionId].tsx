@@ -8,6 +8,7 @@ import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
   ContentfulActionFields,
@@ -50,7 +51,10 @@ const Action: NextPage = (props: ActionProps) => {
               />
             </TabPane>
             <TabPane key="2" tab="How To">
-              Requirements
+              <ShowMore
+                maxHeight={140}
+                text={<RequirementsList requirements={action?.requirements} />}
+              />
             </TabPane>
             <TabPane key="3" tab="Benefits">
               <ShowMore
