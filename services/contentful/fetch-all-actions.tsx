@@ -16,7 +16,7 @@ export const fetchAllActions = async () => {
   const actions = JSON.parse(stringifiedData)
 
   // map actions by actionId
-  const byId = actions.items.reduce(
+  const byId = actions.reduce(
     (
       acc: Record<string, ContentfulActionFields>,
       action: ContentfulActionFields
