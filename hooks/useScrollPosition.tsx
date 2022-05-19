@@ -5,19 +5,24 @@ import { useLocalStorage } from './useLocalStorage'
 export const useScrollPosition = (
   localStorageKey: string,
   trigger: any
-): { savePosition: () => void } => {
+): { options: object; savePosition: (options?: object) => void } => {
   const [scrollYStorage, setScrollYStorage] = useLocalStorage(
     localStorageKey,
     0
   )
+  const [options, setOptions] = useLocalStorage(
+    `${localStorageKey}_options`,
+    {}
+  )
 
-  const savePosition = () => {
+  const savePosition = (options?: object) => {
     setScrollYStorage(window.scrollY)
+    options && setOptions(options)
   }
 
   useEffect(() => {
     window.scrollTo(0, scrollYStorage)
   }, [trigger, scrollYStorage])
 
-  return { savePosition }
+  return { options, savePosition }
 }

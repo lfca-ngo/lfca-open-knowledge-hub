@@ -57,12 +57,18 @@ export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
+  pagination?: {
+    current: number
+    defaultCurrent: number
+    onChange: (page: number) => void
+  }
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actionsByTags,
   fetching,
+  pagination,
 }: ActionListProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([
     ALL_ACTIONS_LABEL,
@@ -88,7 +94,7 @@ export const ActionsList = ({
       <Divider />
       <List
         dataSource={filteredActions}
-        pagination={{ pageSize: 10 }}
+        pagination={{ ...pagination, pageSize: 10 }}
         renderItem={(item) => {
           return (
             <List.Item>
