@@ -7,7 +7,7 @@ import { ActionsCarousel } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
-import { ContentfulContentCollection } from '../../services/contentful'
+import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
   EMPTY_ACHIEVEMENTS_ARRAY,
@@ -24,7 +24,7 @@ import { withAuth } from '../../utils/with-auth'
 const Home: NextPage = ({
   content,
 }: {
-  content?: ContentfulContentCollection[]
+  content?: ContentfulContentCollectionFields[]
 }) => {
   const router = useRouter()
 

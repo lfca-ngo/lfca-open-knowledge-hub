@@ -4,12 +4,12 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, List } from 'antd'
 import Image from 'next/image'
 
-import { ContentfulContentCollection } from '../../services/contentful'
+import { ContentfulContentCollectionFields } from '../../services/contentful'
 
 export const ContentList = ({
   content = [],
 }: {
-  content?: ContentfulContentCollection[]
+  content?: ContentfulContentCollectionFields[]
 }) => {
   const communityCollection = content.find(
     (c) => c.collectionId === 'community'
@@ -50,7 +50,7 @@ export const ContentList = ({
 export const ContentListMini = ({
   content = [],
 }: {
-  content?: ContentfulContentCollection[]
+  content?: ContentfulContentCollectionFields[]
 }) => {
   const communityCollection = content.find(
     (c) => c.collectionId === 'community'
