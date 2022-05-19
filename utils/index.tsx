@@ -18,6 +18,27 @@ export function toFixedNumber(num: number, digits: number, base = 10) {
   return Math.round(num * pow) / pow
 }
 
+export const arrayContains = (
+  selectedArray?: string[],
+  searchArray?: string[]
+) => {
+  const isValid =
+    selectedArray === undefined ||
+    selectedArray.length === 0 ||
+    searchArray?.some((entry) => selectedArray.includes(entry))
+
+  return isValid
+}
+
+export const numberInRange = (number?: number, range?: number[]) => {
+  const isValid =
+    range === undefined ||
+    range.length === 0 ||
+    (number !== undefined && range[0] <= number && range[1] >= number)
+
+  return isValid
+}
+
 export const openInNewTab = (url: string) => {
   const win = window.open(url, '_blank')
   win?.focus()

@@ -1,57 +1,15 @@
 require('./styles.less')
 
-import { Divider, Form, Input, List, Select, Skeleton, Space } from 'antd'
-import React, { useMemo, useState } from 'react'
+import { Divider, Form, List, Skeleton } from 'antd'
+import React, { useState } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+import { arrayContains } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
-import { DropdownSelect } from '../DropdownSelect'
-
-const { Search } = Input
-
-const SORT_OPTIONS = [
-  { key: 'impact', label: 'Impact' },
-  { key: 'popularity', label: 'Popularity' },
-]
-
-const SortOptions = () => {
-  return (
-    <Select placeholder="Please select">
-      {SORT_OPTIONS.map((option: any) => (
-        <Select.Option key={option.key}>{option.label}</Select.Option>
-      ))}
-    </Select>
-  )
-}
-
-const ListFilters = ({
-  selectedTags,
-  setSelectedTags,
-  tags,
-}: {
-  tags: string[]
-  selectedTags: string[]
-  setSelectedTags: (tags: string[]) => void
-}) => {
-  return (
-    <div className="list-filters">
-      <Form
-        initialValues={{ tags: selectedTags }}
-        onValuesChange={(_, { tags }) => setSelectedTags(tags)}
-      >
-        <Form.Item name="tags">
-          <DropdownSelect items={tags.map((t) => ({ label: t, value: t }))} />
-        </Form.Item>
-      </Form>
-      <Space>
-        <SortOptions />
-        <Search placeholder="Search..." />
-      </Space>
-    </div>
-  )
-}
+import { FilterBar } from './FilterBar'
+import { FilterFormItems } from './FilterBar'
 
 export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
@@ -69,38 +27,49 @@ export const ActionsList = ({
     'ActionList_Dashboard',
     true
   )
-  const [currentPage, setCurrentPage] = useState(options?.currentPage || 0)
-
-  const [selectedTags, setSelectedTags] = useState<string[]>(
-    options?.selectedTags || [ALL_ACTIONS_LABEL]
-  )
   const actions = actionsByTags[ALL_ACTIONS_LABEL]
   const tags = Object.keys(actionsByTags)
+  const [currentPage, setCurrentPage] = useState(options?.currentPage || 0)
+  const [list, setList] = useState<CompanyActionListItemFragment[]>(actions)
 
-  const filteredActions = useMemo(() => {
-    return actions.filter((action) => {
-      if (
-        selectedTags.includes(ALL_ACTIONS_LABEL) ||
-        selectedTags.length === 0
-      ) {
-        return true
-      }
+  // form for filtering
+  const [form] = Form.useForm()
 
-      const tags = action.tags.map((a) => a.name)
-      return selectedTags.some((tag) => tags.includes(tag))
+  // filtering function
+  const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
+    const { tags } = allValues
+
+    const filtered = actions.filter((action) => {
+      const tagsArray = action.tags?.map((tag) => tag.name || '')
+      const isValid = arrayContains(tags, tagsArray)
+
+      return isValid
     })
-  }, [selectedTags, actions])
+    setList(filtered)
+  }
+
+  // searches name and services
+  const handleSearch = (value: string) => {
+    const filtered = actions.filter((action) => {
+      const actionTitle = action.title
+      // find results regardless of case and completeness of search term
+      return actionTitle?.toLowerCase().includes(value.toLowerCase()) || false
+    })
+    setList(filtered)
+  }
 
   return (
     <div className="actions-list">
-      <ListFilters
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
+      <FilterBar
+        form={form}
+        initialValues={{ tags: [ALL_ACTIONS_LABEL] }}
+        onSearch={handleSearch}
+        onValuesChange={handleChange}
         tags={tags}
       />
       <Divider />
       <List
-        dataSource={filteredActions}
+        dataSource={list}
         pagination={{
           current: currentPage,
           defaultCurrent: options?.currentPage || currentPage,
@@ -118,9 +87,10 @@ export const ActionsList = ({
               >
                 <ActionCardWrapper
                   action={item}
-                  onSavePosition={() =>
-                    savePosition({ currentPage, selectedTags })
-                  }
+                  onSavePosition={() => {
+                    // console.log(form.getFieldsValue())
+                    savePosition({ currentPage })
+                  }}
                   {...actionListItemProps}
                 />
               </Skeleton>

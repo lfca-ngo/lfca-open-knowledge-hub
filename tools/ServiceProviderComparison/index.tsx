@@ -4,17 +4,13 @@ import { Drawer, List } from 'antd'
 import { useMemo, useState } from 'react'
 
 import { ContentfulServiceProviderFields } from '../../services/contentful'
+import { arrayContains, numberInRange } from '../../utils'
 import { FeaturedProvider } from './FeaturedProvider'
 import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
 import { SearchBar } from './SearchBar'
-import {
-  arrayContains,
-  FAKE_REVIEWS,
-  mergeProviderData,
-  numberInRange,
-} from './utils'
+import { FAKE_REVIEWS, mergeProviderData } from './utils'
 
 export interface Review {
   author: string
