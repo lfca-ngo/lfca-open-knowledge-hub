@@ -21,11 +21,11 @@ import {
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
-const Home: NextPage = ({
-  content,
-}: {
-  content?: ContentfulContentCollectionFields[]
-}) => {
+interface HomePageProps {
+  content: ContentfulContentCollectionFields[]
+}
+
+const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const router = useRouter()
 
   // TODO: UI for error state

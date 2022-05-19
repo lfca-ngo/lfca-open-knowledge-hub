@@ -46,9 +46,9 @@ export const RequirementsItem = ({
 }
 
 export const RequirementsList = ({
-  requirements,
+  requirements = [],
 }: {
-  requirements: ContentfulRequirementFields[]
+  requirements?: ContentfulRequirementFields[]
 }) => {
   return (
     <List

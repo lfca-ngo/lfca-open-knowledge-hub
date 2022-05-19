@@ -27,12 +27,11 @@ interface ActionProps {
   serviceProviders?: ContentfulServiceProviderFields[]
 }
 
-const Action: NextPage = (props: ActionProps) => {
+const Action: NextPage<ActionProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { action } = props
 
-  console.log(action)
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
