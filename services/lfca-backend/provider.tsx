@@ -31,7 +31,9 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
       exchanges: [
         dedupExchange,
         // debugExchange,
-        cacheExchange({ schema: schema as IntrospectionData }),
+        cacheExchange({
+          schema: schema as IntrospectionData,
+        }),
         authExchange<{ token?: string }>({
           addAuthToOperation: ({ authState, operation }) => {
             // the token isn't in the auth state, return the operation without changes

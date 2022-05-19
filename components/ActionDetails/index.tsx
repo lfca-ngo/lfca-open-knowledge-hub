@@ -49,33 +49,45 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
   )
 }
 
+interface ActionsBarProps {
+  fetchingCompleted: boolean
+  fetchingPlanned: boolean
+  isCompleted: boolean
+  isPlanned: boolean
+  onComplete: () => void
+  onPlan: () => void
+}
+
 export const ActionsBar = ({
+  fetchingCompleted,
+  fetchingPlanned,
+  isCompleted,
+  isPlanned,
   onComplete,
-  onPlanned,
-}: {
-  onComplete?: any
-  onPlanned?: any
-}) => {
+  onPlan,
+}: ActionsBarProps) => {
   return (
     <div className="actions-bar">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button
           block
           icon={<CheckOutlined />}
+          loading={fetchingCompleted}
           onClick={onComplete}
           size="large"
           type="primary"
         >
-          Mark as done
+          {isCompleted ? 'Mark as incomplete' : 'Mark as done'}
         </Button>
         <Button
           block
           ghost
           icon={<CalendarOutlined />}
-          onClick={onPlanned}
+          loading={fetchingPlanned}
+          onClick={onPlan}
           size="large"
         >
-          Mark as planned
+          {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
         </Button>
       </Space>
     </div>

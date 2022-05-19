@@ -17,7 +17,11 @@ import {
   fetchAllServiceProviders,
 } from '../../services/contentful'
 import { EMPTY_ACTION } from '../../services/contentful/utils'
-import { useCompanyActionListItemQuery } from '../../services/lfca-backend'
+import {
+  useCompanyActionDetailsQuery,
+  useCompleteCompanyActionMutation,
+  usePlanCompanyActionMutation,
+} from '../../services/lfca-backend'
 import { renderTools } from '../../tools'
 import { actionHasReviews } from '../../utils'
 import { withAuth } from '../../utils/with-auth'
@@ -34,9 +38,27 @@ const Action: NextPage<ActionProps> = (props) => {
   const router = useRouter()
   const { action } = props
   const [{ data: actionData, fetching: fetchingActionData }] =
-    useCompanyActionListItemQuery({
+    useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
+
+  const [{ fetching: fetchingPlanCompanyAction }, planCompanyAction] =
+    usePlanCompanyActionMutation()
+  const [{ fetching: fetchingCompleteCompanyAction }, completeCompanyAction] =
+    useCompleteCompanyActionMutation()
+
+  const handleComplete = () => {
+    setIsOpen(true)
+  }
+
+  const handlePlan = async () => {
+    await planCompanyAction({
+      input: {
+        actionContentId: action.actionId,
+        isPlanned: !actionData?.companyAction.plannedAt,
+      },
+    })
+  }
 
   return (
     <SiderLayout goBack={() => router.back()}>
@@ -84,7 +106,16 @@ const Action: NextPage<ActionProps> = (props) => {
 
       <Sider>
         <Section title="Your progress">
-          <ActionsBar onComplete={() => setIsOpen(true)} />
+          <ActionsBar
+            fetchingCompleted={
+              fetchingActionData || fetchingCompleteCompanyAction
+            }
+            fetchingPlanned={fetchingActionData || fetchingPlanCompanyAction}
+            isCompleted={!!actionData?.companyAction.completedAt}
+            isPlanned={!!actionData?.companyAction.plannedAt}
+            onComplete={handleComplete}
+            onPlan={handlePlan}
+          />
         </Section>
         <Section title="Community">
           <Comments

@@ -1,0 +1,6 @@
+mutation planCompanyAction($input: PlanCompanyActionInput!) {
+  planCompanyAction(input: $input) {
+    id
+    plannedAt
+  }
+}
