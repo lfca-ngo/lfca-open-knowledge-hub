@@ -83,8 +83,8 @@ export const ActionCard = ({
   const handleClick = () => {
     onCtaClick?.(action)
     // since we are using next/link for navigation,
-    // we need to manually save the position in a
-    // separate handler
+    // we need to manually save the position using a
+    // separate handler that is called independently
     onSavePosition?.()
   }
 
