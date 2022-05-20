@@ -11,6 +11,8 @@ import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 import { FilterBar, SORT_OPTIONS } from './FilterBar'
 import { FilterFormItems } from './FilterBar'
 
+export const LS_ACTION_LIST = 'actions_list'
+
 export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
@@ -22,16 +24,17 @@ export const ActionsList = ({
   actionsByTags,
   fetching,
 }: ActionListProps) => {
-  // we use the options of the hook to persist the search,
-  // tags and current page while navigating
-  const { options, savePosition } = useScrollPosition('ActionsList', true, {
+  // persist the scroll position, filters, search, sorting in LS
+  const { options, savePosition } = useScrollPosition(LS_ACTION_LIST, true, {
     search: '',
     sorting: SORT_OPTIONS[0].key,
     tags: [ALL_ACTIONS_LABEL],
   })
+  // the page param is used for the list component, the rest for the form
   const { currentPage = 0, ...formOptions } = options || {}
   const [form] = Form.useForm()
 
+  // called on every form item change
   const handleChange = (
     latestChange: FilterFormItems,
     allValues: FilterFormItems
@@ -50,6 +53,8 @@ export const ActionsList = ({
 
   // when a value in the form (LS) changes, we update
   // the list data applying filter, search and sorting
+  // by applying the actions directly on the list instead
+  // of calling a local list state we can prevent re-renders
   const actions = useMemo(() => {
     const [activeTag] = formOptions?.tags || []
     const activeSearch = formOptions?.search || ''

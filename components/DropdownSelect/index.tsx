@@ -3,7 +3,7 @@ require('./styles.less')
 import { AppstoreOutlined, CheckOutlined } from '@ant-design/icons'
 import { Badge, Button, Dropdown, Menu } from 'antd'
 import classNames from 'classnames'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 interface ItemProps {
   label: string
@@ -28,10 +28,9 @@ export const DropdownSelect = ({
   placeholder = 'Please select',
 }: DropdownSelectProps) => {
   const [visible, setVisible] = useState(false)
-  const [selected, setSelected] = useState(value)
-  const isEmpty = selected.length === 0
-  const hasSingleSelectedItem = selected.length === 1
-  const [firstItem] = selected
+  const isEmpty = value.length === 0
+  const hasSingleSelectedItem = value.length === 1
+  const [firstItem] = value
   const firstItemContent = items.find((i) => i.value === firstItem)
   const firstItemLabel = firstItemContent?.label || firstItem
 
@@ -40,28 +39,23 @@ export const DropdownSelect = ({
   }
 
   const onItemSelect = ({ key }: { key: string }) => {
-    let newSelected = selected.includes(key)
-      ? selected.filter((v) => v !== key)
-      : [...selected, key]
+    let newSelected = value.includes(key)
+      ? value.filter((v) => v !== key)
+      : [...value, key]
 
     if (singleMode) {
       newSelected = [key]
       setVisible(false)
     }
 
-    setSelected(newSelected)
     onSelect && onSelect(newSelected)
     triggerChange(newSelected)
   }
 
-  useEffect(() => {
-    setSelected(value)
-  }, [value])
-
   const menu = (
     <Menu data-testid="dropdown-select-menu" onClick={onItemSelect}>
       {items.map((item) => {
-        const isActive = selected.includes(item.value)
+        const isActive = value.includes(item.value)
         return (
           <Menu.Item
             data-testid="dropdown-select-item"
@@ -94,7 +88,7 @@ export const DropdownSelect = ({
           firstItemLabel
         ) : (
           <span>
-            Multiple <Badge count={selected.length} />
+            Multiple <Badge count={value.length} />
           </span>
         )}
       </Button>
