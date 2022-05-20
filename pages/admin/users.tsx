@@ -1,12 +1,16 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Drawer, Input, List, message } from 'antd'
-import type { NextPage } from 'next'
+import { Button, Drawer, Input, List, message, Space } from 'antd'
+import type { GetStaticProps, NextPage } from 'next'
 import { useState } from 'react'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { UserForm } from '../../components/UserForm'
+import { Country, fetchAllCountries } from '../../services/contentful'
 import {
+  CreateUserInput,
+  UpdateUserInput,
   useAllUsersQuery,
+  useCreateUserMutation,
   useUpdateUserMutation,
 } from '../../services/lfca-backend'
 import { ADMIN_NAV } from '../../utils/navs'
@@ -15,12 +19,18 @@ import { withAuth } from '../../utils/with-auth'
 const { Search } = Input
 import { UserFragment } from '../../services/lfca-backend'
 
-const AdminUsers: NextPage = () => {
+interface AdminUsersProps {
+  countries: Country[]
+}
+
+const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
   const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
   const [isOpen, setIsOpen] = useState(false)
 
   const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
+  const [{ fetching: isCreatingUser }, createUser] = useCreateUserMutation()
   const [{ data: usersData, fetching: isFetchingUsers }] = useAllUsersQuery()
+
   const users = usersData?.users.items || []
 
   const handleOpen = (user?: UserFragment) => {
@@ -28,7 +38,7 @@ const AdminUsers: NextPage = () => {
     setSelectedUser(user)
   }
 
-  const handleUpdate = (allValues: Partial<UserFragment>) => {
+  const handleUpdate = (allValues: UpdateUserInput) => {
     updateUser({
       input: {
         userId: selectedUser?.id,
@@ -40,30 +50,33 @@ const AdminUsers: NextPage = () => {
     })
   }
 
-  const handleCreate = (allValues: Partial<UserFragment>) => {
-    console.log('create user', allValues)
+  const handleCreate = (allValues: CreateUserInput) => {
+    createUser({
+      input: {
+        ...allValues,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('User created')
+    })
   }
 
-  const handleSubmit = (allValues: Partial<UserFragment>) => {
-    if (selectedUser) {
-      handleUpdate(allValues)
-    } else {
-      handleCreate(allValues)
-    }
-  }
+  console.log(countries)
 
   return (
     <SiderLayout nav={ADMIN_NAV}>
       <Main>
         <Section title="Users" titleSize="big">
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => handleOpen()}
-            type="primary"
-          >
-            Create new user
-          </Button>
-          <Search placeholder="Search by uid" />
+          <Space>
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => handleOpen()}
+              type="primary"
+            >
+              Create new user
+            </Button>
+            <Search placeholder="Search by uid" />
+          </Space>
 
           <List
             dataSource={users}
@@ -88,15 +101,28 @@ const AdminUsers: NextPage = () => {
           >
             <h1>User</h1>
             <UserForm
+              countries={countries}
               initialValues={selectedUser}
-              isLoading={isUpdatingUser}
-              onSubmit={handleSubmit}
+              isLoading={isUpdatingUser || isCreatingUser}
+              onCreate={handleCreate}
+              onUpdate={handleUpdate}
+              type={selectedUser ? 'update' : 'create'}
             />
           </Drawer>
         </Section>
       </Main>
     </SiderLayout>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const countries = await fetchAllCountries()
+
+  return {
+    props: {
+      countries,
+    },
+  }
 }
 
 export default withAuth(AdminUsers, { adminOnly: true })

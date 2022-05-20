@@ -541,6 +541,13 @@ export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', comm
 
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
 
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
@@ -669,6 +676,17 @@ export const UserFragmentDoc = gql`
   sortWeight
 }
     `;
+export const CreateUserDocument = gql`
+    mutation createUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+export function useCreateUserMutation() {
+  return Urql.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument);
+};
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
