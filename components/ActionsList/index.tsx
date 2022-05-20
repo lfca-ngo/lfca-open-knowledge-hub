@@ -24,13 +24,16 @@ export const ActionsList = ({
   actionsByTags,
   fetching,
 }: ActionListProps) => {
-  // persist the scroll position, filters, search, sorting in LS
+  // persist the scroll position, filters, search, sorting in LS to prevent
+  // unnecessary rerenders (LS is available on initial render)
   const { options, savePosition } = useScrollPosition(LS_ACTION_LIST, true, {
     search: '',
     sorting: SORT_OPTIONS[0].key,
     tags: [ALL_ACTIONS_LABEL],
   })
-  // the page param is used for the list component, the rest for the form
+
+  // the currentPage is needed for the list component,
+  // the rest for the filter form component
   const { currentPage = 0, ...formOptions } = options || {}
   const [form] = Form.useForm()
 
@@ -39,22 +42,22 @@ export const ActionsList = ({
     latestChange: FilterFormItems,
     allValues: FilterFormItems
   ) => {
-    // for the search, clear out all other filters
+    // when searching, clear out all other filters
     if (latestChange?.search) {
       form.setFieldsValue({
         tags: [ALL_ACTIONS_LABEL],
       })
       savePosition({ search: latestChange.search })
     } else {
-      // save the other filters, keep the state
+      // for other operations, keep the state
       savePosition({ ...options, ...allValues })
     }
   }
 
   // when a value in the form (LS) changes, we update
-  // the list data applying filter, search and sorting
+  // the list data by applying filter, search and sorting
   // by applying the actions directly on the list instead
-  // of calling a local list state we can prevent re-renders
+  // of saving to a local list state we can prevent re-renders
   const actions = useMemo(() => {
     const [activeTag] = formOptions?.tags || []
     const activeSearch = formOptions?.search || ''
@@ -72,7 +75,8 @@ export const ActionsList = ({
         .sort((a, b) => {
           if (activeSorting === 'impact') {
             return -1
-            // return b.companiesCompletedCount - a.companiesCompletedCount
+            // @TODO once impactValue available via backend
+            // return b.impactValue - a.impactValue
           } else {
             return b?.companiesCompletedCount - a?.companiesCompletedCount
           }
