@@ -1,11 +1,13 @@
 import { Button, Form, Input, Select } from 'antd'
 
-import { ContentfulCountryFields, Country } from '../../services/contentful'
+import { Country } from '../../services/contentful'
 import {
   CreateUserInput,
   UpdateUserInput,
   UserFragment,
 } from '../../services/lfca-backend'
+
+import { ROLES } from '../../utils'
 
 const { Option } = Select
 
@@ -37,7 +39,11 @@ export const UserForm = ({
       layout="vertical"
       onFinish={handleSubmit}
     >
-      <Form.Item label="Country" name="country">
+      <Form.Item
+        label="Country"
+        name="country"
+        rules={[{ message: 'Please select a country', required: true }]}
+      >
         <Select
           filterOption={(input, option) => {
             return (
@@ -57,11 +63,39 @@ export const UserForm = ({
           ))}
         </Select>
       </Form.Item>
-      <Form.Item label="First name" name="firstName">
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[{ message: 'Please add an email', required: true }]}
+      >
+        <Input placeholder="greta@thunbergvc.earth" type="email" />
+      </Form.Item>
+      <Form.Item
+        label="First name"
+        name="firstName"
+        rules={[{ message: 'Please add a first name', required: true }]}
+      >
         <Input placeholder="Greta" />
       </Form.Item>
-      <Form.Item label="Last name" name="lastName">
+      <Form.Item
+        label="Last name"
+        name="lastName"
+        rules={[{ message: 'Please add a last name', required: true }]}
+      >
         <Input placeholder="Thunberg" />
+      </Form.Item>
+      <Form.Item
+        label="Roles"
+        name="roles"
+        rules={[{ message: 'Please select a country', required: true }]}
+      >
+        <Select mode="multiple" placeholder="Please select a role">
+          {ROLES.map((role) => (
+            <Option key={role} value={role}>
+              {role}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
       <Form.Item>
         <Button htmlType="submit" loading={isLoading} type="primary">
