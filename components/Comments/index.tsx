@@ -3,57 +3,51 @@ require('./styles.less')
 import { List, Skeleton } from 'antd'
 import React from 'react'
 
+import { useActionCommentsQuery } from '../../services/lfca-backend'
 // import { convertValueToMarkdown } from '../RichTextEditor/utils'
 // import { CommentInput } from './CommentInput'
 import { CommentItem } from './CommentItem'
 // import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
 
-export const Comments = ({
-  actionId,
-  comments,
-}: {
-  actionId: string
-  comments: any
-}) => {
-  // const [authorIds, setAuthorIds] = useState([])
-  // const [errorMsg, setErrorMsg] = useState('')
-  // const [editingCommentId, setEditingCommentId] = useState(null)
+interface CommentsProps {
+  actionContentId: string
+}
 
-  if (!actionId) return null
+export const Comments = ({ actionContentId }: CommentsProps) => {
+  const [{ data, fetching }] = useActionCommentsQuery({
+    pause: !actionContentId,
+    variables: {
+      input: { actionContentId },
+    },
+  })
 
-  // test data
-  // const isUpdating = false
-  const isFetching = false
-  const authorProfile = {
-    firstname: 'Timo',
-    picture:
-      'https://u4d2z7k9.rocketcdn.me/wp-content/uploads/2022/01/rsz_51512070416_5844c18397_k.jpg',
-  }
+  // TODO: Allow edit/delete for admins
   const isAuthUserAdmin = false
 
   return (
     <div className="action-comments">
-      {isFetching ? (
+      {fetching ? (
         <Skeleton active avatar paragraph={{ rows: 2 }} title={false} />
-      ) : !Object.keys(comments).length ? (
+      ) : !data?.actionComments.length ? (
         <EmptyPlaceholder />
       ) : (
         <List
-          dataSource={Object.keys(comments)}
+          dataSource={data?.actionComments}
           pagination={{
             pageSize: 5,
             size: 'small',
           }}
-          renderItem={(commentId: any) => (
+          renderItem={(comment) => (
             <CommentItem
-              authorProfile={authorProfile}
-              comment={comments[commentId]}
+              comment={comment}
               isAdmin={isAuthUserAdmin}
               onDelete={() => {
-                // onDelete(commentId)
+                // TODO: Implement
+                // onDelete(comment)
               }}
               onEdit={() => {
+                // TODO: Implement
                 // setEditingCommentId(commentId)
               }}
             />

@@ -72,7 +72,9 @@ const Personalize = ({
 }: PersonalizeProps) => {
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
-  const [drawerVisible, setDrawerVisible] = useState(false)
+  const [selectedActionContentId, setSelectedActionContentId] = useState<
+    string | null
+  >(null)
   const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
 
   const handleContinue = () => {
@@ -100,7 +102,7 @@ const Personalize = ({
           ctaText: 'Select',
           onCtaClick: (action) => {
             setActiveAction(action)
-            setDrawerVisible(true)
+            setSelectedActionContentId(action.contentId)
           },
         }}
         actionsByTags={actionsByTags}
@@ -111,14 +113,17 @@ const Personalize = ({
       <Drawer
         className="drawer-md"
         destroyOnClose
-        onClose={() => setDrawerVisible(false)}
-        visible={drawerVisible}
+        onClose={() => setSelectedActionContentId(null)}
+        visible={!!selectedActionContentId}
       >
-        <CompleteActionForm
-          onComplete={() => setDrawerVisible(false)}
-          serviceProviders={serviceProviders}
-          withReviewForm={actionHasReviews(activeAction)}
-        />
+        {selectedActionContentId ? (
+          <CompleteActionForm
+            actionContentId={selectedActionContentId}
+            onComplete={() => setSelectedActionContentId(null)}
+            serviceProviders={serviceProviders}
+            withReviewForm={actionHasReviews(activeAction)}
+          />
+        ) : null}
       </Drawer>
     </div>
   )

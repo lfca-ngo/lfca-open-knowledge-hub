@@ -12,6 +12,7 @@ import {
 } from 'urql'
 
 import { useFirebase } from '../../hooks/firebase'
+import { completeCompanyAction, planCompanyAction } from './cache-updates'
 import schema from './schema.json'
 
 interface LFCABackendProviderProps {
@@ -31,7 +32,15 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
       exchanges: [
         dedupExchange,
         // debugExchange,
-        cacheExchange({ schema: schema as IntrospectionData }),
+        cacheExchange({
+          schema: schema as IntrospectionData,
+          updates: {
+            Mutation: {
+              completeCompanyAction,
+              planCompanyAction,
+            },
+          },
+        }),
         authExchange<{ token?: string }>({
           addAuthToOperation: ({ authState, operation }) => {
             // the token isn't in the auth state, return the operation without changes

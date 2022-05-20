@@ -1,0 +1,5 @@
+query plannedCompanyActions {
+  plannedCompanyActions {
+    ...CompanyActionListItem
+  }
+}
