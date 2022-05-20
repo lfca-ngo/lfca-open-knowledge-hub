@@ -1,0 +1,5 @@
+fragment ActionCommentAttachment on ActionCommentAttachment {
+  fileName
+  id
+  source
+}

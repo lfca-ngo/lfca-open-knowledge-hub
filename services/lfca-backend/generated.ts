@@ -534,6 +534,10 @@ export enum ValueContentType {
   UPLOAD = 'UPLOAD'
 }
 
+export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string };
+
+export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } };
+
 export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }> };
 
 export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
@@ -554,7 +558,7 @@ export type CreateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', createdAt: any, id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }> } };
+export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
 
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
@@ -562,6 +566,13 @@ export type PlanCompanyActionMutationVariables = Exact<{
 
 
 export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', id: string, plannedAt?: any | null } };
+
+export type ActionCommentsQueryVariables = Exact<{
+  input: ActionCommentsInput;
+}>;
+
+
+export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } }> };
 
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -594,6 +605,27 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
+export const ActionCommentAttachmentFragmentDoc = gql`
+    fragment ActionCommentAttachment on ActionCommentAttachment {
+  fileName
+  id
+  source
+}
+    `;
+export const ActionCommentFragmentDoc = gql`
+    fragment ActionComment on ActionComment {
+  attachments {
+    ...ActionCommentAttachment
+  }
+  author {
+    id
+    firstName
+    picture
+  }
+  id
+  message
+}
+    ${ActionCommentAttachmentFragmentDoc}`;
 export const CompanyAchievementMiniFragmentDoc = gql`
     fragment CompanyAchievementMini on CompanyAchievement {
   completedCompanyActionsCount
@@ -693,19 +725,10 @@ export function useCompleteCompanyActionMutation() {
 export const CreateActionCommentDocument = gql`
     mutation createActionComment($input: CreateActionCommentInput!) {
   createActionComment(input: $input) {
-    attachments {
-      fileName
-      fileSize
-      id
-      mimeType
-      source
-    }
-    createdAt
-    id
-    message
+    ...ActionComment
   }
 }
-    `;
+    ${ActionCommentFragmentDoc}`;
 
 export function useCreateActionCommentMutation() {
   return Urql.useMutation<CreateActionCommentMutation, CreateActionCommentMutationVariables>(CreateActionCommentDocument);
@@ -721,6 +744,17 @@ export const PlanCompanyActionDocument = gql`
 
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
+};
+export const ActionCommentsDocument = gql`
+    query actionComments($input: ActionCommentsInput!) {
+  actionComments(input: $input) {
+    ...ActionComment
+  }
+}
+    ${ActionCommentFragmentDoc}`;
+
+export function useActionCommentsQuery(options: Omit<Urql.UseQueryArgs<ActionCommentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ActionCommentsQuery>({ query: ActionCommentsDocument, ...options });
 };
 export const CompanyAchievementsMiniDocument = gql`
     query companyAchievementsMini {

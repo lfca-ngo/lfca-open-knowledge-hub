@@ -127,19 +127,7 @@ const Action: NextPage<ActionProps> = (props) => {
           />
         </Section>
         <Section title="Community">
-          <Comments
-            actionId={action?.actionId || ''}
-            comments={{
-              '1': {
-                id: '1',
-                message: `Something about this action is great. I don't know what though`,
-              },
-              '2': {
-                id: '2',
-                message: 'This action is great! I love it!',
-              },
-            }}
-          />
+          <Comments actionContentId={action.actionId} />
         </Section>
         <Section title="Attachments">Something</Section>
         {/* Render additional sections */}
