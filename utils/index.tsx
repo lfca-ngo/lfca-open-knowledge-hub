@@ -57,7 +57,7 @@ export const copyTextToClipboard = (
   }
   navigator.clipboard.writeText(text).then(
     () => {
-      const message = `Copying text was successful`
+      const message = `Copied text to clipboard`
       return cb(message, true)
     },
     (err) => {
