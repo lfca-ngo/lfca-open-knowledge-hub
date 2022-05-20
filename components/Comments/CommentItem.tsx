@@ -1,5 +1,5 @@
 import { FileOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Popconfirm, Popover, Skeleton, Space } from 'antd'
+import { Avatar, Button, Popconfirm, Space } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
 
