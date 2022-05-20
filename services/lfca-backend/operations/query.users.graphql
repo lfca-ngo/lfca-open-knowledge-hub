@@ -1,0 +1,8 @@
+query allUsers($input: UsersInput) {
+  users(input: $input) {
+    cursor
+    items {
+      ...User
+    }
+  }
+}

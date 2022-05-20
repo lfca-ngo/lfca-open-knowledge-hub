@@ -12,11 +12,36 @@ export const SIDER = 'sider'
 export const MAIN = 'main'
 export const THEME_DARK = 'theme-dark'
 export const MEASUREMENT_SERVICES_COMPARISON = 'measurement-services-comparison'
+export const ROLES = ['ADMIN', 'LEADER', 'OFFICER']
 
 export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)
   return Math.round(num * pow) / pow
 }
+
+export const arrayContains = (
+  selectedArray?: string[],
+  searchArray?: string[]
+) => {
+  const isValid =
+    selectedArray === undefined ||
+    selectedArray.length === 0 ||
+    searchArray?.some((entry) => selectedArray.includes(entry))
+
+  return isValid
+}
+
+export const numberInRange = (number?: number, range?: number[]) => {
+  const isValid =
+    range === undefined ||
+    range.length === 0 ||
+    (number !== undefined && range[0] <= number && range[1] >= number)
+
+  return isValid
+}
+
+export const lowerCaseSearch = (searchTerm: string, toSearch?: string) =>
+  toSearch?.toLowerCase().includes(searchTerm.toLowerCase()) || false
 
 export const openInNewTab = (url: string) => {
   const win = window.open(url, '_blank')

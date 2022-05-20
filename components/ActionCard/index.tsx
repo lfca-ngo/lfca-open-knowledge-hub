@@ -74,19 +74,26 @@ export interface ActionCardProps {
   action: CompanyActionListItemFragment
   ctaText?: string
   onCtaClick?: (action: CompanyActionListItemFragment) => void
+  onSavePosition?: () => void
+  renderAsLink?: boolean
 }
 
 export const ActionCard = ({
   action,
   ctaText = 'View',
   onCtaClick,
+  onSavePosition,
 }: ActionCardProps) => {
+  const handleClick = () => {
+    onCtaClick?.(action)
+    // since we are using next/link for navigation,
+    // we need to manually save the position using a
+    // separate handler that is called independently
+    onSavePosition?.()
+  }
+
   return (
-    <Card
-      bordered={false}
-      className="action-card"
-      onClick={onCtaClick ? () => onCtaClick(action) : undefined}
-    >
+    <Card bordered={false} className="action-card" onClick={handleClick}>
       <div className="hero">
         <div className="wrapper">
           {action.heroImage?.url ? (
@@ -121,9 +128,7 @@ export const ActionCard = ({
 // speeding up the experience for the user, alternatively an onclick
 // handler is used to trigger an action
 export const ActionCardWrapper = (props: ActionCardProps) => {
-  if (props.onCtaClick) {
-    return <ActionCard {...props} />
-  } else {
+  if (props.renderAsLink) {
     return (
       <Link href={`/action/${props.action.contentId}`}>
         <a className="action-card-wrapper">
@@ -131,5 +136,7 @@ export const ActionCardWrapper = (props: ActionCardProps) => {
         </a>
       </Link>
     )
+  } else {
+    return <ActionCard {...props} />
   }
 }
