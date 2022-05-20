@@ -69,3 +69,14 @@ export interface ContentfulActionFields {
   expiresAfterDays: number
   customSections: ContentfulCustomSectionFields[]
 }
+
+export interface ContentfulContinentFields {
+  name: string
+  isoCode: string
+}
+
+export interface ContentfulCountryFields {
+  name: string
+  isoCode: string
+  continent: ContentfulContinentFields
+}
