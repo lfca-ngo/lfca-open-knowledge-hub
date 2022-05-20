@@ -2,6 +2,14 @@
 @import (reference) '../../styles/fonts.less';
 
 .invite-team {
+  max-width: @min-container-width;
+
+  .add-email {
+    width: 100%;
+    .email-input {
+      flex: 1;
+    }
+  }
   .ant-list.users-list {
     .ant-list-item-meta-title {
       margin: 5px 0 5px;

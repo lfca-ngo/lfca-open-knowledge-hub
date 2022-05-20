@@ -1,64 +1,70 @@
 require('./styles.less')
 
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Input, List, Row } from 'antd'
-import React, { useState } from 'react'
+import { Button, Form, Input, List, message } from 'antd'
+import React from 'react'
 
+import {
+  useCreateUserInviteMutation,
+  useUserInvitesQuery,
+} from '../../services/lfca-backend'
 import { InviteItem } from './Item'
 
-export const InviteTeam = ({
-  onMinimumInvited,
-}: {
-  onMinimumInvited?: any
-}) => {
-  const [emailInput, setEmailInput] = useState('')
+interface InviteTeamProps {
+  onMinimumInvited?: () => void
+}
 
-  const handleAddEmail = () => {
-    // createNewInvite(
-    //   {
-    //     roles: ["OFFICERS"],
-    //     email: emailInput,
-    //     companyId: companyUid,
-    //     country: companyCountry || DEFAULT_LOCALE,
-    //     isUsed: false,
-    //   },
-    //   () => setEmailInput("")
-    // )
+export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
+  // useUserInviteMutation
+  const [{ fetching: isCreatingInvite }, createUserInvite] =
+    useCreateUserInviteMutation()
+  const [{ data: invitesData, fetching: isFetchingInvites }, refreshInvites] =
+    useUserInvitesQuery({})
+  const userInvites = invitesData?.userInvites || []
+
+  const handleAddEmail = ({ email }: { email: string }) => {
+    createUserInvite({
+      input: {
+        email,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Invite sent')
+        // @David, I assume we can do this more elegantly?
+        refreshInvites({ requestPolicy: 'network-only' })
+      }
+    })
   }
 
   return (
     <div className="invite-team">
-      <Input.Group compact>
-        <Input
-          onChange={(e) => setEmailInput(e.target.value)}
-          placeholder="tom@company.co"
-          size="large"
-          style={{ width: `calc(100% - 120px)` }}
-          value={emailInput}
-        />
+      <Form className="add-email" layout="inline" onFinish={handleAddEmail}>
+        <Form.Item className="email-input" name="email">
+          <Input placeholder="tom@company.co" size="large" />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            block
+            htmlType="submit"
+            icon={<PlusOutlined />}
+            loading={isCreatingInvite}
+            size="large"
+            type="primary"
+          >
+            Add
+          </Button>
+        </Form.Item>
+      </Form>
 
-        <Button
-          block
-          icon={<PlusOutlined />}
-          onClick={handleAddEmail}
-          size="large"
-          style={{ width: '120px' }}
-          // loading={createStatus === "BUSY"}
-          type="primary"
-        >
-          Add
-        </Button>
-      </Input.Group>
-
-      <Row>
-        <List
-          className="users-list"
-          // dataSource={validInviteCodes}
-          renderItem={(item) => (
-            <InviteItem item={item} onMinimumInvited={onMinimumInvited} />
-          )}
-        />
-      </Row>
+      <List
+        className="users-list"
+        dataSource={userInvites}
+        loading={isFetchingInvites}
+        renderItem={(item) => (
+          <InviteItem item={item} onMinimumInvited={onMinimumInvited} />
+        )}
+      />
     </div>
   )
 }

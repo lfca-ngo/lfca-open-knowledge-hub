@@ -539,7 +539,16 @@ export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', co
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
+export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
+
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
+
+export type CreateUserInviteMutationVariables = Exact<{
+  input: CreateUserInviteInput;
+}>;
+
+
+export type CreateUserInviteMutation = { __typename?: 'Mutation', createUserInvite: { __typename?: 'UserInvite', email: string, userRole: string } };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -578,6 +587,11 @@ export type CompanyActionsListQueryVariables = Exact<{
 
 
 export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
+
+export type UserInvitesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserInvitesQuery = { __typename?: 'Query', userInvites: Array<{ __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null }> };
 
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
@@ -662,6 +676,17 @@ export const CompanyActionListItemFragmentDoc = gql`
   title
 }
     `;
+export const UserInviteFragmentDoc = gql`
+    fragment UserInvite on UserInvite {
+  email
+  userRole
+  user {
+    id
+    companyId
+    email
+  }
+}
+    `;
 export const UserFragmentDoc = gql`
     fragment User on User {
   companyId
@@ -676,6 +701,18 @@ export const UserFragmentDoc = gql`
   sortWeight
 }
     `;
+export const CreateUserInviteDocument = gql`
+    mutation createUserInvite($input: CreateUserInviteInput!) {
+  createUserInvite(input: $input) {
+    email
+    userRole
+  }
+}
+    `;
+
+export function useCreateUserInviteMutation() {
+  return Urql.useMutation<CreateUserInviteMutation, CreateUserInviteMutationVariables>(CreateUserInviteDocument);
+};
 export const CreateUserDocument = gql`
     mutation createUser($input: CreateUserInput!) {
   createUser(input: $input) {
@@ -753,6 +790,17 @@ export const CompanyActionsListDocument = gql`
 
 export function useCompanyActionsListQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsListQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyActionsListQuery>({ query: CompanyActionsListDocument, ...options });
+};
+export const UserInvitesDocument = gql`
+    query userInvites {
+  userInvites {
+    ...UserInvite
+  }
+}
+    ${UserInviteFragmentDoc}`;
+
+export function useUserInvitesQuery(options?: Omit<Urql.UseQueryArgs<UserInvitesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserInvitesQuery>({ query: UserInvitesDocument, ...options });
 };
 export const UserDocument = gql`
     query user($input: UserInput) {
