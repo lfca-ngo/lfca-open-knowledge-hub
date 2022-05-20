@@ -2,6 +2,7 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Tag } from 'antd'
 import { useState } from 'react'
 
+import { useScrollPosition } from '../../../hooks/useScrollPosition'
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
@@ -9,6 +10,7 @@ import { ContentfulServiceProviderFields } from '../../../services/contentful'
 import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
+import { LS_ACTION_LIST } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
 
@@ -71,6 +73,14 @@ const Personalize = ({
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [drawerVisible, setDrawerVisible] = useState(false)
+  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
+
+  const handleContinue = () => {
+    // reset the filters and search in LS so that they
+    // don't persist until the user arrives at the dashboard
+    resetPosition()
+    onNext()
+  }
 
   return (
     <div>
@@ -79,6 +89,12 @@ const Personalize = ({
         Great! Now, please select all actions that you have already taken at
         LFCA
       </h1>
+      <p style={{ margin: '20px 0 30px' }}>
+        {`Let's start with a simple exercise: Did you already take climate action
+        in your company? Which actions have you taken and what have you learned?
+        No need to go through the entire list now, you can always add actions
+        later.`}
+      </p>
       <ActionsList
         actionListItemProps={{
           ctaText: 'Select',
@@ -89,7 +105,7 @@ const Personalize = ({
         }}
         actionsByTags={actionsByTags}
       />
-      <Button onClick={onNext} size="large" type="primary">
+      <Button onClick={handleContinue} size="large" type="primary">
         Continue
       </Button>
       <Drawer
