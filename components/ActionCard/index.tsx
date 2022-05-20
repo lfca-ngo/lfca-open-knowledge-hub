@@ -130,7 +130,7 @@ export const ActionCard = ({
 export const ActionCardWrapper = (props: ActionCardProps) => {
   if (props.renderAsLink) {
     return (
-      <Link href={`action/${props.action.contentId}`}>
+      <Link href={`/action/${props.action.contentId}`}>
         <a className="action-card-wrapper">
           <ActionCard {...props} />
         </a>

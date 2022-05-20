@@ -1,0 +1,5 @@
+query completedCompanyActions {
+  completedCompanyActions {
+    ...CompanyActionListItem
+  }
+}

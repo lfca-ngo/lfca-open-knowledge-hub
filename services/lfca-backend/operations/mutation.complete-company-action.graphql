@@ -1,0 +1,5 @@
+mutation completeCompanyAction($input: CompleteCompanyActionInput!) {
+  completeCompanyAction(input: $input) {
+    ...CompanyActionListItem
+  }
+}

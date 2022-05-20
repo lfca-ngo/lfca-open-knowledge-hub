@@ -1,0 +1,12 @@
+fragment ActionComment on ActionComment {
+  attachments {
+    ...ActionCommentAttachment
+  }
+  author {
+    id
+    firstName
+    picture
+  }
+  id
+  message
+}

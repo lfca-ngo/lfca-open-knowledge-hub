@@ -1,0 +1,5 @@
+mutation planCompanyAction($input: PlanCompanyActionInput!) {
+  planCompanyAction(input: $input) {
+    ...CompanyActionListItem
+  }
+}
