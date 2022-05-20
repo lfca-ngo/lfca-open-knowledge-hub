@@ -598,6 +598,16 @@ export type CompanyActionsListQueryVariables = Exact<{
 
 export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
+export type CompletedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompletedCompanyActionsQuery = { __typename?: 'Query', completedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } | null> };
+
+export type PlannedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PlannedCompanyActionsQuery = { __typename?: 'Query', plannedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } | null> };
+
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
 }>;
@@ -811,6 +821,28 @@ export const CompanyActionsListDocument = gql`
 
 export function useCompanyActionsListQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsListQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyActionsListQuery>({ query: CompanyActionsListDocument, ...options });
+};
+export const CompletedCompanyActionsDocument = gql`
+    query completedCompanyActions {
+  completedCompanyActions {
+    ...CompanyActionListItem
+  }
+}
+    ${CompanyActionListItemFragmentDoc}`;
+
+export function useCompletedCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<CompletedCompanyActionsQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompletedCompanyActionsQuery>({ query: CompletedCompanyActionsDocument, ...options });
+};
+export const PlannedCompanyActionsDocument = gql`
+    query plannedCompanyActions {
+  plannedCompanyActions {
+    ...CompanyActionListItem
+  }
+}
+    ${CompanyActionListItemFragmentDoc}`;
+
+export function usePlannedCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<PlannedCompanyActionsQueryVariables>, 'query'>) {
+  return Urql.useQuery<PlannedCompanyActionsQuery>({ query: PlannedCompanyActionsDocument, ...options });
 };
 export const UserDocument = gql`
     query user($input: UserInput) {
