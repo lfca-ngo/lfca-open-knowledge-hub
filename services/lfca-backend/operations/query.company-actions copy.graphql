@@ -1,4 +1,4 @@
-query companyActions($input: CompanyActionsInput) {
+query companyActionsList($input: CompanyActionsInput) {
   companyActions(input: $input) {
     ...CompanyActionListItem
   }

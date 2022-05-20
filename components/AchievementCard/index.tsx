@@ -1,14 +1,14 @@
 require('./styles.less')
 
 import {
+  ArrowRightOutlined,
   CheckCircleFilled,
   CheckCircleOutlined,
   CloseCircleFilled,
   MehOutlined,
   SmileOutlined,
-  ArrowRightOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card, List, Popover, Space, Divider } from 'antd'
+import { Avatar, Button, Card, Divider, List, Popover, Space } from 'antd'
 import { AvatarSize } from 'antd/lib/avatar/SizeContext'
 import classNames from 'classnames'
 import Link from 'next/link'

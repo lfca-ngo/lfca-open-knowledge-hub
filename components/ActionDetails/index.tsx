@@ -1,29 +1,51 @@
 require('./styles.less')
 
 import { CalendarOutlined, CheckOutlined } from '@ant-design/icons'
-import { Button, Space } from 'antd'
+import { Button, Skeleton, Space } from 'antd'
 import Image from 'next/image'
 import React from 'react'
 
+import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { ActionStats } from '../ActionCard'
 
-export const ActionDetails = ({ action }: { action: any }) => {
+interface ActionDetailsProps {
+  action: CompanyActionListItemFragment
+  fetching: boolean
+}
+
+export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
+  // TODO: UI for error state
+
   return (
-    <div className="action-details">
-      <div className="action-title">
-        <h1>{action?.title}</h1>
-        <div className="hero">
-          <div className="wrapper">
-            <Image
-              layout="fill"
-              objectFit="cover"
-              src={action?.heroImage.url}
-            />
+    <Skeleton
+      active
+      avatar={{ shape: 'square', size: 'large' }}
+      loading={fetching}
+      paragraph={{ rows: 1 }}
+    >
+      <div className="action-details">
+        <div className="action-title">
+          <h1>{action.title}</h1>
+          <div className="hero">
+            <div className="wrapper">
+              {action.heroImage?.url ? (
+                <Image
+                  alt={action.title || ''}
+                  layout="fill"
+                  objectFit="cover"
+                  src={action.heroImage.url}
+                />
+              ) : null}
+            </div>
           </div>
         </div>
+        <ActionStats
+          commentAttachmentCount={action.commentAttachmentCount}
+          commentCount={action.commentCount}
+          recentCompaniesCompleted={action.recentCompaniesCompleted}
+        />
       </div>
-      <ActionStats recentCompaniesCompleted={[]} />
-    </div>
+    </Skeleton>
   )
 }
 
