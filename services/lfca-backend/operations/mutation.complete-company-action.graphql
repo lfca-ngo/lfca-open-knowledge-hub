@@ -1,6 +1,5 @@
 mutation completeCompanyAction($input: CompleteCompanyActionInput!) {
   completeCompanyAction(input: $input) {
-    completedAt
-    id
+    ...CompanyActionListItem
   }
 }

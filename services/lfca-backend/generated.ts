@@ -551,7 +551,7 @@ export type CompleteCompanyActionMutationVariables = Exact<{
 }>;
 
 
-export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', completedAt?: any | null, id: string } };
+export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } };
 
 export type CreateActionCommentMutationVariables = Exact<{
   input: CreateActionCommentInput;
@@ -565,7 +565,7 @@ export type PlanCompanyActionMutationVariables = Exact<{
 }>;
 
 
-export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', id: string, plannedAt?: any | null } };
+export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } };
 
 export type ActionCommentsQueryVariables = Exact<{
   input: ActionCommentsInput;
@@ -723,11 +723,10 @@ export const UserFragmentFragmentDoc = gql`
 export const CompleteCompanyActionDocument = gql`
     mutation completeCompanyAction($input: CompleteCompanyActionInput!) {
   completeCompanyAction(input: $input) {
-    completedAt
-    id
+    ...CompanyActionListItem
   }
 }
-    `;
+    ${CompanyActionListItemFragmentDoc}`;
 
 export function useCompleteCompanyActionMutation() {
   return Urql.useMutation<CompleteCompanyActionMutation, CompleteCompanyActionMutationVariables>(CompleteCompanyActionDocument);
@@ -746,11 +745,10 @@ export function useCreateActionCommentMutation() {
 export const PlanCompanyActionDocument = gql`
     mutation planCompanyAction($input: PlanCompanyActionInput!) {
   planCompanyAction(input: $input) {
-    id
-    plannedAt
+    ...CompanyActionListItem
   }
 }
-    `;
+    ${CompanyActionListItemFragmentDoc}`;
 
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
