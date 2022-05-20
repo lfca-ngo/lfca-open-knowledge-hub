@@ -6,7 +6,6 @@ import {
   UpdateUserInput,
   UserFragment,
 } from '../../services/lfca-backend'
-
 import { ROLES } from '../../utils'
 
 const { Option } = Select
@@ -87,7 +86,7 @@ export const UserForm = ({
       <Form.Item
         label="Roles"
         name="roles"
-        rules={[{ message: 'Please select a country', required: true }]}
+        rules={[{ message: 'Please select at least one role', required: true }]}
       >
         <Select mode="multiple" placeholder="Please select a role">
           {ROLES.map((role) => (

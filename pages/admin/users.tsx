@@ -61,8 +61,6 @@ const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
     })
   }
 
-  console.log(countries)
-
   return (
     <SiderLayout nav={ADMIN_NAV}>
       <Main>
