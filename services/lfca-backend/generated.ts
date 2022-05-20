@@ -230,6 +230,7 @@ export type CompleteCompanyActionInput = {
   /** The ID for that action in contentful */
   actionContentId: Scalars['String'];
   isCompleted: Scalars['Boolean'];
+  skipRequirementsCheck?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CompleteCompanyActionRequirementInput = {
@@ -538,7 +539,14 @@ export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', co
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
-export type UserFragmentFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
+export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -570,6 +578,13 @@ export type UserQueryVariables = Exact<{
 
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+
+export type AllUsersQueryVariables = Exact<{
+  input?: InputMaybe<UsersInput>;
+}>;
+
+
+export type AllUsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null }> } };
 
 export const CompanyAchievementMiniFragmentDoc = gql`
     fragment CompanyAchievementMini on CompanyAchievement {
@@ -640,8 +655,8 @@ export const CompanyActionListItemFragmentDoc = gql`
   title
 }
     `;
-export const UserFragmentFragmentDoc = gql`
-    fragment UserFragment on User {
+export const UserFragmentDoc = gql`
+    fragment User on User {
   companyId
   country
   email
@@ -654,6 +669,17 @@ export const UserFragmentFragmentDoc = gql`
   sortWeight
 }
     `;
+export const UpdateUserDocument = gql`
+    mutation updateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+export function useUpdateUserMutation() {
+  return Urql.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument);
+};
 export const CompanyAchievementsMiniDocument = gql`
     query companyAchievementsMini {
   company {
@@ -713,11 +739,25 @@ export function useCompanyActionsListQuery(options?: Omit<Urql.UseQueryArgs<Comp
 export const UserDocument = gql`
     query user($input: UserInput) {
   user(input: $input) {
-    ...UserFragment
+    ...User
   }
 }
-    ${UserFragmentFragmentDoc}`;
+    ${UserFragmentDoc}`;
 
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
   return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+};
+export const AllUsersDocument = gql`
+    query allUsers($input: UsersInput) {
+  users(input: $input) {
+    cursor
+    items {
+      ...User
+    }
+  }
+}
+    ${UserFragmentDoc}`;
+
+export function useAllUsersQuery(options?: Omit<Urql.UseQueryArgs<AllUsersQueryVariables>, 'query'>) {
+  return Urql.useQuery<AllUsersQuery>({ query: AllUsersDocument, ...options });
 };

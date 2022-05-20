@@ -3,39 +3,40 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import {
+  useAllUsersQuery,
+  useUpdateUserMutation,
+} from '../../services/lfca-backend'
 import { ADMIN_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
+import { UserForm } from '../../components/UserForm'
 
 const { Search } = Input
-
-const FAKE_USERS = [
-  {
-    createdAt: '2020-01-01',
-    email: 'john@doe.de',
-    id: '1',
-    name: 'John Doe',
-    updatedAt: '2020-01-01',
-  },
-  {
-    createdAt: '2020-01-01',
-    email: 'john@doe.de',
-    id: '2',
-    name: 'Peter Doe',
-    updatedAt: '2020-01-01',
-  },
-  {
-    createdAt: '2020-01-01',
-    email: 'heinz@doe.de',
-    id: '2',
-    name: 'Peter Heinz',
-    updatedAt: '2020-01-01',
-  },
-]
+import { UserFragment } from '../../services/lfca-backend'
 
 const AdminUsers: NextPage = () => {
+  const [selectedUser, setSelectedUser] = useState<UserFragment>()
   const [isOpen, setIsOpen] = useState(false)
-  const updateUser = () => {
-    // TODO: update user
+
+  // update user mutation
+  const [{ fetching: isUpdatingUser, error, data: updatedUser }, updateUser] =
+    useUpdateUserMutation()
+
+  const [{ data: usersData, fetching: isFetchingUsers }] = useAllUsersQuery()
+  const users = usersData?.users.items || []
+
+  const handleOpen = (user: UserFragment) => {
+    setIsOpen(true)
+    setSelectedUser(user)
+  }
+
+  const handleUpdate = (allValues: Partial<UserFragment>) => {
+    updateUser({
+      input: {
+        userId: selectedUser?.id,
+        ...allValues,
+      },
+    })
   }
 
   return (
@@ -44,16 +45,16 @@ const AdminUsers: NextPage = () => {
         <Section title="Users" titleSize="big">
           <Search placeholder="Search by uid" />
           <List
-            dataSource={FAKE_USERS}
-            renderItem={(user: any) => (
+            dataSource={users}
+            renderItem={(user) => (
               <List.Item
                 actions={[
-                  <Button key="edit" onClick={() => setIsOpen(true)}>
+                  <Button key="edit" onClick={() => handleOpen(user)}>
                     Edit
                   </Button>,
                 ]}
               >
-                {user.name}
+                {user.firstName}
               </List.Item>
             )}
           />
@@ -64,19 +65,7 @@ const AdminUsers: NextPage = () => {
             visible={isOpen}
           >
             <h1>User</h1>
-            <Form layout="vertical" onFinish={updateUser}>
-              <Form.Item label="Name">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Email">
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button htmlType="submit" type="primary">
-                  Save
-                </Button>
-              </Form.Item>
-            </Form>
+            <UserForm initialValues={selectedUser} onSubmit={handleUpdate} />
           </Drawer>
         </Section>
       </Main>
