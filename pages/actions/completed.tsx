@@ -1,8 +1,9 @@
+import { List, Skeleton } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
-import { ActionsList } from '../../components/ActionsList'
+import { ActionCardWrapper } from '../../components/ActionCard'
 import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
@@ -35,11 +36,24 @@ const CompletedActions: NextPage<CompletedActionsProps> = ({ content }) => {
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
         <Section bordered={false} title="Completed Actions" titleSize="big">
-          <ActionsList
-            actionsByTags={{
-              '': actionsData?.completedCompanyActions || EMPTY_ACTIONS_ARRAY,
+          <List
+            dataSource={
+              actionsData?.completedCompanyActions || EMPTY_ACTIONS_ARRAY
+            }
+            renderItem={(item) => {
+              return (
+                <List.Item>
+                  <Skeleton
+                    active
+                    avatar={{ shape: 'square', size: 'large' }}
+                    loading={fetchingActions}
+                    paragraph={{ rows: 1 }}
+                  >
+                    <ActionCardWrapper action={item} />
+                  </Skeleton>
+                </List.Item>
+              )
             }}
-            fetching={fetchingActions}
           />
         </Section>
       </Main>
