@@ -7,6 +7,7 @@ interface ScrollPositionOptions {
   currentPage?: number
   search?: string
   tags?: string[]
+  sorting?: string
 }
 
 interface UseScrollPositionProps {
@@ -14,9 +15,13 @@ interface UseScrollPositionProps {
   savePosition: (options?: object) => void
 }
 
+// saves the last scroll position before navigating away
+// restores the position after navigating back, allows
+// to store additional data like pagination and filters
 export const useScrollPosition = (
   localStorageKey: string,
-  setCondition: boolean
+  setCondition: boolean,
+  initialValues: ScrollPositionOptions = {}
 ): UseScrollPositionProps => {
   const [scrollYStorage, setScrollYStorage] = useLocalStorage(
     localStorageKey,
@@ -25,7 +30,7 @@ export const useScrollPosition = (
   // space to persist things like pagination and filters
   const [options, setOptions] = useLocalStorage(
     `${localStorageKey}_options`,
-    {}
+    initialValues
   )
 
   const savePosition = (options?: ScrollPositionOptions) => {

@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Divider, List, Skeleton } from 'antd'
+import { Divider, Form, List, Skeleton } from 'antd'
 import React, { useMemo } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -8,7 +8,7 @@ import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
-import { FilterBar } from './FilterBar'
+import { FilterBar, SORT_OPTIONS } from './FilterBar'
 import { FilterFormItems } from './FilterBar'
 
 export interface ActionListProps {
@@ -22,44 +22,73 @@ export const ActionsList = ({
   actionsByTags,
   fetching,
 }: ActionListProps) => {
-  // Restore scroll and selectedTags between navigation
-  const { options, savePosition } = useScrollPosition('ActionsList', true)
-
-  // we use the options (LS) to persist the search,
+  // we use the options of the hook to persist the search,
   // tags and current page while navigating
-  const [activeTag] = options?.tags || [ALL_ACTIONS_LABEL]
-  const activePage = options?.currentPage || 0
-  const activeSearch = options?.search || ''
+  const { options, savePosition } = useScrollPosition('ActionsList', true, {
+    search: '',
+    sorting: SORT_OPTIONS[0].key,
+    tags: [ALL_ACTIONS_LABEL],
+  })
+  const { currentPage = 0, ...formOptions } = options || {}
+  const [form] = Form.useForm()
 
-  const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
-    savePosition({ ...options, tags: allValues.tags })
+  const handleChange = (
+    latestChange: FilterFormItems,
+    allValues: FilterFormItems
+  ) => {
+    // for the search, clear out all other filters
+    if (latestChange?.search) {
+      form.setFieldsValue({
+        tags: [ALL_ACTIONS_LABEL],
+      })
+      savePosition({ search: latestChange.search })
+    } else {
+      // save the other filters, keep the state
+      savePosition({ ...options, ...allValues })
+    }
   }
 
-  const handleSearch = (value: string) => {
-    savePosition({ search: value })
-  }
-
+  // when a value in the form (LS) changes, we update
+  // the list data applying filter, search and sorting
   const actions = useMemo(() => {
-    return actionsByTags[activeTag].filter((action) => {
-      return lowerCaseSearch(activeSearch, action.title || '')
-    })
-  }, [actionsByTags, activeTag, activeSearch])
+    const [activeTag] = formOptions?.tags || []
+    const activeSearch = formOptions?.search || ''
+    const activeSorting = formOptions?.sorting
+    // the below applies the tag filter
+    const actions = actionsByTags[activeTag] || actionsByTags[ALL_ACTIONS_LABEL]
+
+    return (
+      actions
+        // the below applies the search filter
+        .filter((action) => {
+          return lowerCaseSearch(activeSearch, action.title || '')
+        })
+        // the below applies the sorting filter
+        .sort((a, b) => {
+          if (activeSorting === 'impact') {
+            return -1
+            // return b.companiesCompletedCount - a.companiesCompletedCount
+          } else {
+            return b?.companiesCompletedCount - a?.companiesCompletedCount
+          }
+        })
+    )
+  }, [actionsByTags, formOptions])
 
   return (
     <div className="actions-list">
       <FilterBar
-        initialValues={{ tags: [activeTag] }}
-        onSearch={handleSearch}
+        form={form}
+        initialValues={formOptions}
         onValuesChange={handleChange}
-        searchValue={activeSearch}
         tags={Object.keys(actionsByTags)}
       />
       <Divider />
       <List
         dataSource={actions}
         pagination={{
-          current: activePage,
-          defaultCurrent: activePage,
+          current: currentPage,
+          defaultCurrent: currentPage,
           onChange: (page) => savePosition({ ...options, currentPage: page }),
           pageSize: 10,
         }}

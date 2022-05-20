@@ -3,7 +3,7 @@ require('./styles.less')
 import { AppstoreOutlined, CheckOutlined } from '@ant-design/icons'
 import { Badge, Button, Dropdown, Menu } from 'antd'
 import classNames from 'classnames'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface ItemProps {
   label: string
@@ -53,6 +53,10 @@ export const DropdownSelect = ({
     onSelect && onSelect(newSelected)
     triggerChange(newSelected)
   }
+
+  useEffect(() => {
+    setSelected(value)
+  }, [value])
 
   const menu = (
     <Menu data-testid="dropdown-select-menu" onClick={onItemSelect}>
