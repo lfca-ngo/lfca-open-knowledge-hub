@@ -837,6 +837,17 @@
             "args": []
           },
           {
+            "name": "impactValue",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "plannedAt",
             "type": {
               "kind": "SCALAR",

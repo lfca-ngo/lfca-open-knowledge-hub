@@ -1,0 +1,14 @@
+mutation createActionComment($input: CreateActionCommentInput!) {
+  createActionComment(input: $input) {
+    attachments {
+      fileName
+      fileSize
+      id
+      mimeType
+      source
+    }
+    createdAt
+    id
+    message
+  }
+}

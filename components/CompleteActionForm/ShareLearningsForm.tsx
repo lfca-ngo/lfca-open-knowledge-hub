@@ -2,8 +2,11 @@ require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Button, Form, Input, notification, Tag, Tooltip } from 'antd'
-import { useState } from 'react'
 
+import {
+  useCompleteCompanyActionMutation,
+  useCreateActionCommentMutation,
+} from '../../services/lfca-backend'
 import { FileUpload } from '../FileUpload/FileUpload'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
@@ -19,22 +22,41 @@ const openNotification = () => {
   })
 }
 
-export const ShareLearningsForm = ({
-  onComplete,
-}: {
+interface ShareLearningsFormProps {
+  actionContentId: string
   onComplete: () => void
-}) => {
-  const [loading, setLoading] = useState(false)
+}
 
-  const handleFinish = () => {
-    setLoading(true)
+export const ShareLearningsForm = ({
+  actionContentId,
+  onComplete,
+}: ShareLearningsFormProps) => {
+  // TODO: UI for error states
+  const [{ fetching: fetchingCompleteAction }, completeCompanyAction] =
+    useCompleteCompanyActionMutation()
 
-    // TODO: send to server
-    setTimeout(() => {
-      onComplete()
-      openNotification()
-      setLoading(false)
-    }, 600)
+  const [{ fetching: fetchingCreateActionComment }, createActionComment] =
+    useCreateActionCommentMutation()
+
+  const handleFinish = async ({ message }: { message?: string }) => {
+    // TODO: add attachments
+    if (message) {
+      await createActionComment({
+        input: {
+          actionContentId,
+          message,
+        },
+      })
+    }
+    await completeCompanyAction({
+      input: {
+        actionContentId,
+        isCompleted: true,
+        skipRequirementsCheck: true,
+      },
+    })
+    openNotification()
+    onComplete()
   }
 
   return (
@@ -49,19 +71,20 @@ export const ShareLearningsForm = ({
             Leave a comment about this action <QuestionCircleOutlined />
           </Tooltip>
         }
+        name="message"
       >
         <TextArea
           placeholder="The most difficult thing was solving xyz. Luckily we found this overview that really helped us (attached)."
           rows={4}
         />
-        <div className="buzzwords">
-          <span>Think of:</span> <Tag>Costs</Tag>
-          <Tag>Team benefits</Tag>
-          <Tag>Hurdles</Tag>
-          <Tag>Successes</Tag>
-          <Tag>{`How to's`}</Tag>
-        </div>
       </Form.Item>
+      <div className="buzzwords">
+        <span>Think of:</span> <Tag>Costs</Tag>
+        <Tag>Team benefits</Tag>
+        <Tag>Hurdles</Tag>
+        <Tag>Successes</Tag>
+        <Tag>{`How to's`}</Tag>
+      </div>
       <Form.Item
         label={
           <Tooltip title="Think about: Research that you did, resources that you found useful">
@@ -72,7 +95,12 @@ export const ShareLearningsForm = ({
         <FileUpload />
       </Form.Item>
       <Form.Item>
-        <Button block htmlType="submit" loading={loading} type="primary">
+        <Button
+          block
+          htmlType="submit"
+          loading={fetchingCompleteAction || fetchingCreateActionComment}
+          type="primary"
+        >
           Complete action
         </Button>
       </Form.Item>

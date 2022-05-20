@@ -47,8 +47,17 @@ const Action: NextPage<ActionProps> = (props) => {
   const [{ fetching: fetchingCompleteCompanyAction }, completeCompanyAction] =
     useCompleteCompanyActionMutation()
 
-  const handleComplete = () => {
-    setIsOpen(true)
+  const handleComplete = async () => {
+    if (actionData?.companyAction.completedAt) {
+      await completeCompanyAction({
+        input: {
+          actionContentId: action.actionId,
+          isCompleted: false,
+        },
+      })
+    } else {
+      setIsOpen(true)
+    }
   }
 
   const handlePlan = async () => {
@@ -146,6 +155,7 @@ const Action: NextPage<ActionProps> = (props) => {
         visible={isOpen}
       >
         <CompleteActionForm
+          actionContentId={action.actionId}
           onComplete={() => setIsOpen(false)}
           serviceProviders={props.serviceProviders}
           withReviewForm={actionHasReviews(action)}

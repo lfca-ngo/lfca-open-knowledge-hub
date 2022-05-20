@@ -5,15 +5,19 @@ import { Section } from '../Layout'
 import { ReviewForm } from '../ReviewForm'
 import { ShareLearningsForm } from './ShareLearningsForm'
 
-export const CompleteActionForm = ({
-  onComplete,
-  serviceProviders,
-  withReviewForm = false,
-}: {
+interface CompleteActionFormProps {
+  actionContentId: string
   onComplete: () => void
   serviceProviders?: ContentfulServiceProviderFields[]
   withReviewForm?: boolean
-}) => {
+}
+
+export const CompleteActionForm = ({
+  actionContentId,
+  onComplete,
+  serviceProviders,
+  withReviewForm = false,
+}: CompleteActionFormProps) => {
   return (
     <Section title="Share your learnings">
       {withReviewForm && (
@@ -22,7 +26,10 @@ export const CompleteActionForm = ({
           <Divider />
         </>
       )}
-      <ShareLearningsForm onComplete={onComplete} />
+      <ShareLearningsForm
+        actionContentId={actionContentId}
+        onComplete={onComplete}
+      />
     </Section>
   )
 }

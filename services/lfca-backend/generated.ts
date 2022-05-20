@@ -164,6 +164,7 @@ export type CompanyAction = {
   heroImage?: Maybe<ContentAsset>;
   /** A unique identifier generated using the contentId and companyId as long as the action has not expired */
   id: Scalars['ID'];
+  impactValue: Scalars['Int'];
   plannedAt?: Maybe<Scalars['DateTime']>;
   recentCompaniesCompleted: Array<Company>;
   recommendedForCompanyAchievementIds: Array<Scalars['ID']>;
@@ -230,6 +231,7 @@ export type CompleteCompanyActionInput = {
   /** The ID for that action in contentful */
   actionContentId: Scalars['String'];
   isCompleted: Scalars['Boolean'];
+  skipRequirementsCheck?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CompleteCompanyActionRequirementInput = {
@@ -547,6 +549,13 @@ export type CompleteCompanyActionMutationVariables = Exact<{
 
 export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', completedAt?: any | null, id: string } };
 
+export type CreateActionCommentMutationVariables = Exact<{
+  input: CreateActionCommentInput;
+}>;
+
+
+export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', createdAt: any, id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }> } };
+
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
 }>;
@@ -680,6 +689,26 @@ export const CompleteCompanyActionDocument = gql`
 
 export function useCompleteCompanyActionMutation() {
   return Urql.useMutation<CompleteCompanyActionMutation, CompleteCompanyActionMutationVariables>(CompleteCompanyActionDocument);
+};
+export const CreateActionCommentDocument = gql`
+    mutation createActionComment($input: CreateActionCommentInput!) {
+  createActionComment(input: $input) {
+    attachments {
+      fileName
+      fileSize
+      id
+      mimeType
+      source
+    }
+    createdAt
+    id
+    message
+  }
+}
+    `;
+
+export function useCreateActionCommentMutation() {
+  return Urql.useMutation<CreateActionCommentMutation, CreateActionCommentMutationVariables>(CreateActionCommentDocument);
 };
 export const PlanCompanyActionDocument = gql`
     mutation planCompanyAction($input: PlanCompanyActionInput!) {
