@@ -12,7 +12,7 @@ interface ScrollPositionOptions {
 
 interface UseScrollPositionProps {
   options?: ScrollPositionOptions
-  resetPosition: () => void
+  resetPosition: (initialValues?: ScrollPositionOptions) => void
   savePosition: (options?: object) => void
 }
 
@@ -39,9 +39,9 @@ export const useScrollPosition = (
     options && setOptions(options)
   }
 
-  const resetPosition = () => {
+  const resetPosition = (initialValues?: ScrollPositionOptions) => {
     setScrollYStorage(0)
-    setOptions({})
+    setOptions(initialValues || {})
   }
 
   useEffect(() => {

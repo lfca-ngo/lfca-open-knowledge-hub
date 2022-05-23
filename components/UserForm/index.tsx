@@ -121,7 +121,6 @@ export const UserForm = ({
         <Input placeholder="+49 160 1234567" />
       </Form.Item>
     ),
-
     picture: (
       <Form.Item
         key="picture"

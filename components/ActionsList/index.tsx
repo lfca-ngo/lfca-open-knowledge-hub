@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Divider, Form, List, Skeleton } from 'antd'
+import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -8,10 +8,18 @@ import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
+import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
 import { FilterBar, SORT_OPTIONS } from './FilterBar'
 import { FilterFormItems } from './FilterBar'
 
 export const LS_ACTION_LIST = 'actions_list'
+
+export const INITIAL_VALUES = {
+  currentPage: 1,
+  search: '',
+  sorting: SORT_OPTIONS[0].key,
+  tags: [ALL_ACTIONS_LABEL],
+}
 
 export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
@@ -26,11 +34,11 @@ export const ActionsList = ({
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
   // unnecessary rerenders (LS is available on initial render)
-  const { options, savePosition } = useScrollPosition(LS_ACTION_LIST, true, {
-    search: '',
-    sorting: SORT_OPTIONS[0].key,
-    tags: [ALL_ACTIONS_LABEL],
-  })
+  const { options, savePosition } = useScrollPosition(
+    LS_ACTION_LIST,
+    true,
+    INITIAL_VALUES
+  )
 
   // the currentPage is needed for the list component,
   // the rest for the filter form component
@@ -74,9 +82,7 @@ export const ActionsList = ({
         // the below applies the sorting filter
         .sort((a, b) => {
           if (activeSorting === 'impact') {
-            return -1
-            // @TODO once impactValue available via backend
-            // return b.impactValue - a.impactValue
+            return b.impactValue - a.impactValue
           } else {
             return b?.companiesCompletedCount - a?.companiesCompletedCount
           }
@@ -94,6 +100,7 @@ export const ActionsList = ({
       />
       <Divider />
       <List
+        className="no-padding"
         dataSource={actions}
         pagination={{
           current: currentPage,
@@ -104,12 +111,7 @@ export const ActionsList = ({
         renderItem={(item) => {
           return (
             <List.Item>
-              <Skeleton
-                active
-                avatar={{ shape: 'square', size: 'large' }}
-                loading={fetching}
-                paragraph={{ rows: 1 }}
-              >
+              <ActionCardSkeleton fetching={fetching}>
                 <ActionCardWrapper
                   action={item}
                   onSavePosition={() => {
@@ -117,7 +119,7 @@ export const ActionsList = ({
                   }}
                   {...actionListItemProps}
                 />
-              </Skeleton>
+              </ActionCardSkeleton>
             </List.Item>
           )
         }}

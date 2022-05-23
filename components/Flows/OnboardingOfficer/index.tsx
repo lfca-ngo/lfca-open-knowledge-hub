@@ -2,7 +2,6 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Tag } from 'antd'
 import { useState } from 'react'
 
-import { useScrollPosition } from '../../../hooks/useScrollPosition'
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
@@ -10,7 +9,6 @@ import { ContentfulServiceProviderFields } from '../../../services/contentful'
 import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
-import { LS_ACTION_LIST } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
 
@@ -75,12 +73,8 @@ const Personalize = ({
   const [selectedActionContentId, setSelectedActionContentId] = useState<
     string | null
   >(null)
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
 
   const handleContinue = () => {
-    // reset the filters and search in LS so that they
-    // don't persist until the user arrives at the dashboard
-    resetPosition()
     onNext()
   }
 
@@ -94,7 +88,7 @@ const Personalize = ({
       <p style={{ margin: '20px 0 30px' }}>
         {`Let's start with a simple exercise: Did you already take climate action
         in your company? Which actions have you taken and what have you learned?
-        No need to go through the entire list now, you can always add actions
+        You don't need to go through the entire list now, you can always add actions
         later.`}
       </p>
       <ActionsList

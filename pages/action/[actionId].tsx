@@ -1,10 +1,11 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Drawer, Tabs } from 'antd'
+import { Drawer, message, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
+import { ActionHistory } from '../../components/ActionHistory'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -24,6 +25,7 @@ import {
 } from '../../services/lfca-backend'
 import { renderTools } from '../../tools'
 import { actionHasReviews } from '../../utils'
+import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
@@ -61,11 +63,20 @@ const Action: NextPage<ActionProps> = (props) => {
   }
 
   const handlePlan = async () => {
-    await planCompanyAction({
+    planCompanyAction({
       input: {
         actionContentId: action.actionId,
         isPlanned: !actionData?.companyAction.plannedAt,
       },
+    }).then(({ data, error }) => {
+      if (error) message.error(error.message)
+      else {
+        if (data?.planCompanyAction?.plannedAt) {
+          message.success('Marked as planned')
+        } else {
+          message.info('Removed from planned actions')
+        }
+      }
     })
   }
 
@@ -85,7 +96,7 @@ const Action: NextPage<ActionProps> = (props) => {
                 maxHeight={140}
                 text={
                   action?.aboutText &&
-                  documentToReactComponents(action?.aboutText)
+                  documentToReactComponents(action?.aboutText, options)
                 }
               />
             </TabPane>
@@ -95,12 +106,21 @@ const Action: NextPage<ActionProps> = (props) => {
                 text={<RequirementsList requirements={action?.requirements} />}
               />
             </TabPane>
-            <TabPane key="3" tab="Benefits">
+            <TabPane key="3" tab="Examples">
+              <ShowMore
+                maxHeight={140}
+                text={
+                  action?.examples &&
+                  documentToReactComponents(action?.examples, options)
+                }
+              />
+            </TabPane>
+            <TabPane key="4" tab="Benefits">
               <ShowMore
                 maxHeight={140}
                 text={
                   action?.benefits &&
-                  documentToReactComponents(action?.benefits)
+                  documentToReactComponents(action?.benefits, options)
                 }
               />
             </TabPane>
@@ -130,6 +150,9 @@ const Action: NextPage<ActionProps> = (props) => {
           <Comments actionContentId={action.actionId} />
         </Section>
         <Section title="Attachments">Something</Section>
+        <Section title="History">
+          <ActionHistory actions={[]} />
+        </Section>
         {/* Render additional sections */}
         {renderTools(
           action?.customSections?.filter((s) => s.position === 'sider'),
@@ -139,6 +162,7 @@ const Action: NextPage<ActionProps> = (props) => {
 
       <Drawer
         className="drawer-md"
+        destroyOnClose
         onClose={() => setIsOpen(false)}
         visible={isOpen}
       >

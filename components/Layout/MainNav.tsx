@@ -1,8 +1,11 @@
 import {
+  AppstoreAddOutlined,
   BankOutlined,
+  CalculatorOutlined,
   CalendarOutlined,
   CarryOutOutlined,
   CheckCircleOutlined,
+  InsertRowLeftOutlined,
   LikeOutlined,
   LockOutlined,
   ProfileOutlined,
@@ -23,6 +26,9 @@ import {
   ADMIN_COMPANIES,
   ADMIN_USERS,
   COMMUNITY,
+  MEASUREMENT_SERVICE_PROVIDERS,
+  PERSONAL_FOOTPRINT_CALCULATOR,
+  TOOLS,
 } from '../../utils/routes'
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
@@ -57,6 +63,23 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     icon: <LikeOutlined />,
     key: COMMUNITY,
     label: 'Community',
+  },
+  {
+    children: [
+      {
+        icon: <AppstoreAddOutlined />,
+        key: MEASUREMENT_SERVICE_PROVIDERS,
+        label: 'Measurement Service Providers',
+      },
+      {
+        icon: <CalculatorOutlined />,
+        key: PERSONAL_FOOTPRINT_CALCULATOR,
+        label: 'Personal Footprint Calculator',
+      },
+    ],
+    icon: <InsertRowLeftOutlined />,
+    key: TOOLS,
+    label: 'Tools',
   },
 ]
 

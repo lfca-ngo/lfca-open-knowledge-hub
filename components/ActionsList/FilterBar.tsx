@@ -7,8 +7,8 @@ import { DropdownSelect } from '../DropdownSelect'
 const { Search } = Input
 
 export const SORT_OPTIONS = [
-  { key: 'impact', label: 'Impact' },
   { key: 'popularity', label: 'Popularity' },
+  { key: 'impact', label: 'Impact' },
 ]
 
 export interface FilterFormItems {

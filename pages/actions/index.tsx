@@ -4,9 +4,14 @@ import React from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
-import { ActionsList } from '../../components/ActionsList'
+import {
+  ActionsList,
+  INITIAL_VALUES,
+  LS_ACTION_LIST,
+} from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
@@ -27,6 +32,7 @@ interface HomePageProps {
 
 const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const router = useRouter()
+  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
 
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
@@ -68,11 +74,14 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             actions={highlightedActions}
             fetching={fetchingActions}
             onSelect={(action) => {
+              resetPosition(INITIAL_VALUES)
               router.push(`/action/${action.contentId}`)
             }}
           />
         </Section>
         <Section bordered={false} title="Browse all actions">
+          {/* When leaving this page in any direction other than action detail page
+          delete the browsing position */}
           <ActionsList
             actionListItemProps={{
               renderAsLink: true,

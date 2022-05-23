@@ -8,6 +8,12 @@ interface Image {
   url: string
 }
 
+interface ContentfulMedia {
+  file: {
+    url: string
+  }
+}
+
 export interface ContentfulServiceProviderFields {
   model?: ContentfulTagFields[]
   services?: ContentfulTagFields[]
@@ -79,4 +85,46 @@ export interface ContentfulCountryFields {
   name: string
   isoCode: string
   continent: ContentfulContinentFields
+}
+
+export interface ContentfulOptionFields {
+  title: string
+  value: number
+  resultTitle: string
+  resultText: string
+}
+
+export interface ContentfulQuestionFields {
+  question: string
+  description: string
+  type: string
+  label: string
+  message: string
+  hints: string[]
+  category: string
+  currency: string
+  initialValue: string
+  options: ContentfulOptionFields[]
+  algorithm: string
+  algorithFactor: number
+}
+
+export interface ContentfulQuestionnaireFields {
+  name: string
+  countryCode: string
+  questions: ContentfulQuestionFields[]
+}
+
+export interface ContentfulSourceFields {
+  title: string
+  type: 'link' | 'image' | 'pdf'
+  file?: ContentfulMedia
+  url?: string
+}
+
+export interface ContentfulCallToActionFields {
+  slug?: string
+  type?: 'primary' | 'default' | 'link'
+  title: string
+  url?: string
 }

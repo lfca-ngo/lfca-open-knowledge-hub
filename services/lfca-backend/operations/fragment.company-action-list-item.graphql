@@ -13,6 +13,7 @@ fragment CompanyActionListItem on CompanyAction {
     url
   }
   id
+  impactValue
   plannedAt
   recentCompaniesCompleted(limit: 3) {
     id

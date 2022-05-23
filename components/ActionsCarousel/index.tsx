@@ -67,7 +67,7 @@ export const ActionsCarousel = ({
                 <div className="action-card-title">{action.title}</div>
                 <LogoGroup
                   data={action.recentCompaniesCompleted}
-                  label={'doing this'}
+                  label={`${action.companiesCompletedCount} did this`}
                   size="small"
                 />
               </div>

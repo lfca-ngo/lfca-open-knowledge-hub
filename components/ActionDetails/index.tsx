@@ -1,6 +1,10 @@
 require('./styles.less')
 
-import { CalendarOutlined, CheckOutlined } from '@ant-design/icons'
+import {
+  CalendarOutlined,
+  CheckOutlined,
+  UndoOutlined,
+} from '@ant-design/icons'
 import { Button, Skeleton, Space } from 'antd'
 import Image from 'next/image'
 import React from 'react'
@@ -20,6 +24,7 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
     <Skeleton
       active
       avatar={{ shape: 'square', size: 'large' }}
+      className="action-details-skeleton"
       loading={fetching}
       paragraph={{ rows: 1 }}
     >
@@ -42,6 +47,7 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
         <ActionStats
           commentAttachmentCount={action.commentAttachmentCount}
           commentCount={action.commentCount}
+          companiesCompletedCount={action.companiesCompletedCount}
           recentCompaniesCompleted={action.recentCompaniesCompleted}
         />
       </div>
@@ -71,24 +77,27 @@ export const ActionsBar = ({
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button
           block
-          icon={<CheckOutlined />}
+          ghost={isCompleted}
+          icon={isCompleted ? <UndoOutlined /> : <CheckOutlined />}
           loading={fetchingCompleted}
           onClick={onComplete}
           size="large"
-          type="primary"
+          type={isCompleted ? 'default' : 'primary'}
         >
           {isCompleted ? 'Mark as incomplete' : 'Mark as done'}
         </Button>
-        <Button
-          block
-          ghost
-          icon={<CalendarOutlined />}
-          loading={fetchingPlanned}
-          onClick={onPlan}
-          size="large"
-        >
-          {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
-        </Button>
+        {!isCompleted && (
+          <Button
+            block
+            ghost
+            icon={isPlanned ? <UndoOutlined /> : <CalendarOutlined />}
+            loading={fetchingPlanned}
+            onClick={onPlan}
+            size="large"
+          >
+            {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
+          </Button>
+        )}
       </Space>
     </div>
   )

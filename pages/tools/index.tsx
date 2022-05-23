@@ -1,18 +1,16 @@
 import type { NextPage } from 'next'
 
-import { InviteTeam } from '../../components/InviteTeam'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
-import { SETTINGS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
-const Invite: NextPage = () => {
+const Tools: NextPage = () => {
   return (
-    <SiderLayout nav={SETTINGS_NAV}>
+    <SiderLayout>
       <Main>
-        <Section title="Invite" titleSize="big">
+        <Section title="Community" titleSize="big">
           <Container>
-            <InviteTeam />
+            <p>Coming soon...</p>
           </Container>
         </Section>
       </Main>
@@ -20,4 +18,4 @@ const Invite: NextPage = () => {
   )
 }
 
-export default withAuth(Invite)
+export default withAuth(Tools)
