@@ -1,5 +1,5 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Drawer, Tabs } from 'antd'
+import { Drawer, message, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -61,11 +61,20 @@ const Action: NextPage<ActionProps> = (props) => {
   }
 
   const handlePlan = async () => {
-    await planCompanyAction({
+    planCompanyAction({
       input: {
         actionContentId: action.actionId,
         isPlanned: !actionData?.companyAction.plannedAt,
       },
+    }).then(({ data, error }) => {
+      if (error) message.error(error.message)
+      else {
+        if (data?.planCompanyAction?.plannedAt) {
+          message.success('Marked as planned')
+        } else {
+          message.info('Removed from planned actions')
+        }
+      }
     })
   }
 

@@ -1,6 +1,10 @@
 require('./styles.less')
 
-import { CalendarOutlined, CheckOutlined } from '@ant-design/icons'
+import {
+  CalendarOutlined,
+  CheckOutlined,
+  UndoOutlined,
+} from '@ant-design/icons'
 import { Button, Skeleton, Space } from 'antd'
 import Image from 'next/image'
 import React from 'react'
@@ -72,24 +76,27 @@ export const ActionsBar = ({
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button
           block
-          icon={<CheckOutlined />}
+          ghost={isCompleted}
+          icon={isCompleted ? <UndoOutlined /> : <CheckOutlined />}
           loading={fetchingCompleted}
           onClick={onComplete}
           size="large"
-          type="primary"
+          type={isCompleted ? 'default' : 'primary'}
         >
           {isCompleted ? 'Mark as incomplete' : 'Mark as done'}
         </Button>
-        <Button
-          block
-          ghost
-          icon={<CalendarOutlined />}
-          loading={fetchingPlanned}
-          onClick={onPlan}
-          size="large"
-        >
-          {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
-        </Button>
+        {!isCompleted && (
+          <Button
+            block
+            ghost
+            icon={isPlanned ? <UndoOutlined /> : <CalendarOutlined />}
+            loading={fetchingPlanned}
+            onClick={onPlan}
+            size="large"
+          >
+            {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
+          </Button>
+        )}
       </Space>
     </div>
   )
