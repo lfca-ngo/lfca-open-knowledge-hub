@@ -20,6 +20,7 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
     <Skeleton
       active
       avatar={{ shape: 'square', size: 'large' }}
+      className="action-details-skeleton"
       loading={fetching}
       paragraph={{ rows: 1 }}
     >
