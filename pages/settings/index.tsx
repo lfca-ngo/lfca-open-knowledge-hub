@@ -1,37 +1,42 @@
-import { Button, Form, Input } from 'antd'
+import { message } from 'antd'
 import type { NextPage } from 'next'
 
-import { DarkModeSelector } from '../../components/DarkModeSelector'
-import { ImageUpload } from '../../components/FileUpload/ImageUpload'
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { UserForm } from '../../components/UserForm'
+import { useUserQuery } from '../../services/lfca-backend'
+import { useUpdateUserMutation } from '../../services/lfca-backend'
+import { UpdateUserInput } from '../../services/lfca-backend'
 import { SETTINGS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
 const Settings: NextPage = () => {
-  const updateProfile = () => {
-    // @TODO: update profile
+  const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
+  const [{ data, fetching: fetchingUser }] = useUserQuery()
+  const user = data?.user
+
+  const handleUpdate = (allValues: UpdateUserInput) => {
+    updateUser({
+      input: {
+        userId: user?.id,
+        ...allValues,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Profile updated')
+    })
   }
 
   return (
     <SiderLayout nav={SETTINGS_NAV}>
       <Main>
         <Section title="Settings" titleSize="big">
-          <Form layout="vertical" onFinish={updateProfile}>
-            <Form.Item label="Name" name="name">
-              <Input placeholder="Your name" />
-            </Form.Item>
-            <Form.Item label="Change picture" name="picture">
-              <ImageUpload />
-            </Form.Item>
-            <Form.Item label="Darkmode">
-              <DarkModeSelector />
-            </Form.Item>
-            <Form.Item>
-              <Button htmlType="submit" type="primary">
-                Save
-              </Button>
-            </Form.Item>
-          </Form>
+          <UserForm
+            filterByKeys={['email', 'firstName', 'lastName', 'picture']}
+            initialValues={user}
+            isLoading={fetchingUser || isUpdatingUser}
+            onUpdate={handleUpdate}
+            type="update"
+          />
         </Section>
       </Main>
     </SiderLayout>

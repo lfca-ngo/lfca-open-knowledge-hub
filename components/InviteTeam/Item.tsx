@@ -1,108 +1,50 @@
-import {
-  CloseOutlined,
-  MailOutlined,
-  MessageOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
-import { Avatar, Button, Col, Input, List, Popover, Row } from 'antd'
-import React, { useState } from 'react'
+import { CopyOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Input, List, message, Popover, Row } from 'antd'
+import React from 'react'
 
-import { CopyToClipboard } from '../CopyToClipboard'
+import { UserInviteFragment } from '../../services/lfca-backend'
+import { copyTextToClipboard } from '../../utils'
 
-export const InviteItem = ({
-  item,
-  onMinimumInvited,
-}: {
-  item: any
-  onMinimumInvited: any
-}) => {
-  const [slackVisible, setSlackVisible] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasMinimumInvited, setHasMinimumInvited] = useState(false)
-  const [status] = useState('IDLE')
+const BTN_WIDTH = 60
 
-  const isSent = status === 'SUCCESS'
-  const hasError = status === 'ERROR'
+interface InviteItemProps {
+  item: UserInviteFragment
+  onMinimumInvited?: () => void
+}
 
-  // const onAfterInvite = (err: any) => {
-  //   setIsLoading(false)
-  //   if (err) setStatus('ERROR')
-  //   else {
-  //     setStatus('SUCCESS')
-  //     handleHasInvited()
-  //   }
-  // }
-
-  const handleHasInvited = () => {
-    if (!hasMinimumInvited) {
-      setHasMinimumInvited(true)
-      onMinimumInvited()
-    }
-  }
-
-  const handleEmailInvite = () => {
-    setIsLoading(true)
-    // inviteUser(item.email, item.linkUrl, authUser.companyId, onAfterInvite)
+export const InviteItem = ({ item }: InviteItemProps) => {
+  const handleCopy = () => {
+    copyTextToClipboard('mylink', (note: string, hasCopied: boolean) => {
+      if (hasCopied) {
+        message.success(note)
+      } else message.error(note)
+    })
   }
 
   return (
     <List.Item
       actions={[
-        <Button
-          disabled={isSent}
-          ghost
-          icon={<MailOutlined />}
-          key="mail"
-          loading={isLoading}
-          onClick={handleEmailInvite}
-          size="large"
-          type="primary"
-        >
-          {isSent
-            ? 'Invite sent!'
-            : hasError
-            ? 'Failed. Try again'
-            : 'Invite via Mail'}
-        </Button>,
         <Popover
           content={
             <Row>
-              <Col xs={14}>
-                <Input disabled size="large" value={item?.linkUrl} />
-              </Col>
-              <Col xs={{ offset: 1, span: 9 }}>
-                <CopyToClipboard
-                  block
-                  hidePreview
-                  onAfterCopy={handleHasInvited}
-                  text={item?.linkUrl}
+              <Input.Group compact>
+                <Input
+                  disabled
+                  style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
+                  value={'invite lin here'}
                 />
-              </Col>
+                <Button
+                  icon={<CopyOutlined />}
+                  onClick={handleCopy}
+                  style={{ width: `${BTN_WIDTH}px` }}
+                />
+              </Input.Group>
             </Row>
           }
           key="mail"
-          title={
-            <div className="popover-title">
-              <div className="title">
-                Copy the link below and share it via Slack
-              </div>
-              <Button
-                icon={<CloseOutlined />}
-                onClick={() => setSlackVisible(false)}
-                size="small"
-                type="link"
-              />
-            </div>
-          }
-          visible={slackVisible}
+          title={'Copy & Share the link'}
         >
-          <Button
-            ghost
-            icon={<MessageOutlined />}
-            onClick={() => setSlackVisible(!slackVisible)}
-            size="large"
-            type="primary"
-          >
+          <Button ghost icon={<MessageOutlined />} size="large">
             Invite via Message
           </Button>
         </Popover>,

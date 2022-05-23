@@ -48,18 +48,20 @@ export const openInNewTab = (url: string) => {
   win?.focus()
 }
 
-export const copyTextToClipboard = (text: string, cb: any) => {
+export const copyTextToClipboard = (
+  text: string,
+  cb: (message: string, success: boolean) => void
+) => {
   if (!navigator.clipboard) {
     cb('Clipboard API not supported', false)
   }
   navigator.clipboard.writeText(text).then(
     () => {
-      const message = `Copying text was successful`
+      const message = `Copied text to clipboard`
       return cb(message, true)
     },
     (err) => {
-      console.error(err)
-      const message = `Could not copy text`
+      const message = `Could not copy text. Error: ${err.toString()}`
       return cb(message, false)
     }
   )

@@ -97,7 +97,7 @@ const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
             onClose={() => setIsOpen(false)}
             visible={isOpen}
           >
-            <h1>User</h1>
+            <h1>{`${selectedUser ? 'Update' : 'Create'} User`}</h1>
             <UserForm
               countries={countries}
               initialValues={selectedUser}

@@ -1,0 +1,9 @@
+fragment UserInvite on UserInvite {
+  email
+  userRole
+  user {
+    id
+    companyId
+    email
+  }
+}
