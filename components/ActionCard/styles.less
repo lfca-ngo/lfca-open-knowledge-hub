@@ -130,3 +130,29 @@
   display: flex;
   width: 100%;
 }
+
+.action-card-skeleton {
+  &.ant-skeleton {
+    display: flex;
+    align-items: center;
+    padding: @action-card-padding 0;
+    .ant-skeleton-avatar {
+      width: @action-card-hero-size;
+      height: @action-card-hero-size;
+      border-radius: @border-radius-base;
+    }
+    .ant-skeleton-header {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+    }
+    .ant-skeleton-content {
+      .ant-skeleton-title {
+        margin: 0;
+      }
+      .ant-skeleton-paragraph {
+        margin-top: 10px;
+      }
+    }
+  }
+}

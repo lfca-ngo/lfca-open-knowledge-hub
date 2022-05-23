@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Divider, Form, List, Skeleton } from 'antd'
+import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -8,6 +8,7 @@ import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
+import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
 import { FilterBar, SORT_OPTIONS } from './FilterBar'
 import { FilterFormItems } from './FilterBar'
 
@@ -104,12 +105,7 @@ export const ActionsList = ({
         renderItem={(item) => {
           return (
             <List.Item>
-              <Skeleton
-                active
-                avatar={{ shape: 'square', size: 'large' }}
-                loading={fetching}
-                paragraph={{ rows: 1 }}
-              >
+              <ActionCardSkeleton fetching={fetching}>
                 <ActionCardWrapper
                   action={item}
                   onSavePosition={() => {
@@ -117,7 +113,7 @@ export const ActionsList = ({
                   }}
                   {...actionListItemProps}
                 />
-              </Skeleton>
+              </ActionCardSkeleton>
             </List.Item>
           )
         }}

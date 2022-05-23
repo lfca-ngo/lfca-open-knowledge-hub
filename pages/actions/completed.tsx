@@ -1,8 +1,9 @@
-import { List, Skeleton } from 'antd'
+import { List } from 'antd'
 import type { NextPage } from 'next'
 import React from 'react'
 
 import { ActionCardWrapper } from '../../components/ActionCard'
+import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkeleton'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
@@ -27,14 +28,9 @@ const CompletedActions: NextPage = () => {
               renderItem={(item) => {
                 return (
                   <List.Item>
-                    <Skeleton
-                      active
-                      avatar={{ shape: 'square', size: 'large' }}
-                      loading={fetchingActions}
-                      paragraph={{ rows: 1 }}
-                    >
+                    <ActionCardSkeleton fetching={fetchingActions}>
                       <ActionCardWrapper action={item} />
-                    </Skeleton>
+                    </ActionCardSkeleton>
                   </List.Item>
                 )
               }}
