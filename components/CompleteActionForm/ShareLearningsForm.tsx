@@ -40,8 +40,6 @@ export const ShareLearningsForm = ({
     useCreateActionCommentMutation()
 
   const handleFinish = async ({ message }: { message?: Descendant[] }) => {
-    console.log(message)
-
     // // TODO: add attachments
     if (message?.length) {
       await createActionComment({
