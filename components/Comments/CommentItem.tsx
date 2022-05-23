@@ -28,23 +28,31 @@ export const CommentItem = ({
   onDelete,
   onEdit,
 }: CommentItemProps) => {
+  const readibleDate = new Date(comment.createdAt).toLocaleDateString('en-us', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+
   return (
     <div className="comment-item">
       <div className="author">
         {comment.author?.picture ? (
-          <Avatar size="large" src={comment.author.picture} />
+          <Avatar className="blue" src={comment.author.picture} />
         ) : (
-          <Avatar icon={<UserOutlined />} size="large" />
+          <Avatar className="blue-inverse" icon={<UserOutlined />} />
         )}
         {comment.author?.firstName ? (
-          <span className="name">{comment.author.firstName}</span>
+          <span className="name">
+            {comment.author.firstName}{' '}
+            <span className="time">• {readibleDate}</span>
+          </span>
         ) : null}
       </div>
-
       <div className="message">
         <div className="body">
           <ShowMore
-            maxHeight={280}
+            maxHeight={140}
             text={
               <div
                 dangerouslySetInnerHTML={{

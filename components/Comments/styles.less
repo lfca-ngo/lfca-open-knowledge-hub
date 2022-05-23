@@ -3,22 +3,33 @@
 
 .action-comments {
   .comment-item {
-    margin: 0 0 20px;
+    margin: 10px 0 10px;
     .author {
-      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      font-size: @font-size-xs;
+      color: @black;
       .ant-avatar {
-        margin-right: 12px;
+        margin-right: 8px;
+      }
+      .name {
+        .time {
+          font-size: 12px;
+          color: @text-color;
+        }
       }
     }
     .message {
       .body {
-        background-color: @grey-white;
-        border-radius: @border-radius-base;
-        padding: 12px;
+        padding: 12px 0;
         margin-bottom: 12px;
+
         .show-more {
           .content {
             padding-bottom: 0;
+            p {
+              font-size: @font-size-sm;
+            }
           }
         }
       }
