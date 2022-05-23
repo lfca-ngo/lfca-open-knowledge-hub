@@ -12,7 +12,11 @@ import {
 } from 'urql'
 
 import { useFirebase } from '../../hooks/firebase'
-import { completeCompanyAction, planCompanyAction } from './cache-updates'
+import {
+  completeCompanyAction,
+  createActionComment,
+  planCompanyAction,
+} from './cache-updates'
 import schema from './schema.json'
 
 interface LFCABackendProviderProps {
@@ -37,6 +41,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
           updates: {
             Mutation: {
               completeCompanyAction,
+              createActionComment,
               planCompanyAction,
             },
           },
