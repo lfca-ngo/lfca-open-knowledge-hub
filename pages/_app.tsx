@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-import { LS_ACTION_LIST } from '../components/ActionsList'
+import { INITIAL_VALUES, LS_ACTION_LIST } from '../components/ActionsList'
 import { AppProvider } from '../hooks/app'
 import { useScrollPosition } from '../hooks/useScrollPosition'
 import { FirebaseProvider } from '../services/firebase'
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         router.pathname.startsWith('/action/') && url === ACTIONS
 
       if (!(fromDashboardToDetails || fromDetailPageToDashboard)) {
-        resetPosition()
+        resetPosition(INITIAL_VALUES)
       }
     }
 

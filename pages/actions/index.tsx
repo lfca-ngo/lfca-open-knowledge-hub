@@ -4,7 +4,11 @@ import React from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
-import { ActionsList, LS_ACTION_LIST } from '../../components/ActionsList'
+import {
+  ActionsList,
+  INITIAL_VALUES,
+  LS_ACTION_LIST,
+} from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -70,7 +74,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             actions={highlightedActions}
             fetching={fetchingActions}
             onSelect={(action) => {
-              resetPosition()
+              resetPosition(INITIAL_VALUES)
               router.push(`/action/${action.contentId}`)
             }}
           />

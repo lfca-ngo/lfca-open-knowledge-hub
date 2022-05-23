@@ -14,6 +14,12 @@ import { FilterFormItems } from './FilterBar'
 
 export const LS_ACTION_LIST = 'actions_list'
 
+export const INITIAL_VALUES = {
+  search: '',
+  sorting: SORT_OPTIONS[0].key,
+  tags: [ALL_ACTIONS_LABEL],
+}
+
 export interface ActionListProps {
   actionsByTags: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
@@ -27,11 +33,11 @@ export const ActionsList = ({
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
   // unnecessary rerenders (LS is available on initial render)
-  const { options, savePosition } = useScrollPosition(LS_ACTION_LIST, true, {
-    search: '',
-    sorting: SORT_OPTIONS[0].key,
-    tags: [ALL_ACTIONS_LABEL],
-  })
+  const { options, savePosition } = useScrollPosition(
+    LS_ACTION_LIST,
+    true,
+    INITIAL_VALUES
+  )
 
   // the currentPage is needed for the list component,
   // the rest for the filter form component
