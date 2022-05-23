@@ -1,4 +1,5 @@
-import React from "react"
+import React from 'react'
+import { RenderElementProps } from 'slate-react'
 
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1249405
 const InlineChromiumBugfix = () => (
@@ -12,11 +13,15 @@ const InlineChromiumBugfix = () => (
   </span>
 )
 
-export const Element = ({ attributes, children, element }) => {
+export const Element = ({
+  attributes,
+  children,
+  element,
+}: RenderElementProps) => {
   switch (element.type) {
-    case "bulleted-list":
+    case 'bulleted-list':
       return <ul {...attributes}>{children}</ul>
-    case "link":
+    case 'link':
       return (
         <a {...attributes} href={element.url}>
           <InlineChromiumBugfix />
@@ -24,11 +29,11 @@ export const Element = ({ attributes, children, element }) => {
           <InlineChromiumBugfix />
         </a>
       )
-    case "list-item":
+    case 'list-item':
       return <li {...attributes}>{children}</li>
-    case "numbered-list":
+    case 'numbered-list':
       return <ol {...attributes}>{children}</ol>
-    case "paragraph":
+    case 'paragraph':
     default:
       return <div {...attributes}>{children}</div>
   }

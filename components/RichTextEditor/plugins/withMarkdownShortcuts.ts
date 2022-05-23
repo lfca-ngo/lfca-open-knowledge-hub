@@ -1,6 +1,11 @@
 import { Editor, Element, Range, Transforms } from 'slate'
 
-const SHORTCUTS = {
+import { BulletedList, ListItem, NumberedList } from '../types'
+
+const SHORTCUTS: Record<
+  string,
+  { type: ListItem['type']; wrap: (BulletedList | NumberedList)['type'] }
+> = {
   '*': {
     type: 'list-item',
     wrap: 'bulleted-list',
@@ -19,7 +24,7 @@ const SHORTCUTS = {
   },
 }
 
-export function withMarkdownShortcuts(editor) {
+export function withMarkdownShortcuts(editor: Editor) {
   const { insertText } = editor
 
   editor.insertText = (text) => {

@@ -1,17 +1,18 @@
 require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Form, Input, notification, Tag, Tooltip } from 'antd'
+import { Button, Form, notification, Tag, Tooltip } from 'antd'
+import { Descendant } from 'slate'
 
 import {
   useCompleteCompanyActionMutation,
   useCreateActionCommentMutation,
 } from '../../services/lfca-backend'
+import { CommentInput } from '../Comments/CommentInput'
 import { FileUpload } from '../FileUpload/FileUpload'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
-
-const { TextArea } = Input
+import { convertValueToMarkdown } from '../RichTextEditor/utils'
 
 const openNotification = () => {
   notification.info({
@@ -38,13 +39,15 @@ export const ShareLearningsForm = ({
   const [{ fetching: fetchingCreateActionComment }, createActionComment] =
     useCreateActionCommentMutation()
 
-  const handleFinish = async ({ message }: { message?: string }) => {
-    // TODO: add attachments
-    if (message) {
+  const handleFinish = async ({ message }: { message?: Descendant[] }) => {
+    console.log(message)
+
+    // // TODO: add attachments
+    if (message?.length) {
       await createActionComment({
         input: {
           actionContentId,
-          message,
+          message: convertValueToMarkdown(message),
         },
       })
     }
@@ -73,10 +76,7 @@ export const ShareLearningsForm = ({
         }
         name="message"
       >
-        <TextArea
-          placeholder="The most difficult thing was solving xyz. Luckily we found this overview that really helped us (attached)."
-          rows={4}
-        />
+        <CommentInput />
       </Form.Item>
       <div className="buzzwords">
         <span>Think of:</span> <Tag>Costs</Tag>

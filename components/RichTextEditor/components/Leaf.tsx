@@ -1,6 +1,7 @@
-import React from "react"
+import React from 'react'
+import { RenderLeafProps } from 'slate-react'
 
-export const Leaf = ({ attributes, children, leaf }) => {
+export const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }

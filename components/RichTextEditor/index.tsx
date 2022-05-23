@@ -2,9 +2,15 @@ require('./styles.less')
 
 import isHotkey from 'is-hotkey'
 import React from 'react'
-import { createEditor, Transforms } from 'slate'
+import { createEditor, Descendant, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
-import { Editable, Slate, withReact } from 'slate-react'
+import {
+  Editable,
+  RenderElementProps,
+  RenderLeafProps,
+  Slate,
+  withReact,
+} from 'slate-react'
 
 import { Element, Leaf, Toolbar } from './components'
 import { HOTKEYS } from './config'
@@ -15,7 +21,19 @@ import {
 } from './plugins'
 import { createEmptyValue, toggleMark } from './utils'
 
-export const RichTextEditor = ({ disabled, initialValue, onChange }) => {
+interface RichTextEditorProps {
+  disabled: boolean
+  initialValue?: Descendant[]
+  onChange?: (value: Descendant[]) => void
+  placeholder?: string
+}
+
+export const RichTextEditor = ({
+  disabled,
+  initialValue,
+  onChange,
+  placeholder,
+}: RichTextEditorProps) => {
   const editor = React.useMemo(
     () =>
       withHistory(
@@ -32,23 +50,36 @@ export const RichTextEditor = ({ disabled, initialValue, onChange }) => {
     /**
      * NOTE:
      * The slate value is uncontrolled and this we need to update it's children
-     * manually if we need to controll the value from outside
+     * manually if we need to control the value from outside
      * See: https://github.com/ianstormtaylor/slate/releases/tag/slate-react%400.67.0
      */
     editor.children = initialValue || createEmptyValue()
+    // Deselect since the current selected node might not exist in the new value
     Transforms.deselect(editor)
-    onChange(editor.children)
-  }, [initialValue])
+  }, [editor, initialValue])
 
-  const renderElement = React.useCallback((props) => <Element {...props} />, [])
-  const renderLeaf = React.useCallback((props) => <Leaf {...props} />, [])
+  const renderElement = React.useCallback(
+    (props: RenderElementProps) => <Element {...props} />,
+    []
+  )
+  const renderLeaf = React.useCallback(
+    (props: RenderLeafProps) => <Leaf {...props} />,
+    []
+  )
 
   return (
     <div className="richtext-editor">
       <Slate
         editor={editor}
-        onChange={onChange}
-        value={initialValue || createEmptyValue()} // This is only the initial value
+        onChange={(value) => {
+          const isAstChange = editor.operations.some(
+            (op) => op.type !== 'set_selection'
+          )
+          if (isAstChange) {
+            onChange && onChange(value)
+          }
+        }}
+        value={initialValue || createEmptyValue()}
       >
         <Toolbar disabled={disabled} />
         <Editable
@@ -63,7 +94,7 @@ export const RichTextEditor = ({ disabled, initialValue, onChange }) => {
               }
             }
           }}
-          placeholder="Type something"
+          placeholder={placeholder}
           readOnly={disabled}
           renderElement={renderElement}
           renderLeaf={renderLeaf}

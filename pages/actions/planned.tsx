@@ -49,7 +49,7 @@ const PlannedActions: NextPage<PlannedActionsProps> = ({ content }) => {
                     loading={fetchingActions}
                     paragraph={{ rows: 1 }}
                   >
-                    <ActionCardWrapper action={item} />
+                    <ActionCardWrapper action={item} renderAsLink={true} />
                   </Skeleton>
                 </List.Item>
               )
