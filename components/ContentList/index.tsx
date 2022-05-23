@@ -65,8 +65,8 @@ export const ContentListMini = ({
         <List.Item>
           <a href={item?.link} key="go" rel="noreferrer" target="_blank">
             <div className="item">
-              <ArrowRightOutlined />
               {item.title}
+              <ArrowRightOutlined />
             </div>
           </a>
         </List.Item>
