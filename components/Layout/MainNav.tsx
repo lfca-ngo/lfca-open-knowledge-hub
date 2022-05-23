@@ -1,6 +1,7 @@
 import {
   AppstoreAddOutlined,
   BankOutlined,
+  CalculatorOutlined,
   CalendarOutlined,
   CarryOutOutlined,
   CheckCircleOutlined,
@@ -10,7 +11,6 @@ import {
   ProfileOutlined,
   RocketOutlined,
   UsergroupAddOutlined,
-  CalculatorOutlined,
 } from '@ant-design/icons'
 import { Menu, MenuProps } from 'antd'
 import { useRouter } from 'next/router'
@@ -26,9 +26,9 @@ import {
   ADMIN_COMPANIES,
   ADMIN_USERS,
   COMMUNITY,
-  TOOLS,
   MEASUREMENT_SERVICE_PROVIDERS,
   PERSONAL_FOOTPRINT_CALCULATOR,
+  TOOLS,
 } from '../../utils/routes'
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [

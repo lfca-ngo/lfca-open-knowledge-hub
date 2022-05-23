@@ -35,9 +35,9 @@ export const SettingsNav = () => {
     }
   }
 
-  const handleSelect = (item: any) => {
-    if (item.key === LOGOUT) handleLogout()
-    else router.push(item.key)
+  const handleSelect = ({ key }: { key: string }) => {
+    if (key === LOGOUT) handleLogout()
+    else router.push(key)
   }
 
   const ITEMS = [
