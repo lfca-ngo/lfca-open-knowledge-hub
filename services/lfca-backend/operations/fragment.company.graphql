@@ -1,0 +1,22 @@
+fragment Company on Company {
+  id
+  logoUrl
+  name
+  employeeCount
+  micrositeSlug
+  program {
+    contentId
+    name
+  }
+  aboutSections {
+    heading
+    imageUrl
+    text
+  }
+  campaignGoals
+  campaignContribution
+  campaignFiles {
+    name
+    url
+  }
+}

@@ -570,6 +570,8 @@ export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', co
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
+export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> };
+
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
@@ -609,6 +611,13 @@ export type PlanCompanyActionMutationVariables = Exact<{
 
 export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } };
 
+export type UpdateCompanyMutationVariables = Exact<{
+  input: UpdateCompanyInput;
+}>;
+
+
+export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', id: string } };
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
@@ -646,6 +655,11 @@ export type CompanyActionsListQueryVariables = Exact<{
 
 
 export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
+
+export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> } };
 
 export type CompletedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -768,6 +782,30 @@ export const CompanyActionListItemFragmentDoc = gql`
   title
 }
     `;
+export const CompanyFragmentDoc = gql`
+    fragment Company on Company {
+  id
+  logoUrl
+  name
+  employeeCount
+  micrositeSlug
+  program {
+    contentId
+    name
+  }
+  aboutSections {
+    heading
+    imageUrl
+    text
+  }
+  campaignGoals
+  campaignContribution
+  campaignFiles {
+    name
+    url
+  }
+}
+    `;
 export const UserInviteFragmentDoc = gql`
     fragment UserInvite on UserInvite {
   email
@@ -849,6 +887,17 @@ export const PlanCompanyActionDocument = gql`
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
 };
+export const UpdateCompanyDocument = gql`
+    mutation updateCompany($input: UpdateCompanyInput!) {
+  updateCompany(input: $input) {
+    id
+  }
+}
+    `;
+
+export function useUpdateCompanyMutation() {
+  return Urql.useMutation<UpdateCompanyMutation, UpdateCompanyMutationVariables>(UpdateCompanyDocument);
+};
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
@@ -926,6 +975,17 @@ export const CompanyActionsListDocument = gql`
 
 export function useCompanyActionsListQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsListQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyActionsListQuery>({ query: CompanyActionsListDocument, ...options });
+};
+export const CompanyDocument = gql`
+    query company {
+  company {
+    ...Company
+  }
+}
+    ${CompanyFragmentDoc}`;
+
+export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyQuery>({ query: CompanyDocument, ...options });
 };
 export const CompletedCompanyActionsDocument = gql`
     query completedCompanyActions {
