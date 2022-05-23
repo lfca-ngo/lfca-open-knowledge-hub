@@ -19,7 +19,7 @@ const CompletedActions: NextPage = () => {
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
-        <Section bordered={false} title="Planned Actions" titleSize="big">
+        <Section bordered={false} title="Completed Actions" titleSize="big">
           <Container>
             <List
               className="no-padding"
