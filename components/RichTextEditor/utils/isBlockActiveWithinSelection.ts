@@ -1,6 +1,9 @@
-import { Editor, Element } from "slate"
+import { Editor, Element } from 'slate'
 
-export function isBlockActiveWithinSelection(editor, format) {
+export function isBlockActiveWithinSelection(
+  editor: Editor,
+  format: Element['type']
+) {
   const { selection } = editor
   if (!selection) return false
 

@@ -1,5 +1,6 @@
 import unescape from 'lodash.unescape'
 import { marked } from 'marked'
+import { Descendant, Element, Text } from 'slate'
 
 import { DEFAULT_ELEMENT_TYPE } from '../config'
 
@@ -11,7 +12,10 @@ export function parseMarkdownToValue(md = '') {
   return parsed
 }
 
-function deserialize(tokens, options) {
+function deserialize(
+  tokens: marked.TokensList | marked.Token[] | undefined = [],
+  options?: Omit<Text, 'text'>
+): Descendant[] {
   return tokens.reduce((acc, t) => {
     switch (t.type) {
       case 'space': {
@@ -21,7 +25,8 @@ function deserialize(tokens, options) {
       case 'text': {
         return [
           ...acc,
-          ...(t.tokens
+
+          ...('tokens' in t
             ? deserialize(t.tokens, options)
             : [
                 {
@@ -45,30 +50,27 @@ function deserialize(tokens, options) {
       case 'list_item':
       case 'paragraph': {
         const node = {
-          children: t.tokens
-            ? deserialize(t.tokens, options)
-            : t.items
-            ? deserialize(t.items, options)
-            : [
-                {
-                  text: t.text || t.raw,
-                },
-              ],
+          children:
+            'tokens' in t
+              ? deserialize(t.tokens, options)
+              : deserialize(t.items, options),
           type: getTypeFromMarkdownToken(t),
+        } as Element
+
+        if (node.type === 'link') {
+          node.url = 'href' in t ? t.href : ''
         }
-        if (t.type === 'link') {
-          node.url = t.href || ''
-        }
+
         return [...acc, node]
       }
 
       default:
         return acc
     }
-  }, [])
+  }, [] as Descendant[])
 }
 
-function getTypeFromMarkdownToken(t) {
+function getTypeFromMarkdownToken(t: marked.Token): Element['type'] {
   switch (t.type) {
     case 'list':
       return t.ordered ? 'numbered-list' : 'bulleted-list'
