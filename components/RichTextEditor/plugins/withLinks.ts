@@ -1,10 +1,12 @@
-import { isValidUrl } from "../../../utils"
-import { wrapLink } from "../utils"
+import { Editor } from 'slate'
 
-export function withLinks(editor) {
+import { isValidUrl } from '../../../utils'
+import { wrapLink } from '../utils'
+
+export function withLinks(editor: Editor) {
   const { insertData, insertText, isInline } = editor
 
-  editor.isInline = (element) => element.type === "link" || isInline(element)
+  editor.isInline = (element) => element.type === 'link' || isInline(element)
 
   editor.insertText = (text) => {
     if (text && isValidUrl(text)) {
@@ -15,7 +17,7 @@ export function withLinks(editor) {
   }
 
   editor.insertData = (data) => {
-    const text = data.getData("text/plain")
+    const text = data.getData('text/plain')
 
     if (text && isValidUrl(text)) {
       wrapLink(editor, text)
