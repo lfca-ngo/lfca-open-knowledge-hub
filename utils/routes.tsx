@@ -19,3 +19,7 @@ export const SETTINGS_INVITE = '/settings/invite'
 export const SETTINGS_COMPANY = '/settings/company'
 // Community
 export const COMMUNITY = '/community'
+// Tools
+export const TOOLS = '/tools'
+export const MEASUREMENT_SERVICE_PROVIDERS =
+  '/tools/measurement-service-providers'

@@ -2,6 +2,7 @@ import { message } from 'antd'
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { Container } from '../../components/Layout/Container'
 import { UserForm } from '../../components/UserForm'
 import { useUserQuery } from '../../services/lfca-backend'
 import { useUpdateUserMutation } from '../../services/lfca-backend'
@@ -30,13 +31,15 @@ const Settings: NextPage = () => {
     <SiderLayout nav={SETTINGS_NAV}>
       <Main>
         <Section title="Settings" titleSize="big">
-          <UserForm
-            filterByKeys={['email', 'firstName', 'lastName', 'picture']}
-            initialValues={user}
-            isLoading={fetchingUser || isUpdatingUser}
-            onUpdate={handleUpdate}
-            type="update"
-          />
+          <Container>
+            <UserForm
+              filterByKeys={['email', 'firstName', 'lastName', 'picture']}
+              initialValues={user}
+              isLoading={fetchingUser || isUpdatingUser}
+              onUpdate={handleUpdate}
+              type="update"
+            />
+          </Container>
         </Section>
       </Main>
     </SiderLayout>
