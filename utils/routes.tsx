@@ -23,3 +23,5 @@ export const COMMUNITY = '/community'
 export const TOOLS = '/tools'
 export const MEASUREMENT_SERVICE_PROVIDERS =
   '/tools/measurement-service-providers'
+export const PERSONAL_FOOTPRINT_CALCULATOR =
+  '/tools/personal-footprint-calculator'

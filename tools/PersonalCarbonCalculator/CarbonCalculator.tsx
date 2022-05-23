@@ -126,7 +126,6 @@ export const CarbonCalculator = (props: any) => {
                             ghost
                             onClick={() => showConfirm(partner.url)}
                             size="small"
-                            type="primary"
                           >
                             Visit
                           </Button>

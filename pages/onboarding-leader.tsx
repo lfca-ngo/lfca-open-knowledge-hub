@@ -31,7 +31,7 @@ const OnboardingLeader: NextPage = (props: any) => {
       {Step ? (
         <Step
           onNext={handleOnNext}
-          questionnaire={props?.questionnaires['oc-AU']}
+          questionnaire={props?.questionnaires['oc-AU']} // @TODO: replace with user country
         />
       ) : null}
     </StepsLayout>

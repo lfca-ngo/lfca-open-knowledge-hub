@@ -10,6 +10,7 @@ import {
   ProfileOutlined,
   RocketOutlined,
   UsergroupAddOutlined,
+  CalculatorOutlined,
 } from '@ant-design/icons'
 import { Menu, MenuProps } from 'antd'
 import { useRouter } from 'next/router'
@@ -27,6 +28,7 @@ import {
   COMMUNITY,
   TOOLS,
   MEASUREMENT_SERVICE_PROVIDERS,
+  PERSONAL_FOOTPRINT_CALCULATOR,
 } from '../../utils/routes'
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
@@ -68,6 +70,11 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
         icon: <AppstoreAddOutlined />,
         key: MEASUREMENT_SERVICE_PROVIDERS,
         label: 'Measurement Service Providers',
+      },
+      {
+        icon: <CalculatorOutlined />,
+        key: PERSONAL_FOOTPRINT_CALCULATOR,
+        label: 'Personal Footprint Calculator',
       },
     ],
     icon: <InsertRowLeftOutlined />,

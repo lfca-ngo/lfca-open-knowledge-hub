@@ -80,3 +80,31 @@ export interface ContentfulCountryFields {
   isoCode: string
   continent: ContentfulContinentFields
 }
+
+export interface ContentfulOption {
+  title: string
+  value: number
+  resultTitle: string
+  resultText: string
+}
+
+export interface ContentfulQuestion {
+  question: string
+  description: string
+  type: string
+  label: string
+  message: string
+  hints: string[]
+  category: string
+  currency: string
+  initialValue: string
+  options: ContentfulOption[]
+  algorithm: string
+  algorithFactor: number
+}
+
+export interface ContentfulQuestionnaireFields {
+  name: string
+  countryCode: string
+  questions: ContentfulQuestion[]
+}
