@@ -129,7 +129,8 @@ const Action: NextPage<ActionProps> = (props) => {
         {/* Render additional sections */}
         {renderTools(
           action?.customSections?.filter((s) => s.position === 'main'),
-          props
+          props,
+          true
         )}
       </Main>
 
