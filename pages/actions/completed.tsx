@@ -22,6 +22,7 @@ const CompletedActions: NextPage = () => {
         <Section bordered={false} title="Planned Actions" titleSize="big">
           <Container>
             <List
+              className="no-padding"
               dataSource={
                 actionsData?.completedCompanyActions || EMPTY_ACTIONS_ARRAY
               }
@@ -29,7 +30,7 @@ const CompletedActions: NextPage = () => {
                 return (
                   <List.Item>
                     <ActionCardSkeleton fetching={fetchingActions}>
-                      <ActionCardWrapper action={item} />
+                      <ActionCardWrapper action={item} renderAsLink />
                     </ActionCardSkeleton>
                   </List.Item>
                 )

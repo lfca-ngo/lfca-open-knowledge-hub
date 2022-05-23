@@ -148,6 +148,7 @@ const Action: NextPage<ActionProps> = (props) => {
 
       <Drawer
         className="drawer-md"
+        destroyOnClose
         onClose={() => setIsOpen(false)}
         visible={isOpen}
       >

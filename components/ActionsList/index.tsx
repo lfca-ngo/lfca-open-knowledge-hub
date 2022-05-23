@@ -95,6 +95,7 @@ export const ActionsList = ({
       />
       <Divider />
       <List
+        className="no-padding"
         dataSource={actions}
         pagination={{
           current: currentPage,
