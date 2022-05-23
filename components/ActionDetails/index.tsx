@@ -47,6 +47,7 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
         <ActionStats
           commentAttachmentCount={action.commentAttachmentCount}
           commentCount={action.commentCount}
+          companiesCompletedCount={action.companiesCompletedCount}
           recentCompaniesCompleted={action.recentCompaniesCompleted}
         />
       </div>
