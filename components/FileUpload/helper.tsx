@@ -1,9 +1,16 @@
 import axios from 'axios'
 
 export const CLOUDINARY_CLOUD_NAME = 'dhpk1grmy'
-export const CLOUDINARY_PRESET = 'zj42agid'
 export const CLOUDINARY_API_KEY = '933727136379134'
 export const UPLOAD_API = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`
+export const CLOUDINARY_PRESETS = {
+  certificates: 'e3mez9mx',
+  commentAttachments: 'zymzhm5w',
+  companyAboutPictures: 'nmuuuqmv',
+  companyLogos: 'bnjotquc',
+  profilePictures: 'zj42agid',
+}
+export const CLOUDINARY_DEFAULT_PRESET = CLOUDINARY_PRESETS.profilePictures
 
 export const handleCustomRequest = (
   {
@@ -18,7 +25,7 @@ export const handleCustomRequest = (
   customPreset: any
 ) => {
   const formData = new FormData()
-  const preset = customPreset || CLOUDINARY_PRESET
+  const preset = customPreset || CLOUDINARY_DEFAULT_PRESET
   formData.append('file', file)
   formData.append('tags', '')
   formData.append('upload_preset', `${preset}`)
