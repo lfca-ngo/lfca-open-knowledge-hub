@@ -36,7 +36,7 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
           className="no-padding"
           dataSource={data?.actionComments}
           pagination={{
-            pageSize: 3,
+            pageSize: 2,
             size: 'small',
           }}
           renderItem={(comment) => (

@@ -1,5 +1,5 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Drawer, message, Tabs } from 'antd'
+import { Divider, Drawer, message, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -9,6 +9,7 @@ import { ActionHistory } from '../../components/ActionHistory'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { LogoGroup } from '../../components/LogoGroup'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -148,6 +149,15 @@ const Action: NextPage<ActionProps> = (props) => {
           />
         </Section>
         <Section title="Community">
+          <LogoGroup
+            data={actionData?.companyAction?.recentCompaniesCompleted}
+            label={`${actionData?.companyAction.companiesCompletedCount} members recently completed this`}
+            reverse
+            size="large"
+          />
+          <Divider orientation="left" orientationMargin="0">
+            Latest Messages
+          </Divider>
           <Comments actionContentId={action.actionId} />
         </Section>
         <Section title="Attachments">Something</Section>
