@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
+import { ActionHistory } from '../../components/ActionHistory'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -149,6 +150,9 @@ const Action: NextPage<ActionProps> = (props) => {
           <Comments actionContentId={action.actionId} />
         </Section>
         <Section title="Attachments">Something</Section>
+        <Section title="History">
+          <ActionHistory actions={[]} />
+        </Section>
         {/* Render additional sections */}
         {renderTools(
           action?.customSections?.filter((s) => s.position === 'sider'),
