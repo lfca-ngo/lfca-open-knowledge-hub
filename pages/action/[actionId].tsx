@@ -24,6 +24,7 @@ import {
 } from '../../services/lfca-backend'
 import { renderTools } from '../../tools'
 import { actionHasReviews } from '../../utils'
+import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
@@ -94,7 +95,7 @@ const Action: NextPage<ActionProps> = (props) => {
                 maxHeight={140}
                 text={
                   action?.aboutText &&
-                  documentToReactComponents(action?.aboutText)
+                  documentToReactComponents(action?.aboutText, options)
                 }
               />
             </TabPane>
@@ -104,12 +105,21 @@ const Action: NextPage<ActionProps> = (props) => {
                 text={<RequirementsList requirements={action?.requirements} />}
               />
             </TabPane>
-            <TabPane key="3" tab="Benefits">
+            <TabPane key="3" tab="Examples">
+              <ShowMore
+                maxHeight={140}
+                text={
+                  action?.examples &&
+                  documentToReactComponents(action?.examples, options)
+                }
+              />
+            </TabPane>
+            <TabPane key="4" tab="Benefits">
               <ShowMore
                 maxHeight={140}
                 text={
                   action?.benefits &&
-                  documentToReactComponents(action?.benefits)
+                  documentToReactComponents(action?.benefits, options)
                 }
               />
             </TabPane>
