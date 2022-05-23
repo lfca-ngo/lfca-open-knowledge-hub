@@ -88,7 +88,7 @@ const Personalize = ({
       <p style={{ margin: '20px 0 30px' }}>
         {`Let's start with a simple exercise: Did you already take climate action
         in your company? Which actions have you taken and what have you learned?
-        No need to go through the entire list now, you can always add actions
+        You don't need to go through the entire list now, you can always add actions
         later.`}
       </p>
       <ActionsList

@@ -75,9 +75,7 @@ export const ActionsList = ({
         // the below applies the sorting filter
         .sort((a, b) => {
           if (activeSorting === 'impact') {
-            return -1
-            // @TODO once impactValue available via backend
-            // return b.impactValue - a.impactValue
+            return b.impactValue - a.impactValue
           } else {
             return b?.companiesCompletedCount - a?.companiesCompletedCount
           }
