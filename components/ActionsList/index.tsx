@@ -15,6 +15,7 @@ import { FilterFormItems } from './FilterBar'
 export const LS_ACTION_LIST = 'actions_list'
 
 export const INITIAL_VALUES = {
+  currentPage: 1,
   search: '',
   sorting: SORT_OPTIONS[0].key,
   tags: [ALL_ACTIONS_LABEL],
