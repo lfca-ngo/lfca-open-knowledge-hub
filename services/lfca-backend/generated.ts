@@ -53,11 +53,8 @@ export type ActionCommentAttachment = {
   source: Scalars['String'];
 };
 
-export type ActionCommentAttachmentInput = {
-  fileName: Scalars['String'];
-  fileSize: Scalars['Int'];
-  mimeType: Scalars['String'];
-  source: Scalars['String'];
+export type ActionCommentAttachmentsInput = {
+  actionContentId: Scalars['String'];
 };
 
 export type ActionCommentsInput = {
@@ -145,6 +142,7 @@ export type CompanyAchievement = {
   completedCompanyActionsCount: Scalars['Int'];
   completedRequiredCompanyActionsCount: Scalars['Int'];
   contentId: Scalars['ID'];
+  editableCompanyProperties: Array<Scalars['String']>;
   micrositeUrl?: Maybe<Scalars['String']>;
   minCompletedCompanyActionsCount?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
@@ -254,9 +252,16 @@ export type ContentAsset = {
   url?: Maybe<Scalars['String']>;
 };
 
+export type CreateActionCommentAttachmentInput = {
+  fileName: Scalars['String'];
+  fileSize: Scalars['Int'];
+  mimeType: Scalars['String'];
+  source: Scalars['String'];
+};
+
 export type CreateActionCommentInput = {
   actionContentId: Scalars['String'];
-  attachments?: InputMaybe<Array<ActionCommentAttachmentInput>>;
+  attachments?: InputMaybe<Array<CreateActionCommentAttachmentInput>>;
   message: Scalars['String'];
 };
 
@@ -279,6 +284,10 @@ export type CreateUserInviteInput = {
 export type CustomSectionContent = {
   __typename?: 'CustomSectionContent';
   componentId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+export type DeleteActionCommentInput = {
   id: Scalars['ID'];
 };
 
@@ -316,12 +325,14 @@ export type Mutation = {
   /** Allows admins to create new users */
   createUser: User;
   createUserInvite: UserInvite;
+  deleteActionComment: Scalars['Boolean'];
   deleteUser: User;
   planCompanyAction: CompanyAction;
   processCompanyActionExpiry: Scalars['Boolean'];
   /** Allows users to register if they have been invited */
   registerUser: User;
   requestPasswordReset: Scalars['Boolean'];
+  updateActionComment: ActionComment;
   updateCompany: Company;
   updateUser: User;
 };
@@ -352,6 +363,11 @@ export type MutationCreateUserInviteArgs = {
 };
 
 
+export type MutationDeleteActionCommentArgs = {
+  input: DeleteActionCommentInput;
+};
+
+
 export type MutationDeleteUserArgs = {
   input: DeleteUserInput;
 };
@@ -369,6 +385,11 @@ export type MutationRegisterUserArgs = {
 
 export type MutationRequestPasswordResetArgs = {
   input: RequestPasswordResetInput;
+};
+
+
+export type MutationUpdateActionCommentArgs = {
+  input: UpdateActionCommentInput;
 };
 
 
@@ -399,6 +420,7 @@ export type QualifiedCompaniesInputFilter = {
 export type Query = {
   __typename?: 'Query';
   achievementFunnelStats: AchievementFunnelStats;
+  actionCommentAttachments: Array<ActionCommentAttachment>;
   actionComments: Array<ActionComment>;
   actionStats: Array<ActionStats>;
   companiesTakingAction: Array<ComaniesTakingActionResultItem>;
@@ -419,6 +441,11 @@ export type Query = {
 
 export type QueryAchievementFunnelStatsArgs = {
   input: AchievementFunnelStatsInput;
+};
+
+
+export type QueryActionCommentAttachmentsArgs = {
+  input: ActionCommentAttachmentsInput;
 };
 
 
@@ -487,6 +514,12 @@ export type Tag = {
   __typename?: 'Tag';
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
+};
+
+export type UpdateActionCommentInput = {
+  attachments?: InputMaybe<Array<CreateActionCommentAttachmentInput>>;
+  id: Scalars['ID'];
+  message?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateCompanyInput = {
@@ -604,12 +637,26 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
+export type DeleteActionCommentMutationVariables = Exact<{
+  input: DeleteActionCommentInput;
+}>;
+
+
+export type DeleteActionCommentMutation = { __typename?: 'Mutation', deleteActionComment: boolean };
+
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
 }>;
 
 
 export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } };
+
+export type UpdateActionCommentMutationVariables = Exact<{
+  input: UpdateActionCommentInput;
+}>;
+
+
+export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
 
 export type UpdateCompanyMutationVariables = Exact<{
   input: UpdateCompanyInput;
@@ -624,6 +671,13 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+
+export type ActionCommentAttachmentsQueryVariables = Exact<{
+  input: ActionCommentAttachmentsInput;
+}>;
+
+
+export type ActionCommentAttachmentsQuery = { __typename?: 'Query', actionCommentAttachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }> };
 
 export type ActionCommentsQueryVariables = Exact<{
   input: ActionCommentsInput;
@@ -877,6 +931,15 @@ export const CreateUserDocument = gql`
 export function useCreateUserMutation() {
   return Urql.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument);
 };
+export const DeleteActionCommentDocument = gql`
+    mutation deleteActionComment($input: DeleteActionCommentInput!) {
+  deleteActionComment(input: $input)
+}
+    `;
+
+export function useDeleteActionCommentMutation() {
+  return Urql.useMutation<DeleteActionCommentMutation, DeleteActionCommentMutationVariables>(DeleteActionCommentDocument);
+};
 export const PlanCompanyActionDocument = gql`
     mutation planCompanyAction($input: PlanCompanyActionInput!) {
   planCompanyAction(input: $input) {
@@ -887,6 +950,17 @@ export const PlanCompanyActionDocument = gql`
 
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
+};
+export const UpdateActionCommentDocument = gql`
+    mutation updateActionComment($input: UpdateActionCommentInput!) {
+  updateActionComment(input: $input) {
+    ...ActionComment
+  }
+}
+    ${ActionCommentFragmentDoc}`;
+
+export function useUpdateActionCommentMutation() {
+  return Urql.useMutation<UpdateActionCommentMutation, UpdateActionCommentMutationVariables>(UpdateActionCommentDocument);
 };
 export const UpdateCompanyDocument = gql`
     mutation updateCompany($input: UpdateCompanyInput!) {
@@ -909,6 +983,17 @@ export const UpdateUserDocument = gql`
 
 export function useUpdateUserMutation() {
   return Urql.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument);
+};
+export const ActionCommentAttachmentsDocument = gql`
+    query actionCommentAttachments($input: ActionCommentAttachmentsInput!) {
+  actionCommentAttachments(input: $input) {
+    ...ActionCommentAttachment
+  }
+}
+    ${ActionCommentAttachmentFragmentDoc}`;
+
+export function useActionCommentAttachmentsQuery(options: Omit<Urql.UseQueryArgs<ActionCommentAttachmentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ActionCommentAttachmentsQuery>({ query: ActionCommentAttachmentsDocument, ...options });
 };
 export const ActionCommentsDocument = gql`
     query actionComments($input: ActionCommentsInput!) {

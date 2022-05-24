@@ -3,11 +3,17 @@ require('./styles.less')
 import { List, Skeleton } from 'antd'
 import React from 'react'
 
-import { useActionCommentsQuery } from '../../services/lfca-backend'
+import { useUser } from '../../hooks/user'
+import {
+  ActionCommentFragment,
+  UpdateActionCommentInput,
+  useActionCommentsQuery,
+  useDeleteActionCommentMutation,
+  useUpdateActionCommentMutation,
+} from '../../services/lfca-backend'
 // import { convertValueToMarkdown } from '../RichTextEditor/utils'
-// import { CommentInput } from './CommentInput'
 import { CommentItem } from './CommentItem'
-// import { EditCommentModal } from './EditCommentModal'
+import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
 
 interface CommentsProps {
@@ -15,6 +21,8 @@ interface CommentsProps {
 }
 
 export const Comments = ({ actionContentId }: CommentsProps) => {
+  const [editingComment, setEditingComment] =
+    React.useState<ActionCommentFragment | null>(null)
   const [{ data, fetching }] = useActionCommentsQuery({
     pause: !actionContentId,
     variables: {
@@ -22,8 +30,24 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
     },
   })
 
-  // TODO: Allow edit/delete for admins
-  const isAuthUserAdmin = false
+  const [, deleteActionComment] = useDeleteActionCommentMutation()
+  const [, updateActionComment] = useUpdateActionCommentMutation()
+
+  const { isAdmin } = useUser()
+
+  const onDelete = async (comment: ActionCommentFragment) => {
+    await deleteActionComment({
+      input: {
+        id: comment.id,
+      },
+    })
+  }
+
+  const onUpdate = async (input: UpdateActionCommentInput) => {
+    await updateActionComment({
+      input,
+    })
+  }
 
   return (
     <div className="action-comments">
@@ -44,31 +68,20 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
             <List.Item>
               <CommentItem
                 comment={comment}
-                isAdmin={isAuthUserAdmin}
-                onDelete={() => {
-                  // TODO: Implement
-                  // onDelete(comment)
-                }}
+                isAdmin={isAdmin}
+                onDelete={() => onDelete(comment)}
                 onEdit={() => {
-                  // TODO: Implement
-                  // setEditingCommentId(commentId)
+                  setEditingComment(comment)
                 }}
               />
             </List.Item>
           )}
         ></List>
       )}
-      {/* <CommentInput
-        disabled={isFetching || isUpdating}
-        errorMsg={'errorMsg'}
-        isSaving={isUpdating}
-        onSave={onSave}
-      /> */}
-      {/* <EditCommentModal
-        editingComment={comments[editingCommentId]}
-        onCancel={() => setEditingCommentId(null)}
-        onSave={onUpdate}
-      /> */}
+      <EditCommentModal
+        editingComment={editingComment}
+        onClose={() => setEditingComment(null)}
+      />
     </div>
   )
 

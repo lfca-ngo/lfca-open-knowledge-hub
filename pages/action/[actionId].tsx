@@ -151,6 +151,7 @@ const Action: NextPage<ActionProps> = (props) => {
         <Section title="Community">
           <LogoGroup
             data={actionData?.companyAction?.recentCompaniesCompleted}
+            // TODO: Add a fallback or skeletong while data is loading
             label={`${actionData?.companyAction.companiesCompletedCount} members recently completed this`}
             reverse
             size="large"
