@@ -151,7 +151,7 @@ const Action: NextPage<ActionProps> = (props) => {
         <Section title="Community">
           <LogoGroup
             data={actionData?.companyAction?.recentCompaniesCompleted}
-            label={`${actionData?.companyAction.companiesCompletedCount} members recently completed this`}
+            label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
             reverse
             size="large"
           />
