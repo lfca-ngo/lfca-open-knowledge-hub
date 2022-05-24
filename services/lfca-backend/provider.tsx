@@ -15,6 +15,7 @@ import { useFirebase } from '../../hooks/firebase'
 import {
   completeCompanyAction,
   createActionComment,
+  deleteActionComment,
   planCompanyAction,
 } from './cache-updates'
 import schema from './schema.json'
@@ -42,6 +43,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
             Mutation: {
               completeCompanyAction,
               createActionComment,
+              deleteActionComment,
               planCompanyAction,
             },
           },

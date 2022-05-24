@@ -28,7 +28,7 @@ export const createActionComment: UpdateResolver<
         }
 
       // Add the completed action to the list of completedActions
-      data.actionComments = [...data.actionComments, result.createActionComment]
+      data.actionComments = [result.createActionComment, ...data.actionComments]
 
       return data
     }

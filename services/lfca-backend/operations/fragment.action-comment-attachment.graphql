@@ -1,5 +1,7 @@
 fragment ActionCommentAttachment on ActionCommentAttachment {
   fileName
+  fileSize
   id
+  mimeType
   source
 }

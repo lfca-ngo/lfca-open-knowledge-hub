@@ -3,11 +3,14 @@ require('./styles.less')
 import { List, Skeleton } from 'antd'
 import React from 'react'
 
-import { useActionCommentsQuery } from '../../services/lfca-backend'
-// import { convertValueToMarkdown } from '../RichTextEditor/utils'
-// import { CommentInput } from './CommentInput'
+import { useUser } from '../../hooks/user'
+import {
+  ActionCommentFragment,
+  useActionCommentsQuery,
+  useDeleteActionCommentMutation,
+} from '../../services/lfca-backend'
 import { CommentItem } from './CommentItem'
-// import { EditCommentModal } from './EditCommentModal'
+import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
 
 interface CommentsProps {
@@ -15,6 +18,8 @@ interface CommentsProps {
 }
 
 export const Comments = ({ actionContentId }: CommentsProps) => {
+  const [editingComment, setEditingComment] =
+    React.useState<ActionCommentFragment | null>(null)
   const [{ data, fetching }] = useActionCommentsQuery({
     pause: !actionContentId,
     variables: {
@@ -22,8 +27,17 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
     },
   })
 
-  // TODO: Allow edit/delete for admins
-  const isAuthUserAdmin = false
+  const [, deleteActionComment] = useDeleteActionCommentMutation()
+
+  const { isAdmin } = useUser()
+
+  const onDelete = async (comment: ActionCommentFragment) => {
+    await deleteActionComment({
+      input: {
+        id: comment.id,
+      },
+    })
+  }
 
   return (
     <div className="action-comments">
@@ -44,89 +58,20 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
             <List.Item>
               <CommentItem
                 comment={comment}
-                isAdmin={isAuthUserAdmin}
-                onDelete={() => {
-                  // TODO: Implement
-                  // onDelete(comment)
-                }}
+                isAdmin={isAdmin}
+                onDelete={() => onDelete(comment)}
                 onEdit={() => {
-                  // TODO: Implement
-                  // setEditingCommentId(commentId)
+                  setEditingComment(comment)
                 }}
               />
             </List.Item>
           )}
-        ></List>
+        />
       )}
-      {/* <CommentInput
-        disabled={isFetching || isUpdating}
-        errorMsg={'errorMsg'}
-        isSaving={isUpdating}
-        onSave={onSave}
-      /> */}
-      {/* <EditCommentModal
-        editingComment={comments[editingCommentId]}
-        onCancel={() => setEditingCommentId(null)}
-        onSave={onUpdate}
-      /> */}
+      <EditCommentModal
+        editingComment={editingComment}
+        onClose={() => setEditingComment(null)}
+      />
     </div>
   )
-
-  // function onSave() {
-  // {
-  //   attachments,
-  //   richTextValue,
-  // }: {
-  //   attachments: any
-  //   richTextValue: string
-  // },
-  // successCB: any
-  // const markdownValue = convertValueToMarkdown(richTextValue)
-  // if (!markdownValue) return
-  // setErrorMsg('')
-  // // Create comment object and store in Firebase
-  // const comment = {
-  //   attachments: attachments.map((a: any) => ({
-  //     name: a.name,
-  //     size: a.size,
-  //     source: a.response.secure_url,
-  //     type: a.type,
-  //   })),
-  //   author: authUser.uid,
-  //   createdAt: firebase.serverValue.TIMESTAMP,
-  //   editedAt: firebase.serverValue.TIMESTAMP,
-  //   message: markdownValue,
-  // }
-  // pushActionComment(actionId, comment, (error) => {
-  //   if (error) {
-  //     setErrorMsg(error.message)
-  //   } else {
-  //     successCB && successCB()
-  //   }
-  // })
-  // }
-
-  // function onUpdate({ attachments, richTextValue }, successCB) {
-  //   const markdownValue = convertValueToMarkdown(richTextValue)
-  //   if (!markdownValue) return
-
-  //   // updateActionComment(
-  //   //   actionId,
-  //   //   editingCommentId,
-  //   //   attachments,
-  //   //   markdownValue,
-  //   //   (error) => {
-  //   //     if (error) {
-  //   //       notification.error(`Could not update comment: ${error.message}`)
-  //   //     } else {
-  //   //       setEditingCommentId(null)
-  //   //       successCB && successCB()
-  //   //     }
-  //   //   }
-  //   // )
-  // }
-
-  // function onDelete(commentId) {
-  //   // deleteActionComment(actionId, commentId)
-  // }
 }
