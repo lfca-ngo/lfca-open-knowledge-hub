@@ -15,7 +15,7 @@ export const EmptyCommunityContent = () => {
         />
       </div>
 
-      <div className="title">Coming soon</div>
+      <div className="title">There is more to come...</div>
       <p>
         We are gradually adding more and more community powered content to the
         platform. You can check the{' '}

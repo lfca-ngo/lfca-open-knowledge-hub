@@ -72,8 +72,9 @@ export const SettingsNav = () => {
       <a onClick={(e) => e.preventDefault()}>
         <div className="profile-pic">
           <Avatar
-            icon={<UserOutlined />}
+            icon={!user?.picture && <UserOutlined />}
             size={45}
+            src={user?.picture}
             style={{ backgroundColor: '#6A1246' }}
           />
         </div>
