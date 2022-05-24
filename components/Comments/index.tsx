@@ -6,12 +6,9 @@ import React from 'react'
 import { useUser } from '../../hooks/user'
 import {
   ActionCommentFragment,
-  UpdateActionCommentInput,
   useActionCommentsQuery,
   useDeleteActionCommentMutation,
-  useUpdateActionCommentMutation,
 } from '../../services/lfca-backend'
-// import { convertValueToMarkdown } from '../RichTextEditor/utils'
 import { CommentItem } from './CommentItem'
 import { EditCommentModal } from './EditCommentModal'
 import { EmptyPlaceholder } from './EmptyPlaceholder'
@@ -31,7 +28,6 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
   })
 
   const [, deleteActionComment] = useDeleteActionCommentMutation()
-  const [, updateActionComment] = useUpdateActionCommentMutation()
 
   const { isAdmin } = useUser()
 
@@ -40,12 +36,6 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
       input: {
         id: comment.id,
       },
-    })
-  }
-
-  const onUpdate = async (input: UpdateActionCommentInput) => {
-    await updateActionComment({
-      input,
     })
   }
 
@@ -84,62 +74,4 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
       />
     </div>
   )
-
-  // function onSave() {
-  // {
-  //   attachments,
-  //   richTextValue,
-  // }: {
-  //   attachments: any
-  //   richTextValue: string
-  // },
-  // successCB: any
-  // const markdownValue = convertValueToMarkdown(richTextValue)
-  // if (!markdownValue) return
-  // setErrorMsg('')
-  // // Create comment object and store in Firebase
-  // const comment = {
-  //   attachments: attachments.map((a: any) => ({
-  //     name: a.name,
-  //     size: a.size,
-  //     source: a.response.secure_url,
-  //     type: a.type,
-  //   })),
-  //   author: authUser.uid,
-  //   createdAt: firebase.serverValue.TIMESTAMP,
-  //   editedAt: firebase.serverValue.TIMESTAMP,
-  //   message: markdownValue,
-  // }
-  // pushActionComment(actionId, comment, (error) => {
-  //   if (error) {
-  //     setErrorMsg(error.message)
-  //   } else {
-  //     successCB && successCB()
-  //   }
-  // })
-  // }
-
-  // function onUpdate({ attachments, richTextValue }, successCB) {
-  //   const markdownValue = convertValueToMarkdown(richTextValue)
-  //   if (!markdownValue) return
-
-  //   // updateActionComment(
-  //   //   actionId,
-  //   //   editingCommentId,
-  //   //   attachments,
-  //   //   markdownValue,
-  //   //   (error) => {
-  //   //     if (error) {
-  //   //       notification.error(`Could not update comment: ${error.message}`)
-  //   //     } else {
-  //   //       setEditingCommentId(null)
-  //   //       successCB && successCB()
-  //   //     }
-  //   //   }
-  //   // )
-  // }
-
-  // function onDelete(commentId) {
-  //   // deleteActionComment(actionId, commentId)
-  // }
 }

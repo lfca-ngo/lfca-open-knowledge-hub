@@ -1,64 +1,102 @@
-import { FileOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
+import { UploadChangeParam } from 'antd/lib/upload'
+import { UploadFile } from 'antd/lib/upload/interface'
 import React, { useEffect, useState } from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
 
+interface CloudinaryResponse {
+  bytes: number
+  secure_url: string
+}
+
+export interface File {
+  source: string
+  mimeType: string
+  fileName: string
+  fileSize: number
+}
+
 interface FileUploadProps {
-  value?: any
-  onChange?: any
-  customPreset?: any
+  accept?: string
+  customPreset?: string
+  maxFiles?: number
+  onChange?: (files: File[]) => void
+  value?: File[]
+}
+
+const valueToFileList = (
+  value?: File[]
+): UploadFile<CloudinaryResponse>[] | undefined => {
+  return value?.map((file, i) => {
+    return {
+      name: file.fileName,
+      response: {
+        bytes: file.fileSize,
+        secure_url: file.source,
+      },
+      siz: file.fileSize,
+      thumbUrl: file.source,
+      type: file.mimeType,
+      uid: `${file.fileName}_${i}`,
+    }
+  })
 }
 
 export const FileUpload = ({
+  accept = '*',
   customPreset,
+  maxFiles = 1,
   onChange,
   value,
 }: FileUploadProps) => {
-  const [loading, setLoading] = useState(false)
-  const [fileUrl, setFileUrl] = useState(value)
+  const [fileList, setFileList] = useState<
+    UploadFile<CloudinaryResponse>[] | undefined
+  >(valueToFileList(value))
 
   useEffect(() => {
-    setFileUrl(value)
+    setFileList(valueToFileList(value))
   }, [value])
 
-  const handleChange = (info: any) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
-      return
-    }
+  const handleChange = (
+    info: UploadChangeParam<UploadFile<CloudinaryResponse>>
+  ) => {
+    setFileList(info.fileList)
     if (info.file.status === 'done') {
-      const fileUrl = info?.file?.response?.secure_url
-      setFileUrl(fileUrl)
-      onChange?.(fileUrl)
+      onChange?.(
+        info.fileList
+          // Filter out failed uploads
+          .filter((f) => !!f.response)
+          .map((f) => ({
+            fileName: f.name,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            fileSize: f.response!.bytes,
+            mimeType: f.type || '',
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            source: f.response!.secure_url,
+          }))
+      )
     }
-    // @TODO: else throw error
   }
-
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  )
 
   return (
     <div className="clearfix">
       <Upload
-        accept={'*'}
+        accept={accept}
         action={UPLOAD_API}
         customRequest={(props) => handleCustomRequest(props, customPreset)}
+        fileList={fileList}
         listType="picture-card"
+        maxCount={maxFiles}
         onChange={handleChange}
-        showUploadList={false}
       >
-        {fileUrl ? (
-          <span>
-            <FileOutlined /> <a href={fileUrl}> file</a>
-          </span>
-        ) : (
-          uploadButton
-        )}
+        {(fileList?.length || 0) < maxFiles ? (
+          <div>
+            <PlusOutlined />
+            <div className="ant-upload-text">Upload</div>
+          </div>
+        ) : null}
       </Upload>
     </div>
   )
