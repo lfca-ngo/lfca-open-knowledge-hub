@@ -29,17 +29,19 @@ interface FileUploadProps {
 const valueToFileList = (
   value?: File[]
 ): UploadFile<CloudinaryResponse>[] | undefined => {
-  return value?.map((file, i) => {
+  return value?.map((file) => {
     return {
       name: file.fileName,
+      percent: 100,
       response: {
         bytes: file.fileSize,
         secure_url: file.source,
       },
-      siz: file.fileSize,
+      size: file.fileSize,
+      status: 'done',
       thumbUrl: file.source,
       type: file.mimeType,
-      uid: `${file.fileName}_${i}`,
+      uid: `rc-upload-${Math.floor(Math.random() * 1000000000)}`,
     }
   })
 }

@@ -51,7 +51,12 @@ export const ShareLearningsForm = ({
       await createActionComment({
         input: {
           actionContentId,
-          attachments: attachments,
+          attachments: attachments?.map((a) => ({
+            fileName: a.fileName,
+            fileSize: a.fileSize,
+            mimeType: a.mimeType,
+            source: a.source,
+          })),
           message: message ? convertValueToMarkdown(message) : '',
         },
       })

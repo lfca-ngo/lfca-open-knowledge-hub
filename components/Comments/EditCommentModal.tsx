@@ -4,16 +4,16 @@ import { Descendant } from 'slate'
 
 import {
   ActionCommentFragment,
-  UpdateActionCommentInput,
   useUpdateActionCommentMutation,
 } from '../../services/lfca-backend'
+import { File, FileUpload } from '../FileUpload/FileUpload'
+import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { RichTextEditor } from '../RichTextEditor'
 import {
   convertValueToMarkdown,
   createEmptyValue,
   parseMarkdownToValue,
 } from '../RichTextEditor/utils'
-import { CommentInput } from './CommentInput'
 
 interface EditCommentModalProps {
   editingComment: ActionCommentFragment | null
@@ -24,7 +24,9 @@ export const EditCommentModal = ({
   editingComment,
   onClose,
 }: EditCommentModalProps) => {
-  // const [attachments, setAttachments] = useState([])
+  const [attachments, setAttachments] = React.useState<File[] | undefined>(
+    editingComment?.attachments
+  )
   const [initialRichTextValue, setInitialRichTextValue] = React.useState<
     Descendant[]
   >(
@@ -42,16 +44,7 @@ export const EditCommentModal = ({
 
   React.useEffect(() => {
     if (editingComment) {
-      // setAttachments(
-      //   editingComment?.attachments?.map((a: any) => ({
-      //     name: a.name,
-      //     percent: 100,
-      //     size: a.size,
-      //     status: 'done',
-      //     type: a.type,
-      //     uid: `rc-upload-${Math.floor(Math.random() * 1000000000)}`,
-      //   })) || []
-      // )
+      setAttachments(editingComment.attachments)
       setInitialRichTextValue(parseMarkdownToValue(editingComment.message))
     }
   }, [editingComment])
@@ -61,6 +54,12 @@ export const EditCommentModal = ({
     const convertedMessage = convertValueToMarkdown(richTextValue)
     await updateActionComment({
       input: {
+        attachments: attachments?.map((a) => ({
+          fileName: a.fileName,
+          fileSize: a.fileSize,
+          mimeType: a.mimeType,
+          source: a.source,
+        })),
         id: editingComment.id,
         message: convertedMessage,
       },
@@ -71,6 +70,7 @@ export const EditCommentModal = ({
   return (
     <Modal
       confirmLoading={fetching}
+      destroyOnClose={true}
       onCancel={onClose}
       onOk={onSave}
       title="Edit comment"
@@ -80,6 +80,13 @@ export const EditCommentModal = ({
         <RichTextEditor
           initialValue={initialRichTextValue}
           onChange={setRichTextValue}
+        />
+        <FileUpload
+          accept=".doc, .docx, .ppt, .pptx, .xlsx, .xls, .txt, .pdf, .zip, .rar, image/*, video/*"
+          customPreset={CLOUDINARY_PRESETS.commentAttachments}
+          maxFiles={3}
+          onChange={setAttachments}
+          value={attachments}
         />
       </div>
     </Modal>

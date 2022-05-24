@@ -593,9 +593,9 @@ export enum ValueContentType {
   UPLOAD = 'UPLOAD'
 }
 
-export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string };
+export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string };
 
-export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } };
+export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } };
 
 export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }> };
 
@@ -628,7 +628,7 @@ export type CreateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
+export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -656,7 +656,7 @@ export type UpdateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
+export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
 
 export type UpdateCompanyMutationVariables = Exact<{
   input: UpdateCompanyInput;
@@ -677,14 +677,14 @@ export type ActionCommentAttachmentsQueryVariables = Exact<{
 }>;
 
 
-export type ActionCommentAttachmentsQuery = { __typename?: 'Query', actionCommentAttachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }> };
+export type ActionCommentAttachmentsQuery = { __typename?: 'Query', actionCommentAttachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }> };
 
 export type ActionCommentsQueryVariables = Exact<{
   input: ActionCommentsInput;
 }>;
 
 
-export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } }> };
+export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } }> };
 
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -747,7 +747,9 @@ export type AllUsersQuery = { __typename?: 'Query', users: { __typename?: 'Users
 export const ActionCommentAttachmentFragmentDoc = gql`
     fragment ActionCommentAttachment on ActionCommentAttachment {
   fileName
+  fileSize
   id
+  mimeType
   source
 }
     `;
