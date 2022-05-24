@@ -2,7 +2,9 @@
 @import (reference) '../../styles/fonts.less';
 
 .action-comments {
+  width: 100%;
   .comment-item {
+    width: 100%;
     margin: 10px 0 10px;
     .author {
       display: flex;
@@ -13,21 +15,44 @@
         margin-right: 8px;
       }
       .name {
+        flex: 1;
+        display: flex;
+        align-items: center;
         .time {
           font-size: 12px;
           color: @text-color;
+          margin: 0 6px;
+        }
+        .admin-btn {
+          margin-left: auto;
+          margin-right: 0;
         }
       }
     }
     .message {
+      .attachments {
+        margin: 8px 0;
+      }
       .body {
         padding: 12px 0;
 
         .show-more {
           .content {
             padding-bottom: 0;
+            font-size: @font-size-sm;
             p {
               font-size: @font-size-sm;
+              margin-bottom: 3px;
+            }
+            li {
+              font-size: @font-size-sm;
+              &::marker {
+                float: left;
+              }
+            }
+            ul,
+            ol {
+              padding-inline-start: 20px;
             }
           }
         }

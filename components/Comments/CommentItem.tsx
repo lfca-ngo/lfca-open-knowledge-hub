@@ -1,5 +1,5 @@
-import { FileOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Popconfirm, Space } from 'antd'
+import { FileOutlined, UserOutlined, EditOutlined } from '@ant-design/icons'
+import { Avatar, Button, Popconfirm, Space, Popover } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
 
@@ -46,6 +46,32 @@ export const CommentItem = ({
           <span className="name">
             {comment.author.firstName}{' '}
             <span className="time">• {readibleDate}</span>
+            {isAdmin && (
+              <Popover
+                content={
+                  <Space className="admin-actions">
+                    <Popconfirm
+                      cancelText="No"
+                      okText="Yes"
+                      onConfirm={onDelete}
+                      title="Are you sure to delete this comment?"
+                    >
+                      <Button size="small">Delete</Button>
+                    </Popconfirm>
+
+                    <Button onClick={onEdit} size="small">
+                      Edit
+                    </Button>
+                  </Space>
+                }
+              >
+                <Button
+                  className="admin-btn"
+                  icon={<EditOutlined />}
+                  size="small"
+                />
+              </Popover>
+            )}
           </span>
         ) : null}
       </div>
@@ -53,46 +79,33 @@ export const CommentItem = ({
         <div className="body">
           <ShowMore
             maxHeight={140}
+            size="small"
             text={
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: marked.parse(comment.message, {
-                    breaks: true,
-                    renderer,
-                  }),
-                }}
-              />
+              <>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(comment.message, {
+                      breaks: true,
+                      renderer,
+                    }),
+                  }}
+                />
+                <div className="attachments">
+                  {comment.attachments?.map((attachment) => (
+                    <Button
+                      key={attachment.source}
+                      onClick={() => window.open(attachment.source, '_blank')}
+                      size="small"
+                    >
+                      <FileOutlined className="comments-icon" />
+                      {attachment.fileName}
+                    </Button>
+                  ))}
+                </div>
+              </>
             }
           />
         </div>
-        <div className="attachments">
-          {comment.attachments?.map((attachment) => (
-            <Button
-              key={attachment.source}
-              onClick={() => window.open(attachment.source, '_blank')}
-              size="small"
-            >
-              <FileOutlined className="comments-icon" />
-              {attachment.fileName}
-            </Button>
-          ))}
-        </div>
-        {isAdmin && (
-          <Space className="admin-actions">
-            <Popconfirm
-              cancelText="No"
-              okText="Yes"
-              onConfirm={onDelete}
-              title="Are you sure to delete this comment?"
-            >
-              <Button size="small">Delete</Button>
-            </Popconfirm>
-
-            <Button onClick={onEdit} size="small">
-              Edit
-            </Button>
-          </Space>
-        )}
       </div>
     </div>
   )
