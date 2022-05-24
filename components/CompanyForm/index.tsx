@@ -8,6 +8,7 @@ import {
 } from '../../services/lfca-backend'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
+import { FileUpload } from '../FileUpload/FileUpload'
 
 // const { Option } = Select
 const { TextArea } = Input
@@ -100,7 +101,11 @@ CompanyFormProps) => {
         name="campaignFiles"
         rules={[{ message: 'Please add your campaign goals', required: false }]}
       >
-        something
+        <FileUpload
+          accept="image/*"
+          customPreset={CLOUDINARY_PRESETS.companyAboutPictures}
+          maxFiles={3}
+        />
       </Form.Item>
     ),
     campaignGoals: (

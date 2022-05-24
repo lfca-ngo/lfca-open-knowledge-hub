@@ -52,22 +52,26 @@ const ActionsStatusList = ({ items, title }: ActionsStatusListProps) => {
         dataSource={items}
         renderItem={(item) => (
           <Link href={`/action/${item.contentId}`}>
-            <List.Item onClick={() => router.push(`action/${item.contentId}`)}>
-              <List.Item.Meta
-                avatar={
-                  item.completedAt ? (
-                    <CheckCircleFilled className="green" />
-                  ) : (
-                    <CloseCircleFilled className="wine" />
-                  )
-                }
-                title={
-                  <span>
-                    {item.title} <ArrowRightOutlined />
-                  </span>
-                }
-              />
-            </List.Item>
+            <a>
+              <List.Item
+                onClick={() => router.push(`action/${item.contentId}`)}
+              >
+                <List.Item.Meta
+                  avatar={
+                    item.completedAt ? (
+                      <CheckCircleFilled className="green" />
+                    ) : (
+                      <CloseCircleFilled className="wine" />
+                    )
+                  }
+                  title={
+                    <span>
+                      {item.title} <ArrowRightOutlined />
+                    </span>
+                  }
+                />
+              </List.Item>
+            </a>
           </Link>
         )}
       />
