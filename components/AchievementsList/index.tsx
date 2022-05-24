@@ -13,6 +13,7 @@ import {
 } from '../../services/lfca-backend'
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 import { CompanyForm } from '../CompanyForm'
+import { Section } from '../Layout/Sections'
 
 interface AchievementsListProps {
   achievements: CompanyAchievementFragment[]
@@ -36,7 +37,6 @@ export const AchievementsList = ({
 
   // Actions
   const handleEditAttributes = (achievement: CompanyAchievementFragment) => {
-    console.log(achievement.editableCompanyProperties)
     setActiveAchievement(achievement)
     setDrawerVisible(true)
   }
@@ -83,14 +83,16 @@ export const AchievementsList = ({
         onClose={() => setDrawerVisible(false)}
         visible={drawerVisible}
       >
-        <CompanyForm
-          filterByKeys={
-            activeAchievement?.editableCompanyProperties as (keyof CompanyFragment)[]
-          }
-          initialValues={company}
-          isLoading={fetchingCompany || isUpdatingCompany}
-          onUpdate={handleUpdate}
-        />
+        <Section title="Edit Microsite">
+          <CompanyForm
+            filterByKeys={
+              activeAchievement?.editableCompanyProperties as (keyof CompanyFragment)[]
+            }
+            initialValues={company}
+            isLoading={fetchingCompany || isUpdatingCompany}
+            onUpdate={handleUpdate}
+          />
+        </Section>
       </Drawer>
     </div>
   )
