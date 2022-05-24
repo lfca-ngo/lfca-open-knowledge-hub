@@ -9,7 +9,8 @@ import {
   useCreateActionCommentMutation,
 } from '../../services/lfca-backend'
 import { CommentInput } from '../Comments/CommentInput'
-import { FileUpload } from '../FileUpload/FileUpload'
+import { File, FileUpload } from '../FileUpload/FileUpload'
+import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
@@ -39,13 +40,24 @@ export const ShareLearningsForm = ({
   const [{ fetching: fetchingCreateActionComment }, createActionComment] =
     useCreateActionCommentMutation()
 
-  const handleFinish = async ({ message }: { message?: Descendant[] }) => {
-    // // TODO: add attachments
-    if (message?.length) {
+  const handleFinish = async ({
+    attachments,
+    message,
+  }: {
+    attachments?: File[]
+    message?: Descendant[]
+  }) => {
+    if (attachments?.length || message) {
       await createActionComment({
         input: {
           actionContentId,
-          message: convertValueToMarkdown(message),
+          attachments: attachments?.map((a) => ({
+            fileName: a.fileName,
+            fileSize: a.fileSize,
+            mimeType: a.mimeType,
+            source: a.source,
+          })),
+          message: message ? convertValueToMarkdown(message) : '',
         },
       })
     }
@@ -89,8 +101,13 @@ export const ShareLearningsForm = ({
             Useful documents <QuestionCircleOutlined />
           </Tooltip>
         }
+        name="attachments"
       >
-        <FileUpload />
+        <FileUpload
+          accept=".doc, .docx, .ppt, .pptx, .xlsx, .xls, .txt, .pdf, .zip, .rar, image/*, video/*"
+          customPreset={CLOUDINARY_PRESETS.commentAttachments}
+          maxFiles={3}
+        />
       </Form.Item>
       <Form.Item>
         <Button

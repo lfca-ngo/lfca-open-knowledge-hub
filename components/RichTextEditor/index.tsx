@@ -22,7 +22,7 @@ import {
 import { createEmptyValue, toggleMark } from './utils'
 
 interface RichTextEditorProps {
-  disabled: boolean
+  disabled?: boolean
   initialValue?: Descendant[]
   onChange?: (value: Descendant[]) => void
   placeholder?: string
@@ -53,9 +53,11 @@ export const RichTextEditor = ({
      * manually if we need to control the value from outside
      * See: https://github.com/ianstormtaylor/slate/releases/tag/slate-react%400.67.0
      */
-    editor.children = initialValue || createEmptyValue()
+    editor.children = initialValue?.length ? initialValue : createEmptyValue()
     // Deselect since the current selected node might not exist in the new value
     Transforms.deselect(editor)
+    // Trigger a re-render
+    editor.onChange()
   }, [editor, initialValue])
 
   const renderElement = React.useCallback(
@@ -81,7 +83,7 @@ export const RichTextEditor = ({
         }}
         value={initialValue || createEmptyValue()}
       >
-        <Toolbar disabled={disabled} />
+        <Toolbar disabled={!!disabled} />
         <Editable
           className="ant-input editable"
           disabled={disabled}

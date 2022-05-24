@@ -607,6 +607,23 @@
             "args": []
           },
           {
+            "name": "editableCompanyProperties",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "micrositeUrl",
             "type": {
               "kind": "SCALAR",
@@ -1371,6 +1388,28 @@
             ]
           },
           {
+            "name": "deleteActionComment",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "deleteUser",
             "type": {
               "kind": "NON_NULL",
@@ -1473,6 +1512,29 @@
             ]
           },
           {
+            "name": "updateActionComment",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ActionComment",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateCompany",
             "type": {
               "kind": "NON_NULL",
@@ -1533,6 +1595,35 @@
                 "kind": "OBJECT",
                 "name": "AchievementFunnelStats",
                 "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "actionCommentAttachments",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ActionCommentAttachment",
+                    "ofType": null
+                  }
+                }
               }
             },
             "args": [

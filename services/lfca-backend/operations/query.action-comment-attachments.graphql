@@ -1,0 +1,5 @@
+query actionCommentAttachments($input: ActionCommentAttachmentsInput!) {
+  actionCommentAttachments(input: $input) {
+    ...ActionCommentAttachment
+  }
+}
