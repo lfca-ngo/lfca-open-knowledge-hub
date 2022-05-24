@@ -114,6 +114,9 @@ body {
   &.green {
     background: @green;
   }
+  &.blue {
+    background: @blue;
+  }
   &.wine {
     background: @wine;
   }
@@ -190,6 +193,15 @@ body {
   .ant-radio-button-wrapper {
     &.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
       color: @black;
+    }
+  }
+}
+
+// Divider
+.ant-divider {
+  &.ant-divider-horizontal.ant-divider-with-text {
+    .ant-divider-inner-text {
+      font-size: @font-size-sm;
     }
   }
 }

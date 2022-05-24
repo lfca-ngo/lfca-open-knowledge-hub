@@ -9,4 +9,5 @@ fragment ActionComment on ActionComment {
   }
   id
   message
+  createdAt
 }

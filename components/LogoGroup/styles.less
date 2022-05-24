@@ -6,6 +6,14 @@
   margin: 2px 0;
   align-items: center;
 
+  &.reverse {
+    flex-direction: row-reverse;
+    .ant-avatar-group {
+      margin-right: 0;
+      margin-left: 6px;
+    }
+  }
+
   .label {
     font-size: @font-size-base;
     .font-regular();
@@ -19,6 +27,13 @@
       padding: 3px;
       > img {
         object-fit: contain;
+      }
+
+      &.empty {
+        padding: 0;
+        background-color: @grey-white;
+        color: @black;
+        border-color: transparent;
       }
     }
   }

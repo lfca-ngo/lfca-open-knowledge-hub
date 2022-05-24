@@ -562,7 +562,7 @@ export enum ValueContentType {
 
 export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string };
 
-export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } };
+export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } };
 
 export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }> };
 
@@ -595,7 +595,7 @@ export type CreateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
+export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -630,7 +630,7 @@ export type ActionCommentsQueryVariables = Exact<{
 }>;
 
 
-export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } }> };
+export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, id: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } }> };
 
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -709,6 +709,7 @@ export const ActionCommentFragmentDoc = gql`
   }
   id
   message
+  createdAt
 }
     ${ActionCommentAttachmentFragmentDoc}`;
 export const CompanyAchievementMiniFragmentDoc = gql`

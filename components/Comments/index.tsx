@@ -33,24 +33,28 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
         <EmptyPlaceholder />
       ) : (
         <List
+          className="no-padding"
           dataSource={data?.actionComments}
           pagination={{
-            pageSize: 5,
+            hideOnSinglePage: true,
+            pageSize: 2,
             size: 'small',
           }}
           renderItem={(comment) => (
-            <CommentItem
-              comment={comment}
-              isAdmin={isAuthUserAdmin}
-              onDelete={() => {
-                // TODO: Implement
-                // onDelete(comment)
-              }}
-              onEdit={() => {
-                // TODO: Implement
-                // setEditingCommentId(commentId)
-              }}
-            />
+            <List.Item>
+              <CommentItem
+                comment={comment}
+                isAdmin={isAuthUserAdmin}
+                onDelete={() => {
+                  // TODO: Implement
+                  // onDelete(comment)
+                }}
+                onEdit={() => {
+                  // TODO: Implement
+                  // setEditingCommentId(commentId)
+                }}
+              />
+            </List.Item>
           )}
         ></List>
       )}
