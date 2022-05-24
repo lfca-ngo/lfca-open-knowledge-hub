@@ -1,5 +1,5 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Drawer, message, Tabs } from 'antd'
+import { Divider, Drawer, List, message, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -20,6 +20,7 @@ import {
 } from '../../services/contentful'
 import { EMPTY_ACTION } from '../../services/contentful/utils'
 import {
+  useActionCommentAttachmentsQuery,
   useCompanyActionDetailsQuery,
   useCompleteCompanyActionMutation,
   usePlanCompanyActionMutation,
@@ -42,6 +43,10 @@ const Action: NextPage<ActionProps> = (props) => {
   const { action } = props
   const [{ data: actionData, fetching: fetchingActionData }] =
     useCompanyActionDetailsQuery({
+      variables: { input: { actionContentId: action.actionId } },
+    })
+  const [{ data: attachmentsData, fetching: fetchingAttachmentsData }] =
+    useActionCommentAttachmentsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
 
@@ -161,7 +166,24 @@ const Action: NextPage<ActionProps> = (props) => {
           </Divider>
           <Comments actionContentId={action.actionId} />
         </Section>
-        <Section title="Attachments">Something</Section>
+        <Section title="Attachments">
+          <List
+            dataSource={attachmentsData?.actionCommentAttachments}
+            loading={fetchingAttachmentsData}
+            pagination={{
+              hideOnSinglePage: true,
+              pageSize: 5,
+              size: 'small',
+            }}
+            renderItem={(attachment) => (
+              <List.Item>
+                <a href={attachment.source} rel="noreferrer" target="_blank">
+                  {attachment.fileName}
+                </a>
+              </List.Item>
+            )}
+          />
+        </Section>
         <Section title="History">
           <ActionHistory actions={[]} />
         </Section>

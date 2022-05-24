@@ -66,7 +66,7 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
               />
             </List.Item>
           )}
-        ></List>
+        />
       )}
       <EditCommentModal
         editingComment={editingComment}
