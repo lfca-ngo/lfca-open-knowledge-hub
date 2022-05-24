@@ -45,7 +45,7 @@ CompanyFormProps) => {
 
   const formItems: { [key in keyof CompanyFragment]?: React.ReactNode } = {
     aboutSections: (
-      <Form.List name="aboutSections">
+      <Form.List key="aboutSections" name="aboutSections">
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
@@ -92,6 +92,36 @@ CompanyFormProps) => {
           </>
         )}
       </Form.List>
+    ),
+    campaignFiles: (
+      <Form.Item
+        key="campaignFiles"
+        label="Campaign Files"
+        name="campaignFiles"
+        rules={[{ message: 'Please add your campaign goals', required: false }]}
+      >
+        something
+      </Form.Item>
+    ),
+    campaignGoals: (
+      <Form.Item
+        key="campaignGoals"
+        label="Campaign Goals"
+        name="campaignGoals"
+        rules={[{ message: 'Please add your campaign goals', required: false }]}
+      >
+        <TextArea />
+      </Form.Item>
+    ),
+    campaignGoalSetting: (
+      <Form.Item
+        key="campaignGoalSetting"
+        label="Campaign Goal Setting"
+        name="campaignGoalSetting"
+        rules={[{ message: 'Please add your campaign goals', required: false }]}
+      >
+        <TextArea />
+      </Form.Item>
     ),
     logoUrl: (
       <Form.Item
