@@ -83,7 +83,7 @@ export const RichTextEditor = ({
         }}
         value={initialValue || createEmptyValue()}
       >
-        <Toolbar disabled={disabled} />
+        <Toolbar disabled={!!disabled} />
         <Editable
           className="ant-input editable"
           disabled={disabled}
