@@ -109,7 +109,7 @@ export const Pledge = (props: any) => {
           ref={signatureRef}
         />
         <div className="written-name">
-          {props.name}, {props.companyName}
+          {props.name}
           <div className="btn-wrapper">
             {showClear && (
               <Button

@@ -23,7 +23,7 @@ const Commit = ({ onNext }: StepProps) => {
         influence on a personal, business and political level. Please start by
         signing our Green Pledge as a leader of your company.`}
       </p>
-      <Pledge onFinish={onNext} />
+      <Pledge name={`${user?.firstName} ${user?.lastName}`} onFinish={onNext} />
     </div>
   )
 }
