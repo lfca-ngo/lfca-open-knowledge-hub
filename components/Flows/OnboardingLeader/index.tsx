@@ -45,15 +45,15 @@ const Invite = ({ onNext }: StepProps) => {
       <ul>
         <li>
           {`If you already have a person or team that takes care of
-          sustainabality, the choice is obvious`}
+          sustainability, the choice is obvious`}
         </li>
         <li>
           {`If you don't, pick someone who is genuinely passionate about the
-          topicWe recommend to invite that colleague with a personal message`}
+          topic. We recommend to invite that colleague with a personal message!`}
         </li>
       </ul>
       <InviteTeam onMinimumInvited={() => setHasMinimumInvited(true)} />
-      <Space direction="vertical">
+      <Space direction="vertical" size="large">
         <Checkbox
           checked={isLeaderOfficer}
           onChange={(e) => setIsLeaderOfficer(e.target.checked)}

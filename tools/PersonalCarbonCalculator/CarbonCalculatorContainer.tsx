@@ -1,5 +1,6 @@
-import { CarbonCalculator } from './CarbonCalculator'
 import { useState } from 'react'
+
+import { CarbonCalculator } from './CarbonCalculator'
 
 type Answer = {
   values: any
@@ -87,7 +88,7 @@ const getAllReductionTips = (answers: any) => {
   const allTips: any = []
 
   answers.forEach((answer: any) => {
-    const { values, options, category, algorithm } = answer
+    const { algorithm, category, options, values } = answer
 
     const tips = getTips(options, values, algorithm)
     allTips.push({
@@ -99,8 +100,8 @@ const getAllReductionTips = (answers: any) => {
 }
 
 export const CarbonCalculatorContainer = ({
-  saveResult,
   questionnaire,
+  saveResult,
 }: {
   saveResult: any
   questionnaire: any
@@ -150,12 +151,12 @@ export const CarbonCalculatorContainer = ({
     } else {
       // update the answers state
       const answer = {
-        values: val,
-        type: activeQuestion.type,
-        algorithmFactor: activeQuestion.algorithmFactor,
-        options: activeQuestion.options,
-        category: activeQuestion.category,
         algorithm: activeQuestion.algorithm,
+        algorithmFactor: activeQuestion.algorithmFactor,
+        category: activeQuestion.category,
+        options: activeQuestion.options,
+        type: activeQuestion.type,
+        values: val,
       }
       const newAnswers = [...answers]
       newAnswers[activeQuestionIndex] = answer
@@ -166,14 +167,14 @@ export const CarbonCalculatorContainer = ({
 
   return (
     <CarbonCalculator
-      progress={progress}
-      footprint={total / 1000}
-      saveResult={saveResult}
-      answerQuestion={answerQuestion}
-      goBack={goBack}
-      activeQuestion={activeQuestion}
       activeAnswer={activeAnswer}
+      activeQuestion={activeQuestion}
+      answerQuestion={answerQuestion}
+      footprint={total / 1000}
+      goBack={goBack}
+      progress={progress}
       reductionTips={tips}
+      saveResult={saveResult}
     />
   )
 }
