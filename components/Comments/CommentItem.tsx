@@ -1,4 +1,9 @@
-import { EditOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  EditOutlined,
+  UserOutlined,
+  DeleteOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
 import { Avatar, Button, Popconfirm, Popover, Space } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
@@ -57,18 +62,20 @@ export const CommentItem = ({
                       onConfirm={onDelete}
                       title="Are you sure to delete this comment?"
                     >
-                      <Button size="small">Delete</Button>
+                      <Button icon={<DeleteOutlined />} size="small" />
                     </Popconfirm>
-
-                    <Button onClick={onEdit} size="small">
-                      Edit
-                    </Button>
+                    <Button
+                      icon={<EditOutlined />}
+                      onClick={onEdit}
+                      size="small"
+                    />
                   </Space>
                 }
+                placement="left"
               >
                 <Button
                   className="admin-btn"
-                  icon={<EditOutlined />}
+                  icon={<SettingOutlined />}
                   size="small"
                 />
               </Popover>
