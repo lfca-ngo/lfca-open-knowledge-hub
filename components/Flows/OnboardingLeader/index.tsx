@@ -1,6 +1,7 @@
 import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
 import { useState } from 'react'
 
+import { useUser } from '../../../hooks/user'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
@@ -10,15 +11,17 @@ interface StepProps {
 }
 
 const Commit = ({ onNext }: StepProps) => {
+  const { user } = useUser()
+
   return (
     <div>
       <Tag className="super-text">Pledge</Tag>
-      <h1>{`Welcome Timo, let's get you started!`}</h1>
+      <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
       <p>
         {`We started LFCA with the goal to accelerate the transition towards a
         sustainable economy. To make this happen, we need to leverage our
         influence on a personal, business and political level. Please start by
-        signing our Green Pledge as a leader of LFCA.`}
+        signing our Green Pledge as a leader of your company.`}
       </p>
       <Pledge onFinish={onNext} />
     </div>

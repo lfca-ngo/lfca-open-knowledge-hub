@@ -19,26 +19,26 @@ const ChecklistElement = (props: any) => {
   )
 }
 
-const PLEDGE = (company: string) => [
+const PLEDGE = () => [
   {
     text: "I commit to using my personal influence to make my company's products and processes as sustainable as possible and lead the transformation wherever I can.",
     title: 'I personally commit to authentically leading the transformation',
   },
   {
     text: 'I commit that we will align our longterm strategy with the Paris agreement and build a business that contributes to the goal of global net 0.',
-    title: `At ${company} we commit to aligning our longterm business strategy with the Paris Accords`,
+    title: `We commit to aligning our longterm business strategy with the Paris Accords`,
   },
   {
     text: 'I acknowledge that to understand and reduce the real impact of our business we need to understand our carbon emissions including our value chain.',
-    title: `At ${company} we commit to yearly measurement of our carbon emissions`,
+    title: `We commit to yearly measurement of our carbon emissions`,
   },
   {
     text: 'I acknowledge that it takes more than carbon reduction to stop the climate crisis. We are aware and ready to make our influence count with stakeholders such as partners, customers.',
-    title: `At ${company} we commit to taking real impactful action`,
+    title: `We commit to taking real impactful action`,
   },
 ]
 
-const initialState = new Array(PLEDGE('').length).fill(false)
+const initialState = new Array(PLEDGE().length).fill(false)
 const CANVAS_WIDTH = 300
 
 export const Pledge = (props: any) => {
@@ -87,7 +87,7 @@ export const Pledge = (props: any) => {
 
   return (
     <div className="pledge">
-      {PLEDGE(props.companyName).map((el, i) => (
+      {PLEDGE().map((el, i) => (
         <ChecklistElement
           checked={checkboxes[i]}
           key={`pledge-${i}`}
