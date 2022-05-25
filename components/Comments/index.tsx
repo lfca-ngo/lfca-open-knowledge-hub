@@ -2,7 +2,7 @@ require('./styles.less')
 
 import { MessageOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, List, Skeleton } from 'antd'
-import React from 'react'
+import { useState } from 'react'
 
 import { useUser } from '../../hooks/user'
 import {
@@ -12,15 +12,15 @@ import {
 } from '../../services/lfca-backend'
 import { EmptyState } from '../EmptyState'
 import { CommentItem } from './CommentItem'
-import { EditCommentModal } from './EditCommentModal'
+import { CommentModal } from './CommentModal'
 
 interface CommentsProps {
   actionContentId: string
 }
 
 export const Comments = ({ actionContentId }: CommentsProps) => {
-  const [editingComment, setEditingComment] =
-    React.useState<ActionCommentFragment>()
+  const [visible, setVisible] = useState(false)
+  const [editingComment, setEditingComment] = useState<ActionCommentFragment>()
   const [{ data, fetching }] = useActionCommentsQuery({
     pause: !actionContentId,
     variables: {
@@ -47,7 +47,15 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
       ) : !data?.actionComments.length ? (
         <EmptyState
           actions={[
-            <Button icon={<PlusOutlined />} key="create" type="primary">
+            <Button
+              icon={<PlusOutlined />}
+              key="create"
+              onClick={() => {
+                setEditingComment(undefined)
+                setVisible(true)
+              }}
+              type="primary"
+            >
               Comment
             </Button>,
           ]}
@@ -74,15 +82,21 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
                 onDelete={() => onDelete(comment)}
                 onEdit={() => {
                   setEditingComment(comment)
+                  setVisible(true)
                 }}
               />
             </List.Item>
           )}
         />
       )}
-      <EditCommentModal
+      <CommentModal
+        actionContentId={actionContentId}
         editingComment={editingComment}
-        onClose={() => setEditingComment(null)}
+        onClose={() => {
+          setVisible(false)
+          setEditingComment(undefined)
+        }}
+        visible={visible}
       />
     </div>
   )
