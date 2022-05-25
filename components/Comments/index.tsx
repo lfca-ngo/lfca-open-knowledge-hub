@@ -66,28 +66,41 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
           title="No Messages"
         />
       ) : (
-        <List
-          className="no-padding"
-          dataSource={data?.actionComments}
-          pagination={{
-            hideOnSinglePage: true,
-            pageSize: 2,
-            size: 'small',
-          }}
-          renderItem={(comment) => (
-            <List.Item>
-              <CommentItem
-                comment={comment}
-                isAdmin={isAdmin}
-                onDelete={() => onDelete(comment)}
-                onEdit={() => {
-                  setEditingComment(comment)
-                  setVisible(true)
-                }}
-              />
-            </List.Item>
-          )}
-        />
+        <>
+          <List
+            className="no-padding"
+            dataSource={data?.actionComments}
+            pagination={{
+              hideOnSinglePage: true,
+              pageSize: 2,
+              size: 'small',
+            }}
+            renderItem={(comment) => (
+              <List.Item>
+                <CommentItem
+                  comment={comment}
+                  isAdmin={isAdmin}
+                  onDelete={() => onDelete(comment)}
+                  onEdit={() => {
+                    setEditingComment(comment)
+                    setVisible(true)
+                  }}
+                />
+              </List.Item>
+            )}
+          />
+          <Button
+            icon={<PlusOutlined />}
+            key="create"
+            onClick={() => {
+              setEditingComment(undefined)
+              setVisible(true)
+            }}
+            type="primary"
+          >
+            Comment
+          </Button>
+        </>
       )}
       <CommentModal
         actionContentId={actionContentId}
