@@ -1,4 +1,8 @@
-import { FileOutlined, UserOutlined, EditOutlined } from '@ant-design/icons'
+import {
+  UserOutlined,
+  EditOutlined,
+  PaperClipOutlined,
+} from '@ant-design/icons'
 import { Avatar, Button, Popconfirm, Space, Popover } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
@@ -93,11 +97,19 @@ export const CommentItem = ({
                 <div className="attachments">
                   {comment.attachments?.map((attachment) => (
                     <Button
+                      className="no-padding"
                       key={attachment.source}
                       onClick={() => window.open(attachment.source, '_blank')}
                       size="small"
+                      type="link"
                     >
-                      <FileOutlined className="comments-icon" />
+                      <Avatar
+                        className="blue-inverse"
+                        icon={<PaperClipOutlined />}
+                        shape="square"
+                        size="small"
+                        style={{ marginRight: '8px' }}
+                      />
                       {attachment.fileName}
                     </Button>
                   ))}
