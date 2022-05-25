@@ -5,8 +5,10 @@ import React from 'react'
 
 export const ShowMore = ({
   maxHeight,
+  size = 'small',
   text,
 }: {
+  size?: 'small'
   text: any
   maxHeight: any
 }) => {
@@ -38,7 +40,7 @@ export const ShowMore = ({
               opacity: isExpanded ? 0 : 1,
             }}
           />
-          <Button ghost onClick={() => setIsExpanded((v) => !v)} size="small">
+          <Button onClick={() => setIsExpanded((v) => !v)} size={size}>
             {`show ${isExpanded ? 'less' : 'more'}`}
           </Button>
         </div>

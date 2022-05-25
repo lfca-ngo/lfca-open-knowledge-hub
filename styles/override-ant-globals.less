@@ -142,8 +142,10 @@ body {
 
 // Buttons
 .ant-btn {
-  background: var(--btn-default-bg);
-  color: var(--btn-default-color);
+  &:not(.ant-btn-icon-only) {
+    background: var(--btn-default-bg);
+    color: var(--btn-default-color);
+  }
 }
 .ant-btn.ant-btn-primary {
   background: @btn-primary-bg;
@@ -173,6 +175,13 @@ body {
   background: fade(@yellow, 80%);
   border-color: transparent;
   color: @black;
+}
+
+.ant-btn-link.no-padding {
+  padding: 0;
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 // Popover

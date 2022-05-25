@@ -1,13 +1,19 @@
 require('./styles.less')
 
-import { Drawer, List, Skeleton } from 'antd'
+import { Drawer, List, message, Skeleton } from 'antd'
 import { useState } from 'react'
 
 import {
   CompanyAchievementFragment,
   CompanyAchievementMiniFragment,
+  CompanyFragment,
+  UpdateCompanyInput,
+  useCompanyQuery,
+  useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
+import { CompanyForm } from '../CompanyForm'
+import { Section } from '../Layout/Sections'
 
 interface AchievementsListProps {
   achievements: CompanyAchievementFragment[]
@@ -18,7 +24,34 @@ export const AchievementsList = ({
   achievements,
   fetching,
 }: AchievementsListProps) => {
+  // Local state
+  const [activeAchievement, setActiveAchievement] =
+    useState<CompanyAchievementFragment>()
   const [drawerVisible, setDrawerVisible] = useState(false)
+
+  // Mutations
+  const [{ fetching: isUpdatingCompany }, updateCompany] =
+    useUpdateCompanyMutation()
+  const [{ data, fetching: fetchingCompany }] = useCompanyQuery()
+  const company = data?.company
+
+  // Actions
+  const handleEditAttributes = (achievement: CompanyAchievementFragment) => {
+    setActiveAchievement(achievement)
+    setDrawerVisible(true)
+  }
+
+  const handleUpdate = (allValues: UpdateCompanyInput) => {
+    updateCompany({
+      input: {
+        ...allValues,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Profile updated')
+    })
+  }
+
   return (
     <div>
       <List
@@ -38,7 +71,7 @@ export const AchievementsList = ({
             <Skeleton active avatar loading={fetching} paragraph={{ rows: 3 }}>
               <AchievementCard
                 achievement={item}
-                onClickEdit={() => setDrawerVisible(true)}
+                onClickEdit={handleEditAttributes}
               />
             </Skeleton>
           </List.Item>
@@ -50,7 +83,16 @@ export const AchievementsList = ({
         onClose={() => setDrawerVisible(false)}
         visible={drawerVisible}
       >
-        Form
+        <Section title="Edit Microsite">
+          <CompanyForm
+            filterByKeys={
+              activeAchievement?.editableCompanyProperties as (keyof CompanyFragment)[]
+            }
+            initialValues={company}
+            isLoading={fetchingCompany || isUpdatingCompany}
+            onUpdate={handleUpdate}
+          />
+        </Section>
       </Drawer>
     </div>
   )

@@ -33,6 +33,7 @@ export const EMPTY_ACHIEVEMENTS_OBJECT: CompanyAchievementFragment = {
   completedCompanyActionsCount: 0,
   completedRequiredCompanyActionsCount: 0,
   contentId: '',
+  editableCompanyProperties: [''],
   minCompletedCompanyActionsCount: 0,
   name: '',
   recommendedActions: [],

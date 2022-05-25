@@ -17,4 +17,5 @@ fragment CompanyAchievement on CompanyAchievement {
     completedAt
     contentId
   }
+  editableCompanyProperties
 }

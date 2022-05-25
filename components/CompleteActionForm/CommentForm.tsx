@@ -1,44 +1,35 @@
 require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Form, notification, Tag, Tooltip } from 'antd'
+import { Button, Form, Tag, Tooltip } from 'antd'
+import { useEffect } from 'react'
 import { Descendant } from 'slate'
 
-import {
-  useCompleteCompanyActionMutation,
-  useCreateActionCommentMutation,
-} from '../../services/lfca-backend'
+import { ActionCommentAttachment } from '../../services/lfca-backend'
 import { CommentInput } from '../Comments/CommentInput'
 import { File, FileUpload } from '../FileUpload/FileUpload'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
-import { IconSelector } from '../Icons'
-import { IconTypes } from '../Icons'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
 
-const openNotification = () => {
-  notification.info({
-    description: `The more you share, the more you'll get out of the community.`,
-    icon: <IconSelector color="wine" type={IconTypes.heart} />,
-    message: `Awesome, Thanks for sharing!`,
-    placement: 'top',
-  })
-}
-
 interface ShareLearningsFormProps {
-  actionContentId: string
-  onComplete: () => void
+  initialValues?: {
+    attachments: ActionCommentAttachment[]
+    message: Descendant[]
+  }
+  loading?: boolean
+  onSubmit: (message: string, attachments?: File[]) => void
 }
 
-export const ShareLearningsForm = ({
-  actionContentId,
-  onComplete,
+export const CommentForm = ({
+  initialValues,
+  loading,
+  onSubmit,
 }: ShareLearningsFormProps) => {
-  // TODO: UI for error states
-  const [{ fetching: fetchingCompleteAction }, completeCompanyAction] =
-    useCompleteCompanyActionMutation()
-
-  const [{ fetching: fetchingCreateActionComment }, createActionComment] =
-    useCreateActionCommentMutation()
+  const [form] = Form.useForm()
+  // when data is loaded async, populate form
+  useEffect(() => {
+    form.setFieldsValue(initialValues)
+  }, [initialValues, form])
 
   const handleFinish = async ({
     attachments,
@@ -48,33 +39,16 @@ export const ShareLearningsForm = ({
     message?: Descendant[]
   }) => {
     if (attachments?.length || message) {
-      await createActionComment({
-        input: {
-          actionContentId,
-          attachments: attachments?.map((a) => ({
-            fileName: a.fileName,
-            fileSize: a.fileSize,
-            mimeType: a.mimeType,
-            source: a.source,
-          })),
-          message: message ? convertValueToMarkdown(message) : '',
-        },
-      })
+      const parsedMessage = message ? convertValueToMarkdown(message) : ''
+      onSubmit(parsedMessage, attachments)
     }
-    await completeCompanyAction({
-      input: {
-        actionContentId,
-        isCompleted: true,
-        skipRequirementsCheck: true,
-      },
-    })
-    openNotification()
-    onComplete()
   }
 
   return (
     <Form
       className="share-learnings-form"
+      form={form}
+      initialValues={initialValues}
       layout="vertical"
       onFinish={handleFinish}
     >
@@ -110,13 +84,8 @@ export const ShareLearningsForm = ({
         />
       </Form.Item>
       <Form.Item>
-        <Button
-          block
-          htmlType="submit"
-          loading={fetchingCompleteAction || fetchingCreateActionComment}
-          type="primary"
-        >
-          Complete action
+        <Button block htmlType="submit" loading={loading} type="primary">
+          Submit
         </Button>
       </Form.Item>
     </Form>

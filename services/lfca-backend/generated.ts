@@ -599,11 +599,11 @@ export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, 
 
 export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }> };
 
-export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
+export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
-export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> };
+export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignGoalSetting?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> };
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
@@ -694,7 +694,7 @@ export type CompanyAchievementsMiniQuery = { __typename?: 'Query', company: { __
 export type CompanyAchievementsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompanyAchievementsQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> }> } } };
+export type CompanyAchievementsQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> }> } } };
 
 export type CompanyActionDetailsQueryVariables = Exact<{
   input: CompanyActionInput;
@@ -713,7 +713,7 @@ export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Ar
 export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> } };
+export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignGoalSetting?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> } };
 
 export type CompletedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -805,6 +805,7 @@ export const CompanyAchievementFragmentDoc = gql`
     completedAt
     contentId
   }
+  editableCompanyProperties
 }
     `;
 export const CompanyActionListItemFragmentDoc = gql`
@@ -856,6 +857,7 @@ export const CompanyFragmentDoc = gql`
     text
   }
   campaignGoals
+  campaignGoalSetting
   campaignContribution
   campaignFiles {
     name
