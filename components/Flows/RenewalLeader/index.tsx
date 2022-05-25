@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
-import { Pledge } from '../../Pledge'
 
 interface StepProps {
   onNext: () => void
@@ -75,8 +74,6 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
 }
 
 const Compare = ({ onNext }: StepProps) => {
-  const { user } = useUser()
-
   return (
     <div>
       <Tag className="super-text">Compare</Tag>
