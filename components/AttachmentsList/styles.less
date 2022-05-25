@@ -1,3 +1,6 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
 .attachment-button {
   text-decoration: none;
   max-width: 100%;
@@ -8,12 +11,13 @@
     display: flex;
     align-items: center;
 
-    span {
+    > span {
       &:not(.ant-avatar) {
         flex: 1;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: @text-color;
       }
     }
   }
