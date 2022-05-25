@@ -1,7 +1,7 @@
 require('./styles.less')
 
 import { MessageOutlined, PlusOutlined } from '@ant-design/icons'
-import { List, Skeleton, Button } from 'antd'
+import { Button, List, Skeleton } from 'antd'
 import React from 'react'
 
 import { useUser } from '../../hooks/user'

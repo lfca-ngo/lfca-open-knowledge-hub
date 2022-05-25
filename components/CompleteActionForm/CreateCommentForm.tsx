@@ -1,42 +1,26 @@
 require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Form, notification, Tag, Tooltip } from 'antd'
+import { Button, Form, Tag, Tooltip } from 'antd'
 import { Descendant } from 'slate'
 
-import {
-  useCompleteCompanyActionMutation,
-  useCreateActionCommentMutation,
-} from '../../services/lfca-backend'
+import { useCreateActionCommentMutation } from '../../services/lfca-backend'
 import { CommentInput } from '../Comments/CommentInput'
 import { File, FileUpload } from '../FileUpload/FileUpload'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
-import { IconSelector } from '../Icons'
-import { IconTypes } from '../Icons'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
-
-const openNotification = () => {
-  notification.info({
-    description: `The more you share, the more you'll get out of the community.`,
-    icon: <IconSelector color="wine" type={IconTypes.heart} />,
-    message: `Awesome, Thanks for sharing!`,
-    placement: 'top',
-  })
-}
 
 interface ShareLearningsFormProps {
   actionContentId: string
+  isLoading?: boolean
   onComplete: () => void
 }
 
-export const ShareLearningsForm = ({
+export const CreateCommentForm = ({
   actionContentId,
+  isLoading,
   onComplete,
 }: ShareLearningsFormProps) => {
-  // TODO: UI for error states
-  const [{ fetching: fetchingCompleteAction }, completeCompanyAction] =
-    useCompleteCompanyActionMutation()
-
   const [{ fetching: fetchingCreateActionComment }, createActionComment] =
     useCreateActionCommentMutation()
 
@@ -61,14 +45,7 @@ export const ShareLearningsForm = ({
         },
       })
     }
-    await completeCompanyAction({
-      input: {
-        actionContentId,
-        isCompleted: true,
-        skipRequirementsCheck: true,
-      },
-    })
-    openNotification()
+
     onComplete()
   }
 
@@ -113,7 +90,7 @@ export const ShareLearningsForm = ({
         <Button
           block
           htmlType="submit"
-          loading={fetchingCompleteAction || fetchingCreateActionComment}
+          loading={isLoading || fetchingCreateActionComment}
           type="primary"
         >
           Complete action

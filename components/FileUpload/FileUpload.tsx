@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
 
@@ -53,18 +53,10 @@ export const FileUpload = ({
   onChange,
   value,
 }: FileUploadProps) => {
-  const [fileList, setFileList] = useState<
-    UploadFile<CloudinaryResponse>[] | undefined
-  >(valueToFileList(value))
-
-  useEffect(() => {
-    setFileList(valueToFileList(value))
-  }, [value])
-
   const handleChange = (
     info: UploadChangeParam<UploadFile<CloudinaryResponse>>
   ) => {
-    setFileList(info.fileList)
+    // setFileList(info.fileList)
     if (info.file.status === 'done') {
       onChange?.(
         info.fileList
@@ -88,12 +80,12 @@ export const FileUpload = ({
         accept={accept}
         action={UPLOAD_API}
         customRequest={(props) => handleCustomRequest(props, customPreset)}
-        fileList={fileList}
+        fileList={valueToFileList(value)}
         listType="picture-card"
         maxCount={maxFiles}
         onChange={handleChange}
       >
-        {(fileList?.length || 0) < maxFiles ? (
+        {(valueToFileList(value)?.length || 0) < maxFiles ? (
           <div>
             <PlusOutlined />
             <div className="ant-upload-text">Upload</div>
