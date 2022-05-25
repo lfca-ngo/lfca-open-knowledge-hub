@@ -58,6 +58,7 @@ export const CommentModal = ({
         message: message,
       },
     })
+    onClose()
   }
 
   return (
