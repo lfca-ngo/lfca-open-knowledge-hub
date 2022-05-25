@@ -1,8 +1,10 @@
+require('./styles.less')
+
 import { PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
 
@@ -46,6 +48,17 @@ const valueToFileList = (
   })
 }
 
+const fileListToValue = (fileList: UploadFile<CloudinaryResponse>[]) => {
+  return fileList
+    .filter((f) => !!f.response)
+    .map((f) => ({
+      fileName: f.name,
+      fileSize: f.response?.bytes || 0,
+      mimeType: f.type || '',
+      source: f.response?.secure_url || '',
+    }))
+}
+
 export const FileUpload = ({
   accept = '*',
   customPreset,
@@ -53,42 +66,45 @@ export const FileUpload = ({
   onChange,
   value,
 }: FileUploadProps) => {
+  const [fileList, setFileList] = useState<
+    UploadFile<CloudinaryResponse>[] | undefined
+  >(valueToFileList(value))
+
+  useEffect(() => {
+    setFileList(valueToFileList(value))
+  }, [value])
+
   const handleChange = (
     info: UploadChangeParam<UploadFile<CloudinaryResponse>>
   ) => {
-    // setFileList(info.fileList)
+    // the onchange event triggers a re-render,
+    // so we need to set the fileList
     if (info.file.status === 'done') {
-      onChange?.(
-        info.fileList
-          // Filter out failed uploads
-          .filter((f) => !!f.response)
-          .map((f) => ({
-            fileName: f.name,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            fileSize: f.response!.bytes,
-            mimeType: f.type || '',
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            source: f.response!.secure_url,
-          }))
-      )
+      onChange?.(fileListToValue(info.fileList))
+    } else if (info.file.status === 'removed') {
+      onChange?.(fileListToValue(info.fileList) || [])
+    } else {
+      setFileList(info.fileList)
     }
   }
 
   return (
-    <div className="clearfix">
+    <div className="clearfix file-upload">
       <Upload
         accept={accept}
         action={UPLOAD_API}
         customRequest={(props) => handleCustomRequest(props, customPreset)}
-        fileList={valueToFileList(value)}
-        listType="picture-card"
+        fileList={fileList}
+        listType="picture"
         maxCount={maxFiles}
         onChange={handleChange}
       >
-        {(valueToFileList(value)?.length || 0) < maxFiles ? (
-          <div>
-            <PlusOutlined />
-            <div className="ant-upload-text">Upload</div>
+        {(fileList?.length || 0) < maxFiles ? (
+          <div className="upload-field">
+            <div className="wrapper">
+              <PlusOutlined />
+              <div className="ant-upload-text">Upload</div>
+            </div>
           </div>
         ) : null}
       </Upload>
