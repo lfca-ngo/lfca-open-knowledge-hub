@@ -1,0 +1,20 @@
+.attachment-button {
+  text-decoration: none;
+  max-width: 100%;
+
+  .ant-btn {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+
+    span {
+      &:not(.ant-avatar) {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

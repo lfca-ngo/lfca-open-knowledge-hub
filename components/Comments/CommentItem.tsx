@@ -1,13 +1,10 @@
-import {
-  UserOutlined,
-  EditOutlined,
-  PaperClipOutlined,
-} from '@ant-design/icons'
-import { Avatar, Button, Popconfirm, Space, Popover } from 'antd'
+import { EditOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Popconfirm, Popover, Space } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
 
 import { ActionCommentFragment } from '../../services/lfca-backend'
+import { AttachmentButton } from '../AttachmentsList/AttachmentButton'
 import { ShowMore } from '../ShowMore'
 
 // Extend the default renderer to open links in a new window
@@ -95,23 +92,11 @@ export const CommentItem = ({
                   }}
                 />
                 <div className="attachments">
-                  {comment.attachments?.map((attachment) => (
-                    <Button
-                      className="no-padding"
-                      key={attachment.source}
-                      onClick={() => window.open(attachment.source, '_blank')}
-                      size="small"
-                      type="link"
-                    >
-                      <Avatar
-                        className="blue-inverse"
-                        icon={<PaperClipOutlined />}
-                        shape="square"
-                        size="small"
-                        style={{ marginRight: '8px' }}
-                      />
-                      {attachment.fileName}
-                    </Button>
+                  {comment.attachments?.map((attachment, i) => (
+                    <AttachmentButton
+                      attachment={attachment}
+                      key={`att-${i}`}
+                    />
                   ))}
                 </div>
               </>

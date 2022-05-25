@@ -48,6 +48,7 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
         <EmptyState
           actions={[
             <Button
+              block
               icon={<PlusOutlined />}
               key="create"
               onClick={() => {
@@ -90,6 +91,7 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
             )}
           />
           <Button
+            block
             icon={<PlusOutlined />}
             key="create"
             onClick={() => {

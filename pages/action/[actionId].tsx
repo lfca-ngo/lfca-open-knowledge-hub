@@ -1,11 +1,12 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Drawer, List, message, Tabs } from 'antd'
+import { Divider, Drawer, message, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
+import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -156,7 +157,7 @@ const Action: NextPage<ActionProps> = (props) => {
         <Section title="Community">
           <LogoGroup
             data={actionData?.companyAction?.recentCompaniesCompleted}
-            // TODO: Add a fallback or skeletong while data is loading
+            // TODO: Add a fallback or skeleton while data is loading
             label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
             reverse
             size="large"
@@ -167,21 +168,9 @@ const Action: NextPage<ActionProps> = (props) => {
           <Comments actionContentId={action.actionId} />
         </Section>
         <Section title="Attachments">
-          <List
-            dataSource={attachmentsData?.actionCommentAttachments}
-            loading={fetchingAttachmentsData}
-            pagination={{
-              hideOnSinglePage: true,
-              pageSize: 5,
-              size: 'small',
-            }}
-            renderItem={(attachment) => (
-              <List.Item>
-                <a href={attachment.source} rel="noreferrer" target="_blank">
-                  {attachment.fileName}
-                </a>
-              </List.Item>
-            )}
+          <AttachmentsList
+            attachments={attachmentsData?.actionCommentAttachments || []}
+            fetching={fetchingAttachmentsData}
           />
         </Section>
         <Section title="History">
