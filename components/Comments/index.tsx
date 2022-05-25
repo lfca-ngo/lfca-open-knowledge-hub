@@ -1,6 +1,7 @@
 require('./styles.less')
 
-import { List, Skeleton } from 'antd'
+import { MessageOutlined, PlusOutlined } from '@ant-design/icons'
+import { List, Skeleton, Button } from 'antd'
 import React from 'react'
 
 import { useUser } from '../../hooks/user'
@@ -9,9 +10,9 @@ import {
   useActionCommentsQuery,
   useDeleteActionCommentMutation,
 } from '../../services/lfca-backend'
+import { EmptyState } from '../EmptyState'
 import { CommentItem } from './CommentItem'
 import { EditCommentModal } from './EditCommentModal'
-import { EmptyPlaceholder } from './EmptyPlaceholder'
 
 interface CommentsProps {
   actionContentId: string
@@ -44,7 +45,18 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
       {fetching ? (
         <Skeleton active avatar paragraph={{ rows: 2 }} title={false} />
       ) : !data?.actionComments.length ? (
-        <EmptyPlaceholder />
+        <EmptyState
+          actions={[
+            <Button icon={<PlusOutlined />} key="create" type="primary">
+              Comment
+            </Button>,
+          ]}
+          alignment="left"
+          icon={<MessageOutlined />}
+          size="small"
+          text="Comment about your experience with this action."
+          title="No Messages"
+        />
       ) : (
         <List
           className="no-padding"
