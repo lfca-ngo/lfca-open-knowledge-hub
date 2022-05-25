@@ -2,27 +2,34 @@ require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Button, Form, Tag, Tooltip } from 'antd'
+import { useEffect } from 'react'
 import { Descendant } from 'slate'
 
-import { useCreateActionCommentMutation } from '../../services/lfca-backend'
+import { ActionCommentAttachment } from '../../services/lfca-backend'
 import { CommentInput } from '../Comments/CommentInput'
 import { File, FileUpload } from '../FileUpload/FileUpload'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
 
 interface ShareLearningsFormProps {
-  actionContentId: string
-  isLoading?: boolean
-  onComplete: () => void
+  initialValues?: {
+    attachments: ActionCommentAttachment[]
+    message: Descendant[]
+  }
+  loading?: boolean
+  onSubmit: (message: string, attachments?: File[]) => void
 }
 
-export const CreateCommentForm = ({
-  actionContentId,
-  isLoading,
-  onComplete,
+export const CommentForm = ({
+  initialValues,
+  loading,
+  onSubmit,
 }: ShareLearningsFormProps) => {
-  const [{ fetching: fetchingCreateActionComment }, createActionComment] =
-    useCreateActionCommentMutation()
+  const [form] = Form.useForm()
+  // when data is loaded async, populate form
+  useEffect(() => {
+    form.setFieldsValue(initialValues)
+  }, [initialValues, form])
 
   const handleFinish = async ({
     attachments,
@@ -32,26 +39,16 @@ export const CreateCommentForm = ({
     message?: Descendant[]
   }) => {
     if (attachments?.length || message) {
-      await createActionComment({
-        input: {
-          actionContentId,
-          attachments: attachments?.map((a) => ({
-            fileName: a.fileName,
-            fileSize: a.fileSize,
-            mimeType: a.mimeType,
-            source: a.source,
-          })),
-          message: message ? convertValueToMarkdown(message) : '',
-        },
-      })
+      const parsedMessage = message ? convertValueToMarkdown(message) : ''
+      onSubmit(parsedMessage, attachments)
     }
-
-    onComplete()
   }
 
   return (
     <Form
       className="share-learnings-form"
+      form={form}
+      initialValues={initialValues}
       layout="vertical"
       onFinish={handleFinish}
     >
@@ -87,13 +84,8 @@ export const CreateCommentForm = ({
         />
       </Form.Item>
       <Form.Item>
-        <Button
-          block
-          htmlType="submit"
-          loading={isLoading || fetchingCreateActionComment}
-          type="primary"
-        >
-          Complete action
+        <Button block htmlType="submit" loading={loading} type="primary">
+          Submit
         </Button>
       </Form.Item>
     </Form>

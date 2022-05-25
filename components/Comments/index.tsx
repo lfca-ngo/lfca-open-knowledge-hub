@@ -20,7 +20,7 @@ interface CommentsProps {
 
 export const Comments = ({ actionContentId }: CommentsProps) => {
   const [editingComment, setEditingComment] =
-    React.useState<ActionCommentFragment | null>(null)
+    React.useState<ActionCommentFragment>()
   const [{ data, fetching }] = useActionCommentsQuery({
     pause: !actionContentId,
     variables: {

@@ -1,12 +1,16 @@
 import { Divider, notification } from 'antd'
 
 import { ContentfulServiceProviderFields } from '../../services/contentful'
-import { useCompleteCompanyActionMutation } from '../../services/lfca-backend'
+import {
+  useCompleteCompanyActionMutation,
+  useCreateActionCommentMutation,
+} from '../../services/lfca-backend'
+import { File } from '../FileUpload/FileUpload'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
 import { Section } from '../Layout'
 import { ReviewForm } from '../ReviewForm'
-import { CreateCommentForm } from './CreateCommentForm'
+import { CommentForm } from './CommentForm'
 
 interface CompleteActionFormProps {
   actionContentId: string
@@ -34,7 +38,23 @@ export const CompleteActionForm = ({
   const [{ fetching: fetchingCompleteAction }, completeCompanyAction] =
     useCompleteCompanyActionMutation()
 
-  const handleComplete = async () => {
+  const [{ fetching: fetchingCreateActionComment }, createActionComment] =
+    useCreateActionCommentMutation()
+
+  const handleComplete = async (message: string, attachments?: File[]) => {
+    await createActionComment({
+      input: {
+        actionContentId,
+        attachments: attachments?.map((a) => ({
+          fileName: a.fileName,
+          fileSize: a.fileSize,
+          mimeType: a.mimeType,
+          source: a.source,
+        })),
+        message: message,
+      },
+    })
+
     await completeCompanyAction({
       input: {
         actionContentId,
@@ -54,10 +74,9 @@ export const CompleteActionForm = ({
           <Divider />
         </>
       )}
-      <CreateCommentForm
-        actionContentId={actionContentId}
-        isLoading={fetchingCompleteAction}
-        onComplete={handleComplete}
+      <CommentForm
+        loading={fetchingCompleteAction || fetchingCreateActionComment}
+        onSubmit={handleComplete}
       />
     </Section>
   )
