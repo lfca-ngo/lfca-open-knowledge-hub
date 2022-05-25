@@ -1,8 +1,8 @@
 import {
-  EditOutlined,
-  UserOutlined,
   DeleteOutlined,
+  EditOutlined,
   SettingOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
 import { Avatar, Button, Popconfirm, Popover, Space } from 'antd'
 import { marked } from 'marked'
