@@ -20,16 +20,14 @@ import {
 } from 'antd'
 import { useState } from 'react'
 
-import { ContentfulServiceProviderFields } from '../../services/contentful'
+import {
+  useCreateServiceProviderReviewMutation,
+  useServiceProvidersQuery,
+} from '../../services/lfca-backend'
 import { RemovableInput } from '../RemovableInput'
 
 const { Option } = Select
 const { TextArea } = Input
-
-interface ReviewFormProps {
-  onComplete?: () => void
-  serviceProviders: ContentfulServiceProviderFields[]
-}
 
 const LabelWithButton = ({
   add,
@@ -51,32 +49,44 @@ const LabelWithButton = ({
   </div>
 )
 
-export const ReviewForm = ({
-  onComplete,
-  serviceProviders,
-}: ReviewFormProps) => {
+export const ReviewForm = () => {
   const [form] = Form.useForm()
-  const [loading, setLoading] = useState(false)
   const [providerId, setProviderId] = useState('')
 
-  const argumentsValidator = async (_: object, names: string[]) => {
-    if (names.length > 5) {
+  // TODO: UI for loading state
+  // TODO: UI for error state
+  const [{ data: dataServiceProviders }] = useServiceProvidersQuery()
+
+  // TODO: UI for error state
+  const [
+    { fetching: fetchingCreateServiceProviderReview },
+    createServiceProviderReview,
+  ] = useCreateServiceProviderReviewMutation()
+
+  const argumentsValidator = async (_: object, names?: string[]) => {
+    if (names && names.length > 5) {
       return Promise.reject(new Error('Max 5 arguments'))
     }
   }
 
-  const handleFinish = () => {
-    setLoading(true)
+  const handleFinish = async (props: {
+    cons?: string[]
+    isAnonymous?: boolean
+    price?: number
+    pros?: string[]
+    rating: number
+    review: string
+  }) => {
+    await createServiceProviderReview({
+      input: {
+        ...props,
+        serviceProviderContentId: providerId,
+      },
+    })
 
-    // TODO: send to server
-    setTimeout(() => {
-      setProviderId('')
-      onComplete?.()
-      // show a success message
-      form.resetFields()
-      message.success(`Thanks, we will review it!`)
-      setLoading(false)
-    }, 600)
+    setProviderId('')
+    form.resetFields()
+    message.success(`Thanks, we will review it!`)
   }
 
   return (
@@ -92,8 +102,8 @@ export const ReviewForm = ({
           placeholder="Select an option..."
         >
           <Select.Option key={''}>-- None of those</Select.Option>
-          {serviceProviders.map((provider) => (
-            <Option key={provider.providerId}>{provider.name}</Option>
+          {dataServiceProviders?.serviceProviders.map((provider) => (
+            <Option key={provider.id}>{provider.name}</Option>
           ))}
         </Select>
       </Form.Item>
@@ -118,7 +128,7 @@ export const ReviewForm = ({
                 Describe your experience <QuestionCircleOutlined />
               </Tooltip>
             }
-            name="content"
+            name="review"
             rules={[{ message: 'Please write a summary!', required: true }]}
           >
             <TextArea
@@ -191,12 +201,16 @@ export const ReviewForm = ({
                 ~Price per year <QuestionCircleOutlined />
               </Tooltip>
             }
-            name="pricePerYear"
+            name="price"
             rules={[{ required: false }]}
           >
             <InputNumber
               addonAfter={<span className="currency">€</span>}
+              min={0}
               placeholder="1200"
+              precision={0}
+              step={1}
+              type="number"
             />
           </Form.Item>
 
@@ -205,7 +219,11 @@ export const ReviewForm = ({
           </Form.Item>
 
           <Form.Item>
-            <Button htmlType="submit" loading={loading} type="primary">
+            <Button
+              htmlType="submit"
+              loading={fetchingCreateServiceProviderReview}
+              type="primary"
+            >
               Submit
             </Button>
           </Form.Item>
