@@ -148,8 +148,10 @@ body {
   }
 }
 .ant-btn.ant-btn-primary {
-  background: @btn-primary-bg;
-  color: @btn-primary-color;
+  &:not(.ant-btn-primary[disabled]) {
+    background: @btn-primary-bg;
+    color: @btn-primary-color;
+  }
 }
 .ant-btn.ant-btn-background-ghost {
   color: var(--heading-color);

@@ -44,7 +44,7 @@ export const InviteItem = ({ item }: InviteItemProps) => {
           key="mail"
           title={'Copy & Share the link'}
         >
-          <Button ghost icon={<MessageOutlined />} size="large">
+          <Button ghost icon={<MessageOutlined />}>
             Invite via Message
           </Button>
         </Popover>,

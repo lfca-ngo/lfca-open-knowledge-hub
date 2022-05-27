@@ -1,4 +1,5 @@
 @import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
 
 @icon-width: 40px;
 
@@ -97,8 +98,9 @@
       display: inline-block;
       width: calc(100% - @icon-width);
 
-      h5 {
-        text-transform: none;
+      .title {
+        .font-semi();
+        margin: 3px 0 10px;
       }
 
       p {

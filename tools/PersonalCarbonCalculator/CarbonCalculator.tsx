@@ -77,8 +77,8 @@ export const CarbonCalculator = (props: any) => {
                   Results
                 </div>
                 <h1>
-                  {`Thanks! Here are some tips for you to reduce your carbon
-                  footprint. Please click "save result" below to continue`}
+                  {`Thanks! Understand how you can reduce your 
+                  footprint. Click "save result" below to continue`}
                 </h1>
                 <p>
                   {`Here are a few tips on how to reduce your carbon footprint. We
@@ -94,7 +94,7 @@ export const CarbonCalculator = (props: any) => {
                         <CustomIcon category={item.category} />
                       </div>
                       <div className="text">
-                        <h5>{item.resultTitle}</h5>
+                        <div className="title">{item.resultTitle}</div>
                         <p>{item.resultText}</p>
                       </div>
                     </div>

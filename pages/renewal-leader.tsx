@@ -2,7 +2,7 @@ import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { OnboardingLeaderSteps } from '../components/Flows'
+import { RenewalLeaderSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
 import { useUser } from '../hooks/user'
 import { fetchAllQuestionnaires } from '../services/contentful'
@@ -14,21 +14,21 @@ const OnboardingLeader: NextPage = (props: any) => {
   const { user } = useUser()
 
   const handleOnNext = () => {
-    if (currentStepIndex === OnboardingLeaderSteps.length - 1) {
+    if (currentStepIndex === RenewalLeaderSteps.length - 1) {
       router.push('/')
     } else {
       setCurrentStepIndex((i) => i + 1)
     }
   }
 
-  const Step = OnboardingLeaderSteps[currentStepIndex]?.component
+  const Step = RenewalLeaderSteps[currentStepIndex]?.component
 
   return (
     <StepsLayout
       canClose
       currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}
-      steps={OnboardingLeaderSteps}
+      steps={RenewalLeaderSteps}
     >
       {Step ? (
         <Step

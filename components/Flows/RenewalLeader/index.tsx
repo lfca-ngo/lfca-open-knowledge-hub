@@ -1,75 +1,29 @@
-import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
+import { Button, Drawer, Tag } from 'antd'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
-import { InviteTeam } from '../../InviteTeam'
-import { Pledge } from '../../Pledge'
 
 interface StepProps {
   onNext: () => void
 }
 
-const Commit = ({ onNext }: StepProps) => {
+const Intro = ({ onNext }: StepProps) => {
   const { user } = useUser()
 
   return (
     <div>
       <Tag className="super-text">Pledge</Tag>
-      <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
+      <h1>{`Hi ${user?.firstName}, time to renew your pledge!`}</h1>
       <p>
         {`We started LFCA with the goal to accelerate the transition towards a
         sustainable economy. To make this happen, we need to leverage our
         influence on a personal, business and political level. Please start by
         signing our Green Pledge as a leader of your company.`}
       </p>
-      <Pledge name={`${user?.firstName} ${user?.lastName}`} onFinish={onNext} />
-    </div>
-  )
-}
-
-const Invite = ({ onNext }: StepProps) => {
-  const [hasMinimumInvited, setHasMinimumInvited] = useState(false)
-  const [isLeaderOfficer, setIsLeaderOfficer] = useState(false)
-
-  return (
-    <div>
-      <Tag className="super-text">Intro</Tag>
-      <h1>{`Invite at least one team member as a Climate Officer`}</h1>
-      <p>
-        {`Calculating the carbon footprint of an entire company and doing
-        reduction and goal setting workshops takes quite a bit of time. We
-        therefore ask you to appoint at least one motivated team member that
-        helps to coordinate these efforts.`}
-      </p>
-      <ul>
-        <li>
-          {`If you already have a person or team that takes care of
-          sustainability, the choice is obvious`}
-        </li>
-        <li>
-          {`If you don't, pick someone who is genuinely passionate about the
-          topic. We recommend to invite that colleague with a personal message!`}
-        </li>
-      </ul>
-      <InviteTeam onMinimumInvited={() => setHasMinimumInvited(true)} />
-      <Space direction="vertical" size="large">
-        <Checkbox
-          checked={isLeaderOfficer}
-          onChange={(e) => setIsLeaderOfficer(e.target.checked)}
-        >
-          {`I will take over the role of Climate Officer for my company
-          (not-recommended)`}
-        </Checkbox>
-        <Button
-          disabled={!isLeaderOfficer && !hasMinimumInvited}
-          onClick={onNext}
-          size="large"
-          type="primary"
-        >
-          {`Continue`}
-        </Button>
-      </Space>
+      <Button onClick={onNext} size="large" type="primary">
+        Continue
+      </Button>
     </div>
   )
 }
@@ -119,6 +73,19 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   )
 }
 
+const Compare = ({ onNext }: StepProps) => {
+  return (
+    <div>
+      <Tag className="super-text">Compare</Tag>
+      <h1>{`Let's see how you compare to last year`}</h1>
+      <p>{`...`}</p>
+      <Button onClick={onNext} size="large" type="primary">
+        Continue
+      </Button>
+    </div>
+  )
+}
+
 const Share = ({ onNext }: StepProps) => {
   return (
     <div>
@@ -143,21 +110,21 @@ const Share = ({ onNext }: StepProps) => {
   )
 }
 
-export const OnboardingLeaderSteps = [
+export const RenewalLeaderSteps = [
   {
-    component: Commit,
-    description: 'Commit to action',
-    title: 'Pledge',
-  },
-  {
-    component: Invite,
-    description: 'Get to know the platform',
-    title: 'Invite',
+    component: Intro,
+    description: 'Intro',
+    title: 'Renewal',
   },
   {
     component: Footprint,
     description: 'Understand your emissions',
     title: 'Footprint',
+  },
+  {
+    component: Compare,
+    description: 'Compare to last year',
+    title: 'Compare',
   },
   {
     component: Share,

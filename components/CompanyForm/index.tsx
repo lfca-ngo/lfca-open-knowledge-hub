@@ -1,5 +1,9 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Space } from 'antd'
+import {
+  InfoCircleOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons'
+import { Button, Form, Input, Popover, Space } from 'antd'
 import { useEffect } from 'react'
 
 import {
@@ -46,53 +50,78 @@ CompanyFormProps) => {
 
   const formItems: { [key in keyof CompanyFragment]?: React.ReactNode } = {
     aboutSections: (
-      <Form.List key="aboutSections" name="aboutSections">
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map(({ key, name, ...restField }) => (
-              <Space align="start" key={key}>
-                <Form.Item
-                  {...restField}
-                  label="Headline"
-                  name={[name, 'heading']}
-                  rules={[{ message: 'Missing heading', required: true }]}
+      <Form.Item
+        label={
+          <Popover
+            content={
+              <div>
+                On your microsite you can share more detailed explanations with
+                images about the actions that you are taking. Add sections to
+                your site with the form below. Check an{' '}
+                <a
+                  href="https://wtca.lfca.earth/e/personio"
+                  rel="noreferrer"
+                  target="_blank"
                 >
-                  <Input placeholder="Heading" />
-                </Form.Item>
-                <Form.Item
-                  {...restField}
-                  label="Text"
-                  name={[name, 'text']}
-                  rules={[{ message: 'Missing text', required: true }]}
+                  example
+                </a>
+              </div>
+            }
+            overlayClassName="popover-sm"
+            placement="left"
+          >
+            About sections <InfoCircleOutlined />
+          </Popover>
+        }
+      >
+        <Form.List key="aboutSections" name="aboutSections">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <Space align="start" key={key}>
+                  <Form.Item
+                    {...restField}
+                    label="Headline"
+                    name={[name, 'heading']}
+                    rules={[{ message: 'Missing heading', required: true }]}
+                  >
+                    <Input placeholder="Heading" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    label="Text"
+                    name={[name, 'text']}
+                    rules={[{ message: 'Missing text', required: true }]}
+                  >
+                    <TextArea placeholder="Text" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    label="Image"
+                    name={[name, 'imageUrl']}
+                    rules={[{ message: 'Missing image', required: true }]}
+                  >
+                    <ImageUpload
+                      customPreset={CLOUDINARY_PRESETS.companyAboutPictures}
+                    />
+                  </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(name)} />
+                </Space>
+              ))}
+              <Form.Item>
+                <Button
+                  block
+                  icon={<PlusOutlined />}
+                  onClick={() => add()}
+                  type="dashed"
                 >
-                  <TextArea placeholder="Text" />
-                </Form.Item>
-                <Form.Item
-                  {...restField}
-                  label="Image"
-                  name={[name, 'imageUrl']}
-                  rules={[{ message: 'Missing image', required: true }]}
-                >
-                  <ImageUpload
-                    customPreset={CLOUDINARY_PRESETS.companyAboutPictures}
-                  />
-                </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(name)} />
-              </Space>
-            ))}
-            <Form.Item>
-              <Button
-                block
-                icon={<PlusOutlined />}
-                onClick={() => add()}
-                type="dashed"
-              >
-                Add field
-              </Button>
-            </Form.Item>
-          </>
-        )}
-      </Form.List>
+                  Add field
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
+      </Form.Item>
     ),
     campaignFiles: (
       <Form.Item

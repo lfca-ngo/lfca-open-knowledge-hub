@@ -14,6 +14,7 @@ import {
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 import { CompanyForm } from '../CompanyForm'
 import { Section } from '../Layout/Sections'
+import { MicrositeBadges } from '../MicrositeBadges'
 
 interface AchievementsListProps {
   achievements: CompanyAchievementFragment[]
@@ -93,6 +94,13 @@ export const AchievementsList = ({
             onUpdate={handleUpdate}
           />
         </Section>
+
+        {/* For the green pledge, show also the microsite badges */}
+        {activeAchievement?.contentId === 'hasBadgeQualification' && (
+          <Section title="Add badge">
+            <MicrositeBadges micrositeSlug={company?.micrositeSlug} />
+          </Section>
+        )}
       </Drawer>
     </div>
   )
