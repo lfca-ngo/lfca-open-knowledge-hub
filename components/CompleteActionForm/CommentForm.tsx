@@ -54,10 +54,7 @@ export const CommentForm = ({
     >
       <Form.Item
         label={
-          <Tooltip
-            placement="left"
-            title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?"
-          >
+          <Tooltip title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?">
             Leave a comment about this action <QuestionCircleOutlined />
           </Tooltip>
         }
@@ -74,10 +71,7 @@ export const CommentForm = ({
       </div>
       <Form.Item
         label={
-          <Tooltip
-            placement="left"
-            title="Think about: Research that you did, resources that you found useful"
-          >
+          <Tooltip title="Think about: Research that you did, resources that you found useful">
             Useful documents <QuestionCircleOutlined />
           </Tooltip>
         }
@@ -90,13 +84,7 @@ export const CommentForm = ({
         />
       </Form.Item>
       <Form.Item>
-        <Button
-          block
-          htmlType="submit"
-          loading={loading}
-          size="large"
-          type="primary"
-        >
+        <Button block htmlType="submit" loading={loading} type="primary">
           Submit
         </Button>
       </Form.Item>
