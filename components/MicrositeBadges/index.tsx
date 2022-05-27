@@ -3,7 +3,7 @@ require('./styles.less')
 import { Input, Select, Table } from 'antd'
 import React, { useState } from 'react'
 
-const BADGE_BASE_URL = ''
+const BADGE_BASE_URL = 'https://wtca.lfca.earth'
 const BASE_URL = `https://res.cloudinary.com/dhpk1grmy/image/upload/v1599579094/Act%20Now%20Badge/v2`
 
 const { TextArea } = Input
