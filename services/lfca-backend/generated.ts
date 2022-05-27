@@ -562,6 +562,7 @@ export type ServiceProviderReview = {
   /** ServiceProviderReview's can be anonymous so we might not always get a user */
   author?: Maybe<User>;
   cons: Array<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   pros: Array<Scalars['String']>;
   rating: Scalars['Float'];
@@ -674,6 +675,12 @@ export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', co
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
 
 export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignGoalSetting?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> };
+
+export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null };
+
+export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
+
+export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null };
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
@@ -795,6 +802,20 @@ export type PlannedCompanyActionsQueryVariables = Exact<{ [key: string]: never; 
 
 export type PlannedCompanyActionsQuery = { __typename?: 'Query', plannedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } | null> };
 
+export type ServiceProviderReviewsQueryVariables = Exact<{
+  input: ServiceProviderReviewsInput;
+}>;
+
+
+export type ServiceProviderReviewsQuery = { __typename?: 'Query', serviceProviderReviews: Array<{ __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null }> };
+
+export type ServiceProvidersQueryVariables = Exact<{
+  input?: InputMaybe<ServiceProvidersInput>;
+}>;
+
+
+export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
+
 export type UserInvitesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -878,6 +899,12 @@ export const CompanyAchievementFragmentDoc = gql`
   editableCompanyProperties
 }
     `;
+export const TagFragmentDoc = gql`
+    fragment Tag on Tag {
+  id
+  name
+}
+    `;
 export const CompanyActionListItemFragmentDoc = gql`
     fragment CompanyActionListItem on CompanyAction {
   commentAttachmentCount
@@ -905,12 +932,11 @@ export const CompanyActionListItemFragmentDoc = gql`
   recommendedForCompanyAchievementIds
   requiredForCompanyAchievementIds
   tags {
-    id
-    name
+    ...Tag
   }
   title
 }
-    `;
+    ${TagFragmentDoc}`;
 export const CompanyFragmentDoc = gql`
     fragment Company on Company {
   id
@@ -936,6 +962,47 @@ export const CompanyFragmentDoc = gql`
   }
 }
     `;
+export const ServiceProviderReviewFragmentDoc = gql`
+    fragment ServiceProviderReview on ServiceProviderReview {
+  author {
+    id
+    firstName
+  }
+  cons
+  createdAt
+  id
+  pros
+  rating
+  review
+}
+    `;
+export const ServiceProviderFragmentDoc = gql`
+    fragment ServiceProvider on ServiceProvider {
+  averageRating
+  highestPrice
+  lowestPrice
+  reviewsCount
+  description
+  id
+  logo {
+    id
+    url
+  }
+  memberId
+  model {
+    ...Tag
+  }
+  name
+  services {
+    ...Tag
+  }
+  size
+  supplyChainComplexity {
+    ...Tag
+  }
+  year
+}
+    ${TagFragmentDoc}`;
 export const UserInviteFragmentDoc = gql`
     fragment UserInvite on UserInvite {
   email
@@ -1169,6 +1236,28 @@ export const PlannedCompanyActionsDocument = gql`
 
 export function usePlannedCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<PlannedCompanyActionsQueryVariables>, 'query'>) {
   return Urql.useQuery<PlannedCompanyActionsQuery>({ query: PlannedCompanyActionsDocument, ...options });
+};
+export const ServiceProviderReviewsDocument = gql`
+    query serviceProviderReviews($input: ServiceProviderReviewsInput!) {
+  serviceProviderReviews(input: $input) {
+    ...ServiceProviderReview
+  }
+}
+    ${ServiceProviderReviewFragmentDoc}`;
+
+export function useServiceProviderReviewsQuery(options: Omit<Urql.UseQueryArgs<ServiceProviderReviewsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ServiceProviderReviewsQuery>({ query: ServiceProviderReviewsDocument, ...options });
+};
+export const ServiceProvidersDocument = gql`
+    query serviceProviders($input: ServiceProvidersInput) {
+  serviceProviders(input: $input) {
+    ...ServiceProvider
+  }
+}
+    ${ServiceProviderFragmentDoc}`;
+
+export function useServiceProvidersQuery(options?: Omit<Urql.UseQueryArgs<ServiceProvidersQueryVariables>, 'query'>) {
+  return Urql.useQuery<ServiceProvidersQuery>({ query: ServiceProvidersDocument, ...options });
 };
 export const UserInvitesDocument = gql`
     query userInvites {

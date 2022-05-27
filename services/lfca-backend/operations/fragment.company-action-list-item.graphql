@@ -24,8 +24,7 @@ fragment CompanyActionListItem on CompanyAction {
   recommendedForCompanyAchievementIds
   requiredForCompanyAchievementIds
   tags {
-    id
-    name
+    ...Tag
   }
   title
 }

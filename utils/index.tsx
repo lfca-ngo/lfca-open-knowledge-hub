@@ -67,7 +67,7 @@ export const copyTextToClipboard = (
   )
 }
 
-export const getScreenSizeType = (window: any, document: any) => {
+export const getScreenSizeType = (window: Window, document: Document) => {
   const screenWidth =
     window.innerWidth ||
     document.documentElement.clientWidth ||
@@ -98,7 +98,7 @@ export const CSS_THEME_DARK = !isBrowser()
       ?.getPropertyValue('--THEME--DARK')
       .trim() || THEME_DARK
 
-export const setCookie = (name: string, value: any) => {
+export const setCookie = (name: string, value: string) => {
   if (!isBrowser()) return
   window.localStorage.setItem(name, value)
 }

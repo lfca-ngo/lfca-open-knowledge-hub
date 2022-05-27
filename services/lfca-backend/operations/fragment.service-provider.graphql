@@ -1,0 +1,25 @@
+fragment ServiceProvider on ServiceProvider {
+  averageRating
+  highestPrice
+  lowestPrice
+  reviewsCount
+  description
+  id
+  logo {
+    id
+    url
+  }
+  memberId
+  model {
+    ...Tag
+  }
+  name
+  services {
+    ...Tag
+  }
+  size
+  supplyChainComplexity {
+    ...Tag
+  }
+  year
+}
