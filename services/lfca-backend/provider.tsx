@@ -38,6 +38,10 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
         dedupExchange,
         // debugExchange,
         cacheExchange({
+          keys: {
+            CompanyAchievement: (data) => data.contentId as string,
+            CompanyProgram: (data) => data.contentId as string,
+          },
           schema: schema as IntrospectionData,
           updates: {
             Mutation: {

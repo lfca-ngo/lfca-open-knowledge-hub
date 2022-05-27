@@ -6,6 +6,7 @@ fragment CompanyActionListItem on CompanyAction {
   completedAt
   contentId
   customSections {
+    id
     componentId
   }
   heroImage {
