@@ -147,9 +147,10 @@ export const MicrositeBadges = ({
   return (
     <div className="attribution-table">
       <p>
-        {`Your microsite is available in multiple languages. However, currently you
-        can only add your custom "about sections" in 1 language. Please select
-        which one you would like to link to from the badge.`}
+        {`Your microsite is available in multiple languages. However, currently
+        you can only add your custom "about" content in one language. So if you
+        choose to link to the german page, make sure to write your sections in
+        german and vice versa.`}
       </p>
       <Select
         defaultValue=""
