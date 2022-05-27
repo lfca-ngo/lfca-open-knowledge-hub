@@ -1,7 +1,7 @@
 import { Col, Form, Row, Select } from 'antd'
 
 import { MultiSelect } from '../../../components/MultiSelect'
-import { ContentfulServiceProviderFields } from '../../../services/contentful'
+import { ServiceProviderFragment } from '../../../services/lfca-backend'
 import { getUniqueTags, PRICE_FILTER_OPTIONS } from '../utils'
 
 const { Option } = Select
@@ -15,7 +15,7 @@ export interface FilterFormItems {
 
 interface FilterFormProps {
   onValuesChange: (_: FilterFormItems, allValues: FilterFormItems) => void
-  providers: ContentfulServiceProviderFields[]
+  providers: ServiceProviderFragment[]
 }
 
 export const FilterForm = ({ onValuesChange, providers }: FilterFormProps) => {

@@ -35,13 +35,13 @@ const { TabPane } = Tabs
 
 interface ActionProps {
   action: ContentfulActionFields
-  serviceProviders?: ContentfulServiceProviderFields[]
+  serviceProviders: ContentfulServiceProviderFields[]
 }
 
-const Action: NextPage<ActionProps> = (props) => {
+const Action: NextPage<ActionProps> = ({ action, serviceProviders }) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const { action } = props
+
   const [{ data: actionData, fetching: fetchingActionData }] =
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
@@ -136,7 +136,6 @@ const Action: NextPage<ActionProps> = (props) => {
         {/* Render additional sections */}
         {renderTools(
           action?.customSections?.filter((s) => s.position === 'main'),
-          props,
           true
         )}
       </Main>
@@ -178,8 +177,7 @@ const Action: NextPage<ActionProps> = (props) => {
         </Section>
         {/* Render additional sections */}
         {renderTools(
-          action?.customSections?.filter((s) => s.position === 'sider'),
-          props
+          action?.customSections?.filter((s) => s.position === 'sider')
         )}
       </Sider>
 
@@ -192,7 +190,7 @@ const Action: NextPage<ActionProps> = (props) => {
         <CompleteActionForm
           actionContentId={action.actionId}
           onComplete={() => setIsOpen(false)}
-          serviceProviders={props.serviceProviders}
+          serviceProviders={serviceProviders}
           withReviewForm={actionHasReviews(action)}
         />
       </Drawer>

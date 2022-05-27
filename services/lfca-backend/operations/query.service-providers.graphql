@@ -1,0 +1,5 @@
+query serviceProviders($input: ServiceProvidersInput) {
+  serviceProviders(input: $input) {
+    ...ServiceProvider
+  }
+}

@@ -13,8 +13,10 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Popover, Rate, Tag } from 'antd'
 import Image from 'next/image'
 
-import { ContentfulTagFields } from '../../../services/contentful'
-import { ServiceProvider } from '..'
+import {
+  ServiceProviderFragment,
+  TagFragment,
+} from '../../../services/lfca-backend'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -27,21 +29,23 @@ const MAP_ICONS = (name: string) => {
   }
 }
 
-const TypeTags = ({ tags }: { tags?: ContentfulTagFields[] }) => {
+const TypeTags = ({ tags }: { tags?: TagFragment[] }) => {
   return (
     <div className="type-tags">
-      {tags?.map(({ name }) => (
-        <Tag className="type-tag" icon={MAP_ICONS(name)} key={name}>
-          {name}
-        </Tag>
-      ))}
+      {tags?.map(({ id, name }) =>
+        name ? (
+          <Tag className="type-tag" icon={MAP_ICONS(name)} key={id}>
+            {name}
+          </Tag>
+        ) : null
+      )}
     </div>
   )
 }
 
 interface ProviderCardProps {
-  provider: ServiceProvider
-  onOpenReviews?: (provider: ServiceProvider) => void
+  provider: ServiceProviderFragment
+  onOpenReviews?: (provider: ServiceProviderFragment) => void
   onOpenWebsite?: () => void
 }
 
@@ -50,12 +54,9 @@ export const ProviderCard = ({
   onOpenWebsite,
   provider,
 }: ProviderCardProps) => {
-  const priceRange = `${provider.reviewStats?.ranges?.cost?.from || ''}€ - ${
-    provider.reviewStats?.ranges?.cost?.to || ''
+  const priceRange = `${provider.lowestPrice || ''}€ - ${
+    provider.highestPrice || ''
   }€`
-  const teamSizeRange = `${
-    provider.reviewStats?.ranges?.companySize?.from || '?'
-  } - ${provider.reviewStats?.ranges?.companySize?.to || '?'}`
 
   return (
     <Card bordered={false} className="provider-card">
@@ -66,7 +67,7 @@ export const ProviderCard = ({
               alt={provider.name || ''}
               layout="fill"
               objectFit="contain"
-              src={provider.logo?.url}
+              src={provider.logo.url}
             />
           )}
         </div>
@@ -108,16 +109,20 @@ export const ProviderCard = ({
       </div>
       <div className="actions">
         <div className="reviews">
-          <Rate allowHalf disabled value={provider.reviewStats?.avgRating} />
+          <Rate
+            allowHalf
+            disabled
+            value={provider.averageRating ?? undefined}
+          />
           <Button
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
             type="link"
-          >{`See all ${provider.reviewStats?.totalReviews} reviews`}</Button>
+          >{`See all ${provider.reviewsCount} reviews`}</Button>
 
           <div className="ranges">
             <Popover
-              content={`The price range is based on experiences shared by other members. Team size of reviewing companies: ${teamSizeRange}`}
+              content="The price range is based on experiences shared by other members."
               overlayClassName="popover-sm"
               placement="bottom"
             >

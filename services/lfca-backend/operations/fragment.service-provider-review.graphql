@@ -1,0 +1,12 @@
+fragment ServiceProviderReview on ServiceProviderReview {
+  author {
+    id
+    firstName
+  }
+  cons
+  createdAt
+  id
+  pros
+  rating
+  review
+}

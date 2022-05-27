@@ -1,134 +1,103 @@
 require('./styles.less')
 
 import { Drawer, List } from 'antd'
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { ContentfulServiceProviderFields } from '../../services/contentful'
+import {
+  ServiceProviderFragment,
+  useServiceProvidersQuery,
+} from '../../services/lfca-backend'
 import { arrayContains, numberInRange } from '../../utils'
 import { FeaturedProvider } from './FeaturedProvider'
 import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
 import { SearchBar } from './SearchBar'
-import { FAKE_REVIEWS, mergeProviderData } from './utils'
 
-export interface Review {
-  author: string
-  cons: string[]
-  content: string
-  createdAt: string
-  pricing: {
-    companySize: number
-    cost: number
-  }
-  pros: string[]
-  rating: number
-}
+export const ServiceProviderComparison = () => {
+  const [activeProvider, setActiveProvider] =
+    useState<ServiceProviderFragment | null>(null)
 
-export interface Reviews {
-  [key: string]: Review[]
-}
+  // TODO: UI for error state
+  // TODO: Render skeleton whil loading
+  const [{ data, fetching }] = useServiceProvidersQuery()
 
-interface Range {
-  from: number
-  to: number
-}
-
-export interface DerivedReviewStats {
-  ranges?: {
-    cost: Range
-    companySize: Range
-  }
-  avgRating?: number
-  totalReviews?: number
-}
-
-export interface ServiceProvider extends ContentfulServiceProviderFields {
-  reviews: Review[]
-  reviewStats?: DerivedReviewStats
-}
-
-interface ServiceProviderComparisonProps {
-  providers: ContentfulServiceProviderFields[]
-}
-
-export const ServiceProviderComparison = ({
-  providers,
-}: ServiceProviderComparisonProps) => {
-  const mergedData = useMemo(
-    () => mergeProviderData(providers, FAKE_REVIEWS),
-    [providers]
+  const [list, setList] = useState<ServiceProviderFragment[]>(
+    data?.serviceProviders || []
   )
 
-  const [activeProvider, setActiveProvider] = useState<ServiceProvider>()
-  const [visible, setVisible] = useState(false)
-  const [list, setList] = useState(mergedData)
+  useEffect(() => {
+    setList(data?.serviceProviders || [])
+  }, [data])
 
   // filtering function
   const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
     const { models, services, supplyChainComplexity } = allValues
     const [cost] = allValues.cost || []
 
-    const filtered = mergedData.filter((provider) => {
+    const filtered = data?.serviceProviders.filter((provider) => {
       const providerSupplyChainComplexity = provider.supplyChainComplexity?.map(
-        (s) => s.name
+        (s) => s.name || ''
       )
-      const providerModels = provider.model?.map((m) => m.name)
-      const providerServices = provider.services?.map((s) => s.name)
-      const lowestPrice = provider.reviewStats?.ranges?.cost?.from
+      const providerModels = provider.model?.map((m) => m.name || '')
+      const providerServices = provider.services?.map((s) => s.name || '')
+      const lowestPrice = provider.lowestPrice
 
       const isValid =
         arrayContains(models, providerModels) &&
         arrayContains(services, providerServices) &&
         arrayContains(supplyChainComplexity, providerSupplyChainComplexity) &&
-        numberInRange(lowestPrice, cost)
+        numberInRange(lowestPrice ?? undefined, cost)
 
       return isValid
     })
-    setList(filtered)
+    setList(filtered || [])
   }
 
   // searches name and services
   const handleSearch = (value: string) => {
-    const filtered = mergedData.filter((provider) => {
+    const filtered = data?.serviceProviders.filter((provider) => {
       const providerName = provider.name
       const providerServices = provider.services?.map((service) => service.name)
       // find results regardless of case and completeness of search term
       return (
         providerName?.toLowerCase().includes(value.toLowerCase()) ||
-        providerServices?.some((service) =>
-          service.toLowerCase().includes(value.toLowerCase())
+        providerServices?.some(
+          (service) =>
+            service && service.toLowerCase().includes(value.toLowerCase())
         )
       )
     })
-    setList(filtered)
-  }
-
-  const handleOpenReviews = (provider: ServiceProvider) => {
-    setActiveProvider(provider)
-    setVisible(true)
+    setList(filtered || [])
   }
 
   return (
     <div className="service-provider-comparison">
-      <FilterForm onValuesChange={handleChange} providers={providers} />
+      <FilterForm
+        onValuesChange={handleChange}
+        providers={data?.serviceProviders || []}
+      />
       <FeaturedProvider />
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
-        renderItem={(item: ServiceProvider) => (
+        loading={fetching}
+        renderItem={(item) => (
           <List.Item>
-            <ProviderCard onOpenReviews={handleOpenReviews} provider={item} />
+            <ProviderCard
+              onOpenReviews={(provider) => setActiveProvider(provider)}
+              provider={item}
+            />
           </List.Item>
         )}
       />
       {/* Review Drawer */}
       <Drawer
         className="drawer-md"
-        onClose={() => setVisible(false)}
-        visible={visible}
+        onClose={() => setActiveProvider(null)}
+        visible={!!activeProvider}
       >
-        <ReviewsList reviews={activeProvider?.reviews} />
+        <ReviewsList serviceProviderContentId={activeProvider?.id} />
       </Drawer>
     </div>
   )

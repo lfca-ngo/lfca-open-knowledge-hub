@@ -1,0 +1,5 @@
+query serviceProviderReviews($input: ServiceProviderReviewsInput!) {
+  serviceProviderReviews(input: $input) {
+    ...ServiceProviderReview
+  }
+}

@@ -8,11 +8,7 @@ import {
 import { Avatar, Comment, Rate, Tooltip } from 'antd'
 import moment from 'moment'
 
-import { Review } from '../index'
-
-interface ReviewCardProps {
-  review: Review
-}
+import { ServiceProviderReviewFragment } from '../../../services/lfca-backend'
 
 const ReviewContent = ({
   cons,
@@ -44,21 +40,25 @@ const ReviewContent = ({
   )
 }
 
+interface ReviewCardProps {
+  review: ServiceProviderReviewFragment
+}
+
 export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
     <Comment
       author={<Rate disabled key="rating" value={review.rating} />}
-      avatar={<Avatar>{review.author}</Avatar>}
+      avatar={<Avatar>{review.author?.firstName.charAt(0) || ''}</Avatar>}
       className="review-card"
       content={
         <ReviewContent
           cons={review.cons}
-          content={review.content}
+          content={review.review}
           pros={review.pros}
         />
       }
       datetime={
-        <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+        <Tooltip title={moment(review.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
           <ClockCircleOutlined />
         </Tooltip>
       }
