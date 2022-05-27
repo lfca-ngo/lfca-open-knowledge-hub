@@ -707,6 +707,13 @@ export type CreateActionCommentMutationVariables = Exact<{
 
 export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
 
+export type CreateServiceProviderReviewMutationVariables = Exact<{
+  input: CreateServiceProviderReviewInput;
+}>;
+
+
+export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null } };
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -1061,6 +1068,17 @@ export const CreateActionCommentDocument = gql`
 
 export function useCreateActionCommentMutation() {
   return Urql.useMutation<CreateActionCommentMutation, CreateActionCommentMutationVariables>(CreateActionCommentDocument);
+};
+export const CreateServiceProviderReviewDocument = gql`
+    mutation createServiceProviderReview($input: CreateServiceProviderReviewInput!) {
+  createServiceProviderReview(input: $input) {
+    ...ServiceProviderReview
+  }
+}
+    ${ServiceProviderReviewFragmentDoc}`;
+
+export function useCreateServiceProviderReviewMutation() {
+  return Urql.useMutation<CreateServiceProviderReviewMutation, CreateServiceProviderReviewMutationVariables>(CreateServiceProviderReviewDocument);
 };
 export const CreateUserDocument = gql`
     mutation createUser($input: CreateUserInput!) {

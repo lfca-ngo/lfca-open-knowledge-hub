@@ -48,7 +48,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
     <Comment
       author={<Rate disabled key="rating" value={review.rating} />}
-      avatar={<Avatar>{review.author?.firstName.charAt(0) || ''}</Avatar>}
+      avatar={<Avatar>{review.author?.firstName.charAt(0) || '?'}</Avatar>}
       className="review-card"
       content={
         <ReviewContent

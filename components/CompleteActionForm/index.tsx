@@ -1,6 +1,5 @@
 import { Divider, notification } from 'antd'
 
-import { ContentfulServiceProviderFields } from '../../services/contentful'
 import {
   useCompleteCompanyActionMutation,
   useCreateActionCommentMutation,
@@ -15,7 +14,6 @@ import { CommentForm } from './CommentForm'
 interface CompleteActionFormProps {
   actionContentId: string
   onComplete: () => void
-  serviceProviders?: ContentfulServiceProviderFields[]
   withReviewForm?: boolean
 }
 
@@ -31,7 +29,6 @@ const openNotification = () => {
 export const CompleteActionForm = ({
   actionContentId,
   onComplete,
-  serviceProviders,
   withReviewForm = false,
 }: CompleteActionFormProps) => {
   // TODO: UI for error states
@@ -70,7 +67,7 @@ export const CompleteActionForm = ({
     <Section title="Share your learnings">
       {withReviewForm && (
         <>
-          <ReviewForm serviceProviders={serviceProviders || []} />
+          <ReviewForm />
           <Divider />
         </>
       )}

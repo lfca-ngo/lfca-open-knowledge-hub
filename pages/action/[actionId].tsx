@@ -15,9 +15,7 @@ import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
   ContentfulActionFields,
-  ContentfulServiceProviderFields,
   fetchAllActions,
-  fetchAllServiceProviders,
 } from '../../services/contentful'
 import { EMPTY_ACTION } from '../../services/contentful/utils'
 import {
@@ -35,10 +33,9 @@ const { TabPane } = Tabs
 
 interface ActionProps {
   action: ContentfulActionFields
-  serviceProviders: ContentfulServiceProviderFields[]
 }
 
-const Action: NextPage<ActionProps> = ({ action, serviceProviders }) => {
+const Action: NextPage<ActionProps> = ({ action }) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
@@ -190,7 +187,6 @@ const Action: NextPage<ActionProps> = ({ action, serviceProviders }) => {
         <CompleteActionForm
           actionContentId={action.actionId}
           onComplete={() => setIsOpen(false)}
-          serviceProviders={serviceProviders}
           withReviewForm={actionHasReviews(action)}
         />
       </Drawer>
@@ -198,20 +194,16 @@ const Action: NextPage<ActionProps> = ({ action, serviceProviders }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<ActionProps> = async ({
+  params,
+}) => {
   const actionId = params?.actionId as string
   const actionsById = await fetchAllActions()
   const action = actionsById[actionId]
 
-  let serviceProviders = []
-  if (actionHasReviews(action)) {
-    serviceProviders = await fetchAllServiceProviders()
-  }
-
   return {
     props: {
       action,
-      serviceProviders,
     },
   }
 }
