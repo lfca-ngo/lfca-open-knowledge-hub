@@ -5,7 +5,6 @@ import { useState } from 'react'
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
-import { ContentfulServiceProviderFields } from '../../../services/contentful'
 import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
@@ -60,14 +59,9 @@ const Intro = ({ onNext }: StepProps) => {
 
 interface PersonalizeProps extends StepProps {
   actionsByTags: ActionListProps['actionsByTags']
-  serviceProviders?: ContentfulServiceProviderFields[]
 }
 
-const Personalize = ({
-  actionsByTags,
-  onNext,
-  serviceProviders,
-}: PersonalizeProps) => {
+const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [selectedActionContentId, setSelectedActionContentId] = useState<
@@ -114,7 +108,6 @@ const Personalize = ({
           <CompleteActionForm
             actionContentId={selectedActionContentId}
             onComplete={() => setSelectedActionContentId(null)}
-            serviceProviders={serviceProviders}
             withReviewForm={actionHasReviews(activeAction)}
           />
         ) : null}
