@@ -7,8 +7,7 @@ export const ACTIONS_COMPLETED = '/actions/completed'
 // Auth
 export const SIGN_IN = '/signin'
 export const SIGN_UP = '/signup'
-export const PW_RESET = '/password-reset'
-export const PW_SET = '/password-set'
+export const PW_RESET = '/reset-password'
 // Admin
 export const ADMIN_USERS = '/admin/users'
 export const ADMIN_COMPANIES = '/admin/companies'
