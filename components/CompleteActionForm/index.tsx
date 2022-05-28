@@ -38,7 +38,11 @@ export const CompleteActionForm = ({
   const [{ fetching: fetchingCreateActionComment }, createActionComment] =
     useCreateActionCommentMutation()
 
-  const handleComplete = async (message: string, attachments?: File[]) => {
+  const handleComplete = async (
+    message: string,
+    attachments?: File[],
+    notes?: string
+  ) => {
     await createActionComment({
       input: {
         actionContentId,
@@ -56,6 +60,7 @@ export const CompleteActionForm = ({
       input: {
         actionContentId,
         isCompleted: true,
+        notes: notes,
         skipRequirementsCheck: true,
       },
     })

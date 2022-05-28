@@ -1,8 +1,8 @@
 require('./styles.less')
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Form, Tag, Tooltip } from 'antd'
-import { useEffect } from 'react'
+import { Button, Checkbox, Form, Input, Tag, Tooltip } from 'antd'
+import { useEffect, useState } from 'react'
 import { Descendant } from 'slate'
 
 import { ActionCommentAttachment } from '../../services/lfca-backend'
@@ -11,13 +11,15 @@ import { File, FileUpload } from '../FileUpload/FileUpload'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
 
+const { TextArea } = Input
+
 interface ShareLearningsFormProps {
   initialValues?: {
     attachments: ActionCommentAttachment[]
     message: Descendant[]
   }
   loading?: boolean
-  onSubmit: (message: string, attachments?: File[]) => void
+  onSubmit: (message: string, attachments?: File[], notes?: string) => void
 }
 
 export const CommentForm = ({
@@ -25,6 +27,7 @@ export const CommentForm = ({
   loading,
   onSubmit,
 }: ShareLearningsFormProps) => {
+  const [notesVisible, setNotesVisible] = useState(false)
   const [form] = Form.useForm()
   // when data is loaded async, populate form
   useEffect(() => {
@@ -34,13 +37,15 @@ export const CommentForm = ({
   const handleFinish = async ({
     attachments,
     message,
+    notes,
   }: {
     attachments?: File[]
     message?: Descendant[]
+    notes?: string
   }) => {
     if (attachments?.length || message) {
       const parsedMessage = message ? convertValueToMarkdown(message) : ''
-      onSubmit(parsedMessage, attachments)
+      onSubmit(parsedMessage, attachments, notes)
     }
   }
 
@@ -83,6 +88,27 @@ export const CommentForm = ({
           maxFiles={3}
         />
       </Form.Item>
+      <Form.Item>
+        <Tooltip title="This note will be only visible to you. You can save your companies' carbon footprint or other data that you would like to access later on.">
+          <Checkbox
+            className="text-black"
+            onChange={(e) => setNotesVisible(e.target.checked)}
+            value={notesVisible}
+          >
+            Add a private note <QuestionCircleOutlined />{' '}
+          </Checkbox>
+        </Tooltip>
+      </Form.Item>
+
+      {notesVisible && (
+        <Form.Item name="notes">
+          <TextArea
+            autoSize={{ maxRows: 6, minRows: 3 }}
+            placeholder="Private notes (e.g. your company's carbon footprint)"
+          />
+        </Form.Item>
+      )}
+
       <Form.Item>
         <Button block htmlType="submit" loading={loading} type="primary">
           Submit
