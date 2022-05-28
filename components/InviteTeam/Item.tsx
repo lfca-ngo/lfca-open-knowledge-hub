@@ -3,7 +3,8 @@ import { Avatar, Button, Input, List, message, Popover, Row } from 'antd'
 import React from 'react'
 
 import { UserInviteFragment } from '../../services/lfca-backend'
-import { copyTextToClipboard } from '../../utils'
+import { copyTextToClipboard, APP_BASE_URL } from '../../utils'
+import { SIGN_UP } from '../../utils/routes'
 
 const BTN_WIDTH = 60
 
@@ -31,7 +32,7 @@ export const InviteItem = ({ item }: InviteItemProps) => {
                 <Input
                   disabled
                   style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
-                  value={'invite lin here'}
+                  value={`${APP_BASE_URL}${SIGN_UP}`}
                 />
                 <Button
                   icon={<CopyOutlined />}
