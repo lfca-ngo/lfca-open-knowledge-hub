@@ -27,7 +27,7 @@ export const ActionStat = ({
   return (
     <div className={classNames('action-stat', color)}>
       <div className="icon">
-        <Avatar icon={icon} size={size} />
+        <Avatar className={color} icon={icon} shape="square" size={size} />
       </div>
       <div className="label">
         <span className="count">{count}</span> {label}
@@ -59,14 +59,14 @@ export const ActionStats = ({
         size={size}
       />
       <ActionStat
-        color="wine"
+        color="wine-inverse"
         count={commentCount}
         icon={<LikeOutlined />}
         label="messages"
         size={size}
       />
       <ActionStat
-        color="blue"
+        color="blue-inverse"
         count={commentAttachmentCount}
         icon={<PaperClipOutlined />}
         label="documents"
