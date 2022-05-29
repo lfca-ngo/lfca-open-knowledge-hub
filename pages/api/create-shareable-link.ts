@@ -3,10 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createShareToken, getImageName } from '../../utils-server-only'
 
-const IMAGE_URLS: { [key: string]: string } = {
-  renewal: 'Backgrounds/renewal_oaagyg.jpg',
-  start: 'Backgrounds/member_mfofg1.jpg',
-}
+const BASE_IMAGE = `Backgrounds/linkedin-collab_izuoqq.jpg`
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,7 +19,6 @@ export default async function handler(
     socialDescription = '',
     socialImage,
     socialTitle = '',
-    type = 'start',
     uid,
   } = req.body
 
@@ -37,7 +33,7 @@ export default async function handler(
   })
 
   const imageName = getImageName(senderImage)
-  const imageUrl = IMAGE_URLS[type] || IMAGE_URLS.start
+  const imageUrl = BASE_IMAGE
 
   const image = cloudinary.url(imageUrl, {
     transformation: [
