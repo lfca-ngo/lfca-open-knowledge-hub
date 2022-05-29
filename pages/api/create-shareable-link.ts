@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createShareToken, getImageName } from '../../utils-server-only'
 
-const BASE_IMAGE = `Backgrounds/linkedin-c_gzghof.jpg`
+const BASE_IMAGE = `Backgrounds/linkedin-c_jwfz5p.jpg`
 
 export default async function handler(
   req: NextApiRequest,
