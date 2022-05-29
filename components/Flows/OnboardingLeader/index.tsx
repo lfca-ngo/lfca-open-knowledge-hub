@@ -1,15 +1,32 @@
 require('./styles.less')
 
-import { Button, Checkbox, Drawer, Space, Tag, Input, Alert } from 'antd'
+import {
+  CopyOutlined,
+  LinkedinOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons'
+import {
+  Alert,
+  Button,
+  Checkbox,
+  Drawer,
+  Input,
+  message,
+  Space,
+  Tag,
+} from 'antd'
 import Image from 'next/image'
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { LinkedinShareButton } from 'react-share'
 
 import { useUser } from '../../../hooks/user'
 import { useCreateInvite } from '../../../services/next-server'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
+import { copyTextToClipboard } from '../../../utils'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
-import { LoadingOutlined, LinkedinOutlined } from '@ant-design/icons'
+
+const BTN_WIDTH = '60'
 
 interface StepProps {
   onNext: () => void
@@ -133,17 +150,26 @@ const Share = ({ onNext }: StepProps) => {
 
   useEffect(() => {
     if (user?.picture && !executedRef.current) {
-      console.log('called only once')
+      // make sure we only execute this once
       createInvite({
-        sender: 'Timo',
+        sender: user?.firstName,
         senderImage: user?.picture,
-        socialDescription: 'desc',
-        socialTitle: 'title',
-        uid: '123',
+        socialDescription:
+          'Tackling the climate crisis requires bold action & collaboration. Can we count on you?',
+        socialTitle: 'Join our Community',
+        uid: user?.id,
       })
       executedRef.current = true
     }
   }, [user, createInvite])
+
+  const handleCopy = () => {
+    copyTextToClipboard('mylink', (note: string, hasCopied: boolean) => {
+      if (hasCopied) {
+        message.success(note)
+      } else message.error(note)
+    })
+  }
 
   return (
     <div>
@@ -174,15 +200,39 @@ const Share = ({ onNext }: StepProps) => {
         )}
       </div>
 
-      <Button
-        block
-        icon={<LinkedinOutlined />}
-        onClick={onNext}
-        size="large"
-        type="primary"
-      >
-        Share on LinkedIn
-      </Button>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Input.Group compact>
+          <Input
+            disabled
+            size="large"
+            style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
+            value={data?.shortLink}
+          />
+          <Button
+            icon={<CopyOutlined />}
+            onClick={handleCopy}
+            size="large"
+            style={{ width: `${BTN_WIDTH}px` }}
+          />
+        </Input.Group>
+        {data?.shortLink && (
+          <LinkedinShareButton
+            summary="..."
+            title="Join our Community"
+            url={data?.shortLink}
+          >
+            <Button
+              block
+              icon={<LinkedinOutlined />}
+              onClick={onNext}
+              size="large"
+              type="primary"
+            >
+              Share on LinkedIn
+            </Button>
+          </LinkedinShareButton>
+        )}
+      </Space>
     </div>
   )
 }
