@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createShareToken, getImageName } from '../../utils-server-only'
 
-const BASE_IMAGE = `Backgrounds/linkedin-collab_izuoqq.jpg`
+const BASE_IMAGE = `Backgrounds/linkedin-c_gzghof.jpg`
 
 export default async function handler(
   req: NextApiRequest,
@@ -47,11 +47,11 @@ export default async function handler(
         crop: 'fill',
         flags: 'layer_apply',
         gravity: 'south_east',
-        height: 175,
+        height: 156,
         radius: 12,
-        width: 149,
-        x: 270,
-        y: 134,
+        width: 133,
+        x: 235,
+        y: 154,
       },
     ],
   })
