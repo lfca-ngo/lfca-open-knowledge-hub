@@ -3,6 +3,9 @@ import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
+import { ShareImage } from '../../../tools/ShareImage'
+import Link from 'next/link'
+import { ACTIONS } from '../../../utils/routes'
 
 interface StepProps {
   onNext: () => void
@@ -99,13 +102,18 @@ const Share = ({ onNext }: StepProps) => {
         organization we rely on our community to increase our impact!`}
       </p>
 
-      <div style={{ background: 'black', height: '100px' }}>
-        SHARING FEATURE
-      </div>
+      <ShareImage />
 
-      <Button onClick={onNext} size="large" type="primary">
-        Show Dashboard
-      </Button>
+      <Link href={ACTIONS}>
+        <Button
+          onClick={onNext}
+          size="large"
+          style={{ marginTop: '30px' }}
+          type="primary"
+        >
+          To my dashboard
+        </Button>
+      </Link>
     </div>
   )
 }
