@@ -3,6 +3,7 @@ require('./styles.less')
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
+  CalendarOutlined,
   HeartOutlined,
   StarOutlined,
 } from '@ant-design/icons'
@@ -18,6 +19,21 @@ interface ActionsCarouselProps {
   actions: CompanyActionListItemFragment[]
   fetching?: boolean
   onSelect: (action: CompanyActionListItemFragment) => void
+}
+
+export const ActionStatusTag = ({
+  action,
+}: {
+  action: CompanyActionListItemFragment
+}) => {
+  const isPlanned = !!action?.plannedAt
+  const isRequired = !!action.requiredForCompanyAchievementIds.length
+  const isRecommended = !!action.recommendedForCompanyAchievementIds.length
+
+  if (isPlanned) return <Tag icon={<CalendarOutlined />}>Planned</Tag>
+  if (isRequired) return <Tag icon={<StarOutlined />}>Required</Tag>
+  if (isRecommended) return <Tag icon={<HeartOutlined />}>Recommended</Tag>
+  else return null
 }
 
 export const ActionsCarousel = ({
@@ -47,7 +63,6 @@ export const ActionsCarousel = ({
       slidesToShow={3}
     >
       {actions.map((action, i) => {
-        const isRequired = action.requiredForCompanyAchievementIds.length
         return (
           <Skeleton
             active
@@ -57,12 +72,7 @@ export const ActionsCarousel = ({
             title={{ width: '100%' }}
           >
             <Card bordered={false} onClick={() => onSelect(action)}>
-              {isRequired ? (
-                <Tag icon={<StarOutlined />}>Required</Tag>
-              ) : (
-                <Tag icon={<HeartOutlined />}>Recommended</Tag>
-              )}
-
+              <ActionStatusTag action={action} />
               <div className="action-card-content">
                 <div className="action-card-title">{action.title}</div>
                 <LogoGroup
