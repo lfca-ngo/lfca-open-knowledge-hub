@@ -1,14 +1,15 @@
 require('./styles.less')
 
-import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
+import { Button, Checkbox, Drawer, Space, Tag, Input, Alert } from 'antd'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { useCreateInvite } from '../../../services/next-server'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
+import { LoadingOutlined, LinkedinOutlined } from '@ant-design/icons'
 
 interface StepProps {
   onNext: () => void
@@ -125,21 +126,24 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
 }
 
 const Share = ({ onNext }: StepProps) => {
+  const executedRef = useRef(false)
   const { user } = useUser()
 
   const [{ data, error, fetching }, createInvite] = useCreateInvite()
 
-  const test = () => {
-    createInvite({
-      sender: 'Timo',
-      senderImage: user?.picture,
-      socialDescription: 'desc',
-      socialTitle: 'title',
-      uid: '123',
-    })
-  }
-
-  console.log(fetching, data, error)
+  useEffect(() => {
+    if (user?.picture && !executedRef.current) {
+      console.log('called only once')
+      createInvite({
+        sender: 'Timo',
+        senderImage: user?.picture,
+        socialDescription: 'desc',
+        socialTitle: 'title',
+        uid: '123',
+      })
+      executedRef.current = true
+    }
+  }, [user, createInvite])
 
   return (
     <div>
@@ -153,12 +157,10 @@ const Share = ({ onNext }: StepProps) => {
         organization we rely on our community to increase our impact!`}
       </p>
 
-      <Button loading={fetching} onClick={test} size="large" type="primary">
-        Fetch sharing image {data?.shortLink}
-      </Button>
+      {error && <Alert message={error} type="error" />}
 
       <div className="sharing-preview">
-        {data?.ogImageUrl ? (
+        {data?.ogImageUrl && !fetching ? (
           <Image
             alt="share-image"
             layout="fill"
@@ -166,12 +168,20 @@ const Share = ({ onNext }: StepProps) => {
             src={data?.ogImageUrl}
           />
         ) : (
-          '...loading'
+          <div className="loading-wrapper">
+            <LoadingOutlined />
+          </div>
         )}
       </div>
 
-      <Button onClick={onNext} size="large" type="primary">
-        Show Dashboard
+      <Button
+        block
+        icon={<LinkedinOutlined />}
+        onClick={onNext}
+        size="large"
+        type="primary"
+      >
+        Share on LinkedIn
       </Button>
     </div>
   )
