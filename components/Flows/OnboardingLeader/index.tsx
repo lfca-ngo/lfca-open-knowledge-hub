@@ -13,10 +13,36 @@ interface StepProps {
 const Commit = ({ onNext }: StepProps) => {
   const { user } = useUser()
 
+  const testInvite = async () => {
+    try {
+      const response = await fetch('/api/create-shareable-link', {
+        body: JSON.stringify({
+          sender: 'Timo',
+          senderImage: user?.picture,
+          socialDescription: 'desc',
+          socialTitle: 'title',
+          uid: '123',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
+
+      const { ogImageUrl, shortLink } = await response.json()
+      console.log(ogImageUrl, shortLink)
+    } catch (e) {
+      console.log('Failed to generate link')
+    }
+  }
+
   return (
     <div>
       <Tag className="super-text">Pledge</Tag>
       <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
+
+      <Button onClick={testInvite}>Test</Button>
+
       <p>
         {`We started LFCA with the goal to accelerate the transition towards a
         sustainable economy. To make this happen, we need to leverage our
