@@ -79,23 +79,33 @@ export const ActionStats = ({
 export interface ActionCardProps {
   action: CompanyActionListItemFragment
   ctaText?: string
+  loading?: boolean
   onCtaClick?: (action: CompanyActionListItemFragment) => void
   onSavePosition?: () => void
+  onUnselect?: (action: CompanyActionListItemFragment) => void
   renderAsLink?: boolean
+  unselectText?: string
 }
 
 export const ActionCard = ({
   action,
   ctaText = 'View',
+  loading = false,
   onCtaClick,
   onSavePosition,
+  onUnselect,
+  unselectText,
 }: ActionCardProps) => {
   const handleClick = () => {
-    onCtaClick?.(action)
-    // since we are using next/link for navigation,
-    // we need to manually save the position using a
-    // separate handler that is called independently
-    onSavePosition?.()
+    if (action.completedAt) {
+      onUnselect?.(action)
+    } else {
+      onCtaClick?.(action)
+      // since we are using next/link for navigation,
+      // we need to manually save the position using a
+      // separate handler that is called independently
+      onSavePosition?.()
+    }
   }
 
   return (
@@ -125,7 +135,12 @@ export const ActionCard = ({
         />
       </div>
       <div className="actions">
-        <Button type="primary">{ctaText}</Button>
+        <Button
+          loading={loading}
+          type={action.completedAt ? 'default' : 'primary'}
+        >
+          {action.completedAt ? unselectText : ctaText}
+        </Button>
       </div>
     </Card>
   )

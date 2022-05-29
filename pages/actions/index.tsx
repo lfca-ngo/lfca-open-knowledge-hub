@@ -94,7 +94,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
       </Main>
       <Sider>
-        <Section title="Rewards">
+        <Section title="Achievements">
           <AchievementsListMini
             achievements={
               companyAchievementsData?.company.program.achievements ||

@@ -1,11 +1,14 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
-import { Button, Drawer, Tag } from 'antd'
+import { Button, Drawer, message, Tag } from 'antd'
 import { useState } from 'react'
 
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
-import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
+import {
+  CompanyActionListItemFragment,
+  useCompleteCompanyActionMutation,
+} from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
@@ -59,14 +62,30 @@ const Intro = ({ onNext }: StepProps) => {
 
 interface PersonalizeProps extends StepProps {
   actionsByTags: ActionListProps['actionsByTags']
+  fetching?: boolean
 }
 
-const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
+const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [selectedActionContentId, setSelectedActionContentId] = useState<
     string | null
   >(null)
+
+  const [, completeCompanyAction] = useCompleteCompanyActionMutation()
+
+  const handleUnselect = (action: CompanyActionListItemFragment) => {
+    completeCompanyAction({
+      input: {
+        actionContentId: action.contentId,
+        isCompleted: false,
+        skipRequirementsCheck: true,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Marked action as incomplete')
+    })
+  }
 
   const handleContinue = () => {
     onNext()
@@ -92,8 +111,11 @@ const Personalize = ({ actionsByTags, onNext }: PersonalizeProps) => {
             setActiveAction(action)
             setSelectedActionContentId(action.contentId)
           },
+          onUnselect: handleUnselect,
+          unselectText: 'Unselect',
         }}
         actionsByTags={actionsByTags}
+        fetching={fetching}
       />
       <Button onClick={handleContinue} size="large" type="primary">
         Continue
