@@ -1,7 +1,11 @@
+require('./styles.less')
+
 import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
+import Image from 'next/image'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
+import { useCreateInvite } from '../../../services/next-server'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
@@ -13,35 +17,10 @@ interface StepProps {
 const Commit = ({ onNext }: StepProps) => {
   const { user } = useUser()
 
-  const testInvite = async () => {
-    try {
-      const response = await fetch('/api/create-shareable-link', {
-        body: JSON.stringify({
-          sender: 'Timo',
-          senderImage: user?.picture,
-          socialDescription: 'desc',
-          socialTitle: 'title',
-          uid: '123',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
-
-      const { ogImageUrl, shortLink } = await response.json()
-      console.log(ogImageUrl, shortLink)
-    } catch (e) {
-      console.log('Failed to generate link')
-    }
-  }
-
   return (
     <div>
       <Tag className="super-text">Pledge</Tag>
       <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
-
-      <Button onClick={testInvite}>Test</Button>
 
       <p>
         {`We started LFCA with the goal to accelerate the transition towards a
@@ -146,6 +125,22 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
 }
 
 const Share = ({ onNext }: StepProps) => {
+  const { user } = useUser()
+
+  const [{ data, error, fetching }, createInvite] = useCreateInvite()
+
+  const test = () => {
+    createInvite({
+      sender: 'Timo',
+      senderImage: user?.picture,
+      socialDescription: 'desc',
+      socialTitle: 'title',
+      uid: '123',
+    })
+  }
+
+  console.log(fetching, data, error)
+
   return (
     <div>
       <Tag className="super-text">Share</Tag>
@@ -158,8 +153,21 @@ const Share = ({ onNext }: StepProps) => {
         organization we rely on our community to increase our impact!`}
       </p>
 
-      <div style={{ background: 'black', height: '100px' }}>
-        SHARING FEATURE
+      <Button loading={fetching} onClick={test} size="large" type="primary">
+        Fetch sharing image {data?.shortLink}
+      </Button>
+
+      <div className="sharing-preview">
+        {data?.ogImageUrl ? (
+          <Image
+            alt="share-image"
+            layout="fill"
+            objectFit="contain"
+            src={data?.ogImageUrl}
+          />
+        ) : (
+          '...loading'
+        )}
       </div>
 
       <Button onClick={onNext} size="large" type="primary">
