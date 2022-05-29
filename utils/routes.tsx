@@ -24,3 +24,4 @@ export const MEASUREMENT_SERVICE_PROVIDERS =
   '/tools/measurement-service-providers'
 export const PERSONAL_FOOTPRINT_CALCULATOR =
   '/tools/personal-footprint-calculator'
+export const REFERRAL_PROGRAM = '/tools/referral-program'

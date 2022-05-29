@@ -10,6 +10,7 @@ import {
   LockOutlined,
   ProfileOutlined,
   RocketOutlined,
+  ShareAltOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
 import { Menu, MenuProps } from 'antd'
@@ -28,6 +29,7 @@ import {
   COMMUNITY,
   MEASUREMENT_SERVICE_PROVIDERS,
   PERSONAL_FOOTPRINT_CALCULATOR,
+  REFERRAL_PROGRAM,
   TOOLS,
 } from '../../utils/routes'
 
@@ -75,6 +77,11 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
         icon: <CalculatorOutlined />,
         key: PERSONAL_FOOTPRINT_CALCULATOR,
         label: 'Personal Footprint Calculator',
+      },
+      {
+        icon: <ShareAltOutlined />,
+        key: REFERRAL_PROGRAM,
+        label: 'Referral Program',
       },
     ],
     icon: <InsertRowLeftOutlined />,
