@@ -43,13 +43,18 @@ export const AppProvider = ({ children }: { children: any }) => {
     const screenSize = getScreenSizeType(window, document)
     setClient(true)
     setScreenSize(screenSize)
-    // track page view
-    trackEvent({ name: 'pageView' })
   }, [])
 
   // on route change
   useEffect(() => {
     const handleRouteChange = (url: string) => {
+      // track page view
+      trackEvent({
+        name: 'pageView',
+        values: {
+          to: url,
+        },
+      })
       // only persist the browsing state when the user goes from
       // the dashboard to the action detail page and back
       // in all other cases, reset the browsing state
