@@ -1,42 +1,52 @@
 import { LoadingOutlined } from '@ant-design/icons'
+import {
+  applyActionCode,
+  checkActionCode,
+  sendPasswordResetEmail,
+} from 'firebase/auth'
 import { useEffect, useState } from 'react'
+
+import { useFirebase } from '../../hooks/firebase'
 
 export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   const [error, setError] = useState('')
   const [restoredEmail, setRestoredEmail] = useState('')
   const [resetSent, setResetSent] = useState(false)
-  const [validCode, setValidCode] = useState()
+  const [validCode, setValidCode] = useState(false)
   const [verifiedCode, setVerifiedCode] = useState(false)
+
+  const { auth } = useFirebase()
 
   const verifyCode = () => {
     // Confirm the action code is valid.
-    // authRef
-    //   .checkActionCode(this.props.actionCode)
-    //   .then(info => {
-    //     // Get the restored email address.
-    //     const restoredEmail = info['data']['email'];
-    //     // Revert to the old email.
-    //     authRef
-    //       .applyActionCode(this.props.actionCode)
-    //       .then(() => {
-    //         // Account email reverted to restoredEmail
-    //         this.setState({ restoredEmail, validCode: true, verifiedCode: true });
-    //       });
-    //   }, error => {
-    //     // Invalid code.
-    //     this.setState({ error: error.message, validCode: false, verifiedCode: true });
-    //   });
+    checkActionCode(auth, actionCode).then(
+      (info: any) => {
+        // Get the restored email address.
+        const restoredEmail = info['data']['email']
+        // Revert to the old email.
+        applyActionCode(auth, actionCode).then(() => {
+          // Account email reverted to restoredEmail
+          setRestoredEmail(restoredEmail)
+          setVerifiedCode(true)
+          setValidCode(true)
+        })
+      },
+      (error) => {
+        // Invalid code.
+        setError(error.message)
+        setVerifiedCode(true)
+        setValidCode(false)
+      }
+    )
   }
 
   const sendReset = () => {
     // You might also want to give the user the option to reset their password
     // in case the account was compromised:
-    // authRef
-    //   .sendPasswordResetEmail(this.state.restoredEmail)
-    //   .then(() => {
-    //     // Password reset confirmation sent. Ask user to check their email.
-    //     this.setState({ resetSent: true });
-    //   });
+    sendPasswordResetEmail(auth, restoredEmail).then(() => {
+      // Password reset confirmation sent. Ask user to check their email.
+      setResetSent(true)
+    })
   }
 
   useEffect(() => {
@@ -69,9 +79,7 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
         <p>
           If you did not change your sign-in email, it is possible someone is
           trying to access your account and you should
-          <button onClick={this.sendReset}>
-            change your password right away
-          </button>
+          <button onClick={sendReset}>change your password right away</button>
         </p>
       </div>
     )

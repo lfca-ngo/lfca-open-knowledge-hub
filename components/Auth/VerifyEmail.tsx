@@ -1,28 +1,32 @@
 import { LoadingOutlined } from '@ant-design/icons'
+import { applyActionCode } from 'firebase/auth'
 import { useEffect, useState } from 'react'
+
+import { useFirebase } from '../../hooks/firebase'
 
 export const VerifyEmail = ({ actionCode }: { actionCode: string }) => {
   const [error, setError] = useState('')
-  const [validCode, setValidCode] = useState()
+  const [validCode, setValidCode] = useState(false)
   const [verifiedCode, setVerifiedCode] = useState(false)
+
+  const { auth } = useFirebase()
 
   const verifyCode = () => {
     // Try to apply the email verification code.
-    // authRef.applyActionCode(this.props.actionCode).then(
-    //   () => {
-    //     // Email address has been verified.
-    //     this.setState({ validCode: true, verifiedCode: true })
-    //   },
-    //   (error) => {
-    //     // Code is invalid or expired. Ask the user to verify their email address
-    //     // again.
-    //     this.setState({
-    //       error: error.message,
-    //       validCode: false,
-    //       verifiedCode: true,
-    //     })
-    //   }
-    // )
+    applyActionCode(auth, actionCode).then(
+      () => {
+        // Email address has been verified.
+        setVerifiedCode(true)
+        setValidCode(true)
+      },
+      (error) => {
+        // Code is invalid or expired. Ask the user to verify their email address
+        // again.
+        setError(error.message)
+        setVerifiedCode(true)
+        setValidCode(false)
+      }
+    )
   }
 
   useEffect(() => {
