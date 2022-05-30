@@ -79,6 +79,7 @@ export const CompleteActionForm = ({
       <CommentForm
         loading={fetchingCompleteAction || fetchingCreateActionComment}
         onSubmit={handleComplete}
+        showNotes
       />
     </Section>
   )
