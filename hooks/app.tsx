@@ -2,9 +2,11 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 
 import { DESKTOP, getScreenSizeType } from '../utils'
 import { useDarkMode } from './useDarkMode'
+import { useLocalStorage } from './useLocalStorage'
 
 const CLIENT = 'client'
 const SERVER = 'server'
+const SCREEN_SIZE = 'screen_size'
 
 const initialState = {
   isClient: false,
@@ -15,7 +17,10 @@ const initialState = {
 const AppContext = createContext(initialState)
 
 export const AppProvider = ({ children }: { children: any }) => {
-  const [screenSize, setScreenSize] = useState(initialState.screenSize)
+  const [screenSize, setScreenSize] = useLocalStorage(
+    SCREEN_SIZE,
+    initialState.screenSize
+  )
   const [isClient, setClient] = useState(initialState.isClient)
   const key = isClient ? CLIENT : SERVER
 

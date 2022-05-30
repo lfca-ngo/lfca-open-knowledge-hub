@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import { CSS_THEME_DARK, getCookie, isBrowser, setCookie } from '../utils'
+import { CSS_THEME_DARK, isBrowser } from '../utils'
+import { useLocalStorage } from './useLocalStorage'
 
 const THEME_COOKIE = 'theme'
 const LIGHT_THEME = 'light'
 
 export const useDarkMode = () => {
-  const themeValue = getCookie(THEME_COOKIE)
+  const [themeValue, setThemeValue] = useLocalStorage(THEME_COOKIE, LIGHT_THEME)
+
   const isDarkMode = themeValue === CSS_THEME_DARK
   const htmlEl: any = isBrowser() && document?.documentElement
   const [isDarkModeState, setIsDarkModeState] = useState(isDarkMode)
@@ -21,7 +23,7 @@ export const useDarkMode = () => {
     else removeDarkMode()
 
     // persist and trigger render
-    setCookie(THEME_COOKIE, shouldSetDark ? CSS_THEME_DARK : LIGHT_THEME)
+    setThemeValue(shouldSetDark ? CSS_THEME_DARK : LIGHT_THEME)
     setIsDarkModeState(isDark)
   }
 

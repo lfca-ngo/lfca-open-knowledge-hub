@@ -99,21 +99,6 @@ export const CSS_THEME_DARK = !isBrowser()
       ?.getPropertyValue('--THEME--DARK')
       .trim() || THEME_DARK
 
-export const setCookie = (name: string, value: string) => {
-  if (!isBrowser()) return
-  window.localStorage.setItem(name, value)
-}
-
-export const getCookie = (name: string) => {
-  if (!isBrowser()) return null
-  return window.localStorage.getItem(name)
-}
-
-export const deleteCookie = (name: string) => {
-  if (!isBrowser()) return
-  window.localStorage.removeItem(name)
-}
-
 export const actionHasReviews = (action: any) => {
   return action?.customSections?.find(
     (s: any) => s.componentId === MEASUREMENT_SERVICES_COMPARISON
