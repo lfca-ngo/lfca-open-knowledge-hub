@@ -3,7 +3,8 @@ import { Avatar, Button, Input, List, message, Popover, Row } from 'antd'
 import React from 'react'
 
 import { UserInviteFragment } from '../../services/lfca-backend'
-import { copyTextToClipboard } from '../../utils'
+import { APP_BASE_URL, copyTextToClipboard } from '../../utils'
+import { SIGN_UP } from '../../utils/routes'
 
 const BTN_WIDTH = 60
 
@@ -31,7 +32,7 @@ export const InviteItem = ({ item }: InviteItemProps) => {
                 <Input
                   disabled
                   style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
-                  value={'invite lin here'}
+                  value={`${APP_BASE_URL}${SIGN_UP}`}
                 />
                 <Button
                   icon={<CopyOutlined />}
@@ -51,7 +52,7 @@ export const InviteItem = ({ item }: InviteItemProps) => {
       ]}
     >
       <List.Item.Meta
-        avatar={<Avatar icon={<UserOutlined />} />}
+        avatar={<Avatar className="wine-inverse" icon={<UserOutlined />} />}
         title={item.email || 'Anonymous'}
       />
     </List.Item>

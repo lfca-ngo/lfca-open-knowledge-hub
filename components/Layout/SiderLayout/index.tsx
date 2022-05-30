@@ -22,8 +22,11 @@ interface SiderLayoutProps {
 }
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
-  const [collapsed, setCollapsed] = useState(true)
   const screenSizeType = useScreenSize()
+  const [collapsed, setCollapsed] = useState(
+    screenSizeType === 'xl' ? false : true
+  )
+
   const collapsedWidth =
     screenSizeType === 'sm' ? COLLAPSED_WIDTH_MOBILE : COLLAPSED_WIDTH
 

@@ -63,7 +63,7 @@ export default function Signin() {
         </Form.Item>
       </Form>
       <Space>
-        <Link href={PW_RESET}>Passwort vergessen</Link>
+        <Link href={PW_RESET}>Forgot password?</Link>
       </Space>
     </div>
   )

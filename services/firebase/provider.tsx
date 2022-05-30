@@ -10,7 +10,7 @@ import {
 import React from 'react'
 
 import { isDev } from '../../utils'
-import { FIREBASE_TOKEN_STORAGE_KEY } from './config'
+import { FIREBASE_TOKEN_STORAGE_KEY, FIREBASE_UID_STORAGE_KEY } from './config'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -56,7 +56,7 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     onAuthStateChanged(firebaseAuth, async (user) => {
       if (user) {
         const token = await user.getIdToken()
-        handleTokenChange(token)
+        handleTokenChange(token, user.uid)
       } else {
         handleTokenChange()
       }
@@ -73,7 +73,7 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
 
   const refreshToken = React.useCallback(async () => {
     const newToken = await firebaseAuth.currentUser?.getIdToken(true)
-    handleTokenChange(newToken)
+    handleTokenChange(newToken, firebaseAuth.currentUser?.uid)
     return newToken
   }, [])
 
@@ -90,16 +90,19 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     </FirebaseContext.Provider>
   )
 
-  function handleTokenChange(token?: string) {
+  function handleTokenChange(token?: string, uid?: string) {
     if (isDev) {
       console.info('>>>JWT<<<')
       console.info(token)
     }
 
-    if (token) {
+    // persist token and uid in local storage
+    if (token && uid) {
       localStorage.setItem(FIREBASE_TOKEN_STORAGE_KEY, token)
+      localStorage.setItem(FIREBASE_UID_STORAGE_KEY, uid)
     } else {
       localStorage.removeItem(FIREBASE_TOKEN_STORAGE_KEY)
+      localStorage.removeItem(FIREBASE_UID_STORAGE_KEY)
     }
     setToken(token || null)
   }

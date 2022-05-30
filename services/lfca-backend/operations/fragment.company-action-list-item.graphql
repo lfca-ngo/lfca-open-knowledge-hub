@@ -27,4 +27,5 @@ fragment CompanyActionListItem on CompanyAction {
     ...Tag
   }
   title
+  notes
 }

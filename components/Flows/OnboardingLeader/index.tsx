@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
+import { ShareImage } from '../../../tools/ShareImage'
 import { InviteTeam } from '../../InviteTeam'
 import { Pledge } from '../../Pledge'
 
@@ -17,6 +18,7 @@ const Commit = ({ onNext }: StepProps) => {
     <div>
       <Tag className="super-text">Pledge</Tag>
       <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
+
       <p>
         {`We started LFCA with the goal to accelerate the transition towards a
         sustainable economy. To make this happen, we need to leverage our
@@ -119,7 +121,7 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   )
 }
 
-const Share = ({ onNext }: StepProps) => {
+const Share = () => {
   return (
     <div>
       <Tag className="super-text">Share</Tag>
@@ -132,13 +134,7 @@ const Share = ({ onNext }: StepProps) => {
         organization we rely on our community to increase our impact!`}
       </p>
 
-      <div style={{ background: 'black', height: '100px' }}>
-        SHARING FEATURE
-      </div>
-
-      <Button onClick={onNext} size="large" type="primary">
-        Show Dashboard
-      </Button>
+      <ShareImage />
     </div>
   )
 }

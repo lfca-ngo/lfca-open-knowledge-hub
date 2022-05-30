@@ -27,7 +27,7 @@ export const ActionStat = ({
   return (
     <div className={classNames('action-stat', color)}>
       <div className="icon">
-        <Avatar icon={icon} size={size} />
+        <Avatar className={color} icon={icon} shape="square" size={size} />
       </div>
       <div className="label">
         <span className="count">{count}</span> {label}
@@ -59,14 +59,14 @@ export const ActionStats = ({
         size={size}
       />
       <ActionStat
-        color="wine"
+        color="wine-inverse"
         count={commentCount}
         icon={<LikeOutlined />}
         label="messages"
         size={size}
       />
       <ActionStat
-        color="blue"
+        color="blue-inverse"
         count={commentAttachmentCount}
         icon={<PaperClipOutlined />}
         label="documents"
@@ -79,23 +79,33 @@ export const ActionStats = ({
 export interface ActionCardProps {
   action: CompanyActionListItemFragment
   ctaText?: string
+  loading?: boolean
   onCtaClick?: (action: CompanyActionListItemFragment) => void
   onSavePosition?: () => void
+  onUnselect?: (action: CompanyActionListItemFragment) => void
   renderAsLink?: boolean
+  unselectText?: string
 }
 
 export const ActionCard = ({
   action,
   ctaText = 'View',
+  loading = false,
   onCtaClick,
   onSavePosition,
+  onUnselect,
+  unselectText,
 }: ActionCardProps) => {
   const handleClick = () => {
-    onCtaClick?.(action)
-    // since we are using next/link for navigation,
-    // we need to manually save the position using a
-    // separate handler that is called independently
-    onSavePosition?.()
+    if (action.completedAt) {
+      onUnselect?.(action)
+    } else {
+      onCtaClick?.(action)
+      // since we are using next/link for navigation,
+      // we need to manually save the position using a
+      // separate handler that is called independently
+      onSavePosition?.()
+    }
   }
 
   return (
@@ -125,7 +135,12 @@ export const ActionCard = ({
         />
       </div>
       <div className="actions">
-        <Button type="primary">{ctaText}</Button>
+        <Button
+          loading={loading}
+          type={action.completedAt ? 'default' : 'primary'}
+        >
+          {action.completedAt ? unselectText : ctaText}
+        </Button>
       </div>
     </Card>
   )

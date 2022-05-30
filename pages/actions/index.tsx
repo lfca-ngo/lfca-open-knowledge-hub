@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
@@ -42,7 +42,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
     useCompanyAchievementsMiniQuery()
 
-  const actionsByTags = React.useMemo(
+  const actionsByTags = useMemo(
     () =>
       sortCompanyActionsByTag(
         actionsData?.companyActions || EMPTY_ACTIONS_ARRAY
@@ -54,13 +54,15 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
    * Highlight actions that are
    * - required or mandatory for one of the company's achievements
    * - not completed
+   * - planned
    */
-  const highlightedActions = React.useMemo(
+  const highlightedActions = useMemo(
     () =>
       (actionsData?.companyActions || EMPTY_ACTIONS_ARRAY).filter(
         (companyAction) =>
           (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
-            companyAction.requiredForCompanyAchievementIds.length > 0) &&
+            companyAction.requiredForCompanyAchievementIds.length > 0 ||
+            companyAction.plannedAt !== null) &&
           !companyAction.completedAt
       ),
     [actionsData]
@@ -92,7 +94,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
       </Main>
       <Sider>
-        <Section title="Rewards">
+        <Section title="Achievements">
           <AchievementsListMini
             achievements={
               companyAchievementsData?.company.program.achievements ||

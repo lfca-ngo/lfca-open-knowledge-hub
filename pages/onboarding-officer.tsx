@@ -17,10 +17,14 @@ const OnboardingOfficer: NextPage = () => {
   const router = useRouter()
 
   // TODO: loading & error UI
-  const [{ data }] = useCompanyActionsListQuery()
+  const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
 
   const actionsByTags = React.useMemo(
-    () => sortCompanyActionsByTag(data?.companyActions || EMPTY_ACTIONS_ARRAY),
+    () =>
+      sortCompanyActionsByTag(
+        data?.companyActions || EMPTY_ACTIONS_ARRAY,
+        false // do not filter the completed actions out
+      ),
     [data]
   )
 
@@ -42,7 +46,11 @@ const OnboardingOfficer: NextPage = () => {
       steps={OnboardingOfficerSteps}
     >
       {Step ? (
-        <Step actionsByTags={actionsByTags} onNext={handleOnNext} />
+        <Step
+          actionsByTags={actionsByTags}
+          fetching={fetchingActions}
+          onNext={handleOnNext}
+        />
       ) : null}
     </StepsLayout>
   )

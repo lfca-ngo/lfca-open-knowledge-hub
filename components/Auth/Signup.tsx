@@ -28,7 +28,7 @@ export default function Signup() {
       <h1>Create account</h1>
       <Form layout="vertical" onFinish={handleSignUp}>
         <Form.Item
-          label={'Unternehmen'}
+          label={'Company'}
           name="company"
           rules={[{ message: 'Please select a company!', required: true }]}
         >
@@ -36,11 +36,19 @@ export default function Signup() {
         </Form.Item>
 
         <Form.Item
-          label="Name"
-          name="name"
+          label="First name"
+          name="firstName"
           rules={[{ message: 'Please input your name!', required: true }]}
         >
-          <Input placeholder="Heinz Müller" type="name" />
+          <Input placeholder="Greta" />
+        </Form.Item>
+
+        <Form.Item
+          label="Last name"
+          name="lastName"
+          rules={[{ message: 'Please input your name!', required: true }]}
+        >
+          <Input placeholder="Thunberg" />
         </Form.Item>
 
         <Form.Item
@@ -48,7 +56,7 @@ export default function Signup() {
           name="email"
           rules={[{ message: 'Please input your email!', required: true }]}
         >
-          <Input placeholder="name@company.de" type="email" />
+          <Input placeholder="greta@thunberg.earth" type="email" />
         </Form.Item>
 
         <Form.Item
@@ -70,12 +78,12 @@ export default function Signup() {
 
         <Form.Item>
           <Button block htmlType="submit" loading={loading} type="primary">
-            Registrieren
+            Register
           </Button>
         </Form.Item>
       </Form>
 
-      <NextLink href={SIGN_IN}>Schon registriert? Anmelden</NextLink>
+      <NextLink href={SIGN_IN}>Already registered? Sign in here</NextLink>
     </div>
   )
 }

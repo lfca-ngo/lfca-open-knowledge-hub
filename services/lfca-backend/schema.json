@@ -865,6 +865,14 @@
             "args": []
           },
           {
+            "name": "notes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "plannedAt",
             "type": {
               "kind": "SCALAR",

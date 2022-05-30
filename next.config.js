@@ -4,7 +4,7 @@ const withPlugins = require('next-compose-plugins')
 
 const nextConfig = {
   images: {
-    domains: ['images.ctfassets.net'],
+    domains: ['images.ctfassets.net', 'res.cloudinary.com'],
   },
   async redirects() {
     return [
