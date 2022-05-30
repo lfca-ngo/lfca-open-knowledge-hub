@@ -1,24 +1,30 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from 'antd'
+import { sendPasswordResetEmail } from 'firebase/auth'
 import NextLink from 'next/link'
 import React, { useState } from 'react'
 
+import { useFirebase } from '../../hooks/firebase'
 import { SIGN_IN } from '../../utils/routes'
 
 export const ForgotPassword = () => {
-  const [success] = useState(false)
+  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleClick = async () => {
+  const { auth } = useFirebase()
+
+  const handleSubmit = ({ email }: { email: string }) => {
     setLoading(true)
-    try {
-      // @TODO: Auth logic
-      // if (res.error) alert(res.error);
-    } catch (error) {
-      // alert(error.message);
-    } finally {
-      // setIsAfterSubmit(true);
-      setLoading(false)
-    }
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setSuccess(true)
+      })
+      .catch((error) => {
+        message.error(error.message)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -32,17 +38,12 @@ export const ForgotPassword = () => {
         </div>
       ) : (
         <div>
-          <Form layout="vertical" onFinish={handleClick}>
-            <Form.Item label="Email">
+          <Form layout="vertical" onFinish={handleSubmit}>
+            <Form.Item label="Email" name="email">
               <Input placeholder="info@lfca.earth" />
             </Form.Item>
             <Form.Item>
-              <Button
-                block
-                loading={loading}
-                onClick={handleClick}
-                type="primary"
-              >
+              <Button block htmlType="submit" loading={loading} type="primary">
                 Reset password
               </Button>
             </Form.Item>
