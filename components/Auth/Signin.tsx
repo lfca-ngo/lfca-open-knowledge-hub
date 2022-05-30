@@ -58,7 +58,7 @@ export const Signin = () => {
         {errorMessage && <Alert message={errorMessage} showIcon type="error" />}
         <Form.Item>
           <Button block htmlType="submit" loading={loading} type="primary">
-            Anmelden
+            Sign in
           </Button>
         </Form.Item>
       </Form>

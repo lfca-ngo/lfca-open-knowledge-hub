@@ -1,13 +1,23 @@
 import { Alert, Button, Form, Input } from 'antd'
 import NextLink from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SIGN_IN } from '../../utils/routes'
 
-export const Signup = () => {
+export const Signup = ({
+  initialValues,
+}: {
+  initialValues: {
+    email: string
+    companyId: string
+    companyName: string
+  }
+}) => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [errorMessage] = useState('')
+
+  const [form] = Form.useForm()
 
   const handleSignUp = async () => {
     setLoading(true)
@@ -23,16 +33,40 @@ export const Signup = () => {
     }
   }
 
+  useEffect(() => {
+    form.setFieldsValue(initialValues)
+  }, [initialValues, form])
+
   return (
     <div>
       <h1>Create account</h1>
-      <Form layout="vertical" onFinish={handleSignUp}>
+      <Form
+        form={form}
+        initialValues={initialValues}
+        layout="vertical"
+        onFinish={handleSignUp}
+      >
         <Form.Item
-          label={'Company'}
-          name="company"
+          label="Email"
+          name="email"
+          rules={[{ message: 'Please input your email!', required: true }]}
+        >
+          <Input disabled placeholder="greta@thunberg.earth" type="email" />
+        </Form.Item>
+        <Form.Item
+          label={'Company Name'}
+          name="companyName"
           rules={[{ message: 'Please select a company!', required: true }]}
         >
-          <Input placeholder="Company Name" />
+          <Input disabled placeholder="Company Name" />
+        </Form.Item>
+        <Form.Item
+          hidden
+          label={'Company'}
+          name="companyId"
+          rules={[{ message: 'Please select a company!', required: true }]}
+        >
+          <Input disabled placeholder="Company Name" />
         </Form.Item>
 
         <Form.Item
@@ -49,14 +83,6 @@ export const Signup = () => {
           rules={[{ message: 'Please input your name!', required: true }]}
         >
           <Input placeholder="Thunberg" />
-        </Form.Item>
-
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ message: 'Please input your email!', required: true }]}
-        >
-          <Input placeholder="greta@thunberg.earth" type="email" />
         </Form.Item>
 
         <Form.Item
