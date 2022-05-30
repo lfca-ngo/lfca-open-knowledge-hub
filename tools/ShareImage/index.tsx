@@ -38,11 +38,15 @@ export const ShareImage = () => {
   }, [user, createInvite])
 
   const handleCopy = () => {
-    copyTextToClipboard('mylink', (note: string, hasCopied: boolean) => {
-      if (hasCopied) {
-        message.success(note)
-      } else message.error(note)
-    })
+    data?.shortLink &&
+      copyTextToClipboard(
+        data?.shortLink,
+        (note: string, hasCopied: boolean) => {
+          if (hasCopied) {
+            message.success(note)
+          } else message.error(note)
+        }
+      )
   }
 
   return (

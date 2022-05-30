@@ -69,7 +69,7 @@ export default async function handler(
             androidInfo: {
               androidFallbackLink: shareLink,
             },
-            domainUriPrefix: 'share.tfca.earth',
+            domainUriPrefix: 'share.lfca.earth',
             iosInfo: {
               iosFallbackLink: shareLink,
             },
