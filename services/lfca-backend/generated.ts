@@ -684,7 +684,7 @@ export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageR
 
 export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null };
 
-export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
+export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
 
@@ -736,6 +736,13 @@ export type PlanCompanyActionMutationVariables = Exact<{
 
 
 export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } };
+
+export type RegisterUserMutationVariables = Exact<{
+  input: RegisterUserInput;
+}>;
+
+
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
 export type RequestPasswordResetMutationVariables = Exact<{
   input: RequestPasswordResetInput;
@@ -835,7 +842,7 @@ export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Ar
 export type UserInvitesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserInvitesQuery = { __typename?: 'Query', userInvites: Array<{ __typename?: 'UserInvite', email: string, userRole: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null }> };
+export type UserInvitesQuery = { __typename?: 'Query', userInvites: Array<{ __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null }> };
 
 export type UserQueryVariables = Exact<{
   input?: InputMaybe<UserInput>;
@@ -1024,6 +1031,7 @@ export const UserInviteFragmentDoc = gql`
     fragment UserInvite on UserInvite {
   email
   userRole
+  id
   user {
     id
     companyId
@@ -1120,6 +1128,17 @@ export const PlanCompanyActionDocument = gql`
 
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
+};
+export const RegisterUserDocument = gql`
+    mutation registerUser($input: RegisterUserInput!) {
+  registerUser(input: $input) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+export function useRegisterUserMutation() {
+  return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
 export const RequestPasswordResetDocument = gql`
     mutation requestPasswordReset($input: RequestPasswordResetInput!) {

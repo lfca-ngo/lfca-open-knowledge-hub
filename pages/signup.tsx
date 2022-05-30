@@ -7,18 +7,12 @@ import { OneColLayout } from '../components/Layout'
 
 const SignUp: NextPage = () => {
   const router = useRouter()
-  const { companyId, email, companyName } = router.query
+  const { email } = router.query
 
   return (
     <OneColLayout>
-      {companyId && email && companyName ? (
-        <Signup
-          initialValues={{
-            companyId: companyId as string,
-            companyName: companyName as string,
-            email: email as string,
-          }}
-        />
+      {email ? (
+        <Signup email={email as string} />
       ) : (
         <div>
           <h1>Invalid invite</h1>
