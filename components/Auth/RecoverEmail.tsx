@@ -1,9 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons'
-import {
-  applyActionCode,
-  checkActionCode,
-  sendPasswordResetEmail,
-} from 'firebase/auth'
+import { applyActionCode, checkActionCode } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import { useFirebase } from '../../hooks/firebase'
@@ -43,10 +39,10 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   const sendReset = () => {
     // You might also want to give the user the option to reset their password
     // in case the account was compromised:
-    sendPasswordResetEmail(auth, restoredEmail).then(() => {
-      // Password reset confirmation sent. Ask user to check their email.
-      setResetSent(true)
-    })
+    // sendPasswordResetEmail(auth, restoredEmail).then(() => {
+    //   // Password reset confirmation sent. Ask user to check their email.
+    //   setResetSent(true)
+    // })
   }
 
   useEffect(() => {

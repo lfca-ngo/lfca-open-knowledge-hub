@@ -688,13 +688,6 @@ export type UserInviteFragment = { __typename?: 'UserInvite', email: string, use
 
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
 
-export type CreateUserInviteMutationVariables = Exact<{
-  input: CreateUserInviteInput;
-}>;
-
-
-export type CreateUserInviteMutation = { __typename?: 'Mutation', createUserInvite: { __typename?: 'UserInvite', email: string, userRole: string } };
-
 export type CompleteCompanyActionMutationVariables = Exact<{
   input: CompleteCompanyActionInput;
 }>;
@@ -716,6 +709,13 @@ export type CreateServiceProviderReviewMutationVariables = Exact<{
 
 export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null } };
 
+export type CreateUserInviteMutationVariables = Exact<{
+  input: CreateUserInviteInput;
+}>;
+
+
+export type CreateUserInviteMutation = { __typename?: 'Mutation', createUserInvite: { __typename?: 'UserInvite', email: string, userRole: string } };
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -736,6 +736,13 @@ export type PlanCompanyActionMutationVariables = Exact<{
 
 
 export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } };
+
+export type RequestPasswordResetMutationVariables = Exact<{
+  input: RequestPasswordResetInput;
+}>;
+
+
+export type RequestPasswordResetMutation = { __typename?: 'Mutation', requestPasswordReset: boolean };
 
 export type UpdateActionCommentMutationVariables = Exact<{
   input: UpdateActionCommentInput;
@@ -1038,18 +1045,6 @@ export const UserFragmentDoc = gql`
   sortWeight
 }
     `;
-export const CreateUserInviteDocument = gql`
-    mutation createUserInvite($input: CreateUserInviteInput!) {
-  createUserInvite(input: $input) {
-    email
-    userRole
-  }
-}
-    `;
-
-export function useCreateUserInviteMutation() {
-  return Urql.useMutation<CreateUserInviteMutation, CreateUserInviteMutationVariables>(CreateUserInviteDocument);
-};
 export const CompleteCompanyActionDocument = gql`
     mutation completeCompanyAction($input: CompleteCompanyActionInput!) {
   completeCompanyAction(input: $input) {
@@ -1083,6 +1078,18 @@ export const CreateServiceProviderReviewDocument = gql`
 export function useCreateServiceProviderReviewMutation() {
   return Urql.useMutation<CreateServiceProviderReviewMutation, CreateServiceProviderReviewMutationVariables>(CreateServiceProviderReviewDocument);
 };
+export const CreateUserInviteDocument = gql`
+    mutation createUserInvite($input: CreateUserInviteInput!) {
+  createUserInvite(input: $input) {
+    email
+    userRole
+  }
+}
+    `;
+
+export function useCreateUserInviteMutation() {
+  return Urql.useMutation<CreateUserInviteMutation, CreateUserInviteMutationVariables>(CreateUserInviteDocument);
+};
 export const CreateUserDocument = gql`
     mutation createUser($input: CreateUserInput!) {
   createUser(input: $input) {
@@ -1113,6 +1120,15 @@ export const PlanCompanyActionDocument = gql`
 
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
+};
+export const RequestPasswordResetDocument = gql`
+    mutation requestPasswordReset($input: RequestPasswordResetInput!) {
+  requestPasswordReset(input: $input)
+}
+    `;
+
+export function useRequestPasswordResetMutation() {
+  return Urql.useMutation<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(RequestPasswordResetDocument);
 };
 export const UpdateActionCommentDocument = gql`
     mutation updateActionComment($input: UpdateActionCommentInput!) {

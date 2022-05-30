@@ -2,6 +2,8 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'
 import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { ACTIONS } from '../../utils/routes'
 
 import { useFirebase } from '../../hooks/firebase'
 
@@ -61,13 +63,16 @@ export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
     component = (
       <div className="ResetPassword">
         <h1>Password changed</h1>
-        <p>You can now sign in with your new password</p>
+        <p>You can now sign in with your new password!</p>
+        <Link href={ACTIONS}>
+          <Button type="primary">Sign in</Button>
+        </Link>
       </div>
     )
   } else if (verifiedCode && email) {
     component = (
       <div className="ResetPassword">
-        <h1>Reset your password for email {email}</h1>
+        <h1>Reset your password for {email}</h1>
 
         <Form onFinish={handleResetPassword}>
           <Form.Item name="password">
