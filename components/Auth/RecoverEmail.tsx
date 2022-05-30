@@ -1,8 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons'
+import { Alert, Button, message } from 'antd'
 import { applyActionCode, checkActionCode } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import { useFirebase } from '../../hooks/firebase'
+import { useRequestPasswordResetMutation } from '../../services/lfca-backend'
 
 export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   const [error, setError] = useState('')
@@ -10,6 +12,8 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   const [resetSent, setResetSent] = useState(false)
   const [validCode, setValidCode] = useState(false)
   const [verifiedCode, setVerifiedCode] = useState(false)
+
+  const [{ fetching }, requestPasswordReset] = useRequestPasswordResetMutation()
 
   const { auth } = useFirebase()
 
@@ -39,10 +43,14 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   const sendReset = () => {
     // You might also want to give the user the option to reset their password
     // in case the account was compromised:
-    // sendPasswordResetEmail(auth, restoredEmail).then(() => {
-    //   // Password reset confirmation sent. Ask user to check their email.
-    //   setResetSent(true)
-    // })
+    requestPasswordReset({
+      input: {
+        email: restoredEmail,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else setResetSent(true)
+    })
   }
 
   useEffect(() => {
@@ -75,7 +83,9 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
         <p>
           If you did not change your sign-in email, it is possible someone is
           trying to access your account and you should
-          <button onClick={sendReset}>change your password right away</button>
+          <Button loading={fetching} onClick={sendReset} type="primary">
+            Change your password right away
+          </Button>
         </p>
       </div>
     )
@@ -83,8 +93,12 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
     component = (
       <div className="RecoverEmail">
         <h1>Unable to update your email address</h1>
-        <p>There was a problem changing your sign-in email back.</p>
-        <p className="error">{error}</p>
+        <Alert
+          description={error}
+          message={`There was a problem changing your sign-in email back.`}
+          showIcon
+          type="error"
+        />
       </div>
     )
   }
