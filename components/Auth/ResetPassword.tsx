@@ -1,11 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'
 import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ACTIONS } from '../../utils/routes'
+import { useEffect, useState } from 'react'
 
 import { useFirebase } from '../../hooks/firebase'
+import { ACTIONS } from '../../utils/routes'
 
 export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
   const [email, setEmail] = useState('')
