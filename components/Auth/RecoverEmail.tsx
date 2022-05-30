@@ -1,7 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 
-export const RecoverEmail = ({ actionCode }: { actionCode?: string }) => {
+export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   const [error, setError] = useState('')
   const [restoredEmail, setRestoredEmail] = useState('')
   const [resetSent, setResetSent] = useState(false)

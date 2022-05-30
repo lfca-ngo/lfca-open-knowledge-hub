@@ -2,12 +2,12 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { RecoverEmail, VerifyEmail, ResetPassword } from '../components/Auth'
+import { RecoverEmail, ResetPassword, VerifyEmail } from '../components/Auth'
 import { OneColLayout } from '../components/Layout'
 
 interface ModeProps {
-  actionCode?: string
-  mode?: 'recoverEmail' | 'resetPassword' | 'verifyEmail' | string
+  actionCode: string
+  mode: 'recoverEmail' | 'resetPassword' | 'verifyEmail' | string
 }
 
 const Mode = ({ actionCode, mode }: ModeProps) => {
@@ -19,7 +19,7 @@ const Mode = ({ actionCode, mode }: ModeProps) => {
     case 'verifyEmail':
       return <VerifyEmail actionCode={actionCode} />
     default:
-      return <div>none</div>
+      return null
   }
 }
 

@@ -1,7 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 
-export const VerifyEmail = ({ actionCode }: { actionCode?: string }) => {
+export const VerifyEmail = ({ actionCode }: { actionCode: string }) => {
   const [error, setError] = useState('')
   const [validCode, setValidCode] = useState()
   const [verifiedCode, setVerifiedCode] = useState(false)
