@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { SIGN_IN } from '../../utils/routes'
 
-export default function Signup() {
+export const Signup = () => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [errorMessage] = useState('')
