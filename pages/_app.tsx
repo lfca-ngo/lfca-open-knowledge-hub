@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { INITIAL_VALUES, LS_ACTION_LIST } from '../components/ActionsList'
 import { AppProvider } from '../hooks/app'
 import { useScrollPosition } from '../hooks/useScrollPosition'
+import { trackEvent } from '../services/analytics'
 import { FirebaseProvider } from '../services/firebase'
 import { LFCABackendProvider } from '../services/lfca-backend'
 import { ACTIONS } from '../utils/routes'
@@ -17,6 +18,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
+      // track page view
+      trackEvent({ name: 'pageView' })
       // only persist the browsing state when the user goes from
       // the dashboard to the action detail page and back
       // in all other cases, reset the browsing state

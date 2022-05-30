@@ -23,7 +23,7 @@ const getCleanPathName = () => {
 
 interface TrackEventProps {
   name: string
-  collection: string
+  collection?: string
   values?: object
 }
 
