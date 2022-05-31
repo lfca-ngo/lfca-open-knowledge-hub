@@ -27,7 +27,6 @@ const AccountActions: NextPage = () => {
   const router = useRouter()
   const { mode, oobCode: actionCode } = router.query
 
-  console.log(mode, actionCode)
   return (
     <OneColLayout>
       <Mode actionCode={`${actionCode}`} mode={`${mode}`} />
