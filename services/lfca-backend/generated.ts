@@ -291,7 +291,17 @@ export type CreateUserInput = {
 };
 
 export type CreateUserInviteInput = {
+  /**
+   * Admin-only: Optionally defined the company the user should be assigned to.
+   * Default: Company of the requesting user.
+   */
+  companyId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
+  /**
+   * Admin-only: Optionally define the role for the new user.
+   * Default: OFFICER.
+   */
+  userRole?: InputMaybe<Scalars['String']>;
 };
 
 export type CustomSectionContent = {
@@ -343,6 +353,7 @@ export type Mutation = {
   deleteUser: User;
   planCompanyAction: CompanyAction;
   processCompanyActionExpiry: Scalars['Boolean'];
+  processUserActionExpiry: Scalars['Boolean'];
   /** Allows users to register if they have been invited */
   registerUser: User;
   requestPasswordReset: Scalars['Boolean'];
@@ -448,8 +459,9 @@ export type Query = {
   companyActions: Array<CompanyAction>;
   /** @deprecated not used anymore */
   companyImpact: CompanyImpactResult;
-  completedCompanyActions: Array<Maybe<CompanyAction>>;
-  plannedCompanyActions: Array<Maybe<CompanyAction>>;
+  completedCompanyActions: Array<CompanyAction>;
+  expiredCompanyActions: Array<CompanyAction>;
+  plannedCompanyActions: Array<CompanyAction>;
   qualifiedCompanies: Array<Company>;
   searchUser: Array<User>;
   serviceProviderReviews: Array<ServiceProviderReview>;
@@ -520,17 +532,21 @@ export type QueryUserArgs = {
 };
 
 
+export type QueryUserInvitesArgs = {
+  input?: InputMaybe<UserInvitesInput>;
+};
+
+
 export type QueryUsersArgs = {
   input?: InputMaybe<UsersInput>;
 };
 
 export type RegisterUserInput = {
-  country: Scalars['String'];
   email: Scalars['String'];
   firstName: Scalars['String'];
-  inviteId: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
+  picture?: InputMaybe<Scalars['String']>;
 };
 
 export type RequestPasswordResetInput = {
@@ -641,6 +657,18 @@ export type UserInvite = {
   id: Scalars['ID'];
   user?: Maybe<User>;
   userRole: Scalars['String'];
+};
+
+export type UserInvitesFilterInput = {
+  companyId?: InputMaybe<Scalars['String']>;
+};
+
+export type UserInvitesInput = {
+  /**
+   * Admin-only: Allows filtering by company.
+   * Default: Company of the requesting user.
+   */
+  filter?: InputMaybe<UserInvitesFilterInput>;
 };
 
 export type UsersInput = {
@@ -818,12 +846,12 @@ export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Comp
 export type CompletedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompletedCompanyActionsQuery = { __typename?: 'Query', completedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } | null> };
+export type CompletedCompanyActionsQuery = { __typename?: 'Query', completedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
 export type PlannedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlannedCompanyActionsQuery = { __typename?: 'Query', plannedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> } | null> };
+export type PlannedCompanyActionsQuery = { __typename?: 'Query', plannedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
@@ -839,7 +867,9 @@ export type ServiceProvidersQueryVariables = Exact<{
 
 export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
-export type UserInvitesQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserInvitesQueryVariables = Exact<{
+  input?: InputMaybe<UserInvitesInput>;
+}>;
 
 
 export type UserInvitesQuery = { __typename?: 'Query', userInvites: Array<{ __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null }> };
@@ -1319,8 +1349,8 @@ export function useServiceProvidersQuery(options?: Omit<Urql.UseQueryArgs<Servic
   return Urql.useQuery<ServiceProvidersQuery>({ query: ServiceProvidersDocument, ...options });
 };
 export const UserInvitesDocument = gql`
-    query userInvites {
-  userInvites {
+    query userInvites($input: UserInvitesInput) {
+  userInvites(input: $input) {
     ...UserInvite
   }
 }

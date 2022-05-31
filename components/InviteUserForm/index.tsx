@@ -22,9 +22,13 @@ export const InviteUserForm = () => {
     useCreateUserInviteMutation()
   const [{ data: invitesData, fetching: isFetchingInvites }, refreshInvites] =
     useUserInvitesQuery({
-      pause: true,
+      pause: !form.getFieldValue('companyId'),
       variables: {
-        companyId: form.getFieldValue('companyId'),
+        input: {
+          filter: {
+            companyId: form.getFieldValue('companyId'),
+          },
+        },
       },
     })
 
@@ -40,9 +44,9 @@ export const InviteUserForm = () => {
   }
 
   const handleChange = ({ companyId }: { companyId: string }) => {
-    console.log(companyId)
-    if (companyId) {
-      refreshInvites()
+    // @TODO: later will be replaced with search field for company
+    if (companyId.length > 6) {
+      refreshInvites({ requestPolicy: 'network-only' })
     }
   }
 

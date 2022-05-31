@@ -25,6 +25,7 @@ export const Signup = ({ email }: { email: string }) => {
     firstName: string
     lastName: string
     password: string
+    picture: string
   }) => {
     registerUser({
       input: {
