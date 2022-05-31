@@ -13,6 +13,7 @@ export const PW_FORGOT = '/forgot-password'
 export const ADMIN_USERS = '/admin/users'
 export const ADMIN_COMPANIES = '/admin/companies'
 export const ADMIN = '/admin'
+export const ADMIN_REVIEWS = '/admin/reviews'
 // Settings
 export const SETTINGS = '/settings'
 export const SETTINGS_INVITE = '/settings/invite'
