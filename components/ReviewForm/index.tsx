@@ -49,7 +49,7 @@ const LabelWithButton = ({
   </div>
 )
 
-export const ReviewForm = () => {
+export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
   const [form] = Form.useForm()
   const [providerId, setProviderId] = useState('')
 
@@ -87,6 +87,8 @@ export const ReviewForm = () => {
     setProviderId('')
     form.resetFields()
     message.success(`Thanks, we will review it!`)
+    // callback for parent
+    onFinish?.()
   }
 
   return (

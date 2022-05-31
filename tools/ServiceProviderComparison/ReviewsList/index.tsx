@@ -54,7 +54,7 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
         visible={newReviewOpen}
       >
         <Section title="Leave a review">
-          <ReviewForm />
+          <ReviewForm onFinish={() => setNewReviewOpen(false)} />
         </Section>
       </Drawer>
     </div>
