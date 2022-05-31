@@ -1,15 +1,15 @@
 import type { NextPage } from 'next'
 import React from 'react'
 
-import ResetPassword from '../components/Auth/ResetPassword'
+import { ForgotPassword } from '../components/Auth'
 import { OneColLayout } from '../components/Layout'
 
-const ResetPasswordPage: NextPage = () => {
+const ForgotPasswordPage: NextPage = () => {
   return (
     <OneColLayout>
-      <ResetPassword />
+      <ForgotPassword />
     </OneColLayout>
   )
 }
 
-export default ResetPasswordPage
+export default ForgotPasswordPage

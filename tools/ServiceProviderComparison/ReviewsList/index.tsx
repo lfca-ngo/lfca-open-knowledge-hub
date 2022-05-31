@@ -1,7 +1,11 @@
 require('./styles.less')
 
-import { List } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Drawer, List } from 'antd'
+import { useState } from 'react'
 
+import { Section } from '../../../components/Layout'
+import { ReviewForm } from '../../../components/ReviewForm'
 import { useServiceProviderReviewsQuery } from '../../../services/lfca-backend'
 import { ReviewCard } from '../ReviewCard'
 
@@ -10,6 +14,8 @@ interface ReviewsListProps {
 }
 
 export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
+  const [newReviewOpen, setNewReviewOpen] = useState(false)
+
   // TODO: UI for error state
   // TODO: Render skeleton whil loading
   const [{ data, fetching }] = useServiceProviderReviewsQuery({
@@ -23,7 +29,15 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
 
   return (
     <div>
-      <h2>Reviews</h2>
+      <Button
+        block
+        icon={<PlusOutlined />}
+        onClick={() => setNewReviewOpen(true)}
+        size="large"
+        type="primary"
+      >
+        Add a review
+      </Button>
       <List
         className="reviews-list"
         dataSource={data?.serviceProviderReviews}
@@ -34,6 +48,15 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
           </List.Item>
         )}
       />
+      <Drawer
+        className="drawer-md"
+        onClose={() => setNewReviewOpen(false)}
+        visible={newReviewOpen}
+      >
+        <Section title="Leave a review">
+          <ReviewForm onFinish={() => setNewReviewOpen(false)} />
+        </Section>
+      </Drawer>
     </div>
   )
 }

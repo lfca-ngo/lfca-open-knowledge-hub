@@ -23,6 +23,9 @@ fragment CompanyActionListItem on CompanyAction {
   }
   recommendedForCompanyAchievementIds
   requiredForCompanyAchievementIds
+  requirements {
+    title
+  }
   tags {
     ...Tag
   }

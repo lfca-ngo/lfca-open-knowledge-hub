@@ -14,8 +14,10 @@ interface InviteItemProps {
 }
 
 export const InviteItem = ({ item }: InviteItemProps) => {
+  const inviteLink = `${APP_BASE_URL}${SIGN_UP}?email=${item.email}`
+
   const handleCopy = () => {
-    copyTextToClipboard('mylink', (note: string, hasCopied: boolean) => {
+    copyTextToClipboard(inviteLink, (note: string, hasCopied: boolean) => {
       if (hasCopied) {
         message.success(note)
       } else message.error(note)
@@ -32,7 +34,7 @@ export const InviteItem = ({ item }: InviteItemProps) => {
                 <Input
                   disabled
                   style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
-                  value={`${APP_BASE_URL}${SIGN_UP}`}
+                  value={inviteLink}
                 />
                 <Button
                   icon={<CopyOutlined />}

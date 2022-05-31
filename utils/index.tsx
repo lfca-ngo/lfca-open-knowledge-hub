@@ -104,3 +104,8 @@ export const actionHasReviews = (action: any) => {
     (s: any) => s.componentId === MEASUREMENT_SERVICES_COMPARISON
   )
 }
+
+export const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message
+  return String(error)
+}

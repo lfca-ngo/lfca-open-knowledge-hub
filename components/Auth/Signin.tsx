@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { useFirebase } from '../../hooks/firebase'
-import { PW_RESET, ROOT } from '../../utils/routes'
+import { PW_FORGOT, ROOT } from '../../utils/routes'
 
-export default function Signin() {
+export const Signin = () => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const { login } = useFirebase()
@@ -58,12 +58,12 @@ export default function Signin() {
         {errorMessage && <Alert message={errorMessage} showIcon type="error" />}
         <Form.Item>
           <Button block htmlType="submit" loading={loading} type="primary">
-            Anmelden
+            Sign in
           </Button>
         </Form.Item>
       </Form>
       <Space>
-        <Link href={PW_RESET}>Forgot password?</Link>
+        <Link href={PW_FORGOT}>Forgot password?</Link>
       </Space>
     </div>
   )

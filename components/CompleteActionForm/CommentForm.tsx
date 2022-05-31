@@ -20,12 +20,14 @@ interface ShareLearningsFormProps {
   }
   loading?: boolean
   onSubmit: (message: string, attachments?: File[], notes?: string) => void
+  showNotes?: boolean
 }
 
 export const CommentForm = ({
   initialValues,
   loading,
   onSubmit,
+  showNotes = false,
 }: ShareLearningsFormProps) => {
   const [notesVisible, setNotesVisible] = useState(false)
   const [form] = Form.useForm()
@@ -59,7 +61,10 @@ export const CommentForm = ({
     >
       <Form.Item
         label={
-          <Tooltip title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?">
+          <Tooltip
+            placement="left"
+            title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?"
+          >
             Leave a comment about this action <QuestionCircleOutlined />
           </Tooltip>
         }
@@ -76,7 +81,10 @@ export const CommentForm = ({
       </div>
       <Form.Item
         label={
-          <Tooltip title="Think about: Research that you did, resources that you found useful">
+          <Tooltip
+            placement="left"
+            title="Think about: Research that you did, resources that you found useful"
+          >
             Useful documents <QuestionCircleOutlined />
           </Tooltip>
         }
@@ -88,17 +96,22 @@ export const CommentForm = ({
           maxFiles={3}
         />
       </Form.Item>
-      <Form.Item>
-        <Tooltip title="This note will be only visible to you. You can save your companies' carbon footprint or other data that you would like to access later on.">
-          <Checkbox
-            className="text-black"
-            onChange={(e) => setNotesVisible(e.target.checked)}
-            value={notesVisible}
+      {showNotes && (
+        <Form.Item>
+          <Tooltip
+            placement="left"
+            title="This note will be only visible to you. You can save your companies' carbon footprint or other data that you would like to access later on."
           >
-            Add a private note <QuestionCircleOutlined />{' '}
-          </Checkbox>
-        </Tooltip>
-      </Form.Item>
+            <Checkbox
+              className="text-black"
+              onChange={(e) => setNotesVisible(e.target.checked)}
+              value={notesVisible}
+            >
+              Add a private note <QuestionCircleOutlined />{' '}
+            </Checkbox>
+          </Tooltip>
+        </Form.Item>
+      )}
 
       {notesVisible && (
         <Form.Item name="notes">

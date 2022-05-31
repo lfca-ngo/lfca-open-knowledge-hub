@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import {
+  Auth,
   connectAuthEmulator,
   getAuth,
   onAuthStateChanged,
@@ -28,6 +29,7 @@ if (isDev) {
 }
 
 interface FirebaseContextProps {
+  auth: Auth
   login: (email: string, password: string) => Promise<UserCredential>
   logout: () => Promise<void>
   refreshToken: () => Promise<string | undefined>
@@ -35,6 +37,7 @@ interface FirebaseContextProps {
 }
 
 export const FirebaseContext = React.createContext<FirebaseContextProps>({
+  auth: firebaseAuth,
   login: async () => ({} as UserCredential),
   logout: async () => {
     // Nothing
@@ -80,6 +83,7 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
   return (
     <FirebaseContext.Provider
       value={{
+        auth: firebaseAuth,
         login,
         logout,
         refreshToken,

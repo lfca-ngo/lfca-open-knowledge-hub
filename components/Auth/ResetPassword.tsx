@@ -1,57 +1,99 @@
+import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'
-import NextLink from 'next/link'
-import React, { useState } from 'react'
+import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-import { SIGN_IN } from '../../utils/routes'
+import { useFirebase } from '../../hooks/firebase'
+import { ACTIONS } from '../../utils/routes'
 
-const ResetPassword = () => {
-  const [success] = useState(false)
-  const [loading, setLoading] = useState(false)
+export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [verifiedCode, setVerifiedCode] = useState(false)
+  const [validCode, setValidCode] = useState(false)
 
-  const handleClick = async () => {
-    setLoading(true)
-    try {
-      // @TODO: Auth logic
-      // if (res.error) alert(res.error);
-    } catch (error) {
-      // alert(error.message);
-    } finally {
-      // setIsAfterSubmit(true);
-      setLoading(false)
-    }
+  const { auth } = useFirebase()
+
+  const verifyCode = () => {
+    // Verify the password reset code is valid.
+    verifyPasswordResetCode(auth, actionCode).then(
+      (email) => {
+        // Password reset code is valid.
+        setVerifiedCode(true)
+        setValidCode(true)
+        setEmail(email)
+      },
+      (error) => {
+        // Invalid or expired action code. Ask user to try to reset the password
+        // again.
+        setError(error.message)
+        setVerifiedCode(true)
+        setValidCode(false)
+      }
+    )
   }
 
-  return (
-    <div>
-      <h1>Reset Password</h1>
-      {success ? (
-        <div>
-          Please check your E-Mails. We sent you a link to reset your password.
-          If you did not receive an email, please check your spam folder and
-          make sure your email address is correct.
-        </div>
-      ) : (
-        <div>
-          <Form layout="vertical" onFinish={handleClick}>
-            <Form.Item label="Email">
-              <Input placeholder="info@lfca.earth" />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                block
-                loading={loading}
-                onClick={handleClick}
-                type="primary"
-              >
-                Reset password
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      )}
-      <NextLink href={SIGN_IN}>Back to login</NextLink>
-    </div>
-  )
-}
+  const handleResetPassword = ({ password }: { password: string }) => {
+    // Save the new password.
+    confirmPasswordReset(auth, actionCode, password).then(
+      () => {
+        // Password reset has been confirmed and new password updated.
+        setSuccess(true)
+      },
+      (error) => {
+        // Error occurred during confirmation. The code might have expired or the
+        // password is too weak.
+        setError(error.message)
+      }
+    )
+  }
 
-export default ResetPassword
+  useEffect(() => {
+    if (actionCode) {
+      verifyCode()
+    }
+  }, [actionCode])
+
+  let component = null
+  if (!verifiedCode) {
+    component = <LoadingOutlined />
+  } else if (success) {
+    component = (
+      <div className="ResetPassword">
+        <h1>Password changed</h1>
+        <p>You can now sign in with your new password!</p>
+        <Link href={ACTIONS}>
+          <Button type="primary">Sign in</Button>
+        </Link>
+      </div>
+    )
+  } else if (verifiedCode && email) {
+    component = (
+      <div className="ResetPassword">
+        <h1>Reset your password for {email}</h1>
+
+        <Form onFinish={handleResetPassword}>
+          <Form.Item name="password">
+            <Input placeholder="******" type="password" />
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit" type="primary">
+              Reset password
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  } else if (verifiedCode && !validCode) {
+    component = (
+      <div className="ResetPassword">
+        <h1>Try resetting your password again</h1>
+        <p className="error">{error}</p>
+      </div>
+    )
+  }
+
+  return component
+}

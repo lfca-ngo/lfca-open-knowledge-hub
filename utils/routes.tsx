@@ -8,6 +8,7 @@ export const ACTIONS_COMPLETED = '/actions/completed'
 export const SIGN_IN = '/signin'
 export const SIGN_UP = '/signup'
 export const PW_RESET = '/reset-password'
+export const PW_FORGOT = '/forgot-password'
 // Admin
 export const ADMIN_USERS = '/admin/users'
 export const ADMIN_COMPANIES = '/admin/companies'
@@ -25,3 +26,6 @@ export const MEASUREMENT_SERVICE_PROVIDERS =
 export const PERSONAL_FOOTPRINT_CALCULATOR =
   '/tools/personal-footprint-calculator'
 export const REFERRAL_PROGRAM = '/tools/referral-program'
+// Onboardings
+export const ONBOARDING_LEADER = '/onboarding-leader'
+export const ONBOARDING_OFFICER = '/onboarding-officer'

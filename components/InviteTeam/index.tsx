@@ -58,7 +58,7 @@ export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
       </Form>
 
       <List
-        className="users-list"
+        className="simple-list"
         dataSource={userInvites}
         loading={isFetchingInvites}
         renderItem={(item) => (

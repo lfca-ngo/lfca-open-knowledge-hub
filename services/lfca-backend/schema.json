@@ -1498,6 +1498,17 @@
             "args": []
           },
           {
+            "name": "processUserActionExpiry",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "registerUser",
             "type": {
               "kind": "NON_NULL",
@@ -1834,9 +1845,30 @@
               "ofType": {
                 "kind": "LIST",
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "CompanyAction",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CompanyAction",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "expiredCompanyActions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CompanyAction",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -1849,9 +1881,12 @@
               "ofType": {
                 "kind": "LIST",
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "CompanyAction",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CompanyAction",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -2006,7 +2041,15 @@
                 }
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "users",

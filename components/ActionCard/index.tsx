@@ -1,7 +1,22 @@
 require('./styles.less')
 
-import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
-import { Avatar, AvatarProps, Button, Card } from 'antd'
+import {
+  CheckCircleFilled,
+  InfoCircleOutlined,
+  InfoOutlined,
+  LikeOutlined,
+  PaperClipOutlined,
+} from '@ant-design/icons'
+import {
+  Avatar,
+  AvatarProps,
+  Button,
+  Card,
+  List,
+  Popover,
+  Space,
+  Tooltip,
+} from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -84,6 +99,7 @@ export interface ActionCardProps {
   onSavePosition?: () => void
   onUnselect?: (action: CompanyActionListItemFragment) => void
   renderAsLink?: boolean
+  showInfoBox?: boolean
   unselectText?: string
 }
 
@@ -94,6 +110,7 @@ export const ActionCard = ({
   onCtaClick,
   onSavePosition,
   onUnselect,
+  showInfoBox = false,
   unselectText,
 }: ActionCardProps) => {
   const handleClick = () => {
@@ -109,7 +126,7 @@ export const ActionCard = ({
   }
 
   return (
-    <Card bordered={false} className="action-card" onClick={handleClick}>
+    <Card bordered={false} className="action-card">
       <div className="hero">
         <div className="wrapper">
           {action.heroImage?.url ? (
@@ -135,12 +152,46 @@ export const ActionCard = ({
         />
       </div>
       <div className="actions">
-        <Button
-          loading={loading}
-          type={action.completedAt ? 'default' : 'primary'}
-        >
-          {action.completedAt ? unselectText : ctaText}
-        </Button>
+        <Space>
+          {showInfoBox && (
+            <Popover
+              content={
+                <List
+                  className="info-list-sm"
+                  dataSource={action.requirements}
+                  header={
+                    <Tooltip
+                      placement="right"
+                      title={`You don't need to complete all tips to mark an action as complete`}
+                    >
+                      <h4>
+                        How to
+                        <InfoCircleOutlined style={{ marginLeft: '6px' }} />
+                      </h4>
+                    </Tooltip>
+                  }
+                  renderItem={(item) => (
+                    <List.Item>
+                      <CheckCircleFilled className="yellow" /> {item.title}
+                    </List.Item>
+                  )}
+                  size="small"
+                />
+              }
+              overlayClassName="popover-lg"
+              placement="left"
+            >
+              <Button icon={<InfoOutlined />} shape="circle" size="small" />
+            </Popover>
+          )}
+          <Button
+            loading={loading}
+            onClick={handleClick}
+            type={action.completedAt ? 'default' : 'primary'}
+          >
+            {action.completedAt ? unselectText : ctaText}
+          </Button>
+        </Space>
       </div>
     </Card>
   )
@@ -153,7 +204,7 @@ export const ActionCardWrapper = (props: ActionCardProps) => {
   if (props.renderAsLink) {
     return (
       <Link href={`/action/${props.action.contentId}`}>
-        <a className="action-card-wrapper">
+        <a className="action-card-wrapper" onClick={props.onSavePosition}>
           <ActionCard {...props} />
         </a>
       </Link>

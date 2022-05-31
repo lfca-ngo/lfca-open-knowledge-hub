@@ -3,6 +3,7 @@ require('./styles.less')
 import { Drawer, List } from 'antd'
 import { useEffect, useState } from 'react'
 
+import { Section } from '../../components/Layout'
 import {
   ServiceProviderFragment,
   useServiceProvidersQuery,
@@ -97,7 +98,9 @@ export const ServiceProviderComparison = () => {
         onClose={() => setActiveProvider(null)}
         visible={!!activeProvider}
       >
-        <ReviewsList serviceProviderContentId={activeProvider?.id} />
+        <Section title="Reviews">
+          <ReviewsList serviceProviderContentId={activeProvider?.id} />
+        </Section>
       </Drawer>
     </div>
   )

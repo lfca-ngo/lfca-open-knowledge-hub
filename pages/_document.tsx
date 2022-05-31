@@ -14,6 +14,12 @@ export default function Document() {
         <meta content="#d82086" name="theme-color" />
         {/* set color of the address bar on Apple smatphones */}
         <meta content="#d82086" name="apple-mobile-web-app-status-bar" />
+        {/* Tell the browser to never restore the scroll position on load */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `history.scrollRestoration = "manual"`,
+          }}
+        />
       </Head>
       <body>
         <Main />

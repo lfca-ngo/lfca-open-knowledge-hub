@@ -1,38 +1,82 @@
-import { Alert, Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 import NextLink from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-import { SIGN_IN } from '../../utils/routes'
+import { useFirebase } from '../../hooks/firebase'
+import { useRegisterUserMutation } from '../../services/lfca-backend'
+import { getErrorMessage } from '../../utils'
+import {
+  ONBOARDING_LEADER,
+  ONBOARDING_OFFICER,
+  SIGN_IN,
+} from '../../utils/routes'
+import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
+import { ImageUpload } from '../FileUpload/ImageUpload'
 
-export default function Signup() {
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [errorMessage] = useState('')
+export const Signup = ({ email }: { email: string }) => {
+  const [{ fetching }, registerUser] = useRegisterUserMutation()
+  const { login } = useFirebase()
+  const router = useRouter()
 
-  const handleSignUp = async () => {
-    setLoading(true)
+  const [form] = Form.useForm()
 
+  const handleSignUp = async ({
+    email,
+    firstName,
+    lastName,
+    password,
+    picture,
+  }: {
+    email: string
+    firstName: string
+    lastName: string
+    password: string
+    picture: string
+  }) => {
     try {
-      // @TODO: Auth logic
-      // if (error) throw error;
-      setSuccess(true)
-    } catch (e) {
-      // setErrorMessage(e.message);
-    } finally {
-      setLoading(false)
+      const { data } = await registerUser({
+        input: {
+          email,
+          firstName,
+          lastName,
+          password,
+          picture,
+        },
+      })
+      await login(email, password)
+      // forward based on user role
+      if (data?.registerUser.roles.includes('LEADER')) {
+        router.push(ONBOARDING_LEADER)
+      } else {
+        router.push(ONBOARDING_OFFICER)
+      }
+    } catch (err) {
+      message.error(getErrorMessage(err))
     }
   }
+
+  useEffect(() => {
+    form.setFieldsValue({
+      email,
+    })
+  }, [email, form])
 
   return (
     <div>
       <h1>Create account</h1>
-      <Form layout="vertical" onFinish={handleSignUp}>
+      <Form
+        form={form}
+        initialValues={{ email }}
+        layout="vertical"
+        onFinish={handleSignUp}
+      >
         <Form.Item
-          label={'Company'}
-          name="company"
-          rules={[{ message: 'Please select a company!', required: true }]}
+          label="Email"
+          name="email"
+          rules={[{ message: 'Please input your email!', required: true }]}
         >
-          <Input placeholder="Company Name" />
+          <Input disabled placeholder="greta@thunberg.earth" type="email" />
         </Form.Item>
 
         <Form.Item
@@ -52,11 +96,12 @@ export default function Signup() {
         </Form.Item>
 
         <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ message: 'Please input your email!', required: true }]}
+          key="picture"
+          label="Picture"
+          name="picture"
+          rules={[{ message: 'Please add a picture', required: true }]}
         >
-          <Input placeholder="greta@thunberg.earth" type="email" />
+          <ImageUpload customPreset={CLOUDINARY_PRESETS.profilePictures} />
         </Form.Item>
 
         <Form.Item
@@ -67,17 +112,8 @@ export default function Signup() {
           <Input.Password placeholder="********" />
         </Form.Item>
 
-        {success && (
-          <Alert
-            message="Please Check Your Email Confirmation :)"
-            showIcon
-            type="success"
-          />
-        )}
-        {errorMessage && <Alert message={errorMessage} showIcon type="error" />}
-
         <Form.Item>
-          <Button block htmlType="submit" loading={loading} type="primary">
+          <Button block htmlType="submit" loading={fetching} type="primary">
             Register
           </Button>
         </Form.Item>
