@@ -2,11 +2,21 @@ require('./styles.less')
 
 import {
   CheckCircleFilled,
+  InfoCircleOutlined,
   InfoOutlined,
   LikeOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import { Avatar, AvatarProps, Button, Card, List, Popover, Space } from 'antd'
+import {
+  Avatar,
+  AvatarProps,
+  Button,
+  Card,
+  List,
+  Popover,
+  Space,
+  Tooltip,
+} from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -149,7 +159,17 @@ export const ActionCard = ({
                 <List
                   className="info-list-sm"
                   dataSource={action.requirements}
-                  header={<h4>How to</h4>}
+                  header={
+                    <Tooltip
+                      placement="right"
+                      title={`You don't need to complete all tips to mark an action as complete`}
+                    >
+                      <h4>
+                        How to
+                        <InfoCircleOutlined style={{ marginLeft: '6px' }} />
+                      </h4>
+                    </Tooltip>
+                  }
                   renderItem={(item) => (
                     <List.Item>
                       <CheckCircleFilled className="yellow" /> {item.title}
