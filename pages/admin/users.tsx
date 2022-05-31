@@ -3,14 +3,13 @@ import { Button, Drawer, Input, List, message, Space } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useState } from 'react'
 
+import { InviteUserForm } from '../../components/InviteUserForm'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { UserForm } from '../../components/UserForm'
 import { Country, fetchAllCountries } from '../../services/contentful'
 import {
-  CreateUserInput,
   UpdateUserInput,
   useAllUsersQuery,
-  useCreateUserMutation,
   useUpdateUserMutation,
 } from '../../services/lfca-backend'
 import { ADMIN_NAV } from '../../utils/navs'
@@ -28,7 +27,6 @@ const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
-  const [{ fetching: isCreatingUser }, createUser] = useCreateUserMutation()
   const [{ data: usersData, fetching: isFetchingUsers }] = useAllUsersQuery()
 
   const users = usersData?.users.items || []
@@ -47,17 +45,6 @@ const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else message.success('User updated')
-    })
-  }
-
-  const handleCreate = (allValues: CreateUserInput) => {
-    createUser({
-      input: {
-        ...allValues,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else message.success('User created')
     })
   }
 
@@ -97,15 +84,23 @@ const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
             onClose={() => setIsOpen(false)}
             visible={isOpen}
           >
-            <h1>{`${selectedUser ? 'Update' : 'Create'} User`}</h1>
-            <UserForm
-              countries={countries}
-              initialValues={selectedUser}
-              isLoading={isUpdatingUser || isCreatingUser}
-              onCreate={handleCreate}
-              onUpdate={handleUpdate}
-              type={selectedUser ? 'update' : 'create'}
-            />
+            {selectedUser ? (
+              <>
+                <h1>Update User</h1>
+                <UserForm
+                  countries={countries}
+                  initialValues={selectedUser}
+                  isLoading={isUpdatingUser}
+                  onUpdate={handleUpdate}
+                  type={'update'}
+                />
+              </>
+            ) : (
+              <>
+                <h1>Create User Invite</h1>
+                <InviteUserForm />
+              </>
+            )}
           </Drawer>
         </Section>
       </Main>

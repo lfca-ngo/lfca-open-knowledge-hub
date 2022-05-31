@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 
 import { useRegisterUserMutation } from '../../services/lfca-backend'
 import { SIGN_IN } from '../../utils/routes'
+import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
+import { ImageUpload } from '../FileUpload/ImageUpload'
 
 export const Signup = ({ email }: { email: string }) => {
   const [success, setSuccess] = useState(false)
@@ -17,6 +19,7 @@ export const Signup = ({ email }: { email: string }) => {
     firstName,
     lastName,
     password,
+    picture,
   }: {
     email: string
     firstName: string
@@ -29,10 +32,14 @@ export const Signup = ({ email }: { email: string }) => {
         firstName,
         lastName,
         password,
+        picture,
       },
-    }).then(({ error }) => {
+    }).then(({ data, error }) => {
       if (error) message.error(error.message)
-      else setSuccess(true)
+      // else setSuccess(true)
+      console.log(data)
+      // @TODO: sign user in automatically after sign up
+      // forward based on user role to the appropriate onboarding flow
     })
   }
 
@@ -74,6 +81,15 @@ export const Signup = ({ email }: { email: string }) => {
             rules={[{ message: 'Please input your name!', required: true }]}
           >
             <Input placeholder="Thunberg" />
+          </Form.Item>
+
+          <Form.Item
+            key="picture"
+            label="Picture"
+            name="picture"
+            rules={[{ message: 'Please add a picture', required: false }]}
+          >
+            <ImageUpload customPreset={CLOUDINARY_PRESETS.profilePictures} />
           </Form.Item>
 
           <Form.Item
