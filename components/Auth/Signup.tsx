@@ -3,18 +3,27 @@ import NextLink from 'next/link'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+import { useFirebase } from '../../hooks/firebase'
 import { useRegisterUserMutation } from '../../services/lfca-backend'
-import { SIGN_IN } from '../../utils/routes'
+import { getErrorMessage } from '../../utils'
+import {
+  SIGN_IN,
+  ONBOARDING_LEADER,
+  ONBOARDING_OFFICER,
+} from '../../utils/routes'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
+import { useRouter } from 'next/router'
 
 export const Signup = ({ email }: { email: string }) => {
   const [success, setSuccess] = useState(false)
   const [{ fetching }, registerUser] = useRegisterUserMutation()
+  const { login } = useFirebase()
+  const router = useRouter()
 
   const [form] = Form.useForm()
 
-  const handleSignUp = ({
+  const handleSignUp = async ({
     email,
     firstName,
     lastName,
@@ -27,21 +36,27 @@ export const Signup = ({ email }: { email: string }) => {
     password: string
     picture: string
   }) => {
-    registerUser({
-      input: {
-        email,
-        firstName,
-        lastName,
-        password,
-        picture,
-      },
-    }).then(({ data, error }) => {
-      if (error) message.error(error.message)
-      // else setSuccess(true)
-      console.log(data)
-      // @TODO: sign user in automatically after sign up
-      // forward based on user role to the appropriate onboarding flow
-    })
+    try {
+      const { data } = await registerUser({
+        input: {
+          email,
+          firstName,
+          lastName,
+          password,
+          picture,
+        },
+      })
+      await login(email, password)
+      console.log('data', data)
+      // forward based on user role
+      if (data?.registerUser.roles.includes('LEADER')) {
+        router.push(ONBOARDING_LEADER)
+      } else {
+        router.push(ONBOARDING_OFFICER)
+      }
+    } catch (err) {
+      message.error(getErrorMessage(err))
+    }
   }
 
   useEffect(() => {
@@ -88,7 +103,7 @@ export const Signup = ({ email }: { email: string }) => {
             key="picture"
             label="Picture"
             name="picture"
-            rules={[{ message: 'Please add a picture', required: false }]}
+            rules={[{ message: 'Please add a picture', required: true }]}
           >
             <ImageUpload customPreset={CLOUDINARY_PRESETS.profilePictures} />
           </Form.Item>

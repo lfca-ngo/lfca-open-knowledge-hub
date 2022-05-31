@@ -26,3 +26,6 @@ export const MEASUREMENT_SERVICE_PROVIDERS =
 export const PERSONAL_FOOTPRINT_CALCULATOR =
   '/tools/personal-footprint-calculator'
 export const REFERRAL_PROGRAM = '/tools/referral-program'
+// Onboardings
+export const ONBOARDING_LEADER = '/onboarding-leader'
+export const ONBOARDING_OFFICER = '/onboarding-officer'
