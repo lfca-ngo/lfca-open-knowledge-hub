@@ -21,6 +21,7 @@ export const EMPTY_ACTION: CompanyActionListItemFragment = {
   recentCompaniesCompleted: [],
   recommendedForCompanyAchievementIds: [],
   requiredForCompanyAchievementIds: [''], // needs at least one item to show skeleton on required actions
+  requirements: [],
   tags: [],
   title: '',
 }
