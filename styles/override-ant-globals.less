@@ -94,6 +94,20 @@ body {
       }
     }
   }
+  &.info-list-sm {
+    .ant-list-header {
+      h4 {
+        margin: 0;
+        .font-semi();
+      }
+    }
+    .ant-list-item {
+      padding: 5px 0;
+      .anticon {
+        margin-right: 6px;
+      }
+    }
+  }
 }
 
 // Icons
@@ -106,6 +120,12 @@ body {
   }
   &.black {
     color: @black;
+  }
+  &.blue {
+    color: @blue;
+  }
+  &.yellow {
+    color: @yellow;
   }
 }
 
@@ -196,6 +216,9 @@ body {
         font-size: @font-size-xs;
       }
     }
+  }
+  &.popover-lg {
+    max-width: 500px;
   }
 }
 

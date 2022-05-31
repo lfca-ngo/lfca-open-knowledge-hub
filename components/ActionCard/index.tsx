@@ -1,13 +1,29 @@
 require('./styles.less')
 
-import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
-import { Avatar, AvatarProps, Button, Card } from 'antd'
+import {
+  InfoOutlined,
+  LikeOutlined,
+  PaperClipOutlined,
+  CheckCircleFilled,
+} from '@ant-design/icons'
+import {
+  Avatar,
+  AvatarProps,
+  Button,
+  Card,
+  List,
+  Popover,
+  Space,
+  Collapse,
+} from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LogoGroup } from '../LogoGroup'
+
+const { Panel } = Collapse
 
 interface ActionStatProps {
   count: number
@@ -84,6 +100,7 @@ export interface ActionCardProps {
   onSavePosition?: () => void
   onUnselect?: (action: CompanyActionListItemFragment) => void
   renderAsLink?: boolean
+  showInfoBox?: boolean
   unselectText?: string
 }
 
@@ -94,6 +111,7 @@ export const ActionCard = ({
   onCtaClick,
   onSavePosition,
   onUnselect,
+  showInfoBox = false,
   unselectText,
 }: ActionCardProps) => {
   const handleClick = () => {
@@ -109,7 +127,7 @@ export const ActionCard = ({
   }
 
   return (
-    <Card bordered={false} className="action-card" onClick={handleClick}>
+    <Card bordered={false} className="action-card">
       <div className="hero">
         <div className="wrapper">
           {action.heroImage?.url ? (
@@ -135,12 +153,36 @@ export const ActionCard = ({
         />
       </div>
       <div className="actions">
-        <Button
-          loading={loading}
-          type={action.completedAt ? 'default' : 'primary'}
-        >
-          {action.completedAt ? unselectText : ctaText}
-        </Button>
+        <Space>
+          {showInfoBox && (
+            <Popover
+              content={
+                <List
+                  className="info-list-sm"
+                  dataSource={action.requirements}
+                  header={<h4>How to</h4>}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <CheckCircleFilled className="yellow" /> {item.title}
+                    </List.Item>
+                  )}
+                  size="small"
+                />
+              }
+              overlayClassName="popover-lg"
+              placement="left"
+            >
+              <Button icon={<InfoOutlined />} shape="circle" size="small" />
+            </Popover>
+          )}
+          <Button
+            loading={loading}
+            onClick={handleClick}
+            type={action.completedAt ? 'default' : 'primary'}
+          >
+            {action.completedAt ? unselectText : ctaText}
+          </Button>
+        </Space>
       </div>
     </Card>
   )

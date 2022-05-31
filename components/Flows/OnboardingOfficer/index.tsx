@@ -112,6 +112,7 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
             setSelectedActionContentId(action.contentId)
           },
           onUnselect: handleUnselect,
+          showInfoBox: true,
           unselectText: 'Unselect',
         }}
         actionsByTags={actionsByTags}
