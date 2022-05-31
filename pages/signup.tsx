@@ -9,6 +9,8 @@ const SignUp: NextPage = () => {
   const router = useRouter()
   const { email } = router.query
 
+  if (!router.isReady) return null
+
   return (
     <OneColLayout>
       {email ? (
