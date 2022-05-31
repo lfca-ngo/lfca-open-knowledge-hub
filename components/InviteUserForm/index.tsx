@@ -45,7 +45,7 @@ export const InviteUserForm = () => {
 
   const handleChange = ({ companyId }: { companyId: string }) => {
     // @TODO: later will be replaced with search field for company
-    if (companyId.length > 6) {
+    if (companyId && companyId.length > 6) {
       refreshInvites({ requestPolicy: 'network-only' })
     }
   }
@@ -85,7 +85,7 @@ export const InviteUserForm = () => {
         <Form.Item
           key="roles"
           label="Roles"
-          name="roles"
+          name="userRole"
           rules={[
             {
               message: 'Please select at least one role',
@@ -93,7 +93,7 @@ export const InviteUserForm = () => {
             },
           ]}
         >
-          <Select mode="multiple" placeholder="Please select a role">
+          <Select placeholder="Please select a role">
             {ROLES.filter((r) => r !== 'ADMIN').map((role) => (
               <Option key={role} value={role}>
                 {role}
@@ -102,7 +102,7 @@ export const InviteUserForm = () => {
           </Select>
         </Form.Item>
         <Form.Item>
-          <Button loading={isCreatingInvite} type="primary">
+          <Button htmlType="submit" loading={isCreatingInvite} type="primary">
             Invite User
           </Button>
         </Form.Item>
