@@ -1,29 +1,18 @@
 require('./styles.less')
 
 import {
+  CheckCircleFilled,
   InfoOutlined,
   LikeOutlined,
   PaperClipOutlined,
-  CheckCircleFilled,
 } from '@ant-design/icons'
-import {
-  Avatar,
-  AvatarProps,
-  Button,
-  Card,
-  List,
-  Popover,
-  Space,
-  Collapse,
-} from 'antd'
+import { Avatar, AvatarProps, Button, Card, List, Popover, Space } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LogoGroup } from '../LogoGroup'
-
-const { Panel } = Collapse
 
 interface ActionStatProps {
   count: number
@@ -195,7 +184,7 @@ export const ActionCardWrapper = (props: ActionCardProps) => {
   if (props.renderAsLink) {
     return (
       <Link href={`/action/${props.action.contentId}`}>
-        <a className="action-card-wrapper">
+        <a className="action-card-wrapper" onClick={props.onSavePosition}>
           <ActionCard {...props} />
         </a>
       </Link>
