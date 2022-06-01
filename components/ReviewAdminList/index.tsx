@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   CheckOutlined,
   MinusCircleFilled,
