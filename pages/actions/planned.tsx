@@ -18,7 +18,7 @@ const PlannedActions: NextPage = () => {
       variables: {
         input: {
           filter: {
-            planned: true,
+            isPlanned: true,
           },
         },
       },

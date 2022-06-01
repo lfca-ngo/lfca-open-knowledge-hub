@@ -18,7 +18,7 @@ export const ReviewsAdminList = () => {
       variables: {
         input: {
           filter: {
-            approved: false,
+            isApproved: false,
           },
           take: 100,
         },
@@ -30,8 +30,8 @@ export const ReviewsAdminList = () => {
   const approveReview = (review: ServiceProviderReviewFragment) => {
     updateServiceProviderReview({
       input: {
-        approved: true,
         id: review.id,
+        isApproved: true,
       },
     }).then(({ error }) => {
       if (error) message.error(error.message)
