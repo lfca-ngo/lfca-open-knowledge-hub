@@ -109,9 +109,9 @@ export const Assistant = ({
     >
       <Carousel
         adaptiveHeight
-        arrows
+        arrows={false}
         beforeChange={(_, next) => setActiveSlide(next)}
-        dots
+        dots={false}
         infinite
         ref={sliderRef}
         slidesToScroll={1}
@@ -126,20 +126,19 @@ export const Assistant = ({
             </div>
             {item.component}
             <Space>
-              {activeSlide > 0 && (
-                <Button
-                  ghost
-                  icon={<ArrowLeftOutlined />}
-                  onClick={prevSlide}
-                />
-              )}
-              {activeSlide < formItems.length - 1 && (
-                <Button
-                  ghost
-                  icon={<ArrowRightOutlined />}
-                  onClick={nextSlide}
-                />
-              )}
+              <Button
+                disabled={activeSlide === 0}
+                ghost
+                icon={<ArrowLeftOutlined />}
+                onClick={prevSlide}
+              />
+
+              <Button
+                disabled={activeSlide >= formItems.length - 1}
+                ghost
+                icon={<ArrowRightOutlined />}
+                onClick={nextSlide}
+              />
             </Space>
           </div>
         ))}
