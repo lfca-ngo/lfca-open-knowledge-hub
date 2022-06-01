@@ -42,7 +42,7 @@ export const FilterForm = ({
               style={{ width: '100%' }}
             >
               {serviceOptions.map((service) => (
-                <Option key={service}>{service}</Option>
+                <Option key={service.name}>{service.name}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -50,7 +50,10 @@ export const FilterForm = ({
         <Col span={12}>
           <Form.Item label="Model" name="models">
             <MultiSelect
-              options={modelOptions.map((m) => ({ key: m, label: m }))}
+              options={modelOptions.map((m) => ({
+                key: m.name as string,
+                label: m.name as string,
+              }))}
             />
           </Form.Item>
         </Col>
@@ -64,8 +67,8 @@ export const FilterForm = ({
             <MultiSelect
               mode="single"
               options={supplyChainComplexityOptions.map((m) => ({
-                key: m,
-                label: m,
+                key: m.name as string,
+                label: m.name as string,
               }))}
             />
           </Form.Item>

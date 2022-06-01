@@ -56,8 +56,8 @@ export const Assistant = ({
             grouped={false}
             mode="single"
             options={supplyChainComplexityOptions.map((m) => ({
-              key: m,
-              label: m,
+              key: m.name as string,
+              label: m.name as string,
             }))}
           />
         </Form.Item>
@@ -69,7 +69,10 @@ export const Assistant = ({
         <Form.Item key="services" name="services">
           <MultiSelect
             grouped={false}
-            options={serviceOptions.map((m) => ({ key: m, label: m }))}
+            options={serviceOptions.map((m) => ({
+              key: m.name as string,
+              label: m.name as string,
+            }))}
           />
         </Form.Item>
       ),
@@ -80,7 +83,10 @@ export const Assistant = ({
         <Form.Item key="models" name="models">
           <MultiSelect
             grouped={false}
-            options={modelOptions.map((m) => ({ key: m, label: m }))}
+            options={modelOptions.map((m) => ({
+              key: m.name as string,
+              label: m.name as string,
+            }))}
           />
         </Form.Item>
       ),

@@ -807,9 +807,9 @@ export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: st
 
 export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null };
 
-export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null }> };
+export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }> };
 
-export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null };
+export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null };
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
@@ -971,7 +971,7 @@ export type ServiceProvidersQueryVariables = Exact<{
 }>;
 
 
-export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
+export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }> }> };
 
 export type UserInvitesQueryVariables = Exact<{
   input?: InputMaybe<UserInvitesInput>;
@@ -1143,6 +1143,8 @@ export const TagFragmentDoc = gql`
     fragment Tag on Tag {
   id
   name
+  sortWeight
+  help
 }
     `;
 export const ServiceProviderFragmentDoc = gql`
