@@ -13,13 +13,14 @@ interface InviteItemProps {
   onMinimumInvited?: () => void
 }
 
-export const InviteItem = ({ item }: InviteItemProps) => {
+export const InviteItem = ({ item, onMinimumInvited }: InviteItemProps) => {
   const inviteLink = `${APP_BASE_URL}${SIGN_UP}?email=${item.email}`
 
   const handleCopy = () => {
     copyTextToClipboard(inviteLink, (note: string, hasCopied: boolean) => {
       if (hasCopied) {
         message.success(note)
+        onMinimumInvited?.()
       } else message.error(note)
     })
   }

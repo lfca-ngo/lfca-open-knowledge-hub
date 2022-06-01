@@ -31,7 +31,7 @@ export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
       if (error) message.error(error.message)
       else {
         message.success('Invite sent')
-        // @David, I assume we can do this more elegantly?
+        onMinimumInvited?.()
         refreshInvites({ requestPolicy: 'network-only' })
       }
     })
