@@ -8,6 +8,7 @@ import Mastermind from '../../../public/img/mastermind.jpg'
 import {
   CompanyActionListItemFragment,
   useCompleteCompanyActionMutation,
+  usePlanCompanyActionMutation,
 } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
@@ -73,6 +74,8 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
   >(null)
 
   const [, completeCompanyAction] = useCompleteCompanyActionMutation()
+  const [{ fetching: isPlanning }, planCompanyAction] =
+    usePlanCompanyActionMutation()
 
   const handleUnselect = (action: CompanyActionListItemFragment) => {
     completeCompanyAction({
@@ -84,6 +87,24 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else message.success('Marked action as incomplete')
+    })
+  }
+
+  const handleTogglePlan = (action: CompanyActionListItemFragment) => {
+    planCompanyAction({
+      input: {
+        actionContentId: action.contentId,
+        isPlanned: !!!action.plannedAt,
+      },
+    }).then(({ data, error }) => {
+      console.log('error', error, data)
+      if (error) message.error(error.message)
+      else
+        message.success(
+          `Marked action as ${
+            data?.planCompanyAction.plannedAt ? 'planned' : 'unplanned'
+          }`
+        )
     })
   }
 
@@ -108,6 +129,7 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
             setActiveAction(action)
             setSelectedActionContentId(action.contentId)
           },
+          onTogglePlan: handleTogglePlan,
           onUnselect: handleUnselect,
           showInfoBox: true,
           unselectText: 'Unselect',
