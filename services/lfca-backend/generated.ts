@@ -207,7 +207,10 @@ export type CompanyActionsInput = {
 };
 
 export type CompanyActionsInputFilter = {
-  actionContentIds: Array<Scalars['String']>;
+  actionContentIds?: InputMaybe<Array<Scalars['String']>>;
+  completed?: InputMaybe<Scalars['Boolean']>;
+  expired?: InputMaybe<Scalars['Boolean']>;
+  planned?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CompanyImpactInput = {
@@ -473,16 +476,18 @@ export type Query = {
   actionCommentAttachments: Array<ActionCommentAttachment>;
   actionComments: Array<ActionComment>;
   actionStats: Array<ActionStats>;
+  /** @deprecated use CompanyAction.companiesCompletedCount and CompanyAction.companiesCompleted */
   companiesTakingAction: Array<ComaniesTakingActionResultItem>;
   company: Company;
   companyAction: CompanyAction;
   companyActions: Array<CompanyAction>;
   /** @deprecated not used anymore */
   companyImpact: CompanyImpactResult;
+  /** @deprecated use companyActions with filter */
   completedCompanyActions: Array<CompanyAction>;
   completedUserActions: Array<Maybe<UserAction>>;
-  expiredCompanyActions: Array<CompanyAction>;
   expiredUserActions: Array<Maybe<UserAction>>;
+  /** @deprecated use companyActions with filter */
   plannedCompanyActions: Array<CompanyAction>;
   qualifiedCompanies: Array<Company>;
   searchUser: Array<User>;
@@ -511,6 +516,11 @@ export type QueryActionCommentsArgs = {
 
 export type QueryActionStatsArgs = {
   input: ActionStatsInput;
+};
+
+
+export type QueryCompaniesTakingActionArgs = {
+  input?: InputMaybe<CompaniesTakingActionInput>;
 };
 
 
@@ -908,16 +918,6 @@ export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignGoalSetting?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> } };
-
-export type CompletedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CompletedCompanyActionsQuery = { __typename?: 'Query', completedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
-
-export type PlannedCompanyActionsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PlannedCompanyActionsQuery = { __typename?: 'Query', plannedCompanyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, tags: Array<{ __typename?: 'Tag', id: string, name?: string | null }> }> };
 
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
@@ -1380,28 +1380,6 @@ export const CompanyDocument = gql`
 
 export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyQuery>({ query: CompanyDocument, ...options });
-};
-export const CompletedCompanyActionsDocument = gql`
-    query completedCompanyActions {
-  completedCompanyActions {
-    ...CompanyActionListItem
-  }
-}
-    ${CompanyActionListItemFragmentDoc}`;
-
-export function useCompletedCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<CompletedCompanyActionsQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompletedCompanyActionsQuery>({ query: CompletedCompanyActionsDocument, ...options });
-};
-export const PlannedCompanyActionsDocument = gql`
-    query plannedCompanyActions {
-  plannedCompanyActions {
-    ...CompanyActionListItem
-  }
-}
-    ${CompanyActionListItemFragmentDoc}`;
-
-export function usePlannedCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<PlannedCompanyActionsQueryVariables>, 'query'>) {
-  return Urql.useQuery<PlannedCompanyActionsQuery>({ query: PlannedCompanyActionsDocument, ...options });
 };
 export const ServiceProviderReviewsDocument = gql`
     query serviceProviderReviews($input: ServiceProviderReviewsInput!) {

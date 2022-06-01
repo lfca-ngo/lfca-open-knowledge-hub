@@ -7,14 +7,22 @@ import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkelet
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
-import { usePlannedCompanyActionsQuery } from '../../services/lfca-backend'
+import { useCompanyActionsListQuery } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
 const PlannedActions: NextPage = () => {
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
-    usePlannedCompanyActionsQuery()
+    useCompanyActionsListQuery({
+      variables: {
+        input: {
+          filter: {
+            planned: true,
+          },
+        },
+      },
+    })
 
   return (
     <SiderLayout nav={ACTIONS_NAV}>
@@ -23,9 +31,7 @@ const PlannedActions: NextPage = () => {
           <Container>
             <List
               className="no-padding"
-              dataSource={
-                actionsData?.plannedCompanyActions || EMPTY_ACTIONS_ARRAY
-              }
+              dataSource={actionsData?.companyActions || EMPTY_ACTIONS_ARRAY}
               renderItem={(item) => {
                 return (
                   <List.Item>

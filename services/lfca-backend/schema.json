@@ -1798,7 +1798,15 @@
                 }
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "company",
@@ -1909,24 +1917,6 @@
                   "kind": "OBJECT",
                   "name": "UserAction",
                   "ofType": null
-                }
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "expiredCompanyActions",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "CompanyAction",
-                    "ofType": null
-                  }
                 }
               }
             },
