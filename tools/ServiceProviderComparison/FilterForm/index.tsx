@@ -51,6 +51,7 @@ export const FilterForm = ({
           <Form.Item label="Model" name="models">
             <MultiSelect
               options={modelOptions.map((m) => ({
+                help: m.help as string,
                 key: m.name as string,
                 label: m.name as string,
               }))}
@@ -67,6 +68,7 @@ export const FilterForm = ({
             <MultiSelect
               mode="single"
               options={supplyChainComplexityOptions.map((m) => ({
+                help: m.help as string,
                 key: m.name as string,
                 label: m.name as string,
               }))}

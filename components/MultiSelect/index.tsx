@@ -1,4 +1,5 @@
-import { Button } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { useState } from 'react'
 
@@ -7,6 +8,7 @@ type OptionKey = string | number | string[] | number[]
 export interface Option {
   key: OptionKey
   label: string
+  help?: string
 }
 
 interface MultiSelectProps {
@@ -56,6 +58,12 @@ export const MultiSelect = ({
             type={isSelected ? 'primary' : 'default'}
           >
             {item.label}
+
+            {item.help && (
+              <Tooltip title={item.help}>
+                <InfoCircleOutlined style={{ marginLeft: '6px' }} />
+              </Tooltip>
+            )}
           </Button>
         )
       })}

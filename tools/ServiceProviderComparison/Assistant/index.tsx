@@ -56,6 +56,7 @@ export const Assistant = ({
             grouped={false}
             mode="single"
             options={supplyChainComplexityOptions.map((m) => ({
+              help: m.help as string,
               key: m.name as string,
               label: m.name as string,
             }))}
@@ -70,6 +71,7 @@ export const Assistant = ({
           <MultiSelect
             grouped={false}
             options={serviceOptions.map((m) => ({
+              help: m.help as string,
               key: m.name as string,
               label: m.name as string,
             }))}
@@ -84,6 +86,7 @@ export const Assistant = ({
           <MultiSelect
             grouped={false}
             options={modelOptions.map((m) => ({
+              help: m.help as string,
               key: m.name as string,
               label: m.name as string,
             }))}
