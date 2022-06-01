@@ -42,10 +42,14 @@ export const RequirementsItem = ({
   }
 
   return (
-    <Collapse className="requirement-collapse">
+    <Collapse
+      className="requirement-collapse mini-collapse"
+      collapsible="header"
+      ghost
+    >
       <Panel
         extra={
-          <div>
+          <div className="check-wrapper">
             {fetching ? (
               <LoadingOutlined />
             ) : (
