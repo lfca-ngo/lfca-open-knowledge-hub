@@ -1,93 +1,54 @@
 require('./styles.less')
 
 import {
+  CalendarOutlined,
+  CarryOutOutlined,
   CheckCircleFilled,
   InfoCircleOutlined,
-  InfoOutlined,
-  LikeOutlined,
-  PaperClipOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons'
-import {
-  Avatar,
-  AvatarProps,
-  Button,
-  Card,
-  List,
-  Popover,
-  Space,
-  Tooltip,
-} from 'antd'
-import classNames from 'classnames'
+import { Badge, Button, Card, List, Popover, Space, Tooltip } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { LogoGroup } from '../LogoGroup'
+import { ActionStats } from '../ActionStats'
 
-interface ActionStatProps {
-  count: number
-  label: string
-  icon: AvatarProps['icon']
-  color: string
-  size: AvatarProps['size']
-}
-
-export const ActionStat = ({
-  color,
-  count,
-  icon,
-  label,
-  size,
-}: ActionStatProps) => {
+const InfoBox = ({
+  requirements,
+}: {
+  requirements: CompanyActionListItemFragment['requirements']
+}) => {
   return (
-    <div className={classNames('action-stat', color)}>
-      <div className="icon">
-        <Avatar className={color} icon={icon} shape="square" size={size} />
-      </div>
-      <div className="label">
-        <span className="count">{count}</span> {label}
-      </div>
-    </div>
-  )
-}
-
-interface ActionStatsProps {
-  commentAttachmentCount: CompanyActionListItemFragment['commentAttachmentCount']
-  commentCount: CompanyActionListItemFragment['commentCount']
-  companiesCompletedCount: CompanyActionListItemFragment['companiesCompletedCount']
-  recentCompaniesCompleted: CompanyActionListItemFragment['recentCompaniesCompleted']
-  size?: AvatarProps['size']
-}
-
-export const ActionStats = ({
-  commentAttachmentCount,
-  commentCount,
-  companiesCompletedCount,
-  recentCompaniesCompleted,
-  size,
-}: ActionStatsProps) => {
-  return (
-    <div className={classNames('action-stats', size)}>
-      <LogoGroup
-        data={recentCompaniesCompleted}
-        label={`${companiesCompletedCount} did this`}
-        size={size}
-      />
-      <ActionStat
-        color="wine-inverse"
-        count={commentCount}
-        icon={<LikeOutlined />}
-        label="messages"
-        size={size}
-      />
-      <ActionStat
-        color="blue-inverse"
-        count={commentAttachmentCount}
-        icon={<PaperClipOutlined />}
-        label="documents"
-        size={size}
-      />
-    </div>
+    <Popover
+      content={
+        <List
+          className="info-list-sm"
+          dataSource={requirements}
+          header={
+            <Tooltip
+              placement="right"
+              title={`You don't need to complete all tips to mark an action as complete`}
+            >
+              <h4>
+                How to
+                <QuestionCircleOutlined style={{ marginLeft: '6px' }} />
+              </h4>
+            </Tooltip>
+          }
+          renderItem={(item) => (
+            <List.Item>
+              <CheckCircleFilled className="yellow" /> {item.title}
+            </List.Item>
+          )}
+          size="small"
+        />
+      }
+      overlayClassName="popover-lg"
+      placement="left"
+    >
+      <InfoCircleOutlined />
+    </Popover>
   )
 }
 
@@ -98,6 +59,7 @@ export interface ActionCardProps {
   onCtaClick?: (action: CompanyActionListItemFragment) => void
   onSavePosition?: () => void
   onUnselect?: (action: CompanyActionListItemFragment) => void
+  onTogglePlan?: (action: CompanyActionListItemFragment) => void
   renderAsLink?: boolean
   showInfoBox?: boolean
   unselectText?: string
@@ -109,6 +71,7 @@ export const ActionCard = ({
   loading = false,
   onCtaClick,
   onSavePosition,
+  onTogglePlan,
   onUnselect,
   showInfoBox = false,
   unselectText,
@@ -128,20 +91,28 @@ export const ActionCard = ({
   return (
     <Card bordered={false} className="action-card">
       <div className="hero">
-        <div className="wrapper">
-          {action.heroImage?.url ? (
-            <Image
-              alt={action.title || ''}
-              layout="fill"
-              objectFit="cover"
-              src={action.heroImage.url}
-            />
-          ) : null}
-        </div>
+        <Badge
+          count={
+            action.completedAt ? <CheckCircleFilled className="green" /> : null
+          }
+          offset={[-6, 6]}
+        >
+          <div className="wrapper">
+            {action.heroImage?.url ? (
+              <Image
+                alt={action.title || ''}
+                layout="fill"
+                objectFit="cover"
+                src={action.heroImage.url}
+              />
+            ) : null}
+          </div>
+        </Badge>
       </div>
       <div className="content">
         <div className="title">
-          {action.title}
+          {action.title}{' '}
+          {showInfoBox && <InfoBox requirements={action.requirements} />}
           <span className="tags"></span>
         </div>
         <ActionStats
@@ -153,36 +124,16 @@ export const ActionCard = ({
       </div>
       <div className="actions">
         <Space>
-          {showInfoBox && (
-            <Popover
-              content={
-                <List
-                  className="info-list-sm"
-                  dataSource={action.requirements}
-                  header={
-                    <Tooltip
-                      placement="right"
-                      title={`You don't need to complete all tips to mark an action as complete`}
-                    >
-                      <h4>
-                        How to
-                        <InfoCircleOutlined style={{ marginLeft: '6px' }} />
-                      </h4>
-                    </Tooltip>
-                  }
-                  renderItem={(item) => (
-                    <List.Item>
-                      <CheckCircleFilled className="yellow" /> {item.title}
-                    </List.Item>
-                  )}
-                  size="small"
-                />
-              }
-              overlayClassName="popover-lg"
-              placement="left"
-            >
-              <Button icon={<InfoOutlined />} shape="circle" size="small" />
-            </Popover>
+          {onTogglePlan && (
+            <Tooltip title={`Mark as ${action.plannedAt ? 'un' : ''}planned`}>
+              <Button
+                ghost={action.plannedAt}
+                icon={
+                  action.plannedAt ? <CarryOutOutlined /> : <CalendarOutlined />
+                }
+                onClick={() => onTogglePlan(action)}
+              />
+            </Tooltip>
           )}
           <Button
             loading={loading}

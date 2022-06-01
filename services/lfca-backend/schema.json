@@ -1327,6 +1327,29 @@
             ]
           },
           {
+            "name": "completeUserAction",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "UserAction",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "createActionComment",
             "type": {
               "kind": "NON_NULL",
@@ -1600,6 +1623,26 @@
             ]
           },
           {
+            "name": "updateServiceProviderReview",
+            "type": {
+              "kind": "OBJECT",
+              "name": "ServiceProviderReview",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateUser",
             "type": {
               "kind": "NON_NULL",
@@ -1857,6 +1900,21 @@
             "args": []
           },
           {
+            "name": "completedUserActions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UserAction",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "expiredCompanyActions",
             "type": {
               "kind": "NON_NULL",
@@ -1869,6 +1927,21 @@
                     "name": "CompanyAction",
                     "ofType": null
                   }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "expiredUserActions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UserAction",
+                  "ofType": null
                 }
               }
             },
@@ -1955,26 +2028,17 @@
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ServiceProviderReview",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "ServiceProviderReviewsResult",
+                "ofType": null
               }
             },
             "args": [
               {
                 "name": "input",
                 "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
+                  "kind": "SCALAR",
+                  "name": "Any"
                 }
               }
             ]
@@ -2329,6 +2393,39 @@
       },
       {
         "kind": "OBJECT",
+        "name": "ServiceProviderReviewsResult",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "items",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ServiceProviderReview",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "Tag",
         "fields": [
           {
@@ -2455,6 +2552,89 @@
           },
           {
             "name": "sortWeight",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UserAction",
+        "fields": [
+          {
+            "name": "completedAt",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "contentId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "editedAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "expiredAt",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "notes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "values",
             "type": {
               "kind": "SCALAR",
               "name": "Any"

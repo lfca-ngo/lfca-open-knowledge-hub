@@ -2,49 +2,9 @@
 @import (reference) '../../styles/fonts.less';
 @import (reference) '../../styles/mixins.less';
 
-.action-stat {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 4px 0;
-  color: var(--text-color);
-
-  @media @desktop {
-    margin: 0;
-  }
-
-  .icon {
-    margin-right: 6px;
-  }
-}
-
-.action-stats {
-  display: flex;
-  flex-direction: column;
-
-  @media @desktop {
-    flex-direction: row;
-  }
-
-  .logo-group,
-  .action-stat {
-    margin-right: 22px;
-    .label {
-      font-size: @font-size-sm;
-    }
-  }
-
-  &.small {
-    .logo-group,
-    .action-stat {
-      margin-right: 14px;
-    }
-  }
-}
-
 .action-card {
   @card-padding: @action-card-padding;
-  .list-hover-effect(@action-card-padding);
+  .list-hover-effect(8px);
 
   width: 100%;
   border-radius: 0;
@@ -67,6 +27,15 @@
         display: block;
       }
 
+      .ant-badge {
+        .anticon {
+          font-size: 21px;
+          background: @white;
+          border-radius: 50%;
+          border: 1px solid @white;
+        }
+      }
+
       .wrapper {
         position: relative;
         overflow: hidden;
@@ -84,7 +53,7 @@
       justify-content: center;
 
       @media @desktop {
-        padding: 0 30px;
+        padding: 0 10px 0 25px;
       }
 
       .title {

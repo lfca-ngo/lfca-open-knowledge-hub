@@ -10,7 +10,7 @@ import Image from 'next/image'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { ActionStats } from '../ActionCard'
+import { ActionStats } from '../ActionStats'
 
 interface ActionDetailsProps {
   action: CompanyActionListItemFragment

@@ -8,6 +8,7 @@ import Mastermind from '../../../public/img/mastermind.jpg'
 import {
   CompanyActionListItemFragment,
   useCompleteCompanyActionMutation,
+  usePlanCompanyActionMutation,
 } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
@@ -73,6 +74,7 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
   >(null)
 
   const [, completeCompanyAction] = useCompleteCompanyActionMutation()
+  const [, planCompanyAction] = usePlanCompanyActionMutation()
 
   const handleUnselect = (action: CompanyActionListItemFragment) => {
     completeCompanyAction({
@@ -87,6 +89,23 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
     })
   }
 
+  const handleTogglePlan = (action: CompanyActionListItemFragment) => {
+    planCompanyAction({
+      input: {
+        actionContentId: action.contentId,
+        isPlanned: !!!action.plannedAt,
+      },
+    }).then(({ data, error }) => {
+      if (error) message.error(error.message)
+      else
+        message.success(
+          `Marked action as ${
+            data?.planCompanyAction.plannedAt ? 'planned' : 'unplanned'
+          }`
+        )
+    })
+  }
+
   const handleContinue = () => {
     onNext()
   }
@@ -98,8 +117,9 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
       <p style={{ margin: '20px 0 30px' }}>
         {`Let's start with a simple exercise: Did you already take climate action
         in your company? Which actions have you taken and what have you learned?
-        If you are uncertain, skip an action. You can read more detailed
-        descriptions of all actions and mark them later on.`}
+        If you are uncertain about an action, just skip it. You can read more
+        detailed descriptions of all of them and mark them later on. If
+        something sounds interesting, mark it as planned!`}
       </p>
       <ActionsList
         actionListItemProps={{
@@ -108,6 +128,7 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
             setActiveAction(action)
             setSelectedActionContentId(action.contentId)
           },
+          onTogglePlan: handleTogglePlan,
           onUnselect: handleUnselect,
           showInfoBox: true,
           unselectText: 'Unselect',

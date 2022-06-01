@@ -86,7 +86,7 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
 
     setProviderId('')
     form.resetFields()
-    message.success(`Thanks, we will review it!`)
+    message.success(`Thanks, we will approve your review soon!`)
     // callback for parent
     onFinish?.()
   }

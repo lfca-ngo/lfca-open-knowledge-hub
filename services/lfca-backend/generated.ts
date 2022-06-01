@@ -249,6 +249,14 @@ export type CompleteCompanyActionRequirementInput = {
   values?: InputMaybe<Scalars['JSON']>;
 };
 
+export type CompleteUserActionInput = {
+  /** The ID for that action in contentful */
+  actionContentId: Scalars['String'];
+  isCompleted: Scalars['Boolean'];
+  notes?: InputMaybe<Scalars['String']>;
+  values?: InputMaybe<Scalars['JSON']>;
+};
+
 export type ContentAsset = {
   __typename?: 'ContentAsset';
   id: Scalars['ID'];
@@ -344,6 +352,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   completeCompanyAction: CompanyAction;
   completeCompanyActionRequirement: CompanyActionRequirement;
+  completeUserAction: UserAction;
   createActionComment: ActionComment;
   createServiceProviderReview: ServiceProviderReview;
   /** Allows admins to create new users */
@@ -359,6 +368,7 @@ export type Mutation = {
   requestPasswordReset: Scalars['Boolean'];
   updateActionComment: ActionComment;
   updateCompany: Company;
+  updateServiceProviderReview?: Maybe<ServiceProviderReview>;
   updateUser: User;
 };
 
@@ -370,6 +380,11 @@ export type MutationCompleteCompanyActionArgs = {
 
 export type MutationCompleteCompanyActionRequirementArgs = {
   input: CompleteCompanyActionRequirementInput;
+};
+
+
+export type MutationCompleteUserActionArgs = {
+  input: CompleteUserActionInput;
 };
 
 
@@ -428,6 +443,11 @@ export type MutationUpdateCompanyArgs = {
 };
 
 
+export type MutationUpdateServiceProviderReviewArgs = {
+  input: UpdateServiceProviderReviewInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
@@ -460,11 +480,13 @@ export type Query = {
   /** @deprecated not used anymore */
   companyImpact: CompanyImpactResult;
   completedCompanyActions: Array<CompanyAction>;
+  completedUserActions: Array<Maybe<UserAction>>;
   expiredCompanyActions: Array<CompanyAction>;
+  expiredUserActions: Array<Maybe<UserAction>>;
   plannedCompanyActions: Array<CompanyAction>;
   qualifiedCompanies: Array<Company>;
   searchUser: Array<User>;
-  serviceProviderReviews: Array<ServiceProviderReview>;
+  serviceProviderReviews: ServiceProviderReviewsResult;
   serviceProviders: Array<ServiceProvider>;
   user: User;
   userInvites: Array<UserInvite>;
@@ -518,7 +540,7 @@ export type QuerySearchUserArgs = {
 
 
 export type QueryServiceProviderReviewsArgs = {
-  input: ServiceProviderReviewsInput;
+  input?: InputMaybe<ServiceProviderReviewsInput>;
 };
 
 
@@ -587,8 +609,21 @@ export type ServiceProviderReview = {
   review: Scalars['String'];
 };
 
+export type ServiceProviderReviewsFilterInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  serviceProviderContentId?: InputMaybe<Scalars['String']>;
+};
+
 export type ServiceProviderReviewsInput = {
-  serviceProviderContentId: Scalars['String'];
+  cursor?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<ServiceProviderReviewsFilterInput>;
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+export type ServiceProviderReviewsResult = {
+  __typename?: 'ServiceProviderReviewsResult';
+  cursor?: Maybe<Scalars['String']>;
+  items: Array<ServiceProviderReview>;
 };
 
 export type ServiceProvidersInput = {
@@ -620,6 +655,17 @@ export type UpdateCompanyInput = {
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateServiceProviderReviewInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  cons?: InputMaybe<Array<Scalars['String']>>;
+  id: Scalars['ID'];
+  isAnonymous?: InputMaybe<Scalars['Boolean']>;
+  price?: InputMaybe<Scalars['Int']>;
+  pros?: InputMaybe<Array<Scalars['String']>>;
+  rating?: InputMaybe<Scalars['Float']>;
+  review?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateUserInput = {
   companyId?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<Scalars['String']>;
@@ -645,6 +691,19 @@ export type User = {
   picture?: Maybe<Scalars['String']>;
   roles: Array<Scalars['String']>;
   sortWeight?: Maybe<Scalars['Int']>;
+};
+
+export type UserAction = {
+  __typename?: 'UserAction';
+  completedAt?: Maybe<Scalars['DateTime']>;
+  contentId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  editedAt: Scalars['DateTime'];
+  expiredAt?: Maybe<Scalars['DateTime']>;
+  /** A unique identifier generated using the contentId and userId as long as the action has not expired */
+  id: Scalars['ID'];
+  notes?: Maybe<Scalars['String']>;
+  values?: Maybe<Scalars['JSON']>;
 };
 
 export type UserInput = {
@@ -793,6 +852,13 @@ export type UpdateCompanyMutationVariables = Exact<{
 
 export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', id: string } };
 
+export type UpdateServiceProviderReviewMutationVariables = Exact<{
+  input: UpdateServiceProviderReviewInput;
+}>;
+
+
+export type UpdateServiceProviderReviewMutation = { __typename?: 'Mutation', updateServiceProviderReview?: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null } | null };
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
@@ -858,7 +924,7 @@ export type ServiceProviderReviewsQueryVariables = Exact<{
 }>;
 
 
-export type ServiceProviderReviewsQuery = { __typename?: 'Query', serviceProviderReviews: Array<{ __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null }> };
+export type ServiceProviderReviewsQuery = { __typename?: 'Query', serviceProviderReviews: { __typename?: 'ServiceProviderReviewsResult', cursor?: string | null, items: Array<{ __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null }> } };
 
 export type ServiceProvidersQueryVariables = Exact<{
   input?: InputMaybe<ServiceProvidersInput>;
@@ -1204,6 +1270,17 @@ export const UpdateCompanyDocument = gql`
 export function useUpdateCompanyMutation() {
   return Urql.useMutation<UpdateCompanyMutation, UpdateCompanyMutationVariables>(UpdateCompanyDocument);
 };
+export const UpdateServiceProviderReviewDocument = gql`
+    mutation updateServiceProviderReview($input: UpdateServiceProviderReviewInput!) {
+  updateServiceProviderReview(input: $input) {
+    ...ServiceProviderReview
+  }
+}
+    ${ServiceProviderReviewFragmentDoc}`;
+
+export function useUpdateServiceProviderReviewMutation() {
+  return Urql.useMutation<UpdateServiceProviderReviewMutation, UpdateServiceProviderReviewMutationVariables>(UpdateServiceProviderReviewDocument);
+};
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
@@ -1329,7 +1406,10 @@ export function usePlannedCompanyActionsQuery(options?: Omit<Urql.UseQueryArgs<P
 export const ServiceProviderReviewsDocument = gql`
     query serviceProviderReviews($input: ServiceProviderReviewsInput!) {
   serviceProviderReviews(input: $input) {
-    ...ServiceProviderReview
+    cursor
+    items {
+      ...ServiceProviderReview
+    }
   }
 }
     ${ServiceProviderReviewFragmentDoc}`;
