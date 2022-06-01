@@ -811,6 +811,8 @@ export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageR
 
 export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null };
 
+export type UserActionFragment = { __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null };
+
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
@@ -821,6 +823,13 @@ export type CompleteCompanyActionMutationVariables = Exact<{
 
 
 export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', title?: string | null }>, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+
+export type CompleteUserActionMutationVariables = Exact<{
+  input: CompleteUserActionInput;
+}>;
+
+
+export type CompleteUserActionMutation = { __typename?: 'Mutation', completeUserAction: { __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null } };
 
 export type CreateActionCommentMutationVariables = Exact<{
   input: CreateActionCommentInput;
@@ -962,6 +971,13 @@ export type ServiceProvidersQueryVariables = Exact<{
 
 
 export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }> }> };
+
+export type UserActionsListQueryVariables = Exact<{
+  input?: InputMaybe<UserActionsInput>;
+}>;
+
+
+export type UserActionsListQuery = { __typename?: 'Query', userActions: Array<{ __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null }> };
 
 export type UserInvitesQueryVariables = Exact<{
   input?: InputMaybe<UserInvitesInput>;
@@ -1174,6 +1190,16 @@ export const ServiceProviderFragmentDoc = gql`
   }
 }
     ${TagFragmentDoc}`;
+export const UserActionFragmentDoc = gql`
+    fragment UserAction on UserAction {
+  id
+  notes
+  contentId
+  completedAt
+  createdAt
+  values
+}
+    `;
 export const UserInviteFragmentDoc = gql`
     fragment UserInvite on UserInvite {
   email
@@ -1210,6 +1236,17 @@ export const CompleteCompanyActionDocument = gql`
 
 export function useCompleteCompanyActionMutation() {
   return Urql.useMutation<CompleteCompanyActionMutation, CompleteCompanyActionMutationVariables>(CompleteCompanyActionDocument);
+};
+export const CompleteUserActionDocument = gql`
+    mutation completeUserAction($input: CompleteUserActionInput!) {
+  completeUserAction(input: $input) {
+    ...UserAction
+  }
+}
+    ${UserActionFragmentDoc}`;
+
+export function useCompleteUserActionMutation() {
+  return Urql.useMutation<CompleteUserActionMutation, CompleteUserActionMutationVariables>(CompleteUserActionDocument);
 };
 export const CreateActionCommentDocument = gql`
     mutation createActionComment($input: CreateActionCommentInput!) {
@@ -1453,6 +1490,17 @@ export const ServiceProvidersDocument = gql`
 
 export function useServiceProvidersQuery(options?: Omit<Urql.UseQueryArgs<ServiceProvidersQueryVariables>, 'query'>) {
   return Urql.useQuery<ServiceProvidersQuery>({ query: ServiceProvidersDocument, ...options });
+};
+export const UserActionsListDocument = gql`
+    query userActionsList($input: UserActionsInput) {
+  userActions(input: $input) {
+    ...UserAction
+  }
+}
+    ${UserActionFragmentDoc}`;
+
+export function useUserActionsListQuery(options?: Omit<Urql.UseQueryArgs<UserActionsListQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserActionsListQuery>({ query: UserActionsListDocument, ...options });
 };
 export const UserInvitesDocument = gql`
     query userInvites($input: UserInvitesInput) {

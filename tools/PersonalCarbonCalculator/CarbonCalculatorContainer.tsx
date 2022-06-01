@@ -100,9 +100,13 @@ const getAllReductionTips = (answers: any) => {
 }
 
 export const CarbonCalculatorContainer = ({
+  error,
+  loading,
   questionnaire,
   saveResult,
 }: {
+  error: any
+  loading: any
   saveResult: any
   questionnaire: any
 }) => {
@@ -170,8 +174,10 @@ export const CarbonCalculatorContainer = ({
       activeAnswer={activeAnswer}
       activeQuestion={activeQuestion}
       answerQuestion={answerQuestion}
+      error={error}
       footprint={total / 1000}
       goBack={goBack}
+      loading={loading}
       progress={progress}
       reductionTips={tips}
       saveResult={saveResult}

@@ -1,0 +1,8 @@
+fragment UserAction on UserAction {
+  id
+  notes
+  contentId
+  completedAt
+  createdAt
+  values
+}

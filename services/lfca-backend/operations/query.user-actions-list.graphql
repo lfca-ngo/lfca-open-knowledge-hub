@@ -1,0 +1,5 @@
+query userActionsList($input: UserActionsInput) {
+  userActions(input: $input) {
+    ...UserAction
+  }
+}

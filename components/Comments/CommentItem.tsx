@@ -9,6 +9,7 @@ import { marked } from 'marked'
 import React from 'react'
 
 import { ActionCommentFragment } from '../../services/lfca-backend'
+import { toReadibleDate } from '../../utils'
 import { AttachmentButton } from '../AttachmentsList/AttachmentButton'
 import { ShowMore } from '../ShowMore'
 
@@ -34,11 +35,7 @@ export const CommentItem = ({
   onDelete,
   onEdit,
 }: CommentItemProps) => {
-  const readibleDate = new Date(comment.createdAt).toLocaleDateString('en-us', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+  const readibleDate = toReadibleDate(comment.createdAt)
 
   return (
     <div className="comment-item">
