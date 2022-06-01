@@ -18,7 +18,7 @@ const CompletedActions: NextPage = () => {
       variables: {
         input: {
           filter: {
-            completed: true,
+            isCompleted: true,
           },
         },
       },

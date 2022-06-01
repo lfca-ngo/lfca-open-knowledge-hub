@@ -215,9 +215,9 @@ export type CompanyActionsInput = {
 
 export type CompanyActionsInputFilter = {
   actionContentIds?: InputMaybe<Array<Scalars['String']>>;
-  completed?: InputMaybe<Scalars['Boolean']>;
-  expired?: InputMaybe<Scalars['Boolean']>;
-  planned?: InputMaybe<Scalars['Boolean']>;
+  isCompleted?: InputMaybe<Scalars['Boolean']>;
+  isExpired?: InputMaybe<Scalars['Boolean']>;
+  isPlanned?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CompanyImpactInput = {
@@ -637,7 +637,7 @@ export type ServiceProviderReview = {
 };
 
 export type ServiceProviderReviewsFilterInput = {
-  approved?: InputMaybe<Scalars['Boolean']>;
+  isApproved?: InputMaybe<Scalars['Boolean']>;
   serviceProviderContentId?: InputMaybe<Scalars['String']>;
 };
 
@@ -685,10 +685,10 @@ export type UpdateCompanyInput = {
 };
 
 export type UpdateServiceProviderReviewInput = {
-  approved?: InputMaybe<Scalars['Boolean']>;
   cons?: InputMaybe<Array<Scalars['String']>>;
   id: Scalars['ID'];
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
+  isApproved?: InputMaybe<Scalars['Boolean']>;
   price?: InputMaybe<Scalars['Int']>;
   pros?: InputMaybe<Array<Scalars['String']>>;
   rating?: InputMaybe<Scalars['Float']>;

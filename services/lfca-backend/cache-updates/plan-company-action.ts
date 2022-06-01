@@ -3,6 +3,7 @@ import { UpdateResolver } from '@urql/exchange-graphcache'
 import {
   CompanyActionsListDocument,
   CompanyActionsListQuery,
+  CompanyActionsListQueryVariables,
   PlanCompanyActionMutation,
   PlanCompanyActionMutationVariables,
 } from '../generated'
@@ -11,10 +12,10 @@ export const planCompanyAction: UpdateResolver<
   PlanCompanyActionMutation,
   PlanCompanyActionMutationVariables
 > = (result, args, cache) => {
-  cache.updateQuery<CompanyActionsListQuery>(
+  cache.updateQuery<CompanyActionsListQuery, CompanyActionsListQueryVariables>(
     {
       query: CompanyActionsListDocument,
-      variables: { input: { filter: { planned: true } } },
+      variables: { input: { filter: { isPlanned: true } } },
     },
     (data) => {
       if (!data?.companyActions) return data
