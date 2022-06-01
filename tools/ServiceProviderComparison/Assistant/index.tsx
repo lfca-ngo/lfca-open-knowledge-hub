@@ -5,7 +5,7 @@ import {
   ArrowRightOutlined,
   MessageOutlined,
 } from '@ant-design/icons'
-import { Button, Carousel, Form, Space } from 'antd'
+import { Button, Carousel, Form, FormProps, Space } from 'antd'
 import { CarouselRef } from 'antd/lib/carousel'
 import { useRef, useState } from 'react'
 
@@ -21,11 +21,16 @@ export interface AssistantItems {
 }
 
 interface AssistantProps {
+  form: FormProps['form']
   onValuesChange: (_: AssistantItems, allValues: AssistantItems) => void
   providers: ServiceProviderFragment[]
 }
 
-export const Assistant = ({ onValuesChange, providers }: AssistantProps) => {
+export const Assistant = ({
+  form,
+  onValuesChange,
+  providers,
+}: AssistantProps) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const sliderRef = useRef<CarouselRef>(null)
   const serviceOptions = getUniqueTags(providers, 'services')
@@ -98,6 +103,7 @@ export const Assistant = ({ onValuesChange, providers }: AssistantProps) => {
   return (
     <Form
       className="assistant"
+      form={form}
       layout="vertical"
       onValuesChange={onValuesChange}
     >

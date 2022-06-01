@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select } from 'antd'
+import { Col, Form, FormProps, Row, Select } from 'antd'
 
 import { MultiSelect } from '../../../components/MultiSelect'
 import { ServiceProviderFragment } from '../../../services/lfca-backend'
@@ -14,11 +14,16 @@ export interface FilterFormItems {
 }
 
 interface FilterFormProps {
+  form: FormProps['form']
   onValuesChange: (_: FilterFormItems, allValues: FilterFormItems) => void
   providers: ServiceProviderFragment[]
 }
 
-export const FilterForm = ({ onValuesChange, providers }: FilterFormProps) => {
+export const FilterForm = ({
+  form,
+  onValuesChange,
+  providers,
+}: FilterFormProps) => {
   const serviceOptions = getUniqueTags(providers, 'services')
   const modelOptions = getUniqueTags(providers, 'model')
   const supplyChainComplexityOptions = getUniqueTags(
@@ -27,7 +32,7 @@ export const FilterForm = ({ onValuesChange, providers }: FilterFormProps) => {
   )
 
   return (
-    <Form layout="vertical" onValuesChange={onValuesChange}>
+    <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item label="Services" name="services">

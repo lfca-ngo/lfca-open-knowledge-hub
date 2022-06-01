@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Drawer, List, Tabs } from 'antd'
+import { Drawer, Form, List, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { Section } from '../../components/Layout'
@@ -21,6 +21,9 @@ const { TabPane } = Tabs
 export const ServiceProviderComparison = () => {
   const [activeProvider, setActiveProvider] =
     useState<ServiceProviderFragment | null>(null)
+
+  // both filters reference the same form
+  const [form] = Form.useForm()
 
   // TODO: UI for error state
   // TODO: Render skeleton whil loading
@@ -83,12 +86,14 @@ export const ServiceProviderComparison = () => {
       <Tabs defaultActiveKey="filter">
         <TabPane key="filter" tab="Filter">
           <FilterForm
+            form={form}
             onValuesChange={handleChange}
             providers={data?.serviceProviders || []}
           />
         </TabPane>
         <TabPane key="assistant" tab="Assistant">
           <Assistant
+            form={form}
             onValuesChange={handleChange}
             providers={data?.serviceProviders || []}
           />
