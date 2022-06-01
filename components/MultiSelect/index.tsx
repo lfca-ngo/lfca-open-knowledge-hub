@@ -1,4 +1,5 @@
 import { Button } from 'antd'
+import classNames from 'classnames'
 import { useState } from 'react'
 
 type OptionKey = string | number | string[] | number[]
@@ -9,6 +10,7 @@ export interface Option {
 }
 
 interface MultiSelectProps {
+  grouped?: boolean
   value?: OptionKey[]
   mode?: 'multiple' | 'single'
   onChange?: (value: OptionKey[]) => void
@@ -16,6 +18,7 @@ interface MultiSelectProps {
 }
 
 export const MultiSelect = ({
+  grouped = true,
   mode = 'multiple',
   onChange,
   options,
@@ -40,8 +43,10 @@ export const MultiSelect = ({
     onChange?.(newSelected)
   }
 
+  const Wrapper = grouped ? Button.Group : 'div'
+
   return (
-    <Button.Group className="multi-select">
+    <Wrapper className={classNames('multi-select', { ungrouped: !grouped })}>
       {options?.map((item, i) => {
         const isSelected = selected?.includes(item.key)
         return (
@@ -54,6 +59,6 @@ export const MultiSelect = ({
           </Button>
         )
       })}
-    </Button.Group>
+    </Wrapper>
   )
 }

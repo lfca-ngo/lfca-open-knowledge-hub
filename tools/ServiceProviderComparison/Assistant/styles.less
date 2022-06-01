@@ -1,0 +1,23 @@
+@import (reference) '../../../styles/variables.less';
+@import (reference) '../../../styles/fonts.less';
+@import (reference) '../../../styles/mixins.less';
+
+.assistant {
+  min-height: 160px;
+  .multi-select.ungrouped {
+    .ant-btn {
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+  }
+  .question {
+    margin: 10px 0 20px;
+    .question-label {
+      .font-bold();
+      font-size: 20px;
+      .anticon {
+        margin-right: 10px;
+      }
+    }
+  }
+}

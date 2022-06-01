@@ -46,7 +46,7 @@ const TypeTags = ({ tags }: { tags?: TagFragment[] }) => {
 interface ProviderCardProps {
   provider: ServiceProviderFragment
   onOpenReviews?: (provider: ServiceProviderFragment) => void
-  onOpenWebsite?: () => void
+  onOpenWebsite?: (provider: ServiceProviderFragment) => void
 }
 
 export const ProviderCard = ({
@@ -122,7 +122,9 @@ export const ProviderCard = ({
 
           <div className="ranges">
             <Popover
-              content="The price range is based on experiences shared by other members."
+              content={`The price range (yearly) is based on experiences shared by
+               other members. The value is not necessarily indicative of the
+               actual price.`}
               overlayClassName="popover-sm"
               placement="bottom"
             >
