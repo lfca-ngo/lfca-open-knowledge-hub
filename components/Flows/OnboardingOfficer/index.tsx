@@ -74,8 +74,7 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
   >(null)
 
   const [, completeCompanyAction] = useCompleteCompanyActionMutation()
-  const [{ fetching: isPlanning }, planCompanyAction] =
-    usePlanCompanyActionMutation()
+  const [, planCompanyAction] = usePlanCompanyActionMutation()
 
   const handleUnselect = (action: CompanyActionListItemFragment) => {
     completeCompanyAction({
@@ -97,7 +96,6 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
         isPlanned: !!!action.plannedAt,
       },
     }).then(({ data, error }) => {
-      console.log('error', error, data)
       if (error) message.error(error.message)
       else
         message.success(

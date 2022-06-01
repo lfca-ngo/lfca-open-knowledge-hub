@@ -1,11 +1,11 @@
 require('./styles.less')
 
 import {
+  CalendarOutlined,
+  CarryOutOutlined,
   CheckCircleFilled,
   InfoCircleOutlined,
   QuestionCircleOutlined,
-  CarryOutOutlined,
-  CalendarOutlined,
 } from '@ant-design/icons'
 import { Button, Card, List, Popover, Space, Tooltip } from 'antd'
 import Image from 'next/image'
@@ -118,13 +118,15 @@ export const ActionCard = ({
       <div className="actions">
         <Space>
           {onTogglePlan && (
-            <Button
-              ghost={action.plannedAt}
-              icon={
-                action.plannedAt ? <CarryOutOutlined /> : <CalendarOutlined />
-              }
-              onClick={() => onTogglePlan(action)}
-            />
+            <Tooltip title={`Mark as ${action.plannedAt ? 'un' : ''}planned`}>
+              <Button
+                ghost={action.plannedAt}
+                icon={
+                  action.plannedAt ? <CarryOutOutlined /> : <CalendarOutlined />
+                }
+                onClick={() => onTogglePlan(action)}
+              />
+            </Tooltip>
           )}
           <Button
             loading={loading}
