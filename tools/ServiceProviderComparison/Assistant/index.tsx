@@ -140,6 +140,7 @@ export const Assistant = ({
                 ghost
                 icon={<ArrowLeftOutlined />}
                 onClick={prevSlide}
+                shape="circle"
               />
 
               <Button
@@ -147,6 +148,7 @@ export const Assistant = ({
                 ghost
                 icon={<ArrowRightOutlined />}
                 onClick={nextSlide}
+                shape="circle"
               />
             </Space>
           </div>
