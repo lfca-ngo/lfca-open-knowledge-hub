@@ -28,9 +28,16 @@ export const RequirementsItem = ({
         actionContentId: actionContentId,
         actionRequirementContentId: item.contentId,
         isCompleted: !!!item.completedAt,
+        skipValueCheck: true,
       },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
+    }).then(({ data, error }) => {
+      if (error) {
+        message.error(error.message)
+      } else if (data?.completeCompanyActionRequirement?.completedAt) {
+        message.success(`Marked as complete`)
+      } else {
+        message.info(`Marked as incomplete`)
+      }
     })
   }
 
