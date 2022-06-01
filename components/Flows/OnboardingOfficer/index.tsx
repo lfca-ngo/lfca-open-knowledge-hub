@@ -117,8 +117,9 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
       <p style={{ margin: '20px 0 30px' }}>
         {`Let's start with a simple exercise: Did you already take climate action
         in your company? Which actions have you taken and what have you learned?
-        If you are uncertain, skip an action. You can read more detailed
-        descriptions of all actions and mark them later on.`}
+        If you are uncertain about an action, just skip it. You can read more
+        detailed descriptions of all of them and mark them later on. If
+        something sounds interesting, mark it as planned!`}
       </p>
       <ActionsList
         actionListItemProps={{

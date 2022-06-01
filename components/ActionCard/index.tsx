@@ -7,7 +7,7 @@ import {
   InfoCircleOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { Button, Card, List, Popover, Space, Tooltip } from 'antd'
+import { Badge, Button, Card, List, Popover, Space, Tooltip } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -91,16 +91,23 @@ export const ActionCard = ({
   return (
     <Card bordered={false} className="action-card">
       <div className="hero">
-        <div className="wrapper">
-          {action.heroImage?.url ? (
-            <Image
-              alt={action.title || ''}
-              layout="fill"
-              objectFit="cover"
-              src={action.heroImage.url}
-            />
-          ) : null}
-        </div>
+        <Badge
+          count={
+            action.completedAt ? <CheckCircleFilled className="green" /> : null
+          }
+          offset={[-6, 6]}
+        >
+          <div className="wrapper">
+            {action.heroImage?.url ? (
+              <Image
+                alt={action.title || ''}
+                layout="fill"
+                objectFit="cover"
+                src={action.heroImage.url}
+              />
+            ) : null}
+          </div>
+        </Badge>
       </div>
       <div className="content">
         <div className="title">
