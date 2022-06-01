@@ -1,15 +1,26 @@
 import { List } from 'antd'
 
-import { CompanyAction } from '../../services/lfca-backend'
+import { useCompanyActionsListQuery } from '../../services/lfca-backend'
 
 interface ActionHistoryProps {
-  actions: CompanyAction[]
+  contentId?: string
 }
 
-export const ActionHistory = ({ actions }: ActionHistoryProps) => {
+export const ActionHistory = ({ contentId = '' }: ActionHistoryProps) => {
+  const [{ data: actionsData }] = useCompanyActionsListQuery({
+    pause: !contentId,
+    variables: {
+      input: {
+        filter: {
+          actionContentIds: [contentId],
+        },
+      },
+    },
+  })
+  console.log(contentId, actionsData)
   return (
     <List
-      dataSource={actions}
+      dataSource={actionsData?.companyActions || []}
       renderItem={(action) => <List.Item>{action.title}</List.Item>}
     />
   )

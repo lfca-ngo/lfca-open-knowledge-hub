@@ -153,7 +153,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <Section title="Community">
           <LogoGroup
             data={actionData?.companyAction?.recentCompaniesCompleted}
-            // TODO: Add a fallback or skeleton while data is loading
             label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
             reverse
             size="large"
@@ -170,7 +169,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           />
         </Section>
         <Section title="History">
-          <ActionHistory actions={[]} />
+          <ActionHistory contentId={actionData?.companyAction.contentId} />
         </Section>
         {/* Render additional sections */}
         {renderTools(
