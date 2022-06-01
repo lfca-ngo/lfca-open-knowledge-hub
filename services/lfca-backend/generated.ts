@@ -852,6 +852,13 @@ export type UpdateCompanyMutationVariables = Exact<{
 
 export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', id: string } };
 
+export type UpdateServiceProviderReviewMutationVariables = Exact<{
+  input: UpdateServiceProviderReviewInput;
+}>;
+
+
+export type UpdateServiceProviderReviewMutation = { __typename?: 'Mutation', updateServiceProviderReview?: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null } | null };
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
@@ -1262,6 +1269,17 @@ export const UpdateCompanyDocument = gql`
 
 export function useUpdateCompanyMutation() {
   return Urql.useMutation<UpdateCompanyMutation, UpdateCompanyMutationVariables>(UpdateCompanyDocument);
+};
+export const UpdateServiceProviderReviewDocument = gql`
+    mutation updateServiceProviderReview($input: UpdateServiceProviderReviewInput!) {
+  updateServiceProviderReview(input: $input) {
+    ...ServiceProviderReview
+  }
+}
+    ${ServiceProviderReviewFragmentDoc}`;
+
+export function useUpdateServiceProviderReviewMutation() {
+  return Urql.useMutation<UpdateServiceProviderReviewMutation, UpdateServiceProviderReviewMutationVariables>(UpdateServiceProviderReviewDocument);
 };
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {

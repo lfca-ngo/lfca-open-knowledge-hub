@@ -8,51 +8,57 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Button, List, message, Tooltip } from 'antd'
 
-import { ServiceProviderReviewFragment } from '../../services/lfca-backend'
+import {
+  ServiceProviderReviewFragment,
+  useServiceProviderReviewsQuery,
+  useUpdateServiceProviderReviewMutation,
+} from '../../services/lfca-backend'
 
 export const ReviewsAdminList = () => {
-  const approveReview = () => {
-    // e.target.checked
+  const [{ data: reviewsData, fetching: fetchingReviews }, refetchProviders] =
+    useServiceProviderReviewsQuery({
+      variables: {
+        input: {
+          filter: {
+            approved: false,
+          },
+          take: 100,
+        },
+      },
+    })
+  const [{ fetching: updating }, updateServiceProviderReview] =
+    useUpdateServiceProviderReviewMutation()
+
+  const approveReview = (review: ServiceProviderReviewFragment) => {
+    updateServiceProviderReview({
+      input: {
+        approved: true,
+        id: review.id,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Review approved')
+        refetchProviders({ requestPolicy: 'network-only' })
+      }
+    })
   }
 
-  const data = [
-    {
-      author: {
-        firstName: 'Anna',
-        id: '1',
-      },
-      cons: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-      id: '1',
-      pros: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-
-      rating: 4,
-      review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      author: {
-        firstName: 'Anna',
-        id: '1',
-      },
-      cons: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-      id: '2',
-      pros: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-
-      rating: 4,
-      review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-  ] as ServiceProviderReviewFragment[]
+  const data = reviewsData?.serviceProviderReviews.items || []
 
   return (
     <List
       className="simple-list review-admin-list"
       dataSource={data}
+      loading={fetchingReviews}
       renderItem={(item) => (
         <List.Item
           actions={[
             <Button
               icon={<CheckOutlined />}
               key="approval"
-              onChange={approveReview}
+              loading={updating}
+              onClick={() => approveReview(item)}
               type="primary"
             >
               Approve
