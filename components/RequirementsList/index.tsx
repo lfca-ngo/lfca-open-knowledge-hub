@@ -1,34 +1,59 @@
 require('./styles.less')
 
 import { LoadingOutlined } from '@ant-design/icons'
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Checkbox, Collapse, List } from 'antd'
+// import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { Checkbox, Collapse, List, message } from 'antd'
 
-import { ContentfulRequirementFields } from '../../services/contentful'
+import {
+  CompanyAction,
+  CompanyActionRequirement,
+  useCompleteCompanyActionRequirementMutation,
+} from '../../services/lfca-backend'
 
 const { Panel } = Collapse
 
 export const RequirementsItem = ({
+  actionContentId,
   item,
 }: {
-  item: ContentfulRequirementFields
+  actionContentId: string
+  item: CompanyActionRequirement
 }) => {
-  const fetching = false
-  const isDone = true
+  const [{ fetching }, completeCompanyActionRequirement] =
+    useCompleteCompanyActionRequirementMutation()
 
   const handleToggle = () => {
-    // @TODO replace with logic
+    completeCompanyActionRequirement({
+      input: {
+        actionContentId: actionContentId,
+        actionRequirementContentId: item.contentId,
+        isCompleted: !!!item.completedAt,
+        skipValueCheck: true,
+      },
+    }).then(({ data, error }) => {
+      if (error) {
+        message.error(error.message)
+      } else if (data?.completeCompanyActionRequirement?.completedAt) {
+        message.success(`Marked as complete`)
+      } else {
+        message.info(`Marked as incomplete`)
+      }
+    })
   }
 
   return (
-    <Collapse className="requirement-collapse">
+    <Collapse
+      className="requirement-collapse mini-collapse"
+      collapsible="header"
+      ghost
+    >
       <Panel
         extra={
-          <div>
+          <div className="check-wrapper">
             {fetching ? (
               <LoadingOutlined />
             ) : (
-              <Checkbox checked={isDone} onChange={handleToggle} />
+              <Checkbox checked={!!item.completedAt} onChange={handleToggle} />
             )}
           </div>
         }
@@ -36,9 +61,7 @@ export const RequirementsItem = ({
         key="1"
       >
         <div className="requirement-text">
-          <div className="description">
-            {item.howTo && documentToReactComponents(item.howTo)}
-          </div>
+          <div className="description">{item.description}</div>
         </div>
       </Panel>
     </Collapse>
@@ -46,9 +69,11 @@ export const RequirementsItem = ({
 }
 
 export const RequirementsList = ({
+  actionContentId,
   requirements = [],
 }: {
-  requirements?: ContentfulRequirementFields[]
+  actionContentId: string
+  requirements?: CompanyAction['requirements']
 }) => {
   return (
     <List
@@ -56,7 +81,7 @@ export const RequirementsList = ({
       dataSource={requirements}
       renderItem={(item) => (
         <List.Item>
-          <RequirementsItem item={item} />
+          <RequirementsItem actionContentId={actionContentId} item={item} />
         </List.Item>
       )}
     />

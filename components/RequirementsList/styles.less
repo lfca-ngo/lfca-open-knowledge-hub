@@ -1,7 +1,27 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+
 .requirements-list {
   .ant-list-item {
+    padding: 10px 0;
     .ant-collapse {
       width: 100%;
+      .ant-collapse-header {
+        padding: 4px 0;
+        .ant-collapse-header-text {
+          .font-regular();
+        }
+      }
+    }
+    .check-wrapper {
+      display: flex;
+      height: @checkbox-size;
+      margin: 0 2px;
+      .ant-checkbox-wrapper {
+        .ant-checkbox {
+          top: 0;
+        }
+      }
     }
   }
 }

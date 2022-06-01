@@ -9,6 +9,7 @@ import {
 import { Alert, Button, Card, Carousel, Col, List, Modal, Row } from 'antd'
 import React from 'react'
 
+import { ArrowWrapper } from '../../components/ActionsCarousel/ArrowWrapper'
 import { openInNewTab, toFixedNumber } from '../../utils'
 import { CustomIcon } from './components/Category'
 import { Footprint } from './components/Footprint'
@@ -39,13 +40,13 @@ export const CarbonCalculator = (props: any) => {
     activeAnswer,
     activeQuestion,
     answerQuestion,
-    errorMessage,
+    error,
     footprint = 0,
     goBack,
+    loading,
     progress,
     reductionTips,
     saveResult,
-    updateStatus,
   } = props
 
   const onFinish = () => {
@@ -113,8 +114,8 @@ export const CarbonCalculator = (props: any) => {
                     className="provider-slider"
                     dots={false}
                     infinite={false}
-                    nextArrow={<ArrowRightOutlined />}
-                    prevArrow={<ArrowLeftOutlined />}
+                    nextArrow={<ArrowWrapper icon={<ArrowRightOutlined />} />}
+                    prevArrow={<ArrowWrapper icon={<ArrowLeftOutlined />} />}
                     slidesToScroll={3}
                     slidesToShow={3}
                   >
@@ -140,7 +141,7 @@ export const CarbonCalculator = (props: any) => {
                 </div>
 
                 <Button
-                  loading={updateStatus === 'BUSY'}
+                  loading={loading}
                   onClick={onFinish}
                   size="large"
                   style={{ marginRight: '12px' }}
@@ -153,9 +154,9 @@ export const CarbonCalculator = (props: any) => {
                   Back
                 </Button>
 
-                {updateStatus === 'ERROR' && (
+                {error && (
                   <Alert
-                    message={errorMessage}
+                    message={error.message}
                     showIcon
                     style={{ margin: '15px 0' }}
                     type="error"

@@ -1,34 +1,20 @@
-import { Button, Drawer, Tag } from 'antd'
+import { CalculatorOutlined } from '@ant-design/icons'
+import { Avatar, Button, Drawer, List, Tag } from 'antd'
 import Link from 'next/link'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
+import {
+  useCompleteUserActionMutation,
+  useUserActionsListQuery,
+} from '../../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { ShareImage } from '../../../tools/ShareImage'
+import { toReadibleDate } from '../../../utils'
 import { ACTIONS } from '../../../utils/routes'
 
 interface StepProps {
   onNext: () => void
-}
-
-const Intro = ({ onNext }: StepProps) => {
-  const { user } = useUser()
-
-  return (
-    <div>
-      <Tag className="super-text">Pledge</Tag>
-      <h1>{`Hi ${user?.firstName}, time to renew your pledge!`}</h1>
-      <p>
-        {`We started LFCA with the goal to accelerate the transition towards a
-        sustainable economy. To make this happen, we need to leverage our
-        influence on a personal, business and political level. Please start by
-        signing our Green Pledge as a leader of your company.`}
-      </p>
-      <Button onClick={onNext} size="large" type="primary">
-        Continue
-      </Button>
-    </div>
-  )
 }
 
 interface FootprintProps extends StepProps {
@@ -37,21 +23,39 @@ interface FootprintProps extends StepProps {
 
 const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
+  const { user } = useUser()
 
-  const saveAndContinue = () => {
-    // @TODO: save to database
-    // show loading spinner
-    setDrawerVisible(false)
-    onNext()
+  const [{ error, fetching }, completeUserAction] =
+    useCompleteUserActionMutation()
+
+  const saveAndContinue = (val: number) => {
+    completeUserAction({
+      input: {
+        actionContentId: 'personalPledge',
+        isCompleted: true,
+        values: {
+          result: val,
+        },
+      },
+    }).then(({ error }) => {
+      if (!error) {
+        setDrawerVisible(false)
+        onNext()
+      }
+    })
   }
 
   return (
     <div>
       <Tag className="super-text">Intro</Tag>
-      <h1>{`Great! Change starts with yourself. Let's start by examining your personal footprint`}</h1>
+      <h1>{`Hi ${user?.firstName}! It's time to renew your personal pledge`}</h1>
+
       <p>
-        {`To understand the issue of climate change, it's important to realize where we cause emissions in our day-to-day lifes and to learn how we can reduce our output of carbon.`}
+        Authentic climate leadership starts with acting responsibly in your
+        private life. But keep in mind that your biggest impact potential lies
+        within your company and your personal sphere of influence.
       </p>
+
       <Button
         onClick={() => setDrawerVisible(true)}
         size="large"
@@ -68,6 +72,8 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
         visible={drawerVisible}
       >
         <PersonalCarbonCalculator
+          error={error}
+          loading={fetching}
           questionnaire={questionnaire}
           saveResult={saveAndContinue}
         />
@@ -77,11 +83,46 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
 }
 
 const Compare = ({ onNext }: StepProps) => {
+  const [{ data }] = useUserActionsListQuery({
+    variables: {
+      input: {
+        filter: {
+          isCompleted: true,
+        },
+      },
+    },
+  })
+
   return (
     <div>
       <Tag className="super-text">Compare</Tag>
-      <h1>{`Let's see how you compare to last year`}</h1>
-      <p>{`...`}</p>
+      <h1>{`Awesome! Now let's have a look at how you compare to last year`}</h1>
+      <p>
+        Below you can see a list with all of your carbon measurements since you
+        joined the community. Again, strive to minimize your footprint but keep
+        the focus on the biggest lever: Your company and your personal sphere of
+        influence!
+      </p>
+      <List
+        className="simple-list"
+        dataSource={data?.userActions}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  className="wine-inverse"
+                  icon={<CalculatorOutlined />}
+                  shape="square"
+                  size="large"
+                />
+              }
+              description={toReadibleDate(item.completedAt)}
+              title={`Your footprint: ${item.values?.result}`}
+            />
+          </List.Item>
+        )}
+      />
       <Button onClick={onNext} size="large" type="primary">
         Continue
       </Button>
@@ -94,7 +135,7 @@ const Share = ({ onNext }: StepProps) => {
     <div>
       <Tag className="super-text">Share</Tag>
       <h1>
-        {`Great job, you are now part of our community! Share these news and help
+        {`Okay, now it's time to do what really matters: Share these news and help
         us spread the word`}
       </h1>
       <p>
@@ -119,11 +160,6 @@ const Share = ({ onNext }: StepProps) => {
 }
 
 export const RenewalLeaderSteps = [
-  {
-    component: Intro,
-    description: 'Intro',
-    title: 'Renewal',
-  },
   {
     component: Footprint,
     description: 'Understand your emissions',

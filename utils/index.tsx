@@ -121,3 +121,11 @@ export const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message
   return String(error)
 }
+
+export const toReadibleDate = (ts: string) => {
+  return new Date(ts).toLocaleDateString('en-us', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}

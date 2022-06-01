@@ -107,7 +107,12 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             <TabPane key="2" tab="How To">
               <ShowMore
                 maxHeight={140}
-                text={<RequirementsList requirements={action?.requirements} />}
+                text={
+                  <RequirementsList
+                    actionContentId={action.actionId}
+                    requirements={actionData?.companyAction?.requirements}
+                  />
+                }
               />
             </TabPane>
             <TabPane key="3" tab="Examples">
@@ -153,7 +158,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <Section title="Community">
           <LogoGroup
             data={actionData?.companyAction?.recentCompaniesCompleted}
-            // TODO: Add a fallback or skeleton while data is loading
             label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
             reverse
             size="large"
@@ -170,7 +174,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           />
         </Section>
         <Section title="History">
-          <ActionHistory actions={[]} />
+          <ActionHistory contentId={actionData?.companyAction.contentId} />
         </Section>
         {/* Render additional sections */}
         {renderTools(

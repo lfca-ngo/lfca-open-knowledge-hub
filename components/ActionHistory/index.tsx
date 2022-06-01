@@ -1,16 +1,32 @@
-import { List } from 'antd'
+import { Collapse } from 'antd'
 
-import { CompanyAction } from '../../services/lfca-backend'
+import { useCompanyActionsListQuery } from '../../services/lfca-backend'
+
+const { Panel } = Collapse
 
 interface ActionHistoryProps {
-  actions: CompanyAction[]
+  contentId?: string
 }
 
-export const ActionHistory = ({ actions }: ActionHistoryProps) => {
+export const ActionHistory = ({ contentId = '' }: ActionHistoryProps) => {
+  const [{ data: actionsData }] = useCompanyActionsListQuery({
+    pause: !contentId,
+    variables: {
+      input: {
+        filter: {
+          actionContentIds: [contentId],
+        },
+      },
+    },
+  })
+
   return (
-    <List
-      dataSource={actions}
-      renderItem={(action) => <List.Item>{action.title}</List.Item>}
-    />
+    <Collapse accordion className="mini-collapse" ghost>
+      {actionsData?.companyActions.map((action) => (
+        <Panel header={action.title} key="">
+          {action.notes}
+        </Panel>
+      ))}
+    </Collapse>
   )
 }

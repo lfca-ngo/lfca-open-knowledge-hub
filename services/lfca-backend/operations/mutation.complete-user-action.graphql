@@ -1,0 +1,5 @@
+mutation completeUserAction($input: CompleteUserActionInput!) {
+  completeUserAction(input: $input) {
+    ...UserAction
+  }
+}

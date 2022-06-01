@@ -2,6 +2,7 @@ import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
+import { useCompleteUserActionMutation } from '../../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { ShareImage } from '../../../tools/ShareImage'
 import { InviteTeam } from '../../InviteTeam'
@@ -83,11 +84,24 @@ interface FootprintProps extends StepProps {
 const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
 
-  const saveAndContinue = () => {
-    // @TODO: save to database
-    // show loading spinner
-    setDrawerVisible(false)
-    onNext()
+  const [{ error, fetching }, completeUserAction] =
+    useCompleteUserActionMutation()
+
+  const saveAndContinue = (val: number) => {
+    completeUserAction({
+      input: {
+        actionContentId: 'personalPledge',
+        isCompleted: true,
+        values: {
+          result: val,
+        },
+      },
+    }).then(({ error }) => {
+      if (!error) {
+        setDrawerVisible(false)
+        onNext()
+      }
+    })
   }
 
   return (
@@ -113,6 +127,8 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
         visible={drawerVisible}
       >
         <PersonalCarbonCalculator
+          error={error}
+          loading={fetching}
           questionnaire={questionnaire}
           saveResult={saveAndContinue}
         />

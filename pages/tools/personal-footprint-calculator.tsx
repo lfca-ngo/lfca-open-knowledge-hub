@@ -1,4 +1,4 @@
-import { Button, Drawer } from 'antd'
+import { Button, Drawer, message } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useState } from 'react'
 
@@ -8,6 +8,7 @@ import {
   ContentfulQuestionnaireFields,
   fetchAllQuestionnaires,
 } from '../../services/contentful'
+import { useCompleteUserActionMutation } from '../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../tools'
 import { withAuth } from '../../utils/with-auth'
 
@@ -20,8 +21,24 @@ const PersonalFootprintCalculator: NextPage<
 > = ({ questionnaires }) => {
   const [open, setOpen] = useState(false)
 
-  const saveMeasurementResult = () => {
-    // @TODO: save to database
+  const [{ error, fetching }, completeUserAction] =
+    useCompleteUserActionMutation()
+
+  const handleSave = (val: number) => {
+    completeUserAction({
+      input: {
+        actionContentId: 'personalPledge',
+        isCompleted: true,
+        values: {
+          result: val,
+        },
+      },
+    }).then(({ error }) => {
+      if (!error) {
+        setOpen(false)
+        message.success('Your measurement has been saved')
+      }
+    })
   }
 
   return (
@@ -49,8 +66,10 @@ const PersonalFootprintCalculator: NextPage<
             visible={open}
           >
             <PersonalCarbonCalculator
+              error={error}
+              loading={fetching}
               questionnaire={questionnaires['eu-DE']}
-              saveResult={saveMeasurementResult}
+              saveResult={handleSave}
             />
           </Drawer>
         </Section>
