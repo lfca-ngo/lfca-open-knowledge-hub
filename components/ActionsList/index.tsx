@@ -15,21 +15,21 @@ import { FilterFormItems } from './FilterBar'
 export const LS_ACTION_LIST = 'actions_list'
 
 export const INITIAL_VALUES = {
+  categories: [ALL_ACTIONS_LABEL],
   currentPage: 1,
   search: '',
   sorting: SORT_OPTIONS[0].key,
-  tags: [ALL_ACTIONS_LABEL],
 }
 
 export interface ActionListProps {
-  actionsByTags: Record<string, CompanyActionListItemFragment[]>
+  actionsByCategories: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
 }
 
 export const ActionsList = ({
   actionListItemProps,
-  actionsByTags,
+  actionsByCategories,
   fetching,
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
@@ -67,11 +67,13 @@ export const ActionsList = ({
   // by applying the actions directly on the list instead
   // of saving to a local list state we can prevent re-renders
   const actions = useMemo(() => {
-    const [activeTag] = formOptions?.tags || []
+    const [activeCategory] = formOptions?.categories || []
     const activeSearch = formOptions?.search || ''
     const activeSorting = formOptions?.sorting
     // the below applies the tag filter
-    const actions = actionsByTags[activeTag] || actionsByTags[ALL_ACTIONS_LABEL]
+    const actions =
+      actionsByCategories[activeCategory] ||
+      actionsByCategories[ALL_ACTIONS_LABEL]
 
     return (
       actions
@@ -88,15 +90,15 @@ export const ActionsList = ({
           }
         })
     )
-  }, [actionsByTags, formOptions])
+  }, [actionsByCategories, formOptions])
 
   return (
     <div className="actions-list">
       <FilterBar
+        categories={Object.keys(actionsByCategories)}
         form={form}
         initialValues={formOptions}
         onValuesChange={handleChange}
-        tags={Object.keys(actionsByTags)}
       />
       <Divider />
       <List

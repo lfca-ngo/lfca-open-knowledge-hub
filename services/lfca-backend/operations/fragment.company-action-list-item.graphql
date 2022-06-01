@@ -26,8 +26,8 @@ fragment CompanyActionListItem on CompanyAction {
   requirements {
     title
   }
-  tags {
-    ...Tag
+  categories {
+    ...Category
   }
   title
   notes

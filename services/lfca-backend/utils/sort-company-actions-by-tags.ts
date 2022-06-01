@@ -2,7 +2,7 @@ import { CompanyActionListItemFragment } from '../generated'
 
 export const ALL_ACTIONS_LABEL = 'All actions'
 
-export const sortCompanyActionsByTag = (
+export const sortCompanyActionsByCategories = (
   companyActions: CompanyActionListItemFragment[],
   filterCompleted = true
 ): Record<string, CompanyActionListItemFragment[]> => {
@@ -13,8 +13,10 @@ export const sortCompanyActionsByTag = (
     if (filterCompleted && curr?.completedAt) return acc
 
     acc[ALL_ACTIONS_LABEL].push(curr)
-    curr.tags.forEach((tag) => {
-      if (tag.name) acc[tag.name] = [...(acc[tag.name] || []), curr]
+
+    curr.categories.forEach((category) => {
+      if (category.name)
+        acc[category.name] = [...(acc[category.name] || []), curr]
     })
 
     return acc

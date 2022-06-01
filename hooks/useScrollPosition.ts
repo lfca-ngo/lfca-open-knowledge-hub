@@ -6,7 +6,7 @@ interface ScrollPositionOptions {
   // extend if needed
   currentPage?: number
   search?: string
-  tags?: string[]
+  categories?: string[]
   sorting?: string
 }
 
