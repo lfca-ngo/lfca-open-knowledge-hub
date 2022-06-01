@@ -24,7 +24,7 @@ fragment CompanyActionListItem on CompanyAction {
   recommendedForCompanyAchievementIds
   requiredForCompanyAchievementIds
   requirements {
-    title
+    ...CompanyActionRequirement
   }
   categories {
     ...Category

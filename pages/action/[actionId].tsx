@@ -107,7 +107,12 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             <TabPane key="2" tab="How To">
               <ShowMore
                 maxHeight={140}
-                text={<RequirementsList requirements={action?.requirements} />}
+                text={
+                  <RequirementsList
+                    actionContentId={action.actionId}
+                    requirements={actionData?.companyAction?.requirements}
+                  />
+                }
               />
             </TabPane>
             <TabPane key="3" tab="Examples">

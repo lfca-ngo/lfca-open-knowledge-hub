@@ -1,0 +1,7 @@
+mutation completeCompanyActionRequirement(
+  $input: CompleteCompanyActionRequirementInput!
+) {
+  completeCompanyActionRequirement(input: $input) {
+    ...CompanyActionRequirement
+  }
+}
