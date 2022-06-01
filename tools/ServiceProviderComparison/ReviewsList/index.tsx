@@ -22,7 +22,10 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
     pause: !serviceProviderContentId,
     variables: {
       input: {
-        serviceProviderContentId: serviceProviderContentId || '',
+        filter: {
+          serviceProviderContentId: serviceProviderContentId || '',
+        },
+        take: 100,
       },
     },
   })
@@ -40,7 +43,7 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
       </Button>
       <List
         className="reviews-list"
-        dataSource={data?.serviceProviderReviews}
+        dataSource={data?.serviceProviderReviews.items}
         loading={fetching}
         renderItem={(item) => (
           <List.Item>
