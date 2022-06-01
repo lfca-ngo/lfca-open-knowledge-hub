@@ -1,11 +1,22 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Alert, Avatar, Button } from 'antd'
 
-export const FeaturedProvider = () => {
+const NORMATIVE_URL = `https://businesscarboncalculator.normative.io/auth/signup`
+
+export const FeaturedProvider = ({
+  onOpenWebsite,
+}: {
+  onOpenWebsite: (url: string) => void
+}) => {
   return (
     <Alert
       action={[
-        <Button icon={<ArrowRightOutlined />} key="start" type="primary">
+        <Button
+          icon={<ArrowRightOutlined />}
+          key="start"
+          onClick={() => onOpenWebsite(NORMATIVE_URL)}
+          type="primary"
+        >
           Open now
         </Button>,
       ]}

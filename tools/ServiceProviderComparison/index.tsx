@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { Drawer, List } from 'antd'
+import { Drawer, Form, List, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { Section } from '../../components/Layout'
@@ -8,16 +8,22 @@ import {
   ServiceProviderFragment,
   useServiceProvidersQuery,
 } from '../../services/lfca-backend'
-import { arrayContains, numberInRange } from '../../utils'
+import { arrayContains, arrayContainsAll, numberInRange } from '../../utils'
+import { Assistant } from './Assistant'
 import { FeaturedProvider } from './FeaturedProvider'
 import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
 import { SearchBar } from './SearchBar'
 
+const { TabPane } = Tabs
+
 export const ServiceProviderComparison = () => {
   const [activeProvider, setActiveProvider] =
     useState<ServiceProviderFragment | null>(null)
+
+  // both filters reference the same form
+  const [form] = Form.useForm()
 
   // TODO: UI for error state
   // TODO: Render skeleton whil loading
@@ -46,7 +52,7 @@ export const ServiceProviderComparison = () => {
 
       const isValid =
         arrayContains(models, providerModels) &&
-        arrayContains(services, providerServices) &&
+        arrayContainsAll(services, providerServices) &&
         arrayContains(supplyChainComplexity, providerSupplyChainComplexity) &&
         numberInRange(lowestPrice ?? undefined, cost)
 
@@ -72,13 +78,29 @@ export const ServiceProviderComparison = () => {
     setList(filtered || [])
   }
 
+  // visit provider
+  const openWebsite = (url: string) => window.open(url ?? undefined, '_blank')
+
   return (
     <div className="service-provider-comparison">
-      <FilterForm
-        onValuesChange={handleChange}
-        providers={data?.serviceProviders || []}
-      />
-      <FeaturedProvider />
+      <Tabs defaultActiveKey="filter">
+        <TabPane key="filter" tab="Filter">
+          <FilterForm
+            form={form}
+            onValuesChange={handleChange}
+            providers={data?.serviceProviders || []}
+          />
+        </TabPane>
+        <TabPane key="assistant" tab="Assistant">
+          <Assistant
+            form={form}
+            onValuesChange={handleChange}
+            providers={data?.serviceProviders || []}
+          />
+        </TabPane>
+      </Tabs>
+
+      <FeaturedProvider onOpenWebsite={openWebsite} />
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
@@ -87,6 +109,9 @@ export const ServiceProviderComparison = () => {
           <List.Item>
             <ProviderCard
               onOpenReviews={(provider) => setActiveProvider(provider)}
+              onOpenWebsite={(provider) =>
+                provider?.website && openWebsite(provider?.website)
+              }
               provider={item}
             />
           </List.Item>

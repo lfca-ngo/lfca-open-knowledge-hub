@@ -1,5 +1,5 @@
 import { Option } from '../../components/MultiSelect'
-import { ServiceProviderFragment } from '../../services/lfca-backend'
+import { ServiceProviderFragment, Tag } from '../../services/lfca-backend'
 
 export const getUniqueTags = (
   array: ServiceProviderFragment[],
@@ -12,12 +12,16 @@ export const getUniqueTags = (
     const tags = provider[key] || []
 
     for (const tag of tags) {
-      if (tag.name && !acc.includes(tag.name)) {
-        acc.push(tag.name)
+      if (tag.name && acc.findIndex((t) => t.name === tag.name) < 0) {
+        acc.push(tag)
       }
     }
+
+    // sort acc by sortWeight
+    acc.sort((a, b) => (b.sortWeight || 0) - (a.sortWeight || 0))
+
     return acc
-  }, [] as string[]) as string[]
+  }, [] as Tag[]) as Tag[]
 
 export const PRICE_FILTER_OPTIONS: Option[] = [
   {

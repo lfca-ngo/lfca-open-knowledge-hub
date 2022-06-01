@@ -22,4 +22,14 @@ fragment ServiceProvider on ServiceProvider {
     ...Tag
   }
   year
+  email
+  website
+  isPrivate
+  freeDemo
+  languages {
+    ...Tag
+  }
+  certifications {
+    ...Tag
+  }
 }

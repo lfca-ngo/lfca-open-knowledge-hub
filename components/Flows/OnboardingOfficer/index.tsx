@@ -62,11 +62,15 @@ const Intro = ({ onNext }: StepProps) => {
 }
 
 interface PersonalizeProps extends StepProps {
-  actionsByTags: ActionListProps['actionsByTags']
+  actionsByCategories: ActionListProps['actionsByCategories']
   fetching?: boolean
 }
 
-const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
+const Personalize = ({
+  actionsByCategories,
+  fetching,
+  onNext,
+}: PersonalizeProps) => {
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [selectedActionContentId, setSelectedActionContentId] = useState<
@@ -133,7 +137,7 @@ const Personalize = ({ actionsByTags, fetching, onNext }: PersonalizeProps) => {
           showInfoBox: true,
           unselectText: 'Unselect',
         }}
-        actionsByTags={actionsByTags}
+        actionsByCategories={actionsByCategories}
         fetching={fetching}
       />
       <Button onClick={handleContinue} size="large" type="primary">

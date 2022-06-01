@@ -5,6 +5,7 @@ import {
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
 export const EMPTY_ACTION: CompanyActionListItemFragment = {
+  categories: [],
   commentAttachmentCount: 0,
   commentCount: 0,
   companiesCompletedCount: 0,
@@ -22,7 +23,6 @@ export const EMPTY_ACTION: CompanyActionListItemFragment = {
   recommendedForCompanyAchievementIds: [],
   requiredForCompanyAchievementIds: [''], // needs at least one item to show skeleton on required actions
   requirements: [],
-  tags: [],
   title: '',
 }
 

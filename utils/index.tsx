@@ -32,6 +32,18 @@ export const arrayContains = (
   return isValid
 }
 
+export const arrayContainsAll = (
+  selectedArray?: string[],
+  searchArray?: string[]
+) => {
+  const isValid =
+    selectedArray === undefined ||
+    selectedArray.length === 0 ||
+    selectedArray?.every((entry) => searchArray?.includes(entry))
+
+  return isValid
+}
+
 export const numberInRange = (number?: number, range?: number[]) => {
   const isValid =
     range === undefined ||

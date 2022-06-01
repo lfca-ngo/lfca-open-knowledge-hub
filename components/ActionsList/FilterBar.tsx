@@ -12,7 +12,7 @@ export const SORT_OPTIONS = [
 ]
 
 export interface FilterFormItems {
-  tags?: string[]
+  categories?: string[]
   search?: string
   sorting?: string
 }
@@ -20,7 +20,7 @@ export interface FilterFormItems {
 interface FilterBarProps {
   form: FormInstance<FilterFormItems>
   initialValues?: FilterFormItems
-  tags?: string[]
+  categories?: string[]
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
 }
 
@@ -28,7 +28,7 @@ export const FilterBar = ({
   form,
   initialValues,
   onValuesChange,
-  tags = [ALL_ACTIONS_LABEL],
+  categories = [ALL_ACTIONS_LABEL],
 }: FilterBarProps) => {
   return (
     <Form
@@ -37,9 +37,9 @@ export const FilterBar = ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <Form.Item name="tags">
+      <Form.Item name="categories">
         <DropdownSelect
-          items={tags.map((t) => ({ label: t, value: t }))}
+          items={categories.map((c) => ({ label: c, value: c }))}
           singleMode
         />
       </Form.Item>

@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { LikeOutlined, PaperClipOutlined } from '@ant-design/icons'
+import { MessageOutlined, PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
@@ -59,7 +59,7 @@ export const ActionStats = ({
       <ActionStat
         color="wine-inverse"
         count={commentCount}
-        icon={<LikeOutlined />}
+        icon={<MessageOutlined />}
         label="messages"
         size={size}
       />

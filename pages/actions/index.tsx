@@ -19,7 +19,7 @@ import {
   EMPTY_ACTIONS_ARRAY,
 } from '../../services/contentful/utils'
 import {
-  sortCompanyActionsByTag,
+  sortCompanyActionsByCategories,
   useCompanyAchievementsMiniQuery,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
@@ -42,9 +42,9 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
     useCompanyAchievementsMiniQuery()
 
-  const actionsByTags = useMemo(
+  const actionsByCategories = useMemo(
     () =>
-      sortCompanyActionsByTag(
+      sortCompanyActionsByCategories(
         actionsData?.companyActions || EMPTY_ACTIONS_ARRAY
       ),
     [actionsData]
@@ -88,7 +88,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             actionListItemProps={{
               renderAsLink: true,
             }}
-            actionsByTags={actionsByTags}
+            actionsByCategories={actionsByCategories}
             fetching={fetchingActions}
           />
         </Section>
