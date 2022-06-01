@@ -109,7 +109,9 @@ export const ServiceProviderComparison = () => {
           <List.Item>
             <ProviderCard
               onOpenReviews={(provider) => setActiveProvider(provider)}
-              onOpenWebsite={(provider) => openWebsite(provider.website)}
+              onOpenWebsite={(provider) =>
+                provider?.website && openWebsite(provider?.website)
+              }
               provider={item}
             />
           </List.Item>

@@ -3,6 +3,7 @@ require('./styles.less')
 import {
   BankOutlined,
   CalculatorOutlined,
+  CheckOutlined,
   InfoCircleOutlined,
   LikeOutlined,
   LinkOutlined,
@@ -77,9 +78,15 @@ export const ProviderCard = ({
           <div className="title-wrapper">
             <div className="title">{provider.name}</div>
             <TypeTags tags={provider?.model} />
-            {provider?.memberId && (
+            {provider?.memberId && provider?.email && (
               <Popover
-                content={<Button icon={<MailOutlined />}>Get Intro</Button>}
+                content={
+                  <a
+                    href={`mailto:${provider.email}?subject=Intro ${provider.name}&body=Hi, we are both part of the lfca community and I found you in their overview of service providers. Would love to learn more about...`}
+                  >
+                    <Button icon={<MailOutlined />}>Get Intro</Button>
+                  </a>
+                }
               >
                 <Tag className="member-tag" icon={<StarOutlined />}>
                   Community Member
@@ -97,6 +104,11 @@ export const ProviderCard = ({
             <Tag color="blue" icon={<LikeOutlined />}>
               {provider?.year}
             </Tag>
+            {provider?.freeDemo && (
+              <Tag color="green" icon={<CheckOutlined />}>
+                Free Demo
+              </Tag>
+            )}
           </div>
           <div className="services">
             {provider.services?.map((service, i: number) => (
@@ -132,7 +144,11 @@ export const ProviderCard = ({
             </Popover>
           </div>
         </div>
-        <Button icon={<LinkOutlined />} onClick={onOpenWebsite} type="primary">
+        <Button
+          icon={<LinkOutlined />}
+          onClick={() => onOpenWebsite?.(provider)}
+          type="primary"
+        >
           View
         </Button>
       </div>
