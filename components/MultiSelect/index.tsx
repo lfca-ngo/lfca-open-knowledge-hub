@@ -1,7 +1,8 @@
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
 import classNames from 'classnames'
-import { useState } from 'react'
+import isEqual from 'lodash.isequal'
+import { useEffect, useState } from 'react'
 
 type OptionKey = string | number | string[] | number[]
 
@@ -46,6 +47,12 @@ export const MultiSelect = ({
   }
 
   const Wrapper = grouped ? Button.Group : 'div'
+
+  useEffect(() => {
+    if (!isEqual(value, selected)) {
+      setSelected(value)
+    }
+  }, [value, selected])
 
   return (
     <Wrapper className={classNames('multi-select', { ungrouped: !grouped })}>
