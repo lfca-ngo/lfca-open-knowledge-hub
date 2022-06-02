@@ -36,7 +36,7 @@ const Source = ({ file, title, type, url }: ContentfulSourceFields) => {
   const closeModal = () => setIsVisible(false)
 
   // by default take the url
-  const fileUrl = url || file?.file?.url
+  const fileUrl = url || `https:${file?.fields?.file?.url}`
 
   const render = () => {
     switch (type) {

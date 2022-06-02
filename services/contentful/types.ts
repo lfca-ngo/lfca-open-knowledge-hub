@@ -5,8 +5,10 @@ interface Image {
 }
 
 interface ContentfulMedia {
-  file: {
-    url: string
+  fields: {
+    file: {
+      url: string
+    }
   }
 }
 
