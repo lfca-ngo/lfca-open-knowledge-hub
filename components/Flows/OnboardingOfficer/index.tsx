@@ -1,16 +1,12 @@
-import { ArrowRightOutlined } from '@ant-design/icons'
-import { Button, Drawer, message, Tag } from 'antd'
+import { ArrowRightOutlined, SlackOutlined } from '@ant-design/icons'
+import { Button, Drawer, Space, Tag } from 'antd'
 import { useState } from 'react'
 
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
-import {
-  CompanyActionListItemFragment,
-  useCompleteCompanyActionMutation,
-  usePlanCompanyActionMutation,
-} from '../../../services/lfca-backend'
-import { actionHasReviews } from '../../../utils'
+import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
+import { actionHasReviews, SLACK_INVITE_URL } from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
@@ -77,39 +73,6 @@ const Personalize = ({
     string | null
   >(null)
 
-  const [, completeCompanyAction] = useCompleteCompanyActionMutation()
-  const [, planCompanyAction] = usePlanCompanyActionMutation()
-
-  const handleUnselect = (action: CompanyActionListItemFragment) => {
-    completeCompanyAction({
-      input: {
-        actionContentId: action.contentId,
-        isCompleted: false,
-        skipRequirementsCheck: true,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else message.success('Marked action as incomplete')
-    })
-  }
-
-  const handleTogglePlan = (action: CompanyActionListItemFragment) => {
-    planCompanyAction({
-      input: {
-        actionContentId: action.contentId,
-        isPlanned: !!!action.plannedAt,
-      },
-    }).then(({ data, error }) => {
-      if (error) message.error(error.message)
-      else
-        message.success(
-          `Marked action as ${
-            data?.planCompanyAction.plannedAt ? 'planned' : 'unplanned'
-          }`
-        )
-    })
-  }
-
   const handleContinue = () => {
     onNext()
   }
@@ -127,13 +90,11 @@ const Personalize = ({
       </p>
       <ActionsList
         actionListItemProps={{
-          ctaText: 'Select',
           onCtaClick: (action) => {
             setActiveAction(action)
             setSelectedActionContentId(action.contentId)
           },
-          onTogglePlan: handleTogglePlan,
-          onUnselect: handleUnselect,
+          selectText: 'Select',
           showInfoBox: true,
           unselectText: 'Unselect',
         }}
@@ -161,15 +122,42 @@ const Personalize = ({
   )
 }
 
+const Slack = ({ onNext }: StepProps) => {
+  return (
+    <div>
+      <Tag className="super-text">{`Slack`}</Tag>
+      <h1>{`Did you already join our Slack community?`}</h1>
+      <p>
+        Share experiences with other Climate Officers from our community. Access
+        sub-industry channels where you can connect with members from your
+        sector that are facing similar challenges (e.g. food, finance,
+        mobility).
+      </p>
+      <Space>
+        <a href={SLACK_INVITE_URL} rel="noreferrer" target="_blank">
+          <Button icon={<SlackOutlined />} size="large" type="primary">
+            Accept your Slack invite
+          </Button>
+        </a>
+
+        <Button onClick={onNext} size="large">
+          Already done, skip
+        </Button>
+      </Space>
+    </div>
+  )
+}
+
 const Start = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">{`Let's go!`}</Tag>
       <h1>{`You are all set! Find the next steps on your personal dashboard`}</h1>
       <p>
-        {`The lfca platform is the place where we collect and share our
-        community's knowledge. It's the place where we inspire you to realize
-        the full climate action potential of your organization.`}
+        The required, recommended and planned actions will be highlighted on
+        your dashboard. If an action expires, it will pop up there as well. We
+        hope you will find inspiration from our actions modules and community
+        content. Please reach out to us if you need any assitance!
       </p>
       <Button
         icon={<ArrowRightOutlined />}
@@ -193,6 +181,11 @@ export const OnboardingOfficerSteps = [
     component: Personalize,
     description: 'What’s your status quo',
     title: 'Personalize',
+  },
+  {
+    component: Slack,
+    description: 'Slack',
+    title: 'Connect to Slack',
   },
   {
     component: Start,

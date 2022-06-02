@@ -14,6 +14,7 @@ export const THEME_DARK = 'theme-dark'
 export const MEASUREMENT_SERVICES_COMPARISON = 'measurement-services-comparison'
 export const ROLES = ['ADMIN', 'LEADER', 'OFFICER']
 export const APP_BASE_URL = `https://app.lfca.earth`
+export const SLACK_INVITE_URL = `https://join.slack.com/t/lfca-co/shared_invite/zt-dc9mv47r-J0Y2JPj536x3PurMjWuNdA`
 
 export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)

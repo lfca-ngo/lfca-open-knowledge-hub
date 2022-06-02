@@ -7,11 +7,24 @@ import {
   InfoCircleOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { Badge, Button, Card, List, Popover, Space, Tooltip } from 'antd'
+import {
+  Badge,
+  Button,
+  Card,
+  List,
+  message,
+  Popover,
+  Space,
+  Tooltip,
+} from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+import {
+  CompanyActionListItemFragment,
+  useCompleteCompanyActionMutation,
+  usePlanCompanyActionMutation,
+} from '../../services/lfca-backend'
 import { ActionStats } from '../ActionStats'
 
 const InfoBox = ({
@@ -54,12 +67,9 @@ const InfoBox = ({
 
 export interface ActionCardProps {
   action: CompanyActionListItemFragment
-  ctaText?: string
-  loading?: boolean
+  selectText?: string
   onCtaClick?: (action: CompanyActionListItemFragment) => void
   onSavePosition?: () => void
-  onUnselect?: (action: CompanyActionListItemFragment) => void
-  onTogglePlan?: (action: CompanyActionListItemFragment) => void
   renderAsLink?: boolean
   showInfoBox?: boolean
   unselectText?: string
@@ -67,19 +77,55 @@ export interface ActionCardProps {
 
 export const ActionCard = ({
   action,
-  ctaText = 'View',
-  loading = false,
   onCtaClick,
   onSavePosition,
-  onTogglePlan,
-  onUnselect,
+  renderAsLink = false,
+  selectText = 'View',
   showInfoBox = false,
-  unselectText,
+  unselectText = 'Unselect',
 }: ActionCardProps) => {
-  const handleClick = () => {
-    if (action.completedAt) {
-      onUnselect?.(action)
+  const [{ fetching: isCompleting }, completeCompanyAction] =
+    useCompleteCompanyActionMutation()
+  const [{ fetching: isPlanning }, planCompanyAction] =
+    usePlanCompanyActionMutation()
+
+  const handleUnselect = (action: CompanyActionListItemFragment) => {
+    completeCompanyAction({
+      input: {
+        actionContentId: action.contentId,
+        isCompleted: false,
+        skipRequirementsCheck: true,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Marked action as incomplete')
+    })
+  }
+
+  const handleTogglePlan = (action: CompanyActionListItemFragment) => {
+    planCompanyAction({
+      input: {
+        actionContentId: action.contentId,
+        isPlanned: !!!action.plannedAt,
+      },
+    }).then(({ data, error }) => {
+      if (error) message.error(error.message)
+      else
+        message.success(
+          `Marked action as ${
+            data?.planCompanyAction.plannedAt ? 'planned' : 'unplanned'
+          }`
+        )
+    })
+  }
+
+  const handleSelect = () => {
+    if (!renderAsLink && action.completedAt) {
+      handleUnselect(action)
     } else {
+      // the card can be either used in the list to navigate
+      // to a detail page > renderAsLink = true or in the
+      // onboarding to trigger direct actions
       onCtaClick?.(action)
       // since we are using next/link for navigation,
       // we need to manually save the position using a
@@ -93,7 +139,9 @@ export const ActionCard = ({
       <div className="hero">
         <Badge
           count={
-            action.completedAt ? <CheckCircleFilled className="green" /> : null
+            action.completedAt ? (
+              <CheckCircleFilled className="success" />
+            ) : null
           }
           offset={[-6, 6]}
         >
@@ -124,23 +172,24 @@ export const ActionCard = ({
       </div>
       <div className="actions">
         <Space>
-          {onTogglePlan && (
+          {!renderAsLink && !action.completedAt && (
             <Tooltip title={`Mark as ${action.plannedAt ? 'un' : ''}planned`}>
               <Button
                 ghost={action.plannedAt}
                 icon={
                   action.plannedAt ? <CarryOutOutlined /> : <CalendarOutlined />
                 }
-                onClick={() => onTogglePlan(action)}
+                loading={isPlanning}
+                onClick={() => handleTogglePlan(action)}
               />
             </Tooltip>
           )}
           <Button
-            loading={loading}
-            onClick={handleClick}
+            loading={isCompleting}
+            onClick={handleSelect}
             type={action.completedAt ? 'default' : 'primary'}
           >
-            {action.completedAt ? unselectText : ctaText}
+            {action.completedAt ? unselectText : selectText}
           </Button>
         </Space>
       </div>

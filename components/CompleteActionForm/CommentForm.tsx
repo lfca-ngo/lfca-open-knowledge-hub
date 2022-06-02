@@ -45,10 +45,8 @@ export const CommentForm = ({
     message?: Descendant[]
     notes?: string
   }) => {
-    if (attachments?.length || message) {
-      const parsedMessage = message ? convertValueToMarkdown(message) : ''
-      onSubmit(parsedMessage, attachments, notes)
-    }
+    const parsedMessage = message ? convertValueToMarkdown(message) : ''
+    onSubmit(parsedMessage, attachments, notes)
   }
 
   return (
@@ -124,7 +122,7 @@ export const CommentForm = ({
 
       <Form.Item>
         <Button block htmlType="submit" loading={loading} type="primary">
-          Submit
+          Complete action
         </Button>
       </Form.Item>
     </Form>

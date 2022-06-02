@@ -8,6 +8,7 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons'
 import {
+  Alert,
   Button,
   Checkbox,
   Form,
@@ -52,6 +53,7 @@ const LabelWithButton = ({
 export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
   const [form] = Form.useForm()
   const [providerId, setProviderId] = useState('')
+  const [success, setSuccess] = useState(false)
 
   // TODO: UI for loading state
   // TODO: UI for error state
@@ -84,8 +86,10 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
       },
     })
 
+    setSuccess(true)
     setProviderId('')
     form.resetFields()
+
     message.success(`Thanks, we will approve your review soon!`)
     // callback for parent
     onFinish?.()
@@ -99,15 +103,23 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
       onFinish={handleFinish}
     >
       <Form.Item label="Did you work with a service provider?">
-        <Select
-          onSelect={(val: string) => setProviderId(val)}
-          placeholder="Select an option..."
-        >
-          <Select.Option key={''}>-- None of those</Select.Option>
-          {dataServiceProviders?.serviceProviders.map((provider) => (
-            <Option key={provider.id}>{provider.name}</Option>
-          ))}
-        </Select>
+        {success ? (
+          <Alert
+            message="Thanks, we will approve your review soon!"
+            showIcon
+            type="success"
+          />
+        ) : (
+          <Select
+            onSelect={(val: string) => setProviderId(val)}
+            placeholder="Select an option..."
+          >
+            <Select.Option key={''}>-- None of those</Select.Option>
+            {dataServiceProviders?.serviceProviders.map((provider) => (
+              <Option key={provider.id}>{provider.name}</Option>
+            ))}
+          </Select>
+        )}
       </Form.Item>
 
       {providerId && (
@@ -226,7 +238,7 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
               loading={fetchingCreateServiceProviderReview}
               type="primary"
             >
-              Submit
+              Submit review
             </Button>
           </Form.Item>
         </div>
