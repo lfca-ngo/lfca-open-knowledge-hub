@@ -111,6 +111,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
                   <RequirementsList
                     actionContentId={action.actionId}
                     requirements={actionData?.companyAction?.requirements}
+                    requirementsContent={action?.requirements}
                   />
                 }
               />
