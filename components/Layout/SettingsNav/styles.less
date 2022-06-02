@@ -30,6 +30,8 @@
     display: none;
     @media @desktop {
       display: flex;
+      margin-right: 30px;
+      overflow: hidden;
     }
 
     .name {
@@ -37,12 +39,16 @@
       line-height: normal;
       margin-bottom: 2px;
       margin-top: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .company {
       font-size: @font-size-sm;
       line-height: normal;
       color: var(--text-color);
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
