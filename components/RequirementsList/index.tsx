@@ -3,13 +3,14 @@ require('./styles.less')
 import { LoadingOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Checkbox, Collapse, List, message } from 'antd'
-import { ContentfulRequirementFields } from '../../services/contentful'
 import { useMemo } from 'react'
 
+import { ContentfulRequirementFields } from '../../services/contentful'
 import {
   CompanyAction,
   useCompleteCompanyActionRequirementMutation,
 } from '../../services/lfca-backend'
+import { options } from '../../utils/richTextOptions'
 
 const { Panel } = Collapse
 
@@ -67,7 +68,7 @@ export const RequirementsItem = ({
       >
         <div className="requirement-text">
           <div className="description">
-            {documentToReactComponents(item.howTo)}
+            {documentToReactComponents(item.howTo, options)}
           </div>
         </div>
       </Panel>
