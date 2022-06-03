@@ -120,6 +120,7 @@ export const ServiceProviderComparison = () => {
       {/* Review Drawer */}
       <Drawer
         className="drawer-md"
+        destroyOnClose
         onClose={() => setActiveProvider(null)}
         visible={!!activeProvider}
       >

@@ -53,6 +53,7 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
       />
       <Drawer
         className="drawer-md"
+        destroyOnClose
         onClose={() => setNewReviewOpen(false)}
         visible={newReviewOpen}
       >
