@@ -54,6 +54,15 @@ export const ShareImage = () => {
     <div className="share-image">
       {error && <Alert message={error} type="error" />}
 
+      {!user?.picture && (
+        <Alert
+          message="Please upload a personal picture to enable this feature"
+          showIcon
+          style={{ margin: '20px 0' }}
+          type="warning"
+        />
+      )}
+
       <Row gutter={16}>
         <Col md={12} xs={24}>
           <Input.Group compact>
