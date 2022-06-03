@@ -58,7 +58,7 @@ export default async function handler(
         height: 156,
         radius: 12,
         width: 133,
-        x: 235,
+        x: 215,
         y: 154,
       },
     ],
