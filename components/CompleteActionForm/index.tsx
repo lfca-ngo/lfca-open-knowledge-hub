@@ -77,6 +77,7 @@ export const CompleteActionForm = ({
         </>
       )}
       <CommentForm
+        ctaText="Complete Action"
         loading={fetchingCompleteAction || fetchingCreateActionComment}
         onSubmit={handleComplete}
         showNotes

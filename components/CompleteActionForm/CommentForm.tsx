@@ -14,6 +14,7 @@ import { convertValueToMarkdown } from '../RichTextEditor/utils'
 const { TextArea } = Input
 
 interface ShareLearningsFormProps {
+  ctaText?: string
   initialValues?: {
     attachments: ActionCommentAttachment[]
     message: Descendant[]
@@ -24,6 +25,7 @@ interface ShareLearningsFormProps {
 }
 
 export const CommentForm = ({
+  ctaText = 'Submit',
   initialValues,
   loading,
   onSubmit,
@@ -122,7 +124,7 @@ export const CommentForm = ({
 
       <Form.Item>
         <Button block htmlType="submit" loading={loading} type="primary">
-          Complete action
+          {ctaText}
         </Button>
       </Form.Item>
     </Form>
