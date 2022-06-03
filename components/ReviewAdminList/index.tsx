@@ -12,18 +12,13 @@ import {
   useUpdateServiceProviderReviewMutation,
 } from '../../services/lfca-backend'
 
-export const ReviewsAdminList = () => {
-  const [{ data: reviewsData, fetching: fetchingReviews }, refetchProviders] =
-    useServiceProviderReviewsQuery({
-      variables: {
-        input: {
-          filter: {
-            isApproved: false,
-          },
-          take: 100,
-        },
-      },
-    })
+const ReviewListItem = ({
+  item,
+  onApprove,
+}: {
+  item: ServiceProviderReviewFragment
+  onApprove?: () => void
+}) => {
   const [{ fetching: updating }, updateServiceProviderReview] =
     useUpdateServiceProviderReviewMutation()
 
@@ -37,10 +32,73 @@ export const ReviewsAdminList = () => {
       if (error) message.error(error.message)
       else {
         message.success('Review approved')
-        refetchProviders({ requestPolicy: 'network-only' })
+        onApprove?.()
       }
     })
   }
+
+  return (
+    <List.Item
+      actions={[
+        <Button
+          icon={<CheckOutlined />}
+          key="approval"
+          loading={updating}
+          onClick={() => approveReview(item)}
+          type="primary"
+        >
+          Approve
+        </Button>,
+      ]}
+    >
+      <List.Item.Meta
+        avatar={
+          <Tooltip title={`${item.author?.firstName}, ${item.author?.id}`}>
+            <Avatar className="wine-inverse" icon={<UserOutlined />} />
+          </Tooltip>
+        }
+        description={
+          <div className="pros-cons">
+            <List
+              className="info-list-sm"
+              dataSource={item.pros}
+              renderItem={(item) => (
+                <List.Item>
+                  <PlusCircleFilled className="green" /> {item}
+                </List.Item>
+              )}
+              size="small"
+            />
+            <List
+              className="info-list-sm"
+              dataSource={item.cons}
+              renderItem={(item) => (
+                <List.Item>
+                  <MinusCircleFilled className="wine" /> {item}
+                </List.Item>
+              )}
+              size="small"
+            />
+          </div>
+        }
+        title={item.review}
+      />
+    </List.Item>
+  )
+}
+
+export const ReviewsAdminList = () => {
+  const [{ data: reviewsData, fetching: fetchingReviews }, refetchProviders] =
+    useServiceProviderReviewsQuery({
+      variables: {
+        input: {
+          filter: {
+            isApproved: false,
+          },
+          take: 100,
+        },
+      },
+    })
 
   const data = reviewsData?.serviceProviderReviews.items || []
 
@@ -50,52 +108,10 @@ export const ReviewsAdminList = () => {
       dataSource={data}
       loading={fetchingReviews}
       renderItem={(item) => (
-        <List.Item
-          actions={[
-            <Button
-              icon={<CheckOutlined />}
-              key="approval"
-              loading={updating}
-              onClick={() => approveReview(item)}
-              type="primary"
-            >
-              Approve
-            </Button>,
-          ]}
-        >
-          <List.Item.Meta
-            avatar={
-              <Tooltip title={`${item.author?.firstName}, ${item.author?.id}`}>
-                <Avatar className="wine-inverse" icon={<UserOutlined />} />
-              </Tooltip>
-            }
-            description={
-              <div className="pros-cons">
-                <List
-                  className="info-list-sm"
-                  dataSource={item.pros}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <PlusCircleFilled className="green" /> {item}
-                    </List.Item>
-                  )}
-                  size="small"
-                />
-                <List
-                  className="info-list-sm"
-                  dataSource={item.cons}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <MinusCircleFilled className="wine" /> {item}
-                    </List.Item>
-                  )}
-                  size="small"
-                />
-              </div>
-            }
-            title={item.review}
-          />
-        </List.Item>
+        <ReviewListItem
+          item={item}
+          onApprove={() => refetchProviders({ requestPolicy: 'network-only' })}
+        />
       )}
     />
   )
