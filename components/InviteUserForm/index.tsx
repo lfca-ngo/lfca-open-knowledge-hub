@@ -44,7 +44,7 @@ export const InviteUserForm = () => {
   }
 
   const handleChange = ({ companyId }: { companyId: string }) => {
-    // @TODO: later will be replaced with search field for company
+    // TODO: later will be replaced with search field for company
     if (companyId && companyId.length > 6) {
       refreshInvites({ requestPolicy: 'network-only' })
     }

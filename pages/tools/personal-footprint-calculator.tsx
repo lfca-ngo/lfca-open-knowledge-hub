@@ -45,18 +45,18 @@ const PersonalFootprintCalculator: NextPage<
   return (
     <SiderLayout>
       <Main>
-        <Section title="Personal Footprint Calculator" titleSize="big">
+        <Section title="Personal Footprint Estimator" titleSize="big">
           <Container>
             <p>
-              Calculate your personal carbon footprint. Figure out how much
+              Estimate your personal carbon footprint. Figure out how much
               carbon you emit with your day to day lifestyle. Understand where
               you can reduce your personal footprint.
             </p>
             <Button onClick={() => setOpen(true)} size="large" type="primary">
-              Start calculator
+              Start the estimator
             </Button>
 
-            <h3 style={{ marginTop: '60px' }}>Previous Measurements</h3>
+            <h3 style={{ marginTop: '60px' }}>Previous Estimations</h3>
             <UserActionsList />
           </Container>
 

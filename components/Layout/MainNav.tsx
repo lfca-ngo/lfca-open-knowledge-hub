@@ -78,7 +78,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       {
         icon: <CalculatorOutlined />,
         key: PERSONAL_FOOTPRINT_CALCULATOR,
-        label: 'Personal Footprint Calculator',
+        label: 'Personal Footprint Estimator',
       },
       {
         icon: <ShareAltOutlined />,

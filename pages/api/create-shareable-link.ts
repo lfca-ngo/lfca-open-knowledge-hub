@@ -3,7 +3,14 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createShareToken, getImageName } from '../../utils-server-only'
 
-const BASE_IMAGE = `Backgrounds/linkedin-c_jwfz5p.jpg`
+const getSharingImage = (country: string) => {
+  switch (country) {
+    case 'eu-TR':
+      return `Backgrounds/light_linkedin_ADD-LOGO-TUR_crujk8.jpg`
+    default:
+      return `Backgrounds/light_linkedin_ADD-LOGO-INT_qe0eyr.jpg`
+  }
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,6 +21,7 @@ export default async function handler(
   }
 
   const {
+    country,
     sender,
     senderImage,
     socialDescription = '',
@@ -33,7 +41,7 @@ export default async function handler(
   })
 
   const imageName = getImageName(senderImage)
-  const imageUrl = BASE_IMAGE
+  const imageUrl = getSharingImage(country)
 
   const image = cloudinary.url(imageUrl, {
     transformation: [

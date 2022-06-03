@@ -5,7 +5,7 @@ import {
   LinkedinOutlined,
   LoadingOutlined,
 } from '@ant-design/icons'
-import { Alert, Button, Input, message, Space } from 'antd'
+import { Alert, Button, Col, Input, message, Row } from 'antd'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { LinkedinShareButton } from 'react-share'
@@ -26,6 +26,7 @@ export const ShareImage = () => {
     if (user?.picture && !executedRef.current) {
       // make sure we only execute this once
       createInvite({
+        country: user?.country,
         sender: user?.firstName,
         senderImage: user?.picture,
         socialDescription:
@@ -53,6 +54,43 @@ export const ShareImage = () => {
     <div className="share-image">
       {error && <Alert message={error} type="error" />}
 
+      <Row gutter={16}>
+        <Col md={12} xs={24}>
+          <Input.Group compact>
+            <Input
+              disabled
+              size="large"
+              style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
+              value={data?.shortLink}
+            />
+            <Button
+              icon={<CopyOutlined />}
+              onClick={handleCopy}
+              size="large"
+              style={{ width: `${BTN_WIDTH}px` }}
+            />
+          </Input.Group>
+        </Col>
+        <Col md={12} xs={24}>
+          {data?.shortLink && (
+            <LinkedinShareButton
+              style={{ width: '100%' }}
+              title="Join our Community"
+              url={data?.shortLink}
+            >
+              <Button
+                block
+                icon={<LinkedinOutlined />}
+                size="large"
+                type="primary"
+              >
+                Share on LinkedIn
+              </Button>
+            </LinkedinShareButton>
+          )}
+        </Col>
+      </Row>
+
       <div className="sharing-preview">
         {data?.ogImageUrl && !fetching ? (
           <Image
@@ -67,39 +105,6 @@ export const ShareImage = () => {
           </div>
         )}
       </div>
-
-      <Space direction="vertical" style={{ width: '100%' }}>
-        <Input.Group compact>
-          <Input
-            disabled
-            size="large"
-            style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
-            value={data?.shortLink}
-          />
-          <Button
-            icon={<CopyOutlined />}
-            onClick={handleCopy}
-            size="large"
-            style={{ width: `${BTN_WIDTH}px` }}
-          />
-        </Input.Group>
-        {data?.shortLink && (
-          <LinkedinShareButton
-            summary="..."
-            title="Join our Community"
-            url={data?.shortLink}
-          >
-            <Button
-              block
-              icon={<LinkedinOutlined />}
-              size="large"
-              type="primary"
-            >
-              Share on LinkedIn
-            </Button>
-          </LinkedinShareButton>
-        )}
-      </Space>
     </div>
   )
 }

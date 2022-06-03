@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { User } from '../lfca-backend'
 
 interface InviteProps {
+  country: string
   sender: string
   senderImage: User['picture']
   socialDescription: string
