@@ -32,6 +32,8 @@ const OnboardingOfficer: NextPage = () => {
     if (currentStepIndex === OnboardingOfficerSteps.length - 1) {
       router.push('/')
     } else {
+      // always scroll to top
+      window?.scrollTo(0, 0)
       setCurrentStepIndex((i) => i + 1)
     }
   }

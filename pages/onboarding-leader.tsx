@@ -17,6 +17,8 @@ const OnboardingLeader: NextPage = (props: any) => {
     if (currentStepIndex === OnboardingLeaderSteps.length - 1) {
       router.push('/')
     } else {
+      // always scroll to top
+      window?.scrollTo(0, 0)
       setCurrentStepIndex((i) => i + 1)
     }
   }
