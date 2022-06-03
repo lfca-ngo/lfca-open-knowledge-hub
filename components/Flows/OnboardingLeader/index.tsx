@@ -2,6 +2,7 @@ import { Button, Checkbox, Drawer, Space, Tag } from 'antd'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
+import { ContentfulQuestionnaireFields } from '../../../services/contentful'
 import { useCompleteUserActionMutation } from '../../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { ShareImage } from '../../../tools/ShareImage'
@@ -78,7 +79,7 @@ const Invite = ({ onNext }: StepProps) => {
 }
 
 interface FootprintProps extends StepProps {
-  questionnaire: any
+  questionnaire: ContentfulQuestionnaireFields
 }
 
 const Footprint = ({ onNext, questionnaire }: FootprintProps) => {

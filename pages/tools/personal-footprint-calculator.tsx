@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
+import { UserActionsList } from '../../components/UserActionsList'
 import {
   ContentfulQuestionnaireFields,
   fetchAllQuestionnaires,
@@ -55,7 +56,8 @@ const PersonalFootprintCalculator: NextPage<
               Start calculator
             </Button>
 
-            {/* @TODO: Show list of previous measurements */}
+            <h3 style={{ marginTop: '60px' }}>Previous Measurements</h3>
+            <UserActionsList />
           </Container>
 
           <Drawer

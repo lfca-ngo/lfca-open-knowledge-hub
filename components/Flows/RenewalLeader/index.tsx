@@ -1,24 +1,21 @@
-import { CalculatorOutlined } from '@ant-design/icons'
-import { Avatar, Button, Drawer, List, Tag } from 'antd'
+import { Button, Drawer, Tag } from 'antd'
 import Link from 'next/link'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
-import {
-  useCompleteUserActionMutation,
-  useUserActionsListQuery,
-} from '../../../services/lfca-backend'
+import { ContentfulQuestionnaireFields } from '../../../services/contentful'
+import { useCompleteUserActionMutation } from '../../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../../tools/PersonalCarbonCalculator'
 import { ShareImage } from '../../../tools/ShareImage'
-import { toReadibleDate } from '../../../utils'
 import { ACTIONS } from '../../../utils/routes'
+import { UserActionsList } from '../../UserActionsList'
 
 interface StepProps {
   onNext: () => void
 }
 
 interface FootprintProps extends StepProps {
-  questionnaire: any
+  questionnaire: ContentfulQuestionnaireFields
 }
 
 const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
@@ -83,16 +80,6 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
 }
 
 const Compare = ({ onNext }: StepProps) => {
-  const [{ data }] = useUserActionsListQuery({
-    variables: {
-      input: {
-        filter: {
-          isCompleted: true,
-        },
-      },
-    },
-  })
-
   return (
     <div>
       <Tag className="super-text">Compare</Tag>
@@ -103,26 +90,7 @@ const Compare = ({ onNext }: StepProps) => {
         the focus on the biggest lever: Your company and your personal sphere of
         influence!
       </p>
-      <List
-        className="simple-list"
-        dataSource={data?.userActions}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  className="wine-inverse"
-                  icon={<CalculatorOutlined />}
-                  shape="square"
-                  size="large"
-                />
-              }
-              description={toReadibleDate(item.completedAt)}
-              title={`Your footprint: ${item.values?.result}`}
-            />
-          </List.Item>
-        )}
-      />
+      <UserActionsList />
       <Button onClick={onNext} size="large" type="primary">
         Continue
       </Button>
