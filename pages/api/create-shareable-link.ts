@@ -8,7 +8,7 @@ const getSharingImage = (country: string) => {
     case 'oc-AU':
       return `Backgrounds/light_linkedin_ADD-LOGO-AU_haziqz.jpg`
     case 'eu-TR':
-      return `Backgrounds/light_linkedin_ADD-LOGO-TUR_1_wpwpcx.jpg`
+      return `Backgrounds/tr_rxcidp.jpg`
     default:
       return `Backgrounds/light_linkedin_ADD-LOGO-INT_qe0eyr.jpg`
   }
