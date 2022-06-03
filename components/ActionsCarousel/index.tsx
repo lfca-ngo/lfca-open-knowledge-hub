@@ -11,7 +11,7 @@ import { Card, Carousel, Skeleton, Tag } from 'antd'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { SM_BREAKPOINT } from '../../utils'
+import { LG_BREAKPOINT, SM_BREAKPOINT } from '../../utils'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
 
@@ -47,6 +47,13 @@ export const ActionsCarousel = ({
       settings: {
         slidesToScroll: 1,
         slidesToShow: 1,
+      },
+    },
+    {
+      breakpoint: LG_BREAKPOINT,
+      settings: {
+        slidesToScroll: 2,
+        slidesToShow: 2,
       },
     },
   ]

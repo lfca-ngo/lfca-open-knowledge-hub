@@ -49,6 +49,12 @@
   }
 
   .ant-layout-sider {
+    @media @mobile {
+      position: absolute;
+      height: 100%;
+      z-index: 1000;
+    }
+
     .logo-wrapper {
       padding: 14px 10px;
       height: @layout-header-height;
