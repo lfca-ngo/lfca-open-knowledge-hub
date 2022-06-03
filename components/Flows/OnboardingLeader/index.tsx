@@ -22,7 +22,7 @@ const Commit = ({ onNext }: StepProps) => {
       <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
 
       <p>
-        {`We started LFCA with the goal to accelerate the transition towards a
+        {`We founded LFCA with the goal to accelerate the transition towards a
         sustainable economy. To make this happen, we need to leverage our
         influence on a personal, business and political level. Please start by
         signing our Green Pledge as a leader of your company.`}
@@ -164,7 +164,7 @@ export const OnboardingLeaderSteps = [
   },
   {
     component: Invite,
-    description: 'Get to know the platform',
+    description: 'Get your team on board',
     title: 'Invite',
   },
   {

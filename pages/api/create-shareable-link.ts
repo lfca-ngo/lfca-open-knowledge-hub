@@ -5,6 +5,8 @@ import { createShareToken, getImageName } from '../../utils-server-only'
 
 const getSharingImage = (country: string) => {
   switch (country) {
+    case 'oc-AU':
+      return `Backgrounds/light_linkedin_ADD-LOGO-AU_haziqz.jpg`
     case 'eu-TR':
       return `Backgrounds/light_linkedin_ADD-LOGO-TUR_1_wpwpcx.jpg`
     default:
