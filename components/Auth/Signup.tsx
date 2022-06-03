@@ -1,11 +1,11 @@
-import { Button, Form, Input, message } from 'antd'
+import { Button, Checkbox, Form, Input, message } from 'antd'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 import { useFirebase } from '../../hooks/firebase'
 import { useRegisterUserMutation } from '../../services/lfca-backend'
-import { getErrorMessage } from '../../utils'
+import { getErrorMessage, TERMS_OF_SERVICE_URL } from '../../utils'
 import {
   ONBOARDING_LEADER,
   ONBOARDING_OFFICER,
@@ -110,6 +110,19 @@ export const Signup = ({ email }: { email: string }) => {
           rules={[{ message: 'Please input a password!', required: true }]}
         >
           <Input.Password placeholder="********" />
+        </Form.Item>
+
+        <Form.Item
+          name="termsOfService"
+          rules={[{ message: 'Please agree to our T&C', required: true }]}
+          valuePropName="checked"
+        >
+          <Checkbox>
+            I have read and agree to the{' '}
+            <a href={TERMS_OF_SERVICE_URL} rel="noreferrer" target="_blank">
+              Terms and Conditions
+            </a>
+          </Checkbox>
         </Form.Item>
 
         <Form.Item>
