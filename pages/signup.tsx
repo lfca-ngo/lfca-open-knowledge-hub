@@ -20,7 +20,8 @@ const SignUp: NextPage = () => {
           <h1>Invalid invite</h1>
           <p>
             Your invite link is not valid. Please reach out to{' '}
-            <a href="mailto:info@lfca.earth">info@lfca.earth</a>{' '}
+            <a href="mailto:info@lfca.earth">info@lfca.earth</a> , so we can
+            create a new invite link for you.
           </p>
         </div>
       )}
