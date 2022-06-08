@@ -14,7 +14,9 @@ interface InviteItemProps {
 }
 
 export const InviteItem = ({ item, onMinimumInvited }: InviteItemProps) => {
-  const inviteLink = `${APP_BASE_URL}${SIGN_UP}?email=${item.email}`
+  const inviteLink = `${APP_BASE_URL}${SIGN_UP}?email=${encodeURIComponent(
+    item.email
+  )}`
 
   const handleCopy = () => {
     copyTextToClipboard(inviteLink, (note: string, hasCopied: boolean) => {
