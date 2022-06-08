@@ -18,6 +18,11 @@ const nextConfig = {
         permanent: true,
         source: '/pledge-renewal',
       },
+      {
+        destination: '/signup',
+        permanent: true,
+        source: '/registration',
+      },
     ]
   },
   webpack: (config) => {
