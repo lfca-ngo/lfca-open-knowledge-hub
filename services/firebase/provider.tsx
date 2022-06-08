@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  User,
   UserCredential,
 } from 'firebase/auth'
 import React from 'react'
@@ -75,8 +76,9 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
   const logout = React.useCallback(() => signOut(firebaseAuth), [])
 
   const refreshToken = React.useCallback(async () => {
-    const newToken = await firebaseAuth.currentUser?.getIdToken(true)
-    handleTokenChange(newToken, firebaseAuth.currentUser?.uid)
+    const currentUser = await getCurrentUser()
+    const newToken = await currentUser?.getIdToken(true)
+    handleTokenChange(newToken, currentUser?.uid)
     return newToken
   }, [])
 
@@ -110,4 +112,18 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     }
     setToken(token || null)
   }
+}
+
+// Taken from https://github.com/firebase/firebase-js-sdk/issues/462#issuecomment-671101401
+function getCurrentUser(): Promise<User | null> {
+  return new Promise((resolve, reject) => {
+    const currentUser = firebaseAuth.currentUser
+    if (currentUser) resolve(currentUser)
+    else {
+      const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
+        unsubscribe()
+        resolve(user)
+      }, reject)
+    }
+  })
 }
