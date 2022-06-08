@@ -23,7 +23,7 @@ export function withAuth<T>(
 
     React.useEffect(() => {
       if (!token) {
-        router.replace(SIGN_IN)
+        router.replace(`${SIGN_IN}?next=${router.pathname}`)
         logout()
       }
     }, [logout, router, token])

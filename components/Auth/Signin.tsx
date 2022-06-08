@@ -24,7 +24,10 @@ export const Signin = () => {
     setLoading(true)
     try {
       await login(email, password)
-      router.replace(ROOT)
+      // check if the current path contains a next query param
+      // and use that as the redirect
+      const next = `${router.query.next}` || ROOT
+      router.replace(next)
     } catch (e) {
       if (e instanceof FirebaseError) {
         setErrorMessage(e.message)
