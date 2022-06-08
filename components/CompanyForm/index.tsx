@@ -51,6 +51,7 @@ CompanyFormProps) => {
   const formItems: { [key in keyof CompanyFragment]?: React.ReactNode } = {
     aboutSections: (
       <Form.Item
+        key="aboutSections"
         label={
           <Popover
             content={
