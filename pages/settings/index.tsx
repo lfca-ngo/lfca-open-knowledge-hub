@@ -17,10 +17,7 @@ const Settings: NextPage = () => {
 
   const handleUpdate = (allValues: UpdateUserInput) => {
     updateUser({
-      input: {
-        userId: user?.id,
-        ...allValues,
-      },
+      input: allValues,
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else message.success('Profile updated')
