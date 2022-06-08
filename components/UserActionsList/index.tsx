@@ -10,10 +10,12 @@ export const UserActionsList = () => {
       input: {
         filter: {
           isCompleted: true,
+          isExpired: true,
         },
       },
     },
   })
+
   return (
     <List
       className="simple-list"

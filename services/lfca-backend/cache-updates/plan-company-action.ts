@@ -22,7 +22,7 @@ export const planCompanyAction: UpdateResolver<
 
       if (args.input.isPlanned) {
         // Add the completed action to the list of completedActions
-        data.companyActions.push(result.planCompanyAction)
+        data.companyActions = [result.planCompanyAction, ...data.companyActions]
       } else {
         // Find and remove the incompleted action from the list of completedActions
         data.companyActions = data.companyActions.filter(

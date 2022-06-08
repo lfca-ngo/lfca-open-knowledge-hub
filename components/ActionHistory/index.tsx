@@ -15,6 +15,8 @@ export const ActionHistory = ({ contentId = '' }: ActionHistoryProps) => {
       input: {
         filter: {
           actionContentIds: [contentId],
+          isCompleted: true,
+          isExpired: true,
         },
       },
     },

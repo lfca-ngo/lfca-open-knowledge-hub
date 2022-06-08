@@ -23,8 +23,8 @@ export const completeCompanyAction: UpdateResolver<
       if (args.input.isCompleted) {
         // Add the completed action to the list of completedActions
         data.companyActions = [
-          ...data.companyActions,
           result.completeCompanyAction,
+          ...data.companyActions,
         ]
       } else {
         // Find and remove the incompleted action from the list of completedActions
