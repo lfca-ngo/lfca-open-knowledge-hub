@@ -5,7 +5,16 @@ import { useUserActionsListQuery } from '../../services/lfca-backend'
 import { toReadibleDate } from '../../utils'
 
 export const UserActionsList = () => {
-  const [{ data }] = useUserActionsListQuery({
+  const [{ data: expiredData }] = useUserActionsListQuery({
+    variables: {
+      input: {
+        filter: {
+          isExpired: true,
+        },
+      },
+    },
+  })
+  const [{ data: completedData }] = useUserActionsListQuery({
     variables: {
       input: {
         filter: {
@@ -14,10 +23,16 @@ export const UserActionsList = () => {
       },
     },
   })
+
+  const allData = [
+    ...(completedData?.userActions || []),
+    ...(expiredData?.userActions || []),
+  ]
+
   return (
     <List
       className="simple-list"
-      dataSource={data?.userActions}
+      dataSource={allData}
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta

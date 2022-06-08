@@ -14,6 +14,7 @@ import {
 import { useFirebase } from '../../hooks/firebase'
 import {
   completeCompanyAction,
+  completeUserAction,
   createActionComment,
   deleteActionComment,
   planCompanyAction,
@@ -49,6 +50,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
           updates: {
             Mutation: {
               completeCompanyAction,
+              completeUserAction,
               createActionComment,
               deleteActionComment,
               planCompanyAction,
