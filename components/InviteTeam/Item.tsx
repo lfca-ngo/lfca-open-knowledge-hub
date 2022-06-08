@@ -3,7 +3,7 @@ import { Avatar, Button, Input, List, message, Popover, Row } from 'antd'
 import React from 'react'
 
 import { UserInviteFragment } from '../../services/lfca-backend'
-import { APP_BASE_URL, copyTextToClipboard } from '../../utils'
+import { copyTextToClipboard } from '../../utils'
 import { SIGN_UP } from '../../utils/routes'
 
 const BTN_WIDTH = 60
@@ -14,9 +14,9 @@ interface InviteItemProps {
 }
 
 export const InviteItem = ({ item, onMinimumInvited }: InviteItemProps) => {
-  const inviteLink = `${APP_BASE_URL}${SIGN_UP}?email=${encodeURIComponent(
-    item.email
-  )}`
+  const inviteLink = `${
+    process.env.NEXT_PUBLIC_URL
+  }${SIGN_UP}?email=${encodeURIComponent(item.email)}`
 
   const handleCopy = () => {
     copyTextToClipboard(inviteLink, (note: string, hasCopied: boolean) => {
