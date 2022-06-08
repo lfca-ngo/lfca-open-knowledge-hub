@@ -12,7 +12,7 @@ export function createShareToken({ sender, uid }: ShareToken) {
       sender,
       uid,
     },
-    process.env.JWT_TOKEN_PRIVATE_KEY || ''
+    process.env.JWT_SHARE_TOKEN_PRIVATE_KEY || ''
   )
 }
 
@@ -20,7 +20,7 @@ export function decodeShareToken(token: string) {
   try {
     const { sender = null, uid = null } = jwt.verify(
       token,
-      process.env.JWT_TOKEN_PRIVATE_KEY || ''
+      process.env.JWT_SHARE_TOKEN_PRIVATE_KEY || ''
     ) as ShareToken
 
     return {
