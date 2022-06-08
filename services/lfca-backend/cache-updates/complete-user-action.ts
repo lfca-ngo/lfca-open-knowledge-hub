@@ -17,9 +17,6 @@ export const completeUserAction: UpdateResolver<
    * To keep things simply we just invalidate the cache for the completed and expired query to force a refetch
    */
   cache.invalidate('Query', 'userActions', {
-    input: { filter: { isCompleted: true } },
-  })
-  cache.invalidate('Query', 'userActions', {
-    input: { filter: { isExpired: true } },
+    input: { filter: { isCompleted: true, isExpired: true } },
   })
 }
