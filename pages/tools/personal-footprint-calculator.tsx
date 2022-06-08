@@ -62,6 +62,7 @@ const PersonalFootprintCalculator: NextPage<
 
           <Drawer
             className="fullscreen-drawer-bottom"
+            destroyOnClose={true}
             height={'100%'}
             onClose={() => setOpen(false)}
             placement="bottom"
