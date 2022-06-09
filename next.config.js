@@ -7,23 +7,31 @@ const nextConfig = {
     domains: ['images.ctfassets.net', 'res.cloudinary.com'],
   },
   async redirects() {
-    return [
-      {
-        destination: '/actions',
-        permanent: true,
-        source: '/',
-      },
-      {
-        destination: '/renew-personal-pledge',
-        permanent: true,
-        source: '/pledge-renewal',
-      },
-      {
-        destination: '/signup',
-        permanent: true,
-        source: '/registration',
-      },
-    ]
+    return process.env.MAINTENANCE
+      ? [
+          {
+            destination: '/maintenance',
+            permanent: false,
+            source: '/((?!maintenance).*)',
+          },
+        ]
+      : [
+          {
+            destination: '/actions',
+            permanent: true,
+            source: '/',
+          },
+          {
+            destination: '/renew-personal-pledge',
+            permanent: true,
+            source: '/pledge-renewal',
+          },
+          {
+            destination: '/signup',
+            permanent: true,
+            source: '/registration',
+          },
+        ]
   },
   webpack: (config) => {
     config.resolve = {
