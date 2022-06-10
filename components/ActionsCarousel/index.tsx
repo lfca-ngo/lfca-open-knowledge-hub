@@ -5,17 +5,18 @@ import {
   ArrowRightOutlined,
   CalendarOutlined,
   HeartOutlined,
-  StarOutlined,
+  PlusCircleOutlined,
   SearchOutlined,
+  StarOutlined,
 } from '@ant-design/icons'
-import { Card, Carousel, Skeleton, Tag, Button } from 'antd'
+import { Button, Card, Carousel, Skeleton, Tag } from 'antd'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { LG_BREAKPOINT, SM_BREAKPOINT, scrollToId } from '../../utils'
+import { LG_BREAKPOINT, scrollToId, SM_BREAKPOINT } from '../../utils'
+import { EmptyState } from '../EmptyState'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
-import { EmptyState } from '../EmptyState'
 
 interface ActionsCarouselProps {
   actions: CompanyActionListItemFragment[]
@@ -114,6 +115,16 @@ export const ActionsCarousel = ({
           </Skeleton>
         )
       })}
+      <Card
+        bordered={false}
+        className="placeholder"
+        onClick={() => scrollToId('browse-actions')}
+      >
+        <div className="wrapper">
+          <PlusCircleOutlined />
+          Plan more actions
+        </div>
+      </Card>
     </Carousel>
   )
 }
