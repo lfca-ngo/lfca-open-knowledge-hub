@@ -140,6 +140,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
             : usersData?.users.items || []
         }
         loading={isFetchingUsers || isFetchingSearch}
+        rowKey={(item) => item.id}
       >
         <Column dataIndex="firstName" key="firstName" title="First name" />
         <Column dataIndex="lastName" key="lastName" title="Last name" />
