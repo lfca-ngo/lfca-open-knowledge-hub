@@ -13,10 +13,12 @@ export const Section = ({
   bordered = true,
   children,
   className,
+  id,
   title,
   titleSize,
 }: {
   children: any
+  id?: string
   title?: any
   titleSize?: any
   className?: any
@@ -26,6 +28,7 @@ export const Section = ({
     className={classNames('page-section', className, titleSize, {
       bordered: bordered,
     })}
+    id={id}
   >
     {title && <h2 className="section-title">{title}</h2>}
     <div className="section-content">{children}</div>

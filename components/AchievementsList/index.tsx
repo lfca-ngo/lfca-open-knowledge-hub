@@ -3,11 +3,13 @@ require('./styles.less')
 import { Drawer, List, message, Skeleton } from 'antd'
 import { useState } from 'react'
 
+import { EMPTY_ACHIEVEMENTS_ARRAY } from '../../services/contentful/utils'
 import {
   CompanyAchievementFragment,
-  CompanyAchievementMiniFragment,
   CompanyFragment,
   UpdateCompanyInput,
+  useCompanyAchievementsMiniQuery,
+  useCompanyAchievementsQuery,
   useCompanyQuery,
   useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
@@ -16,15 +18,12 @@ import { CompanyForm } from '../CompanyForm'
 import { Section } from '../Layout/Sections'
 import { MicrositeBadges } from '../MicrositeBadges'
 
-interface AchievementsListProps {
-  achievements: CompanyAchievementFragment[]
-  fetching?: boolean
-}
+export const AchievementsList = () => {
+  // Queries
+  const [{ data: achievementsData, fetching }] = useCompanyAchievementsQuery()
+  const achievements =
+    achievementsData?.company?.program.achievements || EMPTY_ACHIEVEMENTS_ARRAY
 
-export const AchievementsList = ({
-  achievements,
-  fetching,
-}: AchievementsListProps) => {
   // Local state
   const [activeAchievement, setActiveAchievement] =
     useState<CompanyAchievementFragment>()
@@ -106,15 +105,14 @@ export const AchievementsList = ({
   )
 }
 
-interface AchievementsListMiniProps {
-  achievements: CompanyAchievementMiniFragment[]
-  fetching?: boolean
-}
+export const AchievementsListMini = () => {
+  const [{ data: companyAchievementsData, fetching }] =
+    useCompanyAchievementsMiniQuery()
 
-export const AchievementsListMini = ({
-  achievements,
-  fetching,
-}: AchievementsListMiniProps) => {
+  const achievements =
+    companyAchievementsData?.company?.program.achievements ||
+    EMPTY_ACHIEVEMENTS_ARRAY
+
   return (
     <List
       className="achievements-list-mini"

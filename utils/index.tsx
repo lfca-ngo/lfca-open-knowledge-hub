@@ -81,6 +81,11 @@ export const copyTextToClipboard = (
   )
 }
 
+export const scrollToId = (id: string) => {
+  const section = document.querySelector(`#${id}`)
+  section?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 export const getScreenSizeType = (window: Window, document: Document) => {
   const screenWidth =
     window.innerWidth ||
