@@ -66,7 +66,7 @@ export default async function handler(
     ],
   })
 
-  const shareLink = `${process.env.NEXT_PUBLIC_URL}/signup?invite=${token}`
+  const shareLink = `${process.env.NEXT_PUBLIC_REFERRAL_FORWARD_URL}?invite=${token}`
   const ogImageUrl = socialImage || image
 
   // Create short link
