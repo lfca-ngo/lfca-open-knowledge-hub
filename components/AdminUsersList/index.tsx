@@ -77,11 +77,11 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
 
   // the first argument is the last changed value, other values are undefined
   const handleValuesChange = ({ name, uid }: { uid: string; name: string }) => {
-    if (name) {
+    if (name !== undefined) {
       form.setFieldsValue({ uid: '' })
       debouncedNameFilter(name)
     }
-    if (uid) {
+    if (uid !== undefined) {
       form.setFieldsValue({ name: '' })
       debouncedUidFilter(uid)
     }
