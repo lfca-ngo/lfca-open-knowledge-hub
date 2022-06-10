@@ -2,7 +2,7 @@ require('./styles.less')
 
 import { PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
-import { Button, Drawer, Form, Input, List, message, Space } from 'antd'
+import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
 import _debounce from 'lodash.debounce'
 import { useRef, useState } from 'react'
 
@@ -15,13 +15,14 @@ import {
   useUpdateUserMutation,
   useUsersQuery,
 } from '../../services/lfca-backend'
-
-const { Search } = Input
 import { UserFragment } from '../../services/lfca-backend'
 
 interface AdminUsersListProps {
   countries: Country[]
 }
+
+const { Column } = Table
+const { Search } = Input
 
 export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
   const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
@@ -130,26 +131,32 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
           </Form.Item>
         </Form>
       </Space>
-      <List
-        className="users-list"
+
+      <Table
+        className="users-table"
         dataSource={
           nameFilter
             ? searchData?.searchUser || []
             : usersData?.users.items || []
         }
         loading={isFetchingUsers || isFetchingSearch}
-        renderItem={(user) => (
-          <List.Item
-            actions={[
-              <Button key="edit" onClick={() => handleOpen(user)}>
+      >
+        <Column dataIndex="firstName" key="firstName" title="First name" />
+        <Column dataIndex="lastName" key="lastName" title="Last name" />
+        <Column dataIndex="id" key="id" title="Id" />
+        <Column
+          key="action"
+          render={(_, record: UserFragment) => (
+            <Space size="middle">
+              <Button onClick={() => handleOpen(record)} type="primary">
                 Edit
-              </Button>,
-            ]}
-          >
-            {user.firstName} {user.lastName}
-          </List.Item>
-        )}
-      />
+              </Button>
+            </Space>
+          )}
+          title="Action"
+        />
+      </Table>
+
       <Space>
         {!nameFilter && cursorHistory.length ? (
           <Button
