@@ -2,16 +2,7 @@ require('./styles.less')
 
 import { PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Divider,
-  Drawer,
-  Form,
-  Input,
-  List,
-  message,
-  Space,
-} from 'antd'
+import { Button, Drawer, Form, Input, List, message, Space } from 'antd'
 import _debounce from 'lodash.debounce'
 import { useRef, useState } from 'react'
 
