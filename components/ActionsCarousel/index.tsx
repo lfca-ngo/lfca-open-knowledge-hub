@@ -6,14 +6,16 @@ import {
   CalendarOutlined,
   HeartOutlined,
   StarOutlined,
+  SearchOutlined,
 } from '@ant-design/icons'
-import { Card, Carousel, Skeleton, Tag } from 'antd'
+import { Card, Carousel, Skeleton, Tag, Button } from 'antd'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { LG_BREAKPOINT, SM_BREAKPOINT } from '../../utils'
+import { LG_BREAKPOINT, SM_BREAKPOINT, scrollToId } from '../../utils'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
+import { EmptyState } from '../EmptyState'
 
 interface ActionsCarouselProps {
   actions: CompanyActionListItemFragment[]
@@ -57,6 +59,26 @@ export const ActionsCarousel = ({
       },
     },
   ]
+
+  if (actions.length === 0)
+    return (
+      <EmptyState
+        actions={[
+          <Button
+            icon={<SearchOutlined />}
+            key="explore"
+            onClick={() => scrollToId('browse-actions')}
+            type="primary"
+          >
+            Explore actions
+          </Button>,
+        ]}
+        text="Expired, recommended and planned actions will automatically appear here. Browse our collection and plan an action to get started."
+        title="You're all caught up"
+        withBackground
+      />
+    )
+
   return (
     <Carousel
       arrows={true}
