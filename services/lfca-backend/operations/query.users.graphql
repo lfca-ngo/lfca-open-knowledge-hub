@@ -1,4 +1,4 @@
-query allUsers($input: UsersInput) {
+query users($input: UsersInput) {
   users(input: $input) {
     cursor
     items {

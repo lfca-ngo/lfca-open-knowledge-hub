@@ -38,7 +38,7 @@ export type AchievementFunnelStatsInput = {
 export type ActionComment = {
   __typename?: 'ActionComment';
   attachments: Array<ActionCommentAttachment>;
-  author: User;
+  author?: Maybe<User>;
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   message: Scalars['String'];
@@ -297,7 +297,7 @@ export type CreateServiceProviderReviewInput = {
 };
 
 export type CreateUserInput = {
-  companyId?: InputMaybe<Scalars['String']>;
+  companyId: Scalars['String'];
   country: Scalars['String'];
   email: Scalars['String'];
   firstName: Scalars['String'];
@@ -365,7 +365,10 @@ export type Mutation = {
   completeUserAction: UserAction;
   createActionComment: ActionComment;
   createServiceProviderReview: ServiceProviderReview;
-  /** Allows admins to create new users */
+  /**
+   * Allows admins to create new users
+   * @deprecated use createUserInvite mutation instead
+   */
   createUser: User;
   createUserInvite: UserInvite;
   deleteActionComment: Scalars['Boolean'];
@@ -793,7 +796,7 @@ export enum ValueContentType {
 
 export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string };
 
-export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } };
+export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', id: string, firstName: string, picture?: string | null } | null };
 
 export type CategoryFragment = { __typename?: 'Category', id: string, name?: string | null };
 
@@ -845,7 +848,7 @@ export type CreateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
+export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', id: string, firstName: string, picture?: string | null } | null } };
 
 export type CreateServiceProviderReviewMutationVariables = Exact<{
   input: CreateServiceProviderReviewInput;
@@ -901,7 +904,7 @@ export type UpdateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } } };
+export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', id: string, firstName: string, picture?: string | null } | null } };
 
 export type UpdateCompanyMutationVariables = Exact<{
   input: UpdateCompanyInput;
@@ -936,7 +939,7 @@ export type ActionCommentsQueryVariables = Exact<{
 }>;
 
 
-export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author: { __typename?: 'User', id: string, firstName: string, picture?: string | null } }> };
+export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', id: string, firstName: string, picture?: string | null } | null }> };
 
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -966,6 +969,13 @@ export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignGoalSetting?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> } };
+
+export type SearchUserQueryVariables = Exact<{
+  input: SearchUserInput;
+}>;
+
+
+export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null }> };
 
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
@@ -1002,12 +1012,12 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
-export type AllUsersQueryVariables = Exact<{
+export type UsersQueryVariables = Exact<{
   input?: InputMaybe<UsersInput>;
 }>;
 
 
-export type AllUsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null }> } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null }> } };
 
 export const ActionCommentAttachmentFragmentDoc = gql`
     fragment ActionCommentAttachment on ActionCommentAttachment {
@@ -1496,6 +1506,17 @@ export const CompanyDocument = gql`
 export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyQuery>({ query: CompanyDocument, ...options });
 };
+export const SearchUserDocument = gql`
+    query searchUser($input: SearchUserInput!) {
+  searchUser(input: $input) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+export function useSearchUserQuery(options: Omit<Urql.UseQueryArgs<SearchUserQueryVariables>, 'query'>) {
+  return Urql.useQuery<SearchUserQuery>({ query: SearchUserDocument, ...options });
+};
 export const ServiceProviderReviewsDocument = gql`
     query serviceProviderReviews($input: ServiceProviderReviewsInput!) {
   serviceProviderReviews(input: $input) {
@@ -1554,8 +1575,8 @@ export const UserDocument = gql`
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
   return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
 };
-export const AllUsersDocument = gql`
-    query allUsers($input: UsersInput) {
+export const UsersDocument = gql`
+    query users($input: UsersInput) {
   users(input: $input) {
     cursor
     items {
@@ -1565,6 +1586,6 @@ export const AllUsersDocument = gql`
 }
     ${UserFragmentDoc}`;
 
-export function useAllUsersQuery(options?: Omit<Urql.UseQueryArgs<AllUsersQueryVariables>, 'query'>) {
-  return Urql.useQuery<AllUsersQuery>({ query: AllUsersDocument, ...options });
+export function useUsersQuery(options?: Omit<Urql.UseQueryArgs<UsersQueryVariables>, 'query'>) {
+  return Urql.useQuery<UsersQuery>({ query: UsersDocument, ...options });
 };
