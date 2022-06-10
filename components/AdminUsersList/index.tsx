@@ -140,6 +140,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
         </Form>
       </Space>
       <List
+        className="users-list"
         dataSource={
           nameFilter
             ? searchData?.searchUser || []
