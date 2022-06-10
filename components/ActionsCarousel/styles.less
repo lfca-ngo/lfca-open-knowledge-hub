@@ -105,6 +105,31 @@
     &:nth-child(3n) {
       .color-card(@green);
     }
+
+    .ant-card.placeholder {
+      background: @grey-white;
+      color: @black;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .anticon {
+        font-size: 26px;
+        margin: 10px 0;
+      }
+
+      &:hover {
+        background: @grey-white;
+        color: @black;
+      }
+    }
   }
 
   // Skeleton loader

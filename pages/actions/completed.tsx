@@ -36,7 +36,11 @@ const CompletedActions: NextPage = () => {
                 return (
                   <List.Item>
                     <ActionCardSkeleton fetching={fetchingActions}>
-                      <ActionCardWrapper action={item} renderAsLink />
+                      <ActionCardWrapper
+                        action={item}
+                        renderAsLink
+                        unselectText=""
+                      />
                     </ActionCardSkeleton>
                   </List.Item>
                 )
