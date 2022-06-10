@@ -14,13 +14,9 @@ import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
-import {
-  EMPTY_ACHIEVEMENTS_ARRAY,
-  EMPTY_ACTIONS_ARRAY,
-} from '../../services/contentful/utils'
+import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
 import {
   sortCompanyActionsByCategories,
-  useCompanyAchievementsMiniQuery,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
@@ -37,10 +33,6 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
     useCompanyActionsListQuery()
-
-  // TODO: UI for error state
-  const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
-    useCompanyAchievementsMiniQuery()
 
   const actionsByCategories = useMemo(
     () =>
@@ -99,13 +91,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
       </Main>
       <Sider>
         <Section title="Achievements">
-          <AchievementsListMini
-            achievements={
-              companyAchievementsData?.company.program.achievements ||
-              EMPTY_ACHIEVEMENTS_ARRAY
-            }
-            fetching={fetchingAchievements}
-          />
+          <AchievementsListMini />
         </Section>
         <Section title="Links">
           <ContentListMini content={content} />
