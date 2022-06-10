@@ -10,6 +10,7 @@ interface EmptyStateProps {
   title: string
   text: React.ReactNode
   actions?: React.ReactNode[]
+  withBackground?: boolean
 }
 
 export const EmptyState = ({
@@ -20,11 +21,13 @@ export const EmptyState = ({
   size = 'large',
   text,
   title,
+  withBackground = false,
 }: EmptyStateProps) => {
   return (
     <div
       className={classNames('empty-state', alignment, size, {
         bordered: bordered,
+        'with-background': withBackground,
       })}
     >
       <header className="title">
