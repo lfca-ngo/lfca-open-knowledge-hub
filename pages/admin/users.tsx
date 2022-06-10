@@ -147,27 +147,36 @@ const AdminUsers: NextPage<AdminUsersProps> = ({ countries }) => {
               </List.Item>
             )}
           />
-          {!nameFilter && cursorHistory.length ? (
-            <Button
-              onClick={() => {
-                const [prevCursor, ...remainingHistory] = cursorHistory
-                setCursorHistory(remainingHistory)
-                setCursor(prevCursor)
-              }}
-            >
-              Previous Page
-            </Button>
-          ) : null}
-          {!nameFilter && usersData?.users.cursor ? (
-            <Button
-              onClick={() => {
-                setCursorHistory((v) => [cursor, ...v])
-                setCursor(usersData.users.cursor ?? null)
-              }}
-            >
-              Next Page
-            </Button>
-          ) : null}
+          <div style={{ textAlign: 'center' }}>
+            {!nameFilter && cursorHistory.length ? (
+              <>
+                {' '}
+                <Button
+                  onClick={() => {
+                    const [prevCursor, ...remainingHistory] = cursorHistory
+                    setCursorHistory(remainingHistory)
+                    setCursor(prevCursor)
+                  }}
+                  type="text"
+                >
+                  {'< Previous'}
+                </Button>{' '}
+              </>
+            ) : null}
+
+            {!nameFilter && usersData?.users.cursor ? (
+              <Button
+                onClick={() => {
+                  setCursorHistory((v) => [cursor, ...v])
+                  setCursor(usersData.users.cursor ?? null)
+                }}
+                type="text"
+              >
+                {'Next >'}
+              </Button>
+            ) : null}
+          </div>
+
           <Drawer
             className="drawer-md"
             destroyOnClose
