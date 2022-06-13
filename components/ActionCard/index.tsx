@@ -94,7 +94,6 @@ export const ActionCard = ({
       input: {
         actionContentId: action.contentId,
         isCompleted: false,
-        skipRequirementsCheck: true,
       },
     }).then(({ error }) => {
       if (error) message.error(error.message)
