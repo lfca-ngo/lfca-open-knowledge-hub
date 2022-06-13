@@ -34,7 +34,6 @@ export const RequirementsItem = ({
         actionContentId: actionContentId,
         actionRequirementContentId: item.reqId,
         isCompleted: !!!item.completedAt,
-        skipValueCheck: true,
       },
     }).then(({ data, error }) => {
       if (error) {

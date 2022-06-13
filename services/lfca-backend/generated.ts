@@ -14,7 +14,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  ActionRequirementDBValue: any;
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
@@ -61,21 +60,6 @@ export type ActionCommentsInput = {
   actionContentId: Scalars['String'];
 };
 
-export type ActionRequirementValue = {
-  __typename?: 'ActionRequirementValue';
-  contentId: Scalars['String'];
-  hint?: Maybe<Scalars['String']>;
-  /** A unique identifier generated using the CompanyActionRequirement.id and contentId */
-  id: Scalars['ID'];
-  inputOptions?: Maybe<Array<Maybe<InputOption>>>;
-  placeholder?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  type: ValueContentType;
-  unit?: Maybe<Scalars['String']>;
-  /** The value stored in the DB */
-  value?: Maybe<Scalars['ActionRequirementDBValue']>;
-};
-
 export type ActionStats = {
   __typename?: 'ActionStats';
   actionCompletedCount: Scalars['Int'];
@@ -94,23 +78,6 @@ export type Category = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   sortWeight?: Maybe<Scalars['Int']>;
-};
-
-export type ComaniesTakingActionResultItem = {
-  __typename?: 'ComaniesTakingActionResultItem';
-  actionContentId: Scalars['String'];
-  companiesCompleted: Array<Company>;
-  companiesPlanned: Array<Company>;
-  total: Scalars['Int'];
-};
-
-export type CompaniesTakingActionInput = {
-  filter?: InputMaybe<CompaniesTakingActionInputFilter>;
-  limitCompaniesPerAction?: InputMaybe<Scalars['Int']>;
-};
-
-export type CompaniesTakingActionInputFilter = {
-  actionContentIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type Company = {
@@ -206,7 +173,6 @@ export type CompanyActionRequirement = {
   /** A unique identifier generated using the CompanyAction.id and contentId */
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
-  values?: Maybe<Array<Maybe<ActionRequirementValue>>>;
 };
 
 export type CompanyActionsInput = {
@@ -218,20 +184,6 @@ export type CompanyActionsInputFilter = {
   isCompleted?: InputMaybe<Scalars['Boolean']>;
   isExpired?: InputMaybe<Scalars['Boolean']>;
   isPlanned?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type CompanyImpactInput = {
-  filter?: InputMaybe<CompanyImpactInputFilter>;
-};
-
-export type CompanyImpactInputFilter = {
-  excludeActionContentIds?: InputMaybe<Array<Scalars['String']>>;
-};
-
-export type CompanyImpactResult = {
-  __typename?: 'CompanyImpactResult';
-  amountOfCompletedRequirements: Scalars['Int'];
-  impact: Scalars['Float'];
 };
 
 export type CompanyProgram = {
@@ -247,16 +199,12 @@ export type CompleteCompanyActionInput = {
   actionContentId: Scalars['String'];
   isCompleted: Scalars['Boolean'];
   notes?: InputMaybe<Scalars['String']>;
-  skipRequirementsCheck?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CompleteCompanyActionRequirementInput = {
   actionContentId: Scalars['String'];
   actionRequirementContentId: Scalars['String'];
   isCompleted: Scalars['Boolean'];
-  skipValueCheck?: InputMaybe<Scalars['Boolean']>;
-  /** Some requirements have mandatory values to be provided on completion */
-  values?: InputMaybe<Scalars['JSON']>;
 };
 
 export type CompleteUserActionInput = {
@@ -346,17 +294,6 @@ export type FileInput = {
   name?: InputMaybe<Scalars['String']>;
   url: Scalars['String'];
 };
-
-export type InputOption = {
-  __typename?: 'InputOption';
-  label?: Maybe<Scalars['String']>;
-  type: InputOptionType;
-  valueString?: Maybe<Scalars['String']>;
-};
-
-export enum InputOptionType {
-  STRING = 'STRING'
-}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -486,17 +423,9 @@ export type Query = {
   actionCommentAttachments: Array<ActionCommentAttachment>;
   actionComments: Array<ActionComment>;
   actionStats: Array<ActionStats>;
-  /** @deprecated use CompanyAction.companiesCompletedCount and CompanyAction.companiesCompleted */
-  companiesTakingAction: Array<ComaniesTakingActionResultItem>;
   company: Company;
   companyAction: CompanyAction;
   companyActions: Array<CompanyAction>;
-  /** @deprecated not used anymore */
-  companyImpact: CompanyImpactResult;
-  /** @deprecated use companyActions with filter */
-  completedCompanyActions: Array<CompanyAction>;
-  /** @deprecated use companyActions with filter */
-  plannedCompanyActions: Array<CompanyAction>;
   qualifiedCompanies: Array<Company>;
   searchUser: Array<User>;
   serviceProviderReviews: ServiceProviderReviewsResult;
@@ -528,11 +457,6 @@ export type QueryActionStatsArgs = {
 };
 
 
-export type QueryCompaniesTakingActionArgs = {
-  input?: InputMaybe<CompaniesTakingActionInput>;
-};
-
-
 export type QueryCompanyActionArgs = {
   input: CompanyActionInput;
 };
@@ -540,11 +464,6 @@ export type QueryCompanyActionArgs = {
 
 export type QueryCompanyActionsArgs = {
   input?: InputMaybe<CompanyActionsInput>;
-};
-
-
-export type QueryCompanyImpactArgs = {
-  input?: InputMaybe<CompanyImpactInput>;
 };
 
 
@@ -786,13 +705,6 @@ export type UsersResult = {
   cursor?: Maybe<Scalars['String']>;
   items: Array<User>;
 };
-
-export enum ValueContentType {
-  BOOLEAN = 'BOOLEAN',
-  INPUT = 'INPUT',
-  SELECT = 'SELECT',
-  UPLOAD = 'UPLOAD'
-}
 
 export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string };
 

@@ -61,7 +61,6 @@ export const CompleteActionForm = ({
         actionContentId,
         isCompleted: true,
         notes: notes,
-        skipRequirementsCheck: true,
       },
     })
     openNotification()
