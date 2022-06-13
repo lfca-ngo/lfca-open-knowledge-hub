@@ -12,7 +12,7 @@ import {
 } from 'urql'
 
 import { useFirebase } from '../../hooks/firebase'
-// import { companyAction } from './cache-resolvers'
+import { companyAction } from './cache-resolvers'
 import {
   completeCompanyAction,
   completeUserAction,
@@ -48,11 +48,11 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
             ServiceProviderReviewsResult: (data) => data.cursor as string,
             UsersResult: (data) => data.cursor as string,
           },
-          // resolvers: {
-          //   Query: {
-          //     companyAction,
-          //   },
-          // },
+          resolvers: {
+            Query: {
+              companyAction,
+            },
+          },
           schema: schema as IntrospectionData,
           updates: {
             Mutation: {
