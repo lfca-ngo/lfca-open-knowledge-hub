@@ -1,4 +1,9 @@
-import { CopyOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  CheckOutlined,
+  CopyOutlined,
+  HourglassOutlined,
+  MessageOutlined,
+} from '@ant-design/icons'
 import { Avatar, Button, Input, List, message, Popover, Row } from 'antd'
 import React from 'react'
 
@@ -29,35 +34,44 @@ export const InviteItem = ({ item, onMinimumInvited }: InviteItemProps) => {
 
   return (
     <List.Item
-      actions={[
-        <Popover
-          content={
-            <Row>
-              <Input.Group compact>
-                <Input
-                  disabled
-                  style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
-                  value={inviteLink}
-                />
-                <Button
-                  icon={<CopyOutlined />}
-                  onClick={handleCopy}
-                  style={{ width: `${BTN_WIDTH}px` }}
-                />
-              </Input.Group>
-            </Row>
-          }
-          key="mail"
-          title={'Copy & Share the link'}
-        >
-          <Button ghost icon={<MessageOutlined />}>
-            Invite via Message
-          </Button>
-        </Popover>,
-      ]}
+      actions={
+        !item.user
+          ? [
+              <Popover
+                content={
+                  <Row>
+                    <Input.Group compact>
+                      <Input
+                        disabled
+                        style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
+                        value={inviteLink}
+                      />
+                      <Button
+                        icon={<CopyOutlined />}
+                        onClick={handleCopy}
+                        style={{ width: `${BTN_WIDTH}px` }}
+                      />
+                    </Input.Group>
+                  </Row>
+                }
+                key="mail"
+                title={'Copy & Share the link'}
+              >
+                <Button ghost icon={<MessageOutlined />}>
+                  Invite via Message
+                </Button>
+              </Popover>,
+            ]
+          : []
+      }
     >
       <List.Item.Meta
-        avatar={<Avatar className="wine-inverse" icon={<UserOutlined />} />}
+        avatar={
+          <Avatar
+            className={item.user ? 'green-inverse' : 'wine-inverse'}
+            icon={item.user ? <CheckOutlined /> : <HourglassOutlined />}
+          />
+        }
         title={item.email || 'Anonymous'}
       />
     </List.Item>

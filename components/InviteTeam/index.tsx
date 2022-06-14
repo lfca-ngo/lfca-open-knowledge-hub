@@ -43,17 +43,21 @@ export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
         <Form.Item className="email-input" name="email">
           <Input placeholder="tom@company.co" size="large" />
         </Form.Item>
-        <Form.Item>
-          <Button
-            block
-            htmlType="submit"
-            icon={<PlusOutlined />}
-            loading={isCreatingInvite}
-            size="large"
-            type="primary"
-          >
-            Add
-          </Button>
+
+        <Form.Item shouldUpdate>
+          {({ getFieldValue }) => (
+            <Button
+              block
+              disabled={!getFieldValue('email')}
+              htmlType="submit"
+              icon={<PlusOutlined />}
+              loading={isCreatingInvite}
+              size="large"
+              type={!getFieldValue('email') ? 'ghost' : 'primary'}
+            >
+              Add
+            </Button>
+          )}
         </Form.Item>
       </Form>
 
