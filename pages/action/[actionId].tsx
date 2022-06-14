@@ -53,8 +53,8 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   const [{ fetching: fetchingCompleteCompanyAction }, completeCompanyAction] =
     useCompleteCompanyActionMutation()
 
-  const handleComplete = async () => {
-    if (actionData?.companyAction.completedAt) {
+  const handleComplete = async (isCompleted: boolean) => {
+    if (!isCompleted) {
       await completeCompanyAction({
         input: {
           actionContentId: action.actionId,
@@ -146,6 +146,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       <Sider>
         <Section title="Your progress">
           <ActionsBar
+            canExpire={!!action.expiresAfterDays}
             fetchingCompleted={
               fetchingActionData || fetchingCompleteCompanyAction
             }

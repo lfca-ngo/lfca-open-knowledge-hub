@@ -3,6 +3,7 @@ require('./styles.less')
 import {
   CalendarOutlined,
   CheckOutlined,
+  ReloadOutlined,
   UndoOutlined,
 } from '@ant-design/icons'
 import { Button, Skeleton, Space } from 'antd'
@@ -56,15 +57,17 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
 }
 
 interface ActionsBarProps {
+  canExpire: boolean
   fetchingCompleted: boolean
   fetchingPlanned: boolean
   isCompleted: boolean
   isPlanned: boolean
-  onComplete: () => void
+  onComplete: (isComplete: boolean) => void
   onPlan: () => void
 }
 
 export const ActionsBar = ({
+  canExpire,
   fetchingCompleted,
   fetchingPlanned,
   isCompleted,
@@ -75,12 +78,24 @@ export const ActionsBar = ({
   return (
     <div className="actions-bar">
       <Space direction="vertical" style={{ width: '100%' }}>
+        {canExpire && isCompleted ? (
+          <Button
+            block
+            icon={<ReloadOutlined />}
+            loading={fetchingCompleted}
+            onClick={() => onComplete(true)}
+            size="large"
+            type="primary"
+          >
+            Renew
+          </Button>
+        ) : null}
         <Button
           block
           ghost={isCompleted}
           icon={isCompleted ? <UndoOutlined /> : <CheckOutlined />}
           loading={fetchingCompleted}
-          onClick={onComplete}
+          onClick={() => onComplete(isCompleted ? false : true)}
           size="large"
           type={isCompleted ? 'default' : 'primary'}
         >
