@@ -11,7 +11,7 @@ import {
 export const completeCompanyAction: UpdateResolver<
   CompleteCompanyActionMutation,
   CompleteCompanyActionMutationVariables
-> = (_, __, cache) => {
+> = (_, args, cache) => {
   /**
    * NOTE:
    * If a company action is completed again (renewed), the BE will set the previously completed to expired (setting ID to random uuid)
