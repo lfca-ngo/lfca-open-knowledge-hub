@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Select } from 'antd'
+import { Button, Form, Input, InputNumber, Popconfirm, Select } from 'antd'
 import { useEffect } from 'react'
 
 import { Country } from '../../services/contentful'
@@ -19,6 +19,7 @@ interface UserFormProps {
   initialValues?: UserFragment
   isLoading?: boolean
   onCreate?: (values: CreateUserInput) => void
+  onDelete?: () => void
   onUpdate?: (values: UpdateUserInput) => void
   type: 'create' | 'update'
 }
@@ -29,6 +30,7 @@ export const UserForm = ({
   initialValues,
   isLoading = false,
   onCreate,
+  onDelete,
   onUpdate,
   type,
 }: UserFormProps) => {
@@ -173,7 +175,18 @@ export const UserForm = ({
             : true
         )
         .map((key) => formItems[key as keyof UserFragment])}
+
       <Form.Item>
+        <Popconfirm
+          cancelText="No"
+          okText="Yes"
+          onConfirm={onDelete}
+          title="Are you sure to delete this user?"
+        >
+          <Button danger loading={isLoading}>
+            Delete
+          </Button>
+        </Popconfirm>{' '}
         <Button htmlType="submit" loading={isLoading} type="primary">
           Save
         </Button>
