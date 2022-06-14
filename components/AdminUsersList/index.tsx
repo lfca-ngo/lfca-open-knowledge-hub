@@ -11,6 +11,7 @@ import { UserForm } from '../../components/UserForm'
 import { Country } from '../../services/contentful'
 import {
   UpdateUserInput,
+  useDeleteUserMutation,
   useSearchUserQuery,
   useUpdateUserMutation,
   useUsersQuery,
@@ -52,6 +53,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
   ).current
 
   const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
+  const [{ fetching: isDeletingUser }, deleteUser] = useDeleteUserMutation()
 
   const [{ data: usersData, fetching: isFetchingUsers }] = useUsersQuery({
     pause: !!nameFilter,
@@ -93,6 +95,11 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     setSelectedUser(user)
   }
 
+  const handleClose = () => {
+    setIsOpen(false)
+    setSelectedUser(undefined)
+  }
+
   const handleUpdate = (allValues: UpdateUserInput) => {
     updateUser({
       input: {
@@ -102,6 +109,22 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else message.success('User updated')
+    })
+  }
+
+  const handleDelete = () => {
+    if (!selectedUser?.id) return
+
+    deleteUser({
+      input: {
+        userId: selectedUser.id,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('User deleted')
+        handleClose()
+      }
     })
   }
 
@@ -140,6 +163,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
             : usersData?.users.items || []
         }
         loading={isFetchingUsers || isFetchingSearch}
+        rowClassName={(item) => (item.deletedAt ? 'row-deleted' : 'undefined')}
         rowKey={(item) => item.id}
       >
         <Column dataIndex="firstName" key="firstName" title="First name" />
@@ -147,13 +171,17 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
         <Column dataIndex="id" key="id" title="Id" />
         <Column
           key="action"
-          render={(_, record: UserFragment) => (
-            <Space size="middle">
-              <Button onClick={() => handleOpen(record)} type="primary">
-                Edit
-              </Button>
-            </Space>
-          )}
+          render={(_, record: UserFragment) =>
+            !record.deletedAt ? (
+              <Space size="middle">
+                <Button onClick={() => handleOpen(record)} type="primary">
+                  Edit
+                </Button>
+              </Space>
+            ) : (
+              'Deleted'
+            )
+          }
           title="Action"
         />
       </Table>
@@ -186,7 +214,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
       <Drawer
         className="drawer-md"
         destroyOnClose
-        onClose={() => setIsOpen(false)}
+        onClose={handleClose}
         visible={isOpen}
       >
         {selectedUser ? (
@@ -195,7 +223,8 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
             <UserForm
               countries={countries}
               initialValues={selectedUser}
-              isLoading={isUpdatingUser}
+              isLoading={isUpdatingUser || isDeletingUser}
+              onDelete={handleDelete}
               onUpdate={handleUpdate}
               type={'update'}
             />

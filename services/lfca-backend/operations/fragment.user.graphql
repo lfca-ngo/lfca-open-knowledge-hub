@@ -1,6 +1,7 @@
 fragment User on User {
   companyId
   country
+  deletedAt
   email
   firstName
   id

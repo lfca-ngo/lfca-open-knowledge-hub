@@ -2267,6 +2267,14 @@
             "args": []
           },
           {
+            "name": "deletedAt",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "email",
             "type": {
               "kind": "NON_NULL",
