@@ -34,7 +34,12 @@ export const ServiceProviderComparison = () => {
   )
 
   useEffect(() => {
-    setList(data?.serviceProviders || [])
+    // sort providers by amount of reviews
+    const sortedList = (data?.serviceProviders || []).sort((a, b) => {
+      return b?.reviewsCount - a?.reviewsCount
+    })
+
+    setList(sortedList)
   }, [data])
 
   // filtering function
