@@ -3,8 +3,9 @@ fragment ActionComment on ActionComment {
     ...ActionCommentAttachment
   }
   author {
-    id
+    email
     firstName
+    id
     picture
   }
   id

@@ -37,14 +37,31 @@ export const CommentItem = ({
 }: CommentItemProps) => {
   const readibleDate = toReadibleDate(comment.createdAt)
 
+  const handleContactViaEmail = () => {
+    location.href = `mailto:${comment.author?.email}`
+  }
+
   return (
     <div className="comment-item">
       <div className="author">
-        {comment.author?.picture ? (
-          <Avatar className="blue" src={comment.author.picture} />
-        ) : (
-          <Avatar className="blue-inverse" icon={<UserOutlined />} />
-        )}
+        <Popover
+          content={
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={handleContactViaEmail}
+              size="small"
+            >
+              Contact via Email
+            </Button>
+          }
+          visible={!comment.author?.email ? false : undefined}
+        >
+          {comment.author?.picture ? (
+            <Avatar className="blue" src={comment.author.picture} />
+          ) : (
+            <Avatar className="blue-inverse" icon={<UserOutlined />} />
+          )}
+        </Popover>
         {comment.author?.firstName ? (
           <span className="name">
             {comment.author.firstName}{' '}
