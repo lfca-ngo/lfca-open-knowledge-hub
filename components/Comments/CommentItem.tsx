@@ -1,6 +1,7 @@
 import {
   DeleteOutlined,
   EditOutlined,
+  MailOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons'
@@ -47,7 +48,7 @@ export const CommentItem = ({
         <Popover
           content={
             <Button
-              icon={<DeleteOutlined />}
+              icon={<MailOutlined />}
               onClick={handleContactViaEmail}
               size="small"
             >
