@@ -146,16 +146,6 @@ CompanyFormProps) => {
         <TextArea />
       </Form.Item>
     ),
-    campaignGoalSetting: (
-      <Form.Item
-        key="campaignGoalSetting"
-        label="Campaign Goal Setting"
-        name="campaignGoalSetting"
-        rules={[{ message: 'Please add your campaign goals', required: false }]}
-      >
-        <TextArea />
-      </Form.Item>
-    ),
     logoUrl: (
       <Form.Item
         key="logoUrl"
