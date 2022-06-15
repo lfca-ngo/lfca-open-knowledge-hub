@@ -43,7 +43,7 @@ export const CompleteActionForm = ({
     attachments?: File[],
     notes?: string
   ) => {
-    if (message) {
+    if (message || attachments?.length) {
       await createActionComment({
         input: {
           actionContentId,
