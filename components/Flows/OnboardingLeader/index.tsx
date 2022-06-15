@@ -19,7 +19,7 @@ const Commit = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">Pledge</Tag>
-      <h1>{`Welcome ${user?.firstName}, let's get you started!`}</h1>
+      <h1>{`Welcome ${user?.firstName || ''}, let's get you started!`}</h1>
 
       <p>
         {`We founded LFCA with the goal to accelerate the transition towards a

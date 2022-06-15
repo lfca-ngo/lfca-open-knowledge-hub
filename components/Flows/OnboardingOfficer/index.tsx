@@ -2,6 +2,7 @@ import { ArrowRightOutlined, SlackOutlined } from '@ant-design/icons'
 import { Button, Drawer, Space, Tag } from 'antd'
 import { useState } from 'react'
 
+import { useUser } from '../../../hooks/user'
 import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
@@ -40,10 +41,12 @@ interface StepProps {
 }
 
 const Intro = ({ onNext }: StepProps) => {
+  const { user } = useUser()
+
   return (
     <div>
       <Tag className="super-text">Intro</Tag>
-      <h1>{`Welcome Timo, let's get you started!`}</h1>
+      <h1>{`Welcome ${user?.firstName || ''}, let's get you started!`}</h1>
       <p>
         {`The lfca platform is the place where we collect and share our
         community's knowledge. It's the place where we inspire you to realize

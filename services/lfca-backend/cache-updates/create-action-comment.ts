@@ -22,6 +22,9 @@ export const createActionComment: UpdateResolver<
       },
     },
     (data) => {
+      // Empty comments (with attachment only) should not be included
+      if (!result.createActionComment.message) return data
+
       if (!data?.actionComments)
         return {
           actionComments: [result.createActionComment],
