@@ -1,11 +1,11 @@
-import { CheckOutlined, HourglassOutlined } from '@ant-design/icons'
-import { Avatar, Button, Form, Input, List, message, Select } from 'antd'
+import { Button, Form, Input, List, message, Select } from 'antd'
 
 import {
   useCreateUserInviteMutation,
   useUserInvitesQuery,
 } from '../../services/lfca-backend'
 import { ROLES } from '../../utils'
+import { InviteItem } from '../InviteTeam/Item'
 
 const { Option } = Select
 
@@ -113,19 +113,7 @@ export const InviteUserForm = () => {
         dataSource={invitesData?.userInvites || []}
         header={<h3>All invites</h3>}
         loading={isFetchingInvites}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  className={item.user ? 'green-inverse' : 'wine-inverse'}
-                  icon={item.user ? <CheckOutlined /> : <HourglassOutlined />}
-                />
-              }
-              title={item.email || 'Anonymous'}
-            />
-          </List.Item>
-        )}
+        renderItem={(item) => <InviteItem copyBtnInline item={item} />}
       />
     </div>
   )
