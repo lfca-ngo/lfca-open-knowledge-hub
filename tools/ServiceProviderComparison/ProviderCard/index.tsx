@@ -133,12 +133,21 @@ export const ProviderCard = ({
       </div>
       <div className="actions">
         <div className="reviews">
-          <Rate
-            allowHalf
-            className={provider.reviewsCount < 3 ? 'light' : undefined}
-            disabled
-            value={provider.averageRating ?? undefined}
-          />
+          <Popover
+            content="Take this with a grain of salt because we only have a small number of reviews so far."
+            overlayClassName="popover-sm"
+            placement="top"
+            visible={provider.reviewsCount < 3 ? undefined : false}
+          >
+            <span>
+              <Rate
+                allowHalf
+                className={provider.reviewsCount < 3 ? 'light' : undefined}
+                disabled
+                value={provider.averageRating ?? undefined}
+              />
+            </span>
+          </Popover>
           <Button
             disabled={!provider.reviewsCount}
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
