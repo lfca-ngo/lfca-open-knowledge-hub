@@ -18,6 +18,7 @@ import {
   ServiceProviderFragment,
   TagFragment,
 } from '../../../services/lfca-backend'
+import { formatCurrency } from '../../../utils'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -55,9 +56,12 @@ export const ProviderCard = ({
   onOpenWebsite,
   provider,
 }: ProviderCardProps) => {
-  const priceRange = `${provider.lowestPrice || ''}€ - ${
-    provider.highestPrice || ''
-  }€`
+  const priceRange =
+    provider.lowestPrice === provider.highestPrice
+      ? formatCurrency(provider.lowestPrice)
+      : `${formatCurrency(provider.lowestPrice)} - ${formatCurrency(
+          provider.highestPrice
+        )}`
 
   return (
     <Card bordered={false} className="provider-card">
@@ -162,15 +166,18 @@ export const ProviderCard = ({
           </Button>
 
           <div className="ranges">
-            <Popover
-              content="The price range (yearly) is based on experiences shared by
+            {(provider.highestPrice || provider.lowestPrice) &&
+            provider.reviewsCount > 2 ? (
+              <Popover
+                content="The price range (yearly) is based on experiences shared by
                other members. The value is not necessarily indicative of the
                actual price."
-              overlayClassName="popover-sm"
-              placement="bottom"
-            >
-              <Tag icon={<InfoCircleOutlined />}>{priceRange}</Tag>
-            </Popover>
+                overlayClassName="popover-sm"
+                placement="bottom"
+              >
+                <Tag icon={<InfoCircleOutlined />}>{priceRange}</Tag>
+              </Popover>
+            ) : null}
           </div>
         </div>
         <Button
