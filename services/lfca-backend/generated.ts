@@ -723,13 +723,15 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> };
 
-export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null };
+export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null };
 
 export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }> };
 
 export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null };
 
 export type UserActionFragment = { __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null };
+
+export type UserAvatarFragment = { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null };
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
@@ -768,7 +770,7 @@ export type CreateServiceProviderReviewMutationVariables = Exact<{
 }>;
 
 
-export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null } };
+export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
 
 export type CreateUserInviteMutationVariables = Exact<{
   input: CreateUserInviteInput;
@@ -838,7 +840,7 @@ export type UpdateServiceProviderReviewMutationVariables = Exact<{
 }>;
 
 
-export type UpdateServiceProviderReviewMutation = { __typename?: 'Mutation', updateServiceProviderReview?: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null } | null };
+export type UpdateServiceProviderReviewMutation = { __typename?: 'Mutation', updateServiceProviderReview?: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
@@ -902,7 +904,7 @@ export type ServiceProviderReviewsQueryVariables = Exact<{
 }>;
 
 
-export type ServiceProviderReviewsQuery = { __typename?: 'Query', serviceProviderReviews: { __typename?: 'ServiceProviderReviewsResult', cursor?: string | null, items: Array<{ __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', id: string, firstName: string } | null }> } };
+export type ServiceProviderReviewsQuery = { __typename?: 'Query', serviceProviderReviews: { __typename?: 'ServiceProviderReviewsResult', cursor?: string | null, items: Array<{ __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null }> } };
 
 export type ServiceProvidersQueryVariables = Exact<{
   input?: InputMaybe<ServiceProvidersInput>;
@@ -948,22 +950,28 @@ export const ActionCommentAttachmentFragmentDoc = gql`
   source
 }
     `;
+export const UserAvatarFragmentDoc = gql`
+    fragment UserAvatar on User {
+  email
+  firstName
+  id
+  picture
+}
+    `;
 export const ActionCommentFragmentDoc = gql`
     fragment ActionComment on ActionComment {
   attachments {
     ...ActionCommentAttachment
   }
   author {
-    email
-    firstName
-    id
-    picture
+    ...UserAvatar
   }
   id
   message
   createdAt
 }
-    ${ActionCommentAttachmentFragmentDoc}`;
+    ${ActionCommentAttachmentFragmentDoc}
+${UserAvatarFragmentDoc}`;
 export const CompanyAchievementMiniFragmentDoc = gql`
     fragment CompanyAchievementMini on CompanyAchievement {
   completedCompanyActionsCount
@@ -1083,8 +1091,7 @@ export const CompanyFragmentDoc = gql`
 export const ServiceProviderReviewFragmentDoc = gql`
     fragment ServiceProviderReview on ServiceProviderReview {
   author {
-    id
-    firstName
+    ...UserAvatar
   }
   cons
   createdAt
@@ -1093,7 +1100,7 @@ export const ServiceProviderReviewFragmentDoc = gql`
   rating
   review
 }
-    `;
+    ${UserAvatarFragmentDoc}`;
 export const TagFragmentDoc = gql`
     fragment Tag on Tag {
   id

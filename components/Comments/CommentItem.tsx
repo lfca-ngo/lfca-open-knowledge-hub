@@ -1,11 +1,9 @@
 import {
   DeleteOutlined,
   EditOutlined,
-  MailOutlined,
   SettingOutlined,
-  UserOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Popconfirm, Popover, Space } from 'antd'
+import { Button, Popconfirm, Popover, Space } from 'antd'
 import { marked } from 'marked'
 import React from 'react'
 
@@ -13,6 +11,7 @@ import { ActionCommentFragment } from '../../services/lfca-backend'
 import { toReadibleDate } from '../../utils'
 import { AttachmentButton } from '../AttachmentsList/AttachmentButton'
 import { ShowMore } from '../ShowMore'
+import { UserAvatar } from '../UserAvatar'
 
 // Extend the default renderer to open links in a new window
 // See: https://github.com/markedjs/marked/issues/655#issuecomment-383226346
@@ -38,31 +37,10 @@ export const CommentItem = ({
 }: CommentItemProps) => {
   const readibleDate = toReadibleDate(comment.createdAt)
 
-  const handleContactViaEmail = () => {
-    location.href = `mailto:${comment.author?.email}`
-  }
-
   return (
     <div className="comment-item">
       <div className="author">
-        <Popover
-          content={
-            <Button
-              icon={<MailOutlined />}
-              onClick={handleContactViaEmail}
-              size="small"
-            >
-              Contact via Email
-            </Button>
-          }
-          visible={!comment.author?.email ? false : undefined}
-        >
-          {comment.author?.picture ? (
-            <Avatar className="blue" src={comment.author.picture} />
-          ) : (
-            <Avatar className="blue-inverse" icon={<UserOutlined />} />
-          )}
-        </Popover>
+        <UserAvatar user={comment.author} />
         {comment.author?.firstName ? (
           <span className="name">
             {comment.author.firstName}{' '}

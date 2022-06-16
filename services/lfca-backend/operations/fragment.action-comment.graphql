@@ -3,10 +3,7 @@ fragment ActionComment on ActionComment {
     ...ActionCommentAttachment
   }
   author {
-    email
-    firstName
-    id
-    picture
+    ...UserAvatar
   }
   id
   message

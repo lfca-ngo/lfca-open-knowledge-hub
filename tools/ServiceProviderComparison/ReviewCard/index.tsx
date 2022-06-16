@@ -5,9 +5,10 @@ import {
   MinusCircleFilled,
   PlusCircleFilled,
 } from '@ant-design/icons'
-import { Avatar, Comment, Rate, Tooltip } from 'antd'
+import { Comment, Rate, Tooltip } from 'antd'
 import moment from 'moment'
 
+import { UserAvatar } from '../../../components/UserAvatar'
 import { ServiceProviderReviewFragment } from '../../../services/lfca-backend'
 
 const ReviewContent = ({
@@ -48,7 +49,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
     <Comment
       author={<Rate disabled key="rating" value={review.rating} />}
-      avatar={<Avatar>{review.author?.firstName.charAt(0) || '?'}</Avatar>}
+      avatar={<UserAvatar user={review.author} />}
       className="review-card"
       content={
         <ReviewContent

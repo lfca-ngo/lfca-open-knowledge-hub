@@ -135,3 +135,8 @@ export const toReadibleDate = (ts: string) => {
     year: 'numeric',
   })
 }
+
+export const formatCurrency = (value: number | null | undefined) => {
+  if (!value) return '€ ?'
+  return `€ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+}
