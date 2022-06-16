@@ -731,6 +731,8 @@ export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null
 
 export type UserActionFragment = { __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null };
 
+export type UserAvatarFragment = { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null };
+
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
@@ -948,22 +950,28 @@ export const ActionCommentAttachmentFragmentDoc = gql`
   source
 }
     `;
+export const UserAvatarFragmentDoc = gql`
+    fragment UserAvatar on User {
+  email
+  firstName
+  id
+  picture
+}
+    `;
 export const ActionCommentFragmentDoc = gql`
     fragment ActionComment on ActionComment {
   attachments {
     ...ActionCommentAttachment
   }
   author {
-    email
-    firstName
-    id
-    picture
+    ...UserAvatar
   }
   id
   message
   createdAt
 }
-    ${ActionCommentAttachmentFragmentDoc}`;
+    ${ActionCommentAttachmentFragmentDoc}
+${UserAvatarFragmentDoc}`;
 export const CompanyAchievementMiniFragmentDoc = gql`
     fragment CompanyAchievementMini on CompanyAchievement {
   completedCompanyActionsCount
@@ -1083,10 +1091,7 @@ export const CompanyFragmentDoc = gql`
 export const ServiceProviderReviewFragmentDoc = gql`
     fragment ServiceProviderReview on ServiceProviderReview {
   author {
-    email
-    firstName
-    id
-    picture
+    ...UserAvatar
   }
   cons
   createdAt
@@ -1095,7 +1100,7 @@ export const ServiceProviderReviewFragmentDoc = gql`
   rating
   review
 }
-    `;
+    ${UserAvatarFragmentDoc}`;
 export const TagFragmentDoc = gql`
     fragment Tag on Tag {
   id
