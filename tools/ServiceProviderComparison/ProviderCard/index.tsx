@@ -135,14 +135,22 @@ export const ProviderCard = ({
         <div className="reviews">
           <Rate
             allowHalf
+            className={provider.reviewsCount < 3 ? 'light' : undefined}
             disabled
             value={provider.averageRating ?? undefined}
           />
           <Button
+            disabled={!provider.reviewsCount}
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
             type="link"
-          >{`See all ${provider.reviewsCount} reviews`}</Button>
+          >
+            {provider.reviewsCount
+              ? `See ${provider.reviewsCount > 1 ? 'all ' : ''}${
+                  provider.reviewsCount
+                } review${provider.reviewsCount > 1 ? 's' : ''}`
+              : 'No reviews, yet'}
+          </Button>
 
           <div className="ranges">
             <Popover
