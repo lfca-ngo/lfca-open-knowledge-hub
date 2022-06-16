@@ -1,6 +1,7 @@
 import { Button, Form, Input, InputNumber, Popconfirm, Select } from 'antd'
 import { useEffect } from 'react'
 
+import { useUser } from '../../hooks/user'
 import { Country } from '../../services/contentful'
 import {
   CreateUserInput,
@@ -34,6 +35,8 @@ export const UserForm = ({
   onUpdate,
   type,
 }: UserFormProps) => {
+  const { isAdmin } = useUser()
+
   const handleSubmit = (allValues: CreateUserInput | UpdateUserInput) => {
     if (type === 'create') onCreate?.(allValues as CreateUserInput)
     else onUpdate?.(allValues as UpdateUserInput)
@@ -177,16 +180,20 @@ export const UserForm = ({
         .map((key) => formItems[key as keyof UserFragment])}
 
       <Form.Item>
-        <Popconfirm
-          cancelText="No"
-          okText="Yes"
-          onConfirm={onDelete}
-          title="Are you sure to delete this user?"
-        >
-          <Button danger loading={isLoading}>
-            Delete
-          </Button>
-        </Popconfirm>{' '}
+        {isAdmin ? (
+          <>
+            <Popconfirm
+              cancelText="No"
+              okText="Yes"
+              onConfirm={onDelete}
+              title="Are you sure to delete this user?"
+            >
+              <Button danger loading={isLoading}>
+                Delete
+              </Button>
+            </Popconfirm>{' '}
+          </>
+        ) : null}
         <Button htmlType="submit" loading={isLoading} type="primary">
           Save
         </Button>
