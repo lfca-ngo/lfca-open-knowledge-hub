@@ -98,12 +98,24 @@ export const ProviderCard = ({
             {documentToReactComponents(provider.description)}
           </div>
           <div className="tags">
-            <Tag color="magenta" icon={<BankOutlined />}>
-              {provider?.size}
-            </Tag>
-            <Tag color="blue" icon={<CalendarOutlined />}>
-              {provider?.year}
-            </Tag>
+            <Popover
+              content="Company size (employees)."
+              overlayClassName="popover-sm"
+              placement="bottom"
+            >
+              <Tag color="magenta" icon={<BankOutlined />}>
+                {provider?.size}
+              </Tag>
+            </Popover>
+            <Popover
+              content="Year the company was founed."
+              overlayClassName="popover-sm"
+              placement="bottom"
+            >
+              <Tag color="blue" icon={<CalendarOutlined />}>
+                {provider?.year}
+              </Tag>
+            </Popover>
             {provider?.freeDemo && (
               <Tag color="green" icon={<CheckOutlined />}>
                 Free Demo
@@ -134,9 +146,9 @@ export const ProviderCard = ({
 
           <div className="ranges">
             <Popover
-              content={`The price range (yearly) is based on experiences shared by
+              content="The price range (yearly) is based on experiences shared by
                other members. The value is not necessarily indicative of the
-               actual price.`}
+               actual price."
               overlayClassName="popover-sm"
               placement="bottom"
             >
