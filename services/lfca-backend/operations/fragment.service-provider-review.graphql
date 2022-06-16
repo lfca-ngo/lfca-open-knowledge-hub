@@ -1,7 +1,9 @@
 fragment ServiceProviderReview on ServiceProviderReview {
   author {
-    id
+    email
     firstName
+    id
+    picture
   }
   cons
   createdAt

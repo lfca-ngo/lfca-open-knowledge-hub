@@ -2,10 +2,12 @@ require('./styles.less')
 
 import {
   ClockCircleOutlined,
+  MailOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
+  UserOutlined,
 } from '@ant-design/icons'
-import { Avatar, Comment, Rate, Tooltip } from 'antd'
+import { Avatar, Button, Comment, Popover, Rate, Tooltip } from 'antd'
 import moment from 'moment'
 
 import { ServiceProviderReviewFragment } from '../../../services/lfca-backend'
@@ -45,10 +47,32 @@ interface ReviewCardProps {
 }
 
 export const ReviewCard = ({ review }: ReviewCardProps) => {
+  const handleContactViaEmail = () => {
+    location.href = `mailto:${review.author?.email}`
+  }
   return (
     <Comment
       author={<Rate disabled key="rating" value={review.rating} />}
-      avatar={<Avatar>{review.author?.firstName.charAt(0) || '?'}</Avatar>}
+      avatar={
+        <Popover
+          content={
+            <Button
+              icon={<MailOutlined />}
+              onClick={handleContactViaEmail}
+              size="small"
+            >
+              Contact via Email
+            </Button>
+          }
+          visible={!review.author?.email ? false : undefined}
+        >
+          {review.author?.picture ? (
+            <Avatar className="blue" src={review.author.picture} />
+          ) : (
+            <Avatar className="blue-inverse" icon={<UserOutlined />} />
+          )}
+        </Popover>
+      }
       className="review-card"
       content={
         <ReviewContent
