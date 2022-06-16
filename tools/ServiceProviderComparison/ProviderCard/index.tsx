@@ -3,9 +3,9 @@ require('./styles.less')
 import {
   BankOutlined,
   CalculatorOutlined,
+  CalendarOutlined,
   CheckOutlined,
   InfoCircleOutlined,
-  LikeOutlined,
   LinkOutlined,
   MailOutlined,
   StarOutlined,
@@ -101,7 +101,7 @@ export const ProviderCard = ({
             <Tag color="magenta" icon={<BankOutlined />}>
               {provider?.size}
             </Tag>
-            <Tag color="blue" icon={<LikeOutlined />}>
+            <Tag color="blue" icon={<CalendarOutlined />}>
               {provider?.year}
             </Tag>
             {provider?.freeDemo && (
