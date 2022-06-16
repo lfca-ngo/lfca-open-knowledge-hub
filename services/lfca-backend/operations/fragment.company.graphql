@@ -14,7 +14,6 @@ fragment Company on Company {
     text
   }
   campaignGoals
-  campaignGoalSetting
   campaignContribution
   campaignFiles {
     name
