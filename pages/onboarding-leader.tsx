@@ -6,6 +6,7 @@ import { OnboardingLeaderSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
 import { useUser } from '../hooks/user'
 import { fetchAllQuestionnaires } from '../services/contentful'
+import { DEFAULT_COUNTRY } from '../utils'
 import { withAuth } from '../utils/with-auth'
 
 const OnboardingLeader: NextPage = (props: any) => {
@@ -24,6 +25,8 @@ const OnboardingLeader: NextPage = (props: any) => {
   }
 
   const Step = OnboardingLeaderSteps[currentStepIndex]?.component
+  const userCountry = user?.country || DEFAULT_COUNTRY
+  const defaultQuestionnaire = props?.questionnaires[DEFAULT_COUNTRY]
 
   return (
     <StepsLayout
@@ -35,7 +38,9 @@ const OnboardingLeader: NextPage = (props: any) => {
       {Step ? (
         <Step
           onNext={handleOnNext}
-          questionnaire={props?.questionnaires[user?.country || 'eu-DE']}
+          questionnaire={
+            props?.questionnaires[userCountry] || defaultQuestionnaire
+          }
         />
       ) : null}
     </StepsLayout>

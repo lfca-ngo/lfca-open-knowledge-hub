@@ -5,12 +5,14 @@ import { useState } from 'react'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { UserActionsList } from '../../components/UserActionsList'
+import { useUser } from '../../hooks/user'
 import {
   ContentfulQuestionnaireFields,
   fetchAllQuestionnaires,
 } from '../../services/contentful'
 import { useCompleteUserActionMutation } from '../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../tools'
+import { DEFAULT_COUNTRY } from '../../utils'
 import { withAuth } from '../../utils/with-auth'
 
 interface PersonalFootprintCalculatorProps {
@@ -21,6 +23,9 @@ const PersonalFootprintCalculator: NextPage<
   PersonalFootprintCalculatorProps
 > = ({ questionnaires }) => {
   const [open, setOpen] = useState(false)
+  const { user } = useUser()
+  const userCountry = user?.country || DEFAULT_COUNTRY
+  const defaultQuestionnaire = questionnaires[DEFAULT_COUNTRY]
 
   const [{ error, fetching }, completeUserAction] =
     useCompleteUserActionMutation()
@@ -71,7 +76,9 @@ const PersonalFootprintCalculator: NextPage<
             <PersonalCarbonCalculator
               error={error}
               loading={fetching}
-              questionnaire={questionnaires['eu-DE']}
+              questionnaire={
+                questionnaires[userCountry] || defaultQuestionnaire
+              }
               saveResult={handleSave}
             />
           </Drawer>
