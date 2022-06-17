@@ -153,7 +153,6 @@ export const ProviderCard = ({
             </span>
           </Popover>
           <Button
-            disabled={!provider.reviewsCount}
             onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
             size="small"
             type="link"
@@ -162,7 +161,7 @@ export const ProviderCard = ({
               ? `See ${provider.reviewsCount > 1 ? 'all ' : ''}${
                   provider.reviewsCount
                 } review${provider.reviewsCount > 1 ? 's' : ''}`
-              : 'No reviews, yet'}
+              : 'No reviews yet, add one'}
           </Button>
 
           <div className="ranges">
