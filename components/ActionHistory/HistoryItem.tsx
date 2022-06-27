@@ -12,7 +12,6 @@ export const HistoryItem = ({
   action: CompanyActionListItemFragment
 }) => {
   const [visible, setVisible] = useState(false)
-  const isStringNote = typeof action?.notes === 'string'
 
   const parsedNotes = useMemo(() => {
     try {
@@ -26,17 +25,19 @@ export const HistoryItem = ({
       return asArray
     } catch (error) {
       // return as string
-      return isStringNote
-        ? `${action?.notes}`
-        : `Could not get data. Please reach out to ${DEFAULT_SUPPORT_EMAIL}`
+      return (
+        action?.notes ||
+        `No data stored. Questions? Reach out to ${DEFAULT_SUPPORT_EMAIL}`
+      )
     }
-  }, [action, isStringNote])
+  }, [action])
+
+  const isDataArray = Array.isArray(parsedNotes)
 
   return (
     <div>
-      {isStringNote ? (
-        `${parsedNotes}`
-      ) : (
+      {/* render as string or show a button to open modal */}
+      {isDataArray ? (
         <Button
           icon={<DatabaseOutlined />}
           onClick={() => setVisible(true)}
@@ -44,9 +45,11 @@ export const HistoryItem = ({
         >
           Show data
         </Button>
+      ) : (
+        parsedNotes
       )}
       {/* render as Table in Modal */}
-      {Array.isArray(parsedNotes) && (
+      {isDataArray && (
         <Modal
           onCancel={() => setVisible(false)}
           visible={visible}
