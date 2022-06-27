@@ -11,7 +11,7 @@ export const ShowMore = ({
 }: {
   size?: 'small'
   text: any
-  maxHeight: any
+  maxHeight: number
 }) => {
   const [isShowMoreVisible, setIsShowMoreVisible] = React.useState(false)
   const [isExpanded, setIsExpanded] = React.useState(false)
