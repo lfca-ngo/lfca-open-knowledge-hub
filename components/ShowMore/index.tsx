@@ -1,6 +1,7 @@
 require('./styles.less')
 
 import { Button } from 'antd'
+import classNames from 'classnames'
 import React from 'react'
 
 export const ShowMore = ({
@@ -23,7 +24,11 @@ export const ShowMore = ({
   }, [contentRef])
 
   return (
-    <div className="show-more">
+    <div
+      className={classNames('show-more', {
+        'is-expanded': isExpanded,
+      })}
+    >
       <div
         className="content"
         ref={contentRef}
@@ -33,7 +38,7 @@ export const ShowMore = ({
       </div>
 
       {(isShowMoreVisible || isExpanded) && (
-        <div className="show-more">
+        <div className="show-more-button">
           <div
             className="fade-out"
             style={{
