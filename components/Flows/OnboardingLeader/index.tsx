@@ -57,7 +57,7 @@ const Invite = ({ onNext }: StepProps) => {
         </li>
       </ul>
       <InviteTeam onMinimumInvited={() => setHasMinimumInvited(true)} />
-      <Space direction="vertical" size="large">
+      <Space direction="vertical" size="large" style={{ marginTop: '20px' }}>
         <Checkbox
           checked={isLeaderOfficer}
           onChange={(e) => setIsLeaderOfficer(e.target.checked)}
