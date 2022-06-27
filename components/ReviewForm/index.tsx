@@ -60,7 +60,9 @@ export const ReviewForm = ({
   initialValues?: ServiceProviderReviewFragment
 }) => {
   const [form] = Form.useForm()
-  const [providerId, setProviderId] = useState('')
+  const [providerId, setProviderId] = useState(
+    initialValues?.serviceProviderContentId || ''
+  )
   const [success, setSuccess] = useState(false)
 
   // when data is loaded async, populate form
@@ -140,14 +142,20 @@ export const ReviewForm = ({
       <Form.Item label="Did you work with a service provider?">
         {success ? (
           <Alert
-            message="Thanks, we will approve your review soon!"
+            message={
+              initialValues
+                ? 'Updated'
+                : 'Thanks, we will approve your review soon!'
+            }
             showIcon
             type="success"
           />
         ) : (
           <Select
+            disabled={!!initialValues}
             onSelect={(val: string) => setProviderId(val)}
             placeholder="Select an option..."
+            value={providerId}
           >
             <Select.Option key={''}>-- None of those</Select.Option>
             {dataServiceProviders?.serviceProviders.map((provider) => (
