@@ -76,6 +76,7 @@ const Intro = ({ onNext }: StepProps) => {
       </Space>
 
       <Modal
+        destroyOnClose
         onCancel={() => setVisible(false)}
         visible={visible}
         wrapClassName="modal-md"
