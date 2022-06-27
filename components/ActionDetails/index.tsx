@@ -3,6 +3,7 @@ require('./styles.less')
 import {
   CalendarOutlined,
   CheckOutlined,
+  CloseOutlined,
   ReloadOutlined,
   UndoOutlined,
 } from '@ant-design/icons'
@@ -93,7 +94,7 @@ export const ActionsBar = ({
         <Button
           block
           ghost={isCompleted}
-          icon={isCompleted ? <UndoOutlined /> : <CheckOutlined />}
+          icon={isCompleted ? <CloseOutlined /> : <CheckOutlined />}
           loading={fetchingCompleted}
           onClick={() => onComplete(isCompleted ? false : true)}
           size="large"

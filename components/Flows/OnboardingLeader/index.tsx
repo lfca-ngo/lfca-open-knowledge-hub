@@ -41,10 +41,10 @@ const Invite = ({ onNext }: StepProps) => {
       <Tag className="super-text">Intro</Tag>
       <h1>{`Invite at least one team member as a Climate Officer`}</h1>
       <p>
-        {`Calculating the carbon footprint of an entire company and doing
-        reduction and goal setting workshops takes quite a bit of time. We
-        therefore ask you to appoint at least one motivated team member that
-        helps to coordinate these efforts.`}
+        {`Calculating the carbon footprint of an entire company, implementing
+        reduction actions and running goal setting workshops takes quite a bit
+        of time. We therefore recommend you to appoint at least one motivated
+        team member that helps to coordinate these efforts.`}
       </p>
       <ul>
         <li>
