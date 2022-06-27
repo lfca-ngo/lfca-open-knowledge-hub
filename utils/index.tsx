@@ -18,6 +18,10 @@ export const TERMS_OF_SERVICE_URL = `https://lfca.earth/terms/`
 export const DEFAULT_COUNTRY = 'eu-DE'
 export const PRODUCT_VIDEO_URL =
   'https://res.cloudinary.com/dhpk1grmy/video/upload/v1655396711/Video/lfca-community-app-share_dbwgvq.mp4'
+export const DEFAULT_SUPPORT_EMAIL = 'support@lfca.earth'
+export const SUPPORT_EMAIL_LINK = (
+  <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`}>{DEFAULT_SUPPORT_EMAIL}</a>
+)
 
 export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)
