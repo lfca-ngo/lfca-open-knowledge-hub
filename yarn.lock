@@ -2177,6 +2177,11 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@types/flat@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/flat/-/flat-5.0.2.tgz#642a51a037d1f52fda082312b0e4566dc09a9f8f"
+  integrity sha512-3zsplnP2djeps5P9OyarTxwRpMLoe5Ash8aL9iprw0JxB+FAHjY+ifn4yZUuW4/9hqtnmor6uvjSRzJhiVbrEQ==
+
 "@types/is-hotkey@^0.1.1":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@types/is-hotkey/-/is-hotkey-0.1.7.tgz#30ec6d4234895230b576728ef77e70a52962f3b3"
@@ -4124,6 +4129,11 @@ flat-cache@^3.0.4:
   dependencies:
     flatted "^3.1.0"
     rimraf "^3.0.2"
+
+flat@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
+  integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
 
 flatted@^3.1.0:
   version "3.2.5"

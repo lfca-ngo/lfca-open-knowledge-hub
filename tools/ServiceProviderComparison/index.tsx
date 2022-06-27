@@ -110,6 +110,7 @@ export const ServiceProviderComparison = () => {
       <List
         dataSource={list}
         loading={fetching}
+        pagination={{ pageSize: 10 }}
         renderItem={(item) => (
           <List.Item>
             <ProviderCard
