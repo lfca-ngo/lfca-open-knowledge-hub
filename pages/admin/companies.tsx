@@ -9,7 +9,15 @@ const AdminCompanies: NextPage = () => {
     <SiderLayout nav={ADMIN_NAV}>
       <Main>
         <Section title="Companies" titleSize="big">
-          Something
+          Please use the{' '}
+          <a
+            href="https://leaders-for-climate-action.web.app/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            old app
+          </a>{' '}
+          for companies until we finished the migration process
         </Section>
       </Main>
     </SiderLayout>

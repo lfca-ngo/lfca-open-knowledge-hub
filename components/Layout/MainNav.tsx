@@ -10,15 +10,17 @@ import {
   LockOutlined,
   MessageOutlined,
   ProfileOutlined,
+  QuestionCircleOutlined,
   RocketOutlined,
   ShareAltOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
-import { Menu, MenuProps } from 'antd'
+import { Menu, MenuProps, Modal } from 'antd'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useUser } from '../../hooks/user'
+import { PRODUCT_VIDEO_URL, SUPPORT_EMAIL_LINK } from '../../utils'
 import {
   ACHIEVEMENTS,
   ACTIONS,
@@ -34,6 +36,9 @@ import {
   REFERRAL_PROGRAM,
   TOOLS,
 } from '../../utils/routes'
+import { VideoWrapper } from '../VideoWrapper'
+
+const OPEN_HELP_MODAL = 'open-help-modal'
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {
@@ -90,6 +95,11 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     key: TOOLS,
     label: 'Tools',
   },
+  {
+    icon: <QuestionCircleOutlined />,
+    key: OPEN_HELP_MODAL,
+    label: 'Help',
+  },
 ]
 
 const NAV_ITEMS_ADMIN = [
@@ -118,6 +128,7 @@ const NAV_ITEMS_ADMIN = [
 ]
 
 export const MainNav = () => {
+  const [visible, setVisible] = useState(false)
   const [items, setItems] =
     React.useState<MenuProps['items']>(NAV_ITEMS_DEFAULT)
   const { isAdmin } = useUser()
@@ -132,15 +143,40 @@ export const MainNav = () => {
     }
   }, [isAdmin])
 
+  const handleSelect = ({ key }: { key: string }) => {
+    if (key === OPEN_HELP_MODAL) {
+      setVisible(true)
+    } else {
+      router.push(key)
+    }
+  }
+
   return (
-    <Menu
-      items={items}
-      mode="inline"
-      onSelect={(item) => {
-        router.push(item.key)
-      }}
-      selectedKeys={[router.pathname]}
-      theme="light"
-    />
+    <>
+      <Menu
+        items={items}
+        mode="inline"
+        onSelect={handleSelect}
+        selectedKeys={[router.pathname]}
+        theme="light"
+      />
+
+      <Modal
+        destroyOnClose
+        onCancel={() => setVisible(false)}
+        visible={visible}
+        wrapClassName="modal-md"
+      >
+        <h3>Need help?</h3>
+        <p>
+          Check out the video below to get a better understanding of our
+          Community App. If this does not help, shoot us an email{' '}
+          {SUPPORT_EMAIL_LINK}
+        </p>
+        <VideoWrapper
+          sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
+        />
+      </Modal>
+    </>
   )
 }

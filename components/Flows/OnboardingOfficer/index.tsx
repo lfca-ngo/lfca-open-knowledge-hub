@@ -1,5 +1,6 @@
 import { ArrowRightOutlined, SlackOutlined } from '@ant-design/icons'
-import { Button, Drawer, Space, Tag } from 'antd'
+import { CaretRightOutlined } from '@ant-design/icons'
+import { Button, Drawer, Modal, Space, Tag } from 'antd'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
@@ -7,10 +8,15 @@ import Communicate from '../../../public/img/communicate.jpg'
 import Explore from '../../../public/img/explore.jpg'
 import Mastermind from '../../../public/img/mastermind.jpg'
 import { CompanyActionListItemFragment } from '../../../services/lfca-backend'
-import { actionHasReviews, SLACK_INVITE_URL } from '../../../utils'
+import {
+  actionHasReviews,
+  PRODUCT_VIDEO_URL,
+  SLACK_INVITE_URL,
+} from '../../../utils'
 import { ActionListProps, ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
+import { VideoWrapper } from '../../VideoWrapper'
 
 const ELEMENTS = [
   {
@@ -41,6 +47,7 @@ interface StepProps {
 }
 
 const Intro = ({ onNext }: StepProps) => {
+  const [visible, setVisible] = useState(false)
   const { user } = useUser()
 
   return (
@@ -53,9 +60,31 @@ const Intro = ({ onNext }: StepProps) => {
         the full climate action potential of your organization.`}
       </p>
       <InfoCarousel elements={ELEMENTS} />
-      <Button onClick={onNext} size="large" type="primary">
-        Continue
-      </Button>
+      <Space>
+        <Button onClick={onNext} size="large" type="primary">
+          Continue
+        </Button>
+
+        <Button
+          ghost
+          icon={<CaretRightOutlined />}
+          onClick={() => setVisible(true)}
+          size="large"
+        >
+          Product Video
+        </Button>
+      </Space>
+
+      <Modal
+        destroyOnClose
+        onCancel={() => setVisible(false)}
+        visible={visible}
+        wrapClassName="modal-md"
+      >
+        <VideoWrapper
+          sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
+        />
+      </Modal>
     </div>
   )
 }

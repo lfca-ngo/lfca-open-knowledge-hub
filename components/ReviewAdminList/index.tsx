@@ -1,23 +1,28 @@
 import {
   CheckOutlined,
+  EditOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
   UserOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, List, message, Tooltip } from 'antd'
+import { Avatar, Button, Drawer, List, message, Tooltip } from 'antd'
+import { useState } from 'react'
 
 import {
   ServiceProviderReviewFragment,
   useServiceProviderReviewsQuery,
   useUpdateServiceProviderReviewMutation,
 } from '../../services/lfca-backend'
+import { ReviewForm } from '../ReviewForm'
 
 const ReviewListItem = ({
   item,
   onApprove,
+  onEdit,
 }: {
   item: ServiceProviderReviewFragment
   onApprove?: () => void
+  onEdit?: (item: ServiceProviderReviewFragment) => void
 }) => {
   const [{ fetching: updating }, updateServiceProviderReview] =
     useUpdateServiceProviderReviewMutation()
@@ -49,12 +54,24 @@ const ReviewListItem = ({
         >
           Approve
         </Button>,
+        <Button
+          icon={<EditOutlined />}
+          key="edit"
+          onClick={() => onEdit?.(item)}
+        >
+          Edit
+        </Button>,
       ]}
     >
       <List.Item.Meta
         avatar={
           <Tooltip title={`${item.author?.firstName}, ${item.author?.id}`}>
-            <Avatar className="wine-inverse" icon={<UserOutlined />} />
+            <Avatar
+              className="wine-inverse"
+              icon={<UserOutlined />}
+              size="large"
+              src={item.author?.picture}
+            />
           </Tooltip>
         }
         description={
@@ -88,6 +105,8 @@ const ReviewListItem = ({
 }
 
 export const ReviewsAdminList = () => {
+  const [review, setReview] = useState<ServiceProviderReviewFragment>()
+
   const [{ data: reviewsData, fetching: fetchingReviews }, refetchProviders] =
     useServiceProviderReviewsQuery({
       variables: {
@@ -103,16 +122,28 @@ export const ReviewsAdminList = () => {
   const data = reviewsData?.serviceProviderReviews.items || []
 
   return (
-    <List
-      className="simple-list review-admin-list"
-      dataSource={data}
-      loading={fetchingReviews}
-      renderItem={(item) => (
-        <ReviewListItem
-          item={item}
-          onApprove={() => refetchProviders({ requestPolicy: 'network-only' })}
-        />
-      )}
-    />
+    <>
+      <List
+        className="simple-list review-admin-list"
+        dataSource={data}
+        loading={fetchingReviews}
+        renderItem={(item) => (
+          <ReviewListItem
+            item={item}
+            onApprove={() =>
+              refetchProviders({ requestPolicy: 'network-only' })
+            }
+            onEdit={(item) => setReview(item)}
+          />
+        )}
+      />
+      <Drawer
+        destroyOnClose
+        onClose={() => setReview(undefined)}
+        visible={!!review}
+      >
+        <ReviewForm initialValues={review} />
+      </Drawer>
+    </>
   )
 }

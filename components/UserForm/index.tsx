@@ -1,4 +1,13 @@
-import { Button, Form, Input, InputNumber, Popconfirm, Select } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Select,
+  Space,
+} from 'antd'
 import { useEffect } from 'react'
 
 import { useUser } from '../../hooks/user'
@@ -180,23 +189,25 @@ export const UserForm = ({
         .map((key) => formItems[key as keyof UserFragment])}
 
       <Form.Item>
-        {isAdmin ? (
-          <>
-            <Popconfirm
-              cancelText="No"
-              okText="Yes"
-              onConfirm={onDelete}
-              title="Are you sure to delete this user?"
-            >
-              <Button danger loading={isLoading}>
-                Delete
-              </Button>
-            </Popconfirm>{' '}
-          </>
-        ) : null}
-        <Button htmlType="submit" loading={isLoading} type="primary">
-          Save
-        </Button>
+        <Space>
+          <Button htmlType="submit" loading={isLoading} type="primary">
+            Save
+          </Button>
+          {isAdmin ? (
+            <>
+              <Popconfirm
+                cancelText="No"
+                okText="Yes"
+                onConfirm={onDelete}
+                title="Are you sure to delete this user?"
+              >
+                <Button danger icon={<DeleteOutlined />} loading={isLoading}>
+                  Delete
+                </Button>
+              </Popconfirm>{' '}
+            </>
+          ) : null}
+        </Space>
       </Form.Item>
     </Form>
   )

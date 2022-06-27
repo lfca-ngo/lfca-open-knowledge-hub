@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { EmptyState } from '../components/EmptyState'
 import { Section } from '../components/Layout'
+import { DEFAULT_SUPPORT_EMAIL } from '../utils'
 import { PersonalCarbonCalculator } from './PersonalCarbonCalculator'
 import { ServiceProviderComparison } from './ServiceProviderComparison'
 
@@ -39,7 +40,7 @@ export const renderTools = (sections: Section[], showEmptyState?: boolean) => {
     (showEmptyState ? (
       <EmptyState
         actions={[
-          <a href={`mailto:info@lfca.earth`} key="share">
+          <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
             <Button size="large" type="primary">
               Share idea
             </Button>

@@ -1,6 +1,7 @@
 import { Collapse } from 'antd'
 
 import { useCompanyActionsListQuery } from '../../services/lfca-backend'
+import { HistoryItem } from './HistoryItem'
 
 const { Panel } = Collapse
 
@@ -26,7 +27,7 @@ export const ActionHistory = ({ contentId = '' }: ActionHistoryProps) => {
     <Collapse accordion className="mini-collapse" ghost>
       {actionsData?.companyActions.map((action) => (
         <Panel header={action.title} key="">
-          {action.notes}
+          <HistoryItem action={action} />
         </Panel>
       ))}
     </Collapse>

@@ -19,11 +19,13 @@ import {
   Select,
   Tooltip,
 } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
+  ServiceProviderReviewFragment,
   useCreateServiceProviderReviewMutation,
   useServiceProvidersQuery,
+  useUpdateServiceProviderReviewMutation,
 } from '../../services/lfca-backend'
 import { RemovableInput } from '../RemovableInput'
 
@@ -50,10 +52,23 @@ const LabelWithButton = ({
   </div>
 )
 
-export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
+export const ReviewForm = ({
+  initialValues,
+  onFinish,
+}: {
+  onFinish?: () => void
+  initialValues?: ServiceProviderReviewFragment
+}) => {
   const [form] = Form.useForm()
-  const [providerId, setProviderId] = useState('')
+  const [providerId, setProviderId] = useState(
+    initialValues?.serviceProviderContentId || ''
+  )
   const [success, setSuccess] = useState(false)
+
+  // when data is loaded async, populate form
+  useEffect(() => {
+    form.setFieldsValue(initialValues)
+  }, [initialValues, form])
 
   // TODO: UI for loading state
   // TODO: UI for error state
@@ -64,6 +79,12 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
     { fetching: fetchingCreateServiceProviderReview },
     createServiceProviderReview,
   ] = useCreateServiceProviderReviewMutation()
+  const [
+    { fetching: updatingServiceProviderReview },
+    updateServiceProviderReview,
+  ] = useUpdateServiceProviderReviewMutation()
+  const isCreatingOrUpdating =
+    fetchingCreateServiceProviderReview || updatingServiceProviderReview
 
   const argumentsValidator = async (_: object, names?: string[]) => {
     if (names && names.length > 5) {
@@ -79,18 +100,34 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
     rating: number
     review: string
   }) => {
-    await createServiceProviderReview({
-      input: {
-        ...props,
-        serviceProviderContentId: providerId,
-      },
-    })
+    // create call for new reviews
+    if (!initialValues) {
+      await createServiceProviderReview({
+        input: {
+          ...props,
+          serviceProviderContentId: providerId,
+        },
+      })
+    } else {
+      // update call for existing reviews
+      await updateServiceProviderReview({
+        input: {
+          ...props,
+          id: initialValues.id,
+        },
+      })
+    }
 
     setSuccess(true)
     setProviderId('')
     form.resetFields()
 
-    message.success(`Thanks, we will approve your review soon!`)
+    message.success(
+      initialValues
+        ? `Updated successfully`
+        : `Thanks, we will approve your review soon!`
+    )
+
     // callback for parent
     onFinish?.()
   }
@@ -105,14 +142,20 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
       <Form.Item label="Did you work with a service provider?">
         {success ? (
           <Alert
-            message="Thanks, we will approve your review soon!"
+            message={
+              initialValues
+                ? 'Updated'
+                : 'Thanks, we will approve your review soon!'
+            }
             showIcon
             type="success"
           />
         ) : (
           <Select
+            disabled={!!initialValues}
             onSelect={(val: string) => setProviderId(val)}
             placeholder="Select an option..."
+            value={providerId}
           >
             <Select.Option key={''}>-- None of those</Select.Option>
             {dataServiceProviders?.serviceProviders.map((provider) => (
@@ -235,7 +278,7 @@ export const ReviewForm = ({ onFinish }: { onFinish?: () => void }) => {
           <Form.Item>
             <Button
               htmlType="submit"
-              loading={fetchingCreateServiceProviderReview}
+              loading={isCreatingOrUpdating}
               type="primary"
             >
               Submit review
