@@ -1,10 +1,10 @@
+import { DatabaseOutlined } from '@ant-design/icons'
 import { Button, Modal, Table } from 'antd'
 import flat from 'flat'
 import { useMemo, useState } from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
-import { DatabaseOutlined } from '@ant-design/icons'
 
 export const HistoryItem = ({
   action,
@@ -23,7 +23,7 @@ export const HistoryItem = ({
       }))
       return asArray
     } catch (error) {
-      // do nothing
+      // show an error message
       parsed = `Could not get data. Please reach out to ${DEFAULT_SUPPORT_EMAIL}`
     }
   }, [action])
