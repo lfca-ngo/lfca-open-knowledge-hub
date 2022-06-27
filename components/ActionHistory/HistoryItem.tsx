@@ -12,10 +12,12 @@ export const HistoryItem = ({
   action: CompanyActionListItemFragment
 }) => {
   const [visible, setVisible] = useState(false)
+  const isStringNote = typeof action?.notes === 'string'
+
   const parsedNotes = useMemo(() => {
-    let parsed = ''
     try {
-      parsed = JSON.parse(action?.notes || '')
+      // if possible return as flattened array
+      const parsed = JSON.parse(action?.notes || '')
       const flattened = flat.flatten(parsed) as any
       const asArray = Object.keys(flattened).map((k) => ({
         key: k,
@@ -23,15 +25,17 @@ export const HistoryItem = ({
       }))
       return asArray
     } catch (error) {
-      // show an error message
-      parsed = `Could not get data. Please reach out to ${DEFAULT_SUPPORT_EMAIL}`
+      // return as string
+      return isStringNote
+        ? `${action?.notes}`
+        : `Could not get data. Please reach out to ${DEFAULT_SUPPORT_EMAIL}`
     }
-  }, [action])
+  }, [action, isStringNote])
 
   return (
     <div>
-      {typeof parsedNotes === 'string' ? (
-        parsedNotes
+      {isStringNote ? (
+        `${parsedNotes}`
       ) : (
         <Button
           icon={<DatabaseOutlined />}
@@ -41,29 +45,32 @@ export const HistoryItem = ({
           Show data
         </Button>
       )}
-      <Modal
-        onCancel={() => setVisible(false)}
-        visible={visible}
-        wrapClassName="modal-md"
-      >
-        <h3>Data</h3>
-        <Table
-          columns={[
-            {
-              dataIndex: 'key',
-              key: 'key',
-              title: 'Key',
-            },
-            {
-              dataIndex: 'value',
-              key: 'value',
-              title: 'Value',
-            },
-          ]}
-          dataSource={parsedNotes}
-          pagination={false}
-        />
-      </Modal>
+      {/* render as Table in Modal */}
+      {Array.isArray(parsedNotes) && (
+        <Modal
+          onCancel={() => setVisible(false)}
+          visible={visible}
+          wrapClassName="modal-md"
+        >
+          <h3>Data</h3>
+          <Table
+            columns={[
+              {
+                dataIndex: 'key',
+                key: 'key',
+                title: 'Key',
+              },
+              {
+                dataIndex: 'value',
+                key: 'value',
+                title: 'Value',
+              },
+            ]}
+            dataSource={parsedNotes}
+            pagination={false}
+          />
+        </Modal>
+      )}
     </div>
   )
 }
