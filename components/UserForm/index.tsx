@@ -1,3 +1,4 @@
+import { DeleteOutlined } from '@ant-design/icons'
 import {
   Button,
   Form,
@@ -200,7 +201,7 @@ export const UserForm = ({
                 onConfirm={onDelete}
                 title="Are you sure to delete this user?"
               >
-                <Button loading={isLoading} type="danger">
+                <Button danger icon={<DeleteOutlined />} loading={isLoading}>
                   Delete
                 </Button>
               </Popconfirm>{' '}
