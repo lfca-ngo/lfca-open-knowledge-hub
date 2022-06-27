@@ -4,7 +4,16 @@ import {
   HourglassOutlined,
   MessageOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Input, List, message, Popover, Row } from 'antd'
+import {
+  Avatar,
+  Button,
+  Input,
+  List,
+  message,
+  Popover,
+  Row,
+  Tooltip,
+} from 'antd'
 import React from 'react'
 
 import { UserInviteFragment } from '../../services/lfca-backend'
@@ -80,10 +89,19 @@ export const InviteItem = ({
     >
       <List.Item.Meta
         avatar={
-          <Avatar
-            className={item.user ? 'green-inverse' : 'wine-inverse'}
-            icon={item.user ? <CheckOutlined /> : <HourglassOutlined />}
-          />
+          item.user ? (
+            <Tooltip
+              title={`The user accepted your invite and joined the platform`}
+            >
+              <Avatar className={'green-inverse'} icon={<CheckOutlined />} />
+            </Tooltip>
+          ) : (
+            <Tooltip
+              title={`We've sent an email invite to this user. You can additionally copy & paste the invite link to send it via Slack`}
+            >
+              <Avatar className={'wine-inverse'} icon={<HourglassOutlined />} />
+            </Tooltip>
+          )
         }
         title={item.email || 'Anonymous'}
       />
