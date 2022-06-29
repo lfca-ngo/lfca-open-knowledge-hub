@@ -1,27 +1,35 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 
+import { AdminCompaniesList } from '../../components/AdminCompaniesList'
 import { Main, Section, SiderLayout } from '../../components/Layout'
+import { Country, fetchAllCountries } from '../../services/contentful'
 import { ADMIN_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
-const AdminCompanies: NextPage = () => {
+interface AdminCompaniesProps {
+  countries: Country[]
+}
+
+const AdminCompanies: NextPage<AdminCompaniesProps> = ({ countries }) => {
   return (
     <SiderLayout nav={ADMIN_NAV}>
       <Main>
         <Section title="Companies" titleSize="big">
-          Please use the{' '}
-          <a
-            href="https://leaders-for-climate-action.web.app/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            old app
-          </a>{' '}
-          for companies until we finished the migration process
+          <AdminCompaniesList countries={countries} />
         </Section>
       </Main>
     </SiderLayout>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const countries = await fetchAllCountries()
+
+  return {
+    props: {
+      countries,
+    },
+  }
 }
 
 export default withAuth(AdminCompanies, { adminOnly: true })

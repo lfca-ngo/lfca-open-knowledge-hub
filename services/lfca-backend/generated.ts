@@ -80,21 +80,41 @@ export type Category = {
   sortWeight?: Maybe<Scalars['Int']>;
 };
 
+export type CompaniesInput = {
+  cursor?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<CompaniesInputFilter>;
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+export type CompaniesInputFilter = {
+  companyIds?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type CompaniesResult = {
+  __typename?: 'CompaniesResult';
+  cursor?: Maybe<Scalars['String']>;
+  items: Array<Company>;
+};
+
 export type Company = {
   __typename?: 'Company';
   aboutSections?: Maybe<Array<Maybe<CompanyAboutSection>>>;
   campaignContribution?: Maybe<Scalars['String']>;
   campaignFiles: Array<File>;
-  campaignGoalSetting?: Maybe<Scalars['String']>;
   campaignGoals?: Maybe<Scalars['String']>;
   campaignParticipationPackages?: Maybe<Scalars['JSON']>;
   completedCompanyActions: Array<CompanyAction>;
+  country: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  crmId?: Maybe<Scalars['String']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
   employeeCount: Scalars['Int'];
   id: Scalars['ID'];
   logoUrl?: Maybe<Scalars['String']>;
   micrositeSlug?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   program: CompanyProgram;
+  tags: Array<CompanyTag>;
   websiteUrl?: Maybe<Scalars['String']>;
 };
 
@@ -186,11 +206,21 @@ export type CompanyActionsInputFilter = {
   isPlanned?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type CompanyInput = {
+  companyId: Scalars['ID'];
+};
+
 export type CompanyProgram = {
   __typename?: 'CompanyProgram';
   achievements: Array<CompanyAchievement>;
   availableMeasurementOptions: Array<Scalars['String']>;
   contentId: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type CompanyTag = {
+  __typename?: 'CompanyTag';
+  id: Scalars['ID'];
   name: Scalars['String'];
 };
 
@@ -232,6 +262,17 @@ export type CreateActionCommentInput = {
   actionContentId: Scalars['String'];
   attachments?: InputMaybe<Array<CreateActionCommentAttachmentInput>>;
   message: Scalars['String'];
+};
+
+export type CreateCompanyInput = {
+  country: Scalars['String'];
+  crmId?: InputMaybe<Scalars['String']>;
+  employeeCount: Scalars['Int'];
+  logoUrl: Scalars['String'];
+  name: Scalars['String'];
+  programContentId: Scalars['String'];
+  tags?: InputMaybe<Array<Scalars['String']>>;
+  websiteUrl: Scalars['String'];
 };
 
 export type CreateServiceProviderReviewInput = {
@@ -280,6 +321,10 @@ export type DeleteActionCommentInput = {
   id: Scalars['ID'];
 };
 
+export type DeleteCompanyInput = {
+  companyId: Scalars['ID'];
+};
+
 export type DeleteUserInput = {
   userId: Scalars['ID'];
 };
@@ -301,6 +346,7 @@ export type Mutation = {
   completeCompanyActionRequirement: CompanyActionRequirement;
   completeUserAction: UserAction;
   createActionComment: ActionComment;
+  createCompany: Company;
   createServiceProviderReview: ServiceProviderReview;
   /**
    * Allows admins to create new users
@@ -309,6 +355,7 @@ export type Mutation = {
   createUser: User;
   createUserInvite: UserInvite;
   deleteActionComment: Scalars['Boolean'];
+  deleteCompany: Company;
   deleteUser: User;
   planCompanyAction: CompanyAction;
   processCompanyActionExpiry: Scalars['Boolean'];
@@ -343,6 +390,11 @@ export type MutationCreateActionCommentArgs = {
 };
 
 
+export type MutationCreateCompanyArgs = {
+  input: CreateCompanyInput;
+};
+
+
 export type MutationCreateServiceProviderReviewArgs = {
   input: CreateServiceProviderReviewInput;
 };
@@ -360,6 +412,11 @@ export type MutationCreateUserInviteArgs = {
 
 export type MutationDeleteActionCommentArgs = {
   input: DeleteActionCommentInput;
+};
+
+
+export type MutationDeleteCompanyArgs = {
+  input: DeleteCompanyInput;
 };
 
 
@@ -423,10 +480,12 @@ export type Query = {
   actionCommentAttachments: Array<ActionCommentAttachment>;
   actionComments: Array<ActionComment>;
   actionStats: Array<ActionStats>;
+  companies: CompaniesResult;
   company: Company;
   companyAction: CompanyAction;
   companyActions: Array<CompanyAction>;
   qualifiedCompanies: Array<Company>;
+  searchCompany: Array<Company>;
   searchUser: Array<User>;
   serviceProviderReviews: ServiceProviderReviewsResult;
   serviceProviders: Array<ServiceProvider>;
@@ -457,6 +516,16 @@ export type QueryActionStatsArgs = {
 };
 
 
+export type QueryCompaniesArgs = {
+  input?: InputMaybe<CompaniesInput>;
+};
+
+
+export type QueryCompanyArgs = {
+  input?: InputMaybe<CompanyInput>;
+};
+
+
 export type QueryCompanyActionArgs = {
   input: CompanyActionInput;
 };
@@ -469,6 +538,11 @@ export type QueryCompanyActionsArgs = {
 
 export type QueryQualifiedCompaniesArgs = {
   input: QualifiedCompaniesInput;
+};
+
+
+export type QuerySearchCompanyArgs = {
+  input: SearchCompanyInput;
 };
 
 
@@ -516,6 +590,10 @@ export type RegisterUserInput = {
 
 export type RequestPasswordResetInput = {
   email: Scalars['String'];
+};
+
+export type SearchCompanyInput = {
+  query: Scalars['String'];
 };
 
 export type SearchUserInput = {
@@ -600,10 +678,18 @@ export type UpdateActionCommentInput = {
 
 export type UpdateCompanyInput = {
   aboutSections?: InputMaybe<Array<CompanyAboutSectionInput>>;
+  campaignContribution?: InputMaybe<Scalars['String']>;
   campaignFiles?: InputMaybe<Array<FileInput>>;
-  campaignGoalSetting?: InputMaybe<Scalars['String']>;
   campaignGoals?: InputMaybe<Scalars['String']>;
+  companyId?: InputMaybe<Scalars['ID']>;
+  country?: InputMaybe<Scalars['String']>;
+  crmId?: InputMaybe<Scalars['String']>;
+  employeeCount?: InputMaybe<Scalars['Int']>;
   logoUrl?: InputMaybe<Scalars['String']>;
+  micrositeSlug?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  programContentId?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -722,7 +808,7 @@ export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', comm
 
 export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string };
 
-export type CompanyFragment = { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> };
+export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> };
 
 export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null };
 
@@ -794,6 +880,13 @@ export type DeleteActionCommentMutationVariables = Exact<{
 
 export type DeleteActionCommentMutation = { __typename?: 'Mutation', deleteActionComment: boolean };
 
+export type DeleteCompanyMutationVariables = Exact<{
+  input: DeleteCompanyInput;
+}>;
+
+
+export type DeleteCompanyMutation = { __typename?: 'Mutation', deleteCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+
 export type DeleteUserMutationVariables = Exact<{
   input: DeleteUserInput;
 }>;
@@ -834,7 +927,7 @@ export type UpdateCompanyMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', id: string } };
+export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
 
 export type UpdateServiceProviderReviewMutationVariables = Exact<{
   input: UpdateServiceProviderReviewInput;
@@ -864,6 +957,13 @@ export type ActionCommentsQueryVariables = Exact<{
 
 export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null }> };
 
+export type CompaniesQueryVariables = Exact<{
+  input?: InputMaybe<CompaniesInput>;
+}>;
+
+
+export type CompaniesQuery = { __typename?: 'Query', companies: { __typename?: 'CompaniesResult', cursor?: string | null, items: Array<{ __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> }> } };
+
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -891,7 +991,14 @@ export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Ar
 export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, employeeCount: number, micrositeSlug?: string | null, campaignGoals?: string | null, campaignContribution?: string | null, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }> } };
+export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+
+export type SearchCompanyQueryVariables = Exact<{
+  input: SearchCompanyInput;
+}>;
+
+
+export type SearchCompanyQuery = { __typename?: 'Query', searchCompany: Array<{ __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> }> };
 
 export type SearchUserQueryVariables = Exact<{
   input: SearchUserInput;
@@ -1067,26 +1174,34 @@ export const CompanyActionListItemFragmentDoc = gql`
 ${CategoryFragmentDoc}`;
 export const CompanyFragmentDoc = gql`
     fragment Company on Company {
-  id
-  logoUrl
-  name
-  employeeCount
-  micrositeSlug
-  program {
-    contentId
-    name
-  }
   aboutSections {
     heading
     imageUrl
     text
   }
-  campaignGoals
   campaignContribution
   campaignFiles {
     name
     url
   }
+  campaignGoals
+  country
+  crmId
+  deletedAt
+  employeeCount
+  id
+  logoUrl
+  micrositeSlug
+  name
+  program {
+    contentId
+    name
+  }
+  tags {
+    id
+    name
+  }
+  websiteUrl
 }
     `;
 export const ServiceProviderReviewFragmentDoc = gql`
@@ -1272,6 +1387,17 @@ export const DeleteActionCommentDocument = gql`
 export function useDeleteActionCommentMutation() {
   return Urql.useMutation<DeleteActionCommentMutation, DeleteActionCommentMutationVariables>(DeleteActionCommentDocument);
 };
+export const DeleteCompanyDocument = gql`
+    mutation deleteCompany($input: DeleteCompanyInput!) {
+  deleteCompany(input: $input) {
+    ...Company
+  }
+}
+    ${CompanyFragmentDoc}`;
+
+export function useDeleteCompanyMutation() {
+  return Urql.useMutation<DeleteCompanyMutation, DeleteCompanyMutationVariables>(DeleteCompanyDocument);
+};
 export const DeleteUserDocument = gql`
     mutation deleteUser($input: DeleteUserInput!) {
   deleteUser(input: $input) {
@@ -1328,10 +1454,10 @@ export function useUpdateActionCommentMutation() {
 export const UpdateCompanyDocument = gql`
     mutation updateCompany($input: UpdateCompanyInput!) {
   updateCompany(input: $input) {
-    id
+    ...Company
   }
 }
-    `;
+    ${CompanyFragmentDoc}`;
 
 export function useUpdateCompanyMutation() {
   return Urql.useMutation<UpdateCompanyMutation, UpdateCompanyMutationVariables>(UpdateCompanyDocument);
@@ -1379,6 +1505,20 @@ export const ActionCommentsDocument = gql`
 
 export function useActionCommentsQuery(options: Omit<Urql.UseQueryArgs<ActionCommentsQueryVariables>, 'query'>) {
   return Urql.useQuery<ActionCommentsQuery>({ query: ActionCommentsDocument, ...options });
+};
+export const CompaniesDocument = gql`
+    query companies($input: CompaniesInput) {
+  companies(input: $input) {
+    cursor
+    items {
+      ...Company
+    }
+  }
+}
+    ${CompanyFragmentDoc}`;
+
+export function useCompaniesQuery(options?: Omit<Urql.UseQueryArgs<CompaniesQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompaniesQuery>({ query: CompaniesDocument, ...options });
 };
 export const CompanyAchievementsMiniDocument = gql`
     query companyAchievementsMini {
@@ -1446,6 +1586,17 @@ export const CompanyDocument = gql`
 
 export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyQuery>({ query: CompanyDocument, ...options });
+};
+export const SearchCompanyDocument = gql`
+    query searchCompany($input: SearchCompanyInput!) {
+  searchCompany(input: $input) {
+    ...Company
+  }
+}
+    ${CompanyFragmentDoc}`;
+
+export function useSearchCompanyQuery(options: Omit<Urql.UseQueryArgs<SearchCompanyQueryVariables>, 'query'>) {
+  return Urql.useQuery<SearchCompanyQuery>({ query: SearchCompanyDocument, ...options });
 };
 export const SearchUserDocument = gql`
     query searchUser($input: SearchUserInput!) {

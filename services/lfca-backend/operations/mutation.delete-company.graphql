@@ -1,0 +1,5 @@
+mutation deleteCompany($input: DeleteCompanyInput!) {
+  deleteCompany(input: $input) {
+    ...Company
+  }
+}
