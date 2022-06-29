@@ -39,7 +39,7 @@ const CompanySettings: NextPage = () => {
               initialValues={company}
               isLoading={fetchingCompany || isUpdatingCompany}
               onUpdate={handleUpdate}
-              // type="update"
+              type="update"
             />
           </Container>
         </Section>

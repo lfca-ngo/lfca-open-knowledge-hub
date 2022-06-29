@@ -91,6 +91,7 @@ export const AchievementsList = () => {
             initialValues={company}
             isLoading={fetchingCompany || isUpdatingCompany}
             onUpdate={handleUpdate}
+            type="update"
           />
         </Section>
 
