@@ -16,7 +16,6 @@ import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
 import { ImageUploadMulti } from '../FileUpload/ImageUploadMulti'
 
-// const { Option } = Select
 const { TextArea } = Input
 
 interface CompanyFormProps {
@@ -31,7 +30,6 @@ interface CompanyFormProps {
 }
 
 export const CompanyForm = ({
-  // countries,
   filterByKeys,
   initialValues,
   isLoading = false,
