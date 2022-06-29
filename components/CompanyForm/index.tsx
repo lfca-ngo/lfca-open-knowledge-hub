@@ -6,8 +6,10 @@ import {
 import { Button, Form, Input, Popover, Space } from 'antd'
 import { useEffect } from 'react'
 
+import { Country } from '../../services/contentful'
 import {
   CompanyFragment,
+  CreateCompanyInput,
   UpdateCompanyInput,
 } from '../../services/lfca-backend'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
@@ -18,13 +20,14 @@ import { ImageUploadMulti } from '../FileUpload/ImageUploadMulti'
 const { TextArea } = Input
 
 interface CompanyFormProps {
-  // countries?: Country[]
+  countries?: Country[]
   filterByKeys?: (keyof CompanyFragment)[]
   initialValues?: CompanyFragment
   isLoading?: boolean
-  // onCreate?: (values: CreateCompanyInput) => void
+  onCreate?: (values: CreateCompanyInput) => void
+  onDelete?: () => void
   onUpdate?: (values: UpdateCompanyInput) => void
-  // type: 'create' | 'update'
+  type: 'create' | 'update'
 }
 
 export const CompanyForm = ({
@@ -32,14 +35,13 @@ export const CompanyForm = ({
   filterByKeys,
   initialValues,
   isLoading = false,
-  // onCreate,
+  onCreate,
   onUpdate,
-}: // type,
-CompanyFormProps) => {
+  type,
+}: CompanyFormProps) => {
   const handleSubmit = (allValues: UpdateCompanyInput) => {
-    // if (type === 'create') onCreate?.(allValues as CreateUserInput)
-    // else
-    onUpdate?.(allValues as UpdateCompanyInput)
+    if (type === 'create') onCreate?.(allValues as CreateCompanyInput)
+    else onUpdate?.(allValues as UpdateCompanyInput)
   }
 
   const [form] = Form.useForm()

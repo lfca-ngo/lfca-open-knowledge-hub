@@ -859,19 +859,19 @@ export type CreateServiceProviderReviewMutationVariables = Exact<{
 
 export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
 
+export type CreateCompanyMutationVariables = Exact<{
+  input: CreateCompanyInput;
+}>;
+
+
+export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+
 export type CreateUserInviteMutationVariables = Exact<{
   input: CreateUserInviteInput;
 }>;
 
 
 export type CreateUserInviteMutation = { __typename?: 'Mutation', createUserInvite: { __typename?: 'UserInvite', email: string, userRole: string } };
-
-export type CreateUserMutationVariables = Exact<{
-  input: CreateUserInput;
-}>;
-
-
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
 
 export type DeleteActionCommentMutationVariables = Exact<{
   input: DeleteActionCommentInput;
@@ -1355,6 +1355,17 @@ export const CreateServiceProviderReviewDocument = gql`
 export function useCreateServiceProviderReviewMutation() {
   return Urql.useMutation<CreateServiceProviderReviewMutation, CreateServiceProviderReviewMutationVariables>(CreateServiceProviderReviewDocument);
 };
+export const CreateCompanyDocument = gql`
+    mutation createCompany($input: CreateCompanyInput!) {
+  createCompany(input: $input) {
+    ...Company
+  }
+}
+    ${CompanyFragmentDoc}`;
+
+export function useCreateCompanyMutation() {
+  return Urql.useMutation<CreateCompanyMutation, CreateCompanyMutationVariables>(CreateCompanyDocument);
+};
 export const CreateUserInviteDocument = gql`
     mutation createUserInvite($input: CreateUserInviteInput!) {
   createUserInvite(input: $input) {
@@ -1366,17 +1377,6 @@ export const CreateUserInviteDocument = gql`
 
 export function useCreateUserInviteMutation() {
   return Urql.useMutation<CreateUserInviteMutation, CreateUserInviteMutationVariables>(CreateUserInviteDocument);
-};
-export const CreateUserDocument = gql`
-    mutation createUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    ...User
-  }
-}
-    ${UserFragmentDoc}`;
-
-export function useCreateUserMutation() {
-  return Urql.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument);
 };
 export const DeleteActionCommentDocument = gql`
     mutation deleteActionComment($input: DeleteActionCommentInput!) {

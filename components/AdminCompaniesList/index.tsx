@@ -8,8 +8,10 @@ import { useRef, useState } from 'react'
 
 import { Country } from '../../services/contentful'
 import {
+  CreateCompanyInput,
   UpdateCompanyInput,
   useCompaniesQuery,
+  useCreateCompanyMutation,
   useDeleteCompanyMutation,
   useSearchCompanyQuery,
   useUpdateCompanyMutation,
@@ -55,10 +57,12 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
     }, 500)
   ).current
 
-  const [{ fetching: isUpdatingCompany }, updateCompany] =
-    useUpdateCompanyMutation()
+  const [{ fetching: isCreatingCompany }, createCompany] =
+    useCreateCompanyMutation()
   const [{ fetching: isDeletingCompany }, deleteCompany] =
     useDeleteCompanyMutation()
+  const [{ fetching: isUpdatingCompany }, updateCompany] =
+    useUpdateCompanyMutation()
 
   const [{ data: companiesData, fetching: isFetchingCompanies }] =
     useCompaniesQuery({
@@ -105,15 +109,12 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
     setSelectedCompany(undefined)
   }
 
-  const handleUpdate = (allValues: UpdateCompanyInput) => {
-    updateCompany({
-      input: {
-        companyId: selectedCompany?.id,
-        ...allValues,
-      },
+  const handleCreate = (allValues: CreateCompanyInput) => {
+    createCompany({
+      input: allValues,
     }).then(({ error }) => {
       if (error) message.error(error.message)
-      else message.success('Company updated')
+      else message.success('Company created')
     })
   }
 
@@ -130,6 +131,18 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
         message.success('Company deleted')
         handleClose()
       }
+    })
+  }
+
+  const handleUpdate = (allValues: UpdateCompanyInput) => {
+    updateCompany({
+      input: {
+        companyId: selectedCompany?.id,
+        ...allValues,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Company updated')
     })
   }
 
@@ -224,14 +237,17 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
       >
         <>
           <h1>{selectedCompany ? 'Update' : 'Create'} Company</h1>
-          {/* <CompanyForm
-              countries={countries}
-              initialValues={selectedCompany}
-              isLoading={isUpdatingCompany || isDeletingCompany}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-              type={'update'}
-            /> */}
+          <CompanyForm
+            countries={countries}
+            initialValues={selectedCompany}
+            isLoading={
+              isCreatingCompany || isDeletingCompany || isUpdatingCompany
+            }
+            onCreate={handleCreate}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+            type={selectedCompany ? 'update' : 'create'}
+          />
         </>
       </Drawer>
     </div>
