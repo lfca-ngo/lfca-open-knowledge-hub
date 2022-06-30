@@ -112,7 +112,7 @@ export const ProviderCard = ({
               </Tag>
             </Popover>
             <Popover
-              content="Year the company was founed."
+              content="Year the company was founded."
               overlayClassName="popover-sm"
               placement="bottom"
             >

@@ -1,0 +1,8 @@
+query companies($input: CompaniesInput) {
+  companies(input: $input) {
+    cursor
+    items {
+      ...Company
+    }
+  }
+}

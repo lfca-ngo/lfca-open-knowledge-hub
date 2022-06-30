@@ -78,6 +78,11 @@ export interface ContentfulOptionFields {
   resultText: string
 }
 
+export interface ContentfulProgramFields {
+  name: string
+  programId: number
+}
+
 export interface ContentfulQuestionFields {
   question: string
   description: string

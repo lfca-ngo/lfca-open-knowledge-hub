@@ -6,27 +6,34 @@ import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
 import _debounce from 'lodash.debounce'
 import { useRef, useState } from 'react'
 
-import { InviteUserForm } from '../../components/InviteUserForm'
-import { UserForm } from '../../components/UserForm'
-import { Country } from '../../services/contentful'
+import { Country, Program } from '../../services/contentful'
 import {
-  UpdateUserInput,
-  useDeleteUserMutation,
-  useSearchUserQuery,
-  useUpdateUserMutation,
-  useUsersQuery,
+  CreateCompanyInput,
+  UpdateCompanyInput,
+  useCompaniesQuery,
+  useCreateCompanyMutation,
+  useDeleteCompanyMutation,
+  useSearchCompanyQuery,
+  useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
-import { UserFragment } from '../../services/lfca-backend'
+import { CompanyFragment } from '../../services/lfca-backend'
+import { CompanyForm } from '../CompanyForm'
 
-interface AdminUsersListProps {
+interface AdminCompaniesListProps {
   countries: Country[]
+  programs: Program[]
 }
 
 const { Column } = Table
 const { Search } = Input
 
-export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
-  const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
+export const AdminCompaniesList = ({
+  countries,
+  programs,
+}: AdminCompaniesListProps) => {
+  const [selectedCompany, setSelectedCompany] = useState<
+    CompanyFragment | undefined
+  >()
   const [isOpen, setIsOpen] = useState(false)
   const [form] = Form.useForm()
 
@@ -54,31 +61,35 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     }, 500)
   ).current
 
-  const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
-  const [{ fetching: isDeletingUser }, deleteUser] = useDeleteUserMutation()
+  const [{ fetching: isCreatingCompany }, createCompany] =
+    useCreateCompanyMutation()
+  const [{ fetching: isDeletingCompany }, deleteCompany] =
+    useDeleteCompanyMutation()
+  const [{ fetching: isUpdatingCompany }, updateCompany] =
+    useUpdateCompanyMutation()
 
-  const [{ data: usersData, fetching: isFetchingUsers }] = useUsersQuery({
-    pause: !!nameFilter,
-    variables: {
-      input: {
-        cursor,
-        filter: {
-          userIds: uidFilter ? [uidFilter] : undefined,
+  const [{ data: companiesData, fetching: isFetchingCompanies }] =
+    useCompaniesQuery({
+      pause: !!nameFilter,
+      variables: {
+        input: {
+          cursor,
+          filter: {
+            companyIds: uidFilter ? [uidFilter] : undefined,
+          },
         },
       },
-    },
-  })
+    })
 
-  const [{ data: searchData, fetching: isFetchingSearch }] = useSearchUserQuery(
-    {
+  const [{ data: searchData, fetching: isFetchingSearch }] =
+    useSearchCompanyQuery({
       pause: !nameFilter,
       variables: {
         input: {
           query: nameFilter,
         },
       },
-    }
-  )
+    })
 
   // the first argument is the last changed value, other values are undefined
   const handleValuesChange = ({ name, uid }: { uid: string; name: string }) => {
@@ -92,53 +103,65 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     }
   }
 
-  const handleOpen = (user?: UserFragment) => {
+  const handleOpen = (company?: CompanyFragment) => {
     setIsOpen(true)
-    setSelectedUser(user)
+    setSelectedCompany(company)
   }
 
   const handleClose = () => {
     setIsOpen(false)
-    setSelectedUser(undefined)
+    setSelectedCompany(undefined)
   }
 
-  const handleUpdate = (allValues: UpdateUserInput) => {
-    updateUser({
-      input: {
-        userId: selectedUser?.id,
-        ...allValues,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else message.success('User updated')
-    })
-  }
-
-  const handleDelete = () => {
-    if (!selectedUser?.id) return
-
-    deleteUser({
-      input: {
-        userId: selectedUser.id,
-      },
+  const handleCreate = (allValues: CreateCompanyInput) => {
+    createCompany({
+      input: allValues,
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else {
-        message.success('User deleted')
+        message.success('Company created')
         handleClose()
       }
     })
   }
 
+  const handleDelete = () => {
+    if (!selectedCompany?.id) return
+
+    deleteCompany({
+      input: {
+        companyId: selectedCompany.id,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Company deleted')
+        handleClose()
+      }
+    })
+  }
+
+  const handleUpdate = (allValues: UpdateCompanyInput) => {
+    updateCompany({
+      input: {
+        companyId: selectedCompany?.id,
+        ...allValues,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Company updated')
+    })
+  }
+
   return (
-    <div className="admin-users-list">
+    <div className="admin-companies-list">
       <Space>
         <Button
           icon={<PlusOutlined />}
           onClick={() => handleOpen()}
           type="primary"
         >
-          Create new user
+          Create new company
         </Button>
 
         <Form
@@ -158,23 +181,22 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
       </Space>
 
       <Table
-        className="users-table"
+        className="companies-table"
         dataSource={
           nameFilter
-            ? searchData?.searchUser || []
-            : usersData?.users.items || []
+            ? searchData?.searchCompany || []
+            : companiesData?.companies.items || []
         }
-        loading={isFetchingUsers || isFetchingSearch}
+        loading={isFetchingCompanies || isFetchingSearch}
         pagination={false}
         rowClassName={(item) => (item.deletedAt ? 'row-deleted' : 'undefined')}
         rowKey={(item) => item.id}
       >
-        <Column dataIndex="firstName" key="firstName" title="First name" />
-        <Column dataIndex="lastName" key="lastName" title="Last name" />
+        <Column dataIndex="name" key="name" title="Name" />
         <Column dataIndex="id" key="id" title="Id" />
         <Column
           key="action"
-          render={(_, record: UserFragment) =>
+          render={(_, record: CompanyFragment) =>
             !record.deletedAt ? (
               <Space size="middle">
                 <Button onClick={() => handleOpen(record)} type="primary">
@@ -202,12 +224,12 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
           />
         ) : null}
 
-        {!nameFilter && usersData?.users.cursor ? (
+        {!nameFilter && companiesData?.companies.cursor ? (
           <Button
             icon={<ArrowRightOutlined />}
             onClick={() => {
               setCursorHistory((v) => [cursor, ...v])
-              setCursor(usersData.users.cursor ?? null)
+              setCursor(companiesData.companies.cursor ?? null)
             }}
             type="text"
           />
@@ -220,24 +242,36 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
         onClose={handleClose}
         visible={isOpen}
       >
-        {selectedUser ? (
-          <>
-            <h1>Update User</h1>
-            <UserForm
-              countries={countries}
-              initialValues={selectedUser}
-              isLoading={isUpdatingUser || isDeletingUser}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-              type={'update'}
-            />
-          </>
-        ) : (
-          <>
-            <h1>Create User Invite</h1>
-            <InviteUserForm />
-          </>
-        )}
+        <>
+          <h1>{selectedCompany ? 'Update' : 'Create'} Company</h1>
+          <CompanyForm
+            countries={countries}
+            // While creating a company, not all props can be set
+            filterByKeys={
+              !selectedCompany
+                ? [
+                    'country',
+                    'crmId',
+                    'employeeCount',
+                    'logoUrl',
+                    'name',
+                    'programContentId',
+                    'tags',
+                    'websiteUrl',
+                  ]
+                : undefined
+            }
+            initialValues={selectedCompany}
+            isLoading={
+              isCreatingCompany || isDeletingCompany || isUpdatingCompany
+            }
+            onCreate={handleCreate}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+            programs={programs}
+            type={selectedCompany ? 'update' : 'create'}
+          />
+        </>
       </Drawer>
     </div>
   )

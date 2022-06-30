@@ -41,6 +41,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
         // debugExchange,
         cacheExchange({
           keys: {
+            CompaniesResult: (data) => data.cursor as string,
             CompanyAboutSection: (data) => `${data.heading}_${data.imageUrl}`,
             CompanyAchievement: (data) => data.contentId as string,
             CompanyProgram: (data) => data.contentId as string,
