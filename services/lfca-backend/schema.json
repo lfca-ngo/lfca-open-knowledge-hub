@@ -462,6 +462,17 @@
             "args": []
           },
           {
+            "name": "programContentId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "tags",
             "type": {
               "kind": "NON_NULL",

@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { EMPTY_ACHIEVEMENTS_ARRAY } from '../../services/contentful/utils'
 import {
   CompanyAchievementFragment,
-  CompanyFragment,
   UpdateCompanyInput,
   useCompanyAchievementsMiniQuery,
   useCompanyAchievementsQuery,
@@ -86,7 +85,7 @@ export const AchievementsList = () => {
         <Section title="Edit Microsite">
           <CompanyForm
             filterByKeys={
-              activeAchievement?.editableCompanyProperties as (keyof CompanyFragment)[]
+              activeAchievement?.editableCompanyProperties as (keyof UpdateCompanyInput)[]
             }
             initialValues={company}
             isLoading={fetchingCompany || isUpdatingCompany}

@@ -114,6 +114,7 @@ export type Company = {
   micrositeSlug?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   program: CompanyProgram;
+  programContentId: Scalars['String'];
   tags: Array<CompanyTag>;
   websiteUrl?: Maybe<Scalars['String']>;
 };
@@ -852,19 +853,19 @@ export type CreateActionCommentMutationVariables = Exact<{
 
 export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
 
-export type CreateServiceProviderReviewMutationVariables = Exact<{
-  input: CreateServiceProviderReviewInput;
-}>;
-
-
-export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
-
 export type CreateCompanyMutationVariables = Exact<{
   input: CreateCompanyInput;
 }>;
 
 
 export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+
+export type CreateServiceProviderReviewMutationVariables = Exact<{
+  input: CreateServiceProviderReviewInput;
+}>;
+
+
+export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
 
 export type CreateUserInviteMutationVariables = Exact<{
   input: CreateUserInviteInput;
@@ -1344,17 +1345,6 @@ export const CreateActionCommentDocument = gql`
 export function useCreateActionCommentMutation() {
   return Urql.useMutation<CreateActionCommentMutation, CreateActionCommentMutationVariables>(CreateActionCommentDocument);
 };
-export const CreateServiceProviderReviewDocument = gql`
-    mutation createServiceProviderReview($input: CreateServiceProviderReviewInput!) {
-  createServiceProviderReview(input: $input) {
-    ...ServiceProviderReview
-  }
-}
-    ${ServiceProviderReviewFragmentDoc}`;
-
-export function useCreateServiceProviderReviewMutation() {
-  return Urql.useMutation<CreateServiceProviderReviewMutation, CreateServiceProviderReviewMutationVariables>(CreateServiceProviderReviewDocument);
-};
 export const CreateCompanyDocument = gql`
     mutation createCompany($input: CreateCompanyInput!) {
   createCompany(input: $input) {
@@ -1365,6 +1355,17 @@ export const CreateCompanyDocument = gql`
 
 export function useCreateCompanyMutation() {
   return Urql.useMutation<CreateCompanyMutation, CreateCompanyMutationVariables>(CreateCompanyDocument);
+};
+export const CreateServiceProviderReviewDocument = gql`
+    mutation createServiceProviderReview($input: CreateServiceProviderReviewInput!) {
+  createServiceProviderReview(input: $input) {
+    ...ServiceProviderReview
+  }
+}
+    ${ServiceProviderReviewFragmentDoc}`;
+
+export function useCreateServiceProviderReviewMutation() {
+  return Urql.useMutation<CreateServiceProviderReviewMutation, CreateServiceProviderReviewMutationVariables>(CreateServiceProviderReviewDocument);
 };
 export const CreateUserInviteDocument = gql`
     mutation createUserInvite($input: CreateUserInviteInput!) {

@@ -35,7 +35,7 @@ const CompanySettings: NextPage = () => {
         <Section title="Company" titleSize="big">
           <Container>
             <CompanyForm
-              filterByKeys={['logoUrl']}
+              filterByKeys={['logoUrl', 'websiteUrl']}
               initialValues={company}
               isLoading={fetchingCompany || isUpdatingCompany}
               onUpdate={handleUpdate}

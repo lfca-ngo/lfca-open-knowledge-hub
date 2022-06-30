@@ -6,7 +6,7 @@ import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
 import _debounce from 'lodash.debounce'
 import { useRef, useState } from 'react'
 
-import { Country } from '../../services/contentful'
+import { Country, Program } from '../../services/contentful'
 import {
   CreateCompanyInput,
   UpdateCompanyInput,
@@ -21,12 +21,16 @@ import { CompanyForm } from '../CompanyForm'
 
 interface AdminCompaniesListProps {
   countries: Country[]
+  programs: Program[]
 }
 
 const { Column } = Table
 const { Search } = Input
 
-export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
+export const AdminCompaniesList = ({
+  countries,
+  programs,
+}: AdminCompaniesListProps) => {
   const [selectedCompany, setSelectedCompany] = useState<
     CompanyFragment | undefined
   >()
@@ -114,7 +118,10 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
       input: allValues,
     }).then(({ error }) => {
       if (error) message.error(error.message)
-      else message.success('Company created')
+      else {
+        message.success('Company created')
+        handleClose()
+      }
     })
   }
 
@@ -239,6 +246,21 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
           <h1>{selectedCompany ? 'Update' : 'Create'} Company</h1>
           <CompanyForm
             countries={countries}
+            // While creating a company, not all props can be set
+            filterByKeys={
+              !selectedCompany
+                ? [
+                    'country',
+                    'crmId',
+                    'employeeCount',
+                    'logoUrl',
+                    'name',
+                    'programContentId',
+                    'tags',
+                    'websiteUrl',
+                  ]
+                : undefined
+            }
             initialValues={selectedCompany}
             isLoading={
               isCreatingCompany || isDeletingCompany || isUpdatingCompany
@@ -246,6 +268,7 @@ export const AdminCompaniesList = ({ countries }: AdminCompaniesListProps) => {
             onCreate={handleCreate}
             onDelete={handleDelete}
             onUpdate={handleUpdate}
+            programs={programs}
             type={selectedCompany ? 'update' : 'create'}
           />
         </>
