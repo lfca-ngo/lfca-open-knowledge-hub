@@ -491,6 +491,24 @@
             "args": []
           },
           {
+            "name": "users",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "User",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "websiteUrl",
             "type": {
               "kind": "SCALAR",
@@ -1471,6 +1489,17 @@
                 }
               }
             ]
+          },
+          {
+            "name": "processCompanyActionDeprecation",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           },
           {
             "name": "processCompanyActionExpiry",
@@ -2479,6 +2508,15 @@
         "kind": "OBJECT",
         "name": "User",
         "fields": [
+          {
+            "name": "company",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Company",
+              "ofType": null
+            },
+            "args": []
+          },
           {
             "name": "companyId",
             "type": {

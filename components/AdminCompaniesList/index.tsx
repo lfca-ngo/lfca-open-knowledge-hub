@@ -76,6 +76,7 @@ export const AdminCompaniesList = ({
           cursor,
           filter: {
             companyIds: uidFilter ? [uidFilter] : undefined,
+            includeDeleted: true,
           },
         },
       },
