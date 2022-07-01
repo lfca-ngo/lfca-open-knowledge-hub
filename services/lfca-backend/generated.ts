@@ -88,6 +88,7 @@ export type CompaniesInput = {
 
 export type CompaniesInputFilter = {
   companyIds?: InputMaybe<Array<Scalars['String']>>;
+  includeDeleted?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CompaniesResult = {
@@ -116,6 +117,7 @@ export type Company = {
   program: CompanyProgram;
   programContentId: Scalars['String'];
   tags: Array<CompanyTag>;
+  users: Array<User>;
   websiteUrl?: Maybe<Scalars['String']>;
 };
 
@@ -359,6 +361,7 @@ export type Mutation = {
   deleteCompany: Company;
   deleteUser: User;
   planCompanyAction: CompanyAction;
+  processCompanyActionDeprecation: Scalars['Boolean'];
   processCompanyActionExpiry: Scalars['Boolean'];
   processUserActionExpiry: Scalars['Boolean'];
   /** Allows users to register if they have been invited */
@@ -720,6 +723,7 @@ export type UpdateUserInput = {
 
 export type User = {
   __typename?: 'User';
+  company?: Maybe<Company>;
   companyId?: Maybe<Scalars['String']>;
   country: Scalars['String'];
   deletedAt?: Maybe<Scalars['DateTime']>;
@@ -786,7 +790,9 @@ export type UsersInput = {
 };
 
 export type UsersInputFilter = {
+  includeDeleted?: InputMaybe<Scalars['Boolean']>;
   userIds?: InputMaybe<Array<Scalars['String']>>;
+  userRoles?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type UsersResult = {

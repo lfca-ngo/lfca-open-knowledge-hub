@@ -63,6 +63,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
       input: {
         cursor,
         filter: {
+          includeDeleted: true,
           userIds: uidFilter ? [uidFilter] : undefined,
         },
       },
