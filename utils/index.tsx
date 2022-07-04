@@ -152,6 +152,7 @@ export const recursiveRemoveKey = (
   object: Record<string, unknown>,
   deleteKey: string
 ) => {
+  if (!object[deleteKey]) return
   delete object[deleteKey]
 
   Object.values(object).forEach((val) => {
