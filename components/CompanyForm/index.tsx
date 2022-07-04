@@ -276,11 +276,11 @@ export const CompanyForm = ({
     websiteUrl: (
       <Form.Item
         key="websiteUrl"
-        label="Sustainability page on your website"
+        label="Company Website"
         name="websiteUrl"
-        rules={[{ message: 'Please enter a website!', required: true }]}
+        rules={[{ message: 'Please enter a website!', required: false }]}
       >
-        <Input placeholder="https://company.de/sustain" type="url" />
+        <Input placeholder="https://company.de/" type="url" />
       </Form.Item>
     ),
   }
