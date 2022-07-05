@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { PlusOutlined } from '@ant-design/icons'
+import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
 import _debounce from 'lodash.debounce'
@@ -11,6 +11,7 @@ import { UserForm } from '../../components/UserForm'
 import { Country } from '../../services/contentful'
 import {
   UpdateUserInput,
+  useCreateUserExportMutation,
   useDeleteUserMutation,
   useSearchUserQuery,
   useUpdateUserMutation,
@@ -56,6 +57,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
 
   const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
   const [{ fetching: isDeletingUser }, deleteUser] = useDeleteUserMutation()
+  const [{ fetching: isExporting }, exportUsers] = useCreateUserExportMutation()
 
   const [{ data: usersData, fetching: isFetchingUsers }] = useUsersQuery({
     pause: !!nameFilter,
@@ -131,6 +133,19 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     })
   }
 
+  const handleExport = async () => {
+    try {
+      const res = await exportUsers()
+      const url = res.data?.createUserExport
+
+      if (url) {
+        window.location.assign(url)
+      }
+    } catch (e) {
+      message.error('Export failed')
+    }
+  }
+
   return (
     <div className="admin-users-list">
       <Space>
@@ -156,6 +171,15 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
             <Search allowClear placeholder="Search by name" />
           </Form.Item>
         </Form>
+
+        <Button
+          icon={<DownloadOutlined />}
+          loading={isExporting}
+          onClick={() => handleExport()}
+          type="ghost"
+        >
+          Export
+        </Button>
       </Space>
 
       <Table

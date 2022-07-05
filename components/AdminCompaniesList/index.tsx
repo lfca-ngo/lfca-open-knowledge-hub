@@ -1,6 +1,6 @@
 require('./styles.less')
 
-import { PlusOutlined } from '@ant-design/icons'
+import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
 import _debounce from 'lodash.debounce'
@@ -11,6 +11,7 @@ import {
   CreateCompanyInput,
   UpdateCompanyInput,
   useCompaniesQuery,
+  useCreateCompanyExportMutation,
   useCreateCompanyMutation,
   useDeleteCompanyMutation,
   useSearchCompanyQuery,
@@ -67,6 +68,8 @@ export const AdminCompaniesList = ({
     useDeleteCompanyMutation()
   const [{ fetching: isUpdatingCompany }, updateCompany] =
     useUpdateCompanyMutation()
+  const [{ fetching: isExporting }, exportCompanies] =
+    useCreateCompanyExportMutation()
 
   const [{ data: companiesData, fetching: isFetchingCompanies }] =
     useCompaniesQuery({
@@ -154,6 +157,19 @@ export const AdminCompaniesList = ({
     })
   }
 
+  const handleExport = async () => {
+    try {
+      const res = await exportCompanies()
+      const url = res.data?.createCompanyExport
+
+      if (url) {
+        window.location.assign(url)
+      }
+    } catch (e) {
+      message.error('Export failed')
+    }
+  }
+
   return (
     <div className="admin-companies-list">
       <Space>
@@ -179,6 +195,15 @@ export const AdminCompaniesList = ({
             <Search allowClear placeholder="Search by name" />
           </Form.Item>
         </Form>
+
+        <Button
+          icon={<DownloadOutlined />}
+          loading={isExporting}
+          onClick={() => handleExport()}
+          type="ghost"
+        >
+          Export
+        </Button>
       </Space>
 
       <Table

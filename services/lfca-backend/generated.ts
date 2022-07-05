@@ -121,6 +121,11 @@ export type Company = {
   websiteUrl?: Maybe<Scalars['String']>;
 };
 
+
+export type CompanyUsersArgs = {
+  filter?: InputMaybe<UsersInputFilter>;
+};
+
 export type CompanyAboutSection = {
   __typename?: 'CompanyAboutSection';
   heading?: Maybe<Scalars['String']>;
@@ -254,6 +259,15 @@ export type ContentAsset = {
   url?: Maybe<Scalars['String']>;
 };
 
+export type CounterStatsResult = {
+  __typename?: 'CounterStatsResult';
+  actionCompletedCount: Scalars['Int'];
+  companyCount: Scalars['Int'];
+  countryCount: Scalars['Int'];
+  employeeCount: Scalars['Int'];
+  leaderCount: Scalars['Int'];
+};
+
 export type CreateActionCommentAttachmentInput = {
   fileName: Scalars['String'];
   fileSize: Scalars['Int'];
@@ -275,7 +289,7 @@ export type CreateCompanyInput = {
   name: Scalars['String'];
   programContentId: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
-  websiteUrl: Scalars['String'];
+  websiteUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateServiceProviderReviewInput = {
@@ -350,12 +364,14 @@ export type Mutation = {
   completeUserAction: UserAction;
   createActionComment: ActionComment;
   createCompany: Company;
+  createCompanyExport: Scalars['String'];
   createServiceProviderReview: ServiceProviderReview;
   /**
    * Allows admins to create new users
    * @deprecated use createUserInvite mutation instead
    */
   createUser: User;
+  createUserExport: Scalars['String'];
   createUserInvite: UserInvite;
   deleteActionComment: Scalars['Boolean'];
   deleteCompany: Company;
@@ -488,6 +504,7 @@ export type Query = {
   company: Company;
   companyAction: CompanyAction;
   companyActions: Array<CompanyAction>;
+  counterStats: CounterStatsResult;
   qualifiedCompanies: Array<Company>;
   searchCompany: Array<Company>;
   searchUser: Array<User>;
@@ -725,6 +742,7 @@ export type User = {
   __typename?: 'User';
   company?: Maybe<Company>;
   companyId?: Maybe<Scalars['String']>;
+  completedActions: Array<UserAction>;
   country: Scalars['String'];
   deletedAt?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
@@ -734,7 +752,7 @@ export type User = {
   phone?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   roles: Array<Scalars['String']>;
-  sortWeight?: Maybe<Scalars['Int']>;
+  sortWeight: Scalars['Int'];
 };
 
 export type UserAction = {
@@ -829,7 +847,7 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
-export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null };
+export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number };
 
 export type CompleteCompanyActionRequirementMutationVariables = Exact<{
   input: CompleteCompanyActionRequirementInput;
@@ -859,6 +877,11 @@ export type CreateActionCommentMutationVariables = Exact<{
 
 export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
 
+export type CreateCompanyExportMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateCompanyExportMutation = { __typename?: 'Mutation', createCompanyExport: string };
+
 export type CreateCompanyMutationVariables = Exact<{
   input: CreateCompanyInput;
 }>;
@@ -872,6 +895,11 @@ export type CreateServiceProviderReviewMutationVariables = Exact<{
 
 
 export type CreateServiceProviderReviewMutation = { __typename?: 'Mutation', createServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
+
+export type CreateUserExportMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateUserExportMutation = { __typename?: 'Mutation', createUserExport: string };
 
 export type CreateUserInviteMutationVariables = Exact<{
   input: CreateUserInviteInput;
@@ -899,7 +927,7 @@ export type DeleteUserMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number } };
 
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
@@ -913,7 +941,7 @@ export type RegisterUserMutationVariables = Exact<{
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number } };
 
 export type RequestPasswordResetMutationVariables = Exact<{
   input: RequestPasswordResetInput;
@@ -948,7 +976,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number } };
 
 export type ActionCommentAttachmentsQueryVariables = Exact<{
   input: ActionCommentAttachmentsInput;
@@ -1012,7 +1040,7 @@ export type SearchUserQueryVariables = Exact<{
 }>;
 
 
-export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null }> };
+export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number }> };
 
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
@@ -1047,14 +1075,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number } };
 
 export type UsersQueryVariables = Exact<{
   input?: InputMaybe<UsersInput>;
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight?: number | null }> } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number }> } };
 
 export const ActionCommentAttachmentFragmentDoc = gql`
     fragment ActionCommentAttachment on ActionCommentAttachment {
@@ -1351,6 +1379,15 @@ export const CreateActionCommentDocument = gql`
 export function useCreateActionCommentMutation() {
   return Urql.useMutation<CreateActionCommentMutation, CreateActionCommentMutationVariables>(CreateActionCommentDocument);
 };
+export const CreateCompanyExportDocument = gql`
+    mutation createCompanyExport {
+  createCompanyExport
+}
+    `;
+
+export function useCreateCompanyExportMutation() {
+  return Urql.useMutation<CreateCompanyExportMutation, CreateCompanyExportMutationVariables>(CreateCompanyExportDocument);
+};
 export const CreateCompanyDocument = gql`
     mutation createCompany($input: CreateCompanyInput!) {
   createCompany(input: $input) {
@@ -1372,6 +1409,15 @@ export const CreateServiceProviderReviewDocument = gql`
 
 export function useCreateServiceProviderReviewMutation() {
   return Urql.useMutation<CreateServiceProviderReviewMutation, CreateServiceProviderReviewMutationVariables>(CreateServiceProviderReviewDocument);
+};
+export const CreateUserExportDocument = gql`
+    mutation createUserExport {
+  createUserExport
+}
+    `;
+
+export function useCreateUserExportMutation() {
+  return Urql.useMutation<CreateUserExportMutation, CreateUserExportMutationVariables>(CreateUserExportDocument);
 };
 export const CreateUserInviteDocument = gql`
     mutation createUserInvite($input: CreateUserInviteInput!) {

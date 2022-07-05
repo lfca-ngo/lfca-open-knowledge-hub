@@ -506,7 +506,15 @@
                 }
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "websiteUrl",
@@ -1161,6 +1169,68 @@
       },
       {
         "kind": "OBJECT",
+        "name": "CounterStatsResult",
+        "fields": [
+          {
+            "name": "actionCompletedCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "companyCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "countryCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "employeeCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "leaderCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "CustomSectionContent",
         "fields": [
           {
@@ -1331,6 +1401,17 @@
             ]
           },
           {
+            "name": "createCompanyExport",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "createServiceProviderReview",
             "type": {
               "kind": "NON_NULL",
@@ -1375,6 +1456,17 @@
                 }
               }
             ]
+          },
+          {
+            "name": "createUserExport",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           },
           {
             "name": "createUserInvite",
@@ -1862,6 +1954,18 @@
                 }
               }
             ]
+          },
+          {
+            "name": "counterStats",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CounterStatsResult",
+                "ofType": null
+              }
+            },
+            "args": []
           },
           {
             "name": "qualifiedCompanies",
@@ -2526,6 +2630,24 @@
             "args": []
           },
           {
+            "name": "completedActions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "UserAction",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "country",
             "type": {
               "kind": "NON_NULL",
@@ -2624,8 +2746,11 @@
           {
             "name": "sortWeight",
             "type": {
-              "kind": "SCALAR",
-              "name": "Any"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
             },
             "args": []
           }
