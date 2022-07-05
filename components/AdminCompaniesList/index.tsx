@@ -157,17 +157,14 @@ export const AdminCompaniesList = ({
     })
   }
 
-  const handleExport = async () => {
-    try {
-      const res = await exportCompanies()
-      const url = res.data?.createCompanyExport
-
+  const handleExport = () => {
+    exportCompanies().then(({ data, error }) => {
+      if (error) message.error(error.message)
+      const url = data?.createCompanyExport
       if (url) {
         window.location.assign(url)
       }
-    } catch (e) {
-      message.error('Export failed')
-    }
+    })
   }
 
   return (

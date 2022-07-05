@@ -133,17 +133,14 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     })
   }
 
-  const handleExport = async () => {
-    try {
-      const res = await exportUsers()
-      const url = res.data?.createUserExport
-
+  const handleExport = () => {
+    exportUsers().then(({ data, error }) => {
+      if (error) message.error(error.message)
+      const url = data?.createUserExport
       if (url) {
         window.location.assign(url)
       }
-    } catch (e) {
-      message.error('Export failed')
-    }
+    })
   }
 
   return (
