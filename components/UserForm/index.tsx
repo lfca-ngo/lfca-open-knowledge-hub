@@ -18,6 +18,7 @@ import {
   UserFragment,
 } from '../../services/lfca-backend'
 import { ROLES } from '../../utils'
+import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
 
@@ -65,7 +66,7 @@ export const UserForm = ({
         name="companyId"
         rules={[{ message: 'Please add a companyId', required: true }]}
       >
-        <Input placeholder="-Mdas211masud" />
+        <CompanyIdSearchInput />
       </Form.Item>
     ),
     country: (
