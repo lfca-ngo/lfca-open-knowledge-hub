@@ -63,7 +63,7 @@ export const UserForm = ({
         key="companyId"
         label="Company Id"
         name="companyId"
-        rules={[{ message: 'Please add a companyId', required: false }]}
+        rules={[{ message: 'Please add a companyId', required: true }]}
       >
         <Input placeholder="-Mdas211masud" />
       </Form.Item>
