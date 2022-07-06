@@ -63,7 +63,7 @@ export const UserForm = ({
         key="companyId"
         label="Company Id"
         name="companyId"
-        rules={[{ message: 'Please add a companyId', required: false }]}
+        rules={[{ message: 'Please add a companyId', required: true }]}
       >
         <Input placeholder="-Mdas211masud" />
       </Form.Item>
@@ -193,6 +193,7 @@ export const UserForm = ({
           <Button htmlType="submit" loading={isLoading} type="primary">
             Save
           </Button>
+
           {isAdmin ? (
             <>
               <Popconfirm
@@ -204,7 +205,7 @@ export const UserForm = ({
                 <Button danger icon={<DeleteOutlined />} loading={isLoading}>
                   Delete
                 </Button>
-              </Popconfirm>{' '}
+              </Popconfirm>
             </>
           ) : null}
         </Space>

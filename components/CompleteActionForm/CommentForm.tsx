@@ -5,6 +5,7 @@ import { Button, Checkbox, Form, Input, Tag, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { Descendant } from 'slate'
 
+import { useUser } from '../../hooks/user'
 import { ActionCommentAttachment } from '../../services/lfca-backend'
 import { CommentInput } from '../Comments/CommentInput'
 import { File, FileUpload } from '../FileUpload/FileUpload'
@@ -13,14 +14,20 @@ import { convertValueToMarkdown } from '../RichTextEditor/utils'
 
 const { TextArea } = Input
 
-interface ShareLearningsFormProps {
+interface CommentFormProps {
   ctaText?: string
   initialValues?: {
     attachments: ActionCommentAttachment[]
+    authorId: string
     message: Descendant[]
   }
   loading?: boolean
-  onSubmit: (message: string, attachments?: File[], notes?: string) => void
+  onSubmit: (props: {
+    attachments?: File[]
+    authorId?: string
+    message: string
+    notes?: string
+  }) => void
   showNotes?: boolean
 }
 
@@ -30,7 +37,9 @@ export const CommentForm = ({
   loading,
   onSubmit,
   showNotes = false,
-}: ShareLearningsFormProps) => {
+}: CommentFormProps) => {
+  const { isAdmin } = useUser()
+
   const [notesVisible, setNotesVisible] = useState(false)
   const [form] = Form.useForm()
   // when data is loaded async, populate form
@@ -40,15 +49,22 @@ export const CommentForm = ({
 
   const handleFinish = async ({
     attachments,
+    authorId,
     message,
     notes,
   }: {
     attachments?: File[]
+    authorId?: string
     message?: Descendant[]
     notes?: string
   }) => {
     const parsedMessage = message ? convertValueToMarkdown(message) : ''
-    onSubmit(parsedMessage, attachments, notes)
+    onSubmit({
+      attachments: attachments,
+      authorId,
+      message: parsedMessage,
+      notes,
+    })
   }
 
   return (
@@ -59,6 +75,12 @@ export const CommentForm = ({
       layout="vertical"
       onFinish={handleFinish}
     >
+      {!!initialValues && isAdmin ? (
+        <Form.Item label="Author ID" name="authorId">
+          <Input placeholder="-Mdas211masud" />
+        </Form.Item>
+      ) : null}
+
       <Form.Item
         label={
           <Tooltip

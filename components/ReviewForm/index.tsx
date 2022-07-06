@@ -21,6 +21,7 @@ import {
 } from 'antd'
 import { useEffect, useState } from 'react'
 
+import { useUser } from '../../hooks/user'
 import {
   ServiceProviderReviewFragment,
   useCreateServiceProviderReviewMutation,
@@ -59,6 +60,8 @@ export const ReviewForm = ({
   onFinish?: () => void
   initialValues?: ServiceProviderReviewFragment
 }) => {
+  const { isAdmin } = useUser()
+
   const [form] = Form.useForm()
   const [providerId, setProviderId] = useState(
     initialValues?.serviceProviderContentId || ''
@@ -67,7 +70,10 @@ export const ReviewForm = ({
 
   // when data is loaded async, populate form
   useEffect(() => {
-    form.setFieldsValue(initialValues)
+    form.setFieldsValue({
+      ...initialValues,
+      authorId: initialValues?.author?.id,
+    })
   }, [initialValues, form])
 
   // TODO: UI for loading state
@@ -139,6 +145,12 @@ export const ReviewForm = ({
       layout="vertical"
       onFinish={handleFinish}
     >
+      {!!initialValues && isAdmin ? (
+        <Form.Item label="Author ID" name="authorId">
+          <Input placeholder="-Mdas211masud" />
+        </Form.Item>
+      ) : null}
+
       <Form.Item label="Did you work with a service provider?">
         {success ? (
           <Alert
@@ -281,7 +293,7 @@ export const ReviewForm = ({
               loading={isCreatingOrUpdating}
               type="primary"
             >
-              Submit review
+              {!initialValues ? 'Submit review' : 'Update review'}
             </Button>
           </Form.Item>
         </div>
