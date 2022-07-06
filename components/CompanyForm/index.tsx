@@ -340,24 +340,26 @@ export const CompanyForm = ({
         )
         .map((key) => formItems[key as keyof UpdateCompanyInput])}
       <Form.Item>
-        <Button htmlType="submit" loading={isLoading} type="primary">
-          Save
-        </Button>
+        <Space>
+          <Button htmlType="submit" loading={isLoading} type="primary">
+            Save
+          </Button>
 
-        {isAdmin ? (
-          <>
-            <Popconfirm
-              cancelText="No"
-              okText="Yes"
-              onConfirm={onDelete}
-              title="Are you sure to delete this company?"
-            >
-              <Button danger icon={<DeleteOutlined />} loading={isLoading}>
-                Delete
-              </Button>
-            </Popconfirm>
-          </>
-        ) : null}
+          {isAdmin ? (
+            <>
+              <Popconfirm
+                cancelText="No"
+                okText="Yes"
+                onConfirm={onDelete}
+                title="Are you sure to delete this company?"
+              >
+                <Button danger icon={<DeleteOutlined />} loading={isLoading}>
+                  Delete
+                </Button>
+              </Popconfirm>
+            </>
+          ) : null}
+        </Space>
       </Form.Item>
     </Form>
   )
