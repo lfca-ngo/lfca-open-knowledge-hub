@@ -28,7 +28,15 @@ export const CommentModal = ({
   const [{ fetching: creatingComment }, createActionComment] =
     useCreateActionCommentMutation()
 
-  const onSave = async (message: string, attachments?: File[]) => {
+  const onSave = async ({
+    attachments,
+    authorId,
+    message,
+  }: {
+    attachments?: File[]
+    authorId?: string
+    message: string
+  }) => {
     if (!editingComment) return
     await updateActionComment({
       input: {
@@ -38,6 +46,7 @@ export const CommentModal = ({
           mimeType: a.mimeType,
           source: a.source,
         })),
+        authorId,
         id: editingComment.id,
         message: message,
       },
@@ -45,7 +54,13 @@ export const CommentModal = ({
     onClose()
   }
 
-  const onCreate = async (message: string, attachments?: File[]) => {
+  const onCreate = async ({
+    attachments,
+    message,
+  }: {
+    message: string
+    attachments?: File[]
+  }) => {
     await createActionComment({
       input: {
         actionContentId,
@@ -74,6 +89,7 @@ export const CommentModal = ({
         initialValues={
           editingComment && {
             attachments: editingComment?.attachments || [],
+            authorId: editingComment.author?.id || '',
             message: editingComment
               ? parseMarkdownToValue(editingComment.message)
               : createEmptyValue(),
