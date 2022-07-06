@@ -693,6 +693,7 @@ export type Tag = {
 
 export type UpdateActionCommentInput = {
   attachments?: InputMaybe<Array<CreateActionCommentAttachmentInput>>;
+  authorId?: InputMaybe<Scalars['ID']>;
   id: Scalars['ID'];
   message?: InputMaybe<Scalars['String']>;
 };
@@ -715,6 +716,7 @@ export type UpdateCompanyInput = {
 };
 
 export type UpdateServiceProviderReviewInput = {
+  authorId?: InputMaybe<Scalars['ID']>;
   cons?: InputMaybe<Array<Scalars['String']>>;
   id: Scalars['ID'];
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
