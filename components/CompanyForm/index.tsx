@@ -1,11 +1,22 @@
 import {
+  DeleteOutlined,
   InfoCircleOutlined,
   MinusCircleOutlined,
   PlusOutlined,
 } from '@ant-design/icons'
-import { Button, Form, Input, InputNumber, Popover, Select, Space } from 'antd'
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Popover,
+  Select,
+  Space,
+} from 'antd'
 import { useEffect } from 'react'
 
+import { useUser } from '../../hooks/user'
 import { Country, Program } from '../../services/contentful'
 import {
   CompanyFragment,
@@ -39,10 +50,13 @@ export const CompanyForm = ({
   initialValues,
   isLoading = false,
   onCreate,
+  onDelete,
   onUpdate,
   programs,
   type,
 }: CompanyFormProps) => {
+  const { isAdmin } = useUser()
+
   const handleSubmit = (allValues: UpdateCompanyInput) => {
     if (type === 'create') onCreate?.(allValues as CreateCompanyInput)
     else onUpdate?.(allValues as UpdateCompanyInput)
@@ -329,6 +343,21 @@ export const CompanyForm = ({
         <Button htmlType="submit" loading={isLoading} type="primary">
           Save
         </Button>
+
+        {isAdmin ? (
+          <>
+            <Popconfirm
+              cancelText="No"
+              okText="Yes"
+              onConfirm={onDelete}
+              title="Are you sure to delete this company?"
+            >
+              <Button danger icon={<DeleteOutlined />} loading={isLoading}>
+                Delete
+              </Button>
+            </Popconfirm>
+          </>
+        ) : null}
       </Form.Item>
     </Form>
   )
