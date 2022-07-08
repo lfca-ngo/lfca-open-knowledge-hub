@@ -138,7 +138,7 @@ export const ReviewsAdminList = () => {
         )}
       />
       <Drawer
-        destroyOnClose
+        destroyOnClose={true}
         onClose={() => setReview(undefined)}
         visible={!!review}
       >

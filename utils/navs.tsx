@@ -2,6 +2,7 @@ import {
   ACTIONS,
   ACTIONS_COMPLETED,
   ACTIONS_PLANNED,
+  ADMIN_ACTIONS,
   ADMIN_COMPANIES,
   ADMIN_REVIEWS,
   ADMIN_USERS,
@@ -20,6 +21,7 @@ export const ADMIN_NAV = [
   { path: ADMIN_USERS, title: 'Users' },
   { path: ADMIN_COMPANIES, title: 'Companies' },
   { path: ADMIN_REVIEWS, title: 'Reviews' },
+  { path: ADMIN_ACTIONS, title: 'Actions' },
 ]
 
 export const SETTINGS_NAV = [

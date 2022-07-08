@@ -1,5 +1,6 @@
 import {
   AppstoreAddOutlined,
+  AppstoreOutlined,
   BankOutlined,
   CalculatorOutlined,
   CalendarOutlined,
@@ -27,6 +28,7 @@ import {
   ACTIONS_COMPLETED,
   ACTIONS_PLANNED,
   ADMIN,
+  ADMIN_ACTIONS,
   ADMIN_COMPANIES,
   ADMIN_REVIEWS,
   ADMIN_USERS,
@@ -119,6 +121,11 @@ const NAV_ITEMS_ADMIN = [
         icon: <MessageOutlined />,
         key: ADMIN_REVIEWS,
         label: 'Reviews',
+      },
+      {
+        icon: <AppstoreOutlined />,
+        key: ADMIN_ACTIONS,
+        label: 'Actions',
       },
     ],
     icon: <LockOutlined />,

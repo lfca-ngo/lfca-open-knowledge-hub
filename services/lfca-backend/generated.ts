@@ -209,6 +209,7 @@ export type CompanyActionsInput = {
 
 export type CompanyActionsInputFilter = {
   actionContentIds?: InputMaybe<Array<Scalars['String']>>;
+  companyId?: InputMaybe<Scalars['ID']>;
   isCompleted?: InputMaybe<Scalars['Boolean']>;
   isExpired?: InputMaybe<Scalars['Boolean']>;
   isPlanned?: InputMaybe<Scalars['Boolean']>;
@@ -235,6 +236,7 @@ export type CompanyTag = {
 export type CompleteCompanyActionInput = {
   /** The ID for that action in contentful */
   actionContentId: Scalars['String'];
+  companyId?: InputMaybe<Scalars['ID']>;
   isCompleted: Scalars['Boolean'];
   notes?: InputMaybe<Scalars['String']>;
 };
@@ -482,6 +484,7 @@ export type MutationUpdateUserArgs = {
 export type PlanCompanyActionInput = {
   /** The ID for that action in contentful */
   actionContentId: Scalars['String'];
+  companyId?: InputMaybe<Scalars['ID']>;
   isPlanned: Scalars['Boolean'];
 };
 
@@ -810,6 +813,7 @@ export type UsersInput = {
 };
 
 export type UsersInputFilter = {
+  companyId?: InputMaybe<Scalars['ID']>;
   includeDeleted?: InputMaybe<Scalars['Boolean']>;
   userIds?: InputMaybe<Array<Scalars['String']>>;
   userRoles?: InputMaybe<Array<Scalars['String']>>;
