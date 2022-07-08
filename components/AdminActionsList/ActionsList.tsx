@@ -1,17 +1,22 @@
 require('./styles.less')
 
-import { Button, Drawer, Form, Input, message, List } from 'antd'
+import { Button, Tag, List } from 'antd'
 
-import { useCompanyActionsListQuery } from '../../services/lfca-backend'
+import {
+  CompanyActionListItemFragment,
+  useCompanyActionsListQuery,
+} from '../../services/lfca-backend'
 
 interface AllActionsListProps {
   selectedCompanyId?: string
+  setSelectedAction: (action: CompanyActionListItemFragment) => void
   isExpired?: boolean
 }
 
 export const ActionsList = ({
   isExpired = false,
   selectedCompanyId,
+  setSelectedAction,
 }: AllActionsListProps) => {
   const [{ data: searchData, fetching: isFetchingSearch }] =
     useCompanyActionsListQuery({
@@ -29,8 +34,27 @@ export const ActionsList = ({
   return (
     <div>
       <List
-        dataSource={searchData?.companyActions}
-        renderItem={(item) => <List.Item>{item.contentId}</List.Item>}
+        dataSource={searchData?.companyActions?.sort((a, b) =>
+          (a?.title || '').localeCompare(b?.title || '')
+        )}
+        loading={isFetchingSearch}
+        renderItem={(item) => (
+          <List.Item
+            actions={[
+              <Button
+                key="edit"
+                onClick={() => setSelectedAction(item)}
+                type="primary"
+              >
+                Edit
+              </Button>,
+            ]}
+          >
+            {item.title}
+            {item.completedAt && <Tag>Completed</Tag>}
+            {item.plannedAt && <Tag>Planned</Tag>}
+          </List.Item>
+        )}
       />
     </div>
   )

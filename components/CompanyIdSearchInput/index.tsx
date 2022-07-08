@@ -82,6 +82,7 @@ export const CompanyIdSearchInput = ({
       }}
       onSearch={handleSearch}
       options={options}
+      placeholder="LFCA"
       showSearch
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
