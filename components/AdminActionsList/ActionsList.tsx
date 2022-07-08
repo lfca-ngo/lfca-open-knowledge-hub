@@ -85,14 +85,16 @@ export const ActionsList = ({
         />
         <Column
           key="action"
-          render={(_, record: CompanyActionListItemFragment) => (
-            <Button
-              onClick={() => setSelectedActionId(record.id)}
-              type="primary"
-            >
-              Edit
-            </Button>
-          )}
+          render={(_, record: CompanyActionListItemFragment) =>
+            isExpired ? null : (
+              <Button
+                onClick={() => setSelectedActionId(record.id)}
+                type="primary"
+              >
+                Edit
+              </Button>
+            )
+          }
           title="Action"
         />
       </Table>
