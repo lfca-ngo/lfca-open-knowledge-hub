@@ -8,7 +8,10 @@ const AdminUsers: NextPage = () => {
     <SiderLayout>
       <Main>
         <Section title="Admin Dashboard" titleSize="big">
-          coming back one day
+          Find more data in our{' '}
+          <a href="https://app.geckoboard.com/edit/dashboards/dash_01FAG5PNW1C50S37FY7ZJ63JJ6">
+            Geckoboard
+          </a>
         </Section>
       </Main>
     </SiderLayout>
