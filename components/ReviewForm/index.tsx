@@ -19,7 +19,7 @@ import {
   Select,
   Tooltip,
 } from 'antd'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useUser } from '../../hooks/user'
 import {
@@ -29,6 +29,7 @@ import {
   useUpdateServiceProviderReviewMutation,
 } from '../../services/lfca-backend'
 import { RemovableInput } from '../RemovableInput'
+import { UserIdSearchInput } from '../UserIdSearchInput'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -67,14 +68,6 @@ export const ReviewForm = ({
     initialValues?.serviceProviderContentId || ''
   )
   const [success, setSuccess] = useState(false)
-
-  // when data is loaded async, populate form
-  useEffect(() => {
-    form.setFieldsValue({
-      ...initialValues,
-      authorId: initialValues?.author?.id,
-    })
-  }, [initialValues, form])
 
   // TODO: UI for loading state
   // TODO: UI for error state
@@ -142,12 +135,16 @@ export const ReviewForm = ({
     <Form
       className="review-form"
       form={form}
+      initialValues={{
+        ...initialValues,
+        authorId: initialValues?.author?.id,
+      }}
       layout="vertical"
       onFinish={handleFinish}
     >
-      {!!initialValues && isAdmin ? (
-        <Form.Item label="Author ID" name="authorId">
-          <Input placeholder="-Mdas211masud" />
+      {!!initialValues && isAdmin && !success ? (
+        <Form.Item label="Author" name="authorId">
+          <UserIdSearchInput />
         </Form.Item>
       ) : null}
 

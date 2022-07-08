@@ -11,6 +11,7 @@ import { CommentInput } from '../Comments/CommentInput'
 import { File, FileUpload } from '../FileUpload/FileUpload'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
+import { UserIdSearchInput } from '../UserIdSearchInput'
 
 const { TextArea } = Input
 
@@ -76,8 +77,8 @@ export const CommentForm = ({
       onFinish={handleFinish}
     >
       {!!initialValues && isAdmin ? (
-        <Form.Item label="Author ID" name="authorId">
-          <Input placeholder="-Mdas211masud" />
+        <Form.Item label="Author" name="authorId">
+          <UserIdSearchInput />
         </Form.Item>
       ) : null}
 
