@@ -1,23 +1,29 @@
 require('./styles.less')
 
-import { Button, Tag, List } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Drawer, Popover, Table, Tag } from 'antd'
+import { useState } from 'react'
 
 import {
   CompanyActionListItemFragment,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
+import { toReadibleDate } from '../../utils'
+import { ActionsForm } from './ActionsForm'
+
+const { Column } = Table
 
 interface AllActionsListProps {
   selectedCompanyId?: string
-  setSelectedAction: (action: CompanyActionListItemFragment) => void
   isExpired?: boolean
 }
 
 export const ActionsList = ({
   isExpired = false,
   selectedCompanyId,
-  setSelectedAction,
 }: AllActionsListProps) => {
+  const [selectedActionId, setSelectedActionId] = useState<string | undefined>()
+
   const [{ data: searchData, fetching: isFetchingSearch }] =
     useCompanyActionsListQuery({
       pause: !selectedCompanyId,
@@ -31,31 +37,75 @@ export const ActionsList = ({
       },
     })
 
+  const selectedAction = searchData?.companyActions?.find(
+    (a) => a.id === selectedActionId
+  )
+
   return (
     <div>
-      <List
+      <Table
+        className="actions-table"
         dataSource={searchData?.companyActions?.sort((a, b) =>
           (a?.title || '').localeCompare(b?.title || '')
         )}
         loading={isFetchingSearch}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <Button
-                key="edit"
-                onClick={() => setSelectedAction(item)}
-                type="primary"
-              >
-                Edit
-              </Button>,
-            ]}
-          >
-            {item.title}
-            {item.completedAt && <Tag>Completed</Tag>}
-            {item.plannedAt && <Tag>Planned</Tag>}
-          </List.Item>
-        )}
-      />
+        pagination={false}
+        rowKey={(item) => item.id}
+      >
+        <Column dataIndex="title" key="title" title="Title" />
+        <Column
+          dataIndex="completedAt"
+          key="completedAt"
+          render={(_, record: CompanyActionListItemFragment) =>
+            record.completedAt ? (
+              <Tag color="green">{toReadibleDate(record.completedAt)}</Tag>
+            ) : null
+          }
+          title="Completed At"
+        />
+        <Column
+          dataIndex="plannedAt"
+          key="plannedAt"
+          render={(_, record: CompanyActionListItemFragment) =>
+            record.plannedAt ? (
+              <Tag color="pink">{toReadibleDate(record.plannedAt)}</Tag>
+            ) : null
+          }
+          title="Planned At"
+        />
+        <Column
+          dataIndex="id"
+          key="id"
+          render={(_, record: CompanyActionListItemFragment) => (
+            <Popover title={record.id}>
+              <InfoCircleOutlined />
+            </Popover>
+          )}
+          title="Id"
+        />
+        <Column
+          key="action"
+          render={(_, record: CompanyActionListItemFragment) => (
+            <Button
+              onClick={() => setSelectedActionId(record.id)}
+              type="primary"
+            >
+              Edit
+            </Button>
+          )}
+          title="Action"
+        />
+      </Table>
+
+      {!!selectedAction && !!selectedCompanyId && (
+        <Drawer
+          destroyOnClose
+          onClose={() => setSelectedActionId(undefined)}
+          visible={!!selectedAction && !!selectedCompanyId}
+        >
+          <ActionsForm action={selectedAction} companyId={selectedCompanyId} />
+        </Drawer>
+      )}
     </div>
   )
 }

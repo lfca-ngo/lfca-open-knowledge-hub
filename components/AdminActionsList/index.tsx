@@ -1,18 +1,14 @@
 require('./styles.less')
 
-import { Drawer, Form, message, Tabs } from 'antd'
+import { Form, Tabs } from 'antd'
 import { useState } from 'react'
 
-import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { ActionsList } from './ActionsList'
 
 const { TabPane } = Tabs
 
 export const AdminActionsList = () => {
-  const [selectedAction, setSelectedAction] = useState<
-    CompanyActionListItemFragment | undefined
-  >()
   const [selectedCompanyId, setSelectedCompanyId] = useState<
     string | undefined
   >()
@@ -33,26 +29,12 @@ export const AdminActionsList = () => {
 
       <Tabs>
         <TabPane key="default" tab="Default">
-          <ActionsList
-            selectedCompanyId={selectedCompanyId}
-            setSelectedAction={setSelectedAction}
-          />
+          <ActionsList selectedCompanyId={selectedCompanyId} />
         </TabPane>
         <TabPane key="expired" tab="Expired">
-          <ActionsList
-            isExpired
-            selectedCompanyId={selectedCompanyId}
-            setSelectedAction={setSelectedAction}
-          />
+          <ActionsList isExpired selectedCompanyId={selectedCompanyId} />
         </TabPane>
       </Tabs>
-
-      <Drawer
-        onClose={() => setSelectedAction(undefined)}
-        visible={!!selectedAction}
-      >
-        Hallo
-      </Drawer>
     </div>
   )
 }
