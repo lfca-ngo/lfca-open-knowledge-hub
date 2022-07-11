@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 interface EmptyStateProps {
   alignment?: 'left' | 'center'
-  bordered?: true
+  bordered?: boolean
   icon?: React.ReactNode
   size?: 'large' | 'small'
   title: string

@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
@@ -10,6 +11,7 @@ import {
   LS_ACTION_LIST,
 } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
+import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -22,6 +24,7 @@ import {
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
+import { LockOutlined } from '@ant-design/icons'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
@@ -92,7 +95,23 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
       </Main>
       <Sider>
         <Section title="Achievements">
-          <PayWall primer={<div>Customer primer</div>}>
+          <PayWall
+            primer={
+              <EmptyState
+                actions={[
+                  <Button key="upgrade" type="primary">
+                    Upgrade
+                  </Button>,
+                ]}
+                alignment="left"
+                bordered={false}
+                icon={<LockOutlined />}
+                size="small"
+                text="You can upgrade your plan anytime and start engaging with other community members!"
+                title="Locked"
+              />
+            }
+          >
             <AchievementsListMini />
           </PayWall>
         </Section>
