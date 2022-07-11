@@ -2,8 +2,10 @@ require('./styles.less')
 import { LockOutlined } from '@ant-design/icons'
 import { ThunderboltOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
+import Link from 'next/link'
 
 import { useUser } from '../../../hooks/user'
+import { SETTINGS_PLAN } from '../../../utils/routes'
 
 export const TopBar = () => {
   const { isPaying } = useUser()
@@ -16,9 +18,11 @@ export const TopBar = () => {
       <Space>
         <LockOutlined />
         Your current plan allows only limited app access
-        <Button ghost icon={<ThunderboltOutlined />} size="small">
-          Upgrade
-        </Button>
+        <Link href={SETTINGS_PLAN} passHref>
+          <Button ghost icon={<ThunderboltOutlined />} size="small">
+            Upgrade
+          </Button>
+        </Link>
       </Space>
     </div>
   )

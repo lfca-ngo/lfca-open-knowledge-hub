@@ -4,8 +4,8 @@ import {
   LikeOutlined,
   LoadingOutlined,
   LogoutOutlined,
-  UserOutlined,
   ThunderboltOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'

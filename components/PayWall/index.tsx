@@ -4,9 +4,11 @@ import {
   ThunderboltOutlined,
 } from '@ant-design/icons'
 import { Button, Popover } from 'antd'
+import Link from 'next/link'
 import { ReactNode } from 'react'
 
 import { useUser } from '../../hooks/user'
+import { SETTINGS_PLAN } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 
 interface PayWallProps {
@@ -22,9 +24,11 @@ const DefaultPrimer = ({
 }) => (
   <EmptyState
     actions={[
-      <Button icon={<ThunderboltOutlined />} key="upgrade" type="primary">
-        Upgrade
-      </Button>,
+      <Link href={SETTINGS_PLAN} key="upgrade" passHref>
+        <Button icon={<ThunderboltOutlined />} type="primary">
+          Upgrade
+        </Button>
+      </Link>,
       <Popover
         content={
           popoverContent ||

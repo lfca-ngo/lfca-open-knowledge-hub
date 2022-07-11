@@ -9,7 +9,7 @@ const Plan: NextPage = () => {
   return (
     <SiderLayout nav={SETTINGS_NAV}>
       <Main>
-        <Section title="Invite" titleSize="big">
+        <Section title="Your plan" titleSize="big">
           <Container>Show pricing and plans here</Container>
         </Section>
       </Main>
