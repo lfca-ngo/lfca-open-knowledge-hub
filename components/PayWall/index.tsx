@@ -12,10 +12,9 @@ export const PayWall = ({ children, primer }: PayWallProps) => {
   // be our restriction, this should be replaced with a
   // dynamic attribute connected to payment and with expiry date
 
-  const { programContentId } = useUser()
-  const hasPaid = programContentId === 'lfcaPledge'
+  const { isOnPaidPlan } = useUser()
 
-  if (!hasPaid) return primer || DefaultPrimer
+  if (!isOnPaidPlan) return primer || DefaultPrimer
 
   return <>{children}</>
 }

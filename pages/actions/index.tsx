@@ -1,4 +1,5 @@
-import { Button } from 'antd'
+import { InfoCircleOutlined, LockOutlined } from '@ant-design/icons'
+import { Button, Popover } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
@@ -24,7 +25,6 @@ import {
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
-import { LockOutlined } from '@ant-design/icons'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
@@ -102,12 +102,21 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
                   <Button key="upgrade" type="primary">
                     Upgrade
                   </Button>,
+                  <Popover
+                    content="Space for a mini video/gif showcasing the benefit and option to learn more"
+                    key="info"
+                    overlayClassName="popover-lg"
+                    placement="left"
+                    title="Something"
+                  >
+                    <Button icon={<InfoCircleOutlined />} />
+                  </Popover>,
                 ]}
                 alignment="left"
                 bordered={false}
                 icon={<LockOutlined />}
                 size="small"
-                text="You can upgrade your plan anytime and start engaging with other community members!"
+                text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
                 title="Locked"
               />
             }
@@ -115,6 +124,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             <AchievementsListMini />
           </PayWall>
         </Section>
+
         <Section title="Links">
           <ContentListMini content={content} />
         </Section>

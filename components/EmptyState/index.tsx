@@ -1,5 +1,5 @@
 require('./styles.less')
-
+import { Space } from 'antd'
 import classNames from 'classnames'
 
 interface EmptyStateProps {
@@ -37,7 +37,7 @@ export const EmptyState = ({
       <div className="text">{text}</div>
 
       {actions && (
-        <div className="actions">{actions?.map((action) => action)}</div>
+        <Space className="actions">{actions?.map((action) => action)}</Space>
       )}
     </div>
   )
