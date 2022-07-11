@@ -9,7 +9,7 @@ export const useUser = () => {
     isAdmin: !!data?.user.roles.includes('ADMIN'),
     isLeader: !!data?.user.roles.includes('LEADER'),
     isOfficer: !!data?.user.roles.includes('OFFICER'),
-    isOnPaidPlan: data?.user.company?.programContentId === 'lfcaPledge',
+    isPaying: data?.user.company?.programContentId === 'lfcaPledge',
     user: data?.user,
   }
 }

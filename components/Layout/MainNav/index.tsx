@@ -18,10 +18,10 @@ import {
 } from '@ant-design/icons'
 import { Menu, MenuProps, Modal } from 'antd'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
-import { useUser } from '../../hooks/user'
-import { PRODUCT_VIDEO_URL, SUPPORT_EMAIL_LINK } from '../../utils'
+import { useUser } from '../../../hooks/user'
+import { PRODUCT_VIDEO_URL, SUPPORT_EMAIL_LINK } from '../../../utils'
 import {
   ACHIEVEMENTS,
   ACTIONS,
@@ -37,10 +37,13 @@ import {
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
   TOOLS,
-} from '../../utils/routes'
-import { VideoWrapper } from '../VideoWrapper'
+} from '../../../utils/routes'
+import { VideoWrapper } from '../../VideoWrapper'
+import { PaywallPopover } from './PaywallPopover'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
+
+const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS]
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {
@@ -104,7 +107,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   },
 ]
 
-const NAV_ITEMS_ADMIN = [
+const NAV_ITEMS_ADMIN: MenuProps['items'] = [
   {
     children: [
       {
@@ -136,19 +139,34 @@ const NAV_ITEMS_ADMIN = [
 
 export const MainNav = () => {
   const [visible, setVisible] = useState(false)
-  const [items, setItems] =
-    React.useState<MenuProps['items']>(NAV_ITEMS_DEFAULT)
-  const { isAdmin } = useUser()
+  const { isAdmin, isPaying } = useUser()
 
   const router = useRouter()
 
-  React.useEffect(() => {
+  const addPaywall = (item: any) => {
+    if (NAV_ITEMS_BEHIND_PAYWALL.indexOf(item.key) > -1) {
+      return {
+        ...item,
+        disabled: true,
+        icon: (
+          <PaywallPopover>
+            <RocketOutlined />
+          </PaywallPopover>
+        ),
+      }
+    } else return item
+  }
+
+  const items = useMemo(() => {
+    let menuItems = NAV_ITEMS_DEFAULT
     if (isAdmin) {
-      setItems([...NAV_ITEMS_DEFAULT, ...NAV_ITEMS_ADMIN])
-    } else {
-      setItems(NAV_ITEMS_DEFAULT)
+      menuItems = [...NAV_ITEMS_DEFAULT, ...NAV_ITEMS_ADMIN]
     }
-  }, [isAdmin])
+    if (!isPaying) {
+      menuItems = menuItems.map(addPaywall)
+    }
+    return menuItems
+  }, [isAdmin, isPaying]) as MenuProps['items']
 
   const handleSelect = ({ key }: { key: string }) => {
     if (key === OPEN_HELP_MODAL) {

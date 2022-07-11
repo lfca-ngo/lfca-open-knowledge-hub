@@ -11,6 +11,7 @@ import { Comments } from '../../components/Comments'
 import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
+import { PayWall } from '../../components/PayWall'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -158,16 +159,18 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           />
         </Section>
         <Section title="Community">
-          <LogoGroup
-            data={actionData?.companyAction?.recentCompaniesCompleted}
-            label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
-            reverse
-            size="large"
-          />
-          <Divider orientation="left" orientationMargin="0">
-            Latest Messages
-          </Divider>
-          <Comments actionContentId={action.actionId} />
+          <PayWall popoverContent="This is community related">
+            <LogoGroup
+              data={actionData?.companyAction?.recentCompaniesCompleted}
+              label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
+              reverse
+              size="large"
+            />
+            <Divider orientation="left" orientationMargin="0">
+              Latest Messages
+            </Divider>
+            <Comments actionContentId={action.actionId} />
+          </PayWall>
         </Section>
         <Section title="Attachments">
           <AttachmentsList

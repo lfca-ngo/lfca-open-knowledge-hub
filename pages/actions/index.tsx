@@ -1,9 +1,3 @@
-import {
-  InfoCircleOutlined,
-  LockOutlined,
-  ThunderboltOutlined,
-} from '@ant-design/icons'
-import { Button, Popover } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
@@ -16,7 +10,6 @@ import {
   LS_ACTION_LIST,
 } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
-import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -99,36 +92,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
       </Main>
       <Sider>
         <Section title="Achievements">
-          <PayWall
-            primer={
-              <EmptyState
-                actions={[
-                  <Button
-                    icon={<ThunderboltOutlined />}
-                    key="upgrade"
-                    type="primary"
-                  >
-                    Upgrade
-                  </Button>,
-                  <Popover
-                    content="Space for a mini video/gif showcasing the benefit and option to learn more"
-                    key="info"
-                    overlayClassName="popover-lg"
-                    placement="left"
-                    title="Something"
-                  >
-                    <Button icon={<InfoCircleOutlined />} />
-                  </Popover>,
-                ]}
-                alignment="left"
-                bordered={false}
-                icon={<LockOutlined />}
-                size="small"
-                text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
-                title="Locked"
-              />
-            }
-          >
+          <PayWall popoverContent="This is achievements related">
             <AchievementsListMini />
           </PayWall>
         </Section>

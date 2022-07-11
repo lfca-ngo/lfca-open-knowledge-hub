@@ -1,9 +1,15 @@
 import { BulbOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import {
+  InfoCircleOutlined,
+  LockOutlined,
+  ThunderboltOutlined,
+} from '@ant-design/icons'
+import { Button, Popover } from 'antd'
 import Link from 'next/link'
 
 import { EmptyState } from '../components/EmptyState'
 import { Section } from '../components/Layout'
+import { PayWall } from '../components/PayWall'
 import { DEFAULT_SUPPORT_EMAIL } from '../utils'
 import { PersonalCarbonCalculator } from './PersonalCarbonCalculator'
 import { ServiceProviderComparison } from './ServiceProviderComparison'
@@ -27,7 +33,39 @@ export const renderTools = (sections: Section[], showEmptyState?: boolean) => {
             key={section?.componentId}
             {...section}
           >
-            <ServiceProviderComparison />
+            <PayWall
+              primer={
+                <EmptyState
+                  actions={[
+                    <Button
+                      icon={<ThunderboltOutlined />}
+                      key="upgrade"
+                      type="primary"
+                    >
+                      Upgrade
+                    </Button>,
+                    <Popover
+                      content="Space for a mini video/gif showcasing the benefit and option to learn more"
+                      key="info"
+                      overlayClassName="popover-lg"
+                      placement="top"
+                      title="Something"
+                    >
+                      <Button icon={<InfoCircleOutlined />} />
+                    </Popover>,
+                  ]}
+                  alignment="center"
+                  bordered={false}
+                  icon={<LockOutlined />}
+                  size="large"
+                  text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
+                  title="Locked"
+                  withBackground
+                />
+              }
+            >
+              <ServiceProviderComparison />
+            </PayWall>
           </Section>
         )
       default:
