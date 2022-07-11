@@ -1,4 +1,8 @@
-import { InfoCircleOutlined, LockOutlined } from '@ant-design/icons'
+import {
+  InfoCircleOutlined,
+  LockOutlined,
+  ThunderboltOutlined,
+} from '@ant-design/icons'
 import { Button, Popover } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -99,7 +103,11 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             primer={
               <EmptyState
                 actions={[
-                  <Button key="upgrade" type="primary">
+                  <Button
+                    icon={<ThunderboltOutlined />}
+                    key="upgrade"
+                    type="primary"
+                  >
                     Upgrade
                   </Button>,
                   <Popover
