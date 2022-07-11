@@ -14,13 +14,16 @@ import { EmptyState } from '../EmptyState'
 interface PayWallProps {
   children: JSX.Element | JSX.Element[]
   popoverContent?: ReactNode
+  popoverTitle?: ReactNode
   primer?: JSX.Element
 }
 
 const DefaultPrimer = ({
-  popoverContent,
+  popoverContent = 'Space for a mini video/gif showcasing the benefit and option to learn more',
+  popoverTitle = 'Learn more',
 }: {
   popoverContent: PayWallProps['popoverContent']
+  popoverTitle: PayWallProps['popoverTitle']
 }) => (
   <EmptyState
     actions={[
@@ -30,14 +33,11 @@ const DefaultPrimer = ({
         </Button>
       </Link>,
       <Popover
-        content={
-          popoverContent ||
-          'Space for a mini video/gif showcasing the benefit and option to learn more'
-        }
+        content={popoverContent}
         key="info"
-        overlayClassName="popover-lg"
+        overlayClassName="popover-lg title-big"
         placement="left"
-        title="Something"
+        title={popoverTitle}
       >
         <Button icon={<InfoCircleOutlined />} />
       </Popover>,
@@ -51,7 +51,12 @@ const DefaultPrimer = ({
   />
 )
 
-export const PayWall = ({ children, popoverContent, primer }: PayWallProps) => {
+export const PayWall = ({
+  children,
+  popoverContent,
+  popoverTitle,
+  primer,
+}: PayWallProps) => {
   // @TODO: for testing purposes the programId will
   // be our restriction, this should be replaced with a
   // dynamic attribute connected to payment and with expiry date
@@ -59,7 +64,14 @@ export const PayWall = ({ children, popoverContent, primer }: PayWallProps) => {
   const { isPaying } = useUser()
 
   if (!isPaying)
-    return primer || <DefaultPrimer popoverContent={popoverContent} />
+    return (
+      primer || (
+        <DefaultPrimer
+          popoverContent={popoverContent}
+          popoverTitle={popoverTitle}
+        />
+      )
+    )
 
   return <>{children}</>
 }
