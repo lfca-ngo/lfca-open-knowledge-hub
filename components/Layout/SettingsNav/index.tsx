@@ -82,7 +82,7 @@ export const SettingsNav = () => {
           <div className="name">
             {user?.firstName || ''} {user?.lastName || ''}
           </div>
-          <div className="company">{user?.email}</div>
+          <div className="company">{user?.company?.name}</div>
         </div>
       </a>
     </Dropdown>

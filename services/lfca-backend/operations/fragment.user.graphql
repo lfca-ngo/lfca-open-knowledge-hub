@@ -10,4 +10,9 @@ fragment User on User {
   picture
   roles
   sortWeight
+  company {
+    name
+    logoUrl
+    programContentId
+  }
 }
