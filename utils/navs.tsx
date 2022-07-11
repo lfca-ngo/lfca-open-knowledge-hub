@@ -9,6 +9,7 @@ import {
   SETTINGS,
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
+  SETTINGS_PLAN,
 } from './routes'
 
 export const ACTIONS_NAV = [
@@ -28,4 +29,5 @@ export const SETTINGS_NAV = [
   { path: SETTINGS, title: 'Edit Profile' },
   { path: SETTINGS_COMPANY, title: 'Edit Company' },
   { path: SETTINGS_INVITE, title: 'Invite Team' },
+  { path: SETTINGS_PLAN, title: 'Your Plan' },
 ]

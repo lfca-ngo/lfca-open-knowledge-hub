@@ -5,6 +5,7 @@ import {
   LoadingOutlined,
   LogoutOutlined,
   UserOutlined,
+  ThunderboltOutlined,
 } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'
@@ -16,6 +17,7 @@ import {
   SETTINGS,
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
+  SETTINGS_PLAN,
 } from '../../../utils/routes'
 
 const LOGOUT = 'logout'
@@ -54,7 +56,12 @@ export const SettingsNav = () => {
     {
       icon: <LikeOutlined />,
       key: SETTINGS_INVITE,
-      label: 'Invite Team',
+      label: 'Invite team',
+    },
+    {
+      icon: <ThunderboltOutlined />,
+      key: SETTINGS_PLAN,
+      label: 'Your plan',
     },
     {
       icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,
