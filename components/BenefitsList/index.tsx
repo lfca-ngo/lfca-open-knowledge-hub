@@ -3,6 +3,7 @@ require('./styles.less')
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Avatar, Button, List, Tabs } from 'antd'
 import Image from 'next/image'
+import { useState } from 'react'
 
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 
@@ -16,10 +17,12 @@ import {
 import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
+import { useCompanyQuery } from '../../services/lfca-backend'
 
 // TODO: Remove once moved to the backend
 export const Plans = [
   {
+    basePrice: 0,
     help: 'You have only limited access to our app & community',
     icon: (
       <Avatar
@@ -33,6 +36,7 @@ export const Plans = [
     title: 'FREE',
   },
   {
+    basePrice: 4.2,
     help: 'You can access most features, but are not highlighted on our website',
     icon: (
       <Avatar
@@ -46,6 +50,7 @@ export const Plans = [
     title: 'BASIC',
   },
   {
+    basePrice: 8.4,
     help: 'You can access all features and are highlighted on our website',
     icon: (
       <Avatar
@@ -66,10 +71,16 @@ export const BenefitsList = ({
   content?: ContentfulContentCollectionFields[]
 }) => {
   // TODO replace with actual attribute from the backend
+  const [{ fetching, data: companyData }] = useCompanyQuery()
+
   const { isPaying } = useUser()
   const currentPlan = isPaying
     ? Plans.find((p) => p.planId === 'BASIC')
     : Plans.find((p) => p.planId === 'FREE')
+
+  const [employeeSize, setEmployeeSize] = useState(
+    companyData?.company.employeeCount
+  )
 
   const benefitsCollection = content.find((c) => c.collectionId === 'benefits')
   const items = benefitsCollection?.content || []
@@ -93,7 +104,18 @@ export const BenefitsList = ({
       <Tabs tabPosition="left">
         {Plans.map((plan) => {
           return (
-            <TabPane key={plan.planId} tab={plan.title}>
+            <TabPane
+              key={plan.planId}
+              tab={
+                <div className="plan-details">
+                  <div className="title">{plan.title}</div>
+                  <div className="cost">
+                    {(employeeSize || 0) * plan.basePrice}€
+                    <span className="suffix">/month</span>
+                  </div>
+                </div>
+              }
+            >
               <List
                 dataSource={items.map((i) => {
                   if ((i.availableIn || []).indexOf(plan.planId) > -1) {

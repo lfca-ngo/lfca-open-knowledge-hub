@@ -4,6 +4,7 @@ export const useUser = () => {
   const [{ data, error, fetching }] = useUserQuery()
 
   return {
+    company: data?.user.company,
     error,
     fetching,
     isAdmin: !!data?.user.roles.includes('ADMIN'),
