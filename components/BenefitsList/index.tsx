@@ -1,7 +1,7 @@
 require('./styles.less')
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Avatar, Button, List, Tabs } from 'antd'
+import { Avatar, Button, List, Tabs, InputNumber, Space } from 'antd'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -78,7 +78,7 @@ export const BenefitsList = ({
     ? Plans.find((p) => p.planId === 'BASIC')
     : Plans.find((p) => p.planId === 'FREE')
 
-  const [employeeSize, setEmployeeSize] = useState(
+  const [employeeCount, setEmployeeCount] = useState(
     companyData?.company.employeeCount
   )
 
@@ -95,9 +95,17 @@ export const BenefitsList = ({
           <div className="description">{currentPlan?.help}</div>
         </div>
         <div className="plan-actions">
-          <Button size="large" type="primary">
-            Upgrade
-          </Button>
+          <Space>
+            <InputNumber
+              onChange={(val) => setEmployeeCount(val)}
+              placeholder="10"
+              size="large"
+              value={employeeCount}
+            />
+            <Button size="large" type="primary">
+              Upgrade
+            </Button>
+          </Space>
         </div>
       </div>
       {/* Full list of benefits */}
@@ -110,7 +118,7 @@ export const BenefitsList = ({
                 <div className="plan-details">
                   <div className="title">{plan.title}</div>
                   <div className="cost">
-                    {(employeeSize || 0) * plan.basePrice}€
+                    {((employeeCount || 0) * plan.basePrice).toFixed(0)}€
                     <span className="suffix">/month</span>
                   </div>
                 </div>
