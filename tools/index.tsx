@@ -17,6 +17,7 @@ import { ServiceProviderComparison } from './ServiceProviderComparison'
 export { PersonalCarbonCalculator, ServiceProviderComparison }
 
 import { MEASUREMENT_SERVICES_COMPARISON } from '../utils'
+import { SETTINGS_PLAN } from '../utils/routes'
 
 interface Section {
   className?: string
@@ -37,13 +38,11 @@ export const renderTools = (sections: Section[], showEmptyState?: boolean) => {
               primer={
                 <EmptyState
                   actions={[
-                    <Button
-                      icon={<ThunderboltOutlined />}
-                      key="upgrade"
-                      type="primary"
-                    >
-                      Upgrade
-                    </Button>,
+                    <Link href={SETTINGS_PLAN} key="upgrade" passHref>
+                      <Button icon={<ThunderboltOutlined />} type="primary">
+                        Upgrade
+                      </Button>
+                    </Link>,
                     <Popover
                       content="Space for a mini video/gif showcasing the benefit and option to learn more"
                       key="info"
