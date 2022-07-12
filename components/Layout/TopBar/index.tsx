@@ -5,7 +5,7 @@ import { Button, Space } from 'antd'
 import Link from 'next/link'
 
 import { useUser } from '../../../hooks/user'
-import { SETTINGS_PLAN } from '../../../utils/routes'
+import { SETTINGS_SUBSCRIPTION } from '../../../utils/routes'
 
 export const TopBar = () => {
   const { isPaying } = useUser()
@@ -18,7 +18,7 @@ export const TopBar = () => {
       <Space>
         <LockOutlined />
         Your current plan allows only limited app access
-        <Link href={SETTINGS_PLAN} passHref>
+        <Link href={SETTINGS_SUBSCRIPTION} passHref>
           <Button ghost icon={<ThunderboltOutlined />} size="small">
             Upgrade
           </Button>

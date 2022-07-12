@@ -19,7 +19,7 @@ export const ADMIN_REVIEWS = '/admin/reviews'
 export const SETTINGS = '/settings'
 export const SETTINGS_INVITE = '/settings/invite'
 export const SETTINGS_COMPANY = '/settings/company'
-export const SETTINGS_PLAN = '/settings/plan'
+export const SETTINGS_SUBSCRIPTION = '/settings/subscription'
 // Community
 export const COMMUNITY = '/community'
 // Tools

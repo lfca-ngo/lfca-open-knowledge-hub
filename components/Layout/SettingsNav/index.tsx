@@ -17,7 +17,7 @@ import {
   SETTINGS,
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
-  SETTINGS_PLAN,
+  SETTINGS_SUBSCRIPTION,
 } from '../../../utils/routes'
 
 const LOGOUT = 'logout'
@@ -60,7 +60,7 @@ export const SettingsNav = () => {
     },
     {
       icon: <ThunderboltOutlined />,
-      key: SETTINGS_PLAN,
+      key: SETTINGS_SUBSCRIPTION,
       label: 'Your plan',
     },
     {

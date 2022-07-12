@@ -1,0 +1,53 @@
+@import (reference) '../../styles/variables.less';
+@import (reference) '../../styles/fonts.less';
+@import (reference) '../../styles/mixins.less';
+
+.benefits-list {
+  .ant-list {
+    display: flex;
+    .image-wrapper {
+      position: relative;
+      height: 90px;
+      width: 90px;
+      overflow: hidden;
+      border-radius: @border-radius-base;
+      @media @desktop {
+        margin-right: 20px;
+      }
+    }
+    .content {
+      flex: 1;
+      padding: 24px;
+    }
+    .ant-list-item {
+      &.disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .current-plan {
+    background: @white-grey;
+    padding: 20px;
+    border-radius: @border-radius-base;
+    display: flex;
+    flex-direction: row;
+    margin: 0 0 50px;
+
+    .plan-actions {
+      margin-right: 0;
+      margin-left: auto;
+    }
+
+    .plan-icon {
+      margin-right: 20px;
+    }
+
+    .plan-content {
+      .title {
+        .font-semi();
+        font-size: @font-size-lg;
+      }
+    }
+  }
+}

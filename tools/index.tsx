@@ -17,7 +17,7 @@ import { ServiceProviderComparison } from './ServiceProviderComparison'
 export { PersonalCarbonCalculator, ServiceProviderComparison }
 
 import { MEASUREMENT_SERVICES_COMPARISON } from '../utils'
-import { SETTINGS_PLAN } from '../utils/routes'
+import { SETTINGS_SUBSCRIPTION } from '../utils/routes'
 
 interface Section {
   className?: string
@@ -38,7 +38,7 @@ export const renderTools = (sections: Section[], showEmptyState?: boolean) => {
               primer={
                 <EmptyState
                   actions={[
-                    <Link href={SETTINGS_PLAN} key="upgrade" passHref>
+                    <Link href={SETTINGS_SUBSCRIPTION} key="upgrade" passHref>
                       <Button icon={<ThunderboltOutlined />} type="primary">
                         Upgrade
                       </Button>

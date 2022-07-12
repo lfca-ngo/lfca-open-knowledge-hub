@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { ReactNode } from 'react'
 
 import { useUser } from '../../hooks/user'
-import { SETTINGS_PLAN } from '../../utils/routes'
+import { SETTINGS_SUBSCRIPTION } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 
 interface PayWallProps {
@@ -27,7 +27,7 @@ const DefaultPrimer = ({
 }) => (
   <EmptyState
     actions={[
-      <Link href={SETTINGS_PLAN} key="upgrade" passHref>
+      <Link href={SETTINGS_SUBSCRIPTION} key="upgrade" passHref>
         <Button icon={<ThunderboltOutlined />} type="primary">
           Upgrade
         </Button>
