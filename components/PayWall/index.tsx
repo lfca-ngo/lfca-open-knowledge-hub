@@ -8,8 +8,10 @@ import Link from 'next/link'
 import { ReactNode } from 'react'
 
 import { useUser } from '../../hooks/user'
+import { PRODUCT_VIDEO_URL } from '../../utils'
 import { SETTINGS_SUBSCRIPTION } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
+import { VideoWrapper } from '../VideoWrapper'
 
 interface PayWallProps {
   children: JSX.Element | JSX.Element[]
@@ -19,7 +21,19 @@ interface PayWallProps {
 }
 
 const DefaultPrimer = ({
-  popoverContent = 'Space for a mini video/gif showcasing the benefit and option to learn more',
+  popoverContent = (
+    <div>
+      <p>
+        Space for a mini video/gif showcasing the benefit and option to learn
+        more
+      </p>
+      <VideoWrapper
+        autoPlay
+        muted
+        sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
+      />{' '}
+    </div>
+  ),
   popoverTitle = 'Learn more',
 }: {
   popoverContent: PayWallProps['popoverContent']
@@ -34,6 +48,7 @@ const DefaultPrimer = ({
       </Link>,
       <Popover
         content={popoverContent}
+        destroyTooltipOnHide
         key="info"
         overlayClassName="popover-lg title-big"
         placement="left"

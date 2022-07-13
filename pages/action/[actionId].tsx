@@ -159,7 +159,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           />
         </Section>
         <Section title="Community">
-          <PayWall popoverContent="This is community related">
+          <PayWall>
             <LogoGroup
               data={actionData?.companyAction?.recentCompaniesCompleted}
               label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
