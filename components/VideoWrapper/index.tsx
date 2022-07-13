@@ -9,12 +9,26 @@ interface VideoWrapperProps {
   sources: Array<SourceProps>
   width?: string
   height?: string
+  autoPlay?: boolean
+  muted?: boolean
 }
 
-export const VideoWrapper = ({ height, sources, width }: VideoWrapperProps) => {
+export const VideoWrapper = ({
+  autoPlay = false,
+  height,
+  muted,
+  sources,
+  width,
+}: VideoWrapperProps) => {
   return (
     <div className="video-wrapper">
-      <video controls height={height || 'auto'} width={width || '100%'}>
+      <video
+        autoPlay={autoPlay}
+        controls
+        height={height || 'auto'}
+        muted={muted}
+        width={width || '100%'}
+      >
         {sources.map((sourceElement, i) => (
           <source
             key={`source-${i}`}

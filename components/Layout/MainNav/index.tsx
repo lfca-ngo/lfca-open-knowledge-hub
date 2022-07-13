@@ -148,11 +148,7 @@ export const MainNav = () => {
       return {
         ...item,
         disabled: true,
-        icon: (
-          <PaywallPopover>
-            <RocketOutlined />
-          </PaywallPopover>
-        ),
+        icon: <PaywallPopover>{item.icon}</PaywallPopover>,
       }
     } else return item
   }

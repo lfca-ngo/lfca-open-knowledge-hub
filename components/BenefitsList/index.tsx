@@ -1,9 +1,9 @@
 require('./styles.less')
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Avatar, Button, List, Tabs, InputNumber, Space } from 'antd'
+import { Avatar, Button, List, Tabs, InputNumber, Space, Popover } from 'antd'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 
@@ -18,6 +18,8 @@ import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
 import { useCompanyQuery } from '../../services/lfca-backend'
+import { VideoWrapper } from '../VideoWrapper'
+import { PRODUCT_VIDEO_URL } from '../../utils'
 
 // TODO: Remove once moved to the backend
 export const Plans = [
@@ -29,7 +31,7 @@ export const Plans = [
         className="green-inverse"
         icon={<HeartOutlined />}
         shape="square"
-        size="large"
+        size={60}
       />
     ),
     planId: 'FREE',
@@ -43,7 +45,7 @@ export const Plans = [
         className="wine"
         icon={<GlobalOutlined />}
         shape="square"
-        size="large"
+        size={60}
       />
     ),
     planId: 'BASIC',
@@ -57,7 +59,7 @@ export const Plans = [
         className="blue"
         icon={<RocketOutlined />}
         shape="square"
-        size="large"
+        size={60}
       />
     ),
     planId: 'PREMIUM',
@@ -71,7 +73,7 @@ export const BenefitsList = ({
   content?: ContentfulContentCollectionFields[]
 }) => {
   // TODO replace with actual attribute from the backend
-  const [{ fetching, data: companyData }] = useCompanyQuery()
+  const [{ data: companyData, fetching }] = useCompanyQuery()
 
   const { isPaying } = useUser()
   const currentPlan = isPaying
@@ -81,6 +83,11 @@ export const BenefitsList = ({
   const [employeeCount, setEmployeeCount] = useState(
     companyData?.company.employeeCount
   )
+
+  // update initial state with company size
+  useEffect(() => {
+    setEmployeeCount(companyData?.company.employeeCount)
+  }, [companyData])
 
   const benefitsCollection = content.find((c) => c.collectionId === 'benefits')
   const items = benefitsCollection?.content || []
@@ -131,26 +138,42 @@ export const BenefitsList = ({
                   } else return { ...i, disabled: true }
                 })}
                 renderItem={(item) => (
-                  <List.Item
-                    className={classNames({ disabled: item?.disabled })}
+                  <Popover
+                    content={
+                      <VideoWrapper
+                        autoPlay={true}
+                        muted={true}
+                        sources={[
+                          { src: PRODUCT_VIDEO_URL, type: 'video/mp4' },
+                        ]}
+                      />
+                    }
+                    destroyTooltipOnHide
+                    overlayClassName="popover-lg title-big"
+                    placement="bottom"
+                    title="Title"
                   >
-                    {item?.preview?.url && (
-                      <div className="image-wrapper">
-                        <Image
-                          alt="Community"
-                          layout="fill"
-                          objectFit="cover"
-                          src={item?.preview?.url}
-                        />
+                    <List.Item
+                      className={classNames({ disabled: item?.disabled })}
+                    >
+                      {item?.preview?.url && (
+                        <div className="image-wrapper">
+                          <Image
+                            alt="Community"
+                            layout="fill"
+                            objectFit="cover"
+                            src={item?.preview?.url}
+                          />
+                        </div>
+                      )}
+                      <div className="content">
+                        <h4>{item?.title}</h4>
+                        <div className="description">
+                          {documentToReactComponents(item?.description)}
+                        </div>
                       </div>
-                    )}
-                    <div className="content">
-                      <h4>{item?.title}</h4>
-                      <div className="description">
-                        {documentToReactComponents(item?.description)}
-                      </div>
-                    </div>
-                  </List.Item>
+                    </List.Item>
+                  </Popover>
                 )}
               />
             </TabPane>
