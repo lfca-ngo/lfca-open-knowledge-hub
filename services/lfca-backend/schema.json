@@ -2753,6 +2753,14 @@
               }
             },
             "args": []
+          },
+          {
+            "name": "subscriptionType",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
           }
         ],
         "interfaces": []

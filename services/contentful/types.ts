@@ -18,17 +18,28 @@ export interface ContentfulCommunityContentFields {
   link: string
   preview?: Image
   video?: ContentfulMedia
+}
+
+export interface ContentfulFeatureFields {
+  title: string
+  description: Document
+  picture?: Image
+  video?: ContentfulMedia
   contentId?: string
-  // TODO: I tried exporting the enum to use it inside of
-  // a component, but that caused trouble, until we have this
-  // figured out, there is a second definition in the utils
-  // enum Plans {
-  //   FREE,
-  //   BASIC,
-  //   PREMIUM,
-  // }
-  availableIn?: string[]
   disabled: boolean
+}
+
+export interface ContentfulPricingFields {
+  price: number
+  maxEmployees?: number
+}
+
+export interface ContentfulSubscriptionFields {
+  name: string
+  description: Document
+  pricing: ContentfulPricingFields[]
+  features: ContentfulFeatureFields[]
+  icon: Image
 }
 
 export interface ContentfulContentCollectionFields {

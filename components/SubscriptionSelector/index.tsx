@@ -1,11 +1,14 @@
 require('./styles.less')
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Avatar, Button, List, Tabs, InputNumber, Space, Popover } from 'antd'
+import { Avatar, Button, InputNumber, List, Popover, Space, Tabs } from 'antd'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import { ContentfulContentCollectionFields } from '../../services/contentful'
+import {
+  ContentfulContentCollectionFields,
+  Subscription,
+} from '../../services/contentful'
 
 const { TabPane } = Tabs
 
@@ -18,67 +21,21 @@ import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
 import { useCompanyQuery } from '../../services/lfca-backend'
-import { VideoWrapper } from '../VideoWrapper'
 import { PRODUCT_VIDEO_URL } from '../../utils'
+import { VideoWrapper } from '../VideoWrapper'
 
-// TODO: Remove once moved to the backend
-export const Plans = [
-  {
-    basePrice: 0,
-    help: 'You have only limited access to our app & community',
-    icon: (
-      <Avatar
-        className="green-inverse"
-        icon={<HeartOutlined />}
-        shape="square"
-        size={60}
-      />
-    ),
-    planId: 'FREE',
-    title: 'FREE',
-  },
-  {
-    basePrice: 4.2,
-    help: 'You can access most features, but are not highlighted on our website',
-    icon: (
-      <Avatar
-        className="wine"
-        icon={<GlobalOutlined />}
-        shape="square"
-        size={60}
-      />
-    ),
-    planId: 'BASIC',
-    title: 'BASIC',
-  },
-  {
-    basePrice: 8.4,
-    help: 'You can access all features and are highlighted on our website',
-    icon: (
-      <Avatar
-        className="blue"
-        icon={<RocketOutlined />}
-        shape="square"
-        size={60}
-      />
-    ),
-    planId: 'PREMIUM',
-    title: 'PREMIUM',
-  },
-]
-
-export const BenefitsList = ({
-  content = [],
+export const SubscriptionSelector = ({
+  subscriptions = [],
 }: {
-  content?: ContentfulContentCollectionFields[]
+  subscriptions?: Subscription[]
 }) => {
   // TODO replace with actual attribute from the backend
   const [{ data: companyData, fetching }] = useCompanyQuery()
 
-  const { isPaying } = useUser()
-  const currentPlan = isPaying
-    ? Plans.find((p) => p.planId === 'BASIC')
-    : Plans.find((p) => p.planId === 'FREE')
+  const { subscriptionType } = useUser()
+  const currentPlan = subscriptions.find(
+    (s) => s.name === (subscriptionType || 'Free')
+  )
 
   const [employeeCount, setEmployeeCount] = useState(
     companyData?.company.employeeCount
@@ -89,17 +46,25 @@ export const BenefitsList = ({
     setEmployeeCount(companyData?.company.employeeCount)
   }, [companyData])
 
-  const benefitsCollection = content.find((c) => c.collectionId === 'benefits')
-  const items = benefitsCollection?.content || []
-
+  const allFeatures = subscriptions
+    .flatMap((s) => s.features)
+    .filter((value, index, self) => {
+      return self.findIndex((v) => v.contentId === value.contentId) === index
+    })
+  console.log(allFeatures)
   return (
     <div className="benefits-list">
       {/* Currently selected plan */}
       <div className="current-plan">
-        <div className="plan-icon">{currentPlan?.icon}</div>
+        <div className="plan-icon">
+          <Avatar src={currentPlan?.icon.url} />
+        </div>
         <div className="plan-content">
-          <div className="title">{currentPlan?.title}</div>
-          <div className="description">{currentPlan?.help}</div>
+          <div className="title">{currentPlan?.name}</div>
+          <div className="description">
+            {currentPlan?.description &&
+              documentToReactComponents(currentPlan?.description)}
+          </div>
         </div>
         <div className="plan-actions">
           <Space>
@@ -117,23 +82,30 @@ export const BenefitsList = ({
       </div>
       {/* Full list of benefits */}
       <Tabs tabPosition="left">
-        {Plans.map((plan) => {
+        {subscriptions.map((plan) => {
+          const calculatedPricePoint = plan.pricing.find(
+            (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
+          )
           return (
             <TabPane
-              key={plan.planId}
+              key={plan.name}
               tab={
                 <div className="plan-details">
-                  <div className="title">{plan.title}</div>
+                  <div className="title">{plan.name}</div>
                   <div className="cost">
-                    {((employeeCount || 0) * plan.basePrice).toFixed(0)}€
+                    {calculatedPricePoint?.price}€
                     <span className="suffix">/month</span>
                   </div>
                 </div>
               }
             >
               <List
-                dataSource={items.map((i) => {
-                  if ((i.availableIn || []).indexOf(plan.planId) > -1) {
+                dataSource={allFeatures.map((i) => {
+                  if (
+                    plan.features.findIndex(
+                      (f) => f.contentId === i.contentId
+                    ) > -1
+                  ) {
                     return i
                   } else return { ...i, disabled: true }
                 })}
@@ -154,15 +126,15 @@ export const BenefitsList = ({
                     title="Title"
                   >
                     <List.Item
-                      className={classNames({ disabled: item?.disabled })}
+                      className={classNames({ disabled: item.disabled })}
                     >
-                      {item?.preview?.url && (
+                      {item?.picture?.url && (
                         <div className="image-wrapper">
                           <Image
                             alt="Community"
                             layout="fill"
                             objectFit="cover"
-                            src={item?.preview?.url}
+                            src={item?.picture?.url}
                           />
                         </div>
                       )}

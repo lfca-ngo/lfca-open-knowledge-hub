@@ -758,6 +758,7 @@ export type User = {
   picture?: Maybe<Scalars['String']>;
   roles: Array<Scalars['String']>;
   sortWeight: Scalars['Int'];
+  subscriptionType?: Maybe<Scalars['String']>;
 };
 
 export type UserAction = {
@@ -853,7 +854,7 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
-export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null };
+export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null };
 
 export type CompleteCompanyActionRequirementMutationVariables = Exact<{
   input: CompleteCompanyActionRequirementInput;
@@ -933,7 +934,7 @@ export type DeleteUserMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
 
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
@@ -947,7 +948,7 @@ export type RegisterUserMutationVariables = Exact<{
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
 
 export type RequestPasswordResetMutationVariables = Exact<{
   input: RequestPasswordResetInput;
@@ -982,7 +983,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
 
 export type ActionCommentAttachmentsQueryVariables = Exact<{
   input: ActionCommentAttachmentsInput;
@@ -1046,7 +1047,7 @@ export type SearchUserQueryVariables = Exact<{
 }>;
 
 
-export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null }> };
+export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null }> };
 
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
@@ -1081,14 +1082,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
 
 export type UsersQueryVariables = Exact<{
   input?: InputMaybe<UsersInput>;
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null }> } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null }> } };
 
 export const ActionCommentAttachmentFragmentDoc = gql`
     fragment ActionCommentAttachment on ActionCommentAttachment {
@@ -1339,6 +1340,7 @@ export const UserFragmentDoc = gql`
   picture
   roles
   sortWeight
+  subscriptionType
   company {
     name
     logoUrl

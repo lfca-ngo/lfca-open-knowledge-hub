@@ -1,23 +1,23 @@
 import type { GetStaticProps, NextPage } from 'next'
 
-import { BenefitsList } from '../../components/BenefitsList'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
-import { ContentfulContentCollectionFields } from '../../services/contentful'
-import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
+import { SubscriptionSelector } from '../../components/SubscriptionSelector'
+import { Subscription } from '../../services/contentful'
+import { fetchAllSubscriptions } from '../../services/contentful'
 import { withAuth } from '../../utils/with-auth'
 
-const Subscription: NextPage = ({
-  content,
+const SubscriptionPage: NextPage = ({
+  subscriptions,
 }: {
-  content?: ContentfulContentCollectionFields[]
+  subscriptions?: Subscription[]
 }) => {
   return (
     <SiderLayout>
       <Main>
         <Section title="Your subscription" titleSize="big">
           <Container>
-            <BenefitsList content={content} />
+            <SubscriptionSelector subscriptions={subscriptions} />
           </Container>
         </Section>
       </Main>
@@ -26,13 +26,13 @@ const Subscription: NextPage = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const content = await fetchAllContentCollections()
+  const subscriptions = await fetchAllSubscriptions()
 
   return {
     props: {
-      content,
+      subscriptions,
     },
   }
 }
 
-export default withAuth(Subscription)
+export default withAuth(SubscriptionPage)
