@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons'
 import { Button, Popover } from 'antd'
 import Link from 'next/link'
-import { ReactNode } from 'react'
+import { Children, cloneElement, ReactNode } from 'react'
 
 import { useUser } from '../../hooks/user'
 import { PRODUCT_VIDEO_URL } from '../../utils'
@@ -76,9 +76,9 @@ export const PayWall = ({
   // be our restriction, this should be replaced with a
   // dynamic attribute connected to payment and with expiry date
 
-  const { isPaying } = useUser()
+  const { fetching, isPaying } = useUser()
 
-  if (!isPaying)
+  if (!isPaying && !fetching)
     return (
       primer || (
         <DefaultPrimer
@@ -88,5 +88,11 @@ export const PayWall = ({
       )
     )
 
-  return <>{children}</>
+  return (
+    <>
+      {Children.map(children, (child) =>
+        cloneElement(child, { isParentLoading: fetching })
+      )}
+    </>
+  )
 }

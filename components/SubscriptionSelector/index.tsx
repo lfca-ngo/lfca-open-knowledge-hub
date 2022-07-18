@@ -1,22 +1,14 @@
 require('./styles.less')
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Avatar, Button, InputNumber, List, Popover, Space, Tabs } from 'antd'
+import { Avatar, Button, Form, InputNumber, List, Popover, Tabs } from 'antd'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import {
-  ContentfulContentCollectionFields,
-  Subscription,
-} from '../../services/contentful'
+import { Subscription } from '../../services/contentful'
 
 const { TabPane } = Tabs
 
-import {
-  GlobalOutlined,
-  HeartOutlined,
-  RocketOutlined,
-} from '@ant-design/icons'
 import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
@@ -30,7 +22,7 @@ export const SubscriptionSelector = ({
   subscriptions?: Subscription[]
 }) => {
   // TODO replace with actual attribute from the backend
-  const [{ data: companyData, fetching }] = useCompanyQuery()
+  const [{ data: companyData }] = useCompanyQuery()
 
   const { subscriptionType } = useUser()
   const currentPlan = subscriptions.find(
@@ -46,18 +38,20 @@ export const SubscriptionSelector = ({
     setEmployeeCount(companyData?.company.employeeCount)
   }, [companyData])
 
+  // we show a list with all available features and
+  // highlight the ones that are active in each package
   const allFeatures = subscriptions
     .flatMap((s) => s.features)
     .filter((value, index, self) => {
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
-  console.log(allFeatures)
+
   return (
     <div className="benefits-list">
       {/* Currently selected plan */}
       <div className="current-plan">
         <div className="plan-icon">
-          <Avatar src={currentPlan?.icon.url} />
+          <Avatar shape="square" src={currentPlan?.icon.url} />
         </div>
         <div className="plan-content">
           <div className="title">{currentPlan?.name}</div>
@@ -67,17 +61,19 @@ export const SubscriptionSelector = ({
           </div>
         </div>
         <div className="plan-actions">
-          <Space>
-            <InputNumber
-              onChange={(val) => setEmployeeCount(val)}
-              placeholder="10"
-              size="large"
-              value={employeeCount}
-            />
+          <Form layout="inline">
+            <Form.Item label="Team size">
+              <InputNumber
+                onChange={(val) => setEmployeeCount(val)}
+                placeholder="10"
+                size="large"
+                value={employeeCount}
+              />
+            </Form.Item>
             <Button size="large" type="primary">
               Upgrade
             </Button>
-          </Space>
+          </Form>
         </div>
       </div>
       {/* Full list of benefits */}

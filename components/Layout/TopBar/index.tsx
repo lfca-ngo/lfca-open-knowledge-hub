@@ -8,10 +8,10 @@ import { useUser } from '../../../hooks/user'
 import { SETTINGS_SUBSCRIPTION } from '../../../utils/routes'
 
 export const TopBar = () => {
-  const { isPaying } = useUser()
+  const { fetching, isPaying } = useUser()
 
   // if user is not logged in / e.g. on sign in do not show the bar
-  if (isPaying) return null
+  if (fetching || isPaying) return null
 
   return (
     <div className="top-bar">

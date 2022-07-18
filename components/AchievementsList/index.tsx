@@ -17,7 +17,11 @@ import { CompanyForm } from '../CompanyForm'
 import { Section } from '../Layout/Sections'
 import { MicrositeBadges } from '../MicrositeBadges'
 
-export const AchievementsList = () => {
+export const AchievementsList = ({
+  isParentLoading,
+}: {
+  isParentLoading?: boolean
+}) => {
   // Queries
   const [{ data: achievementsData, fetching }] = useCompanyAchievementsQuery()
   const achievements =
@@ -67,7 +71,12 @@ export const AchievementsList = () => {
         }}
         renderItem={(item) => (
           <List.Item>
-            <Skeleton active avatar loading={fetching} paragraph={{ rows: 3 }}>
+            <Skeleton
+              active
+              avatar
+              loading={fetching || isParentLoading}
+              paragraph={{ rows: 3 }}
+            >
               <AchievementCard
                 achievement={item}
                 onClickEdit={handleEditAttributes}
@@ -105,9 +114,15 @@ export const AchievementsList = () => {
   )
 }
 
-export const AchievementsListMini = () => {
+export const AchievementsListMini = ({
+  isParentLoading,
+}: {
+  isParentLoading?: boolean
+}) => {
   const [{ data: companyAchievementsData, fetching }] =
     useCompanyAchievementsMiniQuery()
+
+  console.log(fetching, isParentLoading)
 
   const achievements =
     companyAchievementsData?.company?.program.achievements ||
@@ -119,7 +134,12 @@ export const AchievementsListMini = () => {
       dataSource={achievements}
       renderItem={(item) => (
         <List.Item>
-          <Skeleton active avatar loading={fetching} paragraph={{ rows: 1 }}>
+          <Skeleton
+            active
+            avatar
+            loading={fetching || isParentLoading}
+            paragraph={{ rows: 1 }}
+          >
             <AchievementCardMini achievement={item} />
           </Skeleton>
         </List.Item>

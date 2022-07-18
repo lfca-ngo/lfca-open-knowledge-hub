@@ -10,6 +10,7 @@ export const useUser = () => {
     isAdmin: !!data?.user.roles.includes('ADMIN'),
     isLeader: !!data?.user.roles.includes('LEADER'),
     isOfficer: !!data?.user.roles.includes('OFFICER'),
+    isPaying: data?.user.subscriptionType === ('Basic' || 'Premium'),
     program: data?.user.company?.programContentId,
     subscriptionType: data?.user.subscriptionType,
     user: data?.user,
