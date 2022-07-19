@@ -174,7 +174,7 @@ export const SubscriptionSelector = ({
                       />
                     }
                     destroyTooltipOnHide
-                    overlayClassName="popover-lg title-big"
+                    overlayClassName="popover-xl title-big"
                     placement="bottom"
                     title={
                       <div>
