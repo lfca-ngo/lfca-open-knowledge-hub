@@ -3,12 +3,14 @@
 @import (reference) '../../styles/mixins.less';
 
 .benefits-list {
+  @preview-image-size: 140px;
+
   .ant-list {
     display: flex;
     .image-wrapper {
       position: relative;
-      height: 90px;
-      width: 90px;
+      height: @preview-image-size;
+      width: @preview-image-size;
       overflow: hidden;
       border-radius: @border-radius-base;
       @media @desktop {
@@ -18,6 +20,8 @@
     .content {
       flex: 1;
       padding: 12px;
+      .description {
+      }
     }
     .ant-list-item {
       &.disabled {

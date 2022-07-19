@@ -19,7 +19,7 @@ import { Subscription } from '../../services/contentful'
 
 const { TabPane } = Tabs
 
-import { CheckOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { CheckOutlined, EllipsisOutlined, LockFilled } from '@ant-design/icons'
 import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
@@ -174,7 +174,11 @@ export const SubscriptionSelector = ({
                     destroyTooltipOnHide
                     overlayClassName="popover-lg title-big"
                     placement="bottom"
-                    title="Title"
+                    title={
+                      <div>
+                        {item?.disabled && <LockFilled />} {item?.title}
+                      </div>
+                    }
                   >
                     <List.Item
                       className={classNames({ disabled: item.disabled })}
@@ -190,7 +194,9 @@ export const SubscriptionSelector = ({
                         </div>
                       )}
                       <div className="content">
-                        <h4>{item?.title}</h4>
+                        <h4>
+                          {item?.disabled && <LockFilled />} {item?.title}
+                        </h4>
                         <div className="description">
                           {documentToReactComponents(item?.description)}
                         </div>
