@@ -171,7 +171,7 @@ export const getMailToLink = ({
   body?: string
   cc?: string
   subject?: string
-  to?: string
+  to: string
 }) => {
   const args = []
   if (typeof subject !== 'undefined') {
