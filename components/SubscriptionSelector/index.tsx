@@ -13,7 +13,7 @@ import {
   Tabs,
 } from 'antd'
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Subscription } from '../../services/contentful'
 
@@ -26,6 +26,8 @@ import { useUser } from '../../hooks/user'
 import { useCompanyQuery } from '../../services/lfca-backend'
 import { getMailToLink, PRODUCT_VIDEO_URL } from '../../utils'
 import { VideoWrapper } from '../VideoWrapper'
+
+const DEFAULT_PLAN = 'Basic'
 
 const getUpgradeEmailBody = ({
   companyName,
@@ -49,7 +51,6 @@ export const SubscriptionSelector = ({
 }: {
   subscriptions?: Subscription[]
 }) => {
-  // TODO replace with actual attribute from the backend
   const [{ data: companyData }] = useCompanyQuery()
 
   const { company, subscriptionType, user } = useUser()
@@ -61,7 +62,7 @@ export const SubscriptionSelector = ({
     companyData?.company.employeeCount
   )
 
-  // update initial state with company size
+  // update state with company size
   useEffect(() => {
     setEmployeeCount(companyData?.company.employeeCount)
   }, [companyData])
@@ -74,30 +75,30 @@ export const SubscriptionSelector = ({
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
 
-  const menu = useMemo(() => {
-    const handleUpgrade = ({ key }: { key: string }) => {
-      const userName = `${user?.firstName} ${user?.lastName}`
+  const handleUpgrade = ({ key }: { key: string }) => {
+    const userName = `${user?.firstName} ${user?.lastName}`
 
-      const mailToLink = getMailToLink({
-        body: getUpgradeEmailBody({
-          companyName: company?.name || `[YOUR_COMPANY_NAME]`,
-          plan: key,
-          size: `${employeeCount}` || `[YOUR_COMPANY_SIZE]`,
-          userName: userName,
-        }),
-        subject: 'Change subscription',
-        to: 'info@lfca.earth',
-      })
-      window.location.href = mailToLink
-    }
+    const mailToLink = getMailToLink({
+      body: getUpgradeEmailBody({
+        companyName: company?.name || `[YOUR_COMPANY_NAME]`,
+        plan: key,
+        size: `${employeeCount}` || `[YOUR_COMPANY_SIZE]`,
+        userName: userName,
+      }),
+      subject: 'Change subscription',
+      to: 'info@lfca.earth',
+    })
+    window.location.href = mailToLink
+  }
 
+  const menu = () => {
     const menuItems = subscriptions.map((s) => ({
       icon: currentPlan?.name === s.name ? <CheckOutlined /> : undefined,
       key: s.name,
       label: s.name,
     }))
     return <Menu items={menuItems} onClick={handleUpgrade} />
-  }, [currentPlan, subscriptions, employeeCount, company, user])
+  }
 
   return (
     <div className="benefits-list">
@@ -177,8 +178,23 @@ export const SubscriptionSelector = ({
                     overlayClassName="popover-xl title-big"
                     placement="bottom"
                     title={
-                      <div>
-                        {item?.disabled && <LockFilled />} {item?.title}
+                      <div className="tooltip-title">
+                        <div className="text">
+                          {item?.disabled && <LockFilled />} {item?.title}
+                        </div>
+                        <div className="extra">
+                          {item?.disabled && (
+                            <Button
+                              onClick={() =>
+                                handleUpgrade({ key: DEFAULT_PLAN })
+                              }
+                              size="small"
+                              type="primary"
+                            >
+                              Unlock
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     }
                   >
