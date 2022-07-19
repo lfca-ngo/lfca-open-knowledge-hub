@@ -113,7 +113,22 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
 
         <Section title="Links">
-          <ContentListMini content={content} />
+          <PayWall
+            popoverContent={
+              <div>
+                <p>
+                  Sharing is caring! Get your own custom microsite to show to
+                  employees and partners what you are doing.
+                </p>
+                <VideoWrapper
+                  sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
+                />
+              </div>
+            }
+            popoverTitle="What's waiting for you"
+          >
+            <ContentListMini content={content} />
+          </PayWall>
         </Section>
       </Sider>
     </SiderLayout>

@@ -1,14 +1,13 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Drawer, message, Tabs } from 'antd'
+import { Divider, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 
-import { ActionDetails, ActionsBar } from '../../components/ActionDetails'
+import { ActionBar } from '../../components/ActionBar'
+import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
-import { CompleteActionForm } from '../../components/CompleteActionForm'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
 import { PayWall } from '../../components/PayWall'
@@ -22,11 +21,8 @@ import { EMPTY_ACTION } from '../../services/contentful/utils'
 import {
   useActionCommentAttachmentsQuery,
   useCompanyActionDetailsQuery,
-  useCompleteCompanyActionMutation,
-  usePlanCompanyActionMutation,
 } from '../../services/lfca-backend'
 import { renderTools } from '../../tools'
-import { actionHasReviews } from '../../utils'
 import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
 
@@ -37,7 +33,6 @@ interface ActionProps {
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
-  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const [{ data: actionData, fetching: fetchingActionData }] =
@@ -48,42 +43,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     useActionCommentAttachmentsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
-
-  const [{ fetching: fetchingPlanCompanyAction }, planCompanyAction] =
-    usePlanCompanyActionMutation()
-  const [{ fetching: fetchingCompleteCompanyAction }, completeCompanyAction] =
-    useCompleteCompanyActionMutation()
-
-  const handleComplete = async (isCompleted: boolean) => {
-    if (!isCompleted) {
-      await completeCompanyAction({
-        input: {
-          actionContentId: action.actionId,
-          isCompleted: false,
-        },
-      })
-    } else {
-      setIsOpen(true)
-    }
-  }
-
-  const handlePlan = async () => {
-    planCompanyAction({
-      input: {
-        actionContentId: action.actionId,
-        isPlanned: !actionData?.companyAction.plannedAt,
-      },
-    }).then(({ data, error }) => {
-      if (error) message.error(error.message)
-      else {
-        if (data?.planCompanyAction?.plannedAt) {
-          message.success('Marked as planned')
-        } else {
-          message.info('Removed from planned actions')
-        }
-      }
-    })
-  }
 
   return (
     <SiderLayout goBack={() => router.back()}>
@@ -146,17 +105,12 @@ const Action: NextPage<ActionProps> = ({ action }) => {
 
       <Sider>
         <Section title="Your progress">
-          <ActionsBar
-            canExpire={!!action.expiresAfterDays}
-            fetchingCompleted={
-              fetchingActionData || fetchingCompleteCompanyAction
-            }
-            fetchingPlanned={fetchingActionData || fetchingPlanCompanyAction}
-            isCompleted={!!actionData?.companyAction.completedAt}
-            isPlanned={!!actionData?.companyAction.plannedAt}
-            onComplete={handleComplete}
-            onPlan={handlePlan}
-          />
+          {actionData?.companyAction && (
+            <ActionBar
+              action={actionData?.companyAction}
+              actionDetails={action}
+            />
+          )}
         </Section>
         <Section title="Community">
           <PayWall>
@@ -186,19 +140,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           action?.customSections?.filter((s) => s.position === 'sider')
         )}
       </Sider>
-
-      <Drawer
-        className="drawer-md"
-        destroyOnClose
-        onClose={() => setIsOpen(false)}
-        visible={isOpen}
-      >
-        <CompleteActionForm
-          actionContentId={action.actionId}
-          onComplete={() => setIsOpen(false)}
-          withReviewForm={actionHasReviews(action)}
-        />
-      </Drawer>
     </SiderLayout>
   )
 }

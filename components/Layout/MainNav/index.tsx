@@ -43,7 +43,7 @@ import { PaywallPopover } from './PaywallPopover'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
 
-const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS]
+const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS, COMMUNITY]
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {

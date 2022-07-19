@@ -4,8 +4,10 @@ import {
   ThunderboltOutlined,
 } from '@ant-design/icons'
 import { Button, Popover } from 'antd'
+import Link from 'next/link'
 import React from 'react'
 
+import { SETTINGS_SUBSCRIPTION } from '../../../utils/routes'
 import { EmptyState } from '../../EmptyState'
 
 export const PaywallPopover = ({
@@ -18,9 +20,11 @@ export const PaywallPopover = ({
       content={
         <EmptyState
           actions={[
-            <Button icon={<ThunderboltOutlined />} key="upgrade" type="primary">
-              Upgrade
-            </Button>,
+            <Link href={SETTINGS_SUBSCRIPTION} key="upgrade" passHref>
+              <Button icon={<ThunderboltOutlined />} type="primary">
+                Upgrade
+              </Button>
+            </Link>,
             <Popover
               content={
                 'Space for a mini video/gif showcasing the benefit and option to learn more'

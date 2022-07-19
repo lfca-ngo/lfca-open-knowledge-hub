@@ -1,13 +1,6 @@
 require('./styles.less')
 
-import {
-  CalendarOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  ReloadOutlined,
-  UndoOutlined,
-} from '@ant-design/icons'
-import { Button, Skeleton, Space } from 'antd'
+import { Skeleton } from 'antd'
 import Image from 'next/image'
 import React from 'react'
 
@@ -54,67 +47,5 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
         />
       </div>
     </Skeleton>
-  )
-}
-
-interface ActionsBarProps {
-  canExpire: boolean
-  fetchingCompleted: boolean
-  fetchingPlanned: boolean
-  isCompleted: boolean
-  isPlanned: boolean
-  onComplete: (isComplete: boolean) => void
-  onPlan: () => void
-}
-
-export const ActionsBar = ({
-  canExpire,
-  fetchingCompleted,
-  fetchingPlanned,
-  isCompleted,
-  isPlanned,
-  onComplete,
-  onPlan,
-}: ActionsBarProps) => {
-  return (
-    <div className="actions-bar">
-      <Space direction="vertical" style={{ width: '100%' }}>
-        {canExpire && isCompleted ? (
-          <Button
-            block
-            icon={<ReloadOutlined />}
-            loading={fetchingCompleted}
-            onClick={() => onComplete(true)}
-            size="large"
-            type="primary"
-          >
-            Renew
-          </Button>
-        ) : null}
-        <Button
-          block
-          ghost={isCompleted}
-          icon={isCompleted ? <CloseOutlined /> : <CheckOutlined />}
-          loading={fetchingCompleted}
-          onClick={() => onComplete(isCompleted ? false : true)}
-          size="large"
-          type={isCompleted ? 'default' : 'primary'}
-        >
-          {isCompleted ? 'Mark as incomplete' : 'Mark as done'}
-        </Button>
-        {!isCompleted && (
-          <Button
-            block
-            ghost
-            icon={isPlanned ? <UndoOutlined /> : <CalendarOutlined />}
-            loading={fetchingPlanned}
-            onClick={onPlan}
-            size="large"
-          >
-            {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
-          </Button>
-        )}
-      </Space>
-    </div>
   )
 }
