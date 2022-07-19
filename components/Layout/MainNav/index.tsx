@@ -38,8 +38,8 @@ import {
   REFERRAL_PROGRAM,
   TOOLS,
 } from '../../../utils/routes'
+import { PaywallPopover } from '../../PayWall/PaywallPopover'
 import { VideoWrapper } from '../../VideoWrapper'
-import { PaywallPopover } from './PaywallPopover'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
 

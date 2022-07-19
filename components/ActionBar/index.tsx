@@ -18,6 +18,7 @@ import {
 } from '../../services/lfca-backend'
 import { actionHasReviews } from '../../utils'
 import { CompleteActionForm } from '../CompleteActionForm'
+import { PaywallPopover } from '../PayWall/PaywallPopover'
 
 interface ActionBarProps {
   action: CompanyActionListItemFragment
@@ -93,16 +94,18 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
           {isCompleted ? 'Mark as incomplete' : 'Mark as done'}
         </Button>
         {!isCompleted && (
-          <Button
-            block
-            ghost
-            icon={isPlanned ? <UndoOutlined /> : <CalendarOutlined />}
-            loading={fetchingPlanCompanyAction}
-            onClick={handlePlan}
-            size="large"
-          >
-            {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
-          </Button>
+          <PaywallPopover>
+            <Button
+              block
+              ghost
+              icon={isPlanned ? <UndoOutlined /> : <CalendarOutlined />}
+              loading={fetchingPlanCompanyAction}
+              onClick={handlePlan}
+              size="large"
+            >
+              {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
+            </Button>
+          </PaywallPopover>
         )}
       </Space>
 
