@@ -1,4 +1,13 @@
 import {
+  BankOutlined,
+  LikeOutlined,
+  LoadingOutlined,
+  LogoutOutlined,
+  ThunderboltOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
+
+import {
   ACTIONS,
   ACTIONS_COMPLETED,
   ACTIONS_PLANNED,
@@ -11,6 +20,8 @@ import {
   SETTINGS_INVITE,
   SETTINGS_SUBSCRIPTION,
 } from './routes'
+
+export const LOGOUT = 'logout'
 
 export const ACTIONS_NAV = [
   { path: ACTIONS, title: 'Dashboard' },
@@ -29,5 +40,33 @@ export const SETTINGS_NAV = [
   { path: SETTINGS, title: 'Edit Profile' },
   { path: SETTINGS_COMPANY, title: 'Edit Company' },
   { path: SETTINGS_INVITE, title: 'Invite Team' },
-  { path: SETTINGS_SUBSCRIPTION, title: 'Your Plan' },
+  { path: SETTINGS_SUBSCRIPTION, title: 'Your Subscription' },
+]
+
+export const PROFILE_NAV = (loading: boolean) => [
+  {
+    icon: <UserOutlined />,
+    key: SETTINGS,
+    label: 'Edit Profile',
+  },
+  {
+    icon: <BankOutlined />,
+    key: SETTINGS_COMPANY,
+    label: 'Edit Company',
+  },
+  {
+    icon: <LikeOutlined />,
+    key: SETTINGS_INVITE,
+    label: 'Invite Team',
+  },
+  {
+    icon: <ThunderboltOutlined />,
+    key: SETTINGS_SUBSCRIPTION,
+    label: 'Your Subscription',
+  },
+  {
+    icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,
+    key: LOGOUT,
+    label: 'Logout',
+  },
 ]

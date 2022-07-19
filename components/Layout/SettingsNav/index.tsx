@@ -1,26 +1,12 @@
 require('./styles.less')
-import {
-  BankOutlined,
-  LikeOutlined,
-  LoadingOutlined,
-  LogoutOutlined,
-  ThunderboltOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
 import { useUser } from '../../../hooks/user'
-import {
-  SETTINGS,
-  SETTINGS_COMPANY,
-  SETTINGS_INVITE,
-  SETTINGS_SUBSCRIPTION,
-} from '../../../utils/routes'
-
-const LOGOUT = 'logout'
+import { LOGOUT, PROFILE_NAV } from '../../../utils/navs'
 
 export const SettingsNav = () => {
   const [loading, setLoading] = useState(false)
@@ -42,38 +28,12 @@ export const SettingsNav = () => {
     else router.push(key)
   }
 
-  const ITEMS = [
-    {
-      icon: <UserOutlined />,
-      key: SETTINGS,
-      label: 'Edit profile',
-    },
-    {
-      icon: <BankOutlined />,
-      key: SETTINGS_COMPANY,
-      label: 'Edit company',
-    },
-    {
-      icon: <LikeOutlined />,
-      key: SETTINGS_INVITE,
-      label: 'Invite team',
-    },
-    {
-      icon: <ThunderboltOutlined />,
-      key: SETTINGS_SUBSCRIPTION,
-      label: 'Your plan',
-    },
-    {
-      icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,
-      key: LOGOUT,
-      label: 'Logout',
-    },
-  ]
+  const items = PROFILE_NAV(loading)
 
   return (
     <Dropdown
       className="settings-nav"
-      overlay={<Menu items={ITEMS} onClick={handleSelect} />}
+      overlay={<Menu items={items} onClick={handleSelect} />}
       overlayClassName="settings-nav-overlay"
     >
       <a onClick={(e) => e.preventDefault()}>
