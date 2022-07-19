@@ -122,8 +122,6 @@ export const AchievementsListMini = ({
   const [{ data: companyAchievementsData, fetching }] =
     useCompanyAchievementsMiniQuery()
 
-  console.log(fetching, isParentLoading)
-
   const achievements =
     companyAchievementsData?.company?.program.achievements ||
     EMPTY_ACHIEVEMENTS_ARRAY
