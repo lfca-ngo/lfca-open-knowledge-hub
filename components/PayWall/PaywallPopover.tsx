@@ -22,6 +22,7 @@ export const PaywallPopover = ({
     <Popover
       content={
         <DefaultPrimer
+          emptyStateAlignment="center"
           popoverContent={popoverContent}
           popoverTitle={popoverTitle}
         />

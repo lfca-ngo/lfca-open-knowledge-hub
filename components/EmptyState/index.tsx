@@ -2,7 +2,7 @@ require('./styles.less')
 import { Space } from 'antd'
 import classNames from 'classnames'
 
-interface EmptyStateProps {
+export interface EmptyStateProps {
   alignment?: 'left' | 'center'
   bordered?: boolean
   icon?: React.ReactNode

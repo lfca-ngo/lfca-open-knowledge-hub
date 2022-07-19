@@ -9,17 +9,19 @@ import { ReactNode } from 'react'
 
 import { PRODUCT_VIDEO_URL } from '../../utils'
 import { SETTINGS_SUBSCRIPTION } from '../../utils/routes'
-import { EmptyState } from '../EmptyState'
+import { EmptyState, EmptyStateProps } from '../EmptyState'
 import { VideoWrapper } from '../VideoWrapper'
 
 interface PayWallProps {
   children: JSX.Element | JSX.Element[]
-  popoverContent?: ReactNode
-  popoverTitle?: ReactNode
-  primer?: JSX.Element
+  popoverContent?: ReactNode // you can either customize
+  popoverTitle?: ReactNode // the default primers content
+  emptyStateAlignment?: EmptyStateProps['alignment']
+  primer?: JSX.Element // OR: pass a completely different one
 }
 
 export const DefaultPrimer = ({
+  emptyStateAlignment = 'left',
   popoverContent = (
     <div>
       <p>
@@ -35,6 +37,7 @@ export const DefaultPrimer = ({
   ),
   popoverTitle = 'Learn more',
 }: {
+  emptyStateAlignment?: PayWallProps['emptyStateAlignment']
   popoverContent: PayWallProps['popoverContent']
   popoverTitle: PayWallProps['popoverTitle']
 }) => (
@@ -56,7 +59,7 @@ export const DefaultPrimer = ({
         <Button icon={<InfoCircleOutlined />} />
       </Popover>,
     ]}
-    alignment="left"
+    alignment={emptyStateAlignment}
     bordered={false}
     icon={<LockOutlined />}
     size="small"
