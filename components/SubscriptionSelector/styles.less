@@ -20,8 +20,6 @@
     .content {
       flex: 1;
       padding: 12px;
-      .description {
-      }
     }
     .ant-list-item {
       &.disabled {
@@ -31,17 +29,19 @@
   }
 
   .ant-tabs {
+    .ant-tabs-ink-bar {
+      width: 3px;
+    }
     .plan-details {
       text-align: left;
       margin-right: 30px;
-      .title {
-      }
+
       .cost {
         font-size: 21px;
         .suffix {
           font-size: 14px;
           margin-left: 4px;
-          .font-regular();
+          .font-regular(@grey-medium);
         }
       }
     }
@@ -56,6 +56,13 @@
     margin: 0 0 50px;
     align-items: center;
 
+    .current-plan-details {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
     .plan-actions {
       margin-right: 0;
       margin-left: auto;
@@ -69,9 +76,16 @@
 
     .plan-icon {
       margin-right: 20px;
+      .ant-avatar {
+        padding: 14px;
+        background-color: fade(@blue, 6%);
+      }
     }
 
     .plan-content {
+      @media @desktop {
+        padding-right: 20px;
+      }
       .description {
         p {
           margin: 0;

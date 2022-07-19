@@ -103,14 +103,16 @@ export const SubscriptionSelector = ({
     <div className="benefits-list">
       {/* Currently selected plan */}
       <div className="current-plan">
-        <div className="plan-icon">
-          <Avatar shape="square" src={currentPlan?.icon.url} />
-        </div>
-        <div className="plan-content">
-          <div className="title">{currentPlan?.name}</div>
-          <div className="description">
-            {currentPlan?.description &&
-              documentToReactComponents(currentPlan?.description)}
+        <div className="current-plan-details">
+          <div className="plan-icon">
+            <Avatar shape="square" size={65} src={currentPlan?.icon.url} />
+          </div>
+          <div className="plan-content">
+            <div className="title">{currentPlan?.name}</div>
+            <div className="description">
+              {currentPlan?.description &&
+                documentToReactComponents(currentPlan?.description)}
+            </div>
           </div>
         </div>
         <div className="plan-actions">
