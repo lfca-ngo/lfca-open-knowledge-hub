@@ -167,8 +167,6 @@ export const AdminCompaniesList = ({
     })
   }
 
-  console.log(selectedCompany)
-
   return (
     <div className="admin-companies-list">
       <Space>
