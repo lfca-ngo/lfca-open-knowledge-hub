@@ -51,6 +51,7 @@ export const SubscriptionSelector = ({
 }: {
   subscriptions?: Subscription[]
 }) => {
+  const [activeTab, setActiveTab] = useState(subscriptions[0].name)
   const [{ data: companyData }] = useCompanyQuery()
 
   const { company, subscriptionType, user } = useUser()
@@ -63,9 +64,14 @@ export const SubscriptionSelector = ({
     companyData?.company.employeeCount
   )
 
-  // update state with company size
+  // sync state with company size
   useEffect(() => {
     setEmployeeCount(companyData?.company.employeeCount)
+  }, [companyData])
+
+  // sync state with company subscription type
+  useEffect(() => {
+    setActiveTab(companyData?.company.subscriptionType || DEFAULT_PLAN)
   }, [companyData])
 
   // we show a list with all available features and
@@ -136,7 +142,11 @@ export const SubscriptionSelector = ({
         </div>
       </div>
       {/* Full list of benefits */}
-      <Tabs tabPosition="left">
+      <Tabs
+        activeKey={activeTab}
+        onChange={(key) => setActiveTab(key)}
+        tabPosition="left"
+      >
         {subscriptions.map((plan) => {
           const calculatedPricePoint = plan.pricing.find(
             (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
