@@ -10,10 +10,10 @@ fragment User on User {
   picture
   roles
   sortWeight
-  subscriptionType
   company {
     name
     logoUrl
     programContentId
+    subscriptionType
   }
 }

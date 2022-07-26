@@ -167,6 +167,8 @@ export const AdminCompaniesList = ({
     })
   }
 
+  console.log(selectedCompany)
+
   return (
     <div className="admin-companies-list">
       <Space>
@@ -281,6 +283,7 @@ export const AdminCompaniesList = ({
                     'programContentId',
                     'tags',
                     'websiteUrl',
+                    'subscriptionType',
                   ]
                 : undefined
             }

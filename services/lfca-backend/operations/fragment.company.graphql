@@ -22,6 +22,7 @@ fragment Company on Company {
     contentId
     name
   }
+  subscriptionType
   tags {
     id
     name

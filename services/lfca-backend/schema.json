@@ -473,6 +473,17 @@
             "args": []
           },
           {
+            "name": "subscriptionType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "tags",
             "type": {
               "kind": "NON_NULL",
@@ -2751,14 +2762,6 @@
                 "kind": "SCALAR",
                 "name": "Any"
               }
-            },
-            "args": []
-          },
-          {
-            "name": "subscriptionType",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
             },
             "args": []
           }

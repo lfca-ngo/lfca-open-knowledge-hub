@@ -116,6 +116,7 @@ export type Company = {
   name?: Maybe<Scalars['String']>;
   program: CompanyProgram;
   programContentId: Scalars['String'];
+  subscriptionType: CompanySubscriptionType;
   tags: Array<CompanyTag>;
   users: Array<User>;
   websiteUrl?: Maybe<Scalars['String']>;
@@ -227,6 +228,12 @@ export type CompanyProgram = {
   name: Scalars['String'];
 };
 
+export enum CompanySubscriptionType {
+  BASIC = 'BASIC',
+  FREE = 'FREE',
+  PREMIUM = 'PREMIUM'
+}
+
 export type CompanyTag = {
   __typename?: 'CompanyTag';
   id: Scalars['ID'];
@@ -290,6 +297,7 @@ export type CreateCompanyInput = {
   logoUrl: Scalars['String'];
   name: Scalars['String'];
   programContentId: Scalars['String'];
+  subscriptionType: CompanySubscriptionType;
   tags?: InputMaybe<Array<Scalars['String']>>;
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
@@ -714,6 +722,7 @@ export type UpdateCompanyInput = {
   micrositeSlug?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   programContentId?: InputMaybe<Scalars['String']>;
+  subscriptionType?: InputMaybe<CompanySubscriptionType>;
   tags?: InputMaybe<Array<Scalars['String']>>;
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
@@ -758,7 +767,6 @@ export type User = {
   picture?: Maybe<Scalars['String']>;
   roles: Array<Scalars['String']>;
   sortWeight: Scalars['Int'];
-  subscriptionType?: Maybe<Scalars['String']>;
 };
 
 export type UserAction = {
@@ -840,7 +848,7 @@ export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', comm
 
 export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string };
 
-export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> };
+export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> };
 
 export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null };
 
@@ -854,7 +862,7 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, companyId?: string | null, email: string } | null };
 
-export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null };
+export type UserFragment = { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null };
 
 export type CompleteCompanyActionRequirementMutationVariables = Exact<{
   input: CompleteCompanyActionRequirementInput;
@@ -894,7 +902,7 @@ export type CreateCompanyMutationVariables = Exact<{
 }>;
 
 
-export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
 
 export type CreateServiceProviderReviewMutationVariables = Exact<{
   input: CreateServiceProviderReviewInput;
@@ -927,14 +935,14 @@ export type DeleteCompanyMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCompanyMutation = { __typename?: 'Mutation', deleteCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+export type DeleteCompanyMutation = { __typename?: 'Mutation', deleteCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
 
 export type DeleteUserMutationVariables = Exact<{
   input: DeleteUserInput;
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } };
 
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
@@ -948,7 +956,7 @@ export type RegisterUserMutationVariables = Exact<{
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } };
 
 export type RequestPasswordResetMutationVariables = Exact<{
   input: RequestPasswordResetInput;
@@ -969,7 +977,7 @@ export type UpdateCompanyMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
 
 export type UpdateServiceProviderReviewMutationVariables = Exact<{
   input: UpdateServiceProviderReviewInput;
@@ -983,7 +991,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } };
 
 export type ActionCommentAttachmentsQueryVariables = Exact<{
   input: ActionCommentAttachmentsInput;
@@ -1004,7 +1012,7 @@ export type CompaniesQueryVariables = Exact<{
 }>;
 
 
-export type CompaniesQuery = { __typename?: 'Query', companies: { __typename?: 'CompaniesResult', cursor?: string | null, items: Array<{ __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> }> } };
+export type CompaniesQuery = { __typename?: 'Query', companies: { __typename?: 'CompaniesResult', cursor?: string | null, items: Array<{ __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> }> } };
 
 export type CompanyAchievementsMiniQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1033,21 +1041,21 @@ export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Ar
 export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
 
 export type SearchCompanyQueryVariables = Exact<{
   input: SearchCompanyInput;
 }>;
 
 
-export type SearchCompanyQuery = { __typename?: 'Query', searchCompany: Array<{ __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> }> };
+export type SearchCompanyQuery = { __typename?: 'Query', searchCompany: Array<{ __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> }> };
 
 export type SearchUserQueryVariables = Exact<{
   input: SearchUserInput;
 }>;
 
 
-export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null }> };
+export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null }> };
 
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
@@ -1082,14 +1090,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } };
 
 export type UsersQueryVariables = Exact<{
   input?: InputMaybe<UsersInput>;
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, subscriptionType?: string | null, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string } | null }> } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', companyId?: string | null, country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', name?: string | null, logoUrl?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null }> } };
 
 export const ActionCommentAttachmentFragmentDoc = gql`
     fragment ActionCommentAttachment on ActionCommentAttachment {
@@ -1239,6 +1247,7 @@ export const CompanyFragmentDoc = gql`
     contentId
     name
   }
+  subscriptionType
   tags {
     id
     name
@@ -1340,11 +1349,11 @@ export const UserFragmentDoc = gql`
   picture
   roles
   sortWeight
-  subscriptionType
   company {
     name
     logoUrl
     programContentId
+    subscriptionType
   }
 }
     `;
