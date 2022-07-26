@@ -10,7 +10,6 @@ import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
-import { PayWall } from '../../components/PayWall'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -113,18 +112,16 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           )}
         </Section>
         <Section title="Community">
-          <PayWall>
-            <LogoGroup
-              data={actionData?.companyAction?.recentCompaniesCompleted}
-              label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
-              reverse
-              size="large"
-            />
-            <Divider orientation="left" orientationMargin="0">
-              Latest Messages
-            </Divider>
-            <Comments actionContentId={action.actionId} />
-          </PayWall>
+          <LogoGroup
+            data={actionData?.companyAction?.recentCompaniesCompleted}
+            label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
+            reverse
+            size="large"
+          />
+          <Divider orientation="left" orientationMargin="0">
+            Latest Messages
+          </Divider>
+          <Comments actionContentId={action.actionId} />
         </Section>
         <Section title="Attachments">
           <AttachmentsList

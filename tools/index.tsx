@@ -75,27 +75,48 @@ export const renderTools = (sections: Section[], showEmptyState?: boolean) => {
   return (
     sections?.map(renderTool) ||
     (showEmptyState ? (
-      <EmptyState
-        actions={[
-          <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
-            <Button size="large" type="primary">
-              Share idea
-            </Button>
-          </a>,
-        ]}
-        bordered
-        icon={<BulbOutlined />}
-        text={
-          <div>
-            We are gradually adding more and more community powered content to
-            the platform. You can check the{' '}
-            <Link href={`/action/companyPledge`}>Measurement Action</Link> as an
-            example. If you have relevant content ideas for this module, please
-            share them with us!
-          </div>
+      <PayWall
+        primer={
+          <EmptyState
+            actions={[
+              <Link href={SETTINGS_SUBSCRIPTION} key="upgrade" passHref>
+                <Button icon={<ThunderboltOutlined />} type="primary">
+                  Upgrade
+                </Button>
+              </Link>,
+            ]}
+            alignment="center"
+            bordered={false}
+            icon={<LockOutlined />}
+            size="large"
+            text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
+            title="Locked"
+            withBackground
+          />
         }
-        title="There is more to come..."
-      />
+      >
+        <EmptyState
+          actions={[
+            <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
+              <Button size="large" type="primary">
+                Share idea
+              </Button>
+            </a>,
+          ]}
+          bordered
+          icon={<BulbOutlined />}
+          text={
+            <div>
+              We are gradually adding more and more community powered content to
+              the platform. You can check the{' '}
+              <Link href={`/action/companyPledge`}>Measurement Action</Link> as
+              an example. If you have relevant content ideas for this module,
+              please share them with us!
+            </div>
+          }
+          title="There is more to come..."
+        />
+      </PayWall>
     ) : null)
   )
 }
