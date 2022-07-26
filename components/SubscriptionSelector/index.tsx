@@ -55,8 +55,6 @@ export const SubscriptionSelector = ({
 
   const { company, subscriptionType, user } = useUser()
 
-  console.log(subscriptions)
-
   const currentPlan = subscriptions.find(
     (s) => s.name === (subscriptionType || 'FREE')
   )
@@ -189,7 +187,7 @@ export const SubscriptionSelector = ({
                             layout="responsive"
                             objectFit="cover"
                             src={item.picture?.url}
-                            width={200}
+                            width={400}
                           />
                         )
                       )
