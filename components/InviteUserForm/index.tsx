@@ -5,6 +5,7 @@ import {
   useUserInvitesQuery,
 } from '../../services/lfca-backend'
 import { ROLES } from '../../utils'
+import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { InviteItem } from '../InviteTeam/Item'
 
 const { Option } = Select
@@ -68,7 +69,7 @@ export const InviteUserForm = () => {
             },
           ]}
         >
-          <Input placeholder="Company ID" />
+          <CompanyIdSearchInput />
         </Form.Item>
         <Form.Item
           label="Email"

@@ -161,3 +161,31 @@ export const recursiveRemoveKey = (
     recursiveRemoveKey(val as Record<string, unknown>, deleteKey)
   })
 }
+
+export const getMailToLink = ({
+  body,
+  cc,
+  subject,
+  to,
+}: {
+  body?: string
+  cc?: string
+  subject?: string
+  to: string
+}) => {
+  const args = []
+  if (typeof subject !== 'undefined') {
+    args.push('subject=' + encodeURIComponent(subject))
+  }
+  if (typeof body !== 'undefined') {
+    args.push('body=' + encodeURIComponent(body))
+  }
+  if (typeof cc !== 'undefined') {
+    args.push('cc=' + encodeURIComponent(cc))
+  }
+  let url = 'mailto:' + encodeURIComponent(to)
+  if (args.length > 0) {
+    url += '?' + args.join('&')
+  }
+  return url
+}

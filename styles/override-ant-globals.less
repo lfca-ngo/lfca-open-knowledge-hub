@@ -162,7 +162,8 @@ body {
     background: @black;
   }
   &.yellow {
-    background: @black;
+    background: @yellow;
+    color: @black;
   }
   &.green-inverse {
     .inverse-color(@green);
@@ -224,6 +225,10 @@ body {
   }
 }
 
+a.ant-btn {
+  padding-top: initial !important;
+}
+
 // Popover
 .ant-popover {
   &.popover-sm {
@@ -236,7 +241,27 @@ body {
     }
   }
   &.popover-lg {
-    max-width: 500px;
+    max-width: 100%;
+    width: 500px;
+  }
+  &.popover-xl {
+    max-width: 100%;
+    width: 760px;
+  }
+  &.title-big {
+    .ant-popover-title {
+      padding: 16px 16px 14px;
+    }
+  }
+  .tooltip-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    // .title {
+    // }
+    // .extra {
+    // }
   }
 }
 

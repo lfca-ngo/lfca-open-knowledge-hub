@@ -20,6 +20,7 @@ import { useUser } from '../../hooks/user'
 import { Country, Program } from '../../services/contentful'
 import {
   CompanyFragment,
+  CompanySubscriptionType,
   CreateCompanyInput,
   UpdateCompanyInput,
 } from '../../services/lfca-backend'
@@ -267,6 +268,22 @@ export const CompanyForm = ({
           {programs?.map((program) => (
             <Option key={program.programId} value={program.programId}>
               {program.name}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+    ),
+    subscriptionType: (
+      <Form.Item
+        key="subscriptionType"
+        label="Subscription"
+        name="subscriptionType"
+        rules={[{ message: 'Please select a subscription', required: true }]}
+      >
+        <Select placeholder="Please select a subscription type">
+          {Object.keys(CompanySubscriptionType).map((type) => (
+            <Option key={type} value={type}>
+              {type}
             </Option>
           ))}
         </Select>

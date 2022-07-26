@@ -16,7 +16,7 @@ export const AdminActionsList = () => {
   const [form] = Form.useForm()
 
   return (
-    <div className="admin-companies-list">
+    <div className="admin-actions-list">
       <Form
         form={form}
         layout="vertical"

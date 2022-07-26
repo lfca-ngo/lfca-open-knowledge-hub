@@ -281,6 +281,7 @@ export const AdminCompaniesList = ({
                     'programContentId',
                     'tags',
                     'websiteUrl',
+                    'subscriptionType',
                   ]
                 : undefined
             }

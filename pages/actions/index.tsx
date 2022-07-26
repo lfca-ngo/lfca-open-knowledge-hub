@@ -11,6 +11,7 @@ import {
 } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { PayWall } from '../../components/PayWall'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
@@ -91,8 +92,22 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
       </Main>
       <Sider>
         <Section title="Achievements">
-          <AchievementsListMini />
+          <PayWall
+            popoverContent={
+              <div>
+                <p>
+                  By unlocking achievements, you get your own custom microsite
+                  to share your climate action journey in realtime with your
+                  team and partners.
+                </p>
+              </div>
+            }
+            popoverTitle="What's waiting for you"
+          >
+            <AchievementsListMini />
+          </PayWall>
         </Section>
+
         <Section title="Links">
           <ContentListMini content={content} />
         </Section>

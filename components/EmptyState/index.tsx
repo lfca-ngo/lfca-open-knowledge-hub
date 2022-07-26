@@ -1,10 +1,10 @@
 require('./styles.less')
-
+import { Space } from 'antd'
 import classNames from 'classnames'
 
-interface EmptyStateProps {
+export interface EmptyStateProps {
   alignment?: 'left' | 'center'
-  bordered?: true
+  bordered?: boolean
   icon?: React.ReactNode
   size?: 'large' | 'small'
   title: string
@@ -37,7 +37,7 @@ export const EmptyState = ({
       <div className="text">{text}</div>
 
       {actions && (
-        <div className="actions">{actions?.map((action) => action)}</div>
+        <Space className="actions">{actions?.map((action) => action)}</Space>
       )}
     </div>
   )

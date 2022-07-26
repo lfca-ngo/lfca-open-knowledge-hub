@@ -4,6 +4,10 @@ interface Image {
   url: string
 }
 
+interface Video {
+  url: string
+}
+
 interface ContentfulMedia {
   fields: {
     file: {
@@ -17,6 +21,28 @@ export interface ContentfulCommunityContentFields {
   description: Document
   link: string
   preview?: Image
+}
+
+export interface ContentfulFeatureFields {
+  title: string
+  description: Document
+  picture?: Image
+  video?: Video
+  contentId?: string
+  disabled: boolean
+}
+
+export interface ContentfulPricingFields {
+  price: number
+  maxEmployees?: number
+}
+
+export interface ContentfulSubscriptionFields {
+  name: string
+  description: Document
+  pricing: ContentfulPricingFields[]
+  features: ContentfulFeatureFields[]
+  icon: Image
 }
 
 export interface ContentfulContentCollectionFields {
