@@ -182,7 +182,16 @@ export const SubscriptionSelector = ({
                           ]}
                         />
                       ) : (
-                        'Learn more on our website lfca.earth'
+                        item.picture?.url && (
+                          <Image
+                            alt={item.title}
+                            height={400}
+                            layout="responsive"
+                            objectFit="cover"
+                            src={item.picture?.url}
+                            width={200}
+                          />
+                        )
                       )
                     }
                     destroyTooltipOnHide
