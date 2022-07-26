@@ -4,6 +4,10 @@ interface Image {
   url: string
 }
 
+interface Video {
+  url: string
+}
+
 interface ContentfulMedia {
   fields: {
     file: {
@@ -17,14 +21,13 @@ export interface ContentfulCommunityContentFields {
   description: Document
   link: string
   preview?: Image
-  video?: ContentfulMedia
 }
 
 export interface ContentfulFeatureFields {
   title: string
   description: Document
   picture?: Image
-  video?: ContentfulMedia
+  video?: Video
   contentId?: string
   disabled: boolean
 }

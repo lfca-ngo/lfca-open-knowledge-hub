@@ -24,10 +24,10 @@ import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
 import { useCompanyQuery } from '../../services/lfca-backend'
-import { getMailToLink, PRODUCT_VIDEO_URL } from '../../utils'
+import { getMailToLink } from '../../utils'
 import { VideoWrapper } from '../VideoWrapper'
 
-const DEFAULT_PLAN = 'Basic'
+const DEFAULT_PLAN = 'BASIC'
 
 const getUpgradeEmailBody = ({
   companyName,
@@ -54,8 +54,11 @@ export const SubscriptionSelector = ({
   const [{ data: companyData }] = useCompanyQuery()
 
   const { company, subscriptionType, user } = useUser()
+
+  console.log(subscriptions)
+
   const currentPlan = subscriptions.find(
-    (s) => s.name === (subscriptionType || 'Free')
+    (s) => s.name === (subscriptionType || 'FREE')
   )
 
   const [employeeCount, setEmployeeCount] = useState(
@@ -140,6 +143,7 @@ export const SubscriptionSelector = ({
           const calculatedPricePoint = plan.pricing.find(
             (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
           )
+
           return (
             <TabPane
               key={plan.name}
@@ -166,13 +170,20 @@ export const SubscriptionSelector = ({
                 renderItem={(item) => (
                   <Popover
                     content={
-                      <VideoWrapper
-                        autoPlay={true}
-                        muted={true}
-                        sources={[
-                          { src: PRODUCT_VIDEO_URL, type: 'video/mp4' },
-                        ]}
-                      />
+                      item.video?.url ? (
+                        <VideoWrapper
+                          autoPlay={true}
+                          muted={true}
+                          sources={[
+                            {
+                              src: item.video?.url,
+                              type: 'video/mp4',
+                            },
+                          ]}
+                        />
+                      ) : (
+                        'Learn more on our website lfca.earth'
+                      )
                     }
                     destroyTooltipOnHide
                     overlayClassName="popover-xl title-big"

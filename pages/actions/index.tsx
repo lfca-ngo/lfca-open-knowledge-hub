@@ -12,7 +12,6 @@ import {
 import { ContentListMini } from '../../components/ContentList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
-import { VideoWrapper } from '../../components/VideoWrapper'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
@@ -21,7 +20,6 @@ import {
   sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
-import { PRODUCT_VIDEO_URL } from '../../utils'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
@@ -98,12 +96,10 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             popoverContent={
               <div>
                 <p>
-                  Sharing is caring! Get your own custom microsite to show to
-                  employees and partners what you are doing.
+                  By unlocking achievements, you get your own custom microsite
+                  to share your climate action journey in realtime with your
+                  team and partners.
                 </p>
-                <VideoWrapper
-                  sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
-                />
               </div>
             }
             popoverTitle="What's waiting for you"
@@ -113,22 +109,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
 
         <Section title="Links">
-          <PayWall
-            popoverContent={
-              <div>
-                <p>
-                  Sharing is caring! Get your own custom microsite to show to
-                  employees and partners what you are doing.
-                </p>
-                <VideoWrapper
-                  sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
-                />
-              </div>
-            }
-            popoverTitle="What's waiting for you"
-          >
-            <ContentListMini content={content} />
-          </PayWall>
+          <ContentListMini content={content} />
         </Section>
       </Sider>
     </SiderLayout>

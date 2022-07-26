@@ -7,10 +7,8 @@ import { Button, Popover } from 'antd'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
-import { PRODUCT_VIDEO_URL } from '../../utils'
 import { SETTINGS_SUBSCRIPTION } from '../../utils/routes'
 import { EmptyState, EmptyStateProps } from '../EmptyState'
-import { VideoWrapper } from '../VideoWrapper'
 
 interface PayWallProps {
   children: JSX.Element | JSX.Element[]
@@ -22,19 +20,7 @@ interface PayWallProps {
 
 export const DefaultPrimer = ({
   emptyStateAlignment = 'left',
-  popoverContent = (
-    <div>
-      <p>
-        Space for a mini video/gif showcasing the benefit and option to learn
-        more
-      </p>
-      <VideoWrapper
-        autoPlay
-        muted
-        sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
-      />{' '}
-    </div>
-  ),
+  popoverContent = 'For less than the price of one cup of coffee per employee, you get access to the full power of our community. If you believe LFCA membership would be beneficial to your organization, but can’t currently afford the annual fee please get in touch with our team at membership@lfca.earth.',
   popoverTitle = 'Learn more',
 }: {
   emptyStateAlignment?: PayWallProps['emptyStateAlignment']
@@ -63,7 +49,7 @@ export const DefaultPrimer = ({
     bordered={false}
     icon={<LockOutlined />}
     size="small"
-    text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
+    text="You can upgrade your plan anytime and unlock all benefits of our community and platform!"
     title="Locked"
   />
 )
