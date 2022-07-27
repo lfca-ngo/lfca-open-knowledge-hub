@@ -93,7 +93,7 @@ export const SubscriptionSelector = ({
         userName: userName,
       }),
       subject: 'Change subscription',
-      to: 'info@lfca.earth',
+      to: 'membership@lfca.earth',
     })
     window.location.href = mailToLink
   }
