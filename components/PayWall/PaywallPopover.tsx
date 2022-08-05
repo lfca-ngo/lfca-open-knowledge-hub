@@ -1,6 +1,7 @@
 import { Popover } from 'antd'
 import React, { cloneElement, ReactNode } from 'react'
 
+import { useUser } from '../../hooks/user'
 import { DefaultPrimer } from './DefaultPrimer'
 
 /**
@@ -18,20 +19,25 @@ export const PaywallPopover = ({
   popoverContent?: ReactNode
   popoverTitle?: ReactNode
 }) => {
-  return (
-    <Popover
-      content={
-        <DefaultPrimer
-          emptyStateAlignment="center"
-          popoverContent={popoverContent}
-          popoverTitle={popoverTitle}
-        />
-      }
-      overlayClassName="popover-lg"
-      placement="right"
-      title={null}
-    >
-      {cloneElement(children, { disabled: true })}
-    </Popover>
-  )
+  const { fetching, isPaying } = useUser()
+
+  if (!isPaying && !fetching)
+    return (
+      <Popover
+        content={
+          <DefaultPrimer
+            emptyStateAlignment="center"
+            popoverContent={popoverContent}
+            popoverTitle={popoverTitle}
+          />
+        }
+        overlayClassName="popover-lg"
+        placement="right"
+        title={null}
+      >
+        {cloneElement(children, { disabled: !isPaying })}
+      </Popover>
+    )
+
+  return <>{children}</>
 }
