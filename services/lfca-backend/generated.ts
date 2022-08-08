@@ -352,6 +352,10 @@ export type DeleteCompanyInput = {
   companyId: Scalars['ID'];
 };
 
+export type DeleteServiceProviderReviewInput = {
+  serviceProviderReviewId: Scalars['ID'];
+};
+
 export type DeleteUserInput = {
   userId: Scalars['ID'];
 };
@@ -385,6 +389,7 @@ export type Mutation = {
   createUserInvite: UserInvite;
   deleteActionComment: Scalars['Boolean'];
   deleteCompany: Company;
+  deleteServiceProviderReview: ServiceProviderReview;
   deleteUser: User;
   planCompanyAction: CompanyAction;
   processCompanyActionDeprecation: Scalars['Boolean'];
@@ -395,7 +400,7 @@ export type Mutation = {
   requestPasswordReset: Scalars['Boolean'];
   updateActionComment: ActionComment;
   updateCompany: Company;
-  updateServiceProviderReview?: Maybe<ServiceProviderReview>;
+  updateServiceProviderReview: ServiceProviderReview;
   updateUser: User;
 };
 
@@ -447,6 +452,11 @@ export type MutationDeleteActionCommentArgs = {
 
 export type MutationDeleteCompanyArgs = {
   input: DeleteCompanyInput;
+};
+
+
+export type MutationDeleteServiceProviderReviewArgs = {
+  input: DeleteServiceProviderReviewInput;
 };
 
 
@@ -938,6 +948,13 @@ export type DeleteCompanyMutationVariables = Exact<{
 
 export type DeleteCompanyMutation = { __typename?: 'Mutation', deleteCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
 
+export type DeleteServiceProviderReviewMutationVariables = Exact<{
+  input: DeleteServiceProviderReviewInput;
+}>;
+
+
+export type DeleteServiceProviderReviewMutation = { __typename?: 'Mutation', deleteServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, isAnonymous: boolean, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
+
 export type DeleteUserMutationVariables = Exact<{
   input: DeleteUserInput;
 }>;
@@ -985,7 +1002,7 @@ export type UpdateServiceProviderReviewMutationVariables = Exact<{
 }>;
 
 
-export type UpdateServiceProviderReviewMutation = { __typename?: 'Mutation', updateServiceProviderReview?: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, isAnonymous: boolean, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } | null };
+export type UpdateServiceProviderReviewMutation = { __typename?: 'Mutation', updateServiceProviderReview: { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, isAnonymous: boolean, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null } };
 
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
@@ -1475,6 +1492,17 @@ export const DeleteCompanyDocument = gql`
 
 export function useDeleteCompanyMutation() {
   return Urql.useMutation<DeleteCompanyMutation, DeleteCompanyMutationVariables>(DeleteCompanyDocument);
+};
+export const DeleteServiceProviderReviewDocument = gql`
+    mutation deleteServiceProviderReview($input: DeleteServiceProviderReviewInput!) {
+  deleteServiceProviderReview(input: $input) {
+    ...ServiceProviderReview
+  }
+}
+    ${ServiceProviderReviewFragmentDoc}`;
+
+export function useDeleteServiceProviderReviewMutation() {
+  return Urql.useMutation<DeleteServiceProviderReviewMutation, DeleteServiceProviderReviewMutationVariables>(DeleteServiceProviderReviewDocument);
 };
 export const DeleteUserDocument = gql`
     mutation deleteUser($input: DeleteUserInput!) {

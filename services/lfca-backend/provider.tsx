@@ -18,6 +18,7 @@ import {
   completeUserAction,
   createActionComment,
   deleteActionComment,
+  deleteServiceProviderReview,
   planCompanyAction,
 } from './cache-updates'
 import schema from './schema.json'
@@ -61,6 +62,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
               completeUserAction,
               createActionComment,
               deleteActionComment,
+              deleteServiceProviderReview,
               planCompanyAction,
             },
           },
