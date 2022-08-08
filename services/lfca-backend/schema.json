@@ -1548,6 +1548,29 @@
             ]
           },
           {
+            "name": "deleteServiceProviderReview",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ServiceProviderReview",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "deleteUser",
             "type": {
               "kind": "NON_NULL",
@@ -1720,9 +1743,12 @@
           {
             "name": "updateServiceProviderReview",
             "type": {
-              "kind": "OBJECT",
-              "name": "ServiceProviderReview",
-              "ofType": null
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ServiceProviderReview",
+                "ofType": null
+              }
             },
             "args": [
               {
@@ -2482,6 +2508,17 @@
           },
           {
             "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "isAnonymous",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

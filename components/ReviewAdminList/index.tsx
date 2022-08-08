@@ -1,15 +1,25 @@
 import {
   CheckOutlined,
+  DeleteOutlined,
   EditOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
   UserOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Drawer, List, message, Tooltip } from 'antd'
+import {
+  Avatar,
+  Button,
+  Drawer,
+  List,
+  message,
+  Popconfirm,
+  Tooltip,
+} from 'antd'
 import { useState } from 'react'
 
 import {
   ServiceProviderReviewFragment,
+  useDeleteServiceProviderReviewMutation,
   useServiceProviderReviewsQuery,
   useUpdateServiceProviderReviewMutation,
 } from '../../services/lfca-backend'
@@ -18,10 +28,12 @@ import { ReviewForm } from '../ReviewForm'
 const ReviewListItem = ({
   item,
   onApprove,
+  onDelete,
   onEdit,
 }: {
   item: ServiceProviderReviewFragment
   onApprove?: () => void
+  onDelete?: (item: ServiceProviderReviewFragment) => void
   onEdit?: (item: ServiceProviderReviewFragment) => void
 }) => {
   const [{ fetching: updating }, updateServiceProviderReview] =
@@ -61,6 +73,17 @@ const ReviewListItem = ({
         >
           Edit
         </Button>,
+        <Popconfirm
+          cancelText="No"
+          key="delete"
+          okText="Yes"
+          onConfirm={() => onDelete?.(item)}
+          title="Are you sure to delete this review?"
+        >
+          <Button icon={<DeleteOutlined />} key="delete">
+            Delete
+          </Button>{' '}
+        </Popconfirm>,
       ]}
     >
       <List.Item.Meta
@@ -119,6 +142,11 @@ export const ReviewsAdminList = () => {
       },
     })
 
+  const [
+    { fetching: fetchingDeleteServiceProviderReview },
+    deleteServiceProviderReview,
+  ] = useDeleteServiceProviderReviewMutation()
+
   const data = reviewsData?.serviceProviderReviews.items || []
 
   return (
@@ -126,13 +154,20 @@ export const ReviewsAdminList = () => {
       <List
         className="simple-list review-admin-list"
         dataSource={data}
-        loading={fetchingReviews}
+        loading={fetchingReviews || fetchingDeleteServiceProviderReview}
         renderItem={(item) => (
           <ReviewListItem
             item={item}
             onApprove={() =>
               refetchProviders({ requestPolicy: 'network-only' })
             }
+            onDelete={(item) => {
+              deleteServiceProviderReview({
+                input: {
+                  serviceProviderReviewId: item.id,
+                },
+              })
+            }}
             onEdit={(item) => setReview(item)}
           />
         )}

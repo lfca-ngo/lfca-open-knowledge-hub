@@ -1,15 +1,22 @@
 require('./styles.less')
 
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import {
   ClockCircleOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
 } from '@ant-design/icons'
-import { Comment, Rate, Tooltip } from 'antd'
+import { Button, Comment, Drawer, Popconfirm, Rate, Space, Tooltip } from 'antd'
 import moment from 'moment'
+import { useState } from 'react'
 
+import { ReviewForm } from '../../../components/ReviewForm'
 import { UserAvatar } from '../../../components/UserAvatar'
-import { ServiceProviderReviewFragment } from '../../../services/lfca-backend'
+import { useUser } from '../../../hooks/user'
+import {
+  ServiceProviderReviewFragment,
+  useDeleteServiceProviderReviewMutation,
+} from '../../../services/lfca-backend'
 
 const ReviewContent = ({
   cons,
@@ -46,23 +53,73 @@ interface ReviewCardProps {
 }
 
 export const ReviewCard = ({ review }: ReviewCardProps) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const { isAdmin } = useUser()
+
+  const [
+    { fetching: fetchingDeleteServiceProviderReview },
+    deleteServiceProviderReview,
+  ] = useDeleteServiceProviderReviewMutation()
+
   return (
-    <Comment
-      author={<Rate disabled key="rating" value={review.rating} />}
-      avatar={<UserAvatar user={review.author} />}
-      className="review-card"
-      content={
-        <ReviewContent
-          cons={review.cons}
-          content={review.review}
-          pros={review.pros}
-        />
-      }
-      datetime={
-        <Tooltip title={moment(review.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
-          <ClockCircleOutlined />
-        </Tooltip>
-      }
-    />
+    <>
+      <Comment
+        actions={
+          isAdmin
+            ? [
+                <Space key="admin-actions">
+                  <Popconfirm
+                    cancelText="No"
+                    okText="Yes"
+                    onConfirm={() => {
+                      deleteServiceProviderReview({
+                        input: {
+                          serviceProviderReviewId: review.id,
+                        },
+                      })
+                    }}
+                    title="Are you sure to delete this review?"
+                  >
+                    <Button
+                      icon={<DeleteOutlined />}
+                      loading={fetchingDeleteServiceProviderReview}
+                      size="small"
+                    />
+                  </Popconfirm>
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => setIsEditing(true)}
+                    size="small"
+                  />
+                </Space>,
+              ]
+            : undefined
+        }
+        author={<Rate disabled key="rating" value={review.rating} />}
+        avatar={<UserAvatar user={review.author} />}
+        className="review-card"
+        content={
+          <ReviewContent
+            cons={review.cons}
+            content={review.review}
+            pros={review.pros}
+          />
+        }
+        datetime={
+          <Tooltip
+            title={moment(review.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+          >
+            <ClockCircleOutlined />
+          </Tooltip>
+        }
+      />
+      <Drawer
+        destroyOnClose={true}
+        onClose={() => setIsEditing(false)}
+        visible={isEditing}
+      >
+        <ReviewForm initialValues={review} />
+      </Drawer>
+    </>
   )
 }

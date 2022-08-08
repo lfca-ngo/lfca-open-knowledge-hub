@@ -5,6 +5,7 @@ fragment ServiceProviderReview on ServiceProviderReview {
   cons
   createdAt
   id
+  isAnonymous
   pros
   rating
   review

@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSearchUserQuery, useUsersQuery } from '../../services/lfca-backend'
 
 interface UserIdSearchInputProps {
-  value?: string
   onChange?: (value: string) => void
+  value?: string
 }
 
 export const UserIdSearchInput = ({
