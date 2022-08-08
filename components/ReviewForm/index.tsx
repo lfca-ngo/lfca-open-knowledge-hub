@@ -92,6 +92,7 @@ export const ReviewForm = ({
   }
 
   const handleFinish = async (props: {
+    authorId?: string
     cons?: string[]
     isAnonymous?: boolean
     price?: number
@@ -143,8 +144,16 @@ export const ReviewForm = ({
       onFinish={handleFinish}
     >
       {!!initialValues && isAdmin && !success ? (
-        <Form.Item label="Author" name="authorId">
-          <UserIdSearchInput />
+        <Form.Item label="Author" shouldUpdate>
+          {({ getFieldValue }) =>
+            getFieldValue('isAnonymous') ? (
+              <Input disabled placeholder="Anonymous" />
+            ) : (
+              <Form.Item name="authorId" noStyle>
+                <UserIdSearchInput />
+              </Form.Item>
+            )
+          }
         </Form.Item>
       ) : null}
 

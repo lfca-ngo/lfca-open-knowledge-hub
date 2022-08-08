@@ -1,4 +1,11 @@
 fragment User on User {
+  company {
+    id
+    logoUrl
+    name
+    programContentId
+    subscriptionType
+  }
   companyId
   country
   deletedAt
@@ -10,10 +17,4 @@ fragment User on User {
   picture
   roles
   sortWeight
-  company {
-    name
-    logoUrl
-    programContentId
-    subscriptionType
-  }
 }

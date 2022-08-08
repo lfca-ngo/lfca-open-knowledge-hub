@@ -2492,6 +2492,17 @@
             "args": []
           },
           {
+            "name": "isAnonymous",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "pros",
             "type": {
               "kind": "NON_NULL",
