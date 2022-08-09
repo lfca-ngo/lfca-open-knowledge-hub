@@ -329,12 +329,16 @@ export const CompanyForm = ({
           : undefined
       }
       layout="vertical"
-      onFinish={(
-        allValues: UpdateCompanyInput & { companyTags?: string[] }
-      ) => {
-        const { companyTags, ...rest } = allValues
+      onFinish={(allValues: CompanyFragment & { companyTags?: string[] }) => {
+        const { aboutSections, companyTags, ...rest } = allValues
         const parsed: UpdateCompanyInput = {
           ...rest,
+          // If initial values are provided, the sections already contain a `__typename` prop which is not allowed as an input
+          aboutSections: aboutSections?.map((section) => ({
+            heading: section?.heading,
+            imageUrl: section?.imageUrl,
+            text: section?.text,
+          })),
           // The ImageUploadMulti component's value contains `status` and `uid` props for each file,
           // which are not valid for the update mutation and need to be removed
           campaignFiles: rest.campaignFiles?.map((file) => ({
