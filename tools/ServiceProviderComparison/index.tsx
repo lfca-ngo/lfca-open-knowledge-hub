@@ -112,7 +112,7 @@ export const ServiceProviderComparison = () => {
         loading={fetching}
         pagination={{ pageSize: 10 }}
         renderItem={(item) => (
-          <List.Item>
+          <List.Item key={item.id}>
             <ProviderCard
               onOpenReviews={(provider) => setActiveProvider(provider)}
               onOpenWebsite={(provider) =>

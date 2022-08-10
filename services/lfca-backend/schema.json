@@ -2529,6 +2529,14 @@
             "args": []
           },
           {
+            "name": "price",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "pros",
             "type": {
               "kind": "NON_NULL",

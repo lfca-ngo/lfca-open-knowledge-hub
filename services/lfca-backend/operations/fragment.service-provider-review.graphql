@@ -6,6 +6,7 @@ fragment ServiceProviderReview on ServiceProviderReview {
   createdAt
   id
   isAnonymous
+  price
   pros
   rating
   review
