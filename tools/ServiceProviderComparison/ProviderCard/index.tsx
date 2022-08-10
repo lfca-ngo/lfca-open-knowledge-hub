@@ -141,7 +141,11 @@ export const ProviderCard = ({
             content="Take this with a grain of salt because we only have a small number of reviews so far."
             overlayClassName="popover-sm"
             placement="top"
-            visible={provider.reviewsCount < 3 ? undefined : false}
+            visible={
+              provider.reviewsCount && provider.reviewsCount < 3
+                ? undefined
+                : false
+            }
           >
             <span>
               <Rate
