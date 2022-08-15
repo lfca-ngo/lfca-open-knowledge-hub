@@ -34,7 +34,6 @@ const Settings: NextPage = () => {
               initialValues={user}
               isLoading={fetchingUser || isUpdatingUser}
               onUpdate={handleUpdate}
-              type="update"
             />
           </Container>
         </Section>

@@ -29,10 +29,8 @@ interface UserFormProps {
   filterByKeys?: (keyof UserFragment)[]
   initialValues?: UserFragment
   isLoading?: boolean
-  onCreate?: (values: CreateUserInput) => void
   onDelete?: () => void
   onUpdate?: (values: UpdateUserInput) => void
-  type: 'create' | 'update'
 }
 
 export const UserForm = ({
@@ -40,16 +38,13 @@ export const UserForm = ({
   filterByKeys,
   initialValues,
   isLoading = false,
-  onCreate,
   onDelete,
   onUpdate,
-  type,
 }: UserFormProps) => {
   const { isAdmin } = useUser()
 
   const handleSubmit = (allValues: CreateUserInput | UpdateUserInput) => {
-    if (type === 'create') onCreate?.(allValues as CreateUserInput)
-    else onUpdate?.(allValues as UpdateUserInput)
+    onUpdate?.(allValues as UpdateUserInput)
   }
 
   const [form] = Form.useForm()

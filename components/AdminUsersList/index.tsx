@@ -251,7 +251,6 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
               isLoading={isUpdatingUser || isDeletingUser}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
-              type={'update'}
             />
           </>
         ) : (
