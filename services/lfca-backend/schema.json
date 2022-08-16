@@ -1446,29 +1446,6 @@
             ]
           },
           {
-            "name": "createUser",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              }
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
             "name": "createUserExport",
             "type": {
               "kind": "NON_NULL",
@@ -2674,14 +2651,6 @@
               "kind": "OBJECT",
               "name": "Company",
               "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "companyId",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
             },
             "args": []
           },
