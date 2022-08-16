@@ -12,11 +12,7 @@ import { useEffect } from 'react'
 
 import { useUser } from '../../hooks/user'
 import { Country } from '../../services/contentful'
-import {
-  CreateUserInput,
-  UpdateUserInput,
-  UserFragment,
-} from '../../services/lfca-backend'
+import { UpdateUserInput, UserFragment } from '../../services/lfca-backend'
 import { ROLES } from '../../utils'
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
@@ -26,7 +22,7 @@ const { Option } = Select
 
 interface UserFormProps {
   countries?: Country[]
-  filterByKeys?: (keyof UserFragment)[]
+  filterByKeys?: (keyof UpdateUserInput)[]
   initialValues?: UserFragment
   isLoading?: boolean
   onDelete?: () => void
@@ -43,7 +39,7 @@ export const UserForm = ({
 }: UserFormProps) => {
   const { isAdmin } = useUser()
 
-  const handleSubmit = (allValues: CreateUserInput | UpdateUserInput) => {
+  const handleSubmit = (allValues: UpdateUserInput) => {
     onUpdate?.(allValues as UpdateUserInput)
   }
 
@@ -53,7 +49,7 @@ export const UserForm = ({
     form.setFieldsValue(initialValues)
   }, [initialValues, form])
 
-  const formItems: { [key in keyof UserFragment]?: React.ReactNode } = {
+  const formItems: { [key in keyof UpdateUserInput]?: React.ReactNode } = {
     companyId: (
       <Form.Item
         key="companyId"
@@ -179,10 +175,10 @@ export const UserForm = ({
       {Object.keys(formItems)
         .filter((item) =>
           filterByKeys
-            ? filterByKeys?.includes(item as keyof UserFragment)
+            ? filterByKeys?.includes(item as keyof UpdateUserInput)
             : true
         )
-        .map((key) => formItems[key as keyof UserFragment])}
+        .map((key) => formItems[key as keyof UpdateUserInput])}
 
       <Form.Item>
         <Space>
