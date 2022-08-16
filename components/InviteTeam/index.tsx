@@ -15,7 +15,6 @@ interface InviteTeamProps {
 }
 
 export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
-  // useUserInviteMutation
   const [{ fetching: isCreatingInvite }, createUserInvite] =
     useCreateUserInviteMutation()
   const [{ data: invitesData, fetching: isFetchingInvites }, refreshInvites] =
