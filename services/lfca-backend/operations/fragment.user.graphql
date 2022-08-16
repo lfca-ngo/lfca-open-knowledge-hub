@@ -6,7 +6,6 @@ fragment User on User {
     programContentId
     subscriptionType
   }
-  companyId
   country
   deletedAt
   email
