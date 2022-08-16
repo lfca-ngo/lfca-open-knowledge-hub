@@ -1,5 +1,5 @@
-import { DatabaseOutlined } from '@ant-design/icons'
-import { Button, Modal, Table } from 'antd'
+import { DatabaseOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Modal, Space, Table, Tag } from 'antd'
 import flat from 'flat'
 import { useMemo, useState } from 'react'
 
@@ -55,7 +55,24 @@ export const HistoryItem = ({
           visible={visible}
           wrapClassName="modal-md"
         >
-          <h3>Data</h3>
+          <Space align="center" direction="horizontal">
+            <h3>Data</h3>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1O8WBknC_uEluwQmN5RIAkMaCIgPDgS2366ciZShlJ_Y/edit#gid=0"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <Tag
+                style={{
+                  cursor: 'pointer',
+                  marginBottom: '0.5em',
+                  padding: '4px 8px',
+                }}
+              >
+                <InfoCircleOutlined /> Documentation
+              </Tag>
+            </a>
+          </Space>
           <Table
             columns={[
               {
