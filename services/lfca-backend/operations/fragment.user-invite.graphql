@@ -4,7 +4,6 @@ fragment UserInvite on UserInvite {
   id
   user {
     id
-    companyId
     email
   }
 }
