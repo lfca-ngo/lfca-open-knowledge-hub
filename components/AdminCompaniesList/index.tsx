@@ -279,7 +279,7 @@ export const AdminCompaniesList = ({
                     'logoUrl',
                     'name',
                     'programContentId',
-                    'tags',
+                    'companyTags',
                     'websiteUrl',
                     'subscriptionType',
                   ]
