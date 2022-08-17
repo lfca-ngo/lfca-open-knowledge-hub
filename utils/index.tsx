@@ -150,18 +150,10 @@ export const formatCurrency = (value: number | null | undefined) => {
   return `€ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
 }
 
-export const recursiveRemoveKey = (
-  object: Record<string, unknown>,
-  deleteKey: string
-) => {
-  if (!object[deleteKey]) return
-  delete object[deleteKey]
-
-  Object.values(object).forEach((val) => {
-    if (typeof val !== 'object') return
-
-    recursiveRemoveKey(val as Record<string, unknown>, deleteKey)
-  })
+export function removeObjectNullProps<T>(obj: T): RemoveNull<T> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v != null)
+  ) as RemoveNull<T>
 }
 
 export const getMailToLink = ({
@@ -190,10 +182,4 @@ export const getMailToLink = ({
     url += '?' + args.join('&')
   }
   return url
-}
-
-export function removeObjectNullProps<T>(obj: T): RemoveNull<T> {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([, v]) => v != null)
-  ) as RemoveNull<T>
 }
