@@ -34,7 +34,7 @@ import { COMPANY_TAGS } from './consts'
 const { TextArea } = Input
 const { Option } = Select
 
-type FormValues = Omit<
+export type FormValues = Omit<
   RemoveNull<CompanyFragment>,
   'id' | 'program' | 'tags'
 > & {
