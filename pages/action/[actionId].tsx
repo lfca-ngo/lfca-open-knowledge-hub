@@ -64,15 +64,10 @@ const Action: NextPage<ActionProps> = ({ action }) => {
               />
             </TabPane>
             <TabPane key="2" tab="How To">
-              <ShowMore
-                maxHeight={140}
-                text={
-                  <RequirementsList
-                    actionContentId={action.actionId}
-                    requirements={actionData?.companyAction?.requirements}
-                    requirementsContent={action?.requirements}
-                  />
-                }
+              <RequirementsList
+                actionContentId={action.actionId}
+                requirements={actionData?.companyAction?.requirements}
+                requirementsContent={action?.requirements}
               />
             </TabPane>
             <TabPane key="3" tab="Examples">
