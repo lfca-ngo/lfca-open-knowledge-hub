@@ -13,7 +13,7 @@ import {
   useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
-import { CompanyForm } from '../CompanyForm'
+import { CompanyForm, FormValues } from '../CompanyForm'
 import { Section } from '../Layout/Sections'
 import { MicrositeBadges } from '../MicrositeBadges'
 
@@ -94,7 +94,7 @@ export const AchievementsList = ({
         <Section title="Edit Microsite">
           <CompanyForm
             filterByKeys={
-              activeAchievement?.editableCompanyProperties as (keyof UpdateCompanyInput)[]
+              activeAchievement?.editableCompanyProperties as (keyof FormValues)[]
             }
             initialValues={company}
             isLoading={fetchingCompany || isUpdatingCompany}

@@ -24,7 +24,8 @@ import {
   CreateCompanyInput,
   UpdateCompanyInput,
 } from '../../services/lfca-backend'
-import { recursiveRemoveKey } from '../../utils'
+import { RemoveNull } from '../../types'
+import { removeObjectNullProps } from '../../utils'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
 import { ImageUploadMulti } from '../FileUpload/ImageUploadMulti'
@@ -33,9 +34,18 @@ import { COMPANY_TAGS } from './consts'
 const { TextArea } = Input
 const { Option } = Select
 
+export type FormValues = Omit<
+  RemoveNull<CompanyFragment>,
+  'id' | 'program' | 'tags'
+> & {
+  // antd has an issue when we have an input with a name of `tags` which is why we need to rename the prop in the form
+  companyTags: string[]
+  programContentId?: string
+}
+
 interface CompanyFormProps {
   countries?: Country[]
-  filterByKeys?: (keyof UpdateCompanyInput)[]
+  filterByKeys?: (keyof FormValues)[]
   initialValues?: CompanyFragment
   isLoading?: boolean
   onCreate?: (values: CreateCompanyInput) => void
@@ -43,6 +53,42 @@ interface CompanyFormProps {
   onUpdate?: (values: UpdateCompanyInput) => void
   programs?: Program[]
   type: 'create' | 'update'
+}
+
+const parseInitialValues = (
+  initialValues?: CompanyFragment
+): FormValues | undefined => {
+  if (!initialValues) return undefined
+  const { program, tags, ...values } = removeObjectNullProps(initialValues)
+
+  return initialValues
+    ? {
+        companyTags: tags.map((t) => t.name),
+        programContentId: program.contentId,
+        ...values,
+      }
+    : undefined
+}
+
+const convertFormValues = (values: FormValues): UpdateCompanyInput => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { __typename, aboutSections, companyTags, ...rest } = values
+  return {
+    ...rest,
+    // If initial values are provided, the sections already contain a `__typename` prop which is not allowed as an input
+    aboutSections: aboutSections?.map((section) => ({
+      heading: section?.heading,
+      imageUrl: section?.imageUrl,
+      text: section?.text,
+    })),
+    // The ImageUploadMulti component's value contains `status` and `uid` props for each file,
+    // which are not valid for the update mutation and need to be removed
+    campaignFiles: rest.campaignFiles?.map((file) => ({
+      name: file.name,
+      url: file.url,
+    })),
+    tags: companyTags,
+  }
 }
 
 export const CompanyForm = ({
@@ -66,10 +112,10 @@ export const CompanyForm = ({
   const [form] = Form.useForm()
   // when data is loaded async, populate form
   useEffect(() => {
-    form.setFieldsValue(initialValues)
+    form.setFieldsValue(parseInitialValues(initialValues))
   }, [initialValues, form])
 
-  const formItems: { [key in keyof UpdateCompanyInput]?: React.ReactNode } = {
+  const formItems: { [key in keyof FormValues]: React.ReactNode } = {
     aboutSections: (
       <Form.Item
         key="aboutSections"
@@ -165,6 +211,21 @@ export const CompanyForm = ({
         rules={[{ message: 'Please add your campaign goals', required: false }]}
       >
         <TextArea />
+      </Form.Item>
+    ),
+    companyTags: (
+      <Form.Item
+        key="companyTags"
+        label="Industry/sector tags"
+        name="companyTags"
+      >
+        <Select mode="multiple" placeholder="Type of Company">
+          {COMPANY_TAGS.map((tag) => (
+            <Option key={tag} value={tag}>
+              {tag}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
     ),
     country: (
@@ -289,21 +350,7 @@ export const CompanyForm = ({
         </Select>
       </Form.Item>
     ),
-    tags: (
-      <Form.Item
-        key="companyTags"
-        label="Industry/sector tags"
-        name="companyTags"
-      >
-        <Select mode="multiple" placeholder="Type of Company">
-          {COMPANY_TAGS.map((tag) => (
-            <Option key={tag} value={tag}>
-              {tag}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
-    ),
+
     websiteUrl: (
       <Form.Item
         key="websiteUrl"
@@ -319,47 +366,17 @@ export const CompanyForm = ({
   return (
     <Form
       form={form}
-      initialValues={
-        initialValues
-          ? {
-              ...initialValues,
-              companyTags: initialValues.tags.map((tag) => tag.name),
-              programContentId: initialValues.program.contentId,
-            }
-          : undefined
-      }
+      initialValues={parseInitialValues(initialValues)}
       layout="vertical"
-      onFinish={(allValues: CompanyFragment & { companyTags?: string[] }) => {
-        const { aboutSections, companyTags, ...rest } = allValues
-        const parsed: UpdateCompanyInput = {
-          ...rest,
-          // If initial values are provided, the sections already contain a `__typename` prop which is not allowed as an input
-          aboutSections: aboutSections?.map((section) => ({
-            heading: section?.heading,
-            imageUrl: section?.imageUrl,
-            text: section?.text,
-          })),
-          // The ImageUploadMulti component's value contains `status` and `uid` props for each file,
-          // which are not valid for the update mutation and need to be removed
-          campaignFiles: rest.campaignFiles?.map((file) => ({
-            name: file.name,
-            url: file.url,
-          })),
-          tags: companyTags,
-        }
-
-        // The initial data has some `__typename` props which are not vlud as inputs fpr the mutation
-        recursiveRemoveKey(parsed, '__typename')
-        handleSubmit(parsed)
+      onFinish={(allValues: FormValues) => {
+        handleSubmit(convertFormValues(allValues))
       }}
     >
       {Object.keys(formItems)
         .filter((item) =>
-          filterByKeys
-            ? filterByKeys?.includes(item as keyof UpdateCompanyInput)
-            : true
+          filterByKeys ? filterByKeys?.includes(item as keyof FormValues) : true
         )
-        .map((key) => formItems[key as keyof UpdateCompanyInput])}
+        .map((key) => formItems[key as keyof FormValues])}
       <Form.Item>
         <Space>
           <Button htmlType="submit" loading={isLoading} type="primary">

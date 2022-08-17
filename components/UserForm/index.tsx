@@ -13,20 +13,39 @@ import { useEffect } from 'react'
 import { useUser } from '../../hooks/user'
 import { Country } from '../../services/contentful'
 import { UpdateUserInput, UserFragment } from '../../services/lfca-backend'
-import { ROLES } from '../../utils'
+import { RemoveNull } from '../../types'
+import { removeObjectNullProps, ROLES } from '../../utils'
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
 
 const { Option } = Select
 
+type FormValues = Omit<RemoveNull<UserFragment>, 'company' | 'id'> & {
+  companyId: string
+}
+
 interface UserFormProps {
   countries?: Country[]
-  filterByKeys?: (keyof UpdateUserInput)[]
+  filterByKeys?: (keyof FormValues)[]
   initialValues?: UserFragment
   isLoading?: boolean
   onDelete?: () => void
   onUpdate?: (values: UpdateUserInput) => void
+}
+
+const parseInitialValues = (
+  initialValues?: UserFragment
+): FormValues | undefined => {
+  if (!initialValues) return undefined
+  const { company, ...values } = removeObjectNullProps(initialValues)
+
+  return initialValues
+    ? {
+        companyId: company?.id ?? '',
+        ...values,
+      }
+    : undefined
 }
 
 export const UserForm = ({
@@ -39,17 +58,17 @@ export const UserForm = ({
 }: UserFormProps) => {
   const { isAdmin } = useUser()
 
-  const handleSubmit = (allValues: UpdateUserInput) => {
-    onUpdate?.(allValues as UpdateUserInput)
+  const handleSubmit = (allValues: FormValues) => {
+    onUpdate?.(allValues)
   }
 
   const [form] = Form.useForm()
   // when data is loaded async, populate form
   useEffect(() => {
-    form.setFieldsValue(initialValues)
+    form.setFieldsValue(parseInitialValues(initialValues))
   }, [initialValues, form])
 
-  const formItems: { [key in keyof UpdateUserInput]?: React.ReactNode } = {
+  const formItems: { [key in keyof FormValues]: React.ReactNode } = {
     companyId: (
       <Form.Item
         key="companyId"
@@ -168,17 +187,15 @@ export const UserForm = ({
   return (
     <Form
       form={form}
-      initialValues={initialValues}
+      initialValues={parseInitialValues(initialValues)}
       layout="vertical"
       onFinish={handleSubmit}
     >
       {Object.keys(formItems)
         .filter((item) =>
-          filterByKeys
-            ? filterByKeys?.includes(item as keyof UpdateUserInput)
-            : true
+          filterByKeys ? filterByKeys?.includes(item as keyof FormValues) : true
         )
-        .map((key) => formItems[key as keyof UpdateUserInput])}
+        .map((key) => formItems[key as keyof FormValues])}
 
       <Form.Item>
         <Space>
