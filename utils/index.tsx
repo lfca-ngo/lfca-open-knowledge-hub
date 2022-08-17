@@ -1,3 +1,5 @@
+import { RemoveNull } from '../types'
+
 export const isDev = process.env.NODE_ENV === 'development'
 export const isBrowser = () => typeof window !== 'undefined'
 export const SM_BREAKPOINT = 767
@@ -188,4 +190,10 @@ export const getMailToLink = ({
     url += '?' + args.join('&')
   }
   return url
+}
+
+export function removeObjectNullProps<T>(obj: T): RemoveNull<T> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v != null)
+  ) as RemoveNull<T>
 }
