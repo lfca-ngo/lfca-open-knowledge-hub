@@ -15,8 +15,8 @@ import { PayWall } from '../../components/PayWall'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
-import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
 import {
+  EMPTY_ACTIONS_ARRAY,
   sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
@@ -86,7 +86,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
               renderAsLink: true,
             }}
             actionsByCategories={actionsByCategories}
-            fetching={fetchingActions}
+            fetching={true}
           />
         </Section>
       </Main>

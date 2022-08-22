@@ -16,8 +16,8 @@ import {
   ContentfulActionFields,
   fetchAllActions,
 } from '../../services/contentful'
-import { EMPTY_ACTION } from '../../services/contentful/utils'
 import {
+  EMPTY_ACTION,
   useActionCommentAttachmentsQuery,
   useCompanyActionDetailsQuery,
 } from '../../services/lfca-backend'

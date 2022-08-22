@@ -36,6 +36,7 @@
     "react-dom": "18.1.0",
     "react-share": "^4.4.0",
     "react-signature-canvas": "^1.0.5",
+    "rrule": "^2.7.1",
     "safe-json-stringify": "^1.2.0",
     "slate": "^0.78.0",
     "slate-history": "^0.66.0",

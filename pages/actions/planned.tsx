@@ -6,8 +6,10 @@ import { ActionCardWrapper } from '../../components/ActionCard'
 import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkeleton'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
-import { EMPTY_ACTIONS_ARRAY } from '../../services/contentful/utils'
-import { useCompanyActionsListQuery } from '../../services/lfca-backend'
+import {
+  EMPTY_ACTIONS_ARRAY,
+  useCompanyActionsListQuery,
+} from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 

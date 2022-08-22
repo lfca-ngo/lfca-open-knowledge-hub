@@ -5,8 +5,8 @@ import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
-import { EMPTY_ACTIONS_ARRAY } from '../services/contentful/utils'
 import {
+  EMPTY_ACTIONS_ARRAY,
   sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../services/lfca-backend'

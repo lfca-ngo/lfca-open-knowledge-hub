@@ -22,6 +22,7 @@ export const SETTINGS_COMPANY = '/settings/company'
 export const SETTINGS_SUBSCRIPTION = '/settings/subscription'
 // Community
 export const COMMUNITY = '/community'
+export const COMMUNITY_GROUPS = '/community/groups'
 // Tools
 export const TOOLS = '/tools'
 export const MEASUREMENT_SERVICE_PROVIDERS =

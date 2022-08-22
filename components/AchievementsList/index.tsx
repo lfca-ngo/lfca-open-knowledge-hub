@@ -3,9 +3,9 @@ require('./styles.less')
 import { Drawer, List, message, Skeleton } from 'antd'
 import { useState } from 'react'
 
-import { EMPTY_ACHIEVEMENTS_ARRAY } from '../../services/contentful/utils'
 import {
   CompanyAchievementFragment,
+  EMPTY_ACHIEVEMENTS_ARRAY,
   UpdateCompanyInput,
   useCompanyAchievementsMiniQuery,
   useCompanyAchievementsQuery,

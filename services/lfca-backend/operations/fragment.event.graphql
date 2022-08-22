@@ -1,0 +1,11 @@
+fragment Event on Event {
+  end
+  id
+  isAllDay
+  participationRequestsApprovedCount
+  participationRequestsPendingCount
+  participationRequestStatus
+  recurrence
+  start
+  title
+}

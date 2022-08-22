@@ -1,7 +1,8 @@
 import {
   CompanyAchievementFragment,
   CompanyActionListItemFragment,
-} from '../lfca-backend/generated'
+  EventFragment,
+} from '../generated'
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
 export const EMPTY_ACTION: CompanyActionListItemFragment = {
@@ -43,3 +44,23 @@ export const EMPTY_ACHIEVEMENTS_OBJECT: CompanyAchievementFragment = {
 
 // create array with 2 empty achievements
 export const EMPTY_ACHIEVEMENTS_ARRAY = Array(2).fill(EMPTY_ACHIEVEMENTS_OBJECT)
+
+// empty event object
+export const EMPTY_EVENT: EventFragment = {
+  end: '',
+  id: '',
+  isAllDay: false,
+  participationRequestsApprovedCount: 0,
+  participationRequestsPendingCount: 0,
+  participationRequestStatus: null,
+  recurrence: null,
+  start: '',
+  title: '',
+}
+
+// create array with 2 empty events
+export const EMPTY_EVENTS_ARRAY = Array(2)
+  .fill(EMPTY_EVENT)
+  .concat(
+    Array(2).fill({ ...EMPTY_EVENT, participationRequestStatus: 'APPROVED' })
+  )

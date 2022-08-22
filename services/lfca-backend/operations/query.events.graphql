@@ -1,0 +1,5 @@
+query events {
+  events {
+    ...Event
+  }
+}
