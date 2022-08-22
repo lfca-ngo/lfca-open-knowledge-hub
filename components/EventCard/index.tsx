@@ -30,27 +30,25 @@ export const EventCard = ({ event, small }: EventCardProps) => {
     useCreateEventParticipationRequestMutation()
 
   const statusString = useMemo(() => {
-    const nowDate = new Date()
-    const dtStart = new Date(event.start)
+    switch (event.status) {
+      case 'UPCOMING': {
+        if (event.recurrence) {
+          return `starts ${moment(event.start).format('LL')}`
+        }
+        return 'upcoming'
+      }
+      case 'RUNNING': {
+        if (event.recurrence) {
+          return `running since ${moment(event.start).format('MMM Do')}`
+        }
 
-    if (event.recurrence) {
-      // Check if the recurrence has an event after and before the current date
-      const options = RRule.parseString(event.recurrence)
-      options.dtstart = dtStart
-      const rule = new RRule(options)
-      const [firstDate] = rule.all((date, i) => i === 0)
-      const nextDate = rule.after(nowDate)
-      if (!nextDate) return 'completed'
-      const prevDate = rule.before(nowDate)
-      if (!prevDate) return `starts ${moment(firstDate).format('LL')}`
-      return `running since ${moment(firstDate).format('MMM Do')}`
+        return 'running'
+      }
+      case 'EXPIRED':
+      default:
+        return 'expired'
     }
-
-    if (nowDate < dtStart) {
-      return 'coming up'
-    }
-    return 'completed'
-  }, [event.start, event.recurrence])
+  }, [event.recurrence, event.start, event.status])
 
   const handleJoin = async () => {
     const res = await createEventParticipationRequest({

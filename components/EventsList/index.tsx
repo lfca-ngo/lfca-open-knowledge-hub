@@ -26,8 +26,11 @@ export const EventsList = ({ events, fetching, small }: EventsListProps) => {
         }}
         renderItem={(item) => {
           return (
-            <List.Item className="list-item">
-              <EventCardSkeleton fetching={true} small={small}>
+            <List.Item
+              className="list-item"
+              key={!fetching ? item.id : undefined}
+            >
+              <EventCardSkeleton fetching={fetching} small={small}>
                 <EventCard event={item} small={small} />
               </EventCardSkeleton>
             </List.Item>

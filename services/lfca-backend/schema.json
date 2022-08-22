@@ -1350,6 +1350,17 @@
             "args": []
           },
           {
+            "name": "status",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "NON_NULL",

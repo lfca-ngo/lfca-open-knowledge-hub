@@ -7,5 +7,6 @@ fragment Event on Event {
   participationRequestStatus
   recurrence
   start
+  status
   title
 }
