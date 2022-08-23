@@ -36,6 +36,7 @@ import {
   ADMIN_USERS,
   COMMUNITY,
   COMMUNITY_GROUPS,
+  COMMUNITY_LINKS,
   MEASUREMENT_SERVICE_PROVIDERS,
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
@@ -80,8 +81,8 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     children: [
       {
         icon: <ProfileOutlined />,
-        key: COMMUNITY,
-        label: 'Community',
+        key: COMMUNITY_LINKS,
+        label: 'Links',
       },
       {
         icon: <TeamOutlined />,
@@ -90,8 +91,8 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       },
     ],
     icon: <LikeOutlined />,
-    key: 'community',
-    label: 'Overview',
+    key: COMMUNITY,
+    label: 'Community',
   },
   {
     children: [

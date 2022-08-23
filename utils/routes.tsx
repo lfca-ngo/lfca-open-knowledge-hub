@@ -23,6 +23,7 @@ export const SETTINGS_COMPANY = '/settings/company'
 export const SETTINGS_SUBSCRIPTION = '/settings/subscription'
 // Community
 export const COMMUNITY = '/community'
+export const COMMUNITY_LINKS = '/community/links'
 export const COMMUNITY_GROUPS = '/community/groups'
 // Tools
 export const TOOLS = '/tools'

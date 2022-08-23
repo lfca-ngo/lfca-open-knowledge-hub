@@ -8,7 +8,7 @@ const Tools: NextPage = () => {
   return (
     <SiderLayout>
       <Main>
-        <Section title="Community" titleSize="big">
+        <Section title="Tools" titleSize="big">
           <Container>
             <p>Coming soon...</p>
           </Container>

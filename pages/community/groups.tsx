@@ -33,9 +33,7 @@ const Groups: NextPage = () => {
   return (
     <SiderLayout nav={COMMUNITY_NAV}>
       <Main>
-        <h1>Group Formats</h1>
-
-        <Section bordered={false} title="All groups">
+        <Section bordered={false} title="All groups" titleSize="big">
           <EventsList
             events={eventsByParticipation.otherEvents}
             fetching={fetching}
