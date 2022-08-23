@@ -5,7 +5,7 @@ import { EventsList } from '../../components/EventsList'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
-  EMPTY_EVENTS_ARRAY,
+  EMPTY_EVENTS,
   EventFragment,
   useEventsQuery,
 } from '../../services/lfca-backend'
@@ -15,7 +15,7 @@ import { withAuth } from '../../utils/with-auth'
 const Groups: NextPage = () => {
   const [{ data, fetching }] = useEventsQuery()
 
-  const eventsByParticipation = (data?.events || EMPTY_EVENTS_ARRAY).reduce(
+  const eventsByParticipation = (data?.events || EMPTY_EVENTS).reduce(
     (acc, curr) => {
       if (curr.participationRequestStatus === 'APPROVED') {
         acc.participatingEvents.push(curr)

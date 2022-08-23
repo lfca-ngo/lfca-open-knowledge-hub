@@ -7,7 +7,7 @@ import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkelet
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import {
-  EMPTY_ACTIONS_ARRAY,
+  EMPTY_ACTIONS,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
@@ -33,7 +33,7 @@ const PlannedActions: NextPage = () => {
           <Container>
             <List
               className="no-padding"
-              dataSource={actionsData?.companyActions || EMPTY_ACTIONS_ARRAY}
+              dataSource={actionsData?.companyActions || EMPTY_ACTIONS}
               renderItem={(item) => {
                 return (
                   <List.Item>

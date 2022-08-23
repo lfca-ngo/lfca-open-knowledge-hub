@@ -16,7 +16,7 @@ import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
-  EMPTY_ACTIONS_ARRAY,
+  EMPTY_ACTIONS,
   sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
@@ -38,7 +38,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const actionsByCategories = useMemo(
     () =>
       sortCompanyActionsByCategories(
-        actionsData?.companyActions || EMPTY_ACTIONS_ARRAY
+        actionsData?.companyActions || EMPTY_ACTIONS
       ),
     [actionsData]
   )
@@ -51,7 +51,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
    */
   const highlightedActions = useMemo(
     () =>
-      (actionsData?.companyActions || EMPTY_ACTIONS_ARRAY).filter(
+      (actionsData?.companyActions || EMPTY_ACTIONS).filter(
         (companyAction) =>
           (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
             companyAction.requiredForCompanyAchievementIds.length > 0 ||

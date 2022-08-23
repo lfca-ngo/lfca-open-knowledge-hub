@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
-import { AdminEventApplications } from '../AdminEventApplicartions'
+import { AdminEventApplications } from '../AdminEventApplications'
 
 const { Column } = Table
 
