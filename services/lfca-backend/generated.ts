@@ -903,6 +903,8 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> };
 
+export type EventParticipationRequestFragment = { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null };
+
 export type EventFragment = { __typename?: 'Event', end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string };
 
 export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, isAnonymous: boolean, price?: number | null, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null };
@@ -918,6 +920,13 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null };
+
+export type ApproveEventParticipationRequestMutationVariables = Exact<{
+  input: ApproveEventParticipationRequestInput;
+}>;
+
+
+export type ApproveEventParticipationRequestMutation = { __typename?: 'Mutation', approveEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
 
 export type CompleteCompanyActionRequirementMutationVariables = Exact<{
   input: CompleteCompanyActionRequirementInput;
@@ -1111,6 +1120,13 @@ export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> } };
+
+export type EventParticipationRequestsQueryVariables = Exact<{
+  input: EventParticipationRequestsInput;
+}>;
+
+
+export type EventParticipationRequestsQuery = { __typename?: 'Query', eventParticipationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null }> };
 
 export type EventsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1343,6 +1359,40 @@ export const EventFragmentDoc = gql`
   title
 }
     `;
+export const UserFragmentDoc = gql`
+    fragment User on User {
+  company {
+    id
+    logoUrl
+    name
+    programContentId
+    subscriptionType
+  }
+  country
+  deletedAt
+  email
+  firstName
+  id
+  lastName
+  phone
+  picture
+  roles
+  sortWeight
+}
+    `;
+export const EventParticipationRequestFragmentDoc = gql`
+    fragment EventParticipationRequest on EventParticipationRequest {
+  event {
+    ...Event
+  }
+  id
+  status
+  user {
+    ...User
+  }
+}
+    ${EventFragmentDoc}
+${UserFragmentDoc}`;
 export const ServiceProviderReviewFragmentDoc = gql`
     fragment ServiceProviderReview on ServiceProviderReview {
   author {
@@ -1425,27 +1475,17 @@ export const UserInviteFragmentDoc = gql`
   }
 }
     `;
-export const UserFragmentDoc = gql`
-    fragment User on User {
-  company {
-    id
-    logoUrl
-    name
-    programContentId
-    subscriptionType
+export const ApproveEventParticipationRequestDocument = gql`
+    mutation approveEventParticipationRequest($input: ApproveEventParticipationRequestInput!) {
+  approveEventParticipationRequest(input: $input) {
+    ...EventParticipationRequest
   }
-  country
-  deletedAt
-  email
-  firstName
-  id
-  lastName
-  phone
-  picture
-  roles
-  sortWeight
 }
-    `;
+    ${EventParticipationRequestFragmentDoc}`;
+
+export function useApproveEventParticipationRequestMutation() {
+  return Urql.useMutation<ApproveEventParticipationRequestMutation, ApproveEventParticipationRequestMutationVariables>(ApproveEventParticipationRequestDocument);
+};
 export const CompleteCompanyActionRequirementDocument = gql`
     mutation completeCompanyActionRequirement($input: CompleteCompanyActionRequirementInput!) {
   completeCompanyActionRequirement(input: $input) {
@@ -1780,6 +1820,17 @@ export const CompanyDocument = gql`
 
 export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyQuery>({ query: CompanyDocument, ...options });
+};
+export const EventParticipationRequestsDocument = gql`
+    query eventParticipationRequests($input: EventParticipationRequestsInput!) {
+  eventParticipationRequests(input: $input) {
+    ...EventParticipationRequest
+  }
+}
+    ${EventParticipationRequestFragmentDoc}`;
+
+export function useEventParticipationRequestsQuery(options: Omit<Urql.UseQueryArgs<EventParticipationRequestsQueryVariables>, 'query'>) {
+  return Urql.useQuery<EventParticipationRequestsQuery>({ query: EventParticipationRequestsDocument, ...options });
 };
 export const EventsDocument = gql`
     query events {

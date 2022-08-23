@@ -31,6 +31,7 @@ import {
   ADMIN,
   ADMIN_ACTIONS,
   ADMIN_COMPANIES,
+  ADMIN_GROUPS,
   ADMIN_REVIEWS,
   ADMIN_USERS,
   COMMUNITY,
@@ -45,7 +46,7 @@ import { VideoWrapper } from '../../VideoWrapper'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
 
-const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS, COMMUNITY]
+const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS, 'community']
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {
@@ -89,7 +90,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       },
     ],
     icon: <LikeOutlined />,
-    key: COMMUNITY,
+    key: 'community',
     label: 'Overview',
   },
   {
@@ -133,6 +134,11 @@ const NAV_ITEMS_ADMIN: MenuProps['items'] = [
         icon: <BankOutlined />,
         key: ADMIN_COMPANIES,
         label: 'Companies',
+      },
+      {
+        icon: <TeamOutlined />,
+        key: ADMIN_GROUPS,
+        label: 'Groups',
       },
       {
         icon: <MessageOutlined />,
