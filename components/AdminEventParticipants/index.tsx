@@ -5,8 +5,8 @@ import { Avatar, Button, List, message } from 'antd'
 import { useState } from 'react'
 
 import {
-  useApproveEventParticipationRequestMutation,
   useEventParticipationRequestsQuery,
+  useUpdateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 
@@ -18,7 +18,7 @@ interface AdminEventParticipantsProps {
 export const AdminEventParticipants = ({
   event,
 }: AdminEventParticipantsProps) => {
-  const [approvingRequestId, setApprovingRequestId] = useState<string | null>(
+  const [updatingRequestId, setUpdatingRequestId] = useState<string | null>(
     null
   )
 
@@ -32,13 +32,17 @@ export const AdminEventParticipants = ({
       },
     })
 
-  const [, approveEventParticipationRequest] =
-    useApproveEventParticipationRequestMutation()
+  const [, updateEventParticipationRequest] =
+    useUpdateEventParticipationRequestMutation()
 
-  const handleApprove = async (eventParticipationRequestId: string) => {
-    setApprovingRequestId(eventParticipationRequestId)
-    const res = await approveEventParticipationRequest({
+  const handleUpdate = async (
+    eventParticipationRequestId: string,
+    approved: boolean
+  ) => {
+    setUpdatingRequestId(eventParticipationRequestId)
+    const res = await updateEventParticipationRequest({
       input: {
+        approved,
         eventParticipationRequestId,
       },
     })
@@ -47,7 +51,7 @@ export const AdminEventParticipants = ({
       message.error(res.error.message)
     }
 
-    setApprovingRequestId(null)
+    setUpdatingRequestId(null)
   }
 
   return (
@@ -64,8 +68,19 @@ export const AdminEventParticipants = ({
                 ? [
                     <Button
                       key="approve"
-                      loading={approvingRequestId === request.id}
-                      onClick={() => handleApprove(request.id)}
+                      loading={updatingRequestId === request.id}
+                      onClick={() => handleUpdate(request.id, true)}
+                      type="primary"
+                    >
+                      Approve
+                    </Button>,
+                  ]
+                : request.status === 'APPROVED'
+                ? [
+                    <Button
+                      key="un-approve"
+                      loading={updatingRequestId === request.id}
+                      onClick={() => handleUpdate(request.id, false)}
                       type="primary"
                     >
                       Approve

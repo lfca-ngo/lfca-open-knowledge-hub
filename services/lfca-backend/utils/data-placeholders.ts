@@ -48,6 +48,7 @@ export const EMPTY_ACHIEVEMENTS = Array(2).fill(EMPTY_ACHIEVEMENT)
 
 // empty event object
 export const EMPTY_EVENT: EventFragment = {
+  description: '',
   end: '',
   id: '',
   isAllDay: false,

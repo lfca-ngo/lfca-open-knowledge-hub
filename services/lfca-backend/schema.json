@@ -1271,6 +1271,17 @@
         "name": "Event",
         "fields": [
           {
+            "name": "description",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "end",
             "type": {
               "kind": "SCALAR",
@@ -1454,29 +1465,6 @@
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
-          {
-            "name": "approveEventParticipationRequest",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "EventParticipationRequest",
-                "ofType": null
-              }
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
           {
             "name": "completeCompanyAction",
             "type": {
@@ -1729,6 +1717,29 @@
             ]
           },
           {
+            "name": "deleteEventParticipationRequest",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "EventParticipationRequest",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "deleteServiceProviderReview",
             "type": {
               "kind": "NON_NULL",
@@ -1905,6 +1916,29 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Company",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "updateEventParticipationRequest",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "EventParticipationRequest",
                 "ofType": null
               }
             },
@@ -2230,7 +2264,15 @@
                 }
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "qualifiedCompanies",

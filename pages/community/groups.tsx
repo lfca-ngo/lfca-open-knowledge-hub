@@ -43,9 +43,9 @@ const Groups: NextPage = () => {
       <Sider>
         <Section bordered={false} title="Your groups">
           <EventsList
+            compact
             events={eventsByParticipation.participatingEvents}
             fetching={fetching}
-            small
           />
         </Section>
       </Sider>

@@ -10,10 +10,10 @@ import { EventCardSkeleton } from '../EventCard/EventCardSkeleton'
 interface EventsListProps {
   events: EventFragment[]
   fetching: boolean
-  small?: boolean
+  compact?: boolean
 }
 
-export const EventsList = ({ events, fetching, small }: EventsListProps) => {
+export const EventsList = ({ compact, events, fetching }: EventsListProps) => {
   return (
     <div className="events-list">
       <List
@@ -30,8 +30,8 @@ export const EventsList = ({ events, fetching, small }: EventsListProps) => {
               className="list-item"
               key={!fetching ? item.id : undefined}
             >
-              <EventCardSkeleton fetching={fetching} small={small}>
-                <EventCard event={item} small={small} />
+              <EventCardSkeleton compact={compact} fetching={fetching}>
+                <EventCard compact={compact} event={item} />
               </EventCardSkeleton>
             </List.Item>
           )

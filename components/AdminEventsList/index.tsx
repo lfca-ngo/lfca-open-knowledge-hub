@@ -14,7 +14,13 @@ export const AdminEventsList = () => {
     EventFragment | undefined
   >()
 
-  const [{ data, fetching }] = useEventsQuery()
+  const [{ data, fetching }] = useEventsQuery({
+    variables: {
+      input: {
+        includeExpired: true,
+      },
+    },
+  })
 
   return (
     <div className="admin-events-list">

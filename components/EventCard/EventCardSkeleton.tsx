@@ -2,23 +2,23 @@ import { Skeleton } from 'antd'
 
 export const EventCardSkeleton = ({
   children,
+  compact,
   fetching,
-  small,
 }: {
   children: React.ReactNode
   fetching?: boolean
-  small?: boolean
+  compact?: boolean
 }) => (
   <Skeleton
     active
-    className={`event-card-skeleton${small ? ' small' : ''}`}
+    className={`event-card-skeleton${compact ? ' compact' : ''}`}
     loading={fetching}
     paragraph={{
-      rows: small ? 3 : 6,
-      width: small ? ['80%', '80%', '80%'] : undefined,
+      rows: compact ? 3 : 6,
+      width: compact ? ['80%', '80%', '80%'] : undefined,
     }}
     title={{
-      width: small ? '100%' : '40%',
+      width: compact ? '100%' : '40%',
     }}
   >
     {children}

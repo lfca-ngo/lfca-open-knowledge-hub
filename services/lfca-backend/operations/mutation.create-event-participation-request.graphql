@@ -2,13 +2,6 @@ mutation createEventParticipationRequest(
   $input: CreateEventParticipationRequestInput!
 ) {
   createEventParticipationRequest(input: $input) {
-    event {
-      ...Event
-    }
-    id
-    status
-    user {
-      ...User
-    }
+    ...EventParticipationRequest
   }
 }

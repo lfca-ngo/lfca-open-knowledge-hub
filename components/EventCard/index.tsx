@@ -1,55 +1,25 @@
 require('./styles.less')
 
-import {
-  CalendarOutlined,
-  CheckOutlined,
-  ClockCircleOutlined,
-  FieldTimeOutlined,
-  HourglassOutlined,
-  SolutionOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons'
-import { Button, Card, Divider, message, Space } from 'antd'
-import moment from 'moment'
-import { useMemo } from 'react'
-import { RRule } from 'rrule'
+import { HourglassOutlined, UserAddOutlined } from '@ant-design/icons'
+import { Button, Card, Divider, message, Modal, Space } from 'antd'
+import { useState } from 'react'
 
 import {
   EventFragment,
-  EventStatus,
   useCreateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
+import { EventMeta } from './EventMeta'
 
 export interface EventCardProps {
   event: EventFragment
-  small?: boolean
+  compact?: boolean
 }
 
-export const EventCard = ({ event, small }: EventCardProps) => {
-  // TODO: CreateParticipationRequest
+export const EventCard = ({ compact, event }: EventCardProps) => {
+  const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
+
   const [{ fetching }, createEventParticipationRequest] =
     useCreateEventParticipationRequestMutation()
-
-  const statusString = useMemo(() => {
-    switch (event.status) {
-      case EventStatus.UPCOMING: {
-        if (event.recurrence) {
-          return `starts ${moment(event.start).format('LL')}`
-        }
-        return 'upcoming'
-      }
-      case EventStatus.RUNNING: {
-        if (event.recurrence) {
-          return `running since ${moment(event.start).format('MMM Do')}`
-        }
-
-        return 'running'
-      }
-      case EventStatus.EXPIRED:
-      default:
-        return 'expired'
-    }
-  }, [event.recurrence, event.start, event.status])
 
   const handleJoin = async () => {
     const res = await createEventParticipationRequest({
@@ -66,75 +36,79 @@ export const EventCard = ({ event, small }: EventCardProps) => {
   }
 
   return (
-    <Card className="event-card">
-      <div className="header">
-        <div className="title">{event.title}</div>
-
-        {!small && (
+    <>
+      <Card className="event-card">
+        <div className="header">
+          <div className="title">{event.title}</div>
           <div className="actions">
-            <Button
-              disabled={event.participationRequestStatus === 'PENDING'}
-              icon={
-                event.participationRequestStatus === 'PENDING' ? (
-                  <HourglassOutlined />
-                ) : (
-                  <UserAddOutlined />
-                )
-              }
-              loading={fetching}
-              onClick={handleJoin}
-              type="primary"
-            >
-              {event.participationRequestStatus === 'PENDING'
-                ? 'Pending'
-                : 'Join'}
-            </Button>
+            {!compact && (
+              <Space>
+                <Button onClick={() => setDetailsVisible(true)} type="ghost">
+                  Details
+                </Button>
+
+                <Button
+                  disabled={event.participationRequestStatus === 'PENDING'}
+                  icon={
+                    event.participationRequestStatus === 'PENDING' ? (
+                      <HourglassOutlined />
+                    ) : (
+                      <UserAddOutlined />
+                    )
+                  }
+                  loading={fetching}
+                  onClick={handleJoin}
+                  type="primary"
+                >
+                  {event.participationRequestStatus === 'PENDING'
+                    ? 'Pending'
+                    : 'Join'}
+                </Button>
+              </Space>
+            )}
           </div>
-        )}
-      </div>
-
-      <Divider />
-
-      <div className={`meta${small ? ' small' : ''}`}>
-        {!small && (
-          <div className="block">
-            <Space align="start">
-              <SolutionOutlined />
-              {`${event.participationRequestsPendingCount} applications`}
-            </Space>
-
-            <Space align="start">
-              <CheckOutlined />
-              {`${event.participationRequestsApprovedCount} participants`}
-            </Space>
-          </div>
-        )}
-
-        <div className="block">
-          <Space align="start">
-            <CalendarOutlined />
-            {event.recurrence
-              ? RRule.fromString(event.recurrence).toText()
-              : moment(event.start).format('LL')}
-          </Space>
-
-          <Space align="start">
-            <ClockCircleOutlined />
-            {event.isAllDay
-              ? 'all day'
-              : `${moment(event.start).format('LT')} - ${moment(
-                  event.end
-                ).format('LT')}`}
-          </Space>
         </div>
 
-        <div className="block">
-          <Space align="start">
-            <FieldTimeOutlined />
-            {statusString}
-          </Space>
-        </div>
-      </div>
-    </Card>
+        <Divider />
+
+        <EventMeta compact={compact} event={event} />
+
+        {compact && (
+          <Button onClick={() => setDetailsVisible(true)} type="ghost">
+            Details
+          </Button>
+        )}
+      </Card>
+
+      <Modal
+        closable
+        footer={[
+          <Button
+            key="modalOk"
+            onClick={() => setDetailsVisible(false)}
+            type="primary"
+          >
+            OK
+          </Button>,
+        ]}
+        title={event.title}
+        visible={detailsVisible}
+        wrapClassName="modal-md"
+      >
+        <EventMeta event={event} />
+
+        <Divider />
+
+        {event.description ? (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: event.description,
+            }}
+          />
+        ) : (
+          <p>No description available.</p>
+        )}
+      </Modal>
+    </>
   )
 }

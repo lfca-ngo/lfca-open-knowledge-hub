@@ -1,4 +1,5 @@
 fragment Event on Event {
+  description
   end
   id
   isAllDay
