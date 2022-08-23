@@ -47,12 +47,22 @@ export const EventMeta = ({ compact, event }: EventMetaProps) => {
         <div className="block">
           <Space align="start">
             <SolutionOutlined />
-            {`${event.participationRequestsPendingCount} applications`}
+            {`${event.participationRequestsPendingCount} application${
+              event.participationRequestsPendingCount === 0 ||
+              event.participationRequestsPendingCount > 1
+                ? 's'
+                : ''
+            }`}
           </Space>
 
           <Space align="start">
             <CheckOutlined />
-            {`${event.participationRequestsApprovedCount} participants`}
+            {`${event.participationRequestsApprovedCount} participant${
+              event.participationRequestsApprovedCount === 0 ||
+              event.participationRequestsApprovedCount > 1
+                ? 's'
+                : ''
+            }`}
           </Space>
         </div>
       )}
