@@ -1,4 +1,4 @@
-import { Card, Skeleton } from 'antd'
+import { Skeleton } from 'antd'
 
 export const EventCardSkeleton = ({
   children,
