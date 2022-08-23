@@ -86,7 +86,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
               renderAsLink: true,
             }}
             actionsByCategories={actionsByCategories}
-            fetching={true}
+            fetching={fetchingActions}
           />
         </Section>
       </Main>
