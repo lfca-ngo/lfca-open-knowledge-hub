@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
-import { AdminEventApplications } from '../AdminEventApplications'
+import { AdminEventParticipants } from '../AdminEventParticipants'
 
 const { Column } = Table
 
@@ -85,7 +85,7 @@ export const AdminEventsList = () => {
         onClose={() => setSelectedEvent(undefined)}
         visible={!!selectedEvent}
       >
-        <AdminEventApplications
+        <AdminEventParticipants
           event={selectedEvent}
           onClose={() => setSelectedEvent(undefined)}
         />

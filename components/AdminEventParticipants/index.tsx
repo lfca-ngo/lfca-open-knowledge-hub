@@ -10,14 +10,14 @@ import {
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 
-interface AdminEventApplicationsProps {
+interface AdminEventParticipantsProps {
   event?: EventFragment
   onClose: () => void
 }
 
-export const AdminEventApplications = ({
+export const AdminEventParticipants = ({
   event,
-}: AdminEventApplicationsProps) => {
+}: AdminEventParticipantsProps) => {
   const [approvingRequestId, setApprovingRequestId] = useState<string | null>(
     null
   )
@@ -51,7 +51,7 @@ export const AdminEventApplications = ({
   }
 
   return (
-    <div className="admin-event-applications">
+    <div className="admin-event-participants">
       <h1>{event?.title}</h1>
       <List
         dataSource={data?.eventParticipationRequests || []}
