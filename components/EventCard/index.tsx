@@ -16,6 +16,7 @@ import { RRule } from 'rrule'
 
 import {
   EventFragment,
+  EventStatus,
   useCreateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
 
@@ -31,20 +32,20 @@ export const EventCard = ({ event, small }: EventCardProps) => {
 
   const statusString = useMemo(() => {
     switch (event.status) {
-      case 'UPCOMING': {
+      case EventStatus.UPCOMING: {
         if (event.recurrence) {
           return `starts ${moment(event.start).format('LL')}`
         }
         return 'upcoming'
       }
-      case 'RUNNING': {
+      case EventStatus.RUNNING: {
         if (event.recurrence) {
           return `running since ${moment(event.start).format('MMM Do')}`
         }
 
         return 'running'
       }
-      case 'EXPIRED':
+      case EventStatus.EXPIRED:
       default:
         return 'expired'
     }

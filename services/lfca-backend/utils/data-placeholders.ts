@@ -2,6 +2,7 @@ import {
   CompanyAchievementFragment,
   CompanyActionListItemFragment,
   EventFragment,
+  EventStatus,
 } from '../generated'
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
@@ -55,6 +56,7 @@ export const EMPTY_EVENT: EventFragment = {
   participationRequestStatus: null,
   recurrence: null,
   start: '',
+  status: EventStatus.UPCOMING,
   title: '',
 }
 

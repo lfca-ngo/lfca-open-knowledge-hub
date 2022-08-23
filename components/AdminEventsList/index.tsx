@@ -3,7 +3,7 @@ require('./styles.less')
 import { Badge, Button, Drawer, Space, Table, Tag } from 'antd'
 import { useState } from 'react'
 
-import { useEventsQuery } from '../../services/lfca-backend'
+import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 import { AdminEventApplications } from '../AdminEventApplicartions'
 
@@ -48,16 +48,16 @@ export const AdminEventsList = () => {
           render={(_, event: EventFragment) => (
             <Tag
               color={
-                event.status === 'RUNNING'
+                event.status === EventStatus.RUNNING
                   ? 'success'
-                  : event.status === 'EXPIRED'
+                  : event.status === EventStatus.EXPIRED
                   ? 'error'
                   : 'processing'
               }
             >
-              {event.status === 'RUNNING'
+              {event.status === EventStatus.RUNNING
                 ? 'active'
-                : event.status === 'EXPIRED'
+                : event.status === EventStatus.EXPIRED
                 ? 'expired'
                 : 'upcoming'}
             </Tag>
