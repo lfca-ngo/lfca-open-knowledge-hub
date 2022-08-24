@@ -13,7 +13,7 @@ import { COMMUNITY_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
 const Groups: NextPage = () => {
-  const [{ data, fetching }] = useEventsQuery()
+  const [{ data, error, fetching }] = useEventsQuery()
 
   const eventsByParticipation = (data?.events || EMPTY_EVENTS).reduce(
     (acc, curr) => {
@@ -39,7 +39,7 @@ const Groups: NextPage = () => {
           titleSize="big"
         >
           <EventsList
-            events={eventsByParticipation.otherEvents}
+            events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
           />
         </Section>
@@ -48,7 +48,7 @@ const Groups: NextPage = () => {
         <Section bordered={false} title="Your groups">
           <EventsList
             compact
-            events={eventsByParticipation.participatingEvents}
+            events={error ? [] : eventsByParticipation.participatingEvents}
             fetching={fetching}
           />
         </Section>
