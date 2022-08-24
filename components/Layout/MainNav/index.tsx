@@ -80,14 +80,14 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {
     children: [
       {
-        icon: <ProfileOutlined />,
-        key: COMMUNITY_LINKS,
-        label: 'Links',
-      },
-      {
         icon: <TeamOutlined />,
         key: COMMUNITY_GROUPS,
         label: 'Groups',
+      },
+      {
+        icon: <ProfileOutlined />,
+        key: COMMUNITY_LINKS,
+        label: 'Links',
       },
     ],
     icon: <LikeOutlined />,

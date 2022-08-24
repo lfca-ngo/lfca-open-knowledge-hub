@@ -91,6 +91,7 @@ export const EventCard = ({ compact, event }: EventCardProps) => {
             OK
           </Button>,
         ]}
+        onCancel={() => setDetailsVisible(false)}
         title={event.title}
         visible={detailsVisible}
         wrapClassName="modal-md"

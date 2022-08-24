@@ -41,8 +41,8 @@ export const ADMIN_NAV = [
 ]
 
 export const COMMUNITY_NAV = [
-  { path: COMMUNITY_LINKS, title: 'Links' },
   { path: COMMUNITY_GROUPS, title: 'Groups' },
+  { path: COMMUNITY_LINKS, title: 'Links' },
 ]
 
 export const SETTINGS_NAV = [

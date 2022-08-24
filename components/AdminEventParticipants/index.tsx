@@ -106,6 +106,7 @@ export const AdminEventParticipants = ({
       <h1>{event?.title}</h1>
       <Form form={form} layout="vertical" onFinish={handleCreate}>
         <Form.Item
+          label="Invite a specific user to this event"
           name="userId"
           rules={[{ message: 'Please select a user', required: true }]}
         >
