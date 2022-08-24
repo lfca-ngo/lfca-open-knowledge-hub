@@ -1,11 +1,12 @@
 import type { GetStaticProps, NextPage } from 'next'
 
-import { ContentList } from '../components/ContentList'
-import { Main, Section, SiderLayout } from '../components/Layout'
-import { Container } from '../components/Layout/Container'
-import { ContentfulContentCollectionFields } from '../services/contentful'
-import { fetchAllContentCollections } from '../services/contentful/fetch-all-content-collections'
-import { withAuth } from '../utils/with-auth'
+import { ContentList } from '../../components/ContentList'
+import { Main, Section, SiderLayout } from '../../components/Layout'
+import { Container } from '../../components/Layout/Container'
+import { ContentfulContentCollectionFields } from '../../services/contentful'
+import { fetchAllContentCollections } from '../../services/contentful'
+import { COMMUNITY_NAV } from '../../utils/navs'
+import { withAuth } from '../../utils/with-auth'
 
 const Community: NextPage = ({
   content,
@@ -13,9 +14,9 @@ const Community: NextPage = ({
   content?: ContentfulContentCollectionFields[]
 }) => {
   return (
-    <SiderLayout>
+    <SiderLayout nav={COMMUNITY_NAV}>
       <Main>
-        <Section title="Community" titleSize="big">
+        <Section title="Links" titleSize="big">
           <Container>
             <ContentList content={content} />
           </Container>

@@ -3,9 +3,9 @@ require('./styles.less')
 import { Drawer, List, message, Skeleton } from 'antd'
 import { useState } from 'react'
 
-import { EMPTY_ACHIEVEMENTS_ARRAY } from '../../services/contentful/utils'
 import {
   CompanyAchievementFragment,
+  EMPTY_ACHIEVEMENTS,
   UpdateCompanyInput,
   useCompanyAchievementsMiniQuery,
   useCompanyAchievementsQuery,
@@ -25,7 +25,7 @@ export const AchievementsList = ({
   // Queries
   const [{ data: achievementsData, fetching }] = useCompanyAchievementsQuery()
   const achievements =
-    achievementsData?.company?.program.achievements || EMPTY_ACHIEVEMENTS_ARRAY
+    achievementsData?.company?.program.achievements || EMPTY_ACHIEVEMENTS
 
   // Local state
   const [activeAchievement, setActiveAchievement] =
@@ -123,8 +123,7 @@ export const AchievementsListMini = ({
     useCompanyAchievementsMiniQuery()
 
   const achievements =
-    companyAchievementsData?.company?.program.achievements ||
-    EMPTY_ACHIEVEMENTS_ARRAY
+    companyAchievementsData?.company?.program.achievements || EMPTY_ACHIEVEMENTS
 
   return (
     <List

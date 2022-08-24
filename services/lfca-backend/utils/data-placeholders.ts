@@ -1,7 +1,9 @@
 import {
   CompanyAchievementFragment,
   CompanyActionListItemFragment,
-} from '../lfca-backend/generated'
+  EventFragment,
+  EventStatus,
+} from '../generated'
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
 export const EMPTY_ACTION: CompanyActionListItemFragment = {
@@ -27,10 +29,10 @@ export const EMPTY_ACTION: CompanyActionListItemFragment = {
 }
 
 // create array with 10 empty actions
-export const EMPTY_ACTIONS_ARRAY = Array(10).fill(EMPTY_ACTION)
+export const EMPTY_ACTIONS = Array(10).fill(EMPTY_ACTION)
 
 // empty achievements object
-export const EMPTY_ACHIEVEMENTS_OBJECT: CompanyAchievementFragment = {
+export const EMPTY_ACHIEVEMENT: CompanyAchievementFragment = {
   completedCompanyActionsCount: 0,
   completedRequiredCompanyActionsCount: 0,
   contentId: '',
@@ -42,4 +44,26 @@ export const EMPTY_ACHIEVEMENTS_OBJECT: CompanyAchievementFragment = {
 }
 
 // create array with 2 empty achievements
-export const EMPTY_ACHIEVEMENTS_ARRAY = Array(2).fill(EMPTY_ACHIEVEMENTS_OBJECT)
+export const EMPTY_ACHIEVEMENTS = Array(2).fill(EMPTY_ACHIEVEMENT)
+
+// empty event object
+export const EMPTY_EVENT: EventFragment = {
+  description: '',
+  end: '',
+  id: '',
+  isAllDay: false,
+  participationRequestsApprovedCount: 0,
+  participationRequestsPendingCount: 0,
+  participationRequestStatus: null,
+  recurrence: null,
+  start: '',
+  status: EventStatus.UPCOMING,
+  title: '',
+}
+
+// create array with 2 empty events
+export const EMPTY_EVENTS = Array(2)
+  .fill(EMPTY_EVENT)
+  .concat(
+    Array(2).fill({ ...EMPTY_EVENT, participationRequestStatus: 'APPROVED' })
+  )

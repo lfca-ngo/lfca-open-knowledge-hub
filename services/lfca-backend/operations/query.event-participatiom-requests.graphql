@@ -1,0 +1,5 @@
+query eventParticipationRequests($input: EventParticipationRequestsInput!) {
+  eventParticipationRequests(input: $input) {
+    ...EventParticipationRequest
+  }
+}

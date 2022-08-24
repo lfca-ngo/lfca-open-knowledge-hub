@@ -14,6 +14,7 @@ import {
   QuestionCircleOutlined,
   RocketOutlined,
   ShareAltOutlined,
+  TeamOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
 import { Menu, MenuProps, Modal } from 'antd'
@@ -30,9 +31,12 @@ import {
   ADMIN,
   ADMIN_ACTIONS,
   ADMIN_COMPANIES,
+  ADMIN_GROUPS,
   ADMIN_REVIEWS,
   ADMIN_USERS,
   COMMUNITY,
+  COMMUNITY_GROUPS,
+  COMMUNITY_LINKS,
   MEASUREMENT_SERVICE_PROVIDERS,
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
@@ -74,6 +78,18 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     label: 'Achievements',
   },
   {
+    children: [
+      {
+        icon: <TeamOutlined />,
+        key: COMMUNITY_GROUPS,
+        label: 'Groups',
+      },
+      {
+        icon: <ProfileOutlined />,
+        key: COMMUNITY_LINKS,
+        label: 'Links',
+      },
+    ],
     icon: <LikeOutlined />,
     key: COMMUNITY,
     label: 'Community',
@@ -119,6 +135,11 @@ const NAV_ITEMS_ADMIN: MenuProps['items'] = [
         icon: <BankOutlined />,
         key: ADMIN_COMPANIES,
         label: 'Companies',
+      },
+      {
+        icon: <TeamOutlined />,
+        key: ADMIN_GROUPS,
+        label: 'Groups',
       },
       {
         icon: <MessageOutlined />,

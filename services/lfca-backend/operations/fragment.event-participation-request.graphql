@@ -1,0 +1,10 @@
+fragment EventParticipationRequest on EventParticipationRequest {
+  event {
+    ...Event
+  }
+  id
+  status
+  user {
+    ...User
+  }
+}

@@ -1,0 +1,7 @@
+mutation deleteEventParticipationRequest(
+  $input: DeleteEventParticipationRequestInput!
+) {
+  deleteEventParticipationRequest(input: $input) {
+    ...EventParticipationRequest
+  }
+}

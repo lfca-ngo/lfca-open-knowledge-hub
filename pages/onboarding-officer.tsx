@@ -5,8 +5,8 @@ import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
-import { EMPTY_ACTIONS_ARRAY } from '../services/contentful/utils'
 import {
+  EMPTY_ACTIONS,
   sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../services/lfca-backend'
@@ -22,7 +22,7 @@ const OnboardingOfficer: NextPage = () => {
   const actionsByCategories = React.useMemo(
     () =>
       sortCompanyActionsByCategories(
-        data?.companyActions || EMPTY_ACTIONS_ARRAY,
+        data?.companyActions || EMPTY_ACTIONS,
         false // do not filter the completed actions out
       ),
     [data]

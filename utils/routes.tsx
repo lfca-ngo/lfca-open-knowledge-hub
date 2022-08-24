@@ -13,6 +13,7 @@ export const PW_FORGOT = '/forgot-password'
 export const ADMIN_USERS = '/admin/users'
 export const ADMIN_COMPANIES = '/admin/companies'
 export const ADMIN_ACTIONS = '/admin/actions'
+export const ADMIN_GROUPS = '/admin/groups'
 export const ADMIN = '/admin'
 export const ADMIN_REVIEWS = '/admin/reviews'
 // Settings
@@ -22,6 +23,8 @@ export const SETTINGS_COMPANY = '/settings/company'
 export const SETTINGS_SUBSCRIPTION = '/settings/subscription'
 // Community
 export const COMMUNITY = '/community'
+export const COMMUNITY_LINKS = '/community/links'
+export const COMMUNITY_GROUPS = '/community/groups'
 // Tools
 export const TOOLS = '/tools'
 export const MEASUREMENT_SERVICE_PROVIDERS =

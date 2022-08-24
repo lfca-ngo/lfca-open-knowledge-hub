@@ -1,0 +1,7 @@
+mutation createEventParticipationRequest(
+  $input: CreateEventParticipationRequestInput!
+) {
+  createEventParticipationRequest(input: $input) {
+    ...EventParticipationRequest
+  }
+}

@@ -4,11 +4,11 @@ import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { withAuth } from '../../utils/with-auth'
 
-const Tools: NextPage = () => {
+const Community: NextPage = () => {
   return (
     <SiderLayout>
       <Main>
-        <Section title="Tools" titleSize="big">
+        <Section title="Community" titleSize="big">
           <Container>
             <p>Coming soon...</p>
           </Container>
@@ -18,4 +18,4 @@ const Tools: NextPage = () => {
   )
 }
 
-export default withAuth(Tools)
+export default withAuth(Community)

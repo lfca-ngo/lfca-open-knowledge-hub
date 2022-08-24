@@ -80,6 +80,7 @@ export const UserIdSearchInput = ({
       }}
       onSearch={handleSearch}
       options={options}
+      placeholder="Search User"
       showSearch
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
