@@ -35,7 +35,7 @@ const Groups: NextPage = () => {
       <Main>
         <Section
           bordered={false}
-          title="All groups (comming soon...)"
+          title="All groups (coming soon...)"
           titleSize="big"
         >
           <EventsList
