@@ -1,0 +1,8 @@
+query companyActionExtendedDetails($input: CompanyActionInput!) {
+  companyAction(input: $input) {
+    # Here we fetch some data that is not already fetched with the companyActionsList query
+    # which uses the CompanyActionListItem fragment in order to have the same cache entry as
+    # with the companyActionsList query.
+    ...CompanyActionDetails
+  }
+}

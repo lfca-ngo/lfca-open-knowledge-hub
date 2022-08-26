@@ -1,6 +1,8 @@
 query companyActionDetails($input: CompanyActionInput!) {
   companyAction(input: $input) {
+    # We use the same fragment as with the companyActionsList query
+    # so that the GQL cache will immediately return the already existing data
+    # on the details page.
     ...CompanyActionListItem
-    ...CompanyActionDetails
   }
 }

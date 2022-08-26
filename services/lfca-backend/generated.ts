@@ -166,7 +166,6 @@ export type CompanyAction = {
   completedAt?: Maybe<Scalars['DateTime']>;
   contentId: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
-  customSections: Array<CustomSectionContent>;
   description?: Maybe<Scalars['String']>;
   editedAt?: Maybe<Scalars['DateTime']>;
   heroImage?: Maybe<ContentAsset>;
@@ -331,12 +330,6 @@ export type CreateUserInviteInput = {
    * Default: OFFICER.
    */
   userRole?: InputMaybe<Scalars['String']>;
-};
-
-export type CustomSectionContent = {
-  __typename?: 'CustomSectionContent';
-  componentId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
 };
 
 export type DeleteActionCommentInput = {
@@ -953,7 +946,7 @@ export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement'
 
 export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
-export type CompanyActionDetailsFragment = { __typename?: 'CompanyAction', id: string, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, serviceProviderCollection?: { __typename?: 'ServiceProviderCollection', title: string } | null };
+export type CompanyActionDetailsFragment = { __typename?: 'CompanyAction', id: string, serviceProviderCollection?: { __typename?: 'ServiceProviderCollection', title: string } | null };
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }> };
 
@@ -1172,7 +1165,14 @@ export type CompanyActionDetailsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyActionDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, serviceProviderCollection?: { __typename?: 'ServiceProviderCollection', title: string } | null } };
+export type CompanyActionDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }> } };
+
+export type CompanyActionExtendedDetailsQueryVariables = Exact<{
+  input: CompanyActionInput;
+}>;
+
+
+export type CompanyActionExtendedDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', id: string, serviceProviderCollection?: { __typename?: 'ServiceProviderCollection', title: string } | null } };
 
 export type CompanyActionsListQueryVariables = Exact<{
   input?: InputMaybe<CompanyActionsInput>;
@@ -1329,10 +1329,6 @@ export const CompanyAchievementFragmentDoc = gql`
     `;
 export const CompanyActionDetailsFragmentDoc = gql`
     fragment CompanyActionDetails on CompanyAction {
-  customSections {
-    id
-    componentId
-  }
   id
   serviceProviderCollection {
     title
@@ -1877,14 +1873,23 @@ export const CompanyActionDetailsDocument = gql`
     query companyActionDetails($input: CompanyActionInput!) {
   companyAction(input: $input) {
     ...CompanyActionListItem
-    ...CompanyActionDetails
   }
 }
-    ${CompanyActionListItemFragmentDoc}
-${CompanyActionDetailsFragmentDoc}`;
+    ${CompanyActionListItemFragmentDoc}`;
 
 export function useCompanyActionDetailsQuery(options: Omit<Urql.UseQueryArgs<CompanyActionDetailsQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyActionDetailsQuery>({ query: CompanyActionDetailsDocument, ...options });
+};
+export const CompanyActionExtendedDetailsDocument = gql`
+    query companyActionExtendedDetails($input: CompanyActionInput!) {
+  companyAction(input: $input) {
+    ...CompanyActionDetails
+  }
+}
+    ${CompanyActionDetailsFragmentDoc}`;
+
+export function useCompanyActionExtendedDetailsQuery(options: Omit<Urql.UseQueryArgs<CompanyActionExtendedDetailsQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyActionExtendedDetailsQuery>({ query: CompanyActionExtendedDetailsDocument, ...options });
 };
 export const CompanyActionsListDocument = gql`
     query companyActionsList($input: CompanyActionsInput) {

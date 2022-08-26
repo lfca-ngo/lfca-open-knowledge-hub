@@ -20,6 +20,7 @@ import {
   EMPTY_ACTION,
   useActionCommentAttachmentsQuery,
   useCompanyActionDetailsQuery,
+  useCompanyActionExtendedDetailsQuery,
 } from '../../services/lfca-backend'
 import { renderTools } from '../../tools'
 import { options } from '../../utils/richTextOptions'
@@ -36,6 +37,10 @@ const Action: NextPage<ActionProps> = ({ action }) => {
 
   const [{ data: actionData, fetching: fetchingActionData }] =
     useCompanyActionDetailsQuery({
+      variables: { input: { actionContentId: action.actionId } },
+    })
+  const [{ data: actionDataExtended, fetching: fetchingActionDataExtended }] =
+    useCompanyActionExtendedDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
   const [{ data: attachmentsData, fetching: fetchingAttachmentsData }] =
@@ -131,6 +136,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         {renderTools(
           action?.customSections?.filter((s) => s.position === 'sider')
         )}
+        <h1>
+          {actionDataExtended?.companyAction.serviceProviderCollection?.title}
+        </h1>
       </Sider>
     </SiderLayout>
   )
