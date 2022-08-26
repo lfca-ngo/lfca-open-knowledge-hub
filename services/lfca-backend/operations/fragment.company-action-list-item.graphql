@@ -13,6 +13,7 @@ fragment CompanyActionListItem on CompanyAction {
   }
   id
   impactValue
+  notes
   plannedAt
   recentCompaniesCompleted(limit: 3) {
     id
