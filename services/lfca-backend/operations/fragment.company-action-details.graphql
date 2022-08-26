@@ -1,0 +1,10 @@
+fragment CompanyActionDetails on CompanyAction {
+  customSections {
+    id
+    componentId
+  }
+  id
+  serviceProviderCollection {
+    title
+  }
+}

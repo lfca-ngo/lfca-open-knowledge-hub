@@ -1,14 +1,12 @@
 fragment CompanyActionListItem on CompanyAction {
+  categories {
+    ...Category
+  }
   commentAttachmentCount
   commentCount
   companiesCompletedCount
-  companiesPlannedCount
   completedAt
   contentId
-  customSections {
-    id
-    componentId
-  }
   heroImage {
     id
     url
@@ -26,9 +24,5 @@ fragment CompanyActionListItem on CompanyAction {
   requirements {
     ...CompanyActionRequirement
   }
-  categories {
-    ...Category
-  }
   title
-  notes
 }
