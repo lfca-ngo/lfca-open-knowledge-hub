@@ -1,0 +1,15 @@
+fragment ServiceProviderFilter on ServiceProviderFilter {
+  attribute
+  condition
+  id
+  label
+  question
+  type
+  values {
+    id
+    integerValue
+    label
+    stringValue
+    type
+  }
+}

@@ -1,6 +1,12 @@
+import {
+  BulbOutlined,
+  LockOutlined,
+  ThunderboltOutlined,
+} from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Tabs } from 'antd'
+import { Button, Divider, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { ActionBar } from '../../components/ActionBar'
@@ -8,8 +14,10 @@ import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
+import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
+import { PayWall } from '../../components/PayWall'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -22,8 +30,10 @@ import {
   useCompanyActionDetailsQuery,
   useCompanyActionExtendedDetailsQuery,
 } from '../../services/lfca-backend'
-import { renderTools } from '../../tools'
+import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
+import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { options } from '../../utils/richTextOptions'
+import { SETTINGS_SUBSCRIPTION } from '../../utils/routes'
 import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
@@ -39,7 +49,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
-  const [{ data: actionDataExtended }] = useCompanyActionExtendedDetailsQuery({
+  const [
+    { data: actionDataExtended, fetching: fetchingAttachmentsDataExtended },
+  ] = useCompanyActionExtendedDetailsQuery({
     variables: { input: { actionContentId: action.actionId } },
   })
   const [{ data: attachmentsData, fetching: fetchingAttachmentsData }] =
@@ -94,11 +106,58 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             </TabPane>
           </Tabs>
         </Section>
-        {/* Render additional sections */}
-        {renderTools(
-          action?.customSections?.filter((s) => s.position === 'main'),
-          true
-        )}
+        {/* Render optional service provider comparison */}
+        <PayWall
+          primer={
+            <EmptyState
+              actions={[
+                <Link href={SETTINGS_SUBSCRIPTION} key="upgrade" passHref>
+                  <Button icon={<ThunderboltOutlined />} type="primary">
+                    Upgrade
+                  </Button>
+                </Link>,
+              ]}
+              alignment="center"
+              bordered={false}
+              icon={<LockOutlined />}
+              size="large"
+              text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
+              title="Locked"
+              withBackground
+            />
+          }
+        >
+          {actionDataExtended?.companyAction.serviceProviderCollection ? (
+            <ServiceProviderComparison
+              loading={fetchingAttachmentsDataExtended}
+              serviceProviderCollection={
+                actionDataExtended.companyAction.serviceProviderCollection
+              }
+            />
+          ) : (
+            <EmptyState
+              actions={[
+                <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
+                  <Button size="large" type="primary">
+                    Share idea
+                  </Button>
+                </a>,
+              ]}
+              bordered
+              icon={<BulbOutlined />}
+              text={
+                <div>
+                  We are gradually adding more and more community powered
+                  content to the platform. You can check the{' '}
+                  <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
+                  as an example. If you have relevant content ideas for this
+                  module, please share them with us!
+                </div>
+              }
+              title="There is more to come..."
+            />
+          )}
+        </PayWall>
       </Main>
 
       <Sider>
@@ -131,13 +190,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <Section title="History">
           <ActionHistory contentId={actionData?.companyAction.contentId} />
         </Section>
-        {/* Render additional sections */}
-        {renderTools(
-          action?.customSections?.filter((s) => s.position === 'sider')
-        )}
-        <h1>
-          {actionDataExtended?.companyAction.serviceProviderCollection?.title}
-        </h1>
       </Sider>
     </SiderLayout>
   )

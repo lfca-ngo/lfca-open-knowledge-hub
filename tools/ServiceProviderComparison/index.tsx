@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react'
 
 import { Section } from '../../components/Layout'
 import {
+  ServiceProviderCollectionFragment,
+  ServiceProviderFilterCondition,
   ServiceProviderFragment,
-  useServiceProvidersQuery,
+  Tag,
 } from '../../services/lfca-backend'
-import { arrayContains, arrayContainsAll, numberInRange } from '../../utils'
+import { arrayContains, arrayContainsAll } from '../../utils'
 import { Assistant } from './Assistant'
 import { FeaturedProvider } from './FeaturedProvider'
 import { FilterForm, FilterFormItems } from './FilterForm'
@@ -18,57 +20,119 @@ import { SearchBar } from './SearchBar'
 
 const { TabPane } = Tabs
 
-export const ServiceProviderComparison = () => {
+interface ServiceProviderComparisonProps {
+  loading: boolean
+  serviceProviderCollection?: ServiceProviderCollectionFragment
+}
+
+export const ServiceProviderComparison = ({
+  loading,
+  serviceProviderCollection,
+}: ServiceProviderComparisonProps) => {
   const [activeProvider, setActiveProvider] =
     useState<ServiceProviderFragment | null>(null)
 
   // both filters reference the same form
   const [form] = Form.useForm()
 
-  // TODO: UI for error state
-  // TODO: Render skeleton whil loading
-  const [{ data, fetching }] = useServiceProvidersQuery()
-
   const [list, setList] = useState<ServiceProviderFragment[]>(
-    data?.serviceProviders || []
+    serviceProviderCollection?.items || []
   )
 
   useEffect(() => {
     // sort providers by amount of reviews
-    const sortedList = (data?.serviceProviders || []).sort((a, b) => {
+    const sortedList = (serviceProviderCollection?.items || []).sort((a, b) => {
       return b?.reviewsCount - a?.reviewsCount
     })
 
     setList(sortedList)
-  }, [data])
+  }, [serviceProviderCollection?.items])
 
   // filtering function
   const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
-    const { models, services, supplyChainComplexity } = allValues
-    const [cost] = allValues.cost || []
+    const filtered = serviceProviderCollection?.items.filter((provider) => {
+      // Check every individual filter value on each provider
+      return Object.keys(allValues).every((attribute) => {
+        let filterValue = allValues[attribute as keyof FilterFormItems]
 
-    const filtered = data?.serviceProviders.filter((provider) => {
-      const providerSupplyChainComplexity = provider.supplyChainComplexity?.map(
-        (s) => s.name || ''
-      )
-      const providerModels = provider.model?.map((m) => m.name || '')
-      const providerServices = provider.services?.map((s) => s.name || '')
-      const lowestPrice = provider.lowestPrice
+        // If no filter is set for an attribute, we do not need to filter anything and all entries are valid
+        if (filterValue === undefined) return true
 
-      const isValid =
-        arrayContains(models, providerModels) &&
-        arrayContainsAll(services, providerServices) &&
-        arrayContains(supplyChainComplexity, providerSupplyChainComplexity) &&
-        numberInRange(lowestPrice ?? undefined, cost)
+        // Wrap single select values within an array to be able to use a unified logic below
+        if (!Array.isArray(filterValue)) {
+          filterValue = [filterValue]
+        }
 
-      return isValid
+        // Deselecting a value from a multiselect can return in an empty array which is equal to no filter
+        if (!filterValue.length) return true
+
+        const providerValueForAttribute =
+          provider[attribute as keyof ServiceProviderFragment]
+
+        // If a provider does not have any value for the filtered attribute, it is filtered out
+        if (
+          providerValueForAttribute === null ||
+          providerValueForAttribute === undefined
+        )
+          return false
+
+        const filterConfig = serviceProviderCollection.filters.find(
+          (f) => f.attribute === attribute
+        )
+
+        if (!filterConfig) return true
+
+        switch (filterConfig.condition) {
+          case ServiceProviderFilterCondition.CONTAINS:
+            if (Array.isArray(providerValueForAttribute)) {
+              // IMPORTANT:
+              // If the filtered prop is an array we ALWAYS assume it is of type Tag
+              return arrayContains(
+                filterValue,
+                (providerValueForAttribute as Tag[]).map((v) => v.name || '')
+              )
+            } else {
+              return filterValue.includes(providerValueForAttribute)
+            }
+
+          case ServiceProviderFilterCondition.CONTAINS_ALL:
+            if (Array.isArray(providerValueForAttribute)) {
+              // IMPORTANT:
+              // If the filtered prop is an array we ALWAYS assume it is of type Tag
+              return arrayContainsAll(
+                filterValue,
+                (providerValueForAttribute as Tag[]).map((v) => v.name || '')
+              )
+            } else if (filterValue.length > 1) {
+              // multiple selected filteres can never be all contained in a provider if the provider value is just a single value
+              return false
+            } else {
+              return filterValue[0] === providerValueForAttribute
+            }
+
+          case ServiceProviderFilterCondition.VALUE_BELOW:
+            // valueBelow only works on numbers
+            if (typeof providerValueForAttribute !== 'number') return false
+            // We can not check below multiple values so if multiple filter values are selected we use the lowest value
+            // out of all number values
+            const lowestFilterValue = Math.min(
+              ...(filterValue.filter((v) => typeof v === 'number') as number[])
+            )
+            if (typeof lowestFilterValue !== 'number') return true
+
+            return providerValueForAttribute <= lowestFilterValue
+
+          default:
+            return true
+        }
+      })
     })
     setList(filtered || [])
   }
 
   // searches name and services
   const handleSearch = (value: string) => {
-    const filtered = data?.serviceProviders.filter((provider) => {
+    const filtered = serviceProviderCollection?.items.filter((provider) => {
       const providerName = provider.name
       const providerServices = provider.services?.map((service) => service.name)
       // find results regardless of case and completeness of search term
@@ -91,25 +155,33 @@ export const ServiceProviderComparison = () => {
       <Tabs defaultActiveKey="filter">
         <TabPane key="filter" tab="Filter">
           <FilterForm
+            filters={serviceProviderCollection?.filters || []}
             form={form}
             onValuesChange={handleChange}
-            providers={data?.serviceProviders || []}
+            providers={serviceProviderCollection?.items || []}
           />
         </TabPane>
         <TabPane key="assistant" tab="Assistant">
           <Assistant
             form={form}
             onValuesChange={handleChange}
-            providers={data?.serviceProviders || []}
+            providers={serviceProviderCollection?.items || []}
           />
         </TabPane>
       </Tabs>
 
-      <FeaturedProvider onOpenWebsite={openWebsite} />
+      {serviceProviderCollection?.featured.map((serviceProvider) => (
+        <FeaturedProvider
+          key={serviceProvider.id}
+          onOpenWebsite={openWebsite}
+          serviceProvider={serviceProvider}
+        />
+      ))}
+
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
-        loading={fetching}
+        loading={loading}
         pagination={{ pageSize: 10 }}
         renderItem={(item) => (
           <List.Item key={item.id}>

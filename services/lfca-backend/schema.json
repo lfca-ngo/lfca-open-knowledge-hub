@@ -2327,6 +2327,24 @@
             ]
           },
           {
+            "name": "serviceProviderCollection",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ServiceProviderCollection",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "serviceProviderReviews",
             "type": {
               "kind": "NON_NULL",
@@ -2744,16 +2762,19 @@
               "ofType": {
                 "kind": "LIST",
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ServiceProvider",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ServiceProvider",
+                    "ofType": null
+                  }
                 }
               }
             },
             "args": []
           },
           {
-            "name": "filter",
+            "name": "filters",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2819,6 +2840,17 @@
         "fields": [
           {
             "name": "attribute",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "condition",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

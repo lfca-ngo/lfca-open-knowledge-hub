@@ -31,8 +31,8 @@ export function toFixedNumber(num: number, digits: number, base = 10) {
 }
 
 export const arrayContains = (
-  selectedArray?: string[],
-  searchArray?: string[]
+  selectedArray?: (number | string)[],
+  searchArray?: (number | string)[]
 ) => {
   const isValid =
     selectedArray === undefined ||
@@ -43,22 +43,13 @@ export const arrayContains = (
 }
 
 export const arrayContainsAll = (
-  selectedArray?: string[],
-  searchArray?: string[]
+  selectedArray?: (number | string)[],
+  searchArray?: (number | string)[]
 ) => {
   const isValid =
     selectedArray === undefined ||
     selectedArray.length === 0 ||
     selectedArray?.every((entry) => searchArray?.includes(entry))
-
-  return isValid
-}
-
-export const numberInRange = (number?: number, range?: number[]) => {
-  const isValid =
-    range === undefined ||
-    range.length === 0 ||
-    (number !== undefined && range[0] <= number && range[1] >= number)
 
   return isValid
 }
@@ -146,7 +137,7 @@ export const toReadibleDate = (ts: string) => {
 }
 
 export const formatCurrency = (value: number | null | undefined) => {
-  if (!value) return '€ ?'
+  if (typeof value !== 'number') return '€ ?'
   return `€ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
 }
 

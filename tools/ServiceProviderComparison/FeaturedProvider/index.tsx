@@ -1,34 +1,45 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Alert, Avatar, Button } from 'antd'
 
-const NORMATIVE_URL = `https://businesscarboncalculator.normative.io/auth/signup`
+import { FeaturedServiceProviderFragment } from '../../../services/lfca-backend'
+
+interface FeaturedProviderProps {
+  onOpenWebsite: (url: string) => void
+  serviceProvider: FeaturedServiceProviderFragment
+}
 
 export const FeaturedProvider = ({
   onOpenWebsite,
-}: {
-  onOpenWebsite: (url: string) => void
-}) => {
+  serviceProvider,
+}: FeaturedProviderProps) => {
   return (
     <Alert
-      action={[
-        <Button
-          icon={<ArrowRightOutlined />}
-          key="start"
-          onClick={() => onOpenWebsite(NORMATIVE_URL)}
-          type="primary"
-        >
-          Open now
-        </Button>,
-      ]}
-      description="As an LFCA member, you can make use of Normative's Business Carbon Calculator free of charge. The tool is optimised for smaller businesses operating in a single market."
-      icon={
-        <Avatar
-          shape="square"
-          size="large"
-          src="/img/providers/normative.png"
-        />
+      action={
+        serviceProvider.featureCta
+          ? [
+              <Button
+                icon={<ArrowRightOutlined />}
+                key="start"
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                onClick={() => onOpenWebsite(serviceProvider.featureCta!)}
+                type="primary"
+              >
+                Open now
+              </Button>,
+            ]
+          : []
       }
-      message="Jumpstart your journey to net zero for free"
+      description={serviceProvider.featureDescription}
+      icon={
+        serviceProvider.featureImage ? (
+          <Avatar
+            shape="square"
+            size="large"
+            src={serviceProvider.featureImage.url}
+          />
+        ) : null
+      }
+      message={serviceProvider.featureTitle}
       showIcon
       type="info"
     />

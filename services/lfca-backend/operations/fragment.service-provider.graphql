@@ -5,13 +5,6 @@ fragment ServiceProvider on ServiceProvider {
   }
   description
   email
-  featureCta
-  featureDescription
-  featureImage {
-    id
-    url
-  }
-  featureTitle
   freeDemo
   highestPrice
   id

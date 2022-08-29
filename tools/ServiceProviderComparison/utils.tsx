@@ -1,27 +1,67 @@
 import { Option } from '../../components/MultiSelect'
-import { ServiceProviderFragment, Tag } from '../../services/lfca-backend'
+import {
+  ServiceProviderFilterFragment,
+  ServiceProviderFilterValueType,
+  ServiceProviderFragment,
+} from '../../services/lfca-backend'
 
-export const getUniqueTags = (
-  array: ServiceProviderFragment[],
-  key: keyof Pick<
-    ServiceProviderFragment,
-    'model' | 'services' | 'supplyChainComplexity'
-  >
-) =>
-  array?.reduce((acc, provider) => {
-    const tags = provider[key] || []
+interface FilterValue {
+  help?: string
+  id: string
+  label: string
+  sortWeight?: number
+  key: string | number
+}
+export const getFilterValues = (
+  providers: ServiceProviderFragment[],
+  key: keyof ServiceProviderFragment,
+  values: ServiceProviderFilterFragment['values']
+): FilterValue[] => {
+  if (values) {
+    return values.map((value) => ({
+      id: value.id,
+      key:
+        value.type === ServiceProviderFilterValueType.INTEGER
+          ? (value.integerValue as number)
+          : (value.stringValue as string),
+      label: value.label,
+    }))
+  }
 
-    for (const tag of tags) {
-      if (tag.name && acc.findIndex((t) => t.name === tag.name) < 0) {
-        acc.push(tag)
+  return providers.reduce((acc, provider) => {
+    const valueForProvider = provider[key]
+    if (!valueForProvider) return acc
+
+    if (!Array.isArray(valueForProvider)) {
+      if (acc.findIndex((v) => v.key === valueForProvider) < 0) {
+        acc.push({
+          help: undefined,
+          id: valueForProvider.toString(),
+          key: valueForProvider,
+          label: valueForProvider,
+          sortWeight: undefined,
+        })
       }
+    } else {
+      for (const tag of valueForProvider) {
+        if (tag.name && acc.findIndex((v) => v.key === tag.name) < 0) {
+          acc.push({
+            help: tag.help ?? undefined,
+            id: tag.id,
+            key: tag.name,
+            label: tag.name,
+            sortWeight: tag.sortWeight ?? undefined,
+          })
+        }
+      }
+
+      // sort acc by sortWeight
+      acc.sort((a, b) => (b.sortWeight || 0) - (a.sortWeight || 0))
     }
 
-    // sort acc by sortWeight
-    acc.sort((a, b) => (b.sortWeight || 0) - (a.sortWeight || 0))
-
     return acc
-  }, [] as Tag[]) as Tag[]
+  }, [] as FilterValue[])
+}
 
 export const PRICE_FILTER_OPTIONS: Option[] = [
   {
@@ -55,15 +95,6 @@ export const arrayContains = (
     selectedArray === undefined ||
     selectedArray.length === 0 ||
     searchArray?.some((entry) => selectedArray.includes(entry))
-
-  return isValid
-}
-
-export const numberInRange = (number?: number, range?: number[]) => {
-  const isValid =
-    range === undefined ||
-    range.length === 0 ||
-    (number !== undefined && range[0] <= number && range[1] >= number)
 
   return isValid
 }
