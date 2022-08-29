@@ -163,6 +163,7 @@ export const ServiceProviderComparison = ({
         </TabPane>
         <TabPane key="assistant" tab="Assistant">
           <Assistant
+            filters={serviceProviderCollection?.filters || []}
             form={form}
             onValuesChange={handleChange}
             providers={serviceProviderCollection?.items || []}
