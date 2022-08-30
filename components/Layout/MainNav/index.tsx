@@ -37,9 +37,9 @@ import {
   COMMUNITY,
   COMMUNITY_GROUPS,
   COMMUNITY_LINKS,
-  MEASUREMENT_SERVICE_PROVIDERS,
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
+  SERVICE_PROVIDERS,
   TOOLS,
 } from '../../../utils/routes'
 import { PaywallPopover } from '../../PayWall/PaywallPopover'
@@ -98,8 +98,8 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     children: [
       {
         icon: <AppstoreAddOutlined />,
-        key: MEASUREMENT_SERVICE_PROVIDERS,
-        label: 'Measurement Service Providers',
+        key: SERVICE_PROVIDERS,
+        label: 'Service Providers',
       },
       {
         icon: <CalculatorOutlined />,

@@ -11,7 +11,7 @@ import {
   fetchAllQuestionnaires,
 } from '../../services/contentful'
 import { useCompleteUserActionMutation } from '../../services/lfca-backend'
-import { PersonalCarbonCalculator } from '../../tools'
+import { PersonalCarbonCalculator } from '../../tools/PersonalCarbonCalculator'
 import { DEFAULT_COUNTRY } from '../../utils'
 import { withAuth } from '../../utils/with-auth'
 

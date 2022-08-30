@@ -1,0 +1,5 @@
+query serviceProviderLists {
+  serviceProviderLists {
+    ...ServiceProviderList
+  }
+}

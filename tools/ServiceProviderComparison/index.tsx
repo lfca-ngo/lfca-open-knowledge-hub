@@ -23,11 +23,13 @@ const { TabPane } = Tabs
 interface ServiceProviderComparisonProps {
   loading: boolean
   serviceProviderList?: ServiceProviderListFragment
+  showTitle?: boolean
 }
 
 export const ServiceProviderComparison = ({
   loading,
   serviceProviderList,
+  showTitle,
 }: ServiceProviderComparisonProps) => {
   const [activeProvider, setActiveProvider] =
     useState<ServiceProviderFragment | null>(null)
@@ -152,6 +154,7 @@ export const ServiceProviderComparison = ({
 
   return (
     <div className="service-provider-comparison">
+      {showTitle ? <h2>{serviceProviderList?.title}</h2> : null}
       <Tabs defaultActiveKey="filter">
         <TabPane key="filter" tab="Filter">
           <FilterForm

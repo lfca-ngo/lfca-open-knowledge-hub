@@ -133,6 +133,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
               serviceProviderList={
                 actionDataExtended.companyAction.serviceProviderList
               }
+              showTitle={true}
             />
           ) : (
             <EmptyState
