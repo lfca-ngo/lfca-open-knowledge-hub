@@ -1,3 +1,4 @@
+import { CompanyActionListItemFragment } from '../services/lfca-backend'
 import { RemoveNull } from '../types'
 
 export const isDev = process.env.NODE_ENV === 'development'
@@ -117,10 +118,8 @@ export const CSS_THEME_DARK = !isBrowser()
       ?.getPropertyValue('--THEME--DARK')
       .trim() || THEME_DARK
 
-export const actionHasReviews = (action: any) => {
-  return action?.customSections?.find(
-    (s: any) => s.componentId === MEASUREMENT_SERVICES_COMPARISON
-  )
+export const actionHasReviews = (action?: CompanyActionListItemFragment) => {
+  return !!action?.serviceProviderList?.id
 }
 
 export const getErrorMessage = (error: unknown) => {

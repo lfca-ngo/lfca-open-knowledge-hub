@@ -25,5 +25,8 @@ fragment CompanyActionListItem on CompanyAction {
   requirements {
     ...CompanyActionRequirement
   }
+  categories {
+    ...Category
+  }
   title
 }
