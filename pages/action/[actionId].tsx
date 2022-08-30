@@ -45,14 +45,21 @@ interface ActionProps {
 const Action: NextPage<ActionProps> = ({ action }) => {
   const router = useRouter()
 
-  const [{ data: actionData, fetching: fetchingActionData }] =
+  const [{ data: actionData, fetching: fetchingAction }] =
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
-  const [{ data: actionDataExtended }] = useCompanyActionExtendedDetailsQuery({
+  const [
+    {
+      data: actionDataExtended,
+      fetching: fetchingActionExtended,
+      stale: staleActionExtended,
+    },
+  ] = useCompanyActionExtendedDetailsQuery({
+    requestPolicy: 'cache-and-network',
     variables: { input: { actionContentId: action.actionId } },
   })
-  const [{ data: attachmentsData, fetching: fetchingAttachmentsData }] =
+  const [{ data: attachmentsData, fetching: fetchingAttachments }] =
     useActionCommentAttachmentsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
@@ -63,7 +70,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <Section>
           <ActionDetails
             action={actionData?.companyAction || EMPTY_ACTION}
-            fetching={fetchingActionData}
+            fetching={fetchingAction}
           />
         </Section>
         <Section>
@@ -125,9 +132,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             />
           }
         >
-          {!actionDataExtended?.companyAction ? (
+          {!fetchingActionExtended || staleActionExtended ? (
             <Spin />
-          ) : actionDataExtended.companyAction.serviceProviderList ? (
+          ) : actionDataExtended?.companyAction.serviceProviderList ? (
             <ServiceProviderComparison
               serviceProviderList={
                 actionDataExtended.companyAction.serviceProviderList
@@ -184,7 +191,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <Section title="Attachments">
           <AttachmentsList
             attachments={attachmentsData?.actionCommentAttachments || []}
-            fetching={fetchingAttachmentsData}
+            fetching={fetchingAttachments}
           />
         </Section>
         <Section title="History">
