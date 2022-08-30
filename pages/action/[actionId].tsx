@@ -132,7 +132,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             />
           }
         >
-          {!fetchingActionExtended || staleActionExtended ? (
+          {fetchingActionExtended || staleActionExtended ? (
             <Spin />
           ) : actionDataExtended?.companyAction.serviceProviderList ? (
             <ServiceProviderComparison
