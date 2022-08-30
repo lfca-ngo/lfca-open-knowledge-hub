@@ -5,10 +5,6 @@ fragment CompanyActionListItem on CompanyAction {
   companiesPlannedCount
   completedAt
   contentId
-  customSections {
-    id
-    componentId
-  }
   heroImage {
     id
     url
@@ -25,6 +21,9 @@ fragment CompanyActionListItem on CompanyAction {
   requiredForCompanyAchievementIds
   requirements {
     ...CompanyActionRequirement
+  }
+  serviceProviderList {
+    id
   }
   categories {
     ...Category
