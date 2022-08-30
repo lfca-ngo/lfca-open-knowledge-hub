@@ -126,9 +126,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             />
           }
         >
-          {fetchingActionDataExtended ? (
+          {!actionDataExtended?.companyAction ? (
             <Spin />
-          ) : actionDataExtended?.companyAction.serviceProviderList ? (
+          ) : actionDataExtended.companyAction.serviceProviderList ? (
             <ServiceProviderComparison
               serviceProviderList={
                 actionDataExtended.companyAction.serviceProviderList
