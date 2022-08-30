@@ -166,7 +166,6 @@ export type CompanyAction = {
   completedAt?: Maybe<Scalars['DateTime']>;
   contentId: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
-  customSections: Array<CustomSectionContent>;
   description?: Maybe<Scalars['String']>;
   editedAt?: Maybe<Scalars['DateTime']>;
   heroImage?: Maybe<ContentAsset>;
@@ -179,6 +178,7 @@ export type CompanyAction = {
   recommendedForCompanyAchievementIds: Array<Scalars['ID']>;
   requiredForCompanyAchievementIds: Array<Scalars['ID']>;
   requirements: Array<CompanyActionRequirement>;
+  serviceProviderList?: Maybe<ServiceProviderList>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -330,12 +330,6 @@ export type CreateUserInviteInput = {
    * Default: OFFICER.
    */
   userRole?: InputMaybe<Scalars['String']>;
-};
-
-export type CustomSectionContent = {
-  __typename?: 'CustomSectionContent';
-  componentId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
 };
 
 export type DeleteActionCommentInput = {
@@ -579,6 +573,7 @@ export type Query = {
   qualifiedCompanies: Array<Company>;
   searchCompany: Array<Company>;
   searchUser: Array<User>;
+  serviceProviderLists: Array<ServiceProviderList>;
   serviceProviderReviews: ServiceProviderReviewsResult;
   serviceProviders: Array<ServiceProvider>;
   user: User;
@@ -708,6 +703,10 @@ export type ServiceProvider = {
   certifications: Array<Tag>;
   description?: Maybe<Scalars['JSON']>;
   email?: Maybe<Scalars['String']>;
+  featureCta?: Maybe<Scalars['String']>;
+  featureDescription?: Maybe<Scalars['String']>;
+  featureImage?: Maybe<ContentAsset>;
+  featureTitle?: Maybe<Scalars['String']>;
   freeDemo: Scalars['Boolean'];
   highestPrice?: Maybe<Scalars['Int']>;
   id: Scalars['ID'];
@@ -724,6 +723,51 @@ export type ServiceProvider = {
   supplyChainComplexity: Array<Tag>;
   website?: Maybe<Scalars['String']>;
   year?: Maybe<Scalars['Int']>;
+};
+
+export type ServiceProviderFilter = {
+  __typename?: 'ServiceProviderFilter';
+  attribute: Scalars['String'];
+  condition: ServiceProviderFilterCondition;
+  id: Scalars['ID'];
+  label: Scalars['String'];
+  question?: Maybe<Scalars['String']>;
+  type: ServiceProviderFilterType;
+  values?: Maybe<Array<ServiceProviderFilterValue>>;
+};
+
+export enum ServiceProviderFilterCondition {
+  CONTAINS = 'CONTAINS',
+  CONTAINS_ALL = 'CONTAINS_ALL',
+  VALUE_BELOW = 'VALUE_BELOW'
+}
+
+export enum ServiceProviderFilterType {
+  MULTISELECT = 'MULTISELECT',
+  SELECT = 'SELECT'
+}
+
+export type ServiceProviderFilterValue = {
+  __typename?: 'ServiceProviderFilterValue';
+  id: Scalars['ID'];
+  integerValue?: Maybe<Scalars['Int']>;
+  label: Scalars['String'];
+  stringValue?: Maybe<Scalars['String']>;
+  type: ServiceProviderFilterValueType;
+};
+
+export enum ServiceProviderFilterValueType {
+  INTEGER = 'INTEGER',
+  STRING = 'STRING'
+}
+
+export type ServiceProviderList = {
+  __typename?: 'ServiceProviderList';
+  featured: Array<ServiceProvider>;
+  filters: Array<ServiceProviderFilter>;
+  id: Scalars['ID'];
+  items: Array<ServiceProvider>;
+  title: Scalars['String'];
 };
 
 export type ServiceProviderReview = {
@@ -920,7 +964,7 @@ export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement'
 
 export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
-export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> };
+export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> };
 
 export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string };
 
@@ -956,7 +1000,7 @@ export type CompleteCompanyActionMutationVariables = Exact<{
 }>;
 
 
-export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
 
 export type CompleteUserActionMutationVariables = Exact<{
   input: CompleteUserActionInput;
@@ -1050,7 +1094,7 @@ export type PlanCompanyActionMutationVariables = Exact<{
 }>;
 
 
-export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
 
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
@@ -1137,14 +1181,14 @@ export type CompanyActionDetailsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyActionDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+export type CompanyActionDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
 
 export type CompanyActionsListQueryVariables = Exact<{
   input?: InputMaybe<CompanyActionsInput>;
 }>;
 
 
-export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, customSections: Array<{ __typename?: 'CustomSectionContent', id: string, componentId?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> }> };
+export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> }> };
 
 export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1315,10 +1359,6 @@ export const CompanyActionListItemFragmentDoc = gql`
   companiesPlannedCount
   completedAt
   contentId
-  customSections {
-    id
-    componentId
-  }
   heroImage {
     id
     url
@@ -1335,6 +1375,9 @@ export const CompanyActionListItemFragmentDoc = gql`
   requiredForCompanyAchievementIds
   requirements {
     ...CompanyActionRequirement
+  }
+  serviceProviderList {
+    id
   }
   categories {
     ...Category

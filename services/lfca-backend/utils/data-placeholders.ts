@@ -14,7 +14,6 @@ export const EMPTY_ACTION: CompanyActionListItemFragment = {
   companiesPlannedCount: 0,
   completedAt: null,
   contentId: '',
-  customSections: [],
   heroImage: {
     id: '',
     url: '',
