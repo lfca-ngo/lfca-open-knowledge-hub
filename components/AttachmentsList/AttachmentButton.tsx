@@ -22,7 +22,6 @@ export const AttachmentButton = ({
     <Button
       className="no-padding"
       key={attachment.source}
-      onClick={() => window.open(attachment.source, '_blank')}
       size={size === 'default' ? 'middle' : size}
       type="link"
     >
