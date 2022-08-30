@@ -42,67 +42,6 @@ export const Assistant = ({
     sliderRef.current?.goTo(activeSlide + 1)
   }
 
-  // const formItems = [
-  //   {
-  //     component: (
-  //       <Form.Item key="supply" name="supplyChainComplexity">
-  //         <MultiSelect
-  //           grouped={false}
-  //           mode="single"
-  //           options={supplyChainComplexityOptions.map((m) => ({
-  //             help: m.help as string,
-  //             key: m.name as string,
-  //             label: m.name as string,
-  //           }))}
-  //         />
-  //       </Form.Item>
-  //     ),
-  //     label: 'How complex is your supply chain?',
-  //   },
-  //   {
-  //     component: (
-  //       <Form.Item key="services" name="services">
-  //         <MultiSelect
-  //           grouped={false}
-  //           options={serviceOptions.map((m) => ({
-  //             help: m.help as string,
-  //             key: m.name as string,
-  //             label: m.name as string,
-  //           }))}
-  //         />
-  //       </Form.Item>
-  //     ),
-  //     label: 'What kind of services do you need support with?',
-  //   },
-  //   {
-  //     component: (
-  //       <Form.Item key="models" name="models">
-  //         <MultiSelect
-  //           grouped={false}
-  //           options={modelOptions.map((m) => ({
-  //             help: m.help as string,
-  //             key: m.name as string,
-  //             label: m.name as string,
-  //           }))}
-  //         />
-  //       </Form.Item>
-  //     ),
-  //     label: 'Which model will make most sense for you?',
-  //   },
-  //   {
-  //     component: (
-  //       <Form.Item key="cost" name="cost">
-  //         <MultiSelect
-  //           grouped={false}
-  //           mode="single"
-  //           options={PRICE_FILTER_OPTIONS}
-  //         />
-  //       </Form.Item>
-  //     ),
-  //     label: 'How much budget do you have?',
-  //   },
-  // ]
-
   const renderInput = (filter: ServiceProviderFilterFragment) => {
     const possibleValues = getFilterValues(
       providers,
