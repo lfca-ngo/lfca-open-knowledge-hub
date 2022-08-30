@@ -49,10 +49,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
-  const [{ data: actionDataExtended, fetching: fetchingActionDataExtended }] =
-    useCompanyActionExtendedDetailsQuery({
-      variables: { input: { actionContentId: action.actionId } },
-    })
+  const [{ data: actionDataExtended }] = useCompanyActionExtendedDetailsQuery({
+    variables: { input: { actionContentId: action.actionId } },
+  })
   const [{ data: attachmentsData, fetching: fetchingAttachmentsData }] =
     useActionCommentAttachmentsQuery({
       variables: { input: { actionContentId: action.actionId } },
