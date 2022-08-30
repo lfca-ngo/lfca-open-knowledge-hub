@@ -126,9 +126,9 @@ export const CommentForm = ({
             title="This note will be only visible to you. You can save your companies' carbon footprint or other data that you would like to access later on."
           >
             <Checkbox
+              checked={notesVisible}
               className="text-black"
               onChange={(e) => setNotesVisible(e.target.checked)}
-              value={notesVisible}
             >
               Add a private note <QuestionCircleOutlined />{' '}
             </Checkbox>

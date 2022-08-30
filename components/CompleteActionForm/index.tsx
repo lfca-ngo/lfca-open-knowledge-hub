@@ -77,7 +77,7 @@ export const CompleteActionForm = ({
     <Section title="Share your learnings">
       {withReviewForm && (
         <>
-          <ReviewForm />
+          <ReviewForm actionContentId={actionContentId} />
           <Divider />
         </>
       )}
