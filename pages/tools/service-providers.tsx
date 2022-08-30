@@ -26,7 +26,6 @@ const ServiceProviders: NextPage = () => {
                   {data?.serviceProviderLists.map((serviceProviderList, i) => (
                     <TabPane key={i.toString()} tab={serviceProviderList.title}>
                       <ServiceProviderComparison
-                        loading={false}
                         serviceProviderList={serviceProviderList}
                       />
                     </TabPane>

@@ -21,13 +21,11 @@ import { SearchBar } from './SearchBar'
 const { TabPane } = Tabs
 
 interface ServiceProviderComparisonProps {
-  loading: boolean
   serviceProviderList?: ServiceProviderListFragment
   showTitle?: boolean
 }
 
 export const ServiceProviderComparison = ({
-  loading,
   serviceProviderList,
   showTitle,
 }: ServiceProviderComparisonProps) => {
@@ -185,7 +183,6 @@ export const ServiceProviderComparison = ({
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
-        loading={loading}
         pagination={{ pageSize: 10 }}
         renderItem={(item) => (
           <List.Item key={item.id}>

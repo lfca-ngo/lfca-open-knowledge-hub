@@ -4,7 +4,7 @@ import {
   ThunderboltOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Divider, Tabs } from 'antd'
+import { Button, Divider, Spin, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -49,11 +49,10 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
     })
-  const [
-    { data: actionDataExtended, fetching: fetchingAttachmentsDataExtended },
-  ] = useCompanyActionExtendedDetailsQuery({
-    variables: { input: { actionContentId: action.actionId } },
-  })
+  const [{ data: actionDataExtended, fetching: fetchingActionDataExtended }] =
+    useCompanyActionExtendedDetailsQuery({
+      variables: { input: { actionContentId: action.actionId } },
+    })
   const [{ data: attachmentsData, fetching: fetchingAttachmentsData }] =
     useActionCommentAttachmentsQuery({
       variables: { input: { actionContentId: action.actionId } },
@@ -127,9 +126,10 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             />
           }
         >
-          {actionDataExtended?.companyAction.serviceProviderList ? (
+          {fetchingActionDataExtended ? (
+            <Spin />
+          ) : actionDataExtended?.companyAction.serviceProviderList ? (
             <ServiceProviderComparison
-              loading={fetchingAttachmentsDataExtended}
               serviceProviderList={
                 actionDataExtended.companyAction.serviceProviderList
               }
