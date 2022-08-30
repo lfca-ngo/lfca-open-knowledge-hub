@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react'
 
 import { Section } from '../../components/Layout'
 import {
-  ServiceProviderCollectionFragment,
   ServiceProviderFilterCondition,
   ServiceProviderFragment,
+  ServiceProviderListFragment,
   Tag,
 } from '../../services/lfca-backend'
 import { arrayContains, arrayContainsAll } from '../../utils'
@@ -22,12 +22,12 @@ const { TabPane } = Tabs
 
 interface ServiceProviderComparisonProps {
   loading: boolean
-  serviceProviderCollection?: ServiceProviderCollectionFragment
+  serviceProviderList?: ServiceProviderListFragment
 }
 
 export const ServiceProviderComparison = ({
   loading,
-  serviceProviderCollection,
+  serviceProviderList,
 }: ServiceProviderComparisonProps) => {
   const [activeProvider, setActiveProvider] =
     useState<ServiceProviderFragment | null>(null)
@@ -36,21 +36,21 @@ export const ServiceProviderComparison = ({
   const [form] = Form.useForm()
 
   const [list, setList] = useState<ServiceProviderFragment[]>(
-    serviceProviderCollection?.items || []
+    serviceProviderList?.items || []
   )
 
   useEffect(() => {
     // sort providers by amount of reviews
-    const sortedList = (serviceProviderCollection?.items || []).sort((a, b) => {
+    const sortedList = (serviceProviderList?.items || []).sort((a, b) => {
       return b?.reviewsCount - a?.reviewsCount
     })
 
     setList(sortedList)
-  }, [serviceProviderCollection?.items])
+  }, [serviceProviderList?.items])
 
   // filtering function
   const handleChange = (_: FilterFormItems, allValues: FilterFormItems) => {
-    const filtered = serviceProviderCollection?.items.filter((provider) => {
+    const filtered = serviceProviderList?.items.filter((provider) => {
       // Check every individual filter value on each provider
       return Object.keys(allValues).every((attribute) => {
         let filterValue = allValues[attribute as keyof FilterFormItems]
@@ -76,7 +76,7 @@ export const ServiceProviderComparison = ({
         )
           return false
 
-        const filterConfig = serviceProviderCollection.filters.find(
+        const filterConfig = serviceProviderList.filters.find(
           (f) => f.attribute === attribute
         )
 
@@ -132,7 +132,7 @@ export const ServiceProviderComparison = ({
 
   // searches name and services
   const handleSearch = (value: string) => {
-    const filtered = serviceProviderCollection?.items.filter((provider) => {
+    const filtered = serviceProviderList?.items.filter((provider) => {
       const providerName = provider.name
       const providerServices = provider.services?.map((service) => service.name)
       // find results regardless of case and completeness of search term
@@ -155,23 +155,23 @@ export const ServiceProviderComparison = ({
       <Tabs defaultActiveKey="filter">
         <TabPane key="filter" tab="Filter">
           <FilterForm
-            filters={serviceProviderCollection?.filters || []}
+            filters={serviceProviderList?.filters || []}
             form={form}
             onValuesChange={handleChange}
-            providers={serviceProviderCollection?.items || []}
+            providers={serviceProviderList?.items || []}
           />
         </TabPane>
         <TabPane key="assistant" tab="Assistant">
           <Assistant
-            filters={serviceProviderCollection?.filters || []}
+            filters={serviceProviderList?.filters || []}
             form={form}
             onValuesChange={handleChange}
-            providers={serviceProviderCollection?.items || []}
+            providers={serviceProviderList?.items || []}
           />
         </TabPane>
       </Tabs>
 
-      {serviceProviderCollection?.featured.map((serviceProvider) => (
+      {serviceProviderList?.featured.map((serviceProvider) => (
         <FeaturedProvider
           key={serviceProvider.id}
           onOpenWebsite={openWebsite}

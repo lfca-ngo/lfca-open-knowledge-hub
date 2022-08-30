@@ -1,4 +1,4 @@
-fragment ServiceProviderCollection on ServiceProviderCollection {
+fragment ServiceProviderList on ServiceProviderList {
   featured {
     ...FeaturedServiceProvider
   }

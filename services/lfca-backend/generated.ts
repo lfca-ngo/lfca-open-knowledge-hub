@@ -178,7 +178,7 @@ export type CompanyAction = {
   recommendedForCompanyAchievementIds: Array<Scalars['ID']>;
   requiredForCompanyAchievementIds: Array<Scalars['ID']>;
   requirements: Array<CompanyActionRequirement>;
-  serviceProviderCollection?: Maybe<ServiceProviderCollection>;
+  serviceProviderList?: Maybe<ServiceProviderList>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -573,7 +573,7 @@ export type Query = {
   qualifiedCompanies: Array<Company>;
   searchCompany: Array<Company>;
   searchUser: Array<User>;
-  serviceProviderCollection: Array<ServiceProviderCollection>;
+  serviceProviderLists: Array<ServiceProviderList>;
   serviceProviderReviews: ServiceProviderReviewsResult;
   serviceProviders: Array<ServiceProvider>;
   user: User;
@@ -725,15 +725,6 @@ export type ServiceProvider = {
   year?: Maybe<Scalars['Int']>;
 };
 
-export type ServiceProviderCollection = {
-  __typename?: 'ServiceProviderCollection';
-  featured: Array<ServiceProvider>;
-  filters: Array<ServiceProviderFilter>;
-  id: Scalars['ID'];
-  items: Array<ServiceProvider>;
-  title: Scalars['String'];
-};
-
 export type ServiceProviderFilter = {
   __typename?: 'ServiceProviderFilter';
   attribute: Scalars['String'];
@@ -769,6 +760,15 @@ export enum ServiceProviderFilterValueType {
   INTEGER = 'INTEGER',
   STRING = 'STRING'
 }
+
+export type ServiceProviderList = {
+  __typename?: 'ServiceProviderList';
+  featured: Array<ServiceProvider>;
+  filters: Array<ServiceProviderFilter>;
+  id: Scalars['ID'];
+  items: Array<ServiceProvider>;
+  title: Scalars['String'];
+};
 
 export type ServiceProviderReview = {
   __typename?: 'ServiceProviderReview';
@@ -964,7 +964,7 @@ export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement'
 
 export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
-export type CompanyActionDetailsFragment = { __typename?: 'CompanyAction', id: string, serviceProviderCollection?: { __typename?: 'ServiceProviderCollection', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null };
+export type CompanyActionDetailsFragment = { __typename?: 'CompanyAction', id: string, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null };
 
 export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }> };
 
@@ -978,9 +978,9 @@ export type EventFragment = { __typename?: 'Event', description: string, end?: a
 
 export type FeaturedServiceProviderFragment = { __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null };
 
-export type ServiceProviderCollectionFragment = { __typename?: 'ServiceProviderCollection', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> };
-
 export type ServiceProviderFilterFragment = { __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null };
+
+export type ServiceProviderListFragment = { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> };
 
 export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, isAnonymous: boolean, price?: number | null, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null };
 
@@ -1196,7 +1196,7 @@ export type CompanyActionExtendedDetailsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyActionExtendedDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', id: string, serviceProviderCollection?: { __typename?: 'ServiceProviderCollection', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null } };
+export type CompanyActionExtendedDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', id: string, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null } };
 
 export type CompanyActionsListQueryVariables = Exact<{
   input?: InputMaybe<CompanyActionsInput>;
@@ -1425,8 +1425,8 @@ export const ServiceProviderFragmentDoc = gql`
   website
 }
     ${TagFragmentDoc}`;
-export const ServiceProviderCollectionFragmentDoc = gql`
-    fragment ServiceProviderCollection on ServiceProviderCollection {
+export const ServiceProviderListFragmentDoc = gql`
+    fragment ServiceProviderList on ServiceProviderList {
   featured {
     ...FeaturedServiceProvider
   }
@@ -1445,11 +1445,11 @@ ${ServiceProviderFragmentDoc}`;
 export const CompanyActionDetailsFragmentDoc = gql`
     fragment CompanyActionDetails on CompanyAction {
   id
-  serviceProviderCollection {
-    ...ServiceProviderCollection
+  serviceProviderList {
+    ...ServiceProviderList
   }
 }
-    ${ServiceProviderCollectionFragmentDoc}`;
+    ${ServiceProviderListFragmentDoc}`;
 export const CategoryFragmentDoc = gql`
     fragment Category on Category {
   id

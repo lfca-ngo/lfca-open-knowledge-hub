@@ -127,11 +127,11 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             />
           }
         >
-          {actionDataExtended?.companyAction.serviceProviderCollection ? (
+          {actionDataExtended?.companyAction.serviceProviderList ? (
             <ServiceProviderComparison
               loading={fetchingAttachmentsDataExtended}
-              serviceProviderCollection={
-                actionDataExtended.companyAction.serviceProviderCollection
+              serviceProviderList={
+                actionDataExtended.companyAction.serviceProviderList
               }
             />
           ) : (

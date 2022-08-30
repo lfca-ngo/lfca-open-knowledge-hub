@@ -1,6 +1,6 @@
 fragment CompanyActionDetails on CompanyAction {
   id
-  serviceProviderCollection {
-    ...ServiceProviderCollection
+  serviceProviderList {
+    ...ServiceProviderList
   }
 }

@@ -962,10 +962,10 @@
             "args": []
           },
           {
-            "name": "serviceProviderCollection",
+            "name": "serviceProviderList",
             "type": {
               "kind": "OBJECT",
-              "name": "ServiceProviderCollection",
+              "name": "ServiceProviderList",
               "ofType": null
             },
             "args": []
@@ -2327,7 +2327,7 @@
             ]
           },
           {
-            "name": "serviceProviderCollection",
+            "name": "serviceProviderLists",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2336,7 +2336,7 @@
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "ServiceProviderCollection",
+                    "name": "ServiceProviderList",
                     "ofType": null
                   }
                 }
@@ -2753,89 +2753,6 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ServiceProviderCollection",
-        "fields": [
-          {
-            "name": "featured",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ServiceProvider",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "filters",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ServiceProviderFilter",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "items",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ServiceProvider",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
-      },
-      {
-        "kind": "OBJECT",
         "name": "ServiceProviderFilter",
         "fields": [
           {
@@ -2963,6 +2880,89 @@
           },
           {
             "name": "type",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ServiceProviderList",
+        "fields": [
+          {
+            "name": "featured",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ServiceProvider",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "filters",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ServiceProviderFilter",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "items",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ServiceProvider",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "title",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
