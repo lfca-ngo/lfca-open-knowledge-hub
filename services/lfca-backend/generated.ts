@@ -411,6 +411,7 @@ export type Mutation = {
   completeCompanyActionRequirement: CompanyActionRequirement;
   completeUserAction: UserAction;
   createActionComment: ActionComment;
+  createActionCommentExport: Scalars['String'];
   createCompany: Company;
   createCompanyExport: Scalars['String'];
   createEventParticipationRequest: EventParticipationRequest;
@@ -1016,6 +1017,11 @@ export type CompleteUserActionMutationVariables = Exact<{
 
 
 export type CompleteUserActionMutation = { __typename?: 'Mutation', completeUserAction: { __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null } };
+
+export type CreateActionCommentExportMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateActionCommentExportMutation = { __typename?: 'Mutation', createActionCommentExport: string };
 
 export type CreateActionCommentMutationVariables = Exact<{
   input: CreateActionCommentInput;
@@ -1656,6 +1662,15 @@ export const CompleteUserActionDocument = gql`
 
 export function useCompleteUserActionMutation() {
   return Urql.useMutation<CompleteUserActionMutation, CompleteUserActionMutationVariables>(CompleteUserActionDocument);
+};
+export const CreateActionCommentExportDocument = gql`
+    mutation createActionCommentExport {
+  createActionCommentExport
+}
+    `;
+
+export function useCreateActionCommentExportMutation() {
+  return Urql.useMutation<CreateActionCommentExportMutation, CreateActionCommentExportMutationVariables>(CreateActionCommentExportDocument);
 };
 export const CreateActionCommentDocument = gql`
     mutation createActionComment($input: CreateActionCommentInput!) {

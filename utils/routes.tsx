@@ -16,6 +16,7 @@ export const ADMIN_ACTIONS = '/admin/actions'
 export const ADMIN_GROUPS = '/admin/groups'
 export const ADMIN = '/admin'
 export const ADMIN_REVIEWS = '/admin/reviews'
+export const ADMIN_COMMENTS = '/admin/comments'
 // Settings
 export const SETTINGS = '/settings'
 export const SETTINGS_INVITE = '/settings/invite'
