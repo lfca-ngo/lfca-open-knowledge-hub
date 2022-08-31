@@ -14,6 +14,7 @@ import {
   QuestionCircleOutlined,
   RocketOutlined,
   ShareAltOutlined,
+  StarOutlined,
   TeamOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
@@ -30,6 +31,7 @@ import {
   ACTIONS_PLANNED,
   ADMIN,
   ADMIN_ACTIONS,
+  ADMIN_COMMENTS,
   ADMIN_COMPANIES,
   ADMIN_GROUPS,
   ADMIN_REVIEWS,
@@ -142,9 +144,14 @@ const NAV_ITEMS_ADMIN: MenuProps['items'] = [
         label: 'Groups',
       },
       {
-        icon: <MessageOutlined />,
+        icon: <StarOutlined />,
         key: ADMIN_REVIEWS,
         label: 'Reviews',
+      },
+      {
+        icon: <MessageOutlined />,
+        key: ADMIN_COMMENTS,
+        label: 'Comments',
       },
       {
         icon: <AppstoreOutlined />,

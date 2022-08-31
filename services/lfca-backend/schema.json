@@ -1523,6 +1523,17 @@
             ]
           },
           {
+            "name": "createActionCommentExport",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "createCompany",
             "type": {
               "kind": "NON_NULL",
