@@ -169,7 +169,8 @@ export const ProviderCard = ({
           </Button>
 
           <div className="ranges">
-            {(provider.highestPrice || provider.lowestPrice) &&
+            {(typeof provider.highestPrice === 'number' ||
+              typeof provider.lowestPrice === 'number') &&
             provider.reviewsCount > 2 ? (
               <Popover
                 content="The price range (yearly) is based on experiences shared by

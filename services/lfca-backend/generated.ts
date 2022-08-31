@@ -964,7 +964,9 @@ export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement'
 
 export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
-export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> };
+export type CompanyActionDetailsFragment = { __typename?: 'CompanyAction', id: string, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null };
+
+export type CompanyActionListItemFragment = { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null };
 
 export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string };
 
@@ -974,11 +976,17 @@ export type EventParticipationRequestFragment = { __typename?: 'EventParticipati
 
 export type EventFragment = { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string };
 
+export type FeaturedServiceProviderFragment = { __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null };
+
+export type ServiceProviderFilterFragment = { __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null };
+
+export type ServiceProviderListFragment = { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> };
+
 export type ServiceProviderReviewFragment = { __typename?: 'ServiceProviderReview', cons: Array<string>, createdAt: any, id: string, isAnonymous: boolean, price?: number | null, pros: Array<string>, rating: number, review: string, serviceProviderContentId: string, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null } | null };
 
-export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }> };
+export type ServiceProviderFragment = { __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> };
 
-export type TagFragment = { __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null };
+export type TagFragment = { __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null };
 
 export type UserActionFragment = { __typename?: 'UserAction', id: string, notes?: string | null, contentId: string, completedAt?: any | null, createdAt: any, values?: any | null };
 
@@ -1000,7 +1008,7 @@ export type CompleteCompanyActionMutationVariables = Exact<{
 }>;
 
 
-export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+export type CompleteCompanyActionMutation = { __typename?: 'Mutation', completeCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null } };
 
 export type CompleteUserActionMutationVariables = Exact<{
   input: CompleteUserActionInput;
@@ -1094,7 +1102,7 @@ export type PlanCompanyActionMutationVariables = Exact<{
 }>;
 
 
-export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null } };
 
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
@@ -1181,14 +1189,21 @@ export type CompanyActionDetailsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyActionDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> } };
+export type CompanyActionDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null } };
+
+export type CompanyActionExtendedDetailsQueryVariables = Exact<{
+  input: CompanyActionInput;
+}>;
+
+
+export type CompanyActionExtendedDetailsQuery = { __typename?: 'Query', companyAction: { __typename?: 'CompanyAction', id: string, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null } };
 
 export type CompanyActionsListQueryVariables = Exact<{
   input?: InputMaybe<CompanyActionsInput>;
 }>;
 
 
-export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, companiesPlannedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, notes?: string | null, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }> }> };
+export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesCompletedCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesCompleted: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null }> };
 
 export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1223,6 +1238,11 @@ export type SearchUserQueryVariables = Exact<{
 
 export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null }> };
 
+export type ServiceProviderListsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ServiceProviderListsQuery = { __typename?: 'Query', serviceProviderLists: Array<{ __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> }> };
+
 export type ServiceProviderReviewsQueryVariables = Exact<{
   input: ServiceProviderReviewsInput;
 }>;
@@ -1235,7 +1255,7 @@ export type ServiceProvidersQueryVariables = Exact<{
 }>;
 
 
-export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, highestPrice?: number | null, lowestPrice?: number | null, reviewsCount: number, description?: any | null, id: string, memberId?: string | null, name: string, size?: string | null, year?: number | null, email?: string | null, website?: string | null, isPrivate: boolean, freeDemo: boolean, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, services: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, languages: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }>, certifications: Array<{ __typename?: 'Tag', id: string, name?: string | null, sortWeight?: number | null, help?: string | null }> }> };
+export type ServiceProvidersQuery = { __typename?: 'Query', serviceProviders: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, certifications: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, languages: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, model: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, services: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }>, supplyChainComplexity: Array<{ __typename?: 'Tag', help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> };
 
 export type UserActionsListQueryVariables = Exact<{
   input?: InputMaybe<UserActionsInput>;
@@ -1336,6 +1356,111 @@ export const CompanyAchievementFragmentDoc = gql`
   editableCompanyProperties
 }
     `;
+export const FeaturedServiceProviderFragmentDoc = gql`
+    fragment FeaturedServiceProvider on ServiceProvider {
+  featureCta
+  featureDescription
+  featureImage {
+    id
+    url
+  }
+  featureTitle
+  id
+}
+    `;
+export const ServiceProviderFilterFragmentDoc = gql`
+    fragment ServiceProviderFilter on ServiceProviderFilter {
+  attribute
+  condition
+  id
+  label
+  question
+  type
+  values {
+    id
+    integerValue
+    label
+    stringValue
+    type
+  }
+}
+    `;
+export const TagFragmentDoc = gql`
+    fragment Tag on Tag {
+  help
+  id
+  name
+  sortWeight
+}
+    `;
+export const ServiceProviderFragmentDoc = gql`
+    fragment ServiceProvider on ServiceProvider {
+  averageRating
+  certifications {
+    ...Tag
+  }
+  description
+  email
+  freeDemo
+  highestPrice
+  id
+  isPrivate
+  languages {
+    ...Tag
+  }
+  logo {
+    id
+    url
+  }
+  lowestPrice
+  memberId
+  model {
+    ...Tag
+  }
+  name
+  reviewsCount
+  services {
+    ...Tag
+  }
+  size
+  supplyChainComplexity {
+    ...Tag
+  }
+  year
+  website
+}
+    ${TagFragmentDoc}`;
+export const ServiceProviderListFragmentDoc = gql`
+    fragment ServiceProviderList on ServiceProviderList {
+  featured {
+    ...FeaturedServiceProvider
+  }
+  filters {
+    ...ServiceProviderFilter
+  }
+  id
+  items {
+    ...ServiceProvider
+  }
+  title
+}
+    ${FeaturedServiceProviderFragmentDoc}
+${ServiceProviderFilterFragmentDoc}
+${ServiceProviderFragmentDoc}`;
+export const CompanyActionDetailsFragmentDoc = gql`
+    fragment CompanyActionDetails on CompanyAction {
+  id
+  serviceProviderList {
+    ...ServiceProviderList
+  }
+}
+    ${ServiceProviderListFragmentDoc}`;
+export const CategoryFragmentDoc = gql`
+    fragment Category on Category {
+  id
+  name
+}
+    `;
 export const CompanyActionRequirementFragmentDoc = gql`
     fragment CompanyActionRequirement on CompanyActionRequirement {
   contentId
@@ -1345,18 +1470,14 @@ export const CompanyActionRequirementFragmentDoc = gql`
   id
 }
     `;
-export const CategoryFragmentDoc = gql`
-    fragment Category on Category {
-  id
-  name
-}
-    `;
 export const CompanyActionListItemFragmentDoc = gql`
     fragment CompanyActionListItem on CompanyAction {
+  categories {
+    ...Category
+  }
   commentAttachmentCount
   commentCount
   companiesCompletedCount
-  companiesPlannedCount
   completedAt
   contentId
   heroImage {
@@ -1365,6 +1486,7 @@ export const CompanyActionListItemFragmentDoc = gql`
   }
   id
   impactValue
+  notes
   plannedAt
   recentCompaniesCompleted(limit: 3) {
     id
@@ -1379,14 +1501,10 @@ export const CompanyActionListItemFragmentDoc = gql`
   serviceProviderList {
     id
   }
-  categories {
-    ...Category
-  }
   title
-  notes
 }
-    ${CompanyActionRequirementFragmentDoc}
-${CategoryFragmentDoc}`;
+    ${CategoryFragmentDoc}
+${CompanyActionRequirementFragmentDoc}`;
 export const CompanyFragmentDoc = gql`
     fragment Company on Company {
   aboutSections {
@@ -1485,51 +1603,6 @@ export const ServiceProviderReviewFragmentDoc = gql`
   serviceProviderContentId
 }
     ${UserAvatarFragmentDoc}`;
-export const TagFragmentDoc = gql`
-    fragment Tag on Tag {
-  id
-  name
-  sortWeight
-  help
-}
-    `;
-export const ServiceProviderFragmentDoc = gql`
-    fragment ServiceProvider on ServiceProvider {
-  averageRating
-  highestPrice
-  lowestPrice
-  reviewsCount
-  description
-  id
-  logo {
-    id
-    url
-  }
-  memberId
-  model {
-    ...Tag
-  }
-  name
-  services {
-    ...Tag
-  }
-  size
-  supplyChainComplexity {
-    ...Tag
-  }
-  year
-  email
-  website
-  isPrivate
-  freeDemo
-  languages {
-    ...Tag
-  }
-  certifications {
-    ...Tag
-  }
-}
-    ${TagFragmentDoc}`;
 export const UserActionFragmentDoc = gql`
     fragment UserAction on UserAction {
   id
@@ -1878,6 +1951,17 @@ export const CompanyActionDetailsDocument = gql`
 export function useCompanyActionDetailsQuery(options: Omit<Urql.UseQueryArgs<CompanyActionDetailsQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyActionDetailsQuery>({ query: CompanyActionDetailsDocument, ...options });
 };
+export const CompanyActionExtendedDetailsDocument = gql`
+    query companyActionExtendedDetails($input: CompanyActionInput!) {
+  companyAction(input: $input) {
+    ...CompanyActionDetails
+  }
+}
+    ${CompanyActionDetailsFragmentDoc}`;
+
+export function useCompanyActionExtendedDetailsQuery(options: Omit<Urql.UseQueryArgs<CompanyActionExtendedDetailsQueryVariables>, 'query'>) {
+  return Urql.useQuery<CompanyActionExtendedDetailsQuery>({ query: CompanyActionExtendedDetailsDocument, ...options });
+};
 export const CompanyActionsListDocument = gql`
     query companyActionsList($input: CompanyActionsInput) {
   companyActions(input: $input) {
@@ -1943,6 +2027,17 @@ export const SearchUserDocument = gql`
 
 export function useSearchUserQuery(options: Omit<Urql.UseQueryArgs<SearchUserQueryVariables>, 'query'>) {
   return Urql.useQuery<SearchUserQuery>({ query: SearchUserDocument, ...options });
+};
+export const ServiceProviderListsDocument = gql`
+    query serviceProviderLists {
+  serviceProviderLists {
+    ...ServiceProviderList
+  }
+}
+    ${ServiceProviderListFragmentDoc}`;
+
+export function useServiceProviderListsQuery(options?: Omit<Urql.UseQueryArgs<ServiceProviderListsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ServiceProviderListsQuery>({ query: ServiceProviderListsDocument, ...options });
 };
 export const ServiceProviderReviewsDocument = gql`
     query serviceProviderReviews($input: ServiceProviderReviewsInput!) {

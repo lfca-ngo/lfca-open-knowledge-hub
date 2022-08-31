@@ -1,0 +1,6 @@
+fragment CompanyActionDetails on CompanyAction {
+  id
+  serviceProviderList {
+    ...ServiceProviderList
+  }
+}

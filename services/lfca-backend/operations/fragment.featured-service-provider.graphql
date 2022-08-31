@@ -1,0 +1,10 @@
+fragment FeaturedServiceProvider on ServiceProvider {
+  featureCta
+  featureDescription
+  featureImage {
+    id
+    url
+  }
+  featureTitle
+  id
+}

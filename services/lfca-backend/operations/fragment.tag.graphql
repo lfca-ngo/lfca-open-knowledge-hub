@@ -1,6 +1,6 @@
 fragment Tag on Tag {
+  help
   id
   name
   sortWeight
-  help
 }

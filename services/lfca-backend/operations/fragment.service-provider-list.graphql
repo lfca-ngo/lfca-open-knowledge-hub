@@ -1,0 +1,13 @@
+fragment ServiceProviderList on ServiceProviderList {
+  featured {
+    ...FeaturedServiceProvider
+  }
+  filters {
+    ...ServiceProviderFilter
+  }
+  id
+  items {
+    ...ServiceProvider
+  }
+  title
+}

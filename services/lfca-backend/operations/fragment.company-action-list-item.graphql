@@ -1,8 +1,10 @@
 fragment CompanyActionListItem on CompanyAction {
+  categories {
+    ...Category
+  }
   commentAttachmentCount
   commentCount
   companiesCompletedCount
-  companiesPlannedCount
   completedAt
   contentId
   heroImage {
@@ -11,6 +13,7 @@ fragment CompanyActionListItem on CompanyAction {
   }
   id
   impactValue
+  notes
   plannedAt
   recentCompaniesCompleted(limit: 3) {
     id
@@ -25,9 +28,5 @@ fragment CompanyActionListItem on CompanyAction {
   serviceProviderList {
     id
   }
-  categories {
-    ...Category
-  }
   title
-  notes
 }

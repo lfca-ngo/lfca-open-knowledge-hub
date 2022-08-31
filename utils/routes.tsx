@@ -27,8 +27,7 @@ export const COMMUNITY_LINKS = '/community/links'
 export const COMMUNITY_GROUPS = '/community/groups'
 // Tools
 export const TOOLS = '/tools'
-export const MEASUREMENT_SERVICE_PROVIDERS =
-  '/tools/measurement-service-providers'
+export const SERVICE_PROVIDERS = '/tools/service-providers'
 export const PERSONAL_FOOTPRINT_CALCULATOR =
   '/tools/personal-footprint-calculator'
 export const REFERRAL_PROGRAM = '/tools/referral-program'

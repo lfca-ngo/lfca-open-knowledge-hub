@@ -24,6 +24,7 @@ import { useState } from 'react'
 import { useUser } from '../../hooks/user'
 import {
   ServiceProviderReviewFragment,
+  useCompanyActionExtendedDetailsQuery,
   useCreateServiceProviderReviewMutation,
   useServiceProvidersQuery,
   useUpdateServiceProviderReviewMutation,
@@ -54,13 +55,17 @@ const LabelWithButton = ({
   </div>
 )
 
+interface ReviewFormProps {
+  actionContentId?: string
+  onFinish?: () => void
+  initialValues?: Partial<ServiceProviderReviewFragment>
+}
+
 export const ReviewForm = ({
+  actionContentId,
   initialValues,
   onFinish,
-}: {
-  onFinish?: () => void
-  initialValues?: ServiceProviderReviewFragment
-}) => {
+}: ReviewFormProps) => {
   const { isAdmin } = useUser()
 
   const [form] = Form.useForm()
@@ -69,9 +74,26 @@ export const ReviewForm = ({
   )
   const [success, setSuccess] = useState(false)
 
-  // TODO: UI for loading state
-  // TODO: UI for error state
-  const [{ data: dataServiceProviders }] = useServiceProvidersQuery()
+  // We either fetch ALL service providers (in admin views when no `actionContentId` is provided)
+  // or only the service providers attached to a companyAction (`actionContentId` is provided)
+  const [{ data: dataServiceProviders, fetching: fetchingServiceProviders }] =
+    useServiceProvidersQuery({
+      pause: !!actionContentId,
+    })
+
+  const [
+    {
+      data: dataCompanyActionExtendedDetails,
+      fetching: fetchingCompanyActionExtendedDetails,
+    },
+  ] = useCompanyActionExtendedDetailsQuery({
+    pause: !actionContentId,
+    variables: {
+      input: {
+        actionContentId: actionContentId || '',
+      },
+    },
+  })
 
   // TODO: UI for error state
   const [
@@ -101,7 +123,7 @@ export const ReviewForm = ({
     review: string
   }) => {
     // create call for new reviews
-    if (!initialValues) {
+    if (!initialValues?.id) {
       await createServiceProviderReview({
         input: {
           ...props,
@@ -143,7 +165,7 @@ export const ReviewForm = ({
       layout="vertical"
       onFinish={handleFinish}
     >
-      {!!initialValues && isAdmin && !success ? (
+      {!!initialValues?.author && isAdmin && !success ? (
         <Form.Item label="Author" shouldUpdate>
           {({ getFieldValue }) =>
             getFieldValue('isAnonymous') ? (
@@ -161,7 +183,7 @@ export const ReviewForm = ({
         {success ? (
           <Alert
             message={
-              initialValues
+              initialValues?.id
                 ? 'Updated'
                 : 'Thanks, we will approve your review soon!'
             }
@@ -170,13 +192,20 @@ export const ReviewForm = ({
           />
         ) : (
           <Select
-            disabled={!!initialValues}
+            disabled={!!initialValues?.serviceProviderContentId}
+            loading={
+              fetchingServiceProviders || fetchingCompanyActionExtendedDetails
+            }
             onSelect={(val: string) => setProviderId(val)}
             placeholder="Select an option..."
             value={providerId}
           >
             <Select.Option key={''}>-- None of those</Select.Option>
-            {dataServiceProviders?.serviceProviders.map((provider) => (
+            {(actionContentId
+              ? dataCompanyActionExtendedDetails?.companyAction
+                  .serviceProviderList?.items
+              : dataServiceProviders?.serviceProviders
+            )?.map((provider) => (
               <Option key={provider.id}>{provider.name}</Option>
             ))}
           </Select>
@@ -299,7 +328,7 @@ export const ReviewForm = ({
               loading={isCreatingOrUpdating}
               type="primary"
             >
-              {!initialValues ? 'Submit review' : 'Update review'}
+              {!initialValues?.id ? 'Submit review' : 'Update review'}
             </Button>
           </Form.Item>
         </div>
