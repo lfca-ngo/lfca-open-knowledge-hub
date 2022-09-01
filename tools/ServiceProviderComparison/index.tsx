@@ -36,7 +36,9 @@ export const ServiceProviderComparison = ({
   const [form] = Form.useForm()
 
   const [list, setList] = useState<ServiceProviderFragment[]>(
-    serviceProviderList?.items || []
+    (serviceProviderList?.items || []).sort((a, b) => {
+      return b?.reviewsCount - a?.reviewsCount
+    })
   )
 
   useEffect(() => {

@@ -132,38 +132,42 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             />
           }
         >
-          {fetchingActionExtended || staleActionExtended ? (
-            <Spin />
-          ) : actionDataExtended?.companyAction.serviceProviderList ? (
-            <ServiceProviderComparison
-              serviceProviderList={
-                actionDataExtended.companyAction.serviceProviderList
-              }
-              showTitle={true}
-            />
-          ) : (
-            <EmptyState
-              actions={[
-                <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
-                  <Button size="large" type="primary">
-                    Share idea
-                  </Button>
-                </a>,
-              ]}
-              bordered
-              icon={<BulbOutlined />}
-              text={
-                <div>
-                  We are gradually adding more and more community powered
-                  content to the platform. You can check the{' '}
-                  <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
-                  as an example. If you have relevant content ideas for this
-                  module, please share them with us!
-                </div>
-              }
-              title="There is more to come..."
-            />
-          )}
+          <>
+            {fetchingActionExtended || staleActionExtended ? (
+              <Spin />
+            ) : actionDataExtended?.companyAction.serviceProviderList ? (
+              <ServiceProviderComparison
+                serviceProviderList={
+                  actionDataExtended.companyAction.serviceProviderList
+                }
+                showTitle={true}
+              />
+            ) : (
+              <EmptyState
+                actions={[
+                  <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
+                    <Button size="large" type="primary">
+                      Share idea
+                    </Button>
+                  </a>,
+                ]}
+                bordered
+                icon={<BulbOutlined />}
+                text={
+                  <div>
+                    We are gradually adding more and more community powered
+                    content to the platform. You can check the{' '}
+                    <Link href={`/action/companyPledge`}>
+                      Measurement Action
+                    </Link>{' '}
+                    as an example. If you have relevant content ideas for this
+                    module, please share them with us!
+                  </div>
+                }
+                title="There is more to come..."
+              />
+            )}
+          </>
         </PayWall>
       </Main>
 
