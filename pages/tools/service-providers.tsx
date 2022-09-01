@@ -19,19 +19,26 @@ const ServiceProviders: NextPage = () => {
         <Section title="Find the right tool" titleSize="big">
           <Container>
             <PayWall>
-              {fetching ? (
-                <Spin />
-              ) : (
-                <Tabs defaultActiveKey="0">
-                  {data?.serviceProviderLists.map((serviceProviderList, i) => (
-                    <TabPane key={i.toString()} tab={serviceProviderList.title}>
-                      <ServiceProviderComparison
-                        serviceProviderList={serviceProviderList}
-                      />
-                    </TabPane>
-                  ))}
-                </Tabs>
-              )}
+              <>
+                {fetching ? (
+                  <Spin />
+                ) : (
+                  <Tabs defaultActiveKey="0">
+                    {data?.serviceProviderLists.map(
+                      (serviceProviderList, i) => (
+                        <TabPane
+                          key={i.toString()}
+                          tab={serviceProviderList.title}
+                        >
+                          <ServiceProviderComparison
+                            serviceProviderList={serviceProviderList}
+                          />
+                        </TabPane>
+                      )
+                    )}
+                  </Tabs>
+                )}
+              </>
             </PayWall>
           </Container>
         </Section>
