@@ -83,7 +83,6 @@ export interface ContentfulActionFields {
   examples: Document
   extraMile: Document
   expiresAfterDays: number
-  customSections: ContentfulCustomSectionFields[]
 }
 
 export interface ContentfulContinentFields {
