@@ -23,7 +23,10 @@ import { CheckOutlined, EllipsisOutlined, LockFilled } from '@ant-design/icons'
 import classNames from 'classnames'
 
 import { useUser } from '../../hooks/user'
-import { useCompanyQuery } from '../../services/lfca-backend'
+import {
+  CompanySubscriptionType,
+  useCompanyQuery,
+} from '../../services/lfca-backend'
 import { getMailToLink } from '../../utils'
 import { VideoWrapper } from '../VideoWrapper'
 
@@ -99,11 +102,13 @@ export const SubscriptionSelector = ({
   }
 
   const menu = () => {
-    const menuItems = subscriptions.map((s) => ({
-      icon: currentPlan?.name === s.name ? <CheckOutlined /> : undefined,
-      key: s.name,
-      label: s.name,
-    }))
+    const menuItems = subscriptions
+      .filter((s) => s.name !== CompanySubscriptionType.FREE)
+      .map((s) => ({
+        icon: currentPlan?.name === s.name ? <CheckOutlined /> : undefined,
+        key: s.name,
+        label: s.name,
+      }))
     return <Menu items={menuItems} onClick={handleUpgrade} />
   }
 
