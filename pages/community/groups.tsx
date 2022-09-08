@@ -33,7 +33,26 @@ const Groups: NextPage = () => {
   return (
     <SiderLayout nav={COMMUNITY_NAV}>
       <Main>
-        <Section bordered={false} title="All groups" titleSize="big">
+        <Section bordered={false} title="Mastermind Groups" titleSize="big">
+          <div className="content">
+            <p>
+              Our online mastermind groups connect sustainability practitioners
+              across 10-15 companies from the same industry – it’s a
+              peer-to-peer mentoring format that supports you in your work on
+              sustainability projects. This is the space where you can ask
+              questions, bounce ideas, share knowledge, and build
+              collaborations.{' '}
+            </p>
+
+            <p>
+              <b>How to join:</b> Choose the group that fits your business best.
+              Once your application is approved, you’ll receive a recurring
+              calendar invite. From then on, you’ll be part of a long-term,
+              close-knit team – and your hour together each month will be an
+              invaluable source of mutual support.
+            </p>
+          </div>
+
           <EventsList
             events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
@@ -43,9 +62,9 @@ const Groups: NextPage = () => {
       <Sider>
         <Section bordered={false} title="Your groups">
           <EventsList
-            compact
             events={error ? [] : eventsByParticipation.participatingEvents}
             fetching={fetching}
+            type="compact"
           />
         </Section>
       </Sider>

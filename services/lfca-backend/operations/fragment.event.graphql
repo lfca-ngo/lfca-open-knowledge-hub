@@ -10,4 +10,17 @@ fragment Event on Event {
   start
   status
   title
+  participationRequests {
+    id
+    status
+    user {
+      firstName
+      lastName
+      company {
+        id
+        name
+        logoUrl
+      }
+    }
+  }
 }

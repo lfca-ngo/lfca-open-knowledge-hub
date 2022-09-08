@@ -4,16 +4,16 @@ import { List } from 'antd'
 import React from 'react'
 
 import { EventFragment } from '../../services/lfca-backend'
-import { EventCard } from '../EventCard'
+import { EventCard, EventCardProps } from '../EventCard'
 import { EventCardSkeleton } from '../EventCard/EventCardSkeleton'
 
 interface EventsListProps {
   events: EventFragment[]
   fetching: boolean
-  compact?: boolean
+  type?: EventCardProps['type']
 }
 
-export const EventsList = ({ compact, events, fetching }: EventsListProps) => {
+export const EventsList = ({ events, fetching, type }: EventsListProps) => {
   return (
     <div className="events-list">
       <List
@@ -21,7 +21,7 @@ export const EventsList = ({ compact, events, fetching }: EventsListProps) => {
         dataSource={events}
         pagination={{
           hideOnSinglePage: true,
-          pageSize: 10,
+          pageSize: 30,
           size: 'small',
         }}
         renderItem={(item) => {
@@ -30,8 +30,8 @@ export const EventsList = ({ compact, events, fetching }: EventsListProps) => {
               className="list-item"
               key={!fetching ? item.id : undefined}
             >
-              <EventCardSkeleton compact={compact} fetching={fetching}>
-                <EventCard compact={compact} event={item} />
+              <EventCardSkeleton fetching={fetching} type={type}>
+                <EventCard event={item} type={type} />
               </EventCardSkeleton>
             </List.Item>
           )

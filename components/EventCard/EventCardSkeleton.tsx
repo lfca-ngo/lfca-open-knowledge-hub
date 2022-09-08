@@ -1,24 +1,26 @@
 import { Skeleton } from 'antd'
 
+import { EventCardProps } from '.'
+
 export const EventCardSkeleton = ({
   children,
-  compact,
   fetching,
+  type,
 }: {
   children: React.ReactNode
   fetching?: boolean
-  compact?: boolean
+  type?: EventCardProps['type']
 }) => (
   <Skeleton
     active
-    className={`event-card-skeleton${compact ? ' compact' : ''}`}
+    className={`event-card-skeleton${type}`}
     loading={fetching}
     paragraph={{
-      rows: compact ? 3 : 6,
-      width: compact ? ['80%', '80%', '80%'] : undefined,
+      rows: type === 'compact' ? 3 : 6,
+      width: type === 'compact' ? ['80%', '80%', '80%'] : undefined,
     }}
     title={{
-      width: compact ? '100%' : '40%',
+      width: type === 'compact' ? '100%' : '40%',
     }}
   >
     {children}

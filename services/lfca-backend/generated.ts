@@ -25,12 +25,21 @@ export type AchievementFunnelStats = {
   companiesAchievementReachedCount: Scalars['Int'];
   companiesCompletedFirstActionCount: Scalars['Int'];
   companiesCreatedCount: Scalars['Int'];
+  /**
+   * NOTE:
+   * Logins are note related to the defined timerange.
+   * Instead this property only indicates how many of the resulted companies have at least logged in once,
+   * regardless of when the login happened.
+   */
+  companiesLoggedInCount: Scalars['Int'];
 };
 
 export type AchievementFunnelStatsInput = {
   achievementContentIds?: InputMaybe<Array<Scalars['String']>>;
   companiesCreatedFrom: Scalars['DateTime'];
   companiesCreatedUntil: Scalars['DateTime'];
+  companySubscriptionType?: InputMaybe<CompanySubscriptionType>;
+  programContentId?: InputMaybe<Scalars['String']>;
   statsUntil: Scalars['DateTime'];
 };
 
@@ -359,6 +368,8 @@ export type Event = {
   id: Scalars['ID'];
   isAllDay: Scalars['Boolean'];
   participationRequestStatus?: Maybe<EventParticipationStatus>;
+  /** NOTE: Admin only prop! */
+  participationRequests: Array<EventParticipationRequest>;
   participationRequestsApprovedCount: Scalars['Int'];
   participationRequestsPendingCount: Scalars['Int'];
   recurrence?: Maybe<Scalars['String']>;
@@ -383,6 +394,17 @@ export enum EventParticipationStatus {
   APPROVED = 'APPROVED',
   PENDING = 'PENDING'
 }
+
+export type EventStatsInput = {
+  companySubscriptionType?: InputMaybe<CompanySubscriptionType>;
+};
+
+export type EventStatsResult = {
+  __typename?: 'EventStatsResult';
+  participationRequestsApprovedCount: Scalars['Int'];
+  participationRequestsPendingCount: Scalars['Int'];
+  runningEventsCount: Scalars['Int'];
+};
 
 export enum EventStatus {
   EXPIRED = 'EXPIRED',
@@ -427,6 +449,9 @@ export type Mutation = {
   processCompanyActionDeprecation: Scalars['Boolean'];
   processCompanyActionExpiry: Scalars['Boolean'];
   processUserActionExpiry: Scalars['Boolean'];
+  pushAchievementFunnelStatsToGeckoboard: Scalars['Boolean'];
+  pushActionsCompletedStatsToGeckoboard: Scalars['Boolean'];
+  pushEventStatsToGeckoboard: Scalars['Boolean'];
   /** Allows users to register if they have been invited */
   registerUser: User;
   requestPasswordReset: Scalars['Boolean'];
@@ -570,6 +595,7 @@ export type Query = {
   companyActions: Array<CompanyAction>;
   counterStats: CounterStatsResult;
   eventParticipationRequests: Array<EventParticipationRequest>;
+  eventStats: EventStatsResult;
   events: Array<Event>;
   qualifiedCompanies: Array<Company>;
   searchCompany: Array<Company>;
@@ -626,6 +652,11 @@ export type QueryCompanyActionsArgs = {
 
 export type QueryEventParticipationRequestsArgs = {
   input: EventParticipationRequestsInput;
+};
+
+
+export type QueryEventStatsArgs = {
+  input?: InputMaybe<EventStatsInput>;
 };
 
 
@@ -973,9 +1004,9 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> };
 
-export type EventParticipationRequestFragment = { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null };
+export type EventParticipationRequestFragment = { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null };
 
-export type EventFragment = { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string };
+export type EventFragment = { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> };
 
 export type FeaturedServiceProviderFragment = { __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null };
 
@@ -1047,7 +1078,7 @@ export type CreateEventParticipationRequestMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventParticipationRequestMutation = { __typename?: 'Mutation', createEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
+export type CreateEventParticipationRequestMutation = { __typename?: 'Mutation', createEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
 
 export type CreateServiceProviderReviewMutationVariables = Exact<{
   input: CreateServiceProviderReviewInput;
@@ -1087,7 +1118,7 @@ export type DeleteEventParticipationRequestMutationVariables = Exact<{
 }>;
 
 
-export type DeleteEventParticipationRequestMutation = { __typename?: 'Mutation', deleteEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
+export type DeleteEventParticipationRequestMutation = { __typename?: 'Mutation', deleteEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
 
 export type DeleteServiceProviderReviewMutationVariables = Exact<{
   input: DeleteServiceProviderReviewInput;
@@ -1143,7 +1174,7 @@ export type UpdateEventParticipationRequestMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventParticipationRequestMutation = { __typename?: 'Mutation', updateEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
+export type UpdateEventParticipationRequestMutation = { __typename?: 'Mutation', updateEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
 
 export type UpdateServiceProviderReviewMutationVariables = Exact<{
   input: UpdateServiceProviderReviewInput;
@@ -1221,14 +1252,14 @@ export type EventParticipationRequestsQueryVariables = Exact<{
 }>;
 
 
-export type EventParticipationRequestsQuery = { __typename?: 'Query', eventParticipationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null }> };
+export type EventParticipationRequestsQuery = { __typename?: 'Query', eventParticipationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null }> };
 
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }> };
 
 export type SearchCompanyQueryVariables = Exact<{
   input: SearchCompanyInput;
@@ -1550,6 +1581,19 @@ export const EventFragmentDoc = gql`
   end
   id
   isAllDay
+  participationRequests {
+    id
+    status
+    user {
+      firstName
+      lastName
+      company {
+        id
+        name
+        logoUrl
+      }
+    }
+  }
   participationRequestsApprovedCount
   participationRequestsPendingCount
   participationRequestStatus

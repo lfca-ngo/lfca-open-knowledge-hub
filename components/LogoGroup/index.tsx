@@ -3,10 +3,10 @@ require('./styles.less')
 import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
-import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+import { CompanyFragment } from '../../services/lfca-backend'
 
 interface LogoGroupProps {
-  data?: CompanyActionListItemFragment['recentCompaniesCompleted']
+  data?: (Partial<CompanyFragment> | null | undefined)[]
   label?: string
   reverse?: boolean
   size: AvatarProps['size']
@@ -23,7 +23,7 @@ export const LogoGroup = ({
       <Avatar.Group size={size}>
         {data?.length > 0 ? (
           data?.map((item, i) => (
-            <Avatar key={`avatar-${i}`} shape="square" src={item.logoUrl} />
+            <Avatar key={`avatar-${i}`} shape="square" src={item?.logoUrl} />
           ))
         ) : (
           <Avatar className="empty" shape="square">

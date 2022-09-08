@@ -75,11 +75,6 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     label: 'Dashboard',
   },
   {
-    icon: <RocketOutlined />,
-    key: ACHIEVEMENTS,
-    label: 'Achievements',
-  },
-  {
     children: [
       {
         icon: <TeamOutlined />,
@@ -95,6 +90,11 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     icon: <LikeOutlined />,
     key: COMMUNITY,
     label: 'Community',
+  },
+  {
+    icon: <RocketOutlined />,
+    key: ACHIEVEMENTS,
+    label: 'Achievements',
   },
   {
     children: [
