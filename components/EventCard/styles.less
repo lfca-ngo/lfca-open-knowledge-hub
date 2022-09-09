@@ -72,6 +72,23 @@
 
     .icon {
       margin-right: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .hover-view {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+        > .anticon {
+          font-size: 28px;
+        }
+        .text {
+          font-size: 12px;
+          line-height: 1;
+        }
+      }
     }
 
     .event-meta {

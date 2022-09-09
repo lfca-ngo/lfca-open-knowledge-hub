@@ -8,12 +8,18 @@ import { EventCard, EventCardProps } from '../EventCard'
 import { EventCardSkeleton } from '../EventCard/EventCardSkeleton'
 
 interface EventsListProps {
+  appliedEvents: EventFragment[]
   events: EventFragment[]
   fetching: boolean
   type?: EventCardProps['type']
 }
 
-export const EventsList = ({ events, fetching, type }: EventsListProps) => {
+export const EventsList = ({
+  appliedEvents,
+  events,
+  fetching,
+  type,
+}: EventsListProps) => {
   return (
     <div className="events-list">
       <List
@@ -31,7 +37,11 @@ export const EventsList = ({ events, fetching, type }: EventsListProps) => {
               key={!fetching ? item.id : undefined}
             >
               <EventCardSkeleton fetching={fetching} type={type}>
-                <EventCard event={item} type={type} />
+                <EventCard
+                  appliedEventsCount={appliedEvents.length}
+                  event={item}
+                  type={type}
+                />
               </EventCardSkeleton>
             </List.Item>
           )

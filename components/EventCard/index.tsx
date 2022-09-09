@@ -11,6 +11,7 @@ import {
 
 export interface EventCardProps {
   event: EventFragment
+  appliedEventsCount: number
   type?: 'compact' | 'default'
 }
 
@@ -19,7 +20,11 @@ import { useState } from 'react'
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
 
-export const EventCard = ({ event, type }: EventCardProps) => {
+export const EventCard = ({
+  appliedEventsCount,
+  event,
+  type,
+}: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
 
   const renderCard = () => {
@@ -35,6 +40,7 @@ export const EventCard = ({ event, type }: EventCardProps) => {
       default:
         return (
           <EventCardDefault
+            appliedEventsCount={appliedEventsCount}
             event={event}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}

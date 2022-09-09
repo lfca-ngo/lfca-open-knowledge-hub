@@ -19,22 +19,29 @@ const Groups: NextPage = () => {
     (acc, curr) => {
       if (curr.participationRequestStatus === 'APPROVED') {
         acc.participatingEvents.push(curr)
+      } else if (curr.participationRequestStatus === 'PENDING') {
+        acc.appliedEvents.push(curr)
       } else {
         acc.otherEvents.push(curr)
       }
       return acc
     },
     {
+      appliedEvents: [],
       otherEvents: [],
       participatingEvents: [],
-    } as { participatingEvents: EventFragment[]; otherEvents: EventFragment[] }
+    } as {
+      appliedEvents: EventFragment[]
+      participatingEvents: EventFragment[]
+      otherEvents: EventFragment[]
+    }
   )
 
   return (
     <SiderLayout nav={COMMUNITY_NAV}>
       <Main>
         <Section bordered={false} title="Mastermind Groups" titleSize="big">
-          <div className="content">
+          <div style={{ marginBottom: '40px' }}>
             <p>
               Our online mastermind groups connect sustainability practitioners
               across 10-15 companies from the same industry – it’s a
@@ -54,6 +61,7 @@ const Groups: NextPage = () => {
           </div>
 
           <EventsList
+            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
             events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
           />
@@ -62,6 +70,7 @@ const Groups: NextPage = () => {
       <Sider>
         <Section bordered={false} title="Your groups">
           <EventsList
+            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
             events={error ? [] : eventsByParticipation.participatingEvents}
             fetching={fetching}
             type="compact"

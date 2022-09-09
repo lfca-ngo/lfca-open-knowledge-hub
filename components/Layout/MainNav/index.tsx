@@ -37,11 +37,11 @@ import {
   ADMIN_USERS,
   COMMUNITY,
   COMMUNITY_GROUPS,
-  COMMUNITY_LINKS,
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
   SERVICE_PROVIDERS,
   TOOLS,
+  USEFUL_LINKS,
 } from '../../../utils/routes'
 import { PaywallPopover } from '../../PayWall/PaywallPopover'
 import { VideoWrapper } from '../../VideoWrapper'
@@ -102,7 +102,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       },
       {
         icon: <ProfileOutlined />,
-        key: COMMUNITY_LINKS,
+        key: USEFUL_LINKS,
         label: 'Useful Links',
       },
       {
