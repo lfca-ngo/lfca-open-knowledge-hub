@@ -52,7 +52,9 @@ export const ToggleSubscribeButton = ({
     }
   }
 
-  const changeEventSubscription = () => {
+  const changeEventSubscription = (e: Event) => {
+    e.stopPropagation()
+
     if (isNotRequested) {
       handleJoin()
     } else {
