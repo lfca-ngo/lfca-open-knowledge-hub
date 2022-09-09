@@ -38,6 +38,7 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
                   size={35}
                 />
               </div>
+
               <div className="actions">
                 {eventIsApproved && event.videoConferenceUrl && (
                   <a
