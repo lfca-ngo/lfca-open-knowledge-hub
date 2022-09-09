@@ -2,7 +2,10 @@ require('./styles.less')
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Divider, Modal, Space } from 'antd'
 
-import { EventFragment } from '../../services/lfca-backend'
+import {
+  EventFragment,
+  EventParticipationStatus,
+} from '../../services/lfca-backend'
 import {
   ParticipationRequestsApproved,
   ParticipationRequestsPending,
@@ -32,7 +35,8 @@ export const EventCard = ({
   type,
 }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
-  const eventIsApproved = event.participationRequestStatus === 'APPROVED'
+  const eventIsApproved =
+    event.participationRequestStatus === EventParticipationStatus.APPROVED
   const isParticipatingAtLeastOneEvent = participatingEventsCount > 0
   const hasAppliedForAtLeastOneEvent = appliedEventsCount > 0
 
@@ -104,7 +108,8 @@ export const EventCard = ({
               block: true,
               disabled:
                 hasAppliedForAtLeastOneEvent &&
-                event.participationRequestStatus !== 'APPROVED',
+                event.participationRequestStatus !==
+                  EventParticipationStatus.APPROVED,
             }}
             event={event}
             key="toggle-subscribe"
