@@ -1,7 +1,10 @@
 import { EyeOutlined } from '@ant-design/icons'
 import { Avatar, Card, Space } from 'antd'
 
-import { EventFragment } from '../../services/lfca-backend'
+import {
+  EventFragment,
+  EventParticipationStatus,
+} from '../../services/lfca-backend'
 import { Recurrence, Status } from './EventMeta'
 import { matchStringToIcon } from './utils'
 
@@ -24,7 +27,8 @@ export const EventCardDefault = ({
   isParticipatingAtLeastOneEvent,
   onClick,
 }: EventCardDefaultProps) => {
-  const isPending = event.participationRequestStatus === 'PENDING'
+  const isPending =
+    event.participationRequestStatus === EventParticipationStatus.PENDING
   const [isHovered, setIsHovered] = useState(false)
 
   const handleMouseEnter = () => {

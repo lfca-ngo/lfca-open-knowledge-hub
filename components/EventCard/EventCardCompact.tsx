@@ -1,7 +1,10 @@
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Card, Space } from 'antd'
 
-import { EventFragment } from '../../services/lfca-backend'
+import {
+  EventFragment,
+  EventParticipationStatus,
+} from '../../services/lfca-backend'
 import { Recurrence, Status, Time } from './EventMeta'
 
 export interface EventCardDefaultProps {
@@ -13,7 +16,8 @@ export interface EventCardDefaultProps {
 import { LogoGroup } from '../LogoGroup'
 
 export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
-  const eventIsApproved = event.participationRequestStatus === 'APPROVED'
+  const eventIsApproved =
+    event.participationRequestStatus === EventParticipationStatus.APPROVED
 
   return (
     <>
