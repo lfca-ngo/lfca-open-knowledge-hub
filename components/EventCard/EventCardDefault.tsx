@@ -1,8 +1,4 @@
-import {
-  EyeOutlined,
-  HourglassOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons'
+import { EyeOutlined, HourglassOutlined } from '@ant-design/icons'
 import { Avatar, Button, Card, message, Popover, Space } from 'antd'
 
 import {
@@ -22,6 +18,7 @@ export interface EventCardDefaultProps {
 import { useState } from 'react'
 
 import { LogoGroup } from '../LogoGroup'
+import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 
 export const EventCardDefault = ({
   appliedEventsCount,
@@ -115,21 +112,10 @@ export const EventCardDefault = ({
                   </Button>
                 </Popover>
               ) : (
-                <Popover
-                  content={
-                    'You can only join one group. Open the event details to unsubscribe.'
-                  }
-                >
-                  <Button
-                    disabled={appliedEventsCount > 0}
-                    icon={<UserAddOutlined />}
-                    loading={fetching}
-                    onClick={handleJoin}
-                    type="primary"
-                  >
-                    Join
-                  </Button>
-                </Popover>
+                <ToggleSubscribeButton
+                  buttonProps={{ disabled: appliedEventsCount > 0 }}
+                  event={event}
+                />
               )}
             </Space>
           </div>

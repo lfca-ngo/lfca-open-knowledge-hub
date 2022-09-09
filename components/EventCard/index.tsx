@@ -19,6 +19,7 @@ import { useState } from 'react'
 
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
+import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 
 export const EventCard = ({
   appliedEventsCount,
@@ -56,11 +57,7 @@ export const EventCard = ({
         className="event-card-modal modal-md"
         closable
         footer={[
-          <Button
-            key="modalOk"
-            onClick={() => setDetailsVisible(false)}
-            type="primary"
-          >
+          <Button key="modalOk" onClick={() => setDetailsVisible(false)}>
             OK
           </Button>,
         ]}
@@ -78,6 +75,17 @@ export const EventCard = ({
           </Space>
         </div>
 
+        <Divider />
+        <ToggleSubscribeButton
+          buttonProps={{
+            block: true,
+            disabled:
+              appliedEventsCount > 0 &&
+              event.participationRequestStatus !== 'APPROVED',
+          }}
+          event={event}
+          key="unsubscribe"
+        />
         <Divider />
 
         {event.description ? (
