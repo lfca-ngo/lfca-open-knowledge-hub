@@ -8,11 +8,11 @@ import {
 export const deleteEventParticipationRequest: UpdateResolver<
   DeleteEventParticipationRequestMutation,
   DeleteEventParticipationRequestMutationVariables
-> = (result, args, cache) => {
+> = (result, _, cache) => {
   if (result.deleteEventParticipationRequest) {
     cache.invalidate({
       __typename: 'EventParticipationRequest',
-      id: args.input.eventParticipationRequestId,
+      id: result.deleteEventParticipationRequest.id,
     })
   }
 }

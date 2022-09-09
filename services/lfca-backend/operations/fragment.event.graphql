@@ -10,4 +10,18 @@ fragment Event on Event {
   start
   status
   title
+  videoConferenceUrl
+  participationRequests {
+    id
+    status
+    user {
+      firstName
+      lastName
+      company {
+        id
+        name
+        logoUrl
+      }
+    }
+  }
 }

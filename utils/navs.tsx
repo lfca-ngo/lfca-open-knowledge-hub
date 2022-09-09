@@ -18,7 +18,6 @@ import {
   ADMIN_REVIEWS,
   ADMIN_USERS,
   COMMUNITY_GROUPS,
-  COMMUNITY_LINKS,
   SETTINGS,
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
@@ -42,10 +41,7 @@ export const ADMIN_NAV = [
   { path: ADMIN_ACTIONS, title: 'Actions' },
 ]
 
-export const COMMUNITY_NAV = [
-  { path: COMMUNITY_GROUPS, title: 'Groups' },
-  { path: COMMUNITY_LINKS, title: 'Links' },
-]
+export const COMMUNITY_NAV = [{ path: COMMUNITY_GROUPS, title: 'Groups' }]
 
 export const SETTINGS_NAV = [
   { path: SETTINGS, title: 'Edit Profile' },

@@ -15,7 +15,7 @@ import { EventFragment } from '../../services/lfca-backend'
 import { UserIdSearchInput } from '../UserIdSearchInput'
 
 interface AdminEventParticipantsProps {
-  event?: EventFragment
+  event: EventFragment
   onClose: () => void
 }
 
@@ -68,14 +68,15 @@ export const AdminEventParticipants = ({
   }
 
   const handleUpdate = async (
-    eventParticipationRequestId: string,
+    eventParticipationRequestUserId: string,
     approved: boolean
   ) => {
-    setUpdatingRequestId(eventParticipationRequestId)
+    setUpdatingRequestId(eventParticipationRequestUserId)
     const res = await updateEventParticipationRequest({
       input: {
         approved,
-        eventParticipationRequestId,
+        eventId: event.id,
+        userId: eventParticipationRequestUserId,
       },
     })
 
@@ -86,11 +87,12 @@ export const AdminEventParticipants = ({
     setUpdatingRequestId(null)
   }
 
-  const handleDelete = async (eventParticipationRequestId: string) => {
-    setDeletingRequestId(eventParticipationRequestId)
+  const handleDelete = async (eventParticipationRequestUserId: string) => {
+    setDeletingRequestId(eventParticipationRequestUserId)
     const res = await deleteEventParticipationRequest({
       input: {
-        eventParticipationRequestId,
+        eventId: event.id,
+        userId: eventParticipationRequestUserId,
       },
     })
 
@@ -136,7 +138,11 @@ export const AdminEventParticipants = ({
                       cancelText="No"
                       key="delete"
                       okText="Yes"
-                      onConfirm={() => handleDelete(request.id)}
+                      onConfirm={() =>
+                        request.user?.id
+                          ? handleDelete(request.user?.id)
+                          : message.error('missing user id')
+                      }
                       title="Are you sure to delete this request?"
                     >
                       <Button
@@ -149,7 +155,11 @@ export const AdminEventParticipants = ({
                       icon={<CheckOutlined />}
                       key="approve"
                       loading={updatingRequestId === request.id}
-                      onClick={() => handleUpdate(request.id, true)}
+                      onClick={() =>
+                        request.user?.id
+                          ? handleUpdate(request.user?.id, true)
+                          : message.error('missing user id')
+                      }
                       type="primary"
                     />,
                   ]
@@ -158,7 +168,11 @@ export const AdminEventParticipants = ({
                       cancelText="No"
                       key="delete"
                       okText="Yes"
-                      onConfirm={() => handleDelete(request.id)}
+                      onConfirm={() =>
+                        request.user?.id
+                          ? handleDelete(request.user?.id)
+                          : message.error('missing user id')
+                      }
                       title="Are you sure to delete this request?"
                     >
                       <Button

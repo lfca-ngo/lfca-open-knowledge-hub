@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   CalendarOutlined,
   CheckOutlined,
@@ -19,7 +17,59 @@ export interface EventMetaProps {
   compact?: boolean
 }
 
-export const EventMeta = ({ compact, event }: EventMetaProps) => {
+export const ParticipationRequestsApproved = ({ event }: EventMetaProps) => {
+  return (
+    <Space align="start">
+      <CheckOutlined />
+      {`${event.participationRequestsApprovedCount} participant${
+        event.participationRequestsApprovedCount === 0 ||
+        event.participationRequestsApprovedCount > 1
+          ? 's'
+          : ''
+      }`}
+    </Space>
+  )
+}
+
+export const ParticipationRequestsPending = ({ event }: EventMetaProps) => {
+  return (
+    <Space align="start">
+      <SolutionOutlined />
+      {`${event.participationRequestsPendingCount} application${
+        event.participationRequestsPendingCount === 0 ||
+        event.participationRequestsPendingCount > 1
+          ? 's'
+          : ''
+      }`}
+    </Space>
+  )
+}
+
+export const Recurrence = ({ event }: EventMetaProps) => {
+  return (
+    <Space align="start">
+      <CalendarOutlined />
+      {event.recurrence
+        ? RRule.fromString(event.recurrence).toText()
+        : moment(event.start).format('LL')}
+    </Space>
+  )
+}
+
+export const Time = ({ event }: EventMetaProps) => {
+  return (
+    <Space align="start">
+      <ClockCircleOutlined />
+      {event.isAllDay
+        ? 'all day'
+        : `${moment(event.start).format('LT')} - ${moment(event.end).format(
+            'LT'
+          )}`}
+    </Space>
+  )
+}
+
+export const Status = ({ event }: EventMetaProps) => {
   const statusString = useMemo(() => {
     switch (event.status) {
       case EventStatus.UPCOMING: {
@@ -42,55 +92,9 @@ export const EventMeta = ({ compact, event }: EventMetaProps) => {
   }, [event.recurrence, event.start, event.status])
 
   return (
-    <div className={`event-meta${compact ? ' compact' : ''}`}>
-      {!compact && (
-        <div className="block">
-          <Space align="start">
-            <SolutionOutlined />
-            {`${event.participationRequestsPendingCount} application${
-              event.participationRequestsPendingCount === 0 ||
-              event.participationRequestsPendingCount > 1
-                ? 's'
-                : ''
-            }`}
-          </Space>
-
-          <Space align="start">
-            <CheckOutlined />
-            {`${event.participationRequestsApprovedCount} participant${
-              event.participationRequestsApprovedCount === 0 ||
-              event.participationRequestsApprovedCount > 1
-                ? 's'
-                : ''
-            }`}
-          </Space>
-        </div>
-      )}
-
-      <div className="block">
-        <Space align="start">
-          <CalendarOutlined />
-          {event.recurrence
-            ? RRule.fromString(event.recurrence).toText()
-            : moment(event.start).format('LL')}
-        </Space>
-
-        <Space align="start">
-          <ClockCircleOutlined />
-          {event.isAllDay
-            ? 'all day'
-            : `${moment(event.start).format('LT')} - ${moment(event.end).format(
-                'LT'
-              )}`}
-        </Space>
-      </div>
-
-      <div className="block">
-        <Space align="start">
-          <FieldTimeOutlined />
-          {statusString}
-        </Space>
-      </div>
-    </div>
+    <Space align="start">
+      <FieldTimeOutlined />
+      {statusString}
+    </Space>
   )
 }

@@ -91,10 +91,12 @@ export const AdminEventsList = () => {
         onClose={() => setSelectedEvent(undefined)}
         visible={!!selectedEvent}
       >
-        <AdminEventParticipants
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(undefined)}
-        />
+        {selectedEvent && (
+          <AdminEventParticipants
+            event={selectedEvent}
+            onClose={() => setSelectedEvent(undefined)}
+          />
+        )}
       </Drawer>
     </div>
   )

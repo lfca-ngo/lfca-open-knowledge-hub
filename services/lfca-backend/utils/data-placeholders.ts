@@ -50,6 +50,7 @@ export const EMPTY_EVENT: EventFragment = {
   end: '',
   id: '',
   isAllDay: false,
+  participationRequests: [],
   participationRequestsApprovedCount: 0,
   participationRequestsPendingCount: 0,
   participationRequestStatus: null,

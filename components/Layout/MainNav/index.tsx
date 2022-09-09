@@ -7,7 +7,6 @@ import {
   CarryOutOutlined,
   CheckCircleOutlined,
   InsertRowLeftOutlined,
-  LikeOutlined,
   LockOutlined,
   MessageOutlined,
   ProfileOutlined,
@@ -38,11 +37,11 @@ import {
   ADMIN_USERS,
   COMMUNITY,
   COMMUNITY_GROUPS,
-  COMMUNITY_LINKS,
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
   SERVICE_PROVIDERS,
   TOOLS,
+  USEFUL_LINKS,
 } from '../../../utils/routes'
 import { PaywallPopover } from '../../PayWall/PaywallPopover'
 import { VideoWrapper } from '../../VideoWrapper'
@@ -75,26 +74,14 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     label: 'Dashboard',
   },
   {
+    icon: <TeamOutlined />,
+    key: COMMUNITY_GROUPS,
+    label: 'Mastermind Groups',
+  },
+  {
     icon: <RocketOutlined />,
     key: ACHIEVEMENTS,
     label: 'Achievements',
-  },
-  {
-    children: [
-      {
-        icon: <TeamOutlined />,
-        key: COMMUNITY_GROUPS,
-        label: 'Groups',
-      },
-      {
-        icon: <ProfileOutlined />,
-        key: COMMUNITY_LINKS,
-        label: 'Links',
-      },
-    ],
-    icon: <LikeOutlined />,
-    key: COMMUNITY,
-    label: 'Community',
   },
   {
     children: [
@@ -113,15 +100,20 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
         key: REFERRAL_PROGRAM,
         label: 'Referral Program',
       },
+      {
+        icon: <ProfileOutlined />,
+        key: USEFUL_LINKS,
+        label: 'Useful Links',
+      },
+      {
+        icon: <QuestionCircleOutlined />,
+        key: OPEN_HELP_MODAL,
+        label: 'Help',
+      },
     ],
     icon: <InsertRowLeftOutlined />,
     key: TOOLS,
     label: 'Tools',
-  },
-  {
-    icon: <QuestionCircleOutlined />,
-    key: OPEN_HELP_MODAL,
-    label: 'Help',
   },
 ]
 
