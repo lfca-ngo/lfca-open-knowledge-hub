@@ -1,5 +1,6 @@
 import { CloseCircleOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Button, ButtonProps, message, Popover } from 'antd'
+import { SyntheticEvent } from 'react'
 
 import {
   EventFragment,
@@ -52,7 +53,7 @@ export const ToggleSubscribeButton = ({
     }
   }
 
-  const changeEventSubscription = (e: Event) => {
+  const changeEventSubscription = (e: SyntheticEvent) => {
     e.stopPropagation()
 
     if (isNotRequested) {
