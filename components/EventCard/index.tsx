@@ -19,6 +19,7 @@ export interface EventCardProps {
 
 import { useState } from 'react'
 
+import { LogoGroup } from '../LogoGroup'
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
@@ -69,6 +70,7 @@ export const EventCard = ({
         wrapClassName="modal-md"
       >
         <div className="event-title">{event.title}</div>
+        <Divider />
         <div className="event-meta">
           <Space direction="vertical" size="large">
             <Status event={event} />
@@ -76,6 +78,10 @@ export const EventCard = ({
             <Recurrence event={event} />
             <ParticipationRequestsApproved event={event} />
             <ParticipationRequestsPending event={event} />
+            <LogoGroup
+              data={event?.participationRequests.map((r) => r?.user?.company)}
+              size={60}
+            />
           </Space>
         </div>
 
