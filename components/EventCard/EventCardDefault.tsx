@@ -9,7 +9,8 @@ export interface EventCardDefaultProps {
   event: EventFragment
   onClick: () => void
   onClose: () => void
-  appliedEventsCount: number
+  hasAppliedForAtLeastOneEvent: boolean
+  isParticipatingAtLeastOneEvent: boolean
 }
 
 import { useState } from 'react'
