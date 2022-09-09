@@ -7,7 +7,6 @@ import {
   CarryOutOutlined,
   CheckCircleOutlined,
   InsertRowLeftOutlined,
-  LikeOutlined,
   LockOutlined,
   MessageOutlined,
   ProfileOutlined,
@@ -75,21 +74,9 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     label: 'Dashboard',
   },
   {
-    children: [
-      {
-        icon: <TeamOutlined />,
-        key: COMMUNITY_GROUPS,
-        label: 'Groups',
-      },
-      {
-        icon: <ProfileOutlined />,
-        key: COMMUNITY_LINKS,
-        label: 'Links',
-      },
-    ],
-    icon: <LikeOutlined />,
-    key: COMMUNITY,
-    label: 'Community',
+    icon: <TeamOutlined />,
+    key: COMMUNITY_GROUPS,
+    label: 'Mastermind Groups',
   },
   {
     icon: <RocketOutlined />,
@@ -113,15 +100,20 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
         key: REFERRAL_PROGRAM,
         label: 'Referral Program',
       },
+      {
+        icon: <ProfileOutlined />,
+        key: COMMUNITY_LINKS,
+        label: 'Useful Links',
+      },
+      {
+        icon: <QuestionCircleOutlined />,
+        key: OPEN_HELP_MODAL,
+        label: 'Help',
+      },
     ],
     icon: <InsertRowLeftOutlined />,
     key: TOOLS,
     label: 'Tools',
-  },
-  {
-    icon: <QuestionCircleOutlined />,
-    key: OPEN_HELP_MODAL,
-    label: 'Help',
   },
 ]
 
