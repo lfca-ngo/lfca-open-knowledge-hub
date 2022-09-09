@@ -13,7 +13,7 @@ export const EventCardSkeleton = ({
 }) => (
   <Skeleton
     active
-    avatar={{ shape: 'square', size: 'large' }}
+    avatar={type === 'compact' ? undefined : { shape: 'square', size: 'large' }}
     className={`event-card-skeleton`}
     loading={fetching}
     paragraph={{

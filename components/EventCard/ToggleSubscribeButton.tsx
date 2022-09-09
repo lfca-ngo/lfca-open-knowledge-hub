@@ -17,6 +17,7 @@ export const ToggleSubscribeButton = ({
   event,
 }: ToggleSubscribeButtonProps) => {
   const isNotRequested = event.participationRequestStatus === null
+  const isPending = event.participationRequestStatus === 'PENDING'
 
   const [{ fetching: deleting }, deleteEventParticipationRequest] =
     useDeleteEventParticipationRequestMutation()
@@ -59,14 +60,15 @@ export const ToggleSubscribeButton = ({
     }
   }
 
+  const popoverContent = () => {
+    if (isPending) return 'Your application is pending'
+    if (buttonProps?.disabled)
+      return 'You can only join one group. Unsubscribe from your group first.'
+    else return null
+  }
+
   return (
-    <Popover
-      content={
-        buttonProps?.disabled
-          ? 'You can only join one group. Unsubscribe from your group first.'
-          : null
-      }
-    >
+    <Popover content={popoverContent()}>
       <Button
         icon={isNotRequested ? <UserAddOutlined /> : <CloseCircleOutlined />}
         key="unsubscribe"

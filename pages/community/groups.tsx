@@ -19,10 +19,12 @@ const Groups: NextPage = () => {
     (acc, curr) => {
       if (curr.participationRequestStatus === 'APPROVED') {
         acc.participatingEvents.push(curr)
-      } else if (curr.participationRequestStatus === 'PENDING') {
-        acc.appliedEvents.push(curr)
       } else {
         acc.otherEvents.push(curr)
+        // push additionally to applied events
+        if (curr.participationRequestStatus === 'PENDING') {
+          acc.appliedEvents.push(curr)
+        }
       }
       return acc
     },

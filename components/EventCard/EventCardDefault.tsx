@@ -25,23 +25,8 @@ export const EventCardDefault = ({
   event,
   onClick,
 }: EventCardDefaultProps) => {
+  const isPending = event.participationRequestStatus === 'PENDING'
   const [isHovered, setIsHovered] = useState(false)
-  const [{ fetching }, createEventParticipationRequest] =
-    useCreateEventParticipationRequestMutation()
-
-  const handleJoin = async () => {
-    const res = await createEventParticipationRequest({
-      input: {
-        eventId: event.id,
-      },
-    })
-
-    if (res.error) {
-      message.error(res.error.message)
-    } else {
-      message.success('We will notify you once your spot is confirmed')
-    }
-  }
 
   const handleMouseEnter = () => {
     if (!isHovered) setIsHovered(true)
@@ -99,24 +84,10 @@ export const EventCardDefault = ({
           </div>
           <div className="actions">
             <Space>
-              {event.participationRequestStatus === 'PENDING' ? (
-                <Popover content={'Your application is pending'}>
-                  <Button
-                    disabled
-                    icon={<HourglassOutlined />}
-                    loading={fetching}
-                    onClick={handleJoin}
-                    type="primary"
-                  >
-                    Pending
-                  </Button>
-                </Popover>
-              ) : (
-                <ToggleSubscribeButton
-                  buttonProps={{ disabled: appliedEventsCount > 0 }}
-                  event={event}
-                />
-              )}
+              <ToggleSubscribeButton
+                buttonProps={{ disabled: appliedEventsCount > 0 && !isPending }}
+                event={event}
+              />
             </Space>
           </div>
         </div>
