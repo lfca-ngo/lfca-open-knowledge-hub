@@ -4,22 +4,16 @@ import { CheckOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, List, message, Popconfirm } from 'antd'
 
 import {
-  EventParticipationRequest,
+  EventParticipationRequestFragment,
   EventParticipationStatus,
   useDeleteEventParticipationRequestMutation,
   useUpdateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 
-export type DeepPartialExcept<T, E extends keyof T> = {
-  [K in keyof T]?: T[K] extends Array<infer R>
-    ? Array<DeepPartialExcept<R, E extends keyof R ? E : never>>
-    : DeepPartialExcept<T[K], E extends keyof T[K] ? E : never> | null
-} & Pick<T, E>
-
 interface AdminEventParticipationRequestProps {
   event: EventFragment
-  request: DeepPartialExcept<EventParticipationRequest, 'status' | 'user'>
+  request: Pick<EventParticipationRequestFragment, 'status' | 'user'>
 }
 
 export const AdminEventParticipationRequest = ({
