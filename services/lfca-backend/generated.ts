@@ -1121,7 +1121,7 @@ export type DeleteEventParticipationRequestMutationVariables = Exact<{
 }>;
 
 
-export type DeleteEventParticipationRequestMutation = { __typename?: 'Mutation', deleteEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null } };
+export type DeleteEventParticipationRequestMutation = { __typename?: 'Mutation', deleteEventParticipationRequest: { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> } } };
 
 export type DeleteServiceProviderReviewMutationVariables = Exact<{
   input: DeleteServiceProviderReviewInput;
@@ -1817,10 +1817,14 @@ export function useDeleteCompanyMutation() {
 export const DeleteEventParticipationRequestDocument = gql`
     mutation deleteEventParticipationRequest($input: DeleteEventParticipationRequestInput!) {
   deleteEventParticipationRequest(input: $input) {
-    ...EventParticipationRequest
+    event {
+      ...Event
+    }
+    id
+    status
   }
 }
-    ${EventParticipationRequestFragmentDoc}`;
+    ${EventFragmentDoc}`;
 
 export function useDeleteEventParticipationRequestMutation() {
   return Urql.useMutation<DeleteEventParticipationRequestMutation, DeleteEventParticipationRequestMutationVariables>(DeleteEventParticipationRequestDocument);

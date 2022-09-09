@@ -14,6 +14,7 @@ import {
 export interface EventCardProps {
   event: EventFragment
   appliedEventsCount: number
+  participatingEventsCount: number
   type?: 'compact' | 'default'
 }
 
@@ -27,10 +28,13 @@ import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 export const EventCard = ({
   appliedEventsCount,
   event,
+  participatingEventsCount,
   type,
 }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
   const eventIsApproved = event.participationRequestStatus === 'APPROVED'
+  const isParticipatingAtLeastOneEvent = participatingEventsCount > 0
+  const hasAppliedForAtLeastOneEvent = appliedEventsCount > 0
 
   const renderCard = () => {
     switch (type) {
@@ -45,8 +49,9 @@ export const EventCard = ({
       default:
         return (
           <EventCardDefault
-            appliedEventsCount={appliedEventsCount}
             event={event}
+            hasAppliedForAtLeastOneEvent={hasAppliedForAtLeastOneEvent}
+            isParticipatingAtLeastOneEvent={isParticipatingAtLeastOneEvent}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
           />
@@ -98,7 +103,7 @@ export const EventCard = ({
             buttonProps={{
               block: true,
               disabled:
-                appliedEventsCount > 0 &&
+                hasAppliedForAtLeastOneEvent &&
                 event.participationRequestStatus !== 'APPROVED',
             }}
             event={event}

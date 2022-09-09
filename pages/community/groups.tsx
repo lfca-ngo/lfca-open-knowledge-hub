@@ -66,6 +66,9 @@ const Groups: NextPage = () => {
             appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
             events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
+            participatingEvents={
+              error ? [] : eventsByParticipation.participatingEvents
+            }
           />
         </Section>
       </Main>
@@ -75,6 +78,9 @@ const Groups: NextPage = () => {
             appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
             events={error ? [] : eventsByParticipation.participatingEvents}
             fetching={fetching}
+            participatingEvents={
+              error ? [] : eventsByParticipation.participatingEvents
+            }
             type="compact"
           />
         </Section>

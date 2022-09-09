@@ -11,6 +11,7 @@ interface EventsListProps {
   appliedEvents: EventFragment[]
   events: EventFragment[]
   fetching: boolean
+  participatingEvents: EventFragment[]
   type?: EventCardProps['type']
 }
 
@@ -18,6 +19,7 @@ export const EventsList = ({
   appliedEvents,
   events,
   fetching,
+  participatingEvents,
   type,
 }: EventsListProps) => {
   return (
@@ -40,6 +42,7 @@ export const EventsList = ({
                 <EventCard
                   appliedEventsCount={appliedEvents.length}
                   event={item}
+                  participatingEventsCount={participatingEvents.length}
                   type={type}
                 />
               </EventCardSkeleton>

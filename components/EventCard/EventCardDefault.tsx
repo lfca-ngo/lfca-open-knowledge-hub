@@ -18,8 +18,9 @@ import { LogoGroup } from '../LogoGroup'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 
 export const EventCardDefault = ({
-  appliedEventsCount,
   event,
+  hasAppliedForAtLeastOneEvent,
+  isParticipatingAtLeastOneEvent,
   onClick,
 }: EventCardDefaultProps) => {
   const isPending = event.participationRequestStatus === 'PENDING'
@@ -82,7 +83,11 @@ export const EventCardDefault = ({
           <div className="actions">
             <Space>
               <ToggleSubscribeButton
-                buttonProps={{ disabled: appliedEventsCount > 0 && !isPending }}
+                buttonProps={{
+                  disabled:
+                    (hasAppliedForAtLeastOneEvent && !isPending) ||
+                    isParticipatingAtLeastOneEvent,
+                }}
                 event={event}
               />
             </Space>

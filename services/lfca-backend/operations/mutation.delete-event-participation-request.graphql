@@ -2,6 +2,10 @@ mutation deleteEventParticipationRequest(
   $input: DeleteEventParticipationRequestInput!
 ) {
   deleteEventParticipationRequest(input: $input) {
-    ...EventParticipationRequest
+    event {
+      ...Event
+    }
+    id
+    status
   }
 }
