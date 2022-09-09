@@ -1,10 +1,7 @@
-import { EyeOutlined, HourglassOutlined } from '@ant-design/icons'
-import { Avatar, Button, Card, message, Popover, Space } from 'antd'
+import { EyeOutlined } from '@ant-design/icons'
+import { Avatar, Card, Space } from 'antd'
 
-import {
-  EventFragment,
-  useCreateEventParticipationRequestMutation,
-} from '../../services/lfca-backend'
+import { EventFragment } from '../../services/lfca-backend'
 import { Recurrence, Status } from './EventMeta'
 import { matchStringToIcon } from './utils'
 
