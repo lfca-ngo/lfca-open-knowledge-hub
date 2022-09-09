@@ -13,11 +13,12 @@ export const EventCardSkeleton = ({
 }) => (
   <Skeleton
     active
-    className={`event-card-skeleton${type}`}
+    avatar={{ shape: 'square', size: 'large' }}
+    className={`event-card-skeleton`}
     loading={fetching}
     paragraph={{
-      rows: type === 'compact' ? 3 : 6,
-      width: type === 'compact' ? ['80%', '80%', '80%'] : undefined,
+      rows: type === 'compact' ? 3 : 2,
+      width: '100%',
     }}
     title={{
       width: type === 'compact' ? '100%' : '40%',

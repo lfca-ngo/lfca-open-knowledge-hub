@@ -125,24 +125,31 @@
 }
 
 .event-card-skeleton {
-  border: 1px solid @bg-accent;
-  border-radius: @border-radius-base;
-  padding: @card-padding-base-sm*2;
-  margin-bottom: 20px;
+  display: flex;
+  margin-bottom: 30px;
 
-  &:not(.compact) {
-    &.ant-skeleton {
-      .ant-skeleton-paragraph {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+  &.ant-skeleton-with-avatar
+    .ant-skeleton-content
+    .ant-skeleton-title
+    + .ant-skeleton-paragraph {
+    margin-top: 20px;
+    li {
+      height: 20px;
+    }
+  }
 
-        li {
-          flex-basis: 20%;
-          margin: 0 13.333% 16px 0;
-          width: none !important;
-        }
-      }
+  &.ant-skeleton-with-avatar .ant-skeleton-content .ant-skeleton-title {
+    height: 30px;
+    margin-top: 0;
+  }
+
+  .ant-skeleton-header {
+    padding-right: 40px;
+
+    .ant-skeleton-avatar {
+      border-radius: @border-radius-base;
+      width: 90px;
+      height: 90px;
     }
   }
 }
