@@ -1,6 +1,7 @@
 import {
   CalendarOutlined,
   CheckOutlined,
+  ClockCircleOutlined,
   FieldTimeOutlined,
   SolutionOutlined,
 } from '@ant-design/icons'
@@ -51,6 +52,19 @@ export const Recurrence = ({ event }: EventMetaProps) => {
       {event.recurrence
         ? RRule.fromString(event.recurrence).toText()
         : moment(event.start).format('LL')}
+    </Space>
+  )
+}
+
+export const Time = ({ event }: EventMetaProps) => {
+  return (
+    <Space align="start">
+      <ClockCircleOutlined />
+      {event.isAllDay
+        ? 'all day'
+        : `${moment(event.start).format('LT')} - ${moment(event.end).format(
+            'LT'
+          )}`}
     </Space>
   )
 }

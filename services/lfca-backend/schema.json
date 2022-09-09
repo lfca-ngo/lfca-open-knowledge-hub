@@ -1375,6 +1375,14 @@
               }
             },
             "args": []
+          },
+          {
+            "name": "videoConferenceUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
           }
         ],
         "interfaces": []

@@ -1,7 +1,8 @@
-import { Card, Space } from 'antd'
+import { VideoCameraAddOutlined } from '@ant-design/icons'
+import { Button, Card, Space } from 'antd'
 
 import { EventFragment } from '../../services/lfca-backend'
-import { Recurrence, Status } from './EventMeta'
+import { Recurrence, Status, Time } from './EventMeta'
 
 export interface EventCardDefaultProps {
   event: EventFragment
@@ -12,6 +13,8 @@ export interface EventCardDefaultProps {
 import { LogoGroup } from '../LogoGroup'
 
 export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
+  const eventIsApproved = event.participationRequestStatus === 'APPROVED'
+
   return (
     <>
       <Card className="event-card compact" hoverable onClick={onClick}>
@@ -22,9 +25,11 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
               <div className="event-meta">
                 <Space direction="vertical" size="large">
                   <Status event={event} />
+                  <Time event={event} />
                   <Recurrence event={event} />
                 </Space>
               </div>
+
               <div className="participants">
                 <LogoGroup
                   data={event?.participationRequests.map(
@@ -32,6 +37,23 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
                   )}
                   size={35}
                 />
+              </div>
+              <div className="actions">
+                {eventIsApproved && event.videoConferenceUrl && (
+                  <a
+                    href={event.videoConferenceUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <Button
+                      block
+                      icon={<VideoCameraAddOutlined />}
+                      type="primary"
+                    >
+                      Join meeting
+                    </Button>
+                  </a>
+                )}
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 require('./styles.less')
+import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Divider, Modal, Space } from 'antd'
 
 import { EventFragment } from '../../services/lfca-backend'
@@ -7,6 +8,7 @@ import {
   ParticipationRequestsPending,
   Recurrence,
   Status,
+  Time,
 } from './EventMeta'
 
 export interface EventCardProps {
@@ -27,6 +29,7 @@ export const EventCard = ({
   type,
 }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
+  const eventIsApproved = event.participationRequestStatus === 'APPROVED'
 
   const renderCard = () => {
     switch (type) {
@@ -69,6 +72,7 @@ export const EventCard = ({
         <div className="event-meta">
           <Space direction="vertical" size="large">
             <Status event={event} />
+            <Time event={event} />
             <Recurrence event={event} />
             <ParticipationRequestsApproved event={event} />
             <ParticipationRequestsPending event={event} />
@@ -76,16 +80,26 @@ export const EventCard = ({
         </div>
 
         <Divider />
-        <ToggleSubscribeButton
-          buttonProps={{
-            block: true,
-            disabled:
-              appliedEventsCount > 0 &&
-              event.participationRequestStatus !== 'APPROVED',
-          }}
-          event={event}
-          key="unsubscribe"
-        />
+        <Space direction="vertical" style={{ width: '100%' }}>
+          {eventIsApproved && event.videoConferenceUrl && (
+            <a href={event.videoConferenceUrl} rel="noreferrer" target="_blank">
+              <Button block icon={<VideoCameraAddOutlined />} type="primary">
+                Join meeting
+              </Button>
+            </a>
+          )}
+          <ToggleSubscribeButton
+            buttonProps={{
+              block: true,
+              disabled:
+                appliedEventsCount > 0 &&
+                event.participationRequestStatus !== 'APPROVED',
+            }}
+            event={event}
+            key="toggle-subscribe"
+          />
+        </Space>
+
         <Divider />
 
         {event.description ? (

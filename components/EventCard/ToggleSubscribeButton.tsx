@@ -47,7 +47,7 @@ export const ToggleSubscribeButton = ({
     if (res.error) {
       message.error(res.error.message)
     } else {
-      message.success('You are removed from this group')
+      message.success('You have been removed from this group')
     }
   }
 
@@ -72,7 +72,7 @@ export const ToggleSubscribeButton = ({
         key="unsubscribe"
         loading={subscribing || deleting}
         onClick={changeEventSubscription}
-        type="primary"
+        type={isNotRequested ? 'primary' : 'default'}
         {...buttonProps}
       >
         {isNotRequested ? 'Join' : 'Unsubscribe'}
