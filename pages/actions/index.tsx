@@ -10,6 +10,8 @@ import {
   LS_ACTION_LIST,
 } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
+import { EventsList } from '../../components/EventsList'
+import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
@@ -19,6 +21,7 @@ import {
   EMPTY_ACTIONS,
   sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
+  useEventsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
@@ -30,6 +33,10 @@ interface HomePageProps {
 const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const router = useRouter()
   const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
+
+  // Fetch events to show upcoming
+  const [{ data, error, fetching }] = useEventsQuery()
+  const eventsByParticipation = getEventsByParticipationStatus(data?.events)
 
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
@@ -105,6 +112,31 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             popoverTitle="What's waiting for you"
           >
             <AchievementsListMini />
+          </PayWall>
+        </Section>
+        <Section title="Your groups">
+          <PayWall
+            popoverContent={
+              <div>
+                <p>
+                  Mastermind Groups are small teams of 5-10 community members
+                  that are grouped by industry, challenge or region. They meet
+                  monthly and share their progress, practical learnings and
+                  support each other.
+                </p>
+              </div>
+            }
+            popoverTitle="What's waiting for you"
+          >
+            <EventsList
+              appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
+              events={error ? [] : eventsByParticipation.participatingEvents}
+              fetching={fetching}
+              participatingEvents={
+                error ? [] : eventsByParticipation.participatingEvents
+              }
+              type="compact"
+            />
           </PayWall>
         </Section>
 

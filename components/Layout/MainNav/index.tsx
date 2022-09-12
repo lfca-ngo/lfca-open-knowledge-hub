@@ -48,7 +48,12 @@ import { VideoWrapper } from '../../VideoWrapper'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
 
-const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS, COMMUNITY]
+const NAV_ITEMS_BEHIND_PAYWALL = [
+  ACHIEVEMENTS,
+  TOOLS,
+  COMMUNITY,
+  COMMUNITY_GROUPS,
+]
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {
