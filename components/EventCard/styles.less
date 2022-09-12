@@ -17,32 +17,30 @@
 }
 
 .event-card.compact {
-  .ant-card-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .header {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 15px 20px;
+    flex-direction: row;
+    align-items: center;
 
-    .header {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .title {
-        flex: 1;
-        font-size: 18px;
-        margin: 5px 0 10px;
-        .font-semi(@black);
-      }
-    }
-    .info {
-      .actions {
-        margin-top: 10px;
-      }
+    .title {
+      flex: 1;
+      font-size: 18px;
+      margin: 10px 0 20px;
+      .font-semi(@black);
     }
   }
+  .info {
+    .actions {
+      margin-top: 10px;
+    }
+  }
+
   .participants {
-    margin: 10px 0 0;
+    margin: 15px 0 10px;
   }
 }
 
