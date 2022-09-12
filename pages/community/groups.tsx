@@ -2,42 +2,17 @@ import type { GetStaticProps, NextPage } from 'next'
 import React from 'react'
 
 import { EventsList } from '../../components/EventsList'
+import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
-import {
-  EMPTY_EVENTS,
-  EventFragment,
-  useEventsQuery,
-} from '../../services/lfca-backend'
+import { useEventsQuery } from '../../services/lfca-backend'
 import { COMMUNITY_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
 const Groups: NextPage = () => {
   const [{ data, error, fetching }] = useEventsQuery()
 
-  const eventsByParticipation = (data?.events || EMPTY_EVENTS).reduce(
-    (acc, curr) => {
-      if (curr.participationRequestStatus === 'APPROVED') {
-        acc.participatingEvents.push(curr)
-      } else {
-        acc.otherEvents.push(curr)
-        // push additionally to applied events
-        if (curr.participationRequestStatus === 'PENDING') {
-          acc.appliedEvents.push(curr)
-        }
-      }
-      return acc
-    },
-    {
-      appliedEvents: [],
-      otherEvents: [],
-      participatingEvents: [],
-    } as {
-      appliedEvents: EventFragment[]
-      participatingEvents: EventFragment[]
-      otherEvents: EventFragment[]
-    }
-  )
+  const eventsByParticipation = getEventsByParticipationStatus(data?.events)
 
   return (
     <SiderLayout nav={COMMUNITY_NAV}>
