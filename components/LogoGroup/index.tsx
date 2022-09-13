@@ -8,6 +8,7 @@ import { CompanyFragment } from '../../services/lfca-backend'
 interface LogoGroupProps {
   data?: (Partial<CompanyFragment> | null | undefined)[]
   label?: string
+  maxCount?: number
   reverse?: boolean
   size: AvatarProps['size']
 }
@@ -15,12 +16,13 @@ interface LogoGroupProps {
 export const LogoGroup = ({
   data = [],
   label,
+  maxCount,
   reverse,
   size,
 }: LogoGroupProps) => {
   return (
     <div className={classNames('logo-group', size, { reverse: reverse })}>
-      <Avatar.Group size={size}>
+      <Avatar.Group maxCount={maxCount} size={size}>
         {data?.length > 0 ? (
           data?.map((item, i) => (
             <Avatar key={`avatar-${i}`} shape="square" src={item?.logoUrl} />

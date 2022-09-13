@@ -77,6 +77,7 @@ export const EventCardDefault = ({
             <div className="participants">
               <LogoGroup
                 data={event?.participationRequests.map((r) => r?.user?.company)}
+                maxCount={10}
                 size={35}
               />
             </div>

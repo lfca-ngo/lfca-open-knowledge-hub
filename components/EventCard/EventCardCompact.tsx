@@ -36,6 +36,7 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
             <div className="participants">
               <LogoGroup
                 data={event?.participationRequests.map((r) => r?.user?.company)}
+                maxCount={5}
                 size={35}
               />
             </div>
