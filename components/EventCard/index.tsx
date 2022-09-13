@@ -89,6 +89,7 @@ export const EventCard = ({
             <ParticipationRequestsPending event={event} />
             <LogoGroup
               data={event?.participationRequests.map((r) => r?.user?.company)}
+              maxCount={10}
               size={60}
             />
           </Space>
