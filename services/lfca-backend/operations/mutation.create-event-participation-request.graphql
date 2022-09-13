@@ -3,5 +3,11 @@ mutation createEventParticipationRequest(
 ) {
   createEventParticipationRequest(input: $input) {
     ...EventParticipationRequest
+    event {
+      ...Event
+    }
+    user {
+      ...User
+    }
   }
 }
