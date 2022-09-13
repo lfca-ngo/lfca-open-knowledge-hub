@@ -20,14 +20,16 @@ import {
   StarOutlined,
 } from '@ant-design/icons'
 
-const contains = (string, words) => {
+import { EventFragment } from '../../services/lfca-backend'
+
+const contains = (string: string, words: string[]) => {
   for (const word of words) {
     if (string?.toLowerCase()?.indexOf(word) > -1) return true
   }
   return false
 }
 
-export const matchStringToIcon = (s) => {
+export const matchStringToIcon = (s: string) => {
   if (contains(s, ['e-commerce'])) return <ShoppingCartOutlined />
   if (contains(s, ['energy'])) return <BulbOutlined />
   if (contains(s, ['machine'])) return <ControlOutlined />
@@ -49,4 +51,14 @@ export const matchStringToIcon = (s) => {
   if (contains(s, ['api', 'cloud', 'tech'])) return <ApiOutlined />
   if (contains(s, ['chem', 'physics'])) return <ExperimentOutlined />
   return <HeartOutlined />
+}
+
+export const getUniqueParticipatingCompanies = (event: EventFragment) => {
+  const participatingCompanies = event.participationRequests.map(
+    (r) => r?.user?.company
+  )
+  const uniqueCompanies = participatingCompanies.filter(
+    (value, index, self) => self.map((x) => x?.id).indexOf(value?.id) == index
+  )
+  return uniqueCompanies
 }
