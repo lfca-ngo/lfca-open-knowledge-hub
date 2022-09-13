@@ -7,13 +7,16 @@ import {
   EventParticipationRequestFragment,
   EventParticipationStatus,
   useDeleteEventParticipationRequestMutation,
+  UserFragment,
   useUpdateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 
 interface AdminEventParticipationRequestProps {
   event: EventFragment
-  request: Pick<EventParticipationRequestFragment, 'status' | 'user'>
+  request: Pick<EventParticipationRequestFragment, 'status'> & {
+    user?: UserFragment | null
+  }
 }
 
 export const AdminEventParticipationRequest = ({

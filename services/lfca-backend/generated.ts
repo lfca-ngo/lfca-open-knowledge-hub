@@ -1007,7 +1007,7 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', id: string, name: string }> };
 
-export type EventParticipationRequestFragment = { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null };
+export type EventParticipationRequestFragment = { __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus };
 
 export type EventFragment = { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> };
 
@@ -1255,7 +1255,7 @@ export type EventParticipationRequestsQueryVariables = Exact<{
 }>;
 
 
-export type EventParticipationRequestsQuery = { __typename?: 'Query', eventParticipationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, event: { __typename?: 'Event', description: string, end?: any | null, id: string, isAllDay: boolean, participationRequestsApprovedCount: number, participationRequestsPendingCount: number, participationRequestStatus?: EventParticipationStatus | null, recurrence?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', firstName: string, lastName: string, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } | null }> }, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null }> };
+export type EventParticipationRequestsQuery = { __typename?: 'Query', eventParticipationRequests: Array<{ __typename?: 'EventParticipationRequest', id: string, status: EventParticipationStatus, user?: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } | null }> };
 
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
@@ -1578,6 +1578,12 @@ export const CompanyFragmentDoc = gql`
   websiteUrl
 }
     `;
+export const EventParticipationRequestFragmentDoc = gql`
+    fragment EventParticipationRequest on EventParticipationRequest {
+  id
+  status
+}
+    `;
 export const EventFragmentDoc = gql`
     fragment Event on Event {
   description
@@ -1607,40 +1613,6 @@ export const EventFragmentDoc = gql`
   }
 }
     `;
-export const UserFragmentDoc = gql`
-    fragment User on User {
-  company {
-    id
-    logoUrl
-    name
-    programContentId
-    subscriptionType
-  }
-  country
-  deletedAt
-  email
-  firstName
-  id
-  lastName
-  phone
-  picture
-  roles
-  sortWeight
-}
-    `;
-export const EventParticipationRequestFragmentDoc = gql`
-    fragment EventParticipationRequest on EventParticipationRequest {
-  event {
-    ...Event
-  }
-  id
-  status
-  user {
-    ...User
-  }
-}
-    ${EventFragmentDoc}
-${UserFragmentDoc}`;
 export const ServiceProviderReviewFragmentDoc = gql`
     fragment ServiceProviderReview on ServiceProviderReview {
   author {
@@ -1676,6 +1648,27 @@ export const UserInviteFragmentDoc = gql`
     id
     email
   }
+}
+    `;
+export const UserFragmentDoc = gql`
+    fragment User on User {
+  company {
+    id
+    logoUrl
+    name
+    programContentId
+    subscriptionType
+  }
+  country
+  deletedAt
+  email
+  firstName
+  id
+  lastName
+  phone
+  picture
+  roles
+  sortWeight
 }
     `;
 export const CompleteCompanyActionRequirementDocument = gql`
@@ -1755,9 +1748,17 @@ export const CreateEventParticipationRequestDocument = gql`
     mutation createEventParticipationRequest($input: CreateEventParticipationRequestInput!) {
   createEventParticipationRequest(input: $input) {
     ...EventParticipationRequest
+    event {
+      ...Event
+    }
+    user {
+      ...User
+    }
   }
 }
-    ${EventParticipationRequestFragmentDoc}`;
+    ${EventParticipationRequestFragmentDoc}
+${EventFragmentDoc}
+${UserFragmentDoc}`;
 
 export function useCreateEventParticipationRequestMutation() {
   return Urql.useMutation<CreateEventParticipationRequestMutation, CreateEventParticipationRequestMutationVariables>(CreateEventParticipationRequestDocument);
@@ -1908,9 +1909,17 @@ export const UpdateEventParticipationRequestDocument = gql`
     mutation updateEventParticipationRequest($input: UpdateEventParticipationRequestInput!) {
   updateEventParticipationRequest(input: $input) {
     ...EventParticipationRequest
+    event {
+      ...Event
+    }
+    user {
+      ...User
+    }
   }
 }
-    ${EventParticipationRequestFragmentDoc}`;
+    ${EventParticipationRequestFragmentDoc}
+${EventFragmentDoc}
+${UserFragmentDoc}`;
 
 export function useUpdateEventParticipationRequestMutation() {
   return Urql.useMutation<UpdateEventParticipationRequestMutation, UpdateEventParticipationRequestMutationVariables>(UpdateEventParticipationRequestDocument);
@@ -2055,9 +2064,13 @@ export const EventParticipationRequestsDocument = gql`
     query eventParticipationRequests($input: EventParticipationRequestsInput!) {
   eventParticipationRequests(input: $input) {
     ...EventParticipationRequest
+    user {
+      ...User
+    }
   }
 }
-    ${EventParticipationRequestFragmentDoc}`;
+    ${EventParticipationRequestFragmentDoc}
+${UserFragmentDoc}`;
 
 export function useEventParticipationRequestsQuery(options: Omit<Urql.UseQueryArgs<EventParticipationRequestsQueryVariables>, 'query'>) {
   return Urql.useQuery<EventParticipationRequestsQuery>({ query: EventParticipationRequestsDocument, ...options });
