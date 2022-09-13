@@ -6,7 +6,7 @@ import {
   EventParticipationStatus,
 } from '../../services/lfca-backend'
 import { Recurrence, Status } from './EventMeta'
-import { matchStringToIcon } from './utils'
+import { getUniqueParticipatingCompanies, matchStringToIcon } from './utils'
 
 export interface EventCardDefaultProps {
   event: EventFragment
@@ -76,7 +76,7 @@ export const EventCardDefault = ({
             </div>
             <div className="participants">
               <LogoGroup
-                data={event?.participationRequests.map((r) => r?.user?.company)}
+                data={getUniqueParticipatingCompanies(event)}
                 maxCount={10}
                 size={35}
               />

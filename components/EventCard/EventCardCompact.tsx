@@ -14,6 +14,7 @@ export interface EventCardDefaultProps {
 }
 
 import { LogoGroup } from '../LogoGroup'
+import { getUniqueParticipatingCompanies } from './utils'
 
 export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
   const eventIsApproved =
@@ -35,7 +36,7 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
 
             <div className="participants">
               <LogoGroup
-                data={event?.participationRequests.map((r) => r?.user?.company)}
+                data={getUniqueParticipatingCompanies(event)}
                 maxCount={5}
                 size={35}
               />

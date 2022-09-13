@@ -27,6 +27,7 @@ import { LogoGroup } from '../LogoGroup'
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
+import { getUniqueParticipatingCompanies } from './utils'
 
 export const EventCard = ({
   appliedEventsCount,
@@ -88,7 +89,7 @@ export const EventCard = ({
             <ParticipationRequestsApproved event={event} />
             <ParticipationRequestsPending event={event} />
             <LogoGroup
-              data={event?.participationRequests.map((r) => r?.user?.company)}
+              data={getUniqueParticipatingCompanies(event)}
               maxCount={10}
               size={60}
             />
