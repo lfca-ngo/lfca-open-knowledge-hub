@@ -1,4 +1,4 @@
-import { Col, Divider, Row, Checkbox } from 'antd'
+import { Checkbox, Col, Divider, Row } from 'antd'
 
 import {
   ContentfulCategoryFields,
@@ -16,18 +16,17 @@ export const CategoryTree = ({ categoryTrees }: CategoryTreeProps) => {
         <Col key={`tree-${i}`} xs={6}>
           {tree.name}
           <Divider />
-          {tree.elements?.map(
-            (
-              element: ContentfulCategoryTreeFields | ContentfulCategoryFields,
-              j
-            ) => (
-              <div key={`subtree-${j}`}>
-                <Checkbox>{element.name}</Checkbox>
-
-                {/* check if is tree? */}
-              </div>
-            )
-          )}
+          {tree.elements?.map((element, j) => (
+            <div key={`subtree-${j}`}>
+              <Checkbox>{element.name}</Checkbox>
+              {'elements' in element &&
+                element.elements?.map((subElement, k) => (
+                  <div key={`sub-sub-tree-${k}`}>
+                    * <Checkbox>{subElement.name}</Checkbox>
+                  </div>
+                ))}
+            </div>
+          ))}
         </Col>
       ))}
     </Row>
