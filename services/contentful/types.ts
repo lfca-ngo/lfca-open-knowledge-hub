@@ -62,15 +62,6 @@ export interface ContentfulCategoryFields {
   sortingWeight?: number
 }
 
-interface ContentfulCustomSectionFields {
-  componentId: string
-  title: string
-  bordered: boolean
-  size: string
-  position: string
-  className: string
-}
-
 export interface ContentfulActionFields {
   title: string
   actionId: string
@@ -140,5 +131,13 @@ export interface ContentfulCallToActionFields {
   slug?: string
   type?: 'primary' | 'default' | 'link'
   title: string
+  url?: string
+}
+
+export interface ContentfulCategoryTreeFields {
+  name?: string
+  elements?: (ContentfulCategoryFields | ContentfulCategoryTreeFields)[]
+  sortWeight: number
+  isMainCategory: boolean
   url?: string
 }
