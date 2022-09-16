@@ -15,12 +15,12 @@ import { getEventsByParticipationStatus } from '../../components/EventsList/util
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { useScrollPosition } from '../../hooks/useScrollPosition'
+import { ContentfulContentCollectionFields } from '../../services/contentful'
 import {
-  ContentfulCategoryTreeFields,
-  ContentfulContentCollectionFields,
+  CategoryTreesProps,
+  fetchMainCategoryTrees,
 } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
-import { fetchMainCategoryTrees } from '../../services/contentful/fetch-main-category-trees'
 import {
   EMPTY_ACTIONS,
   sortCompanyActionsByCategories,
@@ -32,12 +32,12 @@ import { withAuth } from '../../utils/with-auth'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
-  mainCategoryTrees: ContentfulCategoryTreeFields[]
+  categoryTrees: CategoryTreesProps
 }
 
 const Home: NextPage<HomePageProps> = ({
+  categoryTrees,
   content,
-  mainCategoryTrees,
 }: HomePageProps) => {
   const router = useRouter()
   const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
@@ -101,8 +101,8 @@ const Home: NextPage<HomePageProps> = ({
               renderAsLink: true,
             }}
             actionsByCategories={actionsByCategories}
+            categoryTrees={categoryTrees}
             fetching={fetchingActions}
-            mainCategoryTrees={mainCategoryTrees}
           />
         </Section>
       </Main>
@@ -159,12 +159,12 @@ const Home: NextPage<HomePageProps> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const content = await fetchAllContentCollections()
-  const mainCategoryTrees = await fetchMainCategoryTrees()
+  const categoryTrees = await fetchMainCategoryTrees()
 
   return {
     props: {
+      categoryTrees,
       content,
-      mainCategoryTrees,
     },
   }
 }

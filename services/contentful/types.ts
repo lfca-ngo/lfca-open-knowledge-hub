@@ -59,7 +59,6 @@ export interface ContentfulRequirementFields {
 export interface ContentfulCategoryFields {
   categoryId: string
   name: string
-  sortingWeight?: number
 }
 
 export interface ContentfulActionFields {
@@ -135,9 +134,7 @@ export interface ContentfulCallToActionFields {
 }
 
 export interface ContentfulCategoryTreeFields {
+  categoryId: string
   name?: string
   elements?: (ContentfulCategoryFields | ContentfulCategoryTreeFields)[]
-  sortWeight: number
-  isMainCategory: boolean
-  url?: string
 }

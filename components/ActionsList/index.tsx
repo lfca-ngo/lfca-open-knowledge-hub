@@ -4,15 +4,15 @@ import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
-import { ContentfulCategoryTreeFields } from '../../services/contentful'
+import { CategoryTreesProps } from '../../services/contentful'
 import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
-import { FilterBar, SORT_OPTIONS } from './FilterBar'
-import { FilterFormItems } from './FilterBar'
 import { CategoryTree } from './CategoryTree'
+import { SORT_OPTIONS } from './FilterBar'
+import { FilterFormItems } from './FilterBar'
 
 export const LS_ACTION_LIST = 'actions_list'
 
@@ -27,14 +27,14 @@ export interface ActionListProps {
   actionsByCategories: Record<string, CompanyActionListItemFragment[]>
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  mainCategoryTrees: ContentfulCategoryTreeFields[]
+  categoryTrees: CategoryTreesProps
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actionsByCategories,
+  categoryTrees,
   fetching,
-  mainCategoryTrees,
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
   // unnecessary rerenders (LS is available on initial render)
@@ -98,7 +98,7 @@ export const ActionsList = ({
 
   return (
     <div className="actions-list">
-      <CategoryTree categoryTrees={mainCategoryTrees} />
+      <CategoryTree categoryTrees={categoryTrees} />
 
       {/* <FilterBar
         categories={Object.keys(actionsByCategories)}
