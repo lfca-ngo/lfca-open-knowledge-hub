@@ -37,8 +37,8 @@ export const CategoryTree = ({
       // if checked element is tree parent => get all children and childrens children
       const withChildren = [...children, name]
       if (checked) {
-        // mark also all children
-        const withPreviousState = [...value, ...withChildren]
+        // mark also all children and the parents
+        const withPreviousState = [...value, ...withChildren, ...ancestors]
 
         return onChange?.(withPreviousState)
       } else {
