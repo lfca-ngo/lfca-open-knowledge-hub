@@ -1,8 +1,14 @@
-import { Checkbox, Col, Divider, Row } from 'antd'
+import { Checkbox } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 import { CategoryTreesProps } from '../../services/contentful'
-import { findCategoryAncestors, findCategoryChildren } from './utils'
+import { ShowMore } from '../ShowMore'
+import { CategoryTreeElement } from './CategoryTreeElement'
+import {
+  findCategoryAncestors,
+  findCategoryChildren,
+  mainTreeMetaData,
+} from './utils'
 
 export interface CategoryTreeProps {
   categoryTrees: CategoryTreesProps
@@ -58,49 +64,42 @@ export const CategoryTree = ({
   }
 
   return (
-    <Row>
-      {categoryTrees.map((tree, i) => (
-        <Col key={`tree-${i}`} xs={6}>
-          <Checkbox
-            checked={value?.indexOf(tree.categoryId) > -1}
-            name={tree.categoryId}
-            onChange={(e) => handleChange(e, 'elements' in tree)}
-          >
-            {tree.name}
-          </Checkbox>
-          {/* 
-            1. When a child is selected, the parents must be selected as well
-            2. When a parent is selected or unselected, the operation must apply to all children
-          */}
-          <Divider />
-          {tree.elements?.map((element, j) => (
-            <div key={`subtree-${j}`}>
-              <Checkbox
-                checked={value?.indexOf(element.categoryId) > -1}
-                name={element.categoryId}
-                onChange={(e) => handleChange(e, 'elements' in element)}
-              >
-                {element.name}
-              </Checkbox>
-              {'elements' in element &&
-                element.elements?.map((subElement, k) => (
-                  <div key={`sub-sub-tree-${k}`}>
-                    *{' '}
-                    <Checkbox
-                      checked={value?.indexOf(subElement.categoryId) > -1}
-                      name={subElement.categoryId}
-                      onChange={(e) =>
-                        handleChange(e, 'elements' in subElement)
-                      }
-                    >
-                      {subElement.name}
-                    </Checkbox>
-                  </div>
-                ))}
-            </div>
-          ))}
-        </Col>
-      ))}
-    </Row>
+    <div className="category-tree">
+      {categoryTrees.map((tree, i) => {
+        const treeMetaData = mainTreeMetaData[tree.categoryId]
+        return (
+          <div className={`tree-col ${treeMetaData.color}`} key={`tree-${i}`}>
+            <ShowMore
+              buttonProps={{ block: true, size: 'small' }}
+              maxHeight={180}
+              text={
+                <>
+                  <Checkbox
+                    checked={value?.indexOf(tree.categoryId) > -1}
+                    className={'main-tree-checkbox'}
+                    name={tree.categoryId}
+                    onChange={(e) => handleChange(e, 'elements' in tree)}
+                  >
+                    <div className="name">
+                      {treeMetaData?.icon}
+                      {tree.name}
+                    </div>
+                  </Checkbox>
+
+                  {tree.elements?.map((element, j) => (
+                    <CategoryTreeElement
+                      element={element}
+                      handleChange={handleChange}
+                      key={`subtree-${j}`}
+                      value={value}
+                    />
+                  ))}
+                </>
+              }
+            />
+          </div>
+        )
+      })}
+    </div>
   )
 }

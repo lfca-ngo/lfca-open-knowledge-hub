@@ -1,15 +1,15 @@
 require('./styles.less')
 
-import { Button } from 'antd'
+import { Button, ButtonProps } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
 export const ShowMore = ({
+  buttonProps = { size: 'small' },
   maxHeight,
-  size = 'small',
   text,
 }: {
-  size?: 'small'
+  buttonProps?: ButtonProps
   text: any
   maxHeight: number
 }) => {
@@ -46,7 +46,7 @@ export const ShowMore = ({
               opacity: isExpanded ? 0 : 1,
             }}
           />
-          <Button onClick={() => setIsExpanded((v) => !v)} size={size}>
+          <Button onClick={() => setIsExpanded((v) => !v)} {...buttonProps}>
             {`show ${isExpanded ? 'less' : 'more'}`}
           </Button>
         </div>

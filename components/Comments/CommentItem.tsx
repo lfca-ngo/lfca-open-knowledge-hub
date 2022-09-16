@@ -80,7 +80,6 @@ export const CommentItem = ({
         <div className="body">
           <ShowMore
             maxHeight={140}
-            size="small"
             text={
               <>
                 <div

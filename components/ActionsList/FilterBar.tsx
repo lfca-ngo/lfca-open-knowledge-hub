@@ -1,7 +1,7 @@
 import { Form, FormInstance, Input, Select, Space } from 'antd'
 import React from 'react'
-import { CategoryTreesProps } from '../../services/contentful'
 
+import { CategoryTreesProps } from '../../services/contentful'
 import { CategoryTree } from './CategoryTree'
 
 const { Search } = Input
@@ -25,10 +25,10 @@ interface FilterBarProps {
 }
 
 export const FilterBar = ({
+  categoryTrees,
   form,
   initialValues,
   onValuesChange,
-  categoryTrees,
 }: FilterBarProps) => {
   return (
     <Form
@@ -37,22 +37,24 @@ export const FilterBar = ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <Form.Item name="categories">
-        <CategoryTree categoryTrees={categoryTrees} />
-      </Form.Item>
-
-      <Space>
-        <Form.Item name="sorting">
-          <Select placeholder="Please select">
-            {SORT_OPTIONS.map((option) => (
-              <Select.Option key={option.key}>{option.label}</Select.Option>
-            ))}
-          </Select>
+      <Space direction="vertical">
+        <Form.Item name="categories">
+          <CategoryTree categoryTrees={categoryTrees} />
         </Form.Item>
 
-        <Form.Item name="search">
-          <Search placeholder="Search..." />
-        </Form.Item>
+        <Space style={{ width: '100%' }}>
+          <Form.Item name="sorting">
+            <Select placeholder="Please select">
+              {SORT_OPTIONS.map((option) => (
+                <Select.Option key={option.key}>{option.label}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="search">
+            <Search placeholder="Search..." />
+          </Form.Item>
+        </Space>
       </Space>
     </Form>
   )
