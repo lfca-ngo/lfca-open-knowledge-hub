@@ -11,23 +11,13 @@ export interface CategoryTreeProps {
   onChange?: (value: string[]) => void
 }
 
-function onlyUnique(value: any, index: any, self: any) {
-  return self.indexOf(value) === index
-}
-
 export const CategoryTree = ({
   categoryTrees: categoryTreesStructure,
-}: // value,
-// onChange,
-CategoryTreeProps) => {
+  value,
+  onChange,
+}: CategoryTreeProps) => {
   const { categoryTrees, lookUp } = categoryTreesStructure
-
-  // incoming are just the active tags, they don't know about the category trees
   const [treeState, setTreeState] = useState<(string | null)[]>([])
-  // local state needs to
-
-  // const x = traverseTree(tree)
-  // console.log(findAncestors('0'), findAncestors('product-end-of-life'))
 
   const handleChange = (e: CheckboxChangeEvent) => {
     const name = e.target.name
@@ -60,7 +50,7 @@ CategoryTreeProps) => {
         const withAncestors = [...ancestors, name]
         const withPreviousState = [...treeState, ...withAncestors]
 
-        setTreeState(withPreviousState.filter(onlyUnique))
+        setTreeState(withPreviousState.filter((v, i, s) => s.indexOf(v) === i))
       } else {
         // remove the single item from state
         const withoutItem = treeState.filter((i) => i !== name)
