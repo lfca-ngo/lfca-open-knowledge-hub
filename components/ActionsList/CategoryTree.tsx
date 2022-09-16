@@ -70,7 +70,7 @@ export const CategoryTree = ({
         return (
           <div className={`tree-col ${treeMetaData.color}`} key={`tree-${i}`}>
             <ShowMore
-              buttonProps={{ block: true, size: 'small' }}
+              buttonProps={{ block: true, size: 'small', type: 'link' }}
               maxHeight={180}
               text={
                 <>

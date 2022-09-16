@@ -1,6 +1,7 @@
 @import (reference) '../../styles/variables.less';
 @import (reference) '../../styles/fonts.less';
 
+// Helper mixin to color a column
 .color-checkbox(@color: @black) {
   .ant-checkbox-checked .ant-checkbox-inner {
     background-color: @color;
@@ -27,12 +28,34 @@
   }
   .sub-sub-tree-checkbox {
     background: fade(@color, 10%);
+    &:hover {
+      background: fade(@color, 15%);
+    }
   }
   .sub-tree-checkbox {
     background: fade(@color, 5%);
+    &:hover {
+      background: fade(@color, 10%);
+
+      .ant-btn {
+        background-color: @white;
+        .anticon {
+          margin-top: 3px;
+        }
+      }
+    }
+
+    > span:not(.ant-checkbox) {
+      .ant-btn {
+        .anticon {
+          color: @black;
+        }
+      }
+    }
   }
 }
 
+// main styles of component
 .actions-list {
   > .ant-divider {
     margin: 15px 0 0;
@@ -41,7 +64,19 @@
 
   .category-tree {
     display: flex;
-    gap: 30px;
+    gap: 20px;
+
+    .show-more {
+      > .show-more-button {
+        > .ant-btn {
+          border-color: transparent;
+          background-color: fade(@black, 3%);
+          &:hover {
+            background-color: fade(@black, 6%);
+          }
+        }
+      }
+    }
 
     .tree-col {
       width: calc(100% / 4);
@@ -49,7 +84,7 @@
 
       // add colors
       &.yellow {
-        .color-checkbox(darken(@yellow, 5%) );
+        .color-checkbox(darken(@yellow, 5%));
       }
       &.wine {
         .color-checkbox(@wine);
@@ -98,6 +133,28 @@
 
         > span:not(.ant-checkbox) {
           padding-left: 10px;
+          padding-right: 0;
+          display: flex;
+          flex: 1;
+
+          .text {
+            flex: 1;
+          }
+
+          .ant-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding: 6px;
+            border-radius: 6px;
+
+            .anticon {
+              font-size: @font-size-sm;
+              transition: all 0.3s ease-in-out;
+            }
+          }
         }
       }
 

@@ -31,10 +31,17 @@ export const CategoryTreeElement = ({
         name={element.categoryId}
         onChange={(e) => handleChange(e, 'elements' in element)}
       >
-        {element.name}
+        <span className="text">{element.name}</span>
 
         {'elements' in element && (
-          <Button icon={<DownOutlined />} onClick={toggle} size="small" />
+          <Button
+            icon={
+              <DownOutlined style={{ rotate: isOpen ? '180deg' : '0deg' }} />
+            }
+            onClick={toggle}
+            size="small"
+            type="link"
+          />
         )}
       </Checkbox>
 
