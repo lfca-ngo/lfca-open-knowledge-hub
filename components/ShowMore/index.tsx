@@ -19,6 +19,7 @@ export const ShowMore = ({
 
   React.useEffect(() => {
     const element: any = contentRef.current
+
     if (!element.return)
       setIsShowMoreVisible(element.scrollHeight > element.clientHeight)
   }, [contentRef])
@@ -33,7 +34,7 @@ export const ShowMore = ({
       <div
         className="content"
         ref={contentRef}
-        style={!isExpanded ? { maxHeight: maxHeight } : undefined}
+        style={isExpanded ? undefined : { maxHeight: maxHeight }}
       >
         {text}
       </div>
