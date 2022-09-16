@@ -23,7 +23,6 @@ import {
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
   EMPTY_ACTIONS,
-  sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
   useEventsQuery,
 } from '../../services/lfca-backend'
@@ -49,14 +48,6 @@ const Home: NextPage<HomePageProps> = ({
   // TODO: UI for error state
   const [{ data: actionsData, fetching: fetchingActions }] =
     useCompanyActionsListQuery()
-
-  const actionsByCategories = useMemo(
-    () =>
-      sortCompanyActionsByCategories(
-        actionsData?.companyActions || EMPTY_ACTIONS
-      ),
-    [actionsData]
-  )
 
   /**
    * Highlight actions that are
@@ -100,7 +91,7 @@ const Home: NextPage<HomePageProps> = ({
             actionListItemProps={{
               renderAsLink: true,
             }}
-            actionsByCategories={actionsByCategories}
+            actions={actionsData?.companyActions || EMPTY_ACTIONS}
             categoryTrees={categoryTrees}
             fetching={fetchingActions}
           />

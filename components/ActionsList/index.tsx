@@ -5,26 +5,24 @@ import React, { useMemo } from 'react'
 
 import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { CategoryTreesProps } from '../../services/contentful'
-import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
-import { CategoryTree } from './CategoryTree'
 import { SORT_OPTIONS } from './FilterBar'
-import { FilterFormItems } from './FilterBar'
+import { FilterBar, FilterFormItems } from './FilterBar'
 
 export const LS_ACTION_LIST = 'actions_list'
 
 export const INITIAL_VALUES = {
-  categories: [ALL_ACTIONS_LABEL],
+  categories: [],
   currentPage: 1,
   search: '',
   sorting: SORT_OPTIONS[0].key,
 }
 
 export interface ActionListProps {
-  actionsByCategories: Record<string, CompanyActionListItemFragment[]>
+  actions: CompanyActionListItemFragment[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
   categoryTrees: CategoryTreesProps
@@ -32,7 +30,7 @@ export interface ActionListProps {
 
 export const ActionsList = ({
   actionListItemProps,
-  actionsByCategories,
+  actions,
   categoryTrees,
   fetching,
 }: ActionListProps) => {
@@ -57,7 +55,7 @@ export const ActionsList = ({
     // when searching, clear out all other filters
     if (latestChange?.search) {
       form.setFieldsValue({
-        tags: [ALL_ACTIONS_LABEL],
+        tags: [],
       })
       savePosition({ search: latestChange.search })
     } else {
@@ -70,20 +68,25 @@ export const ActionsList = ({
   // the list data by applying filter, search and sorting
   // by applying the actions directly on the list instead
   // of saving to a local list state we can prevent re-renders
-  const actions = useMemo(() => {
-    const [activeCategory] = formOptions?.categories || []
+  const filteredActions = useMemo(() => {
+    const activeCategories = formOptions?.categories || []
     const activeSearch = formOptions?.search || ''
     const activeSorting = formOptions?.sorting
-    // the below applies the tag filter
-    const actions =
-      actionsByCategories[activeCategory] ||
-      actionsByCategories[ALL_ACTIONS_LABEL]
 
     return (
       actions
-        // the below applies the search filter
+        // the below applies the search and category filter
         .filter((action) => {
-          return lowerCaseSearch(activeSearch, action.title || '')
+          const actionCategories = action.categories.map((c) => c.id)
+          const intersectingCategories = actionCategories.filter((value) =>
+            activeCategories.includes(value)
+          )
+          const matchesCategory = intersectingCategories.length > 0
+          const matchesSearch = lowerCaseSearch(
+            activeSearch,
+            action.title || ''
+          )
+          return matchesSearch && matchesCategory
         })
         // the below applies the sorting filter
         .sort((a, b) => {
@@ -94,22 +97,20 @@ export const ActionsList = ({
           }
         })
     )
-  }, [actionsByCategories, formOptions])
+  }, [actions, formOptions])
 
   return (
     <div className="actions-list">
-      <CategoryTree categoryTrees={categoryTrees} />
-
-      {/* <FilterBar
-        categories={Object.keys(actionsByCategories)}
+      <FilterBar
+        categoryTrees={categoryTrees}
         form={form}
         initialValues={formOptions}
         onValuesChange={handleChange}
-      /> */}
+      />
       <Divider />
       <List
         className="no-padding"
-        dataSource={actions}
+        dataSource={filteredActions}
         pagination={{
           current: currentPage,
           defaultCurrent: currentPage,

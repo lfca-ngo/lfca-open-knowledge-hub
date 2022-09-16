@@ -1,8 +1,8 @@
 import { Form, FormInstance, Input, Select, Space } from 'antd'
 import React from 'react'
+import { CategoryTreesProps } from '../../services/contentful'
 
-import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
-import { DropdownSelect } from '../DropdownSelect'
+import { CategoryTree } from './CategoryTree'
 
 const { Search } = Input
 
@@ -12,7 +12,6 @@ export const SORT_OPTIONS = [
 ]
 
 export interface FilterFormItems {
-  categories?: string[]
   search?: string
   sorting?: string
 }
@@ -20,7 +19,8 @@ export interface FilterFormItems {
 interface FilterBarProps {
   form: FormInstance<FilterFormItems>
   initialValues?: FilterFormItems
-  categories?: string[]
+
+  categoryTrees: CategoryTreesProps
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
 }
 
@@ -28,7 +28,7 @@ export const FilterBar = ({
   form,
   initialValues,
   onValuesChange,
-  categories = [ALL_ACTIONS_LABEL],
+  categoryTrees,
 }: FilterBarProps) => {
   return (
     <Form
@@ -38,10 +38,7 @@ export const FilterBar = ({
       onValuesChange={onValuesChange}
     >
       <Form.Item name="categories">
-        <DropdownSelect
-          items={categories.map((c) => ({ label: c, value: c }))}
-          singleMode
-        />
+        <CategoryTree categoryTrees={categoryTrees} />
       </Form.Item>
 
       <Space>
