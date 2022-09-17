@@ -1,7 +1,8 @@
 @import (reference) '../../styles/variables.less';
 @import (reference) '../../styles/fonts.less';
 
-@card-height: 165px;
+@card-height: 160px;
+@card-border-radius: 16px;
 
 .color-card(@color) {
   .ant-card {
@@ -106,6 +107,10 @@
       .color-card(@green);
     }
 
+    .ant-card {
+      border-radius: @card-border-radius;
+    }
+
     .ant-card.placeholder {
       background: @grey-white;
       color: @black;
@@ -141,7 +146,7 @@
       .ant-skeleton-title {
         margin: 0;
         height: @card-height;
-        border-radius: @border-radius-base;
+        border-radius: @card-border-radius;
       }
     }
   }

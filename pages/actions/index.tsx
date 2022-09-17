@@ -55,18 +55,25 @@ const Home: NextPage<HomePageProps> = ({
    * - not completed
    * - planned
    */
+
   const highlightedActions = useMemo(
     () =>
-      (actionsData?.companyActions || EMPTY_ACTIONS).filter(
-        (companyAction) =>
-          (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
-            companyAction.requiredForCompanyAchievementIds.length > 0 ||
-            companyAction.plannedAt !== null) &&
-          !companyAction.completedAt
-      ),
-    [actionsData]
+      (actionsData?.companyActions || EMPTY_ACTIONS)
+        .filter(
+          (companyAction) =>
+            (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
+              companyAction.requiredForCompanyAchievementIds.length > 0 ||
+              companyAction.plannedAt !== null) &&
+            !companyAction.completedAt
+        )
+        .map((a) => ({
+          ...a,
+          rootCategory: categoryTrees.rootCategoryLookUp[a.categories[0]],
+        })),
+    [actionsData, categoryTrees]
   )
-
+  // @TODO: find a way to highlight actions in color of root category
+  console.log(highlightedActions)
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
@@ -80,13 +87,7 @@ const Home: NextPage<HomePageProps> = ({
             }}
           />
         </Section>
-        <Section
-          bordered={false}
-          id="browse-actions"
-          // title="Browse all actions"
-        >
-          {/* When leaving this page in any direction other than action detail page
-          delete the browsing position */}
+        <Section bordered={false} id="browse-actions">
           <ActionsList
             actionListItemProps={{
               renderAsLink: true,

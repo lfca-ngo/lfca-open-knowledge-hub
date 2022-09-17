@@ -1,11 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const safeJsonStringify = require('safe-json-stringify')
+import { findCategoryChildren } from '../../components/ActionsList/utils'
 import { getEntries } from './api'
 import { ContentfulCategoryTreeFields } from './types'
 
 export interface CategoryTreesProps {
   categoryTrees: ContentfulCategoryTreeFields[]
   lookUp: LookUpProps
+  rootCategoryLookUp: RootCategoryLookUpProps
 }
 
 export interface CategoryTreeNode extends ContentfulCategoryTreeFields {
@@ -14,6 +16,10 @@ export interface CategoryTreeNode extends ContentfulCategoryTreeFields {
 
 export interface LookUpProps {
   [key: string]: CategoryTreeNode
+}
+
+export interface RootCategoryLookUpProps {
+  [key: string]: string
 }
 
 export const fetchMainCategoryTrees = async () => {
@@ -30,10 +36,20 @@ export const fetchMainCategoryTrees = async () => {
     stringifiedData
   ) as ContentfulCategoryTreeFields[]
 
+  // wrapper to recursively traverse the tree
   const tree = {
     categoryId: 'root',
     elements: categoryTrees,
     name: 'root',
+  }
+
+  // root category lookup to match colors to actions
+  const rootCategoryLookUp: RootCategoryLookUpProps = {}
+  for (const mainCategoryTree of categoryTrees) {
+    const categoryChildren = findCategoryChildren(mainCategoryTree).flat()
+    for (const child of categoryChildren) {
+      rootCategoryLookUp[child] = mainCategoryTree.categoryId
+    }
   }
 
   // helper to easily traverse tree and
@@ -63,5 +79,6 @@ export const fetchMainCategoryTrees = async () => {
   return {
     categoryTrees,
     lookUp: lookUpData,
+    rootCategoryLookUp,
   } as CategoryTreesProps
 }
