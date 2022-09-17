@@ -27,6 +27,7 @@ export const Section = ({
   <div
     className={classNames('page-section', className, titleSize, {
       bordered: bordered,
+      'without-title': !title,
     })}
     id={id}
   >

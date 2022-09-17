@@ -37,14 +37,12 @@ export const FilterBar = ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <Space direction="vertical">
-        <Form.Item name="categories">
-          <CategoryTree categoryTrees={categoryTrees} />
-        </Form.Item>
+      <header>
+        <div className="title">Browse all actions</div>
 
-        <Space style={{ width: '100%' }}>
+        <Space>
           <Form.Item name="sorting">
-            <Select placeholder="Please select">
+            <Select placeholder="Please select" size="small">
               {SORT_OPTIONS.map((option) => (
                 <Select.Option key={option.key}>{option.label}</Select.Option>
               ))}
@@ -52,9 +50,15 @@ export const FilterBar = ({
           </Form.Item>
 
           <Form.Item name="search">
-            <Search placeholder="Search..." />
+            <Search placeholder="Search..." size="small" />
           </Form.Item>
         </Space>
+      </header>
+
+      <Space className="category-tree-container" direction="vertical">
+        <Form.Item name="categories">
+          <CategoryTree categoryTrees={categoryTrees} />
+        </Form.Item>
       </Space>
     </Form>
   )

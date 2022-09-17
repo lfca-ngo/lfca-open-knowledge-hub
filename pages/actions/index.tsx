@@ -83,7 +83,7 @@ const Home: NextPage<HomePageProps> = ({
         <Section
           bordered={false}
           id="browse-actions"
-          title="Browse all actions"
+          // title="Browse all actions"
         >
           {/* When leaving this page in any direction other than action detail page
           delete the browsing position */}
