@@ -45,7 +45,7 @@ export const ActionsList = ({
   ) => {
     // when searching, clear out all other filters
     if (latestChange?.search) {
-      savePosition({ search: latestChange.search })
+      savePosition({ ...options, search: latestChange.search })
     } else {
       // for other operations, keep the state
       savePosition({ ...options, ...allValues })
