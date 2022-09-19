@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { INITIAL_VALUES, LS_ACTION_LIST } from '../components/ActionsList'
+import { LS_ACTION_LIST } from '../components/ActionsList'
 import { trackEvent } from '../services/analytics'
 import { DESKTOP, getScreenSizeType } from '../utils'
 import { ACTIONS } from '../utils/routes'
@@ -64,7 +64,7 @@ export const AppProvider = ({ children }: { children: any }) => {
         router.pathname.startsWith('/action/') && url === ACTIONS
 
       if (!(fromDashboardToDetails || fromDetailPageToDashboard)) {
-        resetPosition(INITIAL_VALUES)
+        resetPosition()
       }
     }
 

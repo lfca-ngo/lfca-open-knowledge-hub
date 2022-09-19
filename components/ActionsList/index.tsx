@@ -9,17 +9,9 @@ import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
-import { SORT_OPTIONS } from './FilterBar'
 import { FilterBar, FilterFormItems } from './FilterBar'
 
 export const LS_ACTION_LIST = 'actions_list'
-
-export const INITIAL_VALUES = {
-  categories: [],
-  currentPage: 1,
-  search: '',
-  sorting: SORT_OPTIONS[0].key,
-}
 
 export interface ActionListProps {
   actions: CompanyActionListItemFragment[]
@@ -36,11 +28,7 @@ export const ActionsList = ({
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
   // unnecessary rerenders (LS is available on initial render)
-  const { options, savePosition } = useScrollPosition(
-    LS_ACTION_LIST,
-    true,
-    INITIAL_VALUES
-  )
+  const { options, savePosition } = useScrollPosition(LS_ACTION_LIST, true)
 
   // the currentPage is needed for the list component,
   // the rest for the filter form component

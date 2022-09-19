@@ -22,11 +22,11 @@ export interface RootCategoryLookUpProps {
   [key: string]: string
 }
 
-export const fetchMainCategoryTrees = async () => {
+export const fetchRootCategoryTrees = async () => {
   const res = await getEntries({
     content_type: 'categoryTree',
     'fields.categoryId[exists]': true,
-    'fields.isMainCategory': true,
+    'fields.isRootCategory': true,
     include: 4,
     locale: 'en-US',
     order: '-fields.sortWeight',
@@ -45,10 +45,10 @@ export const fetchMainCategoryTrees = async () => {
 
   // root category lookup to match colors to actions
   const rootCategoryLookUp: RootCategoryLookUpProps = {}
-  for (const mainCategoryTree of categoryTrees) {
-    const categoryChildren = findCategoryChildren(mainCategoryTree).flat()
+  for (const rootCategoryTree of categoryTrees) {
+    const categoryChildren = findCategoryChildren(rootCategoryTree).flat()
     for (const child of categoryChildren) {
-      rootCategoryLookUp[child] = mainCategoryTree.categoryId
+      rootCategoryLookUp[child] = rootCategoryTree.categoryId
     }
   }
 

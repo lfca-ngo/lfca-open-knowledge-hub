@@ -1,3 +1,5 @@
+import { ExperimentOutlined } from '@ant-design/icons'
+import { Popover, Tag } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React from 'react'
 
@@ -17,7 +19,27 @@ const Groups: NextPage = () => {
   return (
     <SiderLayout nav={COMMUNITY_NAV}>
       <Main>
-        <Section bordered={false} title="Mastermind Groups" titleSize="big">
+        <Section
+          bordered={false}
+          title={
+            <span>
+              Mastermind Groups{' '}
+              <Popover
+                content="During our BETA program, the master mind groups are available to all community members. From 03/23 they will be part of the BASIC+ tiers"
+                overlayClassName="popover-lg"
+              >
+                <Tag
+                  color="blue"
+                  icon={<ExperimentOutlined />}
+                  style={{ verticalAlign: 'middle' }}
+                >
+                  BETA
+                </Tag>
+              </Popover>
+            </span>
+          }
+          titleSize="big"
+        >
           <div style={{ marginBottom: '40px' }}>
             <p>
               Our online mastermind groups connect sustainability practitioners

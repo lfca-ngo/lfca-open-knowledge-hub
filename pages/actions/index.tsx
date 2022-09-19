@@ -4,11 +4,7 @@ import React, { useMemo } from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
 import { ActionsCarousel } from '../../components/ActionsCarousel'
-import {
-  ActionsList,
-  INITIAL_VALUES,
-  LS_ACTION_LIST,
-} from '../../components/ActionsList'
+import { ActionsList, LS_ACTION_LIST } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
@@ -18,7 +14,7 @@ import { useScrollPosition } from '../../hooks/useScrollPosition'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import {
   CategoryTreesProps,
-  fetchMainCategoryTrees,
+  fetchRootCategoryTrees,
 } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
@@ -73,7 +69,7 @@ const Home: NextPage<HomePageProps> = ({
     [actionsData, categoryTrees]
   )
   // @TODO: find a way to highlight actions in color of root category
-  console.log(highlightedActions)
+  // console.log(highlightedActions)
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
@@ -82,7 +78,7 @@ const Home: NextPage<HomePageProps> = ({
             actions={highlightedActions}
             fetching={fetchingActions}
             onSelect={(action) => {
-              resetPosition(INITIAL_VALUES)
+              resetPosition()
               router.push(`/action/${action.contentId}`)
             }}
           />
@@ -151,7 +147,7 @@ const Home: NextPage<HomePageProps> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const content = await fetchAllContentCollections()
-  const categoryTrees = await fetchMainCategoryTrees()
+  const categoryTrees = await fetchRootCategoryTrees()
 
   return {
     props: {

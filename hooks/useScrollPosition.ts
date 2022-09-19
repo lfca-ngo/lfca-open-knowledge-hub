@@ -1,6 +1,14 @@
 import { useEffect } from 'react'
 
+import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
 import { useLocalStorage } from './useLocalStorage'
+
+const INITIAL_VALUES = {
+  categories: [],
+  currentPage: 1,
+  search: '',
+  sorting: SORT_OPTIONS[0].key,
+}
 
 interface ScrollPositionOptions {
   // extend if needed
@@ -22,8 +30,10 @@ interface UseScrollPositionProps {
 export const useScrollPosition = (
   localStorageKey: string,
   setCondition: boolean,
-  initialValues: ScrollPositionOptions = {}
+  initialValues: ScrollPositionOptions = INITIAL_VALUES
 ): UseScrollPositionProps => {
+  // get all available tags here to set as default
+
   const [scrollYStorage, setScrollYStorage] = useLocalStorage(
     localStorageKey,
     0
@@ -39,9 +49,9 @@ export const useScrollPosition = (
     options && setOptions(options)
   }
 
-  const resetPosition = (initialValues?: ScrollPositionOptions) => {
+  const resetPosition = () => {
     setScrollYStorage(0)
-    setOptions(initialValues || {})
+    setOptions(initialValues)
   }
 
   useEffect(() => {
