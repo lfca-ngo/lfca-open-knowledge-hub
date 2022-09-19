@@ -26,7 +26,7 @@ export const AppProvider = ({
   children,
 }: {
   categoriesList: string[]
-  children: any
+  children: React.ReactNode
 }) => {
   const router = useRouter()
   // states
@@ -36,9 +36,16 @@ export const AppProvider = ({
   )
   const [isClient, setClient] = useState(initialState.isClient)
   // reset position
-  const { resetPosition } = usePersistentNavigation(LS_ACTION_LIST, false, {
-    categories: categoriesList,
-  })
+  const { options, resetPosition } = usePersistentNavigation(
+    LS_ACTION_LIST,
+    false,
+    {
+      categories: categoriesList,
+    }
+  )
+  // after options are updated in local storage, we need to
+  // trigger a rerun to populate the components we do this
+  // by updating the app key based on the returned categories
 
   const key = isClient ? CLIENT : SERVER
 
@@ -91,6 +98,7 @@ export const AppProvider = ({
 
   return (
     <AppContext.Provider
+      key={options?.categories?.length}
       value={{
         isClient,
         key,

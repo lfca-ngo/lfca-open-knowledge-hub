@@ -33,6 +33,8 @@ export const ActionsList = ({
     true
   )
 
+  console.log('options', options)
+
   // the currentPage is needed for the list component,
   // the rest for the filter form component
   const { currentPage = 0, ...formOptions } = options || {}
