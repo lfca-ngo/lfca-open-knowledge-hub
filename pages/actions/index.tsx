@@ -38,7 +38,9 @@ const Home: NextPage<HomePageProps> = ({
   content,
 }: HomePageProps) => {
   const router = useRouter()
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
+  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false, {
+    categories: Object.keys(categoryTrees.lookUp),
+  })
 
   // Fetch events to show upcoming
   const [{ data, error, fetching }] = useEventsQuery()
@@ -54,7 +56,6 @@ const Home: NextPage<HomePageProps> = ({
    * - not completed
    * - planned
    */
-
   const highlightedActions = useMemo(
     () =>
       (actionsData?.companyActions || EMPTY_ACTIONS)

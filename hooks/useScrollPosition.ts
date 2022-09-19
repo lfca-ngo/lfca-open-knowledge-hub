@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
 import { useLocalStorage } from './useLocalStorage'
 
-const INITIAL_VALUES = {
+const INITIAL_VALUES: ScrollPositionOptions = {
   categories: [],
   currentPage: 1,
   search: '',
@@ -30,10 +30,8 @@ interface UseScrollPositionProps {
 export const useScrollPosition = (
   localStorageKey: string,
   setCondition: boolean,
-  initialValues: ScrollPositionOptions = INITIAL_VALUES
+  initialOptions?: ScrollPositionOptions
 ): UseScrollPositionProps => {
-  // get all available tags here to set as default
-
   const [scrollYStorage, setScrollYStorage] = useLocalStorage(
     localStorageKey,
     0
@@ -41,19 +39,31 @@ export const useScrollPosition = (
   // space to persist things like pagination and filters
   const [options, setOptions] = useLocalStorage(
     `${localStorageKey}_options`,
-    initialValues
+    initialOptions
   )
 
-  const savePosition = (options?: ScrollPositionOptions) => {
+  const savePosition = (options = INITIAL_VALUES) => {
     setScrollYStorage(window.scrollY)
     options && setOptions(options)
   }
 
-  const resetPosition = () => {
+  const resetPosition = (initialValues = INITIAL_VALUES) => {
     setScrollYStorage(0)
     setOptions(initialValues)
   }
 
+  // set the initial options
+  useEffect(() => {
+    if (initialOptions) {
+      const newOptions = { ...INITIAL_VALUES, ...initialOptions }
+      // only set options if something changed
+      if (JSON.stringify(newOptions) !== JSON.stringify(options)) {
+        setOptions(newOptions)
+      }
+    }
+  }, [initialOptions, setOptions, options])
+
+  // set the scroll position
   useEffect(() => {
     if (setCondition) {
       window.scrollTo(0, scrollYStorage)
