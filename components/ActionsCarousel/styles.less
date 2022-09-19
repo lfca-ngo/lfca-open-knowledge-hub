@@ -4,9 +4,19 @@
 @card-height: 160px;
 @card-border-radius: 16px;
 
-.color-card(@color) {
+.color-card(@color, @text-color: @white) {
   background-color: @color;
-  color: @white;
+  color: @text-color;
+
+  .logo-group .label {
+    color: spin(@text-color, 180);
+  }
+
+  .ant-tag {
+    border-color: transparent;
+    background-color: fade(spin(@text-color, 180), 20%);
+    color: spin(@text-color, 180);
+  }
 
   &:hover {
     background-color: fade(@color, 90%);
@@ -66,7 +76,7 @@
       }
 
       &.yellow {
-        .color-card(@yellow);
+        .color-card(@yellow, @black);
       }
 
       &.black {
@@ -83,6 +93,7 @@
 
       .logo-group .label {
         color: @text-color-darkmode;
+        opacity: 0.7;
       }
 
       .action-card-content {
