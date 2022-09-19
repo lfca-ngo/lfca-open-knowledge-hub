@@ -34,7 +34,7 @@ interface MetaDataProps {
   icon: any
 }
 
-export const mainTreeMetaData: { [key: string]: MetaDataProps } = {
+export const rootTreeMetaData: { [key: string]: MetaDataProps } = {
   'tree-impact': {
     color: 'blue',
     icon: <FallOutlined />,

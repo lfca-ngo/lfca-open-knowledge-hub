@@ -14,7 +14,7 @@ import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LG_BREAKPOINT, scrollToId, SM_BREAKPOINT } from '../../utils'
-import { mainTreeMetaData } from '../ActionsList/utils'
+import { rootTreeMetaData } from '../ActionsList/utils'
 import { EmptyState } from '../EmptyState'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
@@ -110,7 +110,7 @@ export const ActionsCarousel = ({
             <Card
               bordered={false}
               className={
-                mainTreeMetaData[action.rootCategory]?.color || 'black'
+                rootTreeMetaData[action.rootCategory]?.color || 'black'
               }
               onClick={() => onSelect(action)}
             >

@@ -7,7 +7,7 @@ import { CategoryTreeElement } from './CategoryTreeElement'
 import {
   findCategoryAncestors,
   findCategoryChildren,
-  mainTreeMetaData,
+  rootTreeMetaData,
 } from './utils'
 
 export interface CategoryTreeProps {
@@ -66,7 +66,7 @@ export const CategoryTree = ({
   return (
     <div className="category-tree">
       {categoryTrees.map((tree, i) => {
-        const treeMetaData = mainTreeMetaData[tree.categoryId]
+        const treeMetaData = rootTreeMetaData[tree.categoryId]
         return (
           <div className={`tree-col ${treeMetaData.color}`} key={`tree-${i}`}>
             <ShowMore
