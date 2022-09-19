@@ -1,32 +1,37 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import React from 'react'
 
+import { LS_ACTION_LIST } from '../components/ActionsList'
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
+import { useScrollPosition } from '../hooks/useScrollPosition'
+import {
+  CategoryTreesProps,
+  fetchRootCategoryTrees,
+} from '../services/contentful'
 import {
   EMPTY_ACTIONS,
-  sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../services/lfca-backend'
 import { withAuth } from '../utils/with-auth'
 
-const OnboardingOfficer: NextPage = () => {
+interface OnboardingOfficerPageProps {
+  categoryTrees: CategoryTreesProps
+}
+
+const OnboardingOfficer = ({ categoryTrees }: OnboardingOfficerPageProps) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
 
+  // set initial categories
+  useScrollPosition(LS_ACTION_LIST, false, {
+    categories: Object.keys(categoryTrees.lookUp),
+  })
+
   // TODO: loading & error UI
   const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
-
-  const actionsByCategories = React.useMemo(
-    () =>
-      sortCompanyActionsByCategories(
-        data?.companyActions || EMPTY_ACTIONS,
-        false // do not filter the completed actions out
-      ),
-    [data]
-  )
 
   const handleOnNext = () => {
     if (currentStepIndex === OnboardingOfficerSteps.length - 1) {
@@ -49,13 +54,23 @@ const OnboardingOfficer: NextPage = () => {
     >
       {Step ? (
         <Step
-          actionsByCategories={actionsByCategories}
+          actions={data?.companyActions || EMPTY_ACTIONS}
           fetching={fetchingActions}
           onNext={handleOnNext}
         />
       ) : null}
     </StepsLayout>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const categoryTrees = await fetchRootCategoryTrees()
+
+  return {
+    props: {
+      categoryTrees,
+    },
+  }
 }
 
 export default withAuth(OnboardingOfficer)

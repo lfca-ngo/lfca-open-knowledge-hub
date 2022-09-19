@@ -62,6 +62,14 @@
     border-color: @grey-light;
   }
 
+  .filter-bar.without-category-tree {
+    > .header-bar {
+      position: relative;
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+
   .category-tree {
     display: flex;
     gap: 20px;
@@ -177,7 +185,7 @@
     justify-content: space-between;
     flex-direction: column;
 
-    header {
+    .header-bar {
       display: flex;
       flex-direction: row;
       justify-content: space-between;

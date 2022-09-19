@@ -21,7 +21,13 @@ const initialState = {
 
 const AppContext = createContext(initialState)
 
-export const AppProvider = ({ children }: { children: any }) => {
+export const AppProvider = ({
+  categoriesList,
+  children,
+}: {
+  categoriesList: string[]
+  children: any
+}) => {
   const router = useRouter()
   // states
   const [screenSize, setScreenSize] = useLocalStorage(
@@ -30,7 +36,9 @@ export const AppProvider = ({ children }: { children: any }) => {
   )
   const [isClient, setClient] = useState(initialState.isClient)
   // reset position
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
+  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false, {
+    categories: categoriesList,
+  })
 
   const key = isClient ? CLIENT : SERVER
 

@@ -38,9 +38,7 @@ const Home: NextPage<HomePageProps> = ({
   content,
 }: HomePageProps) => {
   const router = useRouter()
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false, {
-    categories: Object.keys(categoryTrees.lookUp),
-  })
+  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
 
   // Fetch events to show upcoming
   const [{ data, error, fetching }] = useEventsQuery()

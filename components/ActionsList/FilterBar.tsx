@@ -1,4 +1,5 @@
 import { Form, FormInstance, Input, Select, Space } from 'antd'
+import classNames from 'classnames'
 import React from 'react'
 
 import { CategoryTreesProps } from '../../services/contentful'
@@ -19,8 +20,7 @@ export interface FilterFormItems {
 interface FilterBarProps {
   form: FormInstance<FilterFormItems>
   initialValues?: FilterFormItems
-
-  categoryTrees: CategoryTreesProps
+  categoryTrees?: CategoryTreesProps
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
 }
 
@@ -32,13 +32,15 @@ export const FilterBar = ({
 }: FilterBarProps) => {
   return (
     <Form
-      className="filter-bar"
+      className={`filter-bar ${classNames({
+        'without-category-tree': !!!categoryTrees,
+      })}`}
       form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <header>
-        <div className="title">Browse all actions</div>
+      <div className="header-bar">
+        {categoryTrees && <div className="title">Browse all actions</div>}
 
         <Space>
           <Form.Item name="sorting">
@@ -53,13 +55,15 @@ export const FilterBar = ({
             <Search placeholder="Search..." size="small" />
           </Form.Item>
         </Space>
-      </header>
+      </div>
 
-      <Space className="category-tree-container" direction="vertical">
-        <Form.Item name="categories">
-          <CategoryTree categoryTrees={categoryTrees} />
-        </Form.Item>
-      </Space>
+      {categoryTrees && (
+        <Space className="category-tree-container" direction="vertical">
+          <Form.Item name="categories">
+            <CategoryTree categoryTrees={categoryTrees} />
+          </Form.Item>
+        </Space>
+      )}
     </Form>
   )
 }

@@ -17,7 +17,7 @@ export interface ActionListProps {
   actions: CompanyActionListItemFragment[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  categoryTrees: CategoryTreesProps
+  categoryTrees?: CategoryTreesProps
 }
 
 export const ActionsList = ({
