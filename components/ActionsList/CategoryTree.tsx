@@ -5,8 +5,8 @@ import { CategoryTreesProps } from '../../services/contentful'
 import { ShowMore } from '../ShowMore'
 import { CategoryTreeElement } from './CategoryTreeElement'
 import {
-  findCategoryAncestors,
   findCategoryChildren,
+  findCategoryParents,
   rootTreeMetaData,
 } from './utils'
 
@@ -29,16 +29,19 @@ export const CategoryTree = ({
 
     if (!name) return
 
-    const ancestors = findCategoryAncestors(lookUp, name)
+    const parents = findCategoryParents(lookUp, name)
     const childrenArrays = findCategoryChildren(lookUp[name])
     const children = childrenArrays?.flat()
 
+    // classical tree behaviour - parent and child nodes selection
+    // has different consequences
     if (hasChildren) {
-      // if checked element is tree parent => get all children and childrens children
+      // if checked element is a parent node => perform operations
+      // for all children and childrens children as well
       const withChildren = [...children, name]
       if (checked) {
-        // mark also all children and the parents
-        const withPreviousState = [...value, ...withChildren, ...ancestors]
+        // mark all children and the parents, keep previous state in place
+        const withPreviousState = [...value, ...withChildren, ...parents]
 
         return onChange?.(withPreviousState)
       } else {
@@ -47,10 +50,12 @@ export const CategoryTree = ({
         return onChange?.(withoutChildren)
       }
     } else {
+      // if checked element is a child node (=category), we need to make
+      // sure that the parents are also considered in actions
       if (checked) {
-        // ancestors MUST be included when child is selected
-        const withAncestors = [...ancestors, name]
-        const withPreviousState = [...value, ...withAncestors]
+        // parents MUST be included when child is selected
+        const withParents = [...parents, name]
+        const withPreviousState = [...value, ...withParents]
 
         return onChange?.(
           withPreviousState.filter((v, i, s) => s.indexOf(v) === i)

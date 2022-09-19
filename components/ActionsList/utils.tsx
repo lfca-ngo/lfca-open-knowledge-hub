@@ -7,17 +7,17 @@ import {
 
 import { CategoryTreeNode, LookUpProps } from '../../services/contentful'
 
-export const findCategoryAncestors = (lookUp: LookUpProps, nodeId?: string) => {
+export const findCategoryParents = (lookUp: LookUpProps, nodeId?: string) => {
   if (!nodeId) return []
 
-  const ancestors: string[] = []
+  const parents: string[] = []
 
   let parentId = lookUp[nodeId] && lookUp[nodeId].parentId
   while (parentId !== undefined) {
-    ancestors.unshift(parentId || '')
+    parents.unshift(parentId || '')
     parentId = parentId && lookUp[parentId] && lookUp[parentId].parentId
   }
-  return ancestors
+  return parents
 }
 
 export const findCategoryChildren = (node: CategoryTreeNode): string[] => {
