@@ -5,59 +5,11 @@
 @card-border-radius: 16px;
 
 .color-card(@color) {
-  .ant-card {
-    background-color: @color;
-    color: @white;
-    height: @card-height;
-    cursor: pointer;
+  background-color: @color;
+  color: @white;
 
-    &:hover {
-      background-color: fade(@color, 90%);
-    }
-
-    .ant-card-body {
-      display: flex;
-      justify-content: space-between;
-      flex-direction: column;
-      height: 100%;
-      padding: 14px;
-    }
-
-    .logo-group .label {
-      color: @text-color-darkmode;
-    }
-
-    .action-card-content {
-      display: flex;
-      flex-direction: column;
-      margin-top: auto;
-      margin-bottom: 0;
-
-      .action-card-title {
-        font-size: @font-size-base;
-        margin-bottom: 12px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        line-clamp: 2;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-    }
-
-    .ant-tag {
-      border-color: transparent;
-      background-color: fade(@white, 20%);
-      color: @white;
-      display: flex;
-      margin-right: 0;
-      margin-left: auto;
-      font-size: 13px;
-      margin-top: 0;
-      margin-bottom: auto;
-      display: flex;
-      align-items: center;
-    }
+  &:hover {
+    background-color: fade(@color, 90%);
   }
 }
 
@@ -95,20 +47,75 @@
       margin: 0 @gutter-width;
     }
 
-    &:nth-child(1n) {
-      .color-card(@wine);
-    }
-
-    &:nth-child(2n) {
-      .color-card(@blue);
-    }
-
-    &:nth-child(3n) {
-      .color-card(@green);
-    }
-
     .ant-card {
+      color: @white;
+      height: @card-height;
       border-radius: @card-border-radius;
+      cursor: pointer;
+
+      &.wine {
+        .color-card(@wine);
+      }
+
+      &.blue {
+        .color-card(@blue);
+      }
+
+      &.green {
+        .color-card(@green);
+      }
+
+      &.yellow {
+        .color-card(@yellow);
+      }
+
+      &.black {
+        .color-card(@black);
+      }
+
+      .ant-card-body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        height: 100%;
+        padding: 14px;
+      }
+
+      .logo-group .label {
+        color: @text-color-darkmode;
+      }
+
+      .action-card-content {
+        display: flex;
+        flex-direction: column;
+        margin-top: auto;
+        margin-bottom: 0;
+
+        .action-card-title {
+          font-size: @font-size-base;
+          margin-bottom: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          line-clamp: 2;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
+
+      .ant-tag {
+        border-color: transparent;
+        background-color: fade(@white, 20%);
+        color: @white;
+        display: flex;
+        margin-right: 0;
+        margin-left: auto;
+        font-size: 13px;
+        margin-top: 0;
+        margin-bottom: auto;
+        display: flex;
+        align-items: center;
+      }
     }
 
     .ant-card.placeholder {

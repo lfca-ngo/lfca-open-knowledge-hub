@@ -3,7 +3,10 @@ import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
-import { ActionsCarousel } from '../../components/ActionsCarousel'
+import {
+  ActionsCarousel,
+  CompanyActionWithRootCategory,
+} from '../../components/ActionsCarousel'
 import { ActionsList, LS_ACTION_LIST } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { EventsList } from '../../components/EventsList'
@@ -62,14 +65,18 @@ const Home: NextPage<HomePageProps> = ({
               companyAction.plannedAt !== null) &&
             !companyAction.completedAt
         )
-        .map((a) => ({
-          ...a,
-          rootCategory: categoryTrees.rootCategoryLookUp[a.categories[0]],
-        })),
+        .map(
+          (a) =>
+            ({
+              ...a,
+              rootCategory:
+                // we are using the first category to define the root category
+                categoryTrees.rootCategoryLookUp[a.categories[0]?.id],
+            } as CompanyActionWithRootCategory)
+        ),
     [actionsData, categoryTrees]
   )
-  // @TODO: find a way to highlight actions in color of root category
-  // console.log(highlightedActions)
+
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
