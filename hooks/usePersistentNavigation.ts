@@ -3,14 +3,14 @@ import { useEffect } from 'react'
 import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
 import { useLocalStorage } from './useLocalStorage'
 
-const INITIAL_VALUES: ScrollPositionOptions = {
+const INITIAL_VALUES: NavigationOptions = {
   categories: [],
   currentPage: 1,
   search: '',
   sorting: SORT_OPTIONS[0].key,
 }
 
-interface ScrollPositionOptions {
+interface NavigationOptions {
   // extend if needed
   currentPage?: number
   search?: string
@@ -18,20 +18,20 @@ interface ScrollPositionOptions {
   sorting?: string
 }
 
-interface UseScrollPositionProps {
-  options?: ScrollPositionOptions
-  resetPosition: (initialValues?: ScrollPositionOptions) => void
+interface UsePersistentNavigationProps {
+  options?: NavigationOptions
+  resetPosition: (initialValues?: NavigationOptions) => void
   savePosition: (options?: object) => void
 }
 
 // saves the last scroll position before navigating away
 // restores the position after navigating back, allows
 // to store additional data like pagination and filters
-export const useScrollPosition = (
+export const usePersistentNavigation = (
   localStorageKey: string,
   setCondition: boolean,
-  initialOptions?: ScrollPositionOptions
-): UseScrollPositionProps => {
+  initialOptions?: NavigationOptions
+): UsePersistentNavigationProps => {
   const [scrollYStorage, setScrollYStorage] = useLocalStorage(
     localStorageKey,
     0

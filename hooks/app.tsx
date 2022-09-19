@@ -7,7 +7,7 @@ import { DESKTOP, getScreenSizeType } from '../utils'
 import { ACTIONS } from '../utils/routes'
 import { useDarkMode } from './useDarkMode'
 import { useLocalStorage } from './useLocalStorage'
-import { useScrollPosition } from './useScrollPosition'
+import { usePersistentNavigation } from './usePersistentNavigation'
 
 const CLIENT = 'client'
 const SERVER = 'server'
@@ -36,7 +36,7 @@ export const AppProvider = ({
   )
   const [isClient, setClient] = useState(initialState.isClient)
   // reset position
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false, {
+  const { resetPosition } = usePersistentNavigation(LS_ACTION_LIST, false, {
     categories: categoriesList,
   })
 

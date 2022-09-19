@@ -3,7 +3,7 @@ require('./styles.less')
 import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
-import { useScrollPosition } from '../../hooks/useScrollPosition'
+import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import { CategoryTreesProps } from '../../services/contentful'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
@@ -28,7 +28,10 @@ export const ActionsList = ({
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
   // unnecessary rerenders (LS is available on initial render)
-  const { options, savePosition } = useScrollPosition(LS_ACTION_LIST, true)
+  const { options, savePosition } = usePersistentNavigation(
+    LS_ACTION_LIST,
+    true
+  )
 
   // the currentPage is needed for the list component,
   // the rest for the filter form component
@@ -42,9 +45,6 @@ export const ActionsList = ({
   ) => {
     // when searching, clear out all other filters
     if (latestChange?.search) {
-      form.setFieldsValue({
-        tags: [],
-      })
       savePosition({ search: latestChange.search })
     } else {
       // for other operations, keep the state

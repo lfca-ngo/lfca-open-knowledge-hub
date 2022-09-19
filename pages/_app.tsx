@@ -10,8 +10,8 @@ import { LFCABackendProvider } from '../services/lfca-backend'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppProvider
-      // the full categories list is fetched during build time and made
-      // accessible to all components in the app state
+      // the full categories list is fetched during build time and made accessible
+      // to all components on pages that call fetchRootCategories in getStaticProps
       categoriesList={Object.keys(pageProps?.categoryTrees?.lookUp || {})}
     >
       <FirebaseProvider>

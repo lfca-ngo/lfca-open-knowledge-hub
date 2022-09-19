@@ -13,7 +13,7 @@ import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
-import { useScrollPosition } from '../../hooks/useScrollPosition'
+import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import {
   CategoryTreesProps,
@@ -38,7 +38,7 @@ const Home: NextPage<HomePageProps> = ({
   content,
 }: HomePageProps) => {
   const router = useRouter()
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
+  const { resetPosition } = usePersistentNavigation(LS_ACTION_LIST, false)
 
   // Fetch events to show upcoming
   const [{ data, error, fetching }] = useEventsQuery()
