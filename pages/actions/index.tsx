@@ -118,29 +118,15 @@ const Home: NextPage<HomePageProps> = ({
           </PayWall>
         </Section>
         <Section title="Your groups">
-          <PayWall
-            popoverContent={
-              <div>
-                <p>
-                  Mastermind Groups are small teams of 5-10 community members
-                  that are grouped by industry, challenge or region. They meet
-                  monthly and share their progress, practical learnings and
-                  support each other.
-                </p>
-              </div>
+          <EventsList
+            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
+            events={error ? [] : eventsByParticipation.participatingEvents}
+            fetching={fetching}
+            participatingEvents={
+              error ? [] : eventsByParticipation.participatingEvents
             }
-            popoverTitle="What's waiting for you"
-          >
-            <EventsList
-              appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
-              events={error ? [] : eventsByParticipation.participatingEvents}
-              fetching={fetching}
-              participatingEvents={
-                error ? [] : eventsByParticipation.participatingEvents
-              }
-              type="compact"
-            />
-          </PayWall>
+            type="compact"
+          />
         </Section>
 
         <Section title="Links">
