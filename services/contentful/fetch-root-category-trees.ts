@@ -4,7 +4,7 @@ import { findCategoryChildren } from '../../components/ActionsList/utils'
 import { getEntries } from './api'
 import { ContentfulCategoryTreeFields } from './types'
 
-export interface CategoryTreesProps {
+export interface CategoryTreeProps {
   categoryTrees: ContentfulCategoryTreeFields[]
   lookUp: LookUpProps
   rootCategoryLookUp: RootCategoryLookUpProps
@@ -80,5 +80,5 @@ export const fetchRootCategoryTrees = async () => {
     categoryTrees,
     lookUp: lookUpData,
     rootCategoryLookUp,
-  } as CategoryTreesProps
+  } as CategoryTreeProps
 }

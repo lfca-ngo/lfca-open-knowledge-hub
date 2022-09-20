@@ -16,7 +16,7 @@ import { PayWall } from '../../components/PayWall'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import {
-  CategoryTreesProps,
+  CategoryTreeProps,
   fetchRootCategoryTrees,
 } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
@@ -30,7 +30,7 @@ import { withAuth } from '../../utils/with-auth'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
-  categoryTrees: CategoryTreesProps
+  categoryTrees: CategoryTreeProps
 }
 
 const Home: NextPage<HomePageProps> = ({

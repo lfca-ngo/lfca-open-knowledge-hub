@@ -4,7 +4,7 @@ import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
-import { CategoryTreesProps } from '../../services/contentful'
+import { CategoryTreeProps } from '../../services/contentful'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
@@ -17,7 +17,7 @@ export interface ActionListProps {
   actions: CompanyActionListItemFragment[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  categoryTrees?: CategoryTreesProps
+  categoryTrees?: CategoryTreeProps
 }
 
 export const ActionsList = ({

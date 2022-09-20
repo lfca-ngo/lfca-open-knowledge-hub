@@ -2,7 +2,7 @@ import { Form, FormInstance, Input, Select, Space } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
-import { CategoryTreesProps } from '../../services/contentful'
+import { CategoryTreeProps } from '../../services/contentful'
 import { CategoryTree } from './CategoryTree'
 
 const { Search } = Input
@@ -20,7 +20,7 @@ export interface FilterFormItems {
 interface FilterBarProps {
   form: FormInstance<FilterFormItems>
   initialValues?: FilterFormItems
-  categoryTrees?: CategoryTreesProps
+  categoryTrees?: CategoryTreeProps
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
 }
 
