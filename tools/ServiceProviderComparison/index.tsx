@@ -4,6 +4,8 @@ import { Drawer, Form, List, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { Section } from '../../components/Layout'
+import { PaywallPopover } from '../../components/PayWall/PaywallPopover'
+import { useUser } from '../../hooks/user'
 import {
   ServiceProviderFilterCondition,
   ServiceProviderFragment,
@@ -34,6 +36,7 @@ export const ServiceProviderComparison = ({
 
   // both filters reference the same form
   const [form] = Form.useForm()
+  const { isPaying } = useUser()
 
   const [list, setList] = useState<ServiceProviderFragment[]>(
     (serviceProviderList?.items || []).sort((a, b) => {
@@ -174,13 +177,18 @@ export const ServiceProviderComparison = ({
         </TabPane>
       </Tabs>
 
-      {serviceProviderList?.featured.map((serviceProvider) => (
-        <FeaturedProvider
-          key={serviceProvider.id}
-          onOpenWebsite={openWebsite}
-          serviceProvider={serviceProvider}
-        />
-      ))}
+      {/* Hide feature providers for non paying users */}
+      {isPaying && (
+        <>
+          {serviceProviderList?.featured.map((serviceProvider) => (
+            <FeaturedProvider
+              key={serviceProvider.id}
+              onOpenWebsite={openWebsite}
+              serviceProvider={serviceProvider}
+            />
+          ))}
+        </>
+      )}
 
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
