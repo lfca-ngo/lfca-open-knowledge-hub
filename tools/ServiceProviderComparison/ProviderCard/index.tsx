@@ -5,20 +5,20 @@ import {
   CalculatorOutlined,
   CalendarOutlined,
   CheckOutlined,
-  InfoCircleOutlined,
   LinkOutlined,
   MailOutlined,
   StarOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Card, Popover, Rate, Tag } from 'antd'
+import { Button, Card, Popover, Tag } from 'antd'
 import Image from 'next/image'
 
+import { PaywallPopover } from '../../../components/PayWall/PaywallPopover'
 import {
   ServiceProviderFragment,
   TagFragment,
 } from '../../../services/lfca-backend'
-import { formatCurrency } from '../../../utils'
+import { ReviewMetaData } from './ReviewMetaData'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -56,13 +56,6 @@ export const ProviderCard = ({
   onOpenWebsite,
   provider,
 }: ProviderCardProps) => {
-  const priceRange =
-    provider.lowestPrice === provider.highestPrice
-      ? formatCurrency(provider.lowestPrice)
-      : `${formatCurrency(provider.lowestPrice)} - ${formatCurrency(
-          provider.highestPrice
-        )}`
-
   return (
     <Card bordered={false} className="provider-card">
       <div className="hero">
@@ -137,52 +130,9 @@ export const ProviderCard = ({
       </div>
       <div className="actions">
         <div className="reviews">
-          <Popover
-            content="Take this with a grain of salt because we only have a small number of reviews so far."
-            overlayClassName="popover-sm"
-            placement="top"
-            visible={
-              provider.reviewsCount && provider.reviewsCount < 3
-                ? undefined
-                : false
-            }
-          >
-            <span>
-              <Rate
-                allowHalf
-                className={provider.reviewsCount < 3 ? 'light' : undefined}
-                disabled
-                value={provider.averageRating ?? undefined}
-              />
-            </span>
-          </Popover>
-          <Button
-            onClick={onOpenReviews ? () => onOpenReviews(provider) : undefined}
-            size="small"
-            type="link"
-          >
-            {provider.reviewsCount
-              ? `See ${provider.reviewsCount > 1 ? 'all ' : ''}${
-                  provider.reviewsCount
-                } review${provider.reviewsCount > 1 ? 's' : ''}`
-              : 'No reviews yet, add one'}
-          </Button>
-
-          <div className="ranges">
-            {(typeof provider.highestPrice === 'number' ||
-              typeof provider.lowestPrice === 'number') &&
-            provider.reviewsCount > 2 ? (
-              <Popover
-                content="The price range (yearly) is based on experiences shared by
-               other members. The value is not necessarily indicative of the
-               actual price."
-                overlayClassName="popover-sm"
-                placement="bottom"
-              >
-                <Tag icon={<InfoCircleOutlined />}>{priceRange}</Tag>
-              </Popover>
-            ) : null}
-          </div>
+          <PaywallPopover>
+            <ReviewMetaData onOpenReviews={onOpenReviews} provider={provider} />
+          </PaywallPopover>
         </div>
         <Button
           icon={<LinkOutlined />}

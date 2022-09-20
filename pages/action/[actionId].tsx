@@ -1,8 +1,4 @@
-import {
-  BulbOutlined,
-  LockOutlined,
-  ThunderboltOutlined,
-} from '@ant-design/icons'
+import { BulbOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Divider, Spin, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
@@ -17,7 +13,6 @@ import { Comments } from '../../components/Comments'
 import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
-import { PayWall } from '../../components/PayWall'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
@@ -33,7 +28,6 @@ import {
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
 import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { options } from '../../utils/richTextOptions'
-import { SETTINGS_SUBSCRIPTION } from '../../utils/routes'
 import { withAuth } from '../../utils/with-auth'
 
 const { TabPane } = Tabs
@@ -112,63 +106,39 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           </Tabs>
         </Section>
         {/* Render optional service provider comparison */}
-        <PayWall
-          primer={
-            <EmptyState
-              actions={[
-                <Link href={SETTINGS_SUBSCRIPTION} key="upgrade" passHref>
-                  <Button icon={<ThunderboltOutlined />} type="primary">
-                    Upgrade
-                  </Button>
-                </Link>,
-              ]}
-              alignment="center"
-              bordered={false}
-              icon={<LockOutlined />}
-              size="large"
-              text="You can upgrade your plan anytime and share your climate journey on a custom microsite!"
-              title="Locked"
-              withBackground
-            />
-          }
-        >
-          <>
-            {fetchingActionExtended || staleActionExtended ? (
-              <Spin />
-            ) : actionDataExtended?.companyAction.serviceProviderList ? (
-              <ServiceProviderComparison
-                serviceProviderList={
-                  actionDataExtended.companyAction.serviceProviderList
-                }
-                showTitle={true}
-              />
-            ) : (
-              <EmptyState
-                actions={[
-                  <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
-                    <Button size="large" type="primary">
-                      Share idea
-                    </Button>
-                  </a>,
-                ]}
-                bordered
-                icon={<BulbOutlined />}
-                text={
-                  <div>
-                    We are gradually adding more and more community powered
-                    content to the platform. You can check the{' '}
-                    <Link href={`/action/companyPledge`}>
-                      Measurement Action
-                    </Link>{' '}
-                    as an example. If you have relevant content ideas for this
-                    module, please share them with us!
-                  </div>
-                }
-                title="There is more to come..."
-              />
-            )}
-          </>
-        </PayWall>
+
+        {fetchingActionExtended || staleActionExtended ? (
+          <Spin />
+        ) : actionDataExtended?.companyAction.serviceProviderList ? (
+          <ServiceProviderComparison
+            serviceProviderList={
+              actionDataExtended.companyAction.serviceProviderList
+            }
+            showTitle={true}
+          />
+        ) : (
+          <EmptyState
+            actions={[
+              <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
+                <Button size="large" type="primary">
+                  Share idea
+                </Button>
+              </a>,
+            ]}
+            bordered
+            icon={<BulbOutlined />}
+            text={
+              <div>
+                We are gradually adding more and more community powered content
+                to the platform. You can check the{' '}
+                <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
+                as an example. If you have relevant content ideas for this
+                module, please share them with us!
+              </div>
+            }
+            title="There is more to come..."
+          />
+        )}
       </Main>
 
       <Sider>
