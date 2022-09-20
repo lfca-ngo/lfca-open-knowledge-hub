@@ -7,7 +7,7 @@ import {
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
 export const EMPTY_ACTION: CompanyActionListItemFragment = {
-  categories: [],
+  categories: [{ id: 'software-it', name: 'Software it' }],
   commentAttachmentCount: 0,
   commentCount: 0,
   companiesCompletedCount: 0,

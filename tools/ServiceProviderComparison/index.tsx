@@ -4,7 +4,6 @@ import { Drawer, Form, List, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { Section } from '../../components/Layout'
-import { PaywallPopover } from '../../components/PayWall/PaywallPopover'
 import { useUser } from '../../hooks/user'
 import {
   ServiceProviderFilterCondition,
