@@ -93,6 +93,7 @@ const Home: NextPage<HomePageProps> = ({
           <ActionsList
             actionListItemProps={{
               renderAsLink: true,
+              unselectText: 'View',
             }}
             actions={actionsData?.companyActions || EMPTY_ACTIONS}
             categoryTrees={categoryTrees}
