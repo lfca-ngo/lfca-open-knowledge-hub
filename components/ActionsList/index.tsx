@@ -17,13 +17,13 @@ export interface ActionListProps {
   actions: CompanyActionListItemFragment[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  categoryTrees?: CategoryTreeProps
+  categoryTree?: CategoryTreeProps
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actions,
-  categoryTrees,
+  categoryTree,
   fetching,
 }: ActionListProps) => {
   // persist the scroll position, filters, search, sorting in LS to prevent
@@ -90,7 +90,7 @@ export const ActionsList = ({
   return (
     <div className="actions-list">
       <FilterBar
-        categoryTrees={categoryTrees}
+        categoryTree={categoryTree}
         form={form}
         initialValues={formOptions}
         onValuesChange={handleChange}

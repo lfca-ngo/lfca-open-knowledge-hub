@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { ActionBar } from '../../components/ActionBar'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
+import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
 import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
 import { EmptyState } from '../../components/EmptyState'
@@ -16,8 +17,10 @@ import { LogoGroup } from '../../components/LogoGroup'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
 import {
+  CategoryTreeProps,
   ContentfulActionFields,
   fetchAllActions,
+  fetchRootCategoryTree,
 } from '../../services/contentful'
 import {
   EMPTY_ACTION,
@@ -34,9 +37,10 @@ const { TabPane } = Tabs
 
 interface ActionProps {
   action: ContentfulActionFields
+  categoryTree: CategoryTreeProps
 }
 
-const Action: NextPage<ActionProps> = ({ action }) => {
+const Action: NextPage<ActionProps> = ({ action, categoryTree }) => {
   const router = useRouter()
 
   const [{ data: actionData, fetching: fetchingAction }] =
@@ -58,12 +62,19 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       variables: { input: { actionContentId: action.actionId } },
     })
 
+  const [firstCategory] = actionData?.companyAction?.categories || []
+  const rootCategory = categoryTree.rootCategoryLookUp[firstCategory?.id]
+  const actionDetails = {
+    ...actionData?.companyAction,
+    rootCategory,
+  } as CompanyActionListItemFragmentWithRootCategory
+
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
         <Section>
           <ActionDetails
-            action={actionData?.companyAction || EMPTY_ACTION}
+            action={actionDetails || EMPTY_ACTION}
             fetching={fetchingAction}
           />
         </Section>
@@ -179,6 +190,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
 export const getStaticProps: GetStaticProps<ActionProps> = async ({
   params,
 }) => {
+  const categoryTree = await fetchRootCategoryTree()
   const actionId = params?.actionId as string
   const actionsById = await fetchAllActions()
   const action = actionsById[actionId]
@@ -186,6 +198,7 @@ export const getStaticProps: GetStaticProps<ActionProps> = async ({
   return {
     props: {
       action,
+      categoryTree,
     },
   }
 }

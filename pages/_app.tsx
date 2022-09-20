@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AppProvider
       // the full categories list is fetched during build time and made accessible
       // to all components on pages that call fetchRootCategories in getStaticProps
-      categoriesList={Object.keys(pageProps?.categoryTrees?.lookUp || {})}
+      categoriesList={Object.keys(pageProps?.categoryTree?.lookUp || {})}
     >
       <FirebaseProvider>
         <LFCABackendProvider>

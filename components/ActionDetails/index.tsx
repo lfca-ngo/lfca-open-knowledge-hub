@@ -1,19 +1,22 @@
 require('./styles.less')
 
 import { Skeleton } from 'antd'
+import classNames from 'classnames'
 import Image from 'next/image'
 import React from 'react'
 
-import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+import { CompanyActionListItemFragmentWithRootCategory } from '../ActionsCarousel'
+import { rootTreeMetaData } from '../ActionsList/utils'
 import { ActionStats } from '../ActionStats'
 
 interface ActionDetailsProps {
-  action: CompanyActionListItemFragment
+  action: CompanyActionListItemFragmentWithRootCategory
   fetching: boolean
 }
 
 export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
   // TODO: UI for error state
+  const rootCategoryMetaData = rootTreeMetaData[action.rootCategory]
 
   return (
     <Skeleton
@@ -24,6 +27,12 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
       paragraph={{ rows: 1 }}
     >
       <div className="action-details">
+        <div
+          className={classNames('root-category', rootCategoryMetaData?.color)}
+        >
+          {rootCategoryMetaData?.icon}
+          <div className="name">{rootCategoryMetaData?.name}</div>
+        </div>
         <div className="action-title">
           <h1>{action.title}</h1>
           <div className="hero">
@@ -40,7 +49,7 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
           </div>
         </div>
         <ActionStats
-          commentAttachmentCount={action.commentAttachmentCount}
+          commentAttachmentCount={action?.commentAttachmentCount}
           commentCount={action.commentCount}
           companiesCompletedCount={action.companiesCompletedCount}
           recentCompaniesCompleted={action.recentCompaniesCompleted}

@@ -1,12 +1,12 @@
+import { CompanyActionListItemFragmentWithRootCategory } from '../../../components/ActionsCarousel'
 import {
   CompanyAchievementFragment,
-  CompanyActionListItemFragment,
   EventFragment,
   EventStatus,
 } from '../generated'
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
-export const EMPTY_ACTION: CompanyActionListItemFragment = {
+export const EMPTY_ACTION: CompanyActionListItemFragmentWithRootCategory = {
   categories: [{ id: 'software-it', name: 'Software it' }],
   commentAttachmentCount: 0,
   commentCount: 0,
@@ -23,6 +23,7 @@ export const EMPTY_ACTION: CompanyActionListItemFragment = {
   recommendedForCompanyAchievementIds: [],
   requiredForCompanyAchievementIds: [''], // needs at least one item to show skeleton on required actions
   requirements: [],
+  rootCategory: 'tree-step-up',
   title: '',
 }
 

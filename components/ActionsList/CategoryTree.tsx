@@ -11,17 +11,17 @@ import {
 } from './utils'
 
 export interface CategoryTreeComponentProps {
-  categoryTrees: CategoryTreeProps
+  categoryTree: CategoryTreeProps
   value?: string[]
   onChange?: (value: string[]) => void
 }
 
-export const CategoryTree = ({
-  categoryTrees: categoryTreesStructure,
+export const CategoryTreeComponent = ({
+  categoryTree: categoryTreeStructure,
   value = [],
   onChange,
 }: CategoryTreeComponentProps) => {
-  const { categoryTrees, lookUp } = categoryTreesStructure
+  const { categoryTree, lookUp } = categoryTreeStructure
 
   const handleChange = (e: CheckboxChangeEvent, hasChildren: boolean) => {
     const name = e.target.name
@@ -70,7 +70,7 @@ export const CategoryTree = ({
 
   return (
     <div className="category-tree">
-      {categoryTrees.map((tree, i) => {
+      {categoryTree.map((tree, i) => {
         const treeMetaData = rootTreeMetaData[tree.categoryId]
         return (
           <div className={`tree-col ${treeMetaData.color}`} key={`tree-${i}`}>

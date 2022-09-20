@@ -5,7 +5,7 @@ import React, { useMemo } from 'react'
 import { AchievementsListMini } from '../../components/AchievementsList'
 import {
   ActionsCarousel,
-  CompanyActionWithRootCategory,
+  CompanyActionListItemFragmentWithRootCategory,
 } from '../../components/ActionsCarousel'
 import { ActionsList, LS_ACTION_LIST } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
@@ -17,7 +17,7 @@ import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import {
   CategoryTreeProps,
-  fetchRootCategoryTrees,
+  fetchRootCategoryTree,
 } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
@@ -30,11 +30,11 @@ import { withAuth } from '../../utils/with-auth'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
-  categoryTrees: CategoryTreeProps
+  categoryTree: CategoryTreeProps
 }
 
 const Home: NextPage<HomePageProps> = ({
-  categoryTrees,
+  categoryTree,
   content,
 }: HomePageProps) => {
   const router = useRouter()
@@ -70,10 +70,10 @@ const Home: NextPage<HomePageProps> = ({
               ...a,
               rootCategory:
                 // we are using the first category to define the root category
-                categoryTrees.rootCategoryLookUp[a.categories[0]?.id],
-            } as CompanyActionWithRootCategory)
+                categoryTree.rootCategoryLookUp[a.categories[0]?.id],
+            } as CompanyActionListItemFragmentWithRootCategory)
         ),
-    [actionsData, categoryTrees]
+    [actionsData, categoryTree]
   )
 
   return (
@@ -96,7 +96,7 @@ const Home: NextPage<HomePageProps> = ({
               unselectText: 'View',
             }}
             actions={actionsData?.companyActions || EMPTY_ACTIONS}
-            categoryTrees={categoryTrees}
+            categoryTree={categoryTree}
             fetching={fetchingActions}
           />
         </Section>
@@ -140,11 +140,11 @@ const Home: NextPage<HomePageProps> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const content = await fetchAllContentCollections()
-  const categoryTrees = await fetchRootCategoryTrees()
+  const categoryTree = await fetchRootCategoryTree()
 
   return {
     props: {
-      categoryTrees,
+      categoryTree,
       content,
     },
   }

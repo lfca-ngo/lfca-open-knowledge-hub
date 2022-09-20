@@ -19,13 +19,13 @@ import { EmptyState } from '../EmptyState'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
 
-export interface CompanyActionWithRootCategory
+export interface CompanyActionListItemFragmentWithRootCategory
   extends CompanyActionListItemFragment {
   rootCategory: string
 }
 
 interface ActionsCarouselProps {
-  actions: CompanyActionWithRootCategory[]
+  actions: CompanyActionListItemFragmentWithRootCategory[]
   fetching?: boolean
   onSelect: (action: CompanyActionListItemFragment) => void
 }

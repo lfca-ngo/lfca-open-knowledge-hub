@@ -32,23 +32,28 @@ export const findCategoryChildren = (node: CategoryTreeNode): string[] => {
 interface MetaDataProps {
   color: string
   icon: any
+  name: string
 }
 
 export const rootTreeMetaData: { [key: string]: MetaDataProps } = {
   'tree-impact': {
     color: 'blue',
     icon: <FallOutlined />,
+    name: 'Impact',
   },
   'tree-influence': {
     color: 'yellow',
     icon: <SoundOutlined />,
+    name: 'Influence',
   },
   'tree-stepup': {
     color: 'wine',
     icon: <FieldBinaryOutlined />,
+    name: 'Step Up',
   },
   'tree-transform': {
     color: 'green',
     icon: <StarOutlined />,
+    name: 'Transform',
   },
 }

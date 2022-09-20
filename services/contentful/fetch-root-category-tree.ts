@@ -5,7 +5,7 @@ import { getEntries } from './api'
 import { ContentfulCategoryTreeFields } from './types'
 
 export interface CategoryTreeProps {
-  categoryTrees: ContentfulCategoryTreeFields[]
+  categoryTree: ContentfulCategoryTreeFields[]
   lookUp: LookUpProps
   rootCategoryLookUp: RootCategoryLookUpProps
 }
@@ -22,7 +22,7 @@ export interface RootCategoryLookUpProps {
   [key: string]: string
 }
 
-export const fetchRootCategoryTrees = async () => {
+export const fetchRootCategoryTree = async () => {
   const res = await getEntries({
     content_type: 'categoryTree',
     'fields.categoryId[exists]': true,
@@ -32,20 +32,20 @@ export const fetchRootCategoryTrees = async () => {
     order: '-fields.sortWeight',
   })
   const stringifiedData = safeJsonStringify(res)
-  const categoryTrees = JSON.parse(
+  const categoryTree = JSON.parse(
     stringifiedData
   ) as ContentfulCategoryTreeFields[]
 
   // wrapper to recursively traverse the tree
   const tree = {
     categoryId: 'root',
-    elements: categoryTrees,
+    elements: categoryTree,
     name: 'root',
   }
 
   // root category lookup to match colors to actions
   const rootCategoryLookUp: RootCategoryLookUpProps = {}
-  for (const rootCategoryTree of categoryTrees) {
+  for (const rootCategoryTree of categoryTree) {
     const categoryChildren = findCategoryChildren(rootCategoryTree).flat()
     for (const child of categoryChildren) {
       rootCategoryLookUp[child] = rootCategoryTree.categoryId
@@ -77,7 +77,7 @@ export const fetchRootCategoryTrees = async () => {
   const lookUpData = JSON.parse(stringifiedLookup) as LookUpProps
 
   return {
-    categoryTrees,
+    categoryTree,
     lookUp: lookUpData,
     rootCategoryLookUp,
   } as CategoryTreeProps

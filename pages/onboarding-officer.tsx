@@ -5,7 +5,7 @@ import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
-import { fetchRootCategoryTrees } from '../services/contentful'
+import { fetchRootCategoryTree } from '../services/contentful'
 import {
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
@@ -50,11 +50,11 @@ const OnboardingOfficer: NextPage = () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const categoryTrees = await fetchRootCategoryTrees()
+  const categoryTree = await fetchRootCategoryTree()
 
   return {
     props: {
-      categoryTrees,
+      categoryTree,
     },
   }
 }
