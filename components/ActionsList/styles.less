@@ -71,8 +71,11 @@
   }
 
   .category-tree {
+    @column-gap-width: 10px;
+
     display: flex;
-    gap: 20px;
+    margin: 0 -@column-gap-width;
+    flex-wrap: wrap;
 
     .show-more {
       > .show-more-button {
@@ -87,8 +90,13 @@
     }
 
     .tree-col {
-      width: calc(100% / 4);
+      width: calc(100% / 2);
       margin: 0 0 30px;
+      padding: @column-gap-width;
+
+      @media @desktop {
+        width: calc(100% / 4);
+      }
 
       // add colors
       &.yellow {
