@@ -1,11 +1,11 @@
 import { Checkbox } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
+import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
-  categoryTree,
-  lookUp as lookUpRaw,
-} from '../../next-fetch-during-build/data/_category-tree-data.json'
-import { LookUpProps } from '../../services/contentful'
+  ContentfulCategoryTreeFields,
+  LookUpProps,
+} from '../../services/contentful'
 import { ShowMore } from '../ShowMore'
 import { CategoryTreeElement } from './CategoryTreeElement'
 import {
@@ -23,8 +23,11 @@ export const CategoryTreeComponent = ({
   value = [],
   onChange,
 }: CategoryTreeComponentProps) => {
+  const lookUp: LookUpProps = categoryTreeData.lookUp
+  const categoryTree: ContentfulCategoryTreeFields[] =
+    categoryTreeData.categoryTree
+
   const handleChange = (e: CheckboxChangeEvent, hasChildren: boolean) => {
-    const lookUp: LookUpProps = lookUpRaw
     const name = e.target.name
     const checked = e.target.checked
 
