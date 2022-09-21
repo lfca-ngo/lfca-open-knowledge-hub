@@ -6,6 +6,7 @@ import { DESKTOP, getScreenSizeType, isBrowser } from '../utils'
 import { ACTIONS } from '../utils/routes'
 import useIsClient from './useIsClient'
 import { useLocalStorage } from './useLocalStorage'
+import { usePersistentNavigation } from './usePersistentNavigation'
 
 const SCREEN_SIZE = 'screen_size'
 
@@ -23,6 +24,7 @@ if (isBrowser()) {
 }
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  const { resetPosition } = usePersistentNavigation(false)
   const [screenSize] = useLocalStorage(SCREEN_SIZE, DESKTOP)
   const isClient = useIsClient()
   const router = useRouter()
@@ -45,7 +47,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         router.pathname.startsWith('/action/') && url === ACTIONS
 
       if (!(fromDashboardToDetails || fromDetailPageToDashboard)) {
-        // resetPosition()
+        resetPosition()
       }
     }
 
@@ -56,7 +58,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange)
     }
-  }, [router.pathname, router.events])
+  }, [router.pathname, router.events, resetPosition])
 
   // wait with initial render until client side
   // to avoid SSR flashing
