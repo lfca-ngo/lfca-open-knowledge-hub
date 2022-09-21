@@ -16,10 +16,7 @@ import { PayWall } from '../../components/PayWall'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import * as categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
-import {
-  CategoryTreeProps,
-  fetchRootCategoryTree,
-} from '../../services/contentful'
+import { CategoryTreeProps } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
   EMPTY_ACTIONS,
@@ -138,11 +135,9 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const content = await fetchAllContentCollections()
-  const categoryTree = await fetchRootCategoryTree()
 
   return {
     props: {
-      categoryTree,
       content,
     },
   }

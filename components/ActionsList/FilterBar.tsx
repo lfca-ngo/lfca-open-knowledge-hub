@@ -62,7 +62,7 @@ export const FilterBar = ({
       {categoryTreeData.categoryTree && (
         <Space className="category-tree-container" direction="vertical">
           <Form.Item name="categories">
-            <CategoryTreeComponent categoryTree={categoryTreeData} />
+            <CategoryTreeComponent />
           </Form.Item>
         </Space>
       )}

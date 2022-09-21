@@ -16,11 +16,11 @@ import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
+import * as categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
-  CategoryTreeProps,
   ContentfulActionFields,
   fetchAllActions,
-  fetchRootCategoryTree,
+  RootCategoryLookUpProps,
 } from '../../services/contentful'
 import {
   EMPTY_ACTION,
@@ -37,10 +37,11 @@ const { TabPane } = Tabs
 
 interface ActionProps {
   action: ContentfulActionFields
-  categoryTree: CategoryTreeProps
 }
 
-const Action: NextPage<ActionProps> = ({ action, categoryTree }) => {
+const Action: NextPage<ActionProps> = ({ action }) => {
+  const rootCategoryLookUp: RootCategoryLookUpProps =
+    categoryTreeData.rootCategoryLookUp
   const router = useRouter()
 
   const [{ data: actionData, fetching: fetchingAction }] =
@@ -63,7 +64,7 @@ const Action: NextPage<ActionProps> = ({ action, categoryTree }) => {
     })
 
   const [firstCategory] = actionData?.companyAction?.categories || []
-  const rootCategory = categoryTree.rootCategoryLookUp[firstCategory?.id]
+  const rootCategory = rootCategoryLookUp[firstCategory?.id]
   const actionDetails = {
     ...actionData?.companyAction,
     rootCategory,
@@ -190,7 +191,6 @@ const Action: NextPage<ActionProps> = ({ action, categoryTree }) => {
 export const getStaticProps: GetStaticProps<ActionProps> = async ({
   params,
 }) => {
-  const categoryTree = await fetchRootCategoryTree()
   const actionId = params?.actionId as string
   const actionsById = await fetchAllActions()
   const action = actionsById[actionId]
@@ -198,7 +198,6 @@ export const getStaticProps: GetStaticProps<ActionProps> = async ({
   return {
     props: {
       action,
-      categoryTree,
     },
   }
 }

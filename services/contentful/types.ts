@@ -138,3 +138,21 @@ export interface ContentfulCategoryTreeFields {
   name?: string
   elements?: (ContentfulCategoryFields | ContentfulCategoryTreeFields)[]
 }
+
+export interface CategoryTreeProps {
+  categoryTree: ContentfulCategoryTreeFields[]
+  lookUp: LookUpProps
+  rootCategoryLookUp: RootCategoryLookUpProps
+}
+
+export interface CategoryTreeNode extends ContentfulCategoryTreeFields {
+  parentId?: string | null
+}
+
+export interface LookUpProps {
+  [key: string]: CategoryTreeNode
+}
+
+export interface RootCategoryLookUpProps {
+  [key: string]: string
+}

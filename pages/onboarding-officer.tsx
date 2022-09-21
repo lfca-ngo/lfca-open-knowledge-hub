@@ -1,11 +1,10 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import React from 'react'
 
 import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
-import { fetchRootCategoryTree } from '../services/contentful'
 import {
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
@@ -47,16 +46,6 @@ const OnboardingOfficer: NextPage = () => {
       ) : null}
     </StepsLayout>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const categoryTree = await fetchRootCategoryTree()
-
-  return {
-    props: {
-      categoryTree,
-    },
-  }
 }
 
 export default withAuth(OnboardingOfficer)
