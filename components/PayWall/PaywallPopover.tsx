@@ -35,7 +35,7 @@ export const PaywallPopover = ({
         placement="right"
         title={null}
       >
-        {cloneElement(children, { disabled: !isPaying })}
+        <div>{cloneElement(children, { disabled: !isPaying })}</div>
       </Popover>
     )
 

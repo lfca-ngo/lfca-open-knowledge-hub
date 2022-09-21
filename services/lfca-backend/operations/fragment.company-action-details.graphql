@@ -1,5 +1,9 @@
 fragment CompanyActionDetails on CompanyAction {
   id
+  categories {
+    name
+    id
+  }
   serviceProviderList {
     ...ServiceProviderList
   }

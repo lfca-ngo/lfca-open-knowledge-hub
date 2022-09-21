@@ -1,6 +1,8 @@
+import {
+  client,
+  parseResponse,
+} from '../../../next-fetch-during-build/next-contentful'
 import { createKey, getData, setData } from './cache'
-import { client } from './client'
-import { parseResponse } from './parse-response'
 
 export const getEntry = async (id: any, query: any) => {
   const cacheKey = createKey({ ...query, id })
@@ -30,7 +32,9 @@ export const getEntries = async (query: any) => {
   } else {
     const response = await client.getEntries(query)
 
-    const parsed: any = parseResponse({ fields: { items: response.items } })
+    const parsed: any = parseResponse({
+      fields: { items: response.items },
+    })
 
     setData(cacheKey, parsed.items)
 

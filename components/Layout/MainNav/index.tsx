@@ -35,7 +35,6 @@ import {
   ADMIN_GROUPS,
   ADMIN_REVIEWS,
   ADMIN_USERS,
-  COMMUNITY,
   COMMUNITY_GROUPS,
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
@@ -48,12 +47,7 @@ import { VideoWrapper } from '../../VideoWrapper'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
 
-const NAV_ITEMS_BEHIND_PAYWALL = [
-  ACHIEVEMENTS,
-  TOOLS,
-  COMMUNITY,
-  COMMUNITY_GROUPS,
-]
+const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS]
 
 const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
   {

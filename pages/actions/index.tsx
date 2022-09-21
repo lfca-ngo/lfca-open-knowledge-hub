@@ -3,23 +3,26 @@ import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 
 import { AchievementsListMini } from '../../components/AchievementsList'
-import { ActionsCarousel } from '../../components/ActionsCarousel'
 import {
-  ActionsList,
-  INITIAL_VALUES,
-  LS_ACTION_LIST,
-} from '../../components/ActionsList'
+  ActionsCarousel,
+  CompanyActionListItemFragmentWithRootCategory,
+} from '../../components/ActionsCarousel'
+import { ActionsList } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
-import { useScrollPosition } from '../../hooks/useScrollPosition'
-import { ContentfulContentCollectionFields } from '../../services/contentful'
+import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
+import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import {
+  ContentfulContentCollectionFields,
+  RootCategoryLookUpProps,
+} from '../../services/contentful'
+import { CategoryTreeProps } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
   EMPTY_ACTIONS,
-  sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
   useEventsQuery,
 } from '../../services/lfca-backend'
@@ -28,11 +31,14 @@ import { withAuth } from '../../utils/with-auth'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields[]
+  categoryTree: CategoryTreeProps
 }
 
 const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
+  const rootCategoryLookUp: RootCategoryLookUpProps =
+    categoryTreeData.rootCategoryLookUp
+  const { resetPosition } = usePersistentNavigation(false)
   const router = useRouter()
-  const { resetPosition } = useScrollPosition(LS_ACTION_LIST, false)
 
   // Fetch events to show upcoming
   const [{ data, error, fetching }] = useEventsQuery()
@@ -42,14 +48,6 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const [{ data: actionsData, fetching: fetchingActions }] =
     useCompanyActionsListQuery()
 
-  const actionsByCategories = useMemo(
-    () =>
-      sortCompanyActionsByCategories(
-        actionsData?.companyActions || EMPTY_ACTIONS
-      ),
-    [actionsData]
-  )
-
   /**
    * Highlight actions that are
    * - required or mandatory for one of the company's achievements
@@ -58,14 +56,23 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
    */
   const highlightedActions = useMemo(
     () =>
-      (actionsData?.companyActions || EMPTY_ACTIONS).filter(
-        (companyAction) =>
-          (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
-            companyAction.requiredForCompanyAchievementIds.length > 0 ||
-            companyAction.plannedAt !== null) &&
-          !companyAction.completedAt
-      ),
-    [actionsData]
+      (actionsData?.companyActions || EMPTY_ACTIONS)
+        .filter(
+          (companyAction) =>
+            (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
+              companyAction.requiredForCompanyAchievementIds.length > 0 ||
+              companyAction.plannedAt !== null) &&
+            !companyAction.completedAt
+        )
+        .map(
+          (action) =>
+            ({
+              ...action,
+              // we are using the first category to define the root category
+              rootCategory: rootCategoryLookUp[action.categories[0]?.id],
+            } as CompanyActionListItemFragmentWithRootCategory)
+        ),
+    [actionsData, rootCategoryLookUp]
   )
 
   return (
@@ -76,23 +83,18 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             actions={highlightedActions}
             fetching={fetchingActions}
             onSelect={(action) => {
-              resetPosition(INITIAL_VALUES)
+              resetPosition()
               router.push(`/action/${action.contentId}`)
             }}
           />
         </Section>
-        <Section
-          bordered={false}
-          id="browse-actions"
-          title="Browse all actions"
-        >
-          {/* When leaving this page in any direction other than action detail page
-          delete the browsing position */}
+        <Section bordered={false} id="browse-actions">
           <ActionsList
             actionListItemProps={{
               renderAsLink: true,
+              unselectText: 'View',
             }}
-            actionsByCategories={actionsByCategories}
+            actions={actionsData?.companyActions || EMPTY_ACTIONS}
             fetching={fetchingActions}
           />
         </Section>
@@ -115,29 +117,15 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
           </PayWall>
         </Section>
         <Section title="Your groups">
-          <PayWall
-            popoverContent={
-              <div>
-                <p>
-                  Mastermind Groups are small teams of 5-10 community members
-                  that are grouped by industry, challenge or region. They meet
-                  monthly and share their progress, practical learnings and
-                  support each other.
-                </p>
-              </div>
+          <EventsList
+            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
+            events={error ? [] : eventsByParticipation.participatingEvents}
+            fetching={fetching}
+            participatingEvents={
+              error ? [] : eventsByParticipation.participatingEvents
             }
-            popoverTitle="What's waiting for you"
-          >
-            <EventsList
-              appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
-              events={error ? [] : eventsByParticipation.participatingEvents}
-              fetching={fetching}
-              participatingEvents={
-                error ? [] : eventsByParticipation.participatingEvents
-              }
-              type="compact"
-            />
-          </PayWall>
+            type="compact"
+          />
         </Section>
 
         <Section title="Links">

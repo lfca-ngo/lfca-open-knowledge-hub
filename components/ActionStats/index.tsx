@@ -39,6 +39,7 @@ interface ActionStatsProps {
   commentCount: CompanyActionListItemFragment['commentCount']
   companiesCompletedCount: CompanyActionListItemFragment['companiesCompletedCount']
   recentCompaniesCompleted: CompanyActionListItemFragment['recentCompaniesCompleted']
+
   size?: AvatarProps['size']
 }
 
@@ -47,6 +48,7 @@ export const ActionStats = ({
   commentCount,
   companiesCompletedCount,
   recentCompaniesCompleted,
+
   size,
 }: ActionStatsProps) => {
   return (

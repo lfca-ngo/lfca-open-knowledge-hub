@@ -88,9 +88,11 @@
     }
 
     .reviews {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      .review-meta-data {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
 
       .ranges {
         .ant-tag {
@@ -111,7 +113,15 @@
 
       .ant-rate {
         font-size: @font-size-base;
-        
+
+        &.disabled {
+          color: @grey-light;
+          .ant-rate-star-first,
+          .ant-rate-star-second {
+            color: @grey-light;
+          }
+        }
+
         &.light {
           color: @grey;
         }

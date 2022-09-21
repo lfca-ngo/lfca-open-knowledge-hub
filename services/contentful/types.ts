@@ -59,16 +59,6 @@ export interface ContentfulRequirementFields {
 export interface ContentfulCategoryFields {
   categoryId: string
   name: string
-  sortingWeight?: number
-}
-
-interface ContentfulCustomSectionFields {
-  componentId: string
-  title: string
-  bordered: boolean
-  size: string
-  position: string
-  className: string
 }
 
 export interface ContentfulActionFields {
@@ -141,4 +131,28 @@ export interface ContentfulCallToActionFields {
   type?: 'primary' | 'default' | 'link'
   title: string
   url?: string
+}
+
+export interface ContentfulCategoryTreeFields {
+  categoryId: string
+  name?: string
+  elements?: (ContentfulCategoryFields | ContentfulCategoryTreeFields)[]
+}
+
+export interface CategoryTreeProps {
+  categoryTree: ContentfulCategoryTreeFields[]
+  lookUp: LookUpProps
+  rootCategoryLookUp: RootCategoryLookUpProps
+}
+
+export interface CategoryTreeNode extends ContentfulCategoryTreeFields {
+  parentId?: string | null
+}
+
+export interface LookUpProps {
+  [key: string]: CategoryTreeNode
+}
+
+export interface RootCategoryLookUpProps {
+  [key: string]: string
 }

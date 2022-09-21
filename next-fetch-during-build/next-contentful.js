@@ -1,3 +1,22 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const contentful = require('contentful')
+
+const isDev = process.env.NODE_ENV === 'development'
+const accessToken = process.env.CF_ACCESS_TOKEN || ''
+const previewAccessToken = process.env.CF_PREVIEW_ACCESS_TOKEN || ''
+const spaceId = process.env.CF_SPACE_ID || ''
+
+/**
+ * Contentful client
+ */
+const client = contentful.createClient({
+  accessToken: isDev ? previewAccessToken : accessToken,
+  host: isDev ? 'preview.contentful.com' : 'cdn.contentful.com',
+  space: spaceId,
+})
+
+exports.client = client
+
 /**
  * Flattens a Contentful data response, extracting the fields from child
  * objects and setting them to the parent name.
@@ -6,7 +25,7 @@
  * @param  {Object} data
  * @return {Object}
  */
-export function parseResponse(data) {
+function parseResponse(data) {
   /**
    * Check to see if the object passed is an object that contains only a `sys`
    * property and no feields. If so, either the model is empty, draft, or unpublished.
@@ -101,3 +120,5 @@ export function parseResponse(data) {
 
   return parseFields(dataClone.fields)
 }
+
+exports.parseResponse = parseResponse

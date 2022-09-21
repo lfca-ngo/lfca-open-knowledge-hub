@@ -1,8 +1,8 @@
 import { Form, FormInstance, Input, Select, Space } from 'antd'
+import classNames from 'classnames'
 import React from 'react'
 
-import { ALL_ACTIONS_LABEL } from '../../services/lfca-backend'
-import { DropdownSelect } from '../DropdownSelect'
+import { CategoryTreeComponent } from './CategoryTree'
 
 const { Search } = Input
 
@@ -12,51 +12,57 @@ export const SORT_OPTIONS = [
 ]
 
 export interface FilterFormItems {
-  categories?: string[]
   search?: string
   sorting?: string
 }
 
 interface FilterBarProps {
   form: FormInstance<FilterFormItems>
+  hideCategoryTree?: boolean
   initialValues?: FilterFormItems
-  categories?: string[]
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
 }
 
 export const FilterBar = ({
   form,
+  hideCategoryTree,
   initialValues,
   onValuesChange,
-  categories = [ALL_ACTIONS_LABEL],
 }: FilterBarProps) => {
   return (
     <Form
-      className="filter-bar"
+      className={`filter-bar ${classNames({
+        'without-category-tree': hideCategoryTree,
+      })}`}
       form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <Form.Item name="categories">
-        <DropdownSelect
-          items={categories.map((c) => ({ label: c, value: c }))}
-          singleMode
-        />
-      </Form.Item>
+      <div className="header-bar">
+        {!hideCategoryTree && <div className="title">Browse all actions</div>}
 
-      <Space>
-        <Form.Item name="sorting">
-          <Select placeholder="Please select">
-            {SORT_OPTIONS.map((option) => (
-              <Select.Option key={option.key}>{option.label}</Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
+        <Space>
+          <Form.Item name="sorting">
+            <Select placeholder="Please select" size="small">
+              {SORT_OPTIONS.map((option) => (
+                <Select.Option key={option.key}>{option.label}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-        <Form.Item name="search">
-          <Search placeholder="Search..." />
-        </Form.Item>
-      </Space>
+          <Form.Item name="search">
+            <Search placeholder="Search..." size="small" />
+          </Form.Item>
+        </Space>
+      </div>
+
+      {!hideCategoryTree && (
+        <Space className="category-tree-container" direction="vertical">
+          <Form.Item name="categories">
+            <CategoryTreeComponent />
+          </Form.Item>
+        </Space>
+      )}
     </Form>
   )
 }

@@ -14,12 +14,18 @@ import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LG_BREAKPOINT, scrollToId, SM_BREAKPOINT } from '../../utils'
+import { rootTreeMetaData } from '../ActionsList/utils'
 import { EmptyState } from '../EmptyState'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
 
+export interface CompanyActionListItemFragmentWithRootCategory
+  extends CompanyActionListItemFragment {
+  rootCategory: string
+}
+
 interface ActionsCarouselProps {
-  actions: CompanyActionListItemFragment[]
+  actions: CompanyActionListItemFragmentWithRootCategory[]
   fetching?: boolean
   onSelect: (action: CompanyActionListItemFragment) => void
 }
@@ -101,7 +107,13 @@ export const ActionsCarousel = ({
             paragraph={false}
             title={{ width: '100%' }}
           >
-            <Card bordered={false} onClick={() => onSelect(action)}>
+            <Card
+              bordered={false}
+              className={
+                rootTreeMetaData[action.rootCategory]?.color || 'black'
+              }
+              onClick={() => onSelect(action)}
+            >
               <ActionStatusTag action={action} />
               <div className="action-card-content">
                 <div className="action-card-title">{action.title}</div>

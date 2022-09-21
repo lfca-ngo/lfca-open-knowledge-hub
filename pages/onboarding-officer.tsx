@@ -7,7 +7,6 @@ import { OnboardingOfficerSteps } from '../components/Flows'
 import { StepsLayout } from '../components/Layout'
 import {
   EMPTY_ACTIONS,
-  sortCompanyActionsByCategories,
   useCompanyActionsListQuery,
 } from '../services/lfca-backend'
 import { withAuth } from '../utils/with-auth'
@@ -18,15 +17,6 @@ const OnboardingOfficer: NextPage = () => {
 
   // TODO: loading & error UI
   const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
-
-  const actionsByCategories = React.useMemo(
-    () =>
-      sortCompanyActionsByCategories(
-        data?.companyActions || EMPTY_ACTIONS,
-        false // do not filter the completed actions out
-      ),
-    [data]
-  )
 
   const handleOnNext = () => {
     if (currentStepIndex === OnboardingOfficerSteps.length - 1) {
@@ -49,7 +39,7 @@ const OnboardingOfficer: NextPage = () => {
     >
       {Step ? (
         <Step
-          actionsByCategories={actionsByCategories}
+          actions={data?.companyActions || EMPTY_ACTIONS}
           fetching={fetchingActions}
           onNext={handleOnNext}
         />
