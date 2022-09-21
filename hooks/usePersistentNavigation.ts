@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
-import * as categoryTreeData from '../next-fetch-during-build/data/_category-tree-data.json'
+import { lookUp } from '../next-fetch-during-build/data/_category-tree-data.json'
 import { isBrowser } from '../utils'
 import { useLocalStorage } from './useLocalStorage'
 
@@ -22,7 +22,7 @@ interface UsePersistentNavigationProps {
 const LS_KEY = 'persistent_navigation'
 
 const initialOptions: NavigationOptions = {
-  categories: Object.keys(categoryTreeData.lookUp),
+  categories: Object.keys(lookUp),
   currentPage: 1,
   scrollPosition: 0,
   sorting: SORT_OPTIONS[0].key,

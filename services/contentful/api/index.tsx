@@ -1,4 +1,7 @@
-import * as utils from '../../../next-fetch-during-build/next-contentful'
+import {
+  client,
+  parseResponse,
+} from '../../../next-fetch-during-build/next-contentful'
 import { createKey, getData, setData } from './cache'
 
 export const getEntry = async (id: any, query: any) => {
@@ -9,9 +12,9 @@ export const getEntry = async (id: any, query: any) => {
   if (cachedData) {
     return cachedData
   } else {
-    const response = await utils.client.getEntry(id, query)
+    const response = await client.getEntry(id, query)
 
-    const parsed = utils.parseResponse(response)
+    const parsed = parseResponse(response)
 
     setData(cacheKey, parsed)
 
@@ -27,9 +30,9 @@ export const getEntries = async (query: any) => {
   if (cachedData) {
     return cachedData
   } else {
-    const response = await utils.client.getEntries(query)
+    const response = await client.getEntries(query)
 
-    const parsed: any = utils.parseResponse({
+    const parsed: any = parseResponse({
       fields: { items: response.items },
     })
 

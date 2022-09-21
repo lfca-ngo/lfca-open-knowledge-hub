@@ -14,8 +14,11 @@ import { getEventsByParticipationStatus } from '../../components/EventsList/util
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
-import * as categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
-import { ContentfulContentCollectionFields } from '../../services/contentful'
+import { rootCategoryLookUp as rootCategoryLookUpRaw } from '../../next-fetch-during-build/data/_category-tree-data.json'
+import {
+  ContentfulContentCollectionFields,
+  RootCategoryLookUpProps,
+} from '../../services/contentful'
 import { CategoryTreeProps } from '../../services/contentful'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import {
@@ -32,8 +35,7 @@ interface HomePageProps {
 }
 
 const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
-  const rootCategoryLookUp: { [key: string]: string } =
-    categoryTreeData.rootCategoryLookUp
+  const rootCategoryLookUp: RootCategoryLookUpProps = rootCategoryLookUpRaw
   const { resetPosition } = usePersistentNavigation(false)
   const router = useRouter()
 

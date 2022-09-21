@@ -2,7 +2,7 @@ import { Form, FormInstance, Input, Select, Space } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
-import * as categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import { categoryTree } from '../../next-fetch-during-build/data/_category-tree-data.json'
 import { CategoryTreeComponent } from './CategoryTree'
 
 const { Search } = Input
@@ -40,9 +40,7 @@ export const FilterBar = ({
       onValuesChange={onValuesChange}
     >
       <div className="header-bar">
-        {categoryTreeData.categoryTree && (
-          <div className="title">Browse all actions</div>
-        )}
+        {categoryTree && <div className="title">Browse all actions</div>}
 
         <Space>
           <Form.Item name="sorting">
@@ -59,7 +57,7 @@ export const FilterBar = ({
         </Space>
       </div>
 
-      {categoryTreeData.categoryTree && (
+      {!hideCategoryTree && (
         <Space className="category-tree-container" direction="vertical">
           <Form.Item name="categories">
             <CategoryTreeComponent />

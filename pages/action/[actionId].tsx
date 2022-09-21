@@ -16,7 +16,7 @@ import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { LogoGroup } from '../../components/LogoGroup'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
-import * as categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import { rootCategoryLookUp as rootCategoryLookUpRaw } from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
   ContentfulActionFields,
   fetchAllActions,
@@ -40,8 +40,7 @@ interface ActionProps {
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
-  const rootCategoryLookUp: RootCategoryLookUpProps =
-    categoryTreeData.rootCategoryLookUp
+  const rootCategoryLookUp: RootCategoryLookUpProps = rootCategoryLookUpRaw
   const router = useRouter()
 
   const [{ data: actionData, fetching: fetchingAction }] =
@@ -118,7 +117,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           </Tabs>
         </Section>
         {/* Render optional service provider comparison */}
-
         {fetchingActionExtended || staleActionExtended ? (
           <Spin />
         ) : actionDataExtended?.companyAction.serviceProviderList ? (
