@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const contentful = require('contentful')
 
-// const isDev = process.env.NODE_ENV === 'development'
-const accessToken = 'tcSco3SJmfMOdB_LC9qKn9kEZDrBMeSdoMxfF8KoaDQ' // process.env.CF_ACCESS_TOKEN || ''
-// const previewAccessToken = process.env.CF_PREVIEW_ACCESS_TOKEN || ''
-const spaceId = 'esgzhcppb7vd' // process.env.CF_SPACE_ID || ''
+const isDev = process.env.NODE_ENV === 'development'
+const accessToken = process.env.CF_ACCESS_TOKEN || ''
+const previewAccessToken = process.env.CF_PREVIEW_ACCESS_TOKEN || ''
+const spaceId = process.env.CF_SPACE_ID || ''
 
 /**
  * Contentful client
  */
 const client = contentful.createClient({
-  accessToken: accessToken,
-  host: 'cdn.contentful.com',
+  accessToken: isDev ? previewAccessToken : accessToken,
+  host: isDev ? 'preview.contentful.com' : 'cdn.contentful.com',
   space: spaceId,
 })
 
