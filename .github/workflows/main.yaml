@@ -19,6 +19,9 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Run linter
         run: yarn lint
+        env:
+          CF_ACCESS_TOKEN_GH: ${{ secrets.CF_ACCESS_TOKEN }}
+          CF_SPACE_ID: ${{ secrets.CF_SPACE_ID }}
 
   deploy:
     runs-on: ubuntu-latest

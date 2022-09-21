@@ -2,7 +2,7 @@
 const contentful = require('contentful')
 
 const isDev = process.env.NODE_ENV === 'development'
-const accessToken = process.env.CF_ACCESS_TOKEN || ''
+const accessToken = process.env.CF_ACCESS_TOKEN_GH || ''
 const previewAccessToken = process.env.CF_PREVIEW_ACCESS_TOKEN || ''
 const spaceId = process.env.CF_SPACE_ID || ''
 
