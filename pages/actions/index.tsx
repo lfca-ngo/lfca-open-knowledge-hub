@@ -7,13 +7,14 @@ import {
   ActionsCarousel,
   CompanyActionListItemFragmentWithRootCategory,
 } from '../../components/ActionsCarousel'
-import { ActionsList, LS_ACTION_LIST } from '../../components/ActionsList'
+import { ActionsList } from '../../components/ActionsList'
 import { ContentListMini } from '../../components/ContentList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
+import * as categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import { ContentfulContentCollectionFields } from '../../services/contentful'
 import {
   CategoryTreeProps,
@@ -33,12 +34,11 @@ interface HomePageProps {
   categoryTree: CategoryTreeProps
 }
 
-const Home: NextPage<HomePageProps> = ({
-  categoryTree,
-  content,
-}: HomePageProps) => {
+const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
+  const rootCategoryLookUp: { [key: string]: string } =
+    categoryTreeData.rootCategoryLookUp
+  const { resetPosition } = usePersistentNavigation(false)
   const router = useRouter()
-  const { resetPosition } = usePersistentNavigation(LS_ACTION_LIST, false)
 
   // Fetch events to show upcoming
   const [{ data, error, fetching }] = useEventsQuery()
@@ -65,15 +65,14 @@ const Home: NextPage<HomePageProps> = ({
             !companyAction.completedAt
         )
         .map(
-          (a) =>
+          (action) =>
             ({
-              ...a,
-              rootCategory:
-                // we are using the first category to define the root category
-                categoryTree.rootCategoryLookUp[a.categories[0]?.id],
+              ...action,
+              // we are using the first category to define the root category
+              rootCategory: rootCategoryLookUp[action.categories[0]?.id],
             } as CompanyActionListItemFragmentWithRootCategory)
         ),
-    [actionsData, categoryTree]
+    [actionsData, rootCategoryLookUp]
   )
 
   return (
@@ -96,7 +95,6 @@ const Home: NextPage<HomePageProps> = ({
               unselectText: 'View',
             }}
             actions={actionsData?.companyActions || EMPTY_ACTIONS}
-            categoryTree={categoryTree}
             fetching={fetchingActions}
           />
         </Section>

@@ -128,6 +128,7 @@ const Personalize = ({ actions, fetching, onNext }: PersonalizeProps) => {
         }}
         actions={actions}
         fetching={fetching}
+        hideCategoryTree
       />
       <Button onClick={handleContinue} size="large" type="primary">
         Continue

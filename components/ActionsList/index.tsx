@@ -4,7 +4,6 @@ import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
-import { CategoryTreeProps } from '../../services/contentful'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
@@ -17,25 +16,23 @@ export interface ActionListProps {
   actions: CompanyActionListItemFragment[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  categoryTree?: CategoryTreeProps
+  hideCategoryTree?: boolean
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actions,
-  categoryTree,
   fetching,
+  hideCategoryTree,
 }: ActionListProps) => {
-  // persist the scroll position, filters, search, sorting in LS to prevent
-  // unnecessary rerenders (LS is available on initial render)
-  const { options, savePosition } = usePersistentNavigation(
-    LS_ACTION_LIST,
-    true
-  )
+  const { persistentNavigation, resetPosition, savePosition } =
+    usePersistentNavigation(true)
 
   // the currentPage is needed for the list component,
   // the rest for the filter form component
-  const { currentPage = 0, ...formOptions } = options || {}
+  const { ...formOptions } = persistentNavigation
+  const currentPage = persistentNavigation?.currentPage
+
   const [form] = Form.useForm()
 
   // called on every form item change
@@ -43,12 +40,14 @@ export const ActionsList = ({
     latestChange: FilterFormItems,
     allValues: FilterFormItems
   ) => {
+    savePosition({ ...persistentNavigation, ...allValues })
     // when searching, clear out all other filters
     if (latestChange?.search) {
-      savePosition({ ...options, search: latestChange.search })
+      resetPosition()
+      savePosition({ ...persistentNavigation, search: latestChange.search })
     } else {
       // for other operations, keep the state
-      savePosition({ ...options, ...allValues })
+      savePosition({ ...persistentNavigation, ...allValues })
     }
   }
 
@@ -69,6 +68,7 @@ export const ActionsList = ({
           const intersectingCategories = actionCategories.filter((value) =>
             activeCategories.includes(value)
           )
+
           const matchesCategory = intersectingCategories.length > 0
           const matchesSearch = lowerCaseSearch(
             activeSearch,
@@ -90,8 +90,8 @@ export const ActionsList = ({
   return (
     <div className="actions-list">
       <FilterBar
-        categoryTree={categoryTree}
         form={form}
+        hideCategoryTree={hideCategoryTree}
         initialValues={formOptions}
         onValuesChange={handleChange}
       />
@@ -102,7 +102,13 @@ export const ActionsList = ({
         pagination={{
           current: currentPage,
           defaultCurrent: currentPage,
-          onChange: (page) => savePosition({ ...options, currentPage: page }),
+          onChange: (page) =>
+            persistentNavigation &&
+            savePosition({
+              ...persistentNavigation,
+              currentPage: page,
+              scrollPosition: window.scrollY,
+            }),
           pageSize: 10,
         }}
         renderItem={(item) => {
@@ -112,7 +118,11 @@ export const ActionsList = ({
                 <ActionCardWrapper
                   action={item}
                   onSavePosition={() => {
-                    savePosition(options)
+                    persistentNavigation &&
+                      savePosition({
+                        ...persistentNavigation,
+                        scrollPosition: window.scrollY,
+                      })
                   }}
                   {...actionListItemProps}
                 />

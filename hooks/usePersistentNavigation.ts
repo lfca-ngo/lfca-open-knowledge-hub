@@ -1,17 +1,12 @@
 import { useEffect } from 'react'
 
 import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
+import * as categoryTreeData from '../next-fetch-during-build/data/_category-tree-data.json'
+import { isBrowser } from '../utils'
 import { useLocalStorage } from './useLocalStorage'
 
-const INITIAL_VALUES: NavigationOptions = {
-  categories: [],
-  currentPage: 1,
-  search: '',
-  sorting: SORT_OPTIONS[0].key,
-}
-
 interface NavigationOptions {
-  // extend if needed
+  scrollPosition?: number
   currentPage?: number
   search?: string
   categories?: string[]
@@ -19,56 +14,54 @@ interface NavigationOptions {
 }
 
 interface UsePersistentNavigationProps {
-  options?: NavigationOptions
+  persistentNavigation?: NavigationOptions
   resetPosition: (initialValues?: NavigationOptions) => void
-  savePosition: (options?: object) => void
+  savePosition: (options: NavigationOptions) => void
+}
+
+const LS_KEY = 'persistent_navigation'
+
+// if this is read from a json file that is being generated during build time
+// then we are good
+const initialOptions: NavigationOptions = {
+  categories: Object.keys(categoryTreeData.lookUp),
+  currentPage: 0,
+  scrollPosition: 0,
+  sorting: SORT_OPTIONS[0].key,
+}
+
+// to avoid unnecessary rerenders, we set the screen
+// size outside of the react lifecycle
+if (isBrowser()) {
+  // set initial persistent navigation
+  window.localStorage.setItem(LS_KEY, JSON.stringify(initialOptions))
 }
 
 // saves the last scroll position before navigating away
 // restores the position after navigating back, allows
 // to store additional data like pagination and filters
 export const usePersistentNavigation = (
-  localStorageKey: string,
-  setCondition: boolean,
-  initialOptions?: NavigationOptions
+  setCondition: boolean
 ): UsePersistentNavigationProps => {
-  const [scrollYStorage, setScrollYStorage] = useLocalStorage(
-    localStorageKey,
-    0
-  )
-  // space to persist things like pagination and filters
-  const [options, setOptions] = useLocalStorage(
-    `${localStorageKey}_options`,
+  const [persistentNavigation, setPersistentNavigation] = useLocalStorage(
+    LS_KEY,
     initialOptions
   )
 
-  const savePosition = (options = INITIAL_VALUES) => {
-    setScrollYStorage(window.scrollY)
-    options && setOptions(options)
+  const savePosition = (options: NavigationOptions) => {
+    setPersistentNavigation(options)
   }
 
-  const resetPosition = (initialValues = INITIAL_VALUES) => {
-    setScrollYStorage(0)
-    setOptions(initialValues)
+  const resetPosition = () => {
+    setPersistentNavigation(initialOptions)
   }
-
-  // set the initial options
-  useEffect(() => {
-    if (initialOptions) {
-      const newOptions = { ...INITIAL_VALUES, ...initialOptions }
-      // only set options if something changed
-      if (JSON.stringify(newOptions) !== JSON.stringify(options)) {
-        setOptions(newOptions)
-      }
-    }
-  }, [initialOptions, setOptions, options])
 
   // set the scroll position
   useEffect(() => {
     if (setCondition) {
-      window.scrollTo(0, scrollYStorage)
+      window.scrollTo(0, persistentNavigation?.scrollPosition || 0)
     }
-  }, [setCondition, scrollYStorage])
+  }, [setCondition, persistentNavigation])
 
-  return { options, resetPosition, savePosition }
+  return { persistentNavigation, resetPosition, savePosition }
 }

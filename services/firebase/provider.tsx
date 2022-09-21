@@ -53,7 +53,9 @@ interface FirebaseProviderProps {
 
 export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
   const [token, setToken] = React.useState<string | null>(
-    localStorage.getItem(FIREBASE_TOKEN_STORAGE_KEY)
+    typeof window !== 'undefined'
+      ? localStorage.getItem(FIREBASE_TOKEN_STORAGE_KEY)
+      : null
   )
 
   React.useEffect(() => {
