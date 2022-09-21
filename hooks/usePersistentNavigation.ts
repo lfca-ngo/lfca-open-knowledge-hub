@@ -21,25 +21,20 @@ interface UsePersistentNavigationProps {
 
 const LS_KEY = 'persistent_navigation'
 
-// if this is read from a json file that is being generated during build time
-// then we are good
 const initialOptions: NavigationOptions = {
   categories: Object.keys(categoryTreeData.lookUp),
-  currentPage: 0,
+  currentPage: 1,
   scrollPosition: 0,
   sorting: SORT_OPTIONS[0].key,
 }
 
-// to avoid unnecessary rerenders, we set the screen
-// size outside of the react lifecycle
+// set initial persistent navigation outside of react lifecycle
 if (isBrowser()) {
-  // set initial persistent navigation
   window.localStorage.setItem(LS_KEY, JSON.stringify(initialOptions))
 }
 
-// saves the last scroll position before navigating away
-// restores the position after navigating back, allows
-// to store additional data like pagination and filters
+// saves the last scroll position and other navigation items
+// before leaving a page and restores the state afterwards
 export const usePersistentNavigation = (
   setCondition: boolean
 ): UsePersistentNavigationProps => {
@@ -56,12 +51,12 @@ export const usePersistentNavigation = (
     setPersistentNavigation(initialOptions)
   }
 
-  // set the scroll position
+  // reset set the scroll position
   useEffect(() => {
-    if (setCondition) {
-      window.scrollTo(0, persistentNavigation?.scrollPosition || 0)
+    if (setCondition && persistentNavigation?.scrollPosition) {
+      window.scrollTo(0, persistentNavigation?.scrollPosition)
     }
-  }, [setCondition, persistentNavigation])
+  }, [setCondition, persistentNavigation?.scrollPosition])
 
   return { persistentNavigation, resetPosition, savePosition }
 }

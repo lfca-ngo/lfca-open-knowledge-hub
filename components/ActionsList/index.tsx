@@ -32,10 +32,8 @@ export const ActionsList = ({
   // the rest for the filter form component
   const { ...formOptions } = persistentNavigation
   const currentPage = persistentNavigation?.currentPage
-
   const [form] = Form.useForm()
 
-  // called on every form item change
   const handleChange = (
     latestChange: FilterFormItems,
     allValues: FilterFormItems
@@ -51,10 +49,6 @@ export const ActionsList = ({
     }
   }
 
-  // when a value in the form (LS) changes, we update
-  // the list data by applying filter, search and sorting
-  // by applying the actions directly on the list instead
-  // of saving to a local list state we can prevent re-renders
   const filteredActions = useMemo(() => {
     const activeCategories = formOptions?.categories || []
     const activeSearch = formOptions?.search || ''
