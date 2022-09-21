@@ -20,7 +20,7 @@ jobs:
       - name: Run linter
         run: yarn lint
         env:
-          CF_ACCESS_TOKEN_GH: ${{ secrets.CF_ACCESS_TOKEN }}
+          CF_ACCESS_TOKEN: ${{ secrets.CF_ACCESS_TOKEN }}
           CF_SPACE_ID: ${{ secrets.CF_SPACE_ID }}
 
   deploy:
@@ -41,6 +41,8 @@ jobs:
         uses: amondnet/vercel-action@v20
         id: vercel-deploy
         with:
+          cf-space-id: ${{ secrets.CF_SPACE_ID }}
+          cf-access-token: ${{ secrets.CF_ACCESS_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: ${{ steps.vercel-args.outputs.value }}
