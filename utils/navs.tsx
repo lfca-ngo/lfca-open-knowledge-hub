@@ -47,7 +47,7 @@ export const SETTINGS_NAV = [
   { path: SETTINGS, title: 'Edit Profile' },
   { path: SETTINGS_COMPANY, title: 'Edit Company' },
   { path: SETTINGS_INVITE, title: 'Invite Team' },
-  { path: SETTINGS_SUBSCRIPTION, title: 'Your Subscription' },
+  { path: SETTINGS_SUBSCRIPTION, title: 'Your membership' },
 ]
 
 export const PROFILE_NAV = (loading: boolean) => [
@@ -69,7 +69,7 @@ export const PROFILE_NAV = (loading: boolean) => [
   {
     icon: <ThunderboltOutlined />,
     key: SETTINGS_SUBSCRIPTION,
-    label: 'Your Subscription',
+    label: 'Your membership',
   },
   {
     icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,

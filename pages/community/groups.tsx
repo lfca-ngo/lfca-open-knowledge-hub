@@ -42,7 +42,7 @@ const Groups: NextPage = () => {
         >
           <div style={{ marginBottom: '40px' }}>
             <p>
-              Our online mastermind groups connect sustainability practitioners
+              Our online Mastermind Groups connect sustainability practitioners
               across 10-15 companies from the same industry – it’s a
               peer-to-peer mentoring format that supports you in your work on
               sustainability projects. This is the space where you can ask

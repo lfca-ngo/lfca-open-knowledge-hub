@@ -16,7 +16,7 @@ const ServiceProviders: NextPage = () => {
   return (
     <SiderLayout>
       <Main>
-        <Section title="Find the right tool" titleSize="big">
+        <Section title="Compare climate tools" titleSize="big">
           <Container>
             <PayWall>
               <>

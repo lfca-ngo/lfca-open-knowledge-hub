@@ -54,7 +54,7 @@ export const EventsList = ({
             alignment="left"
             icon={<MessageOutlined />}
             size="small"
-            text="Join a mastermind group and meet monthly with peers to exchange learnings."
+            text="Join a Mastermind Group and meet monthly with peers to exchange learnings."
             title="No groups"
           />
         )}

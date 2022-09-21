@@ -19,7 +19,7 @@ const Bar = () => {
     <div className="top-bar">
       <Space>
         <LockOutlined />
-        Your current plan allows only limited app access
+        Your current membership allows only limited app access
         <Link href={SETTINGS_SUBSCRIPTION} passHref>
           <Button ghost icon={<ThunderboltOutlined />} size="small">
             Upgrade

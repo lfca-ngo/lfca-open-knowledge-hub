@@ -1,3 +1,5 @@
+require('./styles.less')
+
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
@@ -60,17 +62,17 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       {
         icon: <CalendarOutlined />,
         key: ACTIONS_PLANNED,
-        label: 'Actions planned',
+        label: 'Planned actions',
       },
       {
         icon: <CheckCircleOutlined />,
         key: ACTIONS_COMPLETED,
-        label: 'Actions completed',
+        label: 'Completed actions',
       },
     ],
     icon: <CarryOutOutlined />,
     key: 'dashboard',
-    label: 'Dashboard',
+    label: 'Knowledge Hub',
   },
   {
     icon: <TeamOutlined />,
@@ -87,22 +89,22 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       {
         icon: <AppstoreAddOutlined />,
         key: SERVICE_PROVIDERS,
-        label: 'Service Providers',
+        label: 'Tool Comparison',
       },
       {
         icon: <CalculatorOutlined />,
         key: PERSONAL_FOOTPRINT_CALCULATOR,
-        label: 'Personal Footprint Estimator',
+        label: 'Personal Footprint Calculator',
       },
       {
         icon: <ShareAltOutlined />,
         key: REFERRAL_PROGRAM,
-        label: 'Referral Program',
+        label: 'Referral',
       },
       {
         icon: <ProfileOutlined />,
         key: USEFUL_LINKS,
-        label: 'Useful Links',
+        label: 'Links',
       },
       {
         icon: <QuestionCircleOutlined />,
@@ -112,7 +114,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
     ],
     icon: <InsertRowLeftOutlined />,
     key: TOOLS,
-    label: 'Tools',
+    label: 'Quick Access',
   },
 ]
 
@@ -194,6 +196,7 @@ export const MainNav = () => {
   return (
     <>
       <Menu
+        className="main-menu"
         items={items}
         mode="inline"
         onSelect={handleSelect}
@@ -209,8 +212,8 @@ export const MainNav = () => {
       >
         <h3>Need help?</h3>
         <p>
-          Check out the video below to get a better understanding of our
-          Community App. If this does not help, shoot us an email{' '}
+          Check out the video below to get a better understanding of your
+          Members Area. If this does not help, shoot us an email{' '}
           {SUPPORT_EMAIL_LINK}
         </p>
         <VideoWrapper

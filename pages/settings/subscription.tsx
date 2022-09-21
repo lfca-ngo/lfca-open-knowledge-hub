@@ -15,7 +15,7 @@ const SubscriptionPage: NextPage = ({
   return (
     <SiderLayout>
       <Main>
-        <Section title="Your subscription" titleSize="big">
+        <Section title="Your membership" titleSize="big">
           <Container type="lg">
             <SubscriptionSelector subscriptions={subscriptions} />
           </Container>

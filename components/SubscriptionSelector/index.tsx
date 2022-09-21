@@ -43,7 +43,7 @@ const getUpgradeEmailBody = ({
   size: string
   userName: string
 }) => `Hello lfca.earth Team! 
-We would love to upgrade our subscription to ${plan}. Our team size as of today is ${size}. Could you please provide us with a payment link?
+We would love to upgrade our membership to ${plan}. Our team size as of today is ${size}. Could you please provide us with a payment link?
 
 Thanks,
 ${userName}
@@ -95,7 +95,7 @@ export const SubscriptionSelector = ({
         size: `${employeeCount}` || `[YOUR_COMPANY_SIZE]`,
         userName: userName,
       }),
-      subject: 'Change subscription',
+      subject: 'Upgrade membership',
       to: 'membership@lfca.earth',
     })
     window.location.href = mailToLink

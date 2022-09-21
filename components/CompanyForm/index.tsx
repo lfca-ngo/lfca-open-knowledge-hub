@@ -339,9 +339,9 @@ export const CompanyForm = ({
         key="subscriptionType"
         label="Subscription"
         name="subscriptionType"
-        rules={[{ message: 'Please select a subscription', required: true }]}
+        rules={[{ message: 'Please select a membership', required: true }]}
       >
-        <Select placeholder="Please select a subscription type">
+        <Select placeholder="Please select a membership type">
           {Object.keys(CompanySubscriptionType).map((type) => (
             <Option key={type} value={type}>
               {type}
