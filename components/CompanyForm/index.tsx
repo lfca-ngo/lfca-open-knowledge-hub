@@ -277,6 +277,18 @@ export const CompanyForm = ({
         />
       </Form.Item>
     ),
+    internalDescription: (
+      <Form.Item
+        key="internalDescription"
+        label="Internal description"
+        name="internalDescription"
+      >
+        <TextArea
+          placeholder="Short info about what the company is doing"
+          rows={4}
+        />
+      </Form.Item>
+    ),
     logoUrl: (
       <Form.Item
         key="logoUrl"
@@ -356,7 +368,7 @@ export const CompanyForm = ({
         key="websiteUrl"
         label="Company Website"
         name="websiteUrl"
-        rules={[{ message: 'Please enter a website!', required: false }]}
+        rules={[{ message: 'Please enter a website!', required: true }]}
       >
         <Input placeholder="https://company.de/" type="url" />
       </Form.Item>
