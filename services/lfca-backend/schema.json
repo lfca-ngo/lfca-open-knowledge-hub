@@ -437,6 +437,14 @@
             "args": []
           },
           {
+            "name": "internalDescription",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "logoUrl",
             "type": {
               "kind": "SCALAR",

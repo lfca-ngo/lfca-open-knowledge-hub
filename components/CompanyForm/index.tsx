@@ -277,6 +277,18 @@ export const CompanyForm = ({
         />
       </Form.Item>
     ),
+    internalDescription: (
+      <Form.Item
+        key="internalDescription"
+        label="Internal description"
+        name="internalDescription"
+      >
+        <TextArea
+          placeholder="Short info about what the company is doing"
+          rows={4}
+        />
+      </Form.Item>
+    ),
     logoUrl: (
       <Form.Item
         key="logoUrl"

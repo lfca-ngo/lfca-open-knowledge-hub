@@ -15,6 +15,7 @@ fragment Company on Company {
   deletedAt
   employeeCount
   id
+  internalDescription
   logoUrl
   micrositeSlug
   name
