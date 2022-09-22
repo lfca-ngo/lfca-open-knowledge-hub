@@ -37,7 +37,7 @@ export const ReviewMetaData = ({
           <Rate
             allowHalf
             className={classNames({
-              disabled: 'disabled',
+              disabled: disabled,
               light: provider.reviewsCount < 3,
             })}
             disabled
