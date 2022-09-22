@@ -356,7 +356,7 @@ export const CompanyForm = ({
         key="websiteUrl"
         label="Company Website"
         name="websiteUrl"
-        rules={[{ message: 'Please enter a website!', required: false }]}
+        rules={[{ message: 'Please enter a website!', required: true }]}
       >
         <Input placeholder="https://company.de/" type="url" />
       </Form.Item>
