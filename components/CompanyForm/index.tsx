@@ -29,7 +29,9 @@ import { removeObjectNullProps } from '../../utils'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
 import { ImageUploadMulti } from '../FileUpload/ImageUploadMulti'
-import { COMPANY_TAGS } from './consts'
+import { FormList } from '../FormList'
+import { RemovableSelect } from '../RemovableSelect'
+import { COMPANY_MODELS, COMPANY_TAGS } from './consts'
 
 const { TextArea } = Input
 const { Option } = Select
@@ -214,19 +216,25 @@ export const CompanyForm = ({
       </Form.Item>
     ),
     companyTags: (
-      <Form.Item
+      <FormList
+        addButtonIcon={<PlusOutlined />}
+        addButtonText="Add Tag"
         key="companyTags"
         label="Industry/sector tags"
+        maxItems={4}
         name="companyTags"
-      >
-        <Select mode="multiple" placeholder="Type of Company">
-          {COMPANY_TAGS.map((tag) => (
-            <Option key={tag} value={tag}>
-              {tag}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
+        renderInput={({ onRemove }) => (
+          <RemovableSelect
+            onRemove={onRemove}
+            options={COMPANY_TAGS.concat(COMPANY_MODELS)
+              .filter(
+                (tag) =>
+                  !(form.getFieldValue('companyTags') || []).includes(tag)
+              )
+              .map((t) => ({ value: t }))}
+          />
+        )}
+      />
     ),
     country: (
       <Form.Item
@@ -389,6 +397,7 @@ export const CompanyForm = ({
           filterByKeys ? filterByKeys?.includes(item as keyof FormValues) : true
         )
         .map((key) => formItems[key as keyof FormValues])}
+
       <Form.Item>
         <Space>
           <Button htmlType="submit" loading={isLoading} type="primary">

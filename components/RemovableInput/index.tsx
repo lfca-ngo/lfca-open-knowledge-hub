@@ -2,13 +2,14 @@ require('./styles.less')
 
 import { MinusOutlined } from '@ant-design/icons'
 import { Button, Input } from 'antd'
+import { ChangeEventHandler } from 'react'
 
 interface RemovableInputProps {
   icon?: React.ReactElement
   value?: string
   onChange?: (value: string) => void
   onRemove?: () => void
-  placeholder: string
+  placeholder?: string
 }
 
 export const RemovableInput = ({
@@ -18,7 +19,7 @@ export const RemovableInput = ({
   placeholder = '',
   value = '',
 }: RemovableInputProps) => {
-  const handleChange = (e: any) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     onChange?.(e.target.value)
   }
 

@@ -29,31 +29,12 @@ import {
   useServiceProvidersQuery,
   useUpdateServiceProviderReviewMutation,
 } from '../../services/lfca-backend'
+import { FormList } from '../FormList'
 import { RemovableInput } from '../RemovableInput'
 import { UserIdSearchInput } from '../UserIdSearchInput'
 
 const { Option } = Select
 const { TextArea } = Input
-
-const LabelWithButton = ({
-  add,
-  label,
-}: {
-  add: () => void
-  label: string | React.ReactElement
-}) => (
-  <div className="label-with-button">
-    <div className="label">{label}</div>
-    <Button
-      icon={<PlusOutlined />}
-      onClick={() => add()}
-      size="small"
-      type="dashed"
-    >
-      Add argument
-    </Button>
-  </div>
-)
 
 interface ReviewFormProps {
   actionContentId?: string
@@ -106,12 +87,6 @@ export const ReviewForm = ({
   ] = useUpdateServiceProviderReviewMutation()
   const isCreatingOrUpdating =
     fetchingCreateServiceProviderReview || updatingServiceProviderReview
-
-  const argumentsValidator = async (_: object, names?: string[]) => {
-    if (names && names.length > 5) {
-      return Promise.reject(new Error('Max 5 arguments'))
-    }
-  }
 
   const handleFinish = async (props: {
     authorId?: string
@@ -241,63 +216,41 @@ export const ReviewForm = ({
             />
           </Form.Item>
 
-          <Form.Item className="item-sm">
-            <Form.List name="pros">
-              {(fields, { add, remove }, { errors }) => (
-                <>
-                  <LabelWithButton
-                    add={add}
-                    label={
-                      <Tooltip title="Arguments for the provider">
-                        {`Pro's`} <QuestionCircleOutlined />
-                      </Tooltip>
-                    }
-                  />
-                  {fields.map((field) => (
-                    <Form.Item key={field.key} required={false}>
-                      <Form.Item {...field} noStyle>
-                        <RemovableInput
-                          icon={<PlusCircleFilled className="black" />}
-                          onRemove={() => remove(field.name)}
-                          placeholder="Great UX!"
-                        />
-                      </Form.Item>
-                    </Form.Item>
-                  ))}
-                  <Form.ErrorList errors={errors} />
-                </>
-              )}
-            </Form.List>
-          </Form.Item>
+          <FormList
+            addButtonIcon={<PlusOutlined />}
+            addButtonText="Add argument"
+            label={
+              <Tooltip title="Arguments for the provider">
+                {`Pro's`} <QuestionCircleOutlined />
+              </Tooltip>
+            }
+            name="pros"
+            renderInput={({ onRemove }) => (
+              <RemovableInput
+                icon={<PlusCircleFilled className="black" />}
+                onRemove={onRemove}
+                placeholder="Great UX!"
+              />
+            )}
+          />
 
-          <Form.Item className="item-sm">
-            <Form.List name="cons" rules={[{ validator: argumentsValidator }]}>
-              {(fields, { add, remove }, { errors }) => (
-                <>
-                  <LabelWithButton
-                    add={add}
-                    label={
-                      <Tooltip title="Arguments against the provider">
-                        {`Con's`} <QuestionCircleOutlined />
-                      </Tooltip>
-                    }
-                  />
-                  {fields.map((field) => (
-                    <Form.Item key={field.key} required={false}>
-                      <Form.Item {...field} noStyle>
-                        <RemovableInput
-                          icon={<MinusCircleFilled className="black" />}
-                          onRemove={() => remove(field.name)}
-                          placeholder="Very high pricing"
-                        />
-                      </Form.Item>
-                    </Form.Item>
-                  ))}
-                  <Form.ErrorList errors={errors} />
-                </>
-              )}
-            </Form.List>
-          </Form.Item>
+          <FormList
+            addButtonIcon={<PlusOutlined />}
+            addButtonText="Add argument"
+            label={
+              <Tooltip title="Arguments against the provider">
+                {`Con's`} <QuestionCircleOutlined />
+              </Tooltip>
+            }
+            name="cons"
+            renderInput={({ onRemove }) => (
+              <RemovableInput
+                icon={<MinusCircleFilled className="black" />}
+                onRemove={onRemove}
+                placeholder="Very high pricing"
+              />
+            )}
+          />
 
           <Form.Item
             label={
