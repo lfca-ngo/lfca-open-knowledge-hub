@@ -11,7 +11,6 @@ export const COMPANY_TAGS = [
   'gaming / entertainment',
   'hardware / appliances / electronics',
   'healthcare',
-  'impact by design',
   'insurance',
   'marketing / data analytics',
   'marketplaces / platform',
@@ -20,7 +19,6 @@ export const COMPANY_TAGS = [
   'network / events',
   'other',
   'payments / financial services',
-  'physical supply chain',
   'real estate / construction',
   'software / apps',
   'tools for hr / project management',
@@ -28,3 +26,5 @@ export const COMPANY_TAGS = [
   'travel / tourism / hospitality',
   'vc',
 ]
+
+export const COMPANY_MODELS = ['impact by design', 'physical supply chain']
