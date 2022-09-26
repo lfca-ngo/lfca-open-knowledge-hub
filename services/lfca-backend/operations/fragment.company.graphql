@@ -25,7 +25,6 @@ fragment Company on Company {
   }
   subscriptionType
   tags {
-    id
     name
   }
   websiteUrl
