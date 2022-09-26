@@ -226,7 +226,20 @@ export const CompanyForm = ({
         renderInput={({ onRemove }) => (
           <RemovableSelect
             onRemove={onRemove}
-            options={COMPANY_TAGS.concat(COMPANY_MODELS)
+            options={[
+              // Ensure, that after picking a model, there can no be any other tags
+              // and we can have a maximum of 2 tags
+              ...(form
+                .getFieldValue('companyTags')
+                ?.some((val: string) => COMPANY_MODELS.includes(val)) ||
+              (form.getFieldValue('companyTags') || []).length > 2
+                ? []
+                : COMPANY_TAGS),
+              // Ensure that the first tag is never a model
+              ...((form.getFieldValue('companyTags') || []).length > 1
+                ? COMPANY_MODELS
+                : []),
+            ]
               .filter(
                 (tag) =>
                   !(form.getFieldValue('companyTags') || []).includes(tag)
