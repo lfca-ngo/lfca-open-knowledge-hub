@@ -469,6 +469,24 @@
             "args": []
           },
           {
+            "name": "plannedCompanyActions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CompanyAction",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "program",
             "type": {
               "kind": "NON_NULL",
@@ -1137,17 +1155,6 @@
         "kind": "OBJECT",
         "name": "CompanyTag",
         "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
           {
             "name": "name",
             "type": {
@@ -2300,6 +2307,24 @@
                 }
               }
             ]
+          },
+          {
+            "name": "companyTags",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CompanyTag",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
           },
           {
             "name": "counterStats",

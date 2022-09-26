@@ -48,6 +48,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
             CompanyAboutSection: (data) => `${data.heading}_${data.imageUrl}`,
             CompanyAchievement: (data) => data.contentId as string,
             CompanyProgram: (data) => data.contentId as string,
+            CompanyTag: (data) => data.name as string,
             File: (data) => data.url as string,
             ServiceProviderReviewsResult: (data) => data.cursor as string,
             UsersResult: (data) => data.cursor as string,

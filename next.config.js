@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withAntdLess = require('next-plugin-antd-less')
 const rootCategories = require('./next-fetch-during-build/root-categories')
+const companyTags = require('./next-fetch-during-build/company-tags')
 
 module.exports = async () => {
   // the next config file (node script) is executed during build time
   // fetch global data that needs to be accessible throughout the app
   // here and make it accessible in a simple json structure
   await rootCategories.fetchAndSaveByKey('_category-tree-data')
+  await companyTags.fetchAndSaveByKey('_company-tags-data')
 
   return withAntdLess({
     images: {

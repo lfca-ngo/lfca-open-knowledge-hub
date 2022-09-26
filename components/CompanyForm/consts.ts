@@ -1,35 +1,7 @@
-export const COMPANY_TAGS = [
-  'bhag',
-  'b2c',
-  'b2b',
-  'agriculture / farming',
-  'fashion',
-  'e-commerce',
-  'network / events',
-  'electronics',
-  'design',
-  'education',
-  'energy',
-  'payments / financial services',
-  'food / beverage',
-  'gaming',
-  'government / society services',
-  'health care',
-  'investments / lending',
-  'media / entertainment / content',
-  'natural resources',
-  'consultancies',
-  'real estate',
-  'sales / marketing / advertising',
-  'science / engineering',
-  'sports',
-  'climate tech',
-  'transportation / mobility',
-  'travel / tourism',
-  'mobile / telecommunications',
-  'software / apps / platforms',
-  'data / analytics',
-  'information technology',
-  'internet services',
-  'other',
-]
+import ALL_TAGS from '../../next-fetch-during-build/data/_company-tags-data.json'
+
+export const COMPANY_MODELS = ['impact by design', 'physical supply chain']
+
+export const COMPANY_TAGS = (ALL_TAGS as unknown as string[]).filter(
+  (t) => !COMPANY_MODELS.includes(t)
+)
