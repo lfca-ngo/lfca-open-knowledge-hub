@@ -1,30 +1,7 @@
-export const COMPANY_TAGS = [
-  'agriculture / farming',
-  'climate-tech / innovation',
-  'consultancy / agency',
-  'design / video agencies',
-  'e-commerce',
-  'education',
-  'energy',
-  'fashion / lifestyle',
-  'food / beverage',
-  'gaming / entertainment',
-  'hardware / appliances / electronics',
-  'healthcare',
-  'insurance',
-  'marketing / data analytics',
-  'marketplaces / platform',
-  'media publishing / streaming',
-  'mobility / micromobility / automotive',
-  'network / events',
-  'other',
-  'payments / financial services',
-  'real estate / construction',
-  'software / apps',
-  'tools for hr / project management',
-  'transportation / logistics',
-  'travel / tourism / hospitality',
-  'vc',
-]
+import ALL_TAGS from '../../next-fetch-during-build/data/_company-tags-data.json'
 
 export const COMPANY_MODELS = ['impact by design', 'physical supply chain']
+
+export const COMPANY_TAGS = (ALL_TAGS as unknown as string[]).filter(
+  (t) => !COMPANY_MODELS.includes(t)
+)
