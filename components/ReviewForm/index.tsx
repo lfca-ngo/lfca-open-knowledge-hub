@@ -224,6 +224,7 @@ export const ReviewForm = ({
                 {`Pro's`} <QuestionCircleOutlined />
               </Tooltip>
             }
+            maxItems={5}
             name="pros"
             renderInput={({ onRemove }) => (
               <RemovableInput
@@ -242,6 +243,7 @@ export const ReviewForm = ({
                 {`Con's`} <QuestionCircleOutlined />
               </Tooltip>
             }
+            maxItems={5}
             name="cons"
             renderInput={({ onRemove }) => (
               <RemovableInput
