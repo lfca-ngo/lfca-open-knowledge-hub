@@ -4,7 +4,7 @@ fragment CompanyActionListItem on CompanyAction {
   }
   commentAttachmentCount
   commentCount
-  companiesCompletedCount
+  companiesDoingCount
   completedAt
   contentId
   heroImage {
@@ -15,7 +15,7 @@ fragment CompanyActionListItem on CompanyAction {
   impactValue
   notes
   plannedAt
-  recentCompaniesCompleted(limit: 3) {
+  recentCompaniesDoing(limit: 3) {
     id
     logoUrl
     name

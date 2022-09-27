@@ -163,8 +163,8 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         </Section>
         <Section title="Community">
           <LogoGroup
-            data={actionData?.companyAction?.recentCompaniesCompleted}
-            label={`${actionData?.companyAction.companiesCompletedCount} members completed this`}
+            data={actionData?.companyAction?.recentCompaniesDoing}
+            label={`${actionData?.companyAction.companiesDoingCount} members completed this`}
             reverse
             size="large"
           />

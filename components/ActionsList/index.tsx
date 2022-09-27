@@ -75,7 +75,7 @@ export const ActionsList = ({
           if (activeSorting === 'impact') {
             return b.impactValue - a.impactValue
           } else {
-            return b?.companiesCompletedCount - a?.companiesCompletedCount
+            return b?.companiesDoingCount - a?.companiesDoingCount
           }
         })
     )

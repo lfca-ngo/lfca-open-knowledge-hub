@@ -165,8 +165,8 @@ export const ActionCard = ({
         <ActionStats
           commentAttachmentCount={action.commentAttachmentCount}
           commentCount={action.commentCount}
-          companiesCompletedCount={action.companiesCompletedCount}
-          recentCompaniesCompleted={action.recentCompaniesCompleted}
+          companiesDoingCount={action.companiesDoingCount}
+          recentCompaniesDoing={action.recentCompaniesDoing}
         />
       </div>
       <div className="actions">
