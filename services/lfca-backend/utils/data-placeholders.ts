@@ -10,7 +10,7 @@ export const EMPTY_ACTION: CompanyActionListItemFragmentWithRootCategory = {
   categories: [{ id: 'software-it', name: 'Software it' }],
   commentAttachmentCount: 0,
   commentCount: 0,
-  companiesCompletedCount: 0,
+  companiesDoingCount: 0,
   completedAt: null,
   contentId: '',
   heroImage: {
@@ -19,7 +19,7 @@ export const EMPTY_ACTION: CompanyActionListItemFragmentWithRootCategory = {
   },
   id: '',
   impactValue: 0,
-  recentCompaniesCompleted: [],
+  recentCompaniesDoing: [],
   recommendedForCompanyAchievementIds: [],
   requiredForCompanyAchievementIds: [''], // needs at least one item to show skeleton on required actions
   requirements: [],

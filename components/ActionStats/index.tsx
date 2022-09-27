@@ -37,8 +37,8 @@ export const ActionStat = ({
 interface ActionStatsProps {
   commentAttachmentCount: CompanyActionListItemFragment['commentAttachmentCount']
   commentCount: CompanyActionListItemFragment['commentCount']
-  companiesCompletedCount: CompanyActionListItemFragment['companiesCompletedCount']
-  recentCompaniesCompleted: CompanyActionListItemFragment['recentCompaniesCompleted']
+  companiesDoingCount: CompanyActionListItemFragment['companiesDoingCount']
+  recentCompaniesDoing: CompanyActionListItemFragment['recentCompaniesDoing']
 
   size?: AvatarProps['size']
 }
@@ -46,16 +46,16 @@ interface ActionStatsProps {
 export const ActionStats = ({
   commentAttachmentCount,
   commentCount,
-  companiesCompletedCount,
-  recentCompaniesCompleted,
+  companiesDoingCount,
+  recentCompaniesDoing,
 
   size,
 }: ActionStatsProps) => {
   return (
     <div className={classNames('action-stats', size)}>
       <LogoGroup
-        data={recentCompaniesCompleted}
-        label={`${companiesCompletedCount} did this`}
+        data={recentCompaniesDoing}
+        label={`${companiesDoingCount} working on this`}
         size={size}
       />
       <ActionStat
