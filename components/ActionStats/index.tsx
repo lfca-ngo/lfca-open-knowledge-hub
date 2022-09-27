@@ -55,7 +55,7 @@ export const ActionStats = ({
     <div className={classNames('action-stats', size)}>
       <LogoGroup
         data={recentCompaniesDoing}
-        label={`${companiesDoingCount} doing this`}
+        label={`${companiesDoingCount} working on this`}
         size={size}
       />
       <ActionStat

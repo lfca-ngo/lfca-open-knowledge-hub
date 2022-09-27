@@ -119,7 +119,7 @@ export const ActionsCarousel = ({
                 <div className="action-card-title">{action.title}</div>
                 <LogoGroup
                   data={action.recentCompaniesDoing}
-                  label={`${action.companiesDoingCount} doing this`}
+                  label={`${action.companiesDoingCount} working on this`}
                   size="small"
                 />
               </div>
