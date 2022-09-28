@@ -165,16 +165,6 @@ export const CompanyForm = ({
                   >
                     <TextArea placeholder="Text" />
                   </Form.Item>
-                  <Form.Item
-                    {...restField}
-                    label="Image"
-                    name={[name, 'imageUrl']}
-                    rules={[{ message: 'Missing image', required: true }]}
-                  >
-                    <ImageUpload
-                      customPreset={CLOUDINARY_PRESETS.companyAboutPictures}
-                    />
-                  </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}
