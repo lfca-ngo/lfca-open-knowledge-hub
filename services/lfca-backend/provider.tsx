@@ -129,6 +129,13 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
         }),
         fetchExchange,
       ],
+      fetchOptions: {
+        headers: {
+          'x-graphql-client-name': 'lfca-community-app',
+          'x-graphql-client-version':
+            process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || 'local',
+        },
+      },
       requestPolicy: 'cache-first',
       url: process.env.NEXT_PUBLIC_LFCA_BACKED_URL,
     })
