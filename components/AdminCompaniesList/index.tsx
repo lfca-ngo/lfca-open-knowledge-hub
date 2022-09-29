@@ -276,6 +276,7 @@ export const AdminCompaniesList = ({
                     'country',
                     'crmId',
                     'employeeCount',
+                    'internalDescription',
                     'logoUrl',
                     'name',
                     'programContentId',
