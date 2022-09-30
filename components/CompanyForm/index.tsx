@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Form, Popconfirm, Space } from 'antd'
+import { Button, Form, message, Popconfirm, Space } from 'antd'
 import { useEffect } from 'react'
 
 import { useUser } from '../../hooks/user'
@@ -8,6 +8,9 @@ import {
   CompanyFragment,
   CreateCompanyInput,
   UpdateCompanyInput,
+  useCreateCompanyMutation,
+  useDeleteCompanyMutation,
+  useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
 import { RemoveNull } from '../../types'
 import { removeObjectNullProps } from '../../utils'
@@ -27,10 +30,10 @@ export interface CompanyFormProps {
   countries?: Country[]
   filterByKeys?: (keyof FormValues)[]
   initialValues?: CompanyFragment
-  isLoading?: boolean
-  onCreate?: (values: CreateCompanyInput) => void
-  onDelete?: () => void
-  onUpdate?: (values: UpdateCompanyInput) => void
+  isLoadingInitialValues?: boolean
+  onCreated?: () => void
+  onDeleted?: () => void
+  onUpdated?: () => void
   programs?: Program[]
   type: 'create' | 'update'
 }
@@ -54,18 +57,61 @@ export const CompanyForm = ({
   countries,
   filterByKeys,
   initialValues,
-  isLoading = false,
-  onCreate,
-  onDelete,
-  onUpdate,
+  isLoadingInitialValues = false,
+  onCreated,
+  onDeleted,
+  onUpdated,
   programs,
   type,
 }: CompanyFormProps) => {
   const { isAdmin } = useUser()
 
-  const handleSubmit = (allValues: UpdateCompanyInput) => {
-    if (type === 'create') onCreate?.(allValues as CreateCompanyInput)
-    else onUpdate?.(allValues as UpdateCompanyInput)
+  const [{ fetching: isCreatingCompany }, createCompany] =
+    useCreateCompanyMutation()
+  const [{ fetching: isDeletingCompany }, deleteCompany] =
+    useDeleteCompanyMutation()
+  const [{ fetching: isUpdatingCompany }, updateCompany] =
+    useUpdateCompanyMutation()
+
+  const handleSubmit = (allValues: CreateCompanyInput | UpdateCompanyInput) => {
+    if (type === 'create') {
+      createCompany({
+        input: allValues as CreateCompanyInput,
+      }).then(({ error }) => {
+        if (error) message.error(error.message)
+        else {
+          message.success('Company created')
+          onCreated?.()
+        }
+      })
+    } else {
+      updateCompany({
+        input: {
+          companyId: initialValues?.id,
+          ...allValues,
+        },
+      }).then(({ error }) => {
+        if (error) message.error(error.message)
+        else message.success(`${isAdmin ? 'Profile' : 'Company'} updated`)
+        onUpdated?.()
+      })
+    }
+  }
+
+  const handleDelete = () => {
+    if (!initialValues?.id) return
+
+    deleteCompany({
+      input: {
+        companyId: initialValues.id,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Company deleted')
+        onDeleted?.()
+      }
+    })
   }
 
   const [form] = Form.useForm()
@@ -92,7 +138,12 @@ export const CompanyForm = ({
 
       <Form.Item>
         <Space>
-          <Button htmlType="submit" loading={isLoading} type="primary">
+          <Button
+            disabled={isLoadingInitialValues}
+            htmlType="submit"
+            loading={isCreatingCompany || isUpdatingCompany}
+            type="primary"
+          >
             Save
           </Button>
 
@@ -101,10 +152,15 @@ export const CompanyForm = ({
               <Popconfirm
                 cancelText="No"
                 okText="Yes"
-                onConfirm={onDelete}
+                onConfirm={handleDelete}
                 title="Are you sure to delete this company?"
               >
-                <Button danger icon={<DeleteOutlined />} loading={isLoading}>
+                <Button
+                  danger
+                  disabled={isLoadingInitialValues}
+                  icon={<DeleteOutlined />}
+                  loading={isDeletingCompany}
+                >
                   Delete
                 </Button>
               </Popconfirm>
