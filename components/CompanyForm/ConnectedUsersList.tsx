@@ -33,7 +33,13 @@ export const ConnectedUsersList = ({
         >
           <List.Item.Meta
             avatar={<Avatar src={item.picture} />}
-            description={item.email}
+            description={
+              <>
+                {item.roles.join(', ')}
+                <br />
+                {item.email}
+              </>
+            }
             title={`${item.firstName} ${item.lastName}`}
           />
         </List.Item>
