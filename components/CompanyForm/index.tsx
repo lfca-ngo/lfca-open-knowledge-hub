@@ -1,6 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Form, message, Popconfirm, Space } from 'antd'
-import { useEffect } from 'react'
+import { Button, Drawer, Form, message, Popconfirm, Space } from 'antd'
+import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
 import { Country, Program } from '../../services/contentful'
@@ -10,10 +10,14 @@ import {
   UpdateCompanyInput,
   useCreateCompanyMutation,
   useDeleteCompanyMutation,
+  UserFragment,
   useUpdateCompanyMutation,
+  useUsersQuery,
 } from '../../services/lfca-backend'
 import { RemoveNull } from '../../types'
 import { removeObjectNullProps } from '../../utils'
+import { UserForm } from '../UserForm'
+import { ConnectedUsersList } from './ConnectedUsersList'
 import { convertFormValues } from './convert-form-values'
 import { FormItems } from './FormItems'
 
@@ -35,6 +39,7 @@ export interface CompanyFormProps {
   onDeleted?: () => void
   onUpdated?: () => void
   programs?: Program[]
+  showConnectedUsers?: boolean
   type: 'create' | 'update'
 }
 
@@ -62,9 +67,12 @@ export const CompanyForm = ({
   onDeleted,
   onUpdated,
   programs,
+  showConnectedUsers = false,
   type,
 }: CompanyFormProps) => {
   const { isAdmin } = useUser()
+
+  const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
 
   const [{ fetching: isCreatingCompany }, createCompany] =
     useCreateCompanyMutation()
@@ -72,6 +80,24 @@ export const CompanyForm = ({
     useDeleteCompanyMutation()
   const [{ fetching: isUpdatingCompany }, updateCompany] =
     useUpdateCompanyMutation()
+  const [{ data: usersData, fetching: isFetchingUsers }] = useUsersQuery({
+    pause:
+      !showConnectedUsers ||
+      type !== 'update' ||
+      !isAdmin ||
+      !initialValues?.id,
+    variables: {
+      input: {
+        filter: {
+          companyId: initialValues?.id,
+        },
+        // NOTE:
+        // We do not have pagination implemented here and just assume
+        // that a company will not have more than 20 users
+        take: 20,
+      },
+    },
+  })
 
   const handleSubmit = (allValues: CreateCompanyInput | UpdateCompanyInput) => {
     if (type === 'create') {
@@ -121,53 +147,79 @@ export const CompanyForm = ({
   }, [initialValues, form])
 
   return (
-    <Form
-      form={form}
-      initialValues={parseInitialValues(initialValues)}
-      layout="vertical"
-      onFinish={(allValues: FormValues) => {
-        handleSubmit(convertFormValues(allValues))
-      }}
-    >
-      <FormItems
-        countries={countries}
-        filterByKeys={filterByKeys}
+    <>
+      <Form
         form={form}
-        programs={programs}
-      />
+        initialValues={parseInitialValues(initialValues)}
+        layout="vertical"
+        onFinish={(allValues: FormValues) => {
+          handleSubmit(convertFormValues(allValues))
+        }}
+      >
+        <FormItems
+          countries={countries}
+          filterByKeys={filterByKeys}
+          form={form}
+          programs={programs}
+        />
 
-      <Form.Item>
-        <Space>
-          <Button
-            disabled={isLoadingInitialValues}
-            htmlType="submit"
-            loading={isCreatingCompany || isUpdatingCompany}
-            type="primary"
-          >
-            Save
-          </Button>
+        {showConnectedUsers && type === 'update' && isAdmin ? (
+          <ConnectedUsersList
+            items={usersData?.users.items || []}
+            loading={isFetchingUsers}
+            onSelectItem={setSelectedUser}
+          />
+        ) : null}
 
-          {isAdmin ? (
-            <>
-              <Popconfirm
-                cancelText="No"
-                okText="Yes"
-                onConfirm={handleDelete}
-                title="Are you sure to delete this company?"
-              >
-                <Button
-                  danger
-                  disabled={isLoadingInitialValues}
-                  icon={<DeleteOutlined />}
-                  loading={isDeletingCompany}
+        <Form.Item>
+          <Space>
+            <Button
+              disabled={isLoadingInitialValues}
+              htmlType="submit"
+              loading={isCreatingCompany || isUpdatingCompany}
+              type="primary"
+            >
+              Save
+            </Button>
+
+            {isAdmin ? (
+              <>
+                <Popconfirm
+                  cancelText="No"
+                  okText="Yes"
+                  onConfirm={handleDelete}
+                  title="Are you sure to delete this company?"
                 >
-                  Delete
-                </Button>
-              </Popconfirm>
-            </>
-          ) : null}
-        </Space>
-      </Form.Item>
-    </Form>
+                  <Button
+                    danger
+                    disabled={isLoadingInitialValues}
+                    icon={<DeleteOutlined />}
+                    loading={isDeletingCompany}
+                  >
+                    Delete
+                  </Button>
+                </Popconfirm>
+              </>
+            ) : null}
+          </Space>
+        </Form.Item>
+      </Form>
+
+      {showConnectedUsers && isAdmin ? (
+        <Drawer
+          className="drawer-md"
+          destroyOnClose
+          onClose={() => setSelectedUser(undefined)}
+          visible={!!selectedUser}
+        >
+          <UserForm
+            countries={countries}
+            initialValues={selectedUser}
+            onDeleted={() => setSelectedUser(undefined)}
+            programs={programs}
+          />
+        </Drawer>
+      ) : null}
+    </>
   )
 }

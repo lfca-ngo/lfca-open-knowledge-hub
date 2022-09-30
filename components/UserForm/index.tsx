@@ -104,17 +104,52 @@ export const UserForm = ({
   }, [initialValues, form])
 
   return (
-    <Form
-      form={form}
-      initialValues={parseInitialValues(initialValues)}
-      layout="vertical"
-      onFinish={handleSubmit}
-    >
-      <FormItems
-        countries={countries}
-        filterByKeys={filterByKeys}
-        onNavigateToCompany={setSelectedCompanyId}
-      />
+    <>
+      <Form
+        form={form}
+        initialValues={parseInitialValues(initialValues)}
+        layout="vertical"
+        onFinish={handleSubmit}
+      >
+        <FormItems
+          countries={countries}
+          filterByKeys={filterByKeys}
+          onNavigateToCompany={setSelectedCompanyId}
+        />
+
+        <Form.Item>
+          <Space>
+            <Button
+              disabled={isLoadingInitialValues}
+              htmlType="submit"
+              loading={isUpdatingUser}
+              type="primary"
+            >
+              Save
+            </Button>
+
+            {isAdmin ? (
+              <>
+                <Popconfirm
+                  cancelText="No"
+                  okText="Yes"
+                  onConfirm={handleDelete}
+                  title="Are you sure to delete this user?"
+                >
+                  <Button
+                    danger
+                    disabled={isLoadingInitialValues}
+                    icon={<DeleteOutlined />}
+                    loading={isDeletingUser}
+                  >
+                    Delete
+                  </Button>
+                </Popconfirm>
+              </>
+            ) : null}
+          </Space>
+        </Form.Item>
+      </Form>
 
       {isAdmin ? (
         <Drawer
@@ -128,43 +163,11 @@ export const UserForm = ({
             initialValues={companyData?.company}
             isLoadingInitialValues={fetchingCompany}
             programs={programs}
+            showConnectedUsers={true}
             type="update"
           />
         </Drawer>
       ) : null}
-
-      <Form.Item>
-        <Space>
-          <Button
-            disabled={isLoadingInitialValues}
-            htmlType="submit"
-            loading={isUpdatingUser}
-            type="primary"
-          >
-            Save
-          </Button>
-
-          {isAdmin ? (
-            <>
-              <Popconfirm
-                cancelText="No"
-                okText="Yes"
-                onConfirm={handleDelete}
-                title="Are you sure to delete this user?"
-              >
-                <Button
-                  danger
-                  disabled={isLoadingInitialValues}
-                  icon={<DeleteOutlined />}
-                  loading={isDeletingUser}
-                >
-                  Delete
-                </Button>
-              </Popconfirm>
-            </>
-          ) : null}
-        </Space>
-      </Form.Item>
-    </Form>
+    </>
   )
 }

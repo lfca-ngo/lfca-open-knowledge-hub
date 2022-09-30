@@ -239,6 +239,7 @@ export const AdminCompaniesList = ({
             onCreated={handleClose}
             onDeleted={handleClose}
             programs={programs}
+            showConnectedUsers={true}
             type={selectedCompany ? 'update' : 'create'}
           />
         </>
