@@ -140,7 +140,7 @@ export const formatCurrency = (value: number | null | undefined) => {
   return `€ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
 }
 
-export function removeObjectNullProps<T>(obj: T): RemoveNull<T> {
+export function removeObjectNullProps<T extends object>(obj: T): RemoveNull<T> {
   return Object.fromEntries(
     Object.entries(obj).filter(([, v]) => v != null)
   ) as RemoveNull<T>

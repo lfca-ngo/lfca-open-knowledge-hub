@@ -1,5 +1,5 @@
-import React from 'react'
 import { InputNumber, Select } from 'antd'
+import React from 'react'
 
 const { Option } = Select
 
@@ -47,24 +47,24 @@ export const HousingInput: React.FC<HousingInputProps> = ({
       <div className="line">
         <span>I live on </span>
         <InputNumber
-          type="text"
-          placeholder={placeholderValue?.flatsize || 1}
           min={1}
+          onChange={(val) => onFlatsizeChange(val ?? 0)}
+          placeholder={placeholderValue?.flatsize || 1}
+          style={{ marginRight: '6px', width: '100px' }}
+          type="text"
           value={value && value.flatsize}
-          onChange={onFlatsizeChange}
-          style={{ width: '100px', marginRight: '6px' }}
         />
         m².
       </div>
       <div className="line">
         <span>We are </span>
         <InputNumber
-          type="text"
-          placeholder={placeholderValue?.flatmates || 1}
           min={1}
+          onChange={(val) => onFlatmatesChange(val ?? 0)}
+          placeholder={placeholderValue?.flatmates || 1}
+          style={{ marginRight: '6px', width: '100px' }}
+          type="text"
           value={value && value.flatmates}
-          onChange={onFlatmatesChange}
-          style={{ width: '100px', marginRight: '6px' }}
         />
         <span>people in our household.</span>
       </div>
@@ -72,9 +72,9 @@ export const HousingInput: React.FC<HousingInputProps> = ({
         <span>We heat with </span>
         <Select
           onSelect={onHeattypeChange}
-          value={value && value.heattype}
           placeholder="Please select your heating type"
-          style={{ maxWidth: '280px', marginRight: '6px' }}
+          style={{ marginRight: '6px', maxWidth: '280px' }}
+          value={value && value.heattype}
         >
           {options.map((option: any, i: any) => (
             <Option key={`option-${i}`} value={option.value}>

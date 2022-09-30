@@ -14,9 +14,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
 };
 
@@ -1979,7 +1977,7 @@ export const ActionCommentAttachmentsDocument = gql`
     ${ActionCommentAttachmentFragmentDoc}`;
 
 export function useActionCommentAttachmentsQuery(options: Omit<Urql.UseQueryArgs<ActionCommentAttachmentsQueryVariables>, 'query'>) {
-  return Urql.useQuery<ActionCommentAttachmentsQuery>({ query: ActionCommentAttachmentsDocument, ...options });
+  return Urql.useQuery<ActionCommentAttachmentsQuery, ActionCommentAttachmentsQueryVariables>({ query: ActionCommentAttachmentsDocument, ...options });
 };
 export const ActionCommentsDocument = gql`
     query actionComments($input: ActionCommentsInput!) {
@@ -1990,7 +1988,7 @@ export const ActionCommentsDocument = gql`
     ${ActionCommentFragmentDoc}`;
 
 export function useActionCommentsQuery(options: Omit<Urql.UseQueryArgs<ActionCommentsQueryVariables>, 'query'>) {
-  return Urql.useQuery<ActionCommentsQuery>({ query: ActionCommentsDocument, ...options });
+  return Urql.useQuery<ActionCommentsQuery, ActionCommentsQueryVariables>({ query: ActionCommentsDocument, ...options });
 };
 export const CompaniesDocument = gql`
     query companies($input: CompaniesInput) {
@@ -2004,7 +2002,7 @@ export const CompaniesDocument = gql`
     ${CompanyFragmentDoc}`;
 
 export function useCompaniesQuery(options?: Omit<Urql.UseQueryArgs<CompaniesQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompaniesQuery>({ query: CompaniesDocument, ...options });
+  return Urql.useQuery<CompaniesQuery, CompaniesQueryVariables>({ query: CompaniesDocument, ...options });
 };
 export const CompanyAchievementsMiniDocument = gql`
     query companyAchievementsMini {
@@ -2021,7 +2019,7 @@ export const CompanyAchievementsMiniDocument = gql`
     ${CompanyAchievementMiniFragmentDoc}`;
 
 export function useCompanyAchievementsMiniQuery(options?: Omit<Urql.UseQueryArgs<CompanyAchievementsMiniQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyAchievementsMiniQuery>({ query: CompanyAchievementsMiniDocument, ...options });
+  return Urql.useQuery<CompanyAchievementsMiniQuery, CompanyAchievementsMiniQueryVariables>({ query: CompanyAchievementsMiniDocument, ...options });
 };
 export const CompanyAchievementsDocument = gql`
     query companyAchievements {
@@ -2038,7 +2036,7 @@ export const CompanyAchievementsDocument = gql`
     ${CompanyAchievementFragmentDoc}`;
 
 export function useCompanyAchievementsQuery(options?: Omit<Urql.UseQueryArgs<CompanyAchievementsQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyAchievementsQuery>({ query: CompanyAchievementsDocument, ...options });
+  return Urql.useQuery<CompanyAchievementsQuery, CompanyAchievementsQueryVariables>({ query: CompanyAchievementsDocument, ...options });
 };
 export const CompanyActionDetailsDocument = gql`
     query companyActionDetails($input: CompanyActionInput!) {
@@ -2049,7 +2047,7 @@ export const CompanyActionDetailsDocument = gql`
     ${CompanyActionListItemFragmentDoc}`;
 
 export function useCompanyActionDetailsQuery(options: Omit<Urql.UseQueryArgs<CompanyActionDetailsQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyActionDetailsQuery>({ query: CompanyActionDetailsDocument, ...options });
+  return Urql.useQuery<CompanyActionDetailsQuery, CompanyActionDetailsQueryVariables>({ query: CompanyActionDetailsDocument, ...options });
 };
 export const CompanyActionExtendedDetailsDocument = gql`
     query companyActionExtendedDetails($input: CompanyActionInput!) {
@@ -2060,7 +2058,7 @@ export const CompanyActionExtendedDetailsDocument = gql`
     ${CompanyActionDetailsFragmentDoc}`;
 
 export function useCompanyActionExtendedDetailsQuery(options: Omit<Urql.UseQueryArgs<CompanyActionExtendedDetailsQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyActionExtendedDetailsQuery>({ query: CompanyActionExtendedDetailsDocument, ...options });
+  return Urql.useQuery<CompanyActionExtendedDetailsQuery, CompanyActionExtendedDetailsQueryVariables>({ query: CompanyActionExtendedDetailsDocument, ...options });
 };
 export const CompanyActionsListDocument = gql`
     query companyActionsList($input: CompanyActionsInput) {
@@ -2071,7 +2069,7 @@ export const CompanyActionsListDocument = gql`
     ${CompanyActionListItemFragmentDoc}`;
 
 export function useCompanyActionsListQuery(options?: Omit<Urql.UseQueryArgs<CompanyActionsListQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyActionsListQuery>({ query: CompanyActionsListDocument, ...options });
+  return Urql.useQuery<CompanyActionsListQuery, CompanyActionsListQueryVariables>({ query: CompanyActionsListDocument, ...options });
 };
 export const CompanyDocument = gql`
     query company($input: CompanyInput) {
@@ -2082,7 +2080,7 @@ export const CompanyDocument = gql`
     ${CompanyFragmentDoc}`;
 
 export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
-  return Urql.useQuery<CompanyQuery>({ query: CompanyDocument, ...options });
+  return Urql.useQuery<CompanyQuery, CompanyQueryVariables>({ query: CompanyDocument, ...options });
 };
 export const EventParticipationRequestsDocument = gql`
     query eventParticipationRequests($input: EventParticipationRequestsInput!) {
@@ -2097,7 +2095,7 @@ export const EventParticipationRequestsDocument = gql`
 ${UserFragmentDoc}`;
 
 export function useEventParticipationRequestsQuery(options: Omit<Urql.UseQueryArgs<EventParticipationRequestsQueryVariables>, 'query'>) {
-  return Urql.useQuery<EventParticipationRequestsQuery>({ query: EventParticipationRequestsDocument, ...options });
+  return Urql.useQuery<EventParticipationRequestsQuery, EventParticipationRequestsQueryVariables>({ query: EventParticipationRequestsDocument, ...options });
 };
 export const EventsDocument = gql`
     query events($input: EventsInput) {
@@ -2108,7 +2106,7 @@ export const EventsDocument = gql`
     ${EventFragmentDoc}`;
 
 export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVariables>, 'query'>) {
-  return Urql.useQuery<EventsQuery>({ query: EventsDocument, ...options });
+  return Urql.useQuery<EventsQuery, EventsQueryVariables>({ query: EventsDocument, ...options });
 };
 export const SearchCompanyDocument = gql`
     query searchCompany($input: SearchCompanyInput!) {
@@ -2119,7 +2117,7 @@ export const SearchCompanyDocument = gql`
     ${CompanyFragmentDoc}`;
 
 export function useSearchCompanyQuery(options: Omit<Urql.UseQueryArgs<SearchCompanyQueryVariables>, 'query'>) {
-  return Urql.useQuery<SearchCompanyQuery>({ query: SearchCompanyDocument, ...options });
+  return Urql.useQuery<SearchCompanyQuery, SearchCompanyQueryVariables>({ query: SearchCompanyDocument, ...options });
 };
 export const SearchUserDocument = gql`
     query searchUser($input: SearchUserInput!) {
@@ -2130,7 +2128,7 @@ export const SearchUserDocument = gql`
     ${UserFragmentDoc}`;
 
 export function useSearchUserQuery(options: Omit<Urql.UseQueryArgs<SearchUserQueryVariables>, 'query'>) {
-  return Urql.useQuery<SearchUserQuery>({ query: SearchUserDocument, ...options });
+  return Urql.useQuery<SearchUserQuery, SearchUserQueryVariables>({ query: SearchUserDocument, ...options });
 };
 export const ServiceProviderListsDocument = gql`
     query serviceProviderLists {
@@ -2141,7 +2139,7 @@ export const ServiceProviderListsDocument = gql`
     ${ServiceProviderListFragmentDoc}`;
 
 export function useServiceProviderListsQuery(options?: Omit<Urql.UseQueryArgs<ServiceProviderListsQueryVariables>, 'query'>) {
-  return Urql.useQuery<ServiceProviderListsQuery>({ query: ServiceProviderListsDocument, ...options });
+  return Urql.useQuery<ServiceProviderListsQuery, ServiceProviderListsQueryVariables>({ query: ServiceProviderListsDocument, ...options });
 };
 export const ServiceProviderReviewsDocument = gql`
     query serviceProviderReviews($input: ServiceProviderReviewsInput!) {
@@ -2155,7 +2153,7 @@ export const ServiceProviderReviewsDocument = gql`
     ${ServiceProviderReviewFragmentDoc}`;
 
 export function useServiceProviderReviewsQuery(options: Omit<Urql.UseQueryArgs<ServiceProviderReviewsQueryVariables>, 'query'>) {
-  return Urql.useQuery<ServiceProviderReviewsQuery>({ query: ServiceProviderReviewsDocument, ...options });
+  return Urql.useQuery<ServiceProviderReviewsQuery, ServiceProviderReviewsQueryVariables>({ query: ServiceProviderReviewsDocument, ...options });
 };
 export const ServiceProvidersDocument = gql`
     query serviceProviders($input: ServiceProvidersInput) {
@@ -2166,7 +2164,7 @@ export const ServiceProvidersDocument = gql`
     ${ServiceProviderFragmentDoc}`;
 
 export function useServiceProvidersQuery(options?: Omit<Urql.UseQueryArgs<ServiceProvidersQueryVariables>, 'query'>) {
-  return Urql.useQuery<ServiceProvidersQuery>({ query: ServiceProvidersDocument, ...options });
+  return Urql.useQuery<ServiceProvidersQuery, ServiceProvidersQueryVariables>({ query: ServiceProvidersDocument, ...options });
 };
 export const UserActionsListDocument = gql`
     query userActionsList($input: UserActionsInput) {
@@ -2177,7 +2175,7 @@ export const UserActionsListDocument = gql`
     ${UserActionFragmentDoc}`;
 
 export function useUserActionsListQuery(options?: Omit<Urql.UseQueryArgs<UserActionsListQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserActionsListQuery>({ query: UserActionsListDocument, ...options });
+  return Urql.useQuery<UserActionsListQuery, UserActionsListQueryVariables>({ query: UserActionsListDocument, ...options });
 };
 export const UserInvitesDocument = gql`
     query userInvites($input: UserInvitesInput) {
@@ -2188,7 +2186,7 @@ export const UserInvitesDocument = gql`
     ${UserInviteFragmentDoc}`;
 
 export function useUserInvitesQuery(options?: Omit<Urql.UseQueryArgs<UserInvitesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserInvitesQuery>({ query: UserInvitesDocument, ...options });
+  return Urql.useQuery<UserInvitesQuery, UserInvitesQueryVariables>({ query: UserInvitesDocument, ...options });
 };
 export const UserDocument = gql`
     query user($input: UserInput) {
@@ -2199,7 +2197,7 @@ export const UserDocument = gql`
     ${UserFragmentDoc}`;
 
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+  return Urql.useQuery<UserQuery, UserQueryVariables>({ query: UserDocument, ...options });
 };
 export const UsersDocument = gql`
     query users($input: UsersInput) {
@@ -2213,5 +2211,5 @@ export const UsersDocument = gql`
     ${UserFragmentDoc}`;
 
 export function useUsersQuery(options?: Omit<Urql.UseQueryArgs<UsersQueryVariables>, 'query'>) {
-  return Urql.useQuery<UsersQuery>({ query: UsersDocument, ...options });
+  return Urql.useQuery<UsersQuery, UsersQueryVariables>({ query: UsersDocument, ...options });
 };

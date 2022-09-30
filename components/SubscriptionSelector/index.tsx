@@ -131,7 +131,7 @@ export const SubscriptionSelector = ({
           <Form layout="inline">
             <Form.Item label="Team size">
               <InputNumber
-                onChange={(val) => setEmployeeCount(val)}
+                onChange={(val) => setEmployeeCount(val ?? undefined)}
                 placeholder="10"
                 size="large"
                 value={employeeCount}

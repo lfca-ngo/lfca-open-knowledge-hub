@@ -104,7 +104,7 @@ export const AdminUsersList = ({
   }
 
   const handleExport = () => {
-    exportUsers().then(({ data, error }) => {
+    exportUsers({}).then(({ data, error }) => {
       if (error) message.error(error.message)
       const url = data?.createUserExport
       if (url) {

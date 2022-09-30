@@ -106,7 +106,7 @@ export const AdminCompaniesList = ({
   }
 
   const handleExport = () => {
-    exportCompanies().then(({ data, error }) => {
+    exportCompanies({}).then(({ data, error }) => {
       if (error) message.error(error.message)
       const url = data?.createCompanyExport
       if (url) {
