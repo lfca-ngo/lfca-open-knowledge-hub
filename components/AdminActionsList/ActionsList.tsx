@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Button, Drawer, Popover, Table, Tag } from 'antd'
 import { useState } from 'react'
@@ -10,6 +8,7 @@ import {
 } from '../../services/lfca-backend'
 import { toReadibleDate } from '../../utils'
 import { ActionsForm } from './ActionsForm'
+import styles from './styles.module.less'
 
 const { Column } = Table
 

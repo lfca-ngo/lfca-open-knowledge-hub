@@ -1,0 +1,79 @@
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  margin-top: 30px;
+  color: @text-color;
+
+  .title {
+    .h2();
+    margin-bottom: 20px;
+  }
+
+  .icon {
+    color: @yellow;
+    margin: 30px 0 20px;
+  }
+
+  .actions {
+    margin: 30px 0 20px;
+  }
+
+  &.with-background {
+    background-color: @white-grey;
+    border-radius: @border-radius-base;
+    padding: 36px;
+
+    .actions {
+      margin-bottom: 0;
+    }
+  }
+
+  // small empty state
+  &.small {
+    padding: 10px;
+    margin-top: 14px;
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 35px 0 20px;
+
+      .h4();
+
+      .icon {
+        margin: 0;
+        margin-right: 8px;
+      }
+    }
+
+    .actions {
+      margin: 25px 0 10px;
+    }
+  }
+
+  &.bordered {
+    border-top: 1px solid @black;
+  }
+
+  &.left {
+    text-align: left;
+    padding: 0;
+
+    header {
+      justify-content: start;
+    }
+  }
+}
+
+// when shown in a popover, remove margin
+.ant-popover {
+  .ant-popover-inner-content {
+    .empty-state {
+      margin-top: 0;
+      header {
+        margin: 20px 0;
+      }
+    }
+  }
+}

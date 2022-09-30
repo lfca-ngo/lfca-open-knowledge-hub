@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { MessageOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Button, ConfigProvider, List, message } from 'antd'
 import { useRouter } from 'next/router'
@@ -10,6 +8,7 @@ import { COMMUNITY_GROUPS } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 import { EventCard, EventCardProps } from '../EventCard'
 import { EventCardSkeleton } from '../EventCard/EventCardSkeleton'
+import styles from './styles.module.less'
 
 interface EventsListProps {
   appliedEvents: EventFragment[]

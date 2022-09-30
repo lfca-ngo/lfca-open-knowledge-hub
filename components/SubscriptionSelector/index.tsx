@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import {
   Avatar,
@@ -16,6 +14,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { Subscription } from '../../services/contentful'
+import styles from './styles.module.less'
 
 const { TabPane } = Tabs
 

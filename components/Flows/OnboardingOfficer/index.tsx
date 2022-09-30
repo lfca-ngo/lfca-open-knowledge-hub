@@ -78,7 +78,7 @@ const Intro = ({ onNext }: StepProps) => {
       <Modal
         destroyOnClose
         onCancel={() => setVisible(false)}
-        visible={visible}
+        open={visible}
         wrapClassName="modal-md"
       >
         <VideoWrapper

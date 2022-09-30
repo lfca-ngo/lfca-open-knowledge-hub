@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
@@ -9,6 +7,7 @@ import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
 import { FilterBar, FilterFormItems } from './FilterBar'
+import styles from './styles.module.less'
 
 export const LS_ACTION_LIST = 'actions_list'
 

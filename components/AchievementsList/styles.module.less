@@ -1,0 +1,50 @@
+.achievements-list {
+  margin: 40px 0;
+  [class~='ant-skeleton'] {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    [class~='ant-skeleton-header'] {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      [class~='ant-skeleton-avatar-lg'] {
+        width: 80px;
+        height: 80px;
+      }
+    }
+    [class~='ant-skeleton-content'] {
+      [class~='ant-skeleton-title'] {
+        margin-top: 30px;
+      }
+      [class~='ant-skeleton-paragraph'] {
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+.achievements-list-mini {
+  [class~='ant-list-item'] {
+    padding: 16px 0;
+  }
+
+  [class~='ant-skeleton'] {
+    display: flex;
+    align-items: center;
+
+    [class~='ant-skeleton-header'] {
+      display: flex;
+      align-items: center;
+    }
+    [class~='ant-skeleton-content'] {
+      [class~='ant-skeleton-title'] {
+        margin: 0;
+      }
+      [class~='ant-skeleton-paragraph'] {
+        margin-top: 10px;
+      }
+    }
+  }
+}

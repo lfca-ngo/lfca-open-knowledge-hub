@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   CalendarOutlined,
   CheckOutlined,
@@ -19,6 +17,7 @@ import {
 import { actionHasReviews } from '../../utils'
 import { CompleteActionForm } from '../CompleteActionForm'
 import { PaywallPopover } from '../PayWall/PaywallPopover'
+import styles from './styles.module.less'
 
 interface ActionBarProps {
   action: CompanyActionListItemFragment

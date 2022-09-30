@@ -1,7 +1,7 @@
-require('./styles.less')
-
 import { Button, Form } from 'antd'
 import { ReactNode } from 'react'
+
+import styles from './styles.module.less'
 
 interface RenderInputProps {
   onRemove: () => void

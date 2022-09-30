@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -16,6 +14,7 @@ import { Footprint } from './components/Footprint'
 import { ProgressBar } from './components/ProgressBar'
 import { QuestionBlock } from './components/QuestionBlock'
 import { OFFSETTING_PROVIDERS } from './data'
+import styles from './styles.module.less'
 
 const { confirm } = Modal
 

@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { MessageOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, List, Skeleton } from 'antd'
 import { useState } from 'react'
@@ -13,6 +11,7 @@ import {
 import { EmptyState } from '../EmptyState'
 import { CommentItem } from './CommentItem'
 import { CommentModal } from './CommentModal'
+import styles from './styles.module.less'
 
 interface CommentsProps {
   actionContentId: string

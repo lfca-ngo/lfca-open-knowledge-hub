@@ -7,8 +7,7 @@ import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
-
-require('./styles.less')
+import styles from './styles.module.less'
 
 const COLLAPSED_WIDTH = 85
 const COLLAPSED_WIDTH_MOBILE = 0

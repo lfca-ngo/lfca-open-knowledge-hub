@@ -1,8 +1,8 @@
-require('./styles.less')
-
 import { Button, ButtonProps } from 'antd'
 import classNames from 'classnames'
 import React, { createRef, useState } from 'react'
+
+import styles from './styles.module.less'
 
 export const ShowMore = ({
   buttonProps = { size: 'small' },

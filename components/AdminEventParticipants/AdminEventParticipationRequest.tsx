@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { CheckOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, List, message, Popconfirm } from 'antd'
 
@@ -11,6 +9,7 @@ import {
   useUpdateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface AdminEventParticipationRequestProps {
   event: EventFragment

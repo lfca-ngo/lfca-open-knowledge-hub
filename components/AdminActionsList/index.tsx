@@ -1,10 +1,9 @@
-require('./styles.less')
-
 import { Form, Tabs } from 'antd'
 import { useState } from 'react'
 
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { ActionsList } from './ActionsList'
+import styles from './styles.module.less'
 
 const { TabPane } = Tabs
 

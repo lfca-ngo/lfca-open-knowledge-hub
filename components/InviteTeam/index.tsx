@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, Input, List, message } from 'antd'
 import React from 'react'
@@ -9,6 +7,7 @@ import {
   useUserInvitesQuery,
 } from '../../services/lfca-backend'
 import { InviteItem } from './Item'
+import styles from './styles.module.less'
 
 interface InviteTeamProps {
   onMinimumInvited?: () => void

@@ -1,9 +1,9 @@
-require('./styles.less')
-
 import { AppstoreOutlined, CheckOutlined } from '@ant-design/icons'
 import { Badge, Button, Dropdown, Menu } from 'antd'
 import classNames from 'classnames'
 import React, { useState } from 'react'
+
+import styles from './styles.module.less'
 
 interface ItemProps {
   label: string

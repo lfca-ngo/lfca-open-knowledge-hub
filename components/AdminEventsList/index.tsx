@@ -1,11 +1,10 @@
-require('./styles.less')
-
 import { Badge, Button, Drawer, Space, Table, Tag } from 'antd'
 import { useState } from 'react'
 
 import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 import { AdminEventParticipants } from '../AdminEventParticipants'
+import styles from './styles.module.less'
 
 const { Column } = Table
 

@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { LoadingOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Checkbox, Collapse, List, message } from 'antd'
@@ -11,6 +9,7 @@ import {
   useCompleteCompanyActionRequirementMutation,
 } from '../../services/lfca-backend'
 import { options } from '../../utils/richTextOptions'
+import styles from './styles.module.less'
 
 const { Panel } = Collapse
 

@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -18,6 +16,7 @@ import { rootTreeMetaData } from '../ActionsList/utils'
 import { EmptyState } from '../EmptyState'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
+import styles from './styles.module.less'
 
 export interface CompanyActionListItemFragmentWithRootCategory
   extends CompanyActionListItemFragment {

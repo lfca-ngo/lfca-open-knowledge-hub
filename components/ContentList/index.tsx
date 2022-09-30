@@ -1,10 +1,10 @@
-require('./styles.less')
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, List } from 'antd'
 import Image from 'next/image'
 
 import { ContentfulContentCollectionFields } from '../../services/contentful'
+import styles from './styles.module.less'
 
 export const ContentList = ({
   content = [],

@@ -1,6 +1,7 @@
-require('./styles.less')
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
+
+import styles from './styles.module.less'
 
 const DARK_COLOR = '#0b0b0c'
 const LIGHT_COLOR = '#FBF7F0'

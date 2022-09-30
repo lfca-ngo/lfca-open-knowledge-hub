@@ -1,0 +1,63 @@
+.pledge {
+  margin: 35px 0 0;
+
+  .checklist-element {
+    display: flex;
+
+    .checkbox {
+      width: 50px;
+      margin-top: 0;
+
+      .ant-checkbox {
+        top: 0;
+        .ant-checkbox-inner {
+          width: 26px;
+          height: 26px;
+        }
+
+        .ant-checkbox-inner::after {
+          top: 43%;
+          left: 27%;
+          width: 7px;
+          height: 14px;
+        }
+      }
+    }
+
+    .content {
+      flex: 1;
+      margin-bottom: 30px;
+
+      .title {
+        .font-semi();
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .signature-wrapper {
+    margin: 10px 0;
+    position: relative;
+
+    .written-name {
+      display: flex;
+      justify-content: space-between;
+      font-style: italic;
+
+      .btn-wrapper {
+        text-align: right;
+        display: inline-block;
+      }
+    }
+
+    .sig-canvas {
+      border: 1px dashed #ccc;
+      border-radius: 2px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: 1px solid var(--layout-highlight);
+      cursor: crosshair;
+    }
+  }
+}

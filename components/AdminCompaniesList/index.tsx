@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
@@ -14,6 +12,7 @@ import {
 } from '../../services/lfca-backend'
 import { CompanyFragment } from '../../services/lfca-backend'
 import { CompanyForm } from '../CompanyForm'
+import styles from './styles.module.less'
 
 interface AdminCompaniesListProps {
   countries: Country[]

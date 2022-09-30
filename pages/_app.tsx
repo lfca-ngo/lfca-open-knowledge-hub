@@ -1,4 +1,5 @@
-require('../styles/global.less')
+import 'antd/dist/antd.less'
+import '../styles/global.less'
 
 import type { AppProps } from 'next/app'
 

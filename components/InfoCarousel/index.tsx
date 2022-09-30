@@ -1,7 +1,8 @@
 import { Carousel, Col, List, Row } from 'antd'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
-require('./styles.less')
+
+import styles from './styles.module.less'
 
 const CarouselNav = (props: any) => {
   const isIconString = typeof props.icon === 'string'

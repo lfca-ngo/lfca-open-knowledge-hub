@@ -1,0 +1,38 @@
+@default-margin: 20px;
+
+.richtext-editor {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  width: 100%;
+
+  .toolbar {
+    margin-bottom: 10px;
+
+    button {
+      font-size: 16px;
+    }
+
+    .link-form {
+      text-align: right;
+      width: 260px;
+
+      button {
+        padding-right: 0px;
+      }
+
+      input.error {
+        border-color: @wine;
+      }
+    }
+  }
+
+  .editable {
+    height: auto;
+    max-height: 140px;
+    min-height: 140px !important;
+    overflow: auto;
+  }
+}

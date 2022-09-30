@@ -1,9 +1,8 @@
-require('./styles.less')
-
 import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
 import { CompanyFragment } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface LogoGroupProps {
   data?: (Partial<CompanyFragment> | null | undefined)[]

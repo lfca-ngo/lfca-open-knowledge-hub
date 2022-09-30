@@ -82,8 +82,8 @@ export const CommentModal = ({
       destroyOnClose={true}
       footer={null}
       onCancel={onClose}
+      open={visible}
       title="Edit comment"
-      visible={visible}
     >
       <CommentForm
         initialValues={

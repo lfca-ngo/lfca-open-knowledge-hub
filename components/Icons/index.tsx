@@ -1,10 +1,10 @@
-require('./styles.less')
-
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
 import React from 'react'
+
+import styles from './styles.module.less'
 
 const DEFAULT_COLOR = '#fff'
 

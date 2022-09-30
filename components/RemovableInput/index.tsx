@@ -1,8 +1,8 @@
-require('./styles.less')
-
 import { MinusOutlined } from '@ant-design/icons'
 import { Button, Input } from 'antd'
 import { ChangeEventHandler } from 'react'
+
+import styles from './styles.module.less'
 
 interface RemovableInputProps {
   icon?: React.ReactElement

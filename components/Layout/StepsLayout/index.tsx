@@ -5,7 +5,7 @@ import React from 'react'
 import { useScreenSize } from '../../../hooks/app'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
-require('./styles.less')
+import styles from './styles.module.less'
 
 const { Content } = Layout
 const { Step } = Steps

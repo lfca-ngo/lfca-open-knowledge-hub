@@ -1,4 +1,4 @@
-require('./styles.less')
+import styles from './styles.module.less'
 
 interface SourceProps {
   src: string

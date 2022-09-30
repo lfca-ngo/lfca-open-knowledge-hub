@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Drawer, Form, List, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
@@ -18,6 +16,7 @@ import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
 import { SearchBar } from './SearchBar'
+import styles from './styles.module.less'
 
 const { TabPane } = Tabs
 

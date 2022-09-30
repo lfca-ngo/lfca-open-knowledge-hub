@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Drawer, List } from 'antd'
 import { useState } from 'react'

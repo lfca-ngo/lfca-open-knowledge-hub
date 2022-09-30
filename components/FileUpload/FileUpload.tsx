@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
@@ -7,6 +5,7 @@ import { UploadFile } from 'antd/lib/upload/interface'
 import React, { useEffect, useState } from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
+import styles from './styles.module.less'
 
 interface CloudinaryResponse {
   bytes: number

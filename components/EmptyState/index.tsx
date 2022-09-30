@@ -1,6 +1,7 @@
-require('./styles.less')
 import { Space } from 'antd'
 import classNames from 'classnames'
+
+import styles from './styles.module.less'
 
 export interface EmptyStateProps {
   alignment?: 'left' | 'center'

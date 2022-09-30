@@ -6,7 +6,7 @@ import { useDarkMode } from '../../../hooks/useDarkMode'
 import AppPreview from '../../../public/img/app-preview.png'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
-require('./styles.less')
+import styles from './styles.module.less'
 
 const { Content } = Layout
 

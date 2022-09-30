@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Button, Form, List, message } from 'antd'
 
 import {
@@ -9,6 +7,7 @@ import {
 import { EventFragment } from '../../services/lfca-backend'
 import { UserIdSearchInput } from '../UserIdSearchInput'
 import { AdminEventParticipationRequest } from './AdminEventParticipationRequest'
+import styles from './styles.module.less'
 
 interface AdminEventParticipantsProps {
   event: EventFragment

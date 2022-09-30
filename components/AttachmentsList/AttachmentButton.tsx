@@ -1,10 +1,9 @@
-require('./styles.less')
-
 import { PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, Button } from 'antd'
 import classNames from 'classnames'
 
 import { ActionCommentAttachment } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 export const AttachmentButton = ({
   attachment,

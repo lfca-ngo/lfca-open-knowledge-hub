@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Skeleton } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
@@ -8,6 +6,7 @@ import React from 'react'
 import { CompanyActionListItemFragmentWithRootCategory } from '../ActionsCarousel'
 import { rootTreeMetaData } from '../ActionsList/utils'
 import { ActionStats } from '../ActionStats'
+import styles from './styles.module.less'
 
 interface ActionDetailsProps {
   action: CompanyActionListItemFragmentWithRootCategory

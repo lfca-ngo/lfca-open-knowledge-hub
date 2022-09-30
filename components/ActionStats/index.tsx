@@ -1,11 +1,10 @@
-require('./styles.less')
-
 import { MessageOutlined, PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LogoGroup } from '../LogoGroup'
+import styles from './styles.module.less'
 
 interface ActionStatProps {
   count: number

@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-require('./styles.less')
+
+import styles from './styles.module.less'
 
 export const Main = ({ children }: { children: any }) => (
   <div className="main-section">{children}</div>

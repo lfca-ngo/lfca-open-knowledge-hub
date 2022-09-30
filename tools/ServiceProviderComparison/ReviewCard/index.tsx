@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import {
   ClockCircleOutlined,
@@ -17,6 +15,7 @@ import {
   ServiceProviderReviewFragment,
   useDeleteServiceProviderReviewMutation,
 } from '../../../services/lfca-backend'
+import styles from './styles.module.less'
 
 const ReviewContent = ({
   cons,

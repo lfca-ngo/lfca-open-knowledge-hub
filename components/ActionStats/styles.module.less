@@ -1,0 +1,39 @@
+.action-stat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 4px 0;
+  color: var(--text-color);
+
+  @media @desktop {
+    margin: 0;
+  }
+
+  .icon {
+    margin-right: 6px;
+  }
+}
+
+.action-stats {
+  display: flex;
+  flex-direction: column;
+
+  @media @desktop {
+    flex-direction: row;
+  }
+
+  .logo-group,
+  .action-stat {
+    margin-right: 22px;
+    .label {
+      font-size: @font-size-sm;
+    }
+  }
+
+  &.small {
+    .logo-group,
+    .action-stat {
+      margin-right: 14px;
+    }
+  }
+}

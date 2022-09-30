@@ -1,4 +1,3 @@
-require('./styles.less')
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Divider, Modal, Space } from 'antd'
 
@@ -13,6 +12,7 @@ import {
   Status,
   Time,
 } from './EventMeta'
+import styles from './styles.module.less'
 
 export interface EventCardProps {
   event: EventFragment
@@ -76,7 +76,7 @@ export const EventCard = ({
           </Button>,
         ]}
         onCancel={() => setDetailsVisible(false)}
-        visible={detailsVisible}
+        open={detailsVisible}
         wrapClassName="modal-md"
       >
         <div className="event-title">{event.title}</div>

@@ -1,0 +1,25 @@
+.review-form {
+  .panel {
+    > .ant-form-item {
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      .font-semi();
+      margin: 10px 0 10px;
+    }
+    border: 1px solid @yellow;
+    border-radius: @border-radius-base;
+    background-color: fade(@yellow, 2%);
+    padding: 15px;
+    .ant-rate-star {
+      font-size: 24px;
+    }
+  }
+
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    margin-top: 4px;
+    margin-bottom: auto;
+  }
+}

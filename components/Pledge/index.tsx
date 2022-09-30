@@ -1,9 +1,9 @@
-require('./styles.less')
-
 import { CloseCircleFilled } from '@ant-design/icons'
 import { Button, Checkbox } from 'antd'
 import React, { useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
+
+import styles from './styles.module.less'
 
 const ChecklistElement = (props: any) => {
   return (

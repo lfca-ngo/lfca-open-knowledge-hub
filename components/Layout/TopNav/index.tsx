@@ -1,11 +1,10 @@
-require('./styles.less')
-
 import { ArrowLeftOutlined, EllipsisOutlined } from '@ant-design/icons'
 import { Button, Dropdown } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useScreenSize } from '../../../hooks/app'
+import styles from './styles.module.less'
 
 const Menu = ({ nav }: { nav: any }) => {
   const router = useRouter()

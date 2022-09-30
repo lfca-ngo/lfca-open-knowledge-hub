@@ -1,4 +1,3 @@
-require('./styles.less')
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu } from 'antd'
 import { useRouter } from 'next/router'
@@ -7,6 +6,7 @@ import { useState } from 'react'
 import { useFirebase } from '../../../hooks/firebase'
 import { useUser } from '../../../hooks/user'
 import { LOGOUT, PROFILE_NAV } from '../../../utils/navs'
+import styles from './styles.module.less'
 
 export const SettingsNav = () => {
   const [loading, setLoading] = useState(false)

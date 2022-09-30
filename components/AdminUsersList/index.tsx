@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
@@ -15,6 +13,7 @@ import {
   useUsersQuery,
 } from '../../services/lfca-backend'
 import { UserFragment } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface AdminUsersListProps {
   countries: Country[]

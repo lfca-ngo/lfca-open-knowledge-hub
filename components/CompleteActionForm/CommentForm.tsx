@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input, Tag, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
@@ -12,6 +10,7 @@ import { File, FileUpload } from '../FileUpload/FileUpload'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
 import { UserIdSearchInput } from '../UserIdSearchInput'
+import styles from './styles.module.less'
 
 const { TextArea } = Input
 

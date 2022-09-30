@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   CalendarOutlined,
   CarryOutOutlined,
@@ -26,6 +24,7 @@ import {
   usePlanCompanyActionMutation,
 } from '../../services/lfca-backend'
 import { ActionStats } from '../ActionStats'
+import styles from './styles.module.less'
 
 const InfoBox = ({
   requirements,

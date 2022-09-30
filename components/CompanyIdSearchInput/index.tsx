@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Select, Spin } from 'antd'
 import _debounce from 'lodash.debounce'
@@ -9,6 +7,7 @@ import {
   useCompaniesQuery,
   useSearchCompanyQuery,
 } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface CompanyIdSearchInputProps {
   value?: string

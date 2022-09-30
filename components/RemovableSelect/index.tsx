@@ -1,7 +1,7 @@
-require('./styles.less')
-
 import { MinusOutlined } from '@ant-design/icons'
 import { Button, Input, Select } from 'antd'
+
+import styles from './styles.module.less'
 
 interface SelectOption {
   label?: string
