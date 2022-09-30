@@ -109,6 +109,8 @@ export type CompaniesResult = {
 export type Company = {
   __typename?: 'Company';
   aboutSections?: Maybe<Array<Maybe<CompanyAboutSection>>>;
+  /** Returns achievement contentIds that have been reached once (even though they have expired) based on the AchievementLog. */
+  achievementContendIdsReachedOnce: Array<Scalars['String']>;
   campaignContribution?: Maybe<Scalars['String']>;
   campaignFiles: Array<File>;
   campaignGoals?: Maybe<Scalars['String']>;
@@ -119,8 +121,6 @@ export type Company = {
   crmId?: Maybe<Scalars['String']>;
   deletedAt?: Maybe<Scalars['DateTime']>;
   employeeCount: Scalars['Int'];
-  /** Returns achievement contentIds that have been reached once (even though they have expired) based on the AchievementLog. */
-  hasReachedAchievementContendIdsOnce: Array<Scalars['String']>;
   id: Scalars['ID'];
   internalDescription?: Maybe<Scalars['String']>;
   logoUrl?: Maybe<Scalars['String']>;
@@ -1263,7 +1263,9 @@ export type CompanyActionsListQueryVariables = Exact<{
 
 export type CompanyActionsListQuery = { __typename?: 'Query', companyActions: Array<{ __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesDoingCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesDoing: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null }> };
 
-export type CompanyQueryVariables = Exact<{ [key: string]: never; }>;
+export type CompanyQueryVariables = Exact<{
+  input?: InputMaybe<CompanyInput>;
+}>;
 
 
 export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> } };
@@ -2072,8 +2074,8 @@ export function useCompanyActionsListQuery(options?: Omit<Urql.UseQueryArgs<Comp
   return Urql.useQuery<CompanyActionsListQuery>({ query: CompanyActionsListDocument, ...options });
 };
 export const CompanyDocument = gql`
-    query company {
-  company {
+    query company($input: CompanyInput) {
+  company(input: $input) {
     ...Company
   }
 }
