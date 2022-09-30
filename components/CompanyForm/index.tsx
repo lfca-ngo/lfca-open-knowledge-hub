@@ -212,12 +212,15 @@ export const CompanyForm = ({
           onClose={() => setSelectedUser(undefined)}
           visible={!!selectedUser}
         >
-          <UserForm
-            countries={countries}
-            initialValues={selectedUser}
-            onDeleted={() => setSelectedUser(undefined)}
-            programs={programs}
-          />
+          <>
+            <h1>Update User</h1>
+            <UserForm
+              countries={countries}
+              initialValues={selectedUser}
+              onDeleted={() => setSelectedUser(undefined)}
+              programs={programs}
+            />
+          </>
         </Drawer>
       ) : null}
     </>

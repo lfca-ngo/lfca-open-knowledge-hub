@@ -158,14 +158,17 @@ export const UserForm = ({
           onClose={() => setSelectedCompanyId(undefined)}
           visible={!!selectedCompanyId}
         >
-          <CompanyForm
-            countries={countries}
-            initialValues={companyData?.company}
-            isLoadingInitialValues={fetchingCompany}
-            programs={programs}
-            showConnectedUsers={true}
-            type="update"
-          />
+          <>
+            <h1>Update Company</h1>
+            <CompanyForm
+              countries={countries}
+              initialValues={companyData?.company}
+              isLoadingInitialValues={fetchingCompany}
+              programs={programs}
+              showConnectedUsers={true}
+              type="update"
+            />
+          </>
         </Drawer>
       ) : null}
     </>
