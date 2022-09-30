@@ -8,14 +8,9 @@ import { useRef, useState } from 'react'
 
 import { Country, Program } from '../../services/contentful'
 import {
-  CreateCompanyInput,
-  UpdateCompanyInput,
   useCompaniesQuery,
   useCreateCompanyExportMutation,
-  useCreateCompanyMutation,
-  useDeleteCompanyMutation,
   useSearchCompanyQuery,
-  useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
 import { CompanyFragment } from '../../services/lfca-backend'
 import { CompanyForm } from '../CompanyForm'
@@ -62,12 +57,6 @@ export const AdminCompaniesList = ({
     }, 500)
   ).current
 
-  const [{ fetching: isCreatingCompany }, createCompany] =
-    useCreateCompanyMutation()
-  const [{ fetching: isDeletingCompany }, deleteCompany] =
-    useDeleteCompanyMutation()
-  const [{ fetching: isUpdatingCompany }, updateCompany] =
-    useUpdateCompanyMutation()
   const [{ fetching: isExporting }, exportCompanies] =
     useCreateCompanyExportMutation()
 
@@ -115,46 +104,6 @@ export const AdminCompaniesList = ({
   const handleClose = () => {
     setIsOpen(false)
     setSelectedCompany(undefined)
-  }
-
-  const handleCreate = (allValues: CreateCompanyInput) => {
-    createCompany({
-      input: allValues,
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else {
-        message.success('Company created')
-        handleClose()
-      }
-    })
-  }
-
-  const handleDelete = () => {
-    if (!selectedCompany?.id) return
-
-    deleteCompany({
-      input: {
-        companyId: selectedCompany.id,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else {
-        message.success('Company deleted')
-        handleClose()
-      }
-    })
-  }
-
-  const handleUpdate = (allValues: UpdateCompanyInput) => {
-    updateCompany({
-      input: {
-        companyId: selectedCompany?.id,
-        ...allValues,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else message.success('Company updated')
-    })
   }
 
   const handleExport = () => {
@@ -287,13 +236,10 @@ export const AdminCompaniesList = ({
                 : undefined
             }
             initialValues={selectedCompany}
-            isLoading={
-              isCreatingCompany || isDeletingCompany || isUpdatingCompany
-            }
-            onCreate={handleCreate}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
+            onCreated={handleClose}
+            onDeleted={handleClose}
             programs={programs}
+            showConnectedUsers={true}
             type={selectedCompany ? 'update' : 'create'}
           />
         </>

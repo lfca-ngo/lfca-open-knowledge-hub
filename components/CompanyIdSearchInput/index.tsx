@@ -1,4 +1,7 @@
-import { Select, Spin } from 'antd'
+require('./styles.less')
+
+import { ArrowRightOutlined } from '@ant-design/icons'
+import { Button, Select, Spin } from 'antd'
 import _debounce from 'lodash.debounce'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -10,10 +13,12 @@ import {
 interface CompanyIdSearchInputProps {
   value?: string
   onChange?: (value: string) => void
+  onNavigateToCompany?: (companyId: string) => void
 }
 
 export const CompanyIdSearchInput = ({
   onChange,
+  onNavigateToCompany,
   value,
 }: CompanyIdSearchInputProps) => {
   const [initialValue] = useState<string | undefined>(value)
@@ -70,30 +75,40 @@ export const CompanyIdSearchInput = ({
   }
 
   return (
-    <Select
-      defaultActiveFirstOption={false}
-      filterOption={false}
-      labelInValue
-      loading={isFetchingInitialData}
-      notFoundContent={isFetchingSearch ? <Spin size="small" /> : null}
-      onChange={(value) => {
-        setInternalValue(value)
-        onChange && onChange(value.value)
-      }}
-      onSearch={handleSearch}
-      options={options}
-      placeholder="LFCA"
-      showSearch
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      value={
-        !internalValue && initialValue
-          ? {
-              label: initialData?.companies.items[0].name || '',
-              value: initialValue,
-            }
-          : internalValue
-      }
-    />
+    <div className="company-id-search-input">
+      <Select
+        defaultActiveFirstOption={false}
+        filterOption={false}
+        labelInValue
+        loading={isFetchingInitialData}
+        notFoundContent={isFetchingSearch ? <Spin size="small" /> : null}
+        onChange={(value) => {
+          setInternalValue(value)
+          onChange && onChange(value.value)
+        }}
+        onSearch={handleSearch}
+        options={options}
+        placeholder="LFCA"
+        showSearch
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        value={
+          !internalValue && initialValue
+            ? {
+                label: initialData?.companies.items[0].name || '',
+                value: initialValue,
+              }
+            : internalValue
+        }
+      />
+      {onNavigateToCompany ? (
+        <Button
+          disabled={!value}
+          icon={<ArrowRightOutlined />}
+          onClick={() => value && onNavigateToCompany(value)}
+          type="text"
+        />
+      ) : null}
+    </div>
   )
 }

@@ -1,16 +1,14 @@
 require('./styles.less')
 
-import { Drawer, List, message, Skeleton } from 'antd'
+import { Drawer, List, Skeleton } from 'antd'
 import { useState } from 'react'
 
 import {
   CompanyAchievementFragment,
   EMPTY_ACHIEVEMENTS,
-  UpdateCompanyInput,
   useCompanyAchievementsMiniQuery,
   useCompanyAchievementsQuery,
   useCompanyQuery,
-  useUpdateCompanyMutation,
 } from '../../services/lfca-backend'
 import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 import { CompanyForm, FormValues } from '../CompanyForm'
@@ -32,9 +30,6 @@ export const AchievementsList = ({
     useState<CompanyAchievementFragment>()
   const [drawerVisible, setDrawerVisible] = useState(false)
 
-  // Mutations
-  const [{ fetching: isUpdatingCompany }, updateCompany] =
-    useUpdateCompanyMutation()
   const [{ data, fetching: fetchingCompany }] = useCompanyQuery()
   const company = data?.company
 
@@ -42,17 +37,6 @@ export const AchievementsList = ({
   const handleEditAttributes = (achievement: CompanyAchievementFragment) => {
     setActiveAchievement(achievement)
     setDrawerVisible(true)
-  }
-
-  const handleUpdate = (allValues: UpdateCompanyInput) => {
-    updateCompany({
-      input: {
-        ...allValues,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else message.success('Profile updated')
-    })
   }
 
   return (
@@ -97,8 +81,7 @@ export const AchievementsList = ({
               activeAchievement?.editableCompanyProperties as (keyof FormValues)[]
             }
             initialValues={company}
-            isLoading={fetchingCompany || isUpdatingCompany}
-            onUpdate={handleUpdate}
+            isLoadingInitialValues={fetchingCompany}
             type="update"
           />
         </Section>

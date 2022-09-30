@@ -8,25 +8,26 @@ import { useRef, useState } from 'react'
 
 import { InviteUserForm } from '../../components/InviteUserForm'
 import { UserForm } from '../../components/UserForm'
-import { Country } from '../../services/contentful'
+import { Country, Program } from '../../services/contentful'
 import {
-  UpdateUserInput,
   useCreateUserExportMutation,
-  useDeleteUserMutation,
   useSearchUserQuery,
-  useUpdateUserMutation,
   useUsersQuery,
 } from '../../services/lfca-backend'
 import { UserFragment } from '../../services/lfca-backend'
 
 interface AdminUsersListProps {
   countries: Country[]
+  programs: Program[]
 }
 
 const { Column } = Table
 const { Search } = Input
 
-export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
+export const AdminUsersList = ({
+  countries,
+  programs,
+}: AdminUsersListProps) => {
   const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
   const [isOpen, setIsOpen] = useState(false)
   const [form] = Form.useForm()
@@ -55,8 +56,6 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     }, 500)
   ).current
 
-  const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
-  const [{ fetching: isDeletingUser }, deleteUser] = useDeleteUserMutation()
   const [{ fetching: isExporting }, exportUsers] = useCreateUserExportMutation()
 
   const [{ data: usersData, fetching: isFetchingUsers }] = useUsersQuery({
@@ -105,34 +104,6 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
     setSelectedUser(undefined)
   }
 
-  const handleUpdate = (allValues: UpdateUserInput) => {
-    updateUser({
-      input: {
-        userId: selectedUser?.id,
-        ...allValues,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else message.success('User updated')
-    })
-  }
-
-  const handleDelete = () => {
-    if (!selectedUser?.id) return
-
-    deleteUser({
-      input: {
-        userId: selectedUser.id,
-      },
-    }).then(({ error }) => {
-      if (error) message.error(error.message)
-      else {
-        message.success('User deleted')
-        handleClose()
-      }
-    })
-  }
-
   const handleExport = () => {
     exportUsers().then(({ data, error }) => {
       if (error) message.error(error.message)
@@ -165,7 +136,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
           </Form.Item>
           <div className="divider">or</div>
           <Form.Item name="name">
-            <Search allowClear placeholder="Search by name" />
+            <Search allowClear placeholder="Search by email/name" />
           </Form.Item>
         </Form>
 
@@ -248,9 +219,8 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
             <UserForm
               countries={countries}
               initialValues={selectedUser}
-              isLoading={isUpdatingUser || isDeletingUser}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
+              onDeleted={() => handleClose()}
+              programs={programs}
             />
           </>
         ) : (

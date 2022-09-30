@@ -320,6 +320,23 @@
             "args": []
           },
           {
+            "name": "achievementContendIdsReachedOnce",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "campaignContribution",
             "type": {
               "kind": "SCALAR",
@@ -421,23 +438,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "hasReachedAchievementContendIdsOnce",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
               }
             },
             "args": []
