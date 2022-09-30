@@ -8,7 +8,7 @@ import { useRef, useState } from 'react'
 
 import { InviteUserForm } from '../../components/InviteUserForm'
 import { UserForm } from '../../components/UserForm'
-import { Country } from '../../services/contentful'
+import { Country, Program } from '../../services/contentful'
 import {
   useCreateUserExportMutation,
   useSearchUserQuery,
@@ -18,12 +18,16 @@ import { UserFragment } from '../../services/lfca-backend'
 
 interface AdminUsersListProps {
   countries: Country[]
+  programs: Program[]
 }
 
 const { Column } = Table
 const { Search } = Input
 
-export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
+export const AdminUsersList = ({
+  countries,
+  programs,
+}: AdminUsersListProps) => {
   const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
   const [isOpen, setIsOpen] = useState(false)
   const [form] = Form.useForm()
@@ -216,6 +220,7 @@ export const AdminUsersList = ({ countries }: AdminUsersListProps) => {
               countries={countries}
               initialValues={selectedUser}
               onDeleted={() => handleClose()}
+              programs={programs}
             />
           </>
         ) : (

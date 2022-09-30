@@ -8,9 +8,16 @@ import { FormValues, UserFormProps } from './'
 
 const { Option } = Select
 
-type FormItemsProps = Pick<UserFormProps, 'countries' | 'filterByKeys'>
+interface FormItemsProps
+  extends Pick<UserFormProps, 'countries' | 'filterByKeys'> {
+  onNavigateToCompany?: (companyId: string) => void
+}
 
-export const FormItems = ({ countries, filterByKeys }: FormItemsProps) => {
+export const FormItems = ({
+  countries,
+  filterByKeys,
+  onNavigateToCompany,
+}: FormItemsProps) => {
   const formItems: { [key in keyof FormValues]: React.ReactNode } = {
     companyId: (
       <Form.Item
@@ -19,7 +26,7 @@ export const FormItems = ({ countries, filterByKeys }: FormItemsProps) => {
         name="companyId"
         rules={[{ message: 'Please add a companyId', required: true }]}
       >
-        <CompanyIdSearchInput />
+        <CompanyIdSearchInput onNavigateToCompany={onNavigateToCompany} />
       </Form.Item>
     ),
     country: (

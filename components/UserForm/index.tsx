@@ -1,16 +1,18 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Form, message, Popconfirm, Space } from 'antd'
-import { useEffect } from 'react'
+import { Button, Drawer, Form, message, Popconfirm, Space } from 'antd'
+import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
-import { Country } from '../../services/contentful'
+import { Country, Program } from '../../services/contentful'
 import {
+  useCompanyQuery,
   useDeleteUserMutation,
   UserFragment,
   useUpdateUserMutation,
 } from '../../services/lfca-backend'
 import { RemoveNull } from '../../types'
 import { removeObjectNullProps } from '../../utils'
+import { CompanyForm } from '../CompanyForm'
 import { FormItems } from './FormItems'
 
 export type FormValues = Omit<RemoveNull<UserFragment>, 'company' | 'id'> & {
@@ -24,6 +26,7 @@ export interface UserFormProps {
   isLoadingInitialValues?: boolean
   onDeleted?: () => void
   onUpdated?: () => void
+  programs?: Program[]
 }
 
 const parseInitialValues = (
@@ -47,11 +50,23 @@ export const UserForm = ({
   isLoadingInitialValues = false,
   onDeleted,
   onUpdated,
+  programs,
 }: UserFormProps) => {
   const { isAdmin } = useUser()
+  const [selectedCompanyId, setSelectedCompanyId] = useState<
+    string | undefined
+  >()
 
   const [{ fetching: isUpdatingUser }, updateUser] = useUpdateUserMutation()
   const [{ fetching: isDeletingUser }, deleteUser] = useDeleteUserMutation()
+  const [{ data: companyData, fetching: fetchingCompany }] = useCompanyQuery({
+    pause: !isAdmin || !selectedCompanyId,
+    variables: {
+      input: {
+        companyId: selectedCompanyId,
+      },
+    },
+  })
 
   const handleSubmit = (allValues: FormValues) => {
     updateUser({
@@ -95,7 +110,28 @@ export const UserForm = ({
       layout="vertical"
       onFinish={handleSubmit}
     >
-      <FormItems countries={countries} filterByKeys={filterByKeys} />
+      <FormItems
+        countries={countries}
+        filterByKeys={filterByKeys}
+        onNavigateToCompany={setSelectedCompanyId}
+      />
+
+      {isAdmin ? (
+        <Drawer
+          className="drawer-md"
+          destroyOnClose
+          onClose={() => setSelectedCompanyId(undefined)}
+          visible={!!selectedCompanyId}
+        >
+          <CompanyForm
+            countries={countries}
+            initialValues={companyData?.company}
+            isLoadingInitialValues={fetchingCompany}
+            programs={programs}
+            type="update"
+          />
+        </Drawer>
+      ) : null}
 
       <Form.Item>
         <Space>
