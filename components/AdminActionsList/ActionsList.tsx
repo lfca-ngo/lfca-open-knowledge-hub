@@ -8,7 +8,6 @@ import {
 } from '../../services/lfca-backend'
 import { toReadibleDate } from '../../utils'
 import { ActionsForm } from './ActionsForm'
-import styles from './styles.module.less'
 
 const { Column } = Table
 
