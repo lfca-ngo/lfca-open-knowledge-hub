@@ -9,17 +9,19 @@
   justify-content: center;
   font-size: @font-size-sm;
 
-  .anticon {
-    color: @yellow;
-  }
+  :global {
+    .anticon {
+      color: @yellow;
+    }
 
-  .ant-btn {
-    &.ant-btn-background-ghost {
-      background: transparent;
-      border-color: @white;
-      color: @white;
-      font-size: @font-size-sm;
-      padding: 4px 10px;
+    .ant-btn {
+      &.ant-btn-background-ghost {
+        background: transparent;
+        border-color: @white;
+        color: @white;
+        font-size: @font-size-sm;
+        padding: 4px 10px;
+      }
     }
   }
 }

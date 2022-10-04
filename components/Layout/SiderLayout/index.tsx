@@ -30,7 +30,11 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
     screenSizeType === 'sm' ? COLLAPSED_WIDTH_MOBILE : COLLAPSED_WIDTH
 
   return (
-    <Layout className="sider-layout" hasSider style={{ minHeight: '100vh' }}>
+    <Layout
+      className={styles['sider-layout']}
+      hasSider
+      style={{ minHeight: '100vh' }}
+    >
       <Sider
         breakpoint="xxl"
         collapsed={collapsed}

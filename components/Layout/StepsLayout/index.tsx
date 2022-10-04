@@ -32,7 +32,7 @@ export const StepsLayout = ({
   const isMobile = screenSizeType === 'sm'
 
   return (
-    <Layout className="steps-layout" style={{ minHeight: '100vh' }}>
+    <Layout className={styles['steps-layout']} style={{ minHeight: '100vh' }}>
       <Content>
         <div className="steps-layout-wrapper">
           <Logo size="large" />

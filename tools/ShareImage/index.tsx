@@ -99,7 +99,7 @@ export const ShareImage = () => {
         </Col>
       </Row>
 
-      <div className="sharing-preview">
+      <div className={styles['sharing-preview']}>
         {data?.ogImageUrl && !fetching ? (
           <Image
             alt="share-image"

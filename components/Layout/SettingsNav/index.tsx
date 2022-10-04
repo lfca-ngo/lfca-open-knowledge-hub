@@ -32,9 +32,9 @@ export const SettingsNav = () => {
 
   return (
     <Dropdown
-      className="settings-nav"
+      className={styles['settings-nav']}
       overlay={<Menu items={items} onClick={handleSelect} />}
-      overlayClassName="settings-nav-overlay"
+      overlayClassName={styles['settings-nav-overlay']}
     >
       <a onClick={(e) => e.preventDefault()}>
         <div className="profile-pic">

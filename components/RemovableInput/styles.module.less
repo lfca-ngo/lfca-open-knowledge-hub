@@ -1,14 +1,18 @@
 .removable-input {
   display: flex;
   align-items: center;
-  > .anticon {
+
+  > :global(.anticon) {
     width: 30px;
   }
-  .ant-input-group {
-    display: flex;
-    flex: 1;
-    .ant-btn {
-      width: 45px;
+
+  :global {
+    .ant-input-group {
+      display: flex;
+      flex: 1;
+      .ant-btn {
+        width: 45px;
+      }
     }
   }
 }

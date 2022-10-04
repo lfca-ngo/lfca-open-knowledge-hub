@@ -1,5 +1,3 @@
-@default-margin: 20px;
-
 .richtext-editor {
   align-items: flex-start;
   display: flex;
@@ -8,31 +6,33 @@
   min-width: 0;
   width: 100%;
 
-  .toolbar {
-    margin-bottom: 10px;
-
-    button {
-      font-size: 16px;
-    }
-
-    .link-form {
-      text-align: right;
-      width: 260px;
+  :global {
+    .toolbar {
+      margin-bottom: 10px;
 
       button {
-        padding-right: 0px;
+        font-size: 16px;
       }
 
-      input.error {
-        border-color: @wine;
+      .link-form {
+        text-align: right;
+        width: 260px;
+
+        button {
+          padding-right: 0px;
+        }
+
+        input.error {
+          border-color: @wine;
+        }
       }
     }
-  }
 
-  .editable {
-    height: auto;
-    max-height: 140px;
-    min-height: 140px !important;
-    overflow: auto;
+    .editable {
+      height: auto;
+      max-height: 140px;
+      min-height: 140px !important;
+      overflow: auto;
+    }
   }
 }

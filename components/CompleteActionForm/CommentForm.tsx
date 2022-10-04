@@ -69,7 +69,7 @@ export const CommentForm = ({
 
   return (
     <Form
-      className="share-learnings-form"
+      className={styles['share-learnings-form']}
       form={form}
       initialValues={initialValues}
       layout="vertical"

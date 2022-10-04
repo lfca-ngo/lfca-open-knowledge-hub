@@ -34,7 +34,7 @@ export const Logo = ({
     size === 'small' ? SIZE_SM : size === 'medium' ? SIZE_MD : SIZE_LG
 
   return (
-    <div className={classNames('logo-wrapper', size, theme)}>
+    <div className={classNames(styles['logo-wrapper'], size, theme)}>
       <svg fill="none" height={logoSize} viewBox="0 0 239 239" width={logoSize}>
         <motion.path
           animate="animate"

@@ -116,7 +116,7 @@ export const AdminCompaniesList = ({
   }
 
   return (
-    <div className="admin-companies-list">
+    <div className={styles['admin-companies-list']}>
       <Space>
         <Button
           icon={<PlusOutlined />}

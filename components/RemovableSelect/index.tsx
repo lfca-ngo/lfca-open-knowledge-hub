@@ -26,7 +26,7 @@ export const RemovableSelect = ({
   value = '',
 }: RemovableSelectProps) => {
   return (
-    <div className="removable-select">
+    <div className={styles['removable-select']}>
       {icon && icon}
       <Input.Group compact>
         <Select

@@ -20,7 +20,9 @@ export const LogoGroup = ({
   size,
 }: LogoGroupProps) => {
   return (
-    <div className={classNames('logo-group', size, { reverse: reverse })}>
+    <div
+      className={classNames(styles['logo-group'], size, { reverse: reverse })}
+    >
       <Avatar.Group maxCount={maxCount} size={size}>
         {data?.length > 0 ? (
           data?.map((item, i) => (

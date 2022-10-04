@@ -21,11 +21,11 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
     <Skeleton
       active
       avatar={{ shape: 'square', size: 'large' }}
-      className="action-details-skeleton"
+      className={styles['action-details-skeleton']}
       loading={fetching}
       paragraph={{ rows: 1 }}
     >
-      <div className="action-details">
+      <div className={styles['action-details']}>
         <div
           className={classNames('root-category', rootCategoryMetaData?.color)}
         >

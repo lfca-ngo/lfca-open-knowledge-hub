@@ -9,8 +9,10 @@
     margin: 0;
   }
 
-  .icon {
-    margin-right: 6px;
+  :global {
+    .icon {
+      margin-right: 6px;
+    }
   }
 }
 
@@ -22,18 +24,22 @@
     flex-direction: row;
   }
 
-  .logo-group,
-  .action-stat {
-    margin-right: 22px;
-    .label {
-      font-size: @font-size-sm;
+  &[class~='small'] {
+    :global {
+      .logo-group,
+      .action-stat {
+        margin-right: 14px;
+      }
     }
   }
 
-  &.small {
+  :global {
     .logo-group,
     .action-stat {
-      margin-right: 14px;
+      margin-right: 22px;
+      .label {
+        font-size: @font-size-sm;
+      }
     }
   }
 }

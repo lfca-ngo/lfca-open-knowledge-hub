@@ -18,7 +18,7 @@ export const ContentList = ({
 
   return (
     <List
-      className="content-list"
+      className={styles['content-list']}
       dataSource={items}
       renderItem={(item) => (
         <List.Item>
@@ -59,7 +59,7 @@ export const ContentListMini = ({
 
   return (
     <List
-      className="content-list-mini"
+      className={styles['content-list-mini']}
       dataSource={items}
       renderItem={(item) => (
         <List.Item>

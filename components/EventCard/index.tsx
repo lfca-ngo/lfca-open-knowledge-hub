@@ -21,6 +21,7 @@ export interface EventCardProps {
   type?: 'compact' | 'default'
 }
 
+import classNames from 'classnames'
 import { useState } from 'react'
 
 import { LogoGroup } from '../LogoGroup'
@@ -68,7 +69,7 @@ export const EventCard = ({
     <>
       {renderCard()}
       <Modal
-        className="event-card-modal modal-md"
+        className={classNames(styles['event-card-modal'], 'modal-md')}
         closable
         footer={[
           <Button key="modalOk" onClick={() => setDetailsVisible(false)}>
@@ -81,7 +82,7 @@ export const EventCard = ({
       >
         <div className="event-title">{event.title}</div>
         <Divider />
-        <div className="event-meta">
+        <div className={styles['event-meta']}>
           <Space direction="vertical" size="large">
             <Status event={event} />
             <Time event={event} />

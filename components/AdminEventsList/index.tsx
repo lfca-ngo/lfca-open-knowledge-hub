@@ -22,7 +22,7 @@ export const AdminEventsList = () => {
   })
 
   return (
-    <div className="admin-events-list">
+    <div className={styles['admin-events-list']}>
       <Table
         className="events-table"
         dataSource={data?.events || []}

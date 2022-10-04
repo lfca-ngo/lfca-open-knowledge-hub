@@ -1,45 +1,50 @@
 .show-more {
-  &.is-expanded {
-    .content {
-      padding-bottom: 20px;
-    }
-    .show-more-button {
-      .fade-out {
-        height: 0;
-        margin-top: 0;
+  &[class~='is-expanded'] {
+    :global {
+      .content {
+        padding-bottom: 20px;
+      }
+
+      .show-more-button {
+        .fade-out {
+          height: 0;
+          margin-top: 0;
+        }
       }
     }
   }
 
-  .content {
-    overflow: hidden;
+  :global {
+    .content {
+      overflow: hidden;
 
-    > :last-child {
-      margin-bottom: 0px;
+      > :last-child {
+        margin-bottom: 0px;
+      }
+
+      ol,
+      ul {
+        margin-bottom: 15px;
+      }
+
+      strong {
+        font-family: 'Graphik-Semibold', sans-serif;
+      }
     }
 
-    ol,
-    ul {
-      margin-bottom: 15px;
-    }
-
-    strong {
-      font-family: 'Graphik-Semibold', sans-serif;
-    }
-  }
-
-  .show-more-button {
-    .fade-out {
-      background-image: linear-gradient(
-        to bottom,
-        transparent,
-        var(--layout-body-background)
-      );
-      height: 50px;
-      margin-top: -50px;
-      transform: translate(
-        0
-      ); // Ensures that the fade-out is place above the text
+    .show-more-button {
+      .fade-out {
+        background-image: linear-gradient(
+          to bottom,
+          transparent,
+          var(--layout-body-background)
+        );
+        height: 50px;
+        margin-top: -50px;
+        transform: translate(
+          0
+        ); // Ensures that the fade-out is place above the text
+      }
     }
   }
 }

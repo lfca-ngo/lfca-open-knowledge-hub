@@ -130,7 +130,7 @@ export const ReviewForm = ({
 
   return (
     <Form
-      className="review-form"
+      className={styles['review-form']}
       form={form}
       initialValues={{
         ...initialValues,

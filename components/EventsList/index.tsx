@@ -35,7 +35,7 @@ export const EventsList = ({
   }
 
   return (
-    <div className="events-list">
+    <div className={styles['events-list']}>
       <ConfigProvider
         renderEmpty={() => (
           <EmptyState

@@ -33,7 +33,7 @@ export const ShowMore = ({
 
   return (
     <div
-      className={classNames('show-more', {
+      className={classNames(styles['show-more'], {
         'is-active': isShowMoreVisible,
         'is-expanded': isExpanded,
       })}

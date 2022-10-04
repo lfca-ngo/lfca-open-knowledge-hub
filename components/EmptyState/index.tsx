@@ -26,7 +26,7 @@ export const EmptyState = ({
 }: EmptyStateProps) => {
   return (
     <div
-      className={classNames('empty-state', alignment, size, {
+      className={classNames(styles['empty-state'], alignment, size, {
         bordered: bordered,
         'with-background': withBackground,
       })}

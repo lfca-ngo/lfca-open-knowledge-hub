@@ -112,7 +112,7 @@ export const SubscriptionSelector = ({
   }
 
   return (
-    <div className="benefits-list">
+    <div className={styles['benefits-list']}>
       {/* Currently selected plan */}
       <div className="current-plan">
         <div className="current-plan-details">

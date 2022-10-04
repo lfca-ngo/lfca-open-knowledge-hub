@@ -54,7 +54,7 @@ export const CarbonCalculator = (props: any) => {
   }
 
   return (
-    <div className="carbon-calculator">
+    <div className={styles['carbon-calculator']}>
       <ProgressBar progress={progress} />
       <div className="container">
         <Row>

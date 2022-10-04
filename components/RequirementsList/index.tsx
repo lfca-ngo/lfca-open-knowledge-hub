@@ -97,7 +97,7 @@ export const RequirementsList = ({
 
   return (
     <List
-      className="requirements-list"
+      className={styles['requirements-list']}
       dataSource={requirementsList}
       renderItem={(item) => (
         <List.Item>

@@ -16,7 +16,7 @@ const Bar = () => {
   if (fetching || isPaying || !user) return null
 
   return (
-    <div className="top-bar">
+    <div className={styles['top-bar']}>
       <Space>
         <LockOutlined />
         Your current membership allows only limited app access

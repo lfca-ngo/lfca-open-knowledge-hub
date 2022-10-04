@@ -1,55 +1,59 @@
 // Helper mixin to color a column
 .color-checkbox(@color: @black) {
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: @color;
-    border-color: @color;
-  }
-
-  .ant-checkbox-wrapper:hover .ant-checkbox-inner,
-  .ant-checkbox:hover .ant-checkbox-inner,
-  .ant-checkbox-input:focus + .ant-checkbox-inner {
-    border-color: @color;
-  }
-
-  .ant-checkbox-checked::after {
-    border-color: @color;
-  }
-
-  .main-tree-checkbox {
-    > span:not(.ant-checkbox) {
-      .anticon {
-        color: @color;
-        background: fade(@color, 10%);
-      }
+  :global {
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: @color;
+      border-color: @color;
     }
-  }
-  .sub-sub-tree-checkbox {
-    background: fade(@color, 15%);
-    border-left: 2px solid @color;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
 
-    &:hover {
-      background: fade(@color, 20%);
+    .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+    .ant-checkbox:hover .ant-checkbox-inner,
+    .ant-checkbox-input:focus + .ant-checkbox-inner {
+      border-color: @color;
     }
-  }
-  .sub-tree-checkbox {
-    background: fade(@color, 5%);
-    &:hover {
-      background: fade(@color, 10%);
 
-      .ant-btn {
-        background-color: @white;
+    .ant-checkbox-checked::after {
+      border-color: @color;
+    }
+
+    .main-tree-checkbox {
+      > span:not(.ant-checkbox) {
         .anticon {
-          margin-top: 3px;
+          color: @color;
+          background: fade(@color, 10%);
         }
       }
     }
 
-    > span:not(.ant-checkbox) {
-      .ant-btn {
-        .anticon {
-          color: @black;
+    .sub-sub-tree-checkbox {
+      background: fade(@color, 15%);
+      border-left: 2px solid @color;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+
+      &:hover {
+        background: fade(@color, 20%);
+      }
+    }
+
+    .sub-tree-checkbox {
+      background: fade(@color, 5%);
+      &:hover {
+        background: fade(@color, 10%);
+
+        .ant-btn {
+          background-color: @white;
+          .anticon {
+            margin-top: 3px;
+          }
+        }
+      }
+
+      > span:not(.ant-checkbox) {
+        .ant-btn {
+          .anticon {
+            color: @black;
+          }
         }
       }
     }
@@ -58,186 +62,187 @@
 
 // main styles of component
 .actions-list {
-  > .ant-divider {
+  > :global(.ant-divider) {
     margin: 15px 0 0;
     border-color: @grey-light;
   }
 
-  .filter-bar.without-category-tree {
-    > .header-bar {
-      position: relative;
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-  }
-
-  .category-tree {
-    @column-gap-width: 10px;
-
-    display: flex;
-    margin: 0 -@column-gap-width;
-    flex-wrap: wrap;
-
-    .show-more {
-      > .show-more-button {
-        > .ant-btn {
-          border-color: @grey-light;
-          // background-color: fade(@black, 3%);
-          &:hover {
-            background-color: fade(@black, 6%);
-          }
-        }
+  :global {
+    .filter-bar.without-category-tree {
+      > .header-bar {
+        position: relative;
+        border-bottom: none;
+        margin-bottom: 0;
       }
     }
 
-    .tree-col {
-      width: calc(100% / 1);
-      margin: 0 0 15px;
-      padding: @column-gap-width;
+    .category-tree {
+      @column-gap-width: 10px;
 
-      @media @desktop {
-        width: calc(100% / 4);
-      }
+      display: flex;
+      margin: 0 -@column-gap-width;
+      flex-wrap: wrap;
 
-      // add colors
-      &.yellow {
-        .color-checkbox(darken(@yellow, 5%));
-      }
-      &.wine {
-        .color-checkbox(@wine);
-      }
-      &.blue {
-        .color-checkbox(@blue);
-      }
-      &.green {
-        .color-checkbox(@green);
-      }
-
-      // parent level checkbox
-      .main-tree-checkbox {
-        display: flex;
-        flex-direction: row-reverse;
-        width: 100%;
-        margin: 10px 0 20px;
-
-        // content field under the wrapper (e.g. title + icon)
-        > span:not(.ant-checkbox) {
-          margin-left: 0;
-          margin-right: auto;
-          font-size: 18px;
-          padding: 0;
-          .font-semi();
-
-          .anticon {
-            padding: 4px;
-            border-radius: 6px;
-            margin-right: 12px;
-            background: fade(@black, 10%);
-            color: @black;
-          }
-        }
-      }
-
-      // subtree level checkbox
-      .sub-tree-checkbox {
-        display: flex;
-        width: 100%;
-        background: fade(@black, 10%);
-        padding: 4px 8px;
-        border-radius: 4px;
-        margin: 4px 0;
-        font-size: @font-size-sm;
-
-        > span:not(.ant-checkbox) {
-          padding-left: 10px;
-          padding-right: 0;
-          display: flex;
-          flex: 1;
-
-          .text {
-            flex: 1;
-          }
-
-          .ant-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            padding: 6px;
-            border-radius: 6px;
-
-            .anticon {
-              font-size: @font-size-sm;
-              transition: all 0.3s ease-in-out;
+      .show-more {
+        > .show-more-button {
+          > .ant-btn {
+            border-color: @grey-light;
+            &:hover {
+              background-color: fade(@black, 6%);
             }
           }
         }
       }
 
-      // sub-sub-tree level checkbox
-      .sub-sub-tree-checkbox {
-        display: flex;
-        width: 100%;
-        background: fade(@black, 10%);
-        padding: 4px 8px;
-        border-radius: 4px;
-        margin: 4px 0;
-        font-size: @font-size-sm;
+      .tree-col {
+        width: calc(100% / 1);
+        margin: 0 0 15px;
+        padding: @column-gap-width;
+
+        @media @desktop {
+          width: calc(100% / 4);
+        }
+
+        // add colors
+        &.yellow {
+          .color-checkbox(darken(@yellow, 5%));
+        }
+        &.wine {
+          .color-checkbox(@wine);
+        }
+        &.blue {
+          .color-checkbox(@blue);
+        }
+        &.green {
+          .color-checkbox(@green);
+        }
+
+        // parent level checkbox
+        .main-tree-checkbox {
+          display: flex;
+          flex-direction: row-reverse;
+          width: 100%;
+          margin: 10px 0 20px;
+
+          // content field under the wrapper (e.g. title + icon)
+          > span:not(.ant-checkbox) {
+            margin-left: 0;
+            margin-right: auto;
+            font-size: 18px;
+            padding: 0;
+            .font-semi();
+
+            .anticon {
+              padding: 4px;
+              border-radius: 6px;
+              margin-right: 12px;
+              background: fade(@black, 10%);
+              color: @black;
+            }
+          }
+        }
+
+        // subtree level checkbox
+        .sub-tree-checkbox {
+          display: flex;
+          width: 100%;
+          background: fade(@black, 10%);
+          padding: 4px 8px;
+          border-radius: 4px;
+          margin: 4px 0;
+          font-size: @font-size-sm;
+
+          > span:not(.ant-checkbox) {
+            padding-left: 10px;
+            padding-right: 0;
+            display: flex;
+            flex: 1;
+
+            .text {
+              flex: 1;
+            }
+
+            .ant-btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 24px;
+              height: 24px;
+              padding: 6px;
+              border-radius: 6px;
+
+              .anticon {
+                font-size: @font-size-sm;
+                transition: all 0.3s ease-in-out;
+              }
+            }
+          }
+        }
+
+        // sub-sub-tree level checkbox
+        .sub-sub-tree-checkbox {
+          display: flex;
+          width: 100%;
+          background: fade(@black, 10%);
+          padding: 4px 8px;
+          border-radius: 4px;
+          margin: 4px 0;
+          font-size: @font-size-sm;
+        }
       }
     }
-  }
 
-  .filter-bar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-
-    .header-bar {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+    .filter-bar {
       width: 100%;
-      margin: 20px 0 20px;
-      border-bottom: 1px solid @black;
-      padding-bottom: 10px;
-
-      > .title {
-        .h2();
-      }
-
-      > .ant-space {
-        margin-right: 0;
-        margin-left: auto;
-      }
-    }
-
-    .ant-form-item {
-      margin: 0;
-    }
-  }
-
-  .ant-skeleton {
-    display: flex;
-    align-items: center;
-    padding: @action-card-padding 0;
-    .ant-skeleton-avatar {
-      width: @action-card-hero-size;
-      height: @action-card-hero-size;
-      border-radius: @border-radius-base;
-    }
-    .ant-skeleton-header {
       display: flex;
-      align-items: center;
-      margin-right: 16px;
-    }
-    .ant-skeleton-content {
-      .ant-skeleton-title {
+      justify-content: space-between;
+      flex-direction: column;
+
+      .header-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin: 20px 0 20px;
+        border-bottom: 1px solid @black;
+        padding-bottom: 10px;
+
+        > .title {
+          .h2();
+        }
+
+        > .ant-space {
+          margin-right: 0;
+          margin-left: auto;
+        }
+      }
+
+      .ant-form-item {
         margin: 0;
       }
-      .ant-skeleton-paragraph {
-        margin-top: 10px;
+    }
+
+    .ant-skeleton {
+      display: flex;
+      align-items: center;
+      padding: @action-card-padding 0;
+      .ant-skeleton-avatar {
+        width: @action-card-hero-size;
+        height: @action-card-hero-size;
+        border-radius: @border-radius-base;
+      }
+      .ant-skeleton-header {
+        display: flex;
+        align-items: center;
+        margin-right: 16px;
+      }
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          margin: 0;
+        }
+        .ant-skeleton-paragraph {
+          margin-top: 10px;
+        }
       }
     }
   }

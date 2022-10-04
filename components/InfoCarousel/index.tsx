@@ -42,7 +42,7 @@ export const InfoCarousel = (props: any) => {
   }
 
   return (
-    <div className="info-carousel">
+    <div className={styles['info-carousel']}>
       <Row className="container-half">
         <Col md={14} xs={24}>
           <div className="has-max-width">

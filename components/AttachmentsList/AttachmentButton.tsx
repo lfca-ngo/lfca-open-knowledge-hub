@@ -13,7 +13,7 @@ export const AttachmentButton = ({
   size?: 'small' | 'default'
 }) => (
   <a
-    className={classNames('attachment-button', size)}
+    className={classNames(styles['attachment-button'], size)}
     href={attachment.source}
     rel="noreferrer"
     target="_blank"

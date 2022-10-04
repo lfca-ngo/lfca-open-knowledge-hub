@@ -4,63 +4,65 @@
   display: flex;
   flex-direction: column;
 
-  .root-category {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  :global {
+    .root-category {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
 
-    .anticon {
-      padding: 4px;
-      border-radius: 6px;
-      margin-right: 12px;
-      background: fade(@black, 10%);
-      color: @black;
-    }
-
-    // add colors
-    &.yellow {
       .anticon {
-        background: fade(@yellow, 10%);
-        color: @yellow;
-      }
-    }
-    &.wine {
-      .anticon {
-        background: fade(@wine, 10%);
-        color: @wine;
-      }
-    }
-    &.blue {
-      .anticon {
-        background: fade(@blue, 10%);
-        color: @blue;
-      }
-    }
-    &.green {
-      .anticon {
-        background: fade(@green, 10%);
-        color: @green;
-      }
-    }
-  }
-
-  .action-title {
-    display: flex;
-
-    .hero {
-      padding-left: 25px;
-      display: none;
-
-      @media @desktop {
-        display: block;
+        padding: 4px;
+        border-radius: 6px;
+        margin-right: 12px;
+        background: fade(@black, 10%);
+        color: @black;
       }
 
-      .wrapper {
-        position: relative;
-        overflow: hidden;
-        border-radius: @border-radius-base;
-        width: @action-details-hero-size;
-        height: @action-details-hero-size;
+      // add colors
+      &.yellow {
+        .anticon {
+          background: fade(@yellow, 10%);
+          color: @yellow;
+        }
+      }
+      &.wine {
+        .anticon {
+          background: fade(@wine, 10%);
+          color: @wine;
+        }
+      }
+      &.blue {
+        .anticon {
+          background: fade(@blue, 10%);
+          color: @blue;
+        }
+      }
+      &.green {
+        .anticon {
+          background: fade(@green, 10%);
+          color: @green;
+        }
+      }
+    }
+
+    .action-title {
+      display: flex;
+
+      .hero {
+        padding-left: 25px;
+        display: none;
+
+        @media @desktop {
+          display: block;
+        }
+
+        .wrapper {
+          position: relative;
+          overflow: hidden;
+          border-radius: @border-radius-base;
+          width: @action-details-hero-size;
+          height: @action-details-hero-size;
+        }
       }
     }
   }
@@ -70,29 +72,37 @@
   display: flex;
   flex-direction: row-reverse;
 
-  &.ant-skeleton-with-avatar
-    .ant-skeleton-content
-    .ant-skeleton-title
-    + .ant-skeleton-paragraph {
-    width: 80%;
-    margin-top: 20px;
-    li {
-      height: 24px;
+  &[class~='ant-skeleton-with-avatar'] {
+    :global {
+      .ant-skeleton-content .ant-skeleton-title + .ant-skeleton-paragraph {
+        width: 80%;
+        margin-top: 20px;
+        li {
+          height: 24px;
+        }
+      }
     }
   }
 
-  &.ant-skeleton-with-avatar .ant-skeleton-content .ant-skeleton-title {
-    height: 38px;
-    margin-top: 0;
+  &[class~='ant-skeleton-with-avatar'] {
+    :global {
+      .ant-skeleton-content .ant-skeleton-title {
+        height: 38px;
+        margin-top: 0;
+      }
+    }
   }
 
-  .ant-skeleton-header {
-    padding-right: 0;
-    padding-left: 20px;
-    .ant-skeleton-avatar {
-      border-radius: @border-radius-base;
-      width: @action-details-hero-size;
-      height: @action-details-hero-size;
+  :global {
+    .ant-skeleton-header {
+      padding-right: 0;
+      padding-left: 20px;
+
+      .ant-skeleton-avatar {
+        border-radius: @border-radius-base;
+        width: @action-details-hero-size;
+        height: @action-details-hero-size;
+      }
     }
   }
 }

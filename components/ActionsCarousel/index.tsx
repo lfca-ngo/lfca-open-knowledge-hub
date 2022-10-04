@@ -88,7 +88,7 @@ export const ActionsCarousel = ({
   return (
     <Carousel
       arrows={true}
-      className="actions-carousel"
+      className={styles['actions-carousel']}
       dots={false}
       infinite={false}
       nextArrow={<ArrowWrapper icon={<ArrowRightOutlined />} />}

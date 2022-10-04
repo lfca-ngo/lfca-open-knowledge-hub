@@ -40,7 +40,7 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
   }
 
   return (
-    <div className="action-comments">
+    <div className={styles['action-comments']}>
       {fetching ? (
         <Skeleton active avatar paragraph={{ rows: 2 }} title={false} />
       ) : !data?.actionComments.length ? (

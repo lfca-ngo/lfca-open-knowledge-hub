@@ -43,7 +43,6 @@ export const ActionsList = ({
   return (
     <div>
       <Table
-        className="actions-table"
         dataSource={searchData?.companyActions?.sort((a, b) =>
           (a?.title || '').localeCompare(b?.title || '')
         )}

@@ -24,7 +24,7 @@ export const RemovableInput = ({
   }
 
   return (
-    <div className="removable-input">
+    <div className={styles['removable-input']}>
       {icon && icon}
       <Input.Group compact>
         <Input

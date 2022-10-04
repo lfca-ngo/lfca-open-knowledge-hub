@@ -22,7 +22,7 @@ export const ActionStat = ({
   size,
 }: ActionStatProps) => {
   return (
-    <div className={classNames('action-stat', color)}>
+    <div className={classNames(styles['action-stat'], color)}>
       <div className="icon">
         <Avatar className={color} icon={icon} shape="square" size={size} />
       </div>
@@ -47,11 +47,10 @@ export const ActionStats = ({
   commentCount,
   companiesDoingCount,
   recentCompaniesDoing,
-
   size,
 }: ActionStatsProps) => {
   return (
-    <div className={classNames('action-stats', size)}>
+    <div className={classNames(styles['action-stats'], size)}>
       <LogoGroup
         data={recentCompaniesDoing}
         label={`${companiesDoingCount} working on this`}

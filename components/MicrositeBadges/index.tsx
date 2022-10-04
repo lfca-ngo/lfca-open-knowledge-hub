@@ -145,7 +145,7 @@ export const MicrositeBadges = ({
   }
   const data = attributionData(micrositeSlug, langPrefix)
   return (
-    <div className="attribution-table">
+    <div className={styles['attribution-table']}>
       <p>
         {`Your microsite is available in multiple languages. However, currently
         you can only add your custom "about" content in one language. So if you

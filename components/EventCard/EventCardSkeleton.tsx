@@ -1,6 +1,7 @@
 import { Skeleton } from 'antd'
 
 import { EventCardProps } from '.'
+import styles from './styles.module.less'
 
 export const EventCardSkeleton = ({
   children,
@@ -14,7 +15,7 @@ export const EventCardSkeleton = ({
   <Skeleton
     active
     avatar={type === 'compact' ? undefined : { shape: 'square', size: 'large' }}
-    className={`event-card-skeleton`}
+    className={styles['event-card-skeleton']}
     loading={fetching}
     paragraph={{
       rows: type === 'compact' ? 3 : 2,

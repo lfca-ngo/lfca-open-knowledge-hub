@@ -242,7 +242,7 @@ export const spinnerProps = ({
 }: SpinnerProps) => ({
   indicator: <IconSelector color={color} type={type} />,
   spinning: spinning,
-  wrapperClassName: 'loading-wrapper',
+  wrapperClassName: styles['loading-wrapper'],
 })
 
 export const LoadingSpinner = ({
@@ -257,7 +257,9 @@ export const LoadingSpinner = ({
   title?: string
 }) => {
   return (
-    <div className={classNames('loading-wrapper', 'centered', className)}>
+    <div
+      className={classNames(styles['loading-wrapper'], 'centered', className)}
+    >
       <Spin {...spinnerProps(additionalSpinnerProps)} />
       {title && <h4 className="title">{title}</h4>}
       {label && <p className="label">{label}</p>}

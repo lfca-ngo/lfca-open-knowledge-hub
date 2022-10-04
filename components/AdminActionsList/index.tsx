@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { ActionsList } from './ActionsList'
-import styles from './styles.module.less'
 
 const { TabPane } = Tabs
 
@@ -15,7 +14,7 @@ export const AdminActionsList = () => {
   const [form] = Form.useForm()
 
   return (
-    <div className="admin-actions-list">
+    <div>
       <Form
         form={form}
         layout="vertical"

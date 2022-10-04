@@ -114,7 +114,7 @@ export const AdminUsersList = ({
   }
 
   return (
-    <div className="admin-users-list">
+    <div className={styles['admin-users-list']}>
       <Space>
         <Button
           icon={<PlusOutlined />}

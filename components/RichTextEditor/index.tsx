@@ -69,7 +69,7 @@ export const RichTextEditor = ({
   )
 
   return (
-    <div className="richtext-editor">
+    <div className={styles['richtext-editor']}>
       <Slate
         editor={editor}
         onChange={(value) => {

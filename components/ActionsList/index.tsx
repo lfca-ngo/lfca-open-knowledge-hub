@@ -81,7 +81,7 @@ export const ActionsList = ({
   }, [actions, formOptions])
 
   return (
-    <div className="actions-list">
+    <div className={styles['actions-list']}>
       <FilterBar
         form={form}
         hideCategoryTree={hideCategoryTree}

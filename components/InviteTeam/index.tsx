@@ -36,7 +36,7 @@ export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
   }
 
   return (
-    <div className="invite-team">
+    <div className={styles['invite-team']}>
       <Form className="add-email" layout="inline" onFinish={handleAddEmail}>
         <Form.Item className="email-input" name="email">
           <Input placeholder="tom@company.co" size="large" />

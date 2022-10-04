@@ -21,7 +21,7 @@ export const VideoWrapper = ({
   width,
 }: VideoWrapperProps) => {
   return (
-    <div className="video-wrapper">
+    <div className={styles['video-wrapper']}>
       <video
         autoPlay={autoPlay}
         controls

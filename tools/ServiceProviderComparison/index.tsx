@@ -154,7 +154,7 @@ export const ServiceProviderComparison = ({
   const openWebsite = (url: string) => window.open(url ?? undefined, '_blank')
 
   return (
-    <div className="service-provider-comparison">
+    <div className={styles['service-provider-comparison']}>
       {showTitle ? <h2>{serviceProviderList?.title}</h2> : null}
       <Tabs defaultActiveKey="filter">
         <TabPane key="filter" tab="Filter">

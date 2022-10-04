@@ -11,49 +11,53 @@
     width: @sider-section-width;
   }
 
-  .profile-pic {
-    margin: 0 20px;
+  :global {
+    .profile-pic {
+      margin: 0 20px;
 
-    @media @desktop {
-      margin: 0 20px 0 0;
-    }
-  }
-
-  .profile-info {
-    flex-direction: column;
-    justify-content: center;
-    height: auto;
-
-    display: none;
-    @media @desktop {
-      display: flex;
-      margin-right: 30px;
-      overflow: hidden;
+      @media @desktop {
+        margin: 0 20px 0 0;
+      }
     }
 
-    .name {
-      color: var(--heading-color);
-      line-height: normal;
-      margin-bottom: 2px;
-      margin-top: 6px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .profile-info {
+      flex-direction: column;
+      justify-content: center;
+      height: auto;
 
-    .company {
-      font-size: @font-size-sm;
-      line-height: normal;
-      color: var(--text-color);
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: none;
+      @media @desktop {
+        display: flex;
+        margin-right: 30px;
+        overflow: hidden;
+      }
+
+      .name {
+        color: var(--heading-color);
+        line-height: normal;
+        margin-bottom: 2px;
+        margin-top: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .company {
+        font-size: @font-size-sm;
+        line-height: normal;
+        color: var(--text-color);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }
 
 .settings-nav-overlay {
-  .ant-dropdown-menu {
-    @media @mobile {
-      min-width: 200px;
+  :global {
+    .ant-dropdown-menu {
+      @media @mobile {
+        min-width: 200px;
+      }
     }
   }
 }

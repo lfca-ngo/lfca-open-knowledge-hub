@@ -7,7 +7,6 @@ import {
 import { EventFragment } from '../../services/lfca-backend'
 import { UserIdSearchInput } from '../UserIdSearchInput'
 import { AdminEventParticipationRequest } from './AdminEventParticipationRequest'
-import styles from './styles.module.less'
 
 interface AdminEventParticipantsProps {
   event: EventFragment
@@ -52,7 +51,7 @@ export const AdminEventParticipants = ({
   }
 
   return (
-    <div className="admin-event-participants">
+    <div>
       <h1>{event?.title}</h1>
       <Form form={form} layout="vertical" onFinish={handleCreate}>
         <Form.Item

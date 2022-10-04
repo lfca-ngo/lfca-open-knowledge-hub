@@ -86,7 +86,7 @@ export const Pledge = (props: any) => {
   }
 
   return (
-    <div className="pledge">
+    <div className={styles.pledge}>
       {PLEDGE().map((el, i) => (
         <ChecklistElement
           checked={checkboxes[i]}

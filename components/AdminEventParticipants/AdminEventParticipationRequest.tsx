@@ -9,7 +9,6 @@ import {
   useUpdateEventParticipationRequestMutation,
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
-import styles from './styles.module.less'
 
 interface AdminEventParticipationRequestProps {
   event: EventFragment

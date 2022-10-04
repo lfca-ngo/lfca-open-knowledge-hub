@@ -133,7 +133,7 @@ export const ActionCard = ({
   }
 
   return (
-    <Card bordered={false} className="action-card">
+    <Card bordered={false} className={styles['action-card']}>
       <div className="hero">
         <Badge
           count={
@@ -203,7 +203,10 @@ export const ActionCardWrapper = (props: ActionCardProps) => {
   if (props.renderAsLink) {
     return (
       <Link href={`/action/${props.action.contentId}`}>
-        <a className="action-card-wrapper" onClick={props.onSavePosition}>
+        <a
+          className={styles['action-card-wrapper']}
+          onClick={props.onSavePosition}
+        >
           <ActionCard {...props} />
         </a>
       </Link>

@@ -8,4 +8,4 @@ export const Container = ({
 }: {
   children: React.ReactNode
   type?: 'lg'
-}) => <div className={classNames('container', type)}>{children}</div>
+}) => <div className={classNames(styles.container, type)}>{children}</div>

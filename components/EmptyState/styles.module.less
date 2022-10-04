@@ -4,32 +4,36 @@
   margin-top: 30px;
   color: @text-color;
 
-  .title {
-    .h2();
-    margin-bottom: 20px;
+  :global {
+    .title {
+      .h2();
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      color: @yellow;
+      margin: 30px 0 20px;
+    }
+
+    .actions {
+      margin: 30px 0 20px;
+    }
   }
 
-  .icon {
-    color: @yellow;
-    margin: 30px 0 20px;
-  }
-
-  .actions {
-    margin: 30px 0 20px;
-  }
-
-  &.with-background {
+  &[class~='with-background'] {
     background-color: @white-grey;
     border-radius: @border-radius-base;
     padding: 36px;
 
-    .actions {
-      margin-bottom: 0;
+    :global {
+      .actions {
+        margin-bottom: 0;
+      }
     }
   }
 
   // small empty state
-  &.small {
+  &[class~='small'] {
     padding: 10px;
     margin-top: 14px;
 
@@ -47,33 +51,24 @@
       }
     }
 
-    .actions {
-      margin: 25px 0 10px;
+    :global {
+      .actions {
+        background-color: red;
+        margin: 25px 0 10px;
+      }
     }
   }
 
-  &.bordered {
+  &[class~='bordered'] {
     border-top: 1px solid @black;
   }
 
-  &.left {
+  &[class~='left'] {
     text-align: left;
     padding: 0;
 
     header {
       justify-content: start;
-    }
-  }
-}
-
-// when shown in a popover, remove margin
-.ant-popover {
-  .ant-popover-inner-content {
-    .empty-state {
-      margin-top: 0;
-      header {
-        margin: 20px 0;
-      }
     }
   }
 }
