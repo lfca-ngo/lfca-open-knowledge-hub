@@ -8,6 +8,7 @@ import { Alert, Button, Card, Carousel, Col, List, Modal, Row } from 'antd'
 import React from 'react'
 
 import { ArrowWrapper } from '../../components/ActionsCarousel/ArrowWrapper'
+import { Container } from '../../components/Layout'
 import { openInNewTab, toFixedNumber } from '../../utils'
 import { CustomIcon } from './components/Category'
 import { Footprint } from './components/Footprint'
@@ -56,7 +57,7 @@ export const CarbonCalculator = (props: any) => {
   return (
     <div className={styles['carbon-calculator']}>
       <ProgressBar progress={progress} />
-      <div className="container">
+      <Container>
         <Row>
           <Col className="main-container" md={18} xs={24}>
             {/* Show question block until last question reached */}
@@ -169,7 +170,7 @@ export const CarbonCalculator = (props: any) => {
             <Footprint footprint={footprint} />
           </Col>
         </Row>
-      </div>
+      </Container>
     </div>
   )
 }
