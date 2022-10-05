@@ -26,7 +26,7 @@ export const ActionStat = ({
       <div className="icon">
         <Avatar className={color} icon={icon} shape="square" size={size} />
       </div>
-      <div className="label">
+      <div className="action-stat-label">
         <span className="count">{count}</span> {label}
       </div>
     </div>
