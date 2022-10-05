@@ -74,6 +74,8 @@ export const CompanyIdSearchInput = ({
     }
   }
 
+  const selectedName = initialData?.companies.items[0]?.name || ''
+
   return (
     <div className="company-id-search-input">
       <Select
@@ -95,7 +97,7 @@ export const CompanyIdSearchInput = ({
         value={
           !internalValue && initialValue
             ? {
-                label: initialData?.companies.items[0].name || '',
+                label: selectedName,
                 value: initialValue,
               }
             : internalValue
@@ -103,7 +105,7 @@ export const CompanyIdSearchInput = ({
       />
       {onNavigateToCompany ? (
         <Button
-          disabled={!value}
+          disabled={!value || !selectedName}
           icon={<ArrowRightOutlined />}
           onClick={() => value && onNavigateToCompany(value)}
           type="text"
