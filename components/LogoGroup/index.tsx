@@ -34,7 +34,7 @@ export const LogoGroup = ({
           </Avatar>
         )}
       </Avatar.Group>
-      {label && <div className="label">{label}</div>}
+      {label && <div className="logo-group-label">{label}</div>}
     </div>
   )
 }
