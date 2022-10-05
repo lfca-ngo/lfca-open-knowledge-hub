@@ -39,7 +39,7 @@ export const ShowMore = ({
       })}
     >
       <div
-        className="content"
+        className="show-more-content"
         ref={contentRef}
         style={isExpanded ? undefined : { maxHeight: maxHeight }}
       >

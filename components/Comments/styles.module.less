@@ -46,26 +46,24 @@
         .body {
           padding: 12px 0 0;
 
-          .show-more {
-            .content {
+          .show-more-content {
+            font-size: @font-size-sm;
+
+            p {
               font-size: @font-size-sm;
+              margin-bottom: 3px;
+            }
 
-              p {
-                font-size: @font-size-sm;
-                margin-bottom: 3px;
+            li {
+              font-size: @font-size-sm;
+              &::marker {
+                float: left;
               }
+            }
 
-              li {
-                font-size: @font-size-sm;
-                &::marker {
-                  float: left;
-                }
-              }
-
-              ul,
-              ol {
-                padding-inline-start: 20px;
-              }
+            ul,
+            ol {
+              padding-inline-start: 20px;
             }
           }
         }
