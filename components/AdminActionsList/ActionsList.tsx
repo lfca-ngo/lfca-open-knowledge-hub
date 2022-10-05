@@ -100,7 +100,7 @@ export const ActionsList = ({
         <Drawer
           destroyOnClose
           onClose={() => setSelectedActionId(undefined)}
-          visible={!!selectedAction && !!selectedCompanyId}
+          open={!!selectedAction && !!selectedCompanyId}
         >
           <ActionsForm action={selectedAction} companyId={selectedCompanyId} />
         </Drawer>

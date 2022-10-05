@@ -70,8 +70,8 @@ const PersonalFootprintCalculator: NextPage<
             destroyOnClose={true}
             height={'100%'}
             onClose={() => setOpen(false)}
+            open={open}
             placement="bottom"
-            visible={open}
           >
             <PersonalCarbonCalculator
               error={error}

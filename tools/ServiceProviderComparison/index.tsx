@@ -209,7 +209,7 @@ export const ServiceProviderComparison = ({
         className="drawer-md"
         destroyOnClose
         onClose={() => setActiveProvider(null)}
-        visible={!!activeProvider}
+        open={!!activeProvider}
       >
         <Section title="Reviews">
           <ReviewsList serviceProviderContentId={activeProvider?.id} />

@@ -211,7 +211,7 @@ export const AdminCompaniesList = ({
         className="drawer-md"
         destroyOnClose
         onClose={handleClose}
-        visible={isOpen}
+        open={isOpen}
       >
         <>
           <h1>{selectedCompany ? 'Update' : 'Create'} Company</h1>

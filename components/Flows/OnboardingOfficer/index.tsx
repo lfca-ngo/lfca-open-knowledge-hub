@@ -137,7 +137,7 @@ const Personalize = ({ actions, fetching, onNext }: PersonalizeProps) => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setSelectedActionContentId(null)}
-        visible={!!selectedActionContentId}
+        open={!!selectedActionContentId}
       >
         {selectedActionContentId ? (
           <CompleteActionForm

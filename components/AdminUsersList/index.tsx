@@ -210,7 +210,7 @@ export const AdminUsersList = ({
         className="drawer-md"
         destroyOnClose
         onClose={handleClose}
-        visible={isOpen}
+        open={isOpen}
       >
         {selectedUser ? (
           <>

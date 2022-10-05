@@ -210,7 +210,7 @@ export const CompanyForm = ({
           className="drawer-md"
           destroyOnClose
           onClose={() => setSelectedUser(undefined)}
-          visible={!!selectedUser}
+          open={!!selectedUser}
         >
           <>
             <h1>Update User</h1>

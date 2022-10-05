@@ -88,7 +88,7 @@ export const AdminEventsList = () => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setSelectedEvent(undefined)}
-        visible={!!selectedEvent}
+        open={!!selectedEvent}
       >
         {selectedEvent && (
           <AdminEventParticipants

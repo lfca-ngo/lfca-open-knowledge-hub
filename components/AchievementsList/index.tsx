@@ -72,7 +72,7 @@ export const AchievementsList = ({
       <Drawer
         className="drawer-md"
         onClose={() => setDrawerVisible(false)}
-        visible={drawerVisible}
+        open={drawerVisible}
       >
         <Section title="Edit Microsite">
           <CompanyForm

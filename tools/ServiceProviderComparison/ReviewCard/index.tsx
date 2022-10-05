@@ -115,7 +115,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
       <Drawer
         destroyOnClose={true}
         onClose={() => setIsEditing(false)}
-        visible={isEditing}
+        open={isEditing}
       >
         <ReviewForm initialValues={review} />
       </Drawer>

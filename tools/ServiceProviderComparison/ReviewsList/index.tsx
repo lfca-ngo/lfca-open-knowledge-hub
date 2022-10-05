@@ -53,7 +53,7 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setNewReviewOpen(false)}
-        visible={newReviewOpen}
+        open={newReviewOpen}
       >
         <Section title="Leave a review">
           <ReviewForm

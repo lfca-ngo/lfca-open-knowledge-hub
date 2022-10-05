@@ -112,7 +112,7 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setIsOpen(false)}
-        visible={isOpen}
+        open={isOpen}
       >
         <CompleteActionForm
           actionContentId={action.contentId}

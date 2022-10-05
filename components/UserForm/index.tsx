@@ -156,7 +156,7 @@ export const UserForm = ({
           className="drawer-md"
           destroyOnClose
           onClose={() => setSelectedCompanyId(undefined)}
-          visible={!!selectedCompanyId}
+          open={!!selectedCompanyId}
         >
           <>
             <h1>Update Company</h1>
