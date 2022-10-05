@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -10,12 +8,14 @@ import { Alert, Button, Card, Carousel, Col, List, Modal, Row } from 'antd'
 import React from 'react'
 
 import { ArrowWrapper } from '../../components/ActionsCarousel/ArrowWrapper'
+import { Container } from '../../components/Layout'
 import { openInNewTab, toFixedNumber } from '../../utils'
 import { CustomIcon } from './components/Category'
 import { Footprint } from './components/Footprint'
 import { ProgressBar } from './components/ProgressBar'
 import { QuestionBlock } from './components/QuestionBlock'
 import { OFFSETTING_PROVIDERS } from './data'
+import styles from './styles.module.less'
 
 const { confirm } = Modal
 
@@ -55,9 +55,9 @@ export const CarbonCalculator = (props: any) => {
   }
 
   return (
-    <div className="carbon-calculator">
+    <div className={styles['carbon-calculator']}>
       <ProgressBar progress={progress} />
-      <div className="container">
+      <Container>
         <Row>
           <Col className="main-container" md={18} xs={24}>
             {/* Show question block until last question reached */}
@@ -170,7 +170,7 @@ export const CarbonCalculator = (props: any) => {
             <Footprint footprint={footprint} />
           </Col>
         </Row>
-      </div>
+      </Container>
     </div>
   )
 }

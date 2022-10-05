@@ -1,10 +1,10 @@
-require('./styles.less')
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, List } from 'antd'
 import Image from 'next/image'
 
 import { ContentfulContentCollectionFields } from '../../services/contentful'
+import styles from './styles.module.less'
 
 export const ContentList = ({
   content = [],
@@ -18,7 +18,7 @@ export const ContentList = ({
 
   return (
     <List
-      className="content-list"
+      className={styles['content-list']}
       dataSource={items}
       renderItem={(item) => (
         <List.Item>
@@ -59,7 +59,7 @@ export const ContentListMini = ({
 
   return (
     <List
-      className="content-list-mini"
+      className={styles['content-list-mini']}
       dataSource={items}
       renderItem={(item) => (
         <List.Item>

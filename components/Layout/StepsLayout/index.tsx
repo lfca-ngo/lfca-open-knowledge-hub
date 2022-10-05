@@ -5,7 +5,7 @@ import React from 'react'
 import { useScreenSize } from '../../../hooks/app'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
-require('./styles.less')
+import styles from './styles.module.less'
 
 const { Content } = Layout
 const { Step } = Steps
@@ -32,7 +32,7 @@ export const StepsLayout = ({
   const isMobile = screenSizeType === 'sm'
 
   return (
-    <Layout className="steps-layout" style={{ minHeight: '100vh' }}>
+    <Layout className={styles['steps-layout']} style={{ minHeight: '100vh' }}>
       <Content>
         <div className="steps-layout-wrapper">
           <Logo size="large" />

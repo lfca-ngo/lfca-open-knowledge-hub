@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Drawer, List } from 'antd'
 import { useState } from 'react'
@@ -55,7 +53,7 @@ export const ReviewsList = ({ serviceProviderContentId }: ReviewsListProps) => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setNewReviewOpen(false)}
-        visible={newReviewOpen}
+        open={newReviewOpen}
       >
         <Section title="Leave a review">
           <ReviewForm

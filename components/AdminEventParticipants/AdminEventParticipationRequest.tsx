@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { CheckOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, List, message, Popconfirm } from 'antd'
 

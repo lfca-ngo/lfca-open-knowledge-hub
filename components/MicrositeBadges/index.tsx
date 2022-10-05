@@ -1,7 +1,7 @@
-require('./styles.less')
-
 import { Input, Select, Table } from 'antd'
 import React, { useState } from 'react'
+
+import styles from './styles.module.less'
 
 const BADGE_BASE_URL = 'https://wtca.lfca.earth'
 const BASE_URL = `https://res.cloudinary.com/dhpk1grmy/image/upload/v1599579094/Act%20Now%20Badge/v2`
@@ -145,7 +145,7 @@ export const MicrositeBadges = ({
   }
   const data = attributionData(micrositeSlug, langPrefix)
   return (
-    <div className="attribution-table">
+    <div className={styles['attribution-table']}>
       <p>
         {`Your microsite is available in multiple languages. However, currently
         you can only add your custom "about" content in one language. So if you

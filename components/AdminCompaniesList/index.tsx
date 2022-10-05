@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Input, message, Space, Table } from 'antd'
@@ -14,6 +12,7 @@ import {
 } from '../../services/lfca-backend'
 import { CompanyFragment } from '../../services/lfca-backend'
 import { CompanyForm } from '../CompanyForm'
+import styles from './styles.module.less'
 
 interface AdminCompaniesListProps {
   countries: Country[]
@@ -107,7 +106,7 @@ export const AdminCompaniesList = ({
   }
 
   const handleExport = () => {
-    exportCompanies().then(({ data, error }) => {
+    exportCompanies({}).then(({ data, error }) => {
       if (error) message.error(error.message)
       const url = data?.createCompanyExport
       if (url) {
@@ -117,7 +116,7 @@ export const AdminCompaniesList = ({
   }
 
   return (
-    <div className="admin-companies-list">
+    <div className={styles['admin-companies-list']}>
       <Space>
         <Button
           icon={<PlusOutlined />}
@@ -212,7 +211,7 @@ export const AdminCompaniesList = ({
         className="drawer-md"
         destroyOnClose
         onClose={handleClose}
-        visible={isOpen}
+        open={isOpen}
       >
         <>
           <h1>{selectedCompany ? 'Update' : 'Create'} Company</h1>

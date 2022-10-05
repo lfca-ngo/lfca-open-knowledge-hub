@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Skeleton } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
@@ -8,6 +6,7 @@ import React from 'react'
 import { CompanyActionListItemFragmentWithRootCategory } from '../ActionsCarousel'
 import { rootTreeMetaData } from '../ActionsList/utils'
 import { ActionStats } from '../ActionStats'
+import styles from './styles.module.less'
 
 interface ActionDetailsProps {
   action: CompanyActionListItemFragmentWithRootCategory
@@ -22,11 +21,11 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
     <Skeleton
       active
       avatar={{ shape: 'square', size: 'large' }}
-      className="action-details-skeleton"
+      className={styles['action-details-skeleton']}
       loading={fetching}
       paragraph={{ rows: 1 }}
     >
-      <div className="action-details">
+      <div className={styles['action-details']}>
         <div
           className={classNames('root-category', rootCategoryMetaData?.color)}
         >

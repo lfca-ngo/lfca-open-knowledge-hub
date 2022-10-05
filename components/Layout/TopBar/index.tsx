@@ -1,4 +1,3 @@
-require('./styles.less')
 import { LockOutlined } from '@ant-design/icons'
 import { ThunderboltOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
@@ -7,6 +6,7 @@ import Link from 'next/link'
 import { useFirebase } from '../../../hooks/firebase'
 import { useUser } from '../../../hooks/user'
 import { SETTINGS_SUBSCRIPTION } from '../../../utils/routes'
+import styles from './styles.module.less'
 
 const Bar = () => {
   const { fetching, isPaying, user } = useUser()
@@ -16,7 +16,7 @@ const Bar = () => {
   if (fetching || isPaying || !user) return null
 
   return (
-    <div className="top-bar">
+    <div className={styles['top-bar']}>
       <Space>
         <LockOutlined />
         Your current membership allows only limited app access

@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
@@ -46,6 +44,7 @@ import {
 } from '../../../utils/routes'
 import { PaywallPopover } from '../../PayWall/PaywallPopover'
 import { VideoWrapper } from '../../VideoWrapper'
+import styles from './styles.module.less'
 
 const OPEN_HELP_MODAL = 'open-help-modal'
 
@@ -196,7 +195,7 @@ export const MainNav = () => {
   return (
     <>
       <Menu
-        className="main-menu"
+        className={styles['main-menu']}
         items={items}
         mode="inline"
         onSelect={handleSelect}
@@ -207,7 +206,7 @@ export const MainNav = () => {
       <Modal
         destroyOnClose
         onCancel={() => setVisible(false)}
-        visible={visible}
+        open={visible}
         wrapClassName="modal-md"
       >
         <h3>Need help?</h3>

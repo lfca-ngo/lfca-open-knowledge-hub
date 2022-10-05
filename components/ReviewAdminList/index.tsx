@@ -175,7 +175,7 @@ export const ReviewsAdminList = () => {
       <Drawer
         destroyOnClose={true}
         onClose={() => setReview(undefined)}
-        visible={!!review}
+        open={!!review}
       >
         <ReviewForm initialValues={review} />
       </Drawer>

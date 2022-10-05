@@ -6,7 +6,7 @@ import { useDarkMode } from '../../../hooks/useDarkMode'
 import AppPreview from '../../../public/img/app-preview.png'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
-require('./styles.less')
+import styles from './styles.module.less'
 
 const { Content } = Layout
 
@@ -14,7 +14,7 @@ export const OneColLayout = ({ children }: { children: any }) => {
   const [isDarkMode] = useDarkMode()
 
   return (
-    <Layout className="one-col-layout" style={{ minHeight: '100vh' }}>
+    <Layout className={styles['one-col-layout']} style={{ minHeight: '100vh' }}>
       <Content>
         <Row justify="center">
           <Col md={12} xs={24}>

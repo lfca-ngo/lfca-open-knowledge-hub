@@ -1,0 +1,43 @@
+.action-stat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 4px 0;
+  color: var(--text-color);
+
+  @media @desktop {
+    margin: 0;
+  }
+
+  :global {
+    .icon {
+      margin-right: 6px;
+    }
+  }
+}
+
+.action-stats {
+  display: flex;
+  flex-direction: column;
+
+  @media @desktop {
+    flex-direction: row;
+  }
+
+  &[class~='small'] {
+    :global {
+      .logo-group-label,
+      .action-stat-label {
+        margin-right: 14px;
+      }
+    }
+  }
+
+  :global {
+    .logo-group-label,
+    .action-stat-label {
+      margin-right: 22px;
+      font-size: @font-size-sm;
+    }
+  }
+}

@@ -1,6 +1,7 @@
-require('./styles.less')
 import { Space } from 'antd'
 import classNames from 'classnames'
+
+import styles from './styles.module.less'
 
 export interface EmptyStateProps {
   alignment?: 'left' | 'center'
@@ -25,7 +26,7 @@ export const EmptyState = ({
 }: EmptyStateProps) => {
   return (
     <div
-      className={classNames('empty-state', alignment, size, {
+      className={classNames(styles['empty-state'], alignment, size, {
         bordered: bordered,
         'with-background': withBackground,
       })}

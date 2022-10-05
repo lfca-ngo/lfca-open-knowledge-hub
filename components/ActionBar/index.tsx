@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   CalendarOutlined,
   CheckOutlined,
@@ -19,6 +17,7 @@ import {
 import { actionHasReviews } from '../../utils'
 import { CompleteActionForm } from '../CompleteActionForm'
 import { PaywallPopover } from '../PayWall/PaywallPopover'
+import styles from './styles.module.less'
 
 interface ActionBarProps {
   action: CompanyActionListItemFragment
@@ -68,7 +67,7 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
   }
 
   return (
-    <div className="actions-bar">
+    <div className={styles['actions-bar']}>
       <Space direction="vertical" style={{ width: '100%' }}>
         {canExpire && isCompleted ? (
           <Button
@@ -113,7 +112,7 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setIsOpen(false)}
-        visible={isOpen}
+        open={isOpen}
       >
         <CompleteActionForm
           actionContentId={action.contentId}

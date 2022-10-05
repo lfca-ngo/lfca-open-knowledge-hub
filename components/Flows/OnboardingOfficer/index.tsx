@@ -78,7 +78,7 @@ const Intro = ({ onNext }: StepProps) => {
       <Modal
         destroyOnClose
         onCancel={() => setVisible(false)}
-        visible={visible}
+        open={visible}
         wrapClassName="modal-md"
       >
         <VideoWrapper
@@ -137,7 +137,7 @@ const Personalize = ({ actions, fetching, onNext }: PersonalizeProps) => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setSelectedActionContentId(null)}
-        visible={!!selectedActionContentId}
+        open={!!selectedActionContentId}
       >
         {selectedActionContentId ? (
           <CompleteActionForm

@@ -1,10 +1,9 @@
-require('./styles.less')
-
 import { PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, Button } from 'antd'
 import classNames from 'classnames'
 
 import { ActionCommentAttachment } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 export const AttachmentButton = ({
   attachment,
@@ -14,7 +13,7 @@ export const AttachmentButton = ({
   size?: 'small' | 'default'
 }) => (
   <a
-    className={classNames('attachment-button', size)}
+    className={classNames(styles['attachment-button'], size)}
     href={attachment.source}
     rel="noreferrer"
     target="_blank"

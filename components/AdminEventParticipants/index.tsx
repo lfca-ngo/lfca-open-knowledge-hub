@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Button, Form, List, message } from 'antd'
 
 import {
@@ -53,7 +51,7 @@ export const AdminEventParticipants = ({
   }
 
   return (
-    <div className="admin-event-participants">
+    <div>
       <h1>{event?.title}</h1>
       <Form form={form} layout="vertical" onFinish={handleCreate}>
         <Form.Item

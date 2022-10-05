@@ -1,0 +1,21 @@
+.removable-select {
+  align-items: center;
+  display: flex;
+
+  > :global(.anticon) {
+    width: 30px;
+  }
+
+  :global {
+    .ant-input-group {
+      display: flex;
+      flex: 1;
+      .ant-select {
+        flex: 1;
+      }
+      .ant-btn {
+        width: 45px;
+      }
+    }
+  }
+}

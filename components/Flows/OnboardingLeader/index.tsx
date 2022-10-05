@@ -124,8 +124,8 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
         className="fullscreen-drawer-bottom"
         height={'100%'}
         onClose={() => setDrawerVisible(false)}
+        open={drawerVisible}
         placement="bottom"
-        visible={drawerVisible}
       >
         <PersonalCarbonCalculator
           error={error}

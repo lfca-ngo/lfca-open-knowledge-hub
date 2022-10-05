@@ -1,7 +1,7 @@
-require('./styles.less')
-
 import { Button, Form } from 'antd'
 import { ReactNode } from 'react'
+
+import styles from './styles.module.less'
 
 interface RenderInputProps {
   onRemove: () => void
@@ -58,7 +58,7 @@ export const FormList = ({
                 maxItems && fields.length >= maxItems ? true : false
 
               return (
-                <div className="form-list">
+                <div className={styles['form-list']}>
                   <div className="label-with-button">
                     <div className="label">{label}</div>
                     {maxItems && fields.length >= maxItems ? (

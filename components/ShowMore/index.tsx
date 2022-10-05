@@ -1,8 +1,8 @@
-require('./styles.less')
-
 import { Button, ButtonProps } from 'antd'
 import classNames from 'classnames'
 import React, { createRef, useState } from 'react'
+
+import styles from './styles.module.less'
 
 export const ShowMore = ({
   buttonProps = { size: 'small' },
@@ -33,13 +33,13 @@ export const ShowMore = ({
 
   return (
     <div
-      className={classNames('show-more', {
+      className={classNames(styles['show-more'], {
         'is-active': isShowMoreVisible,
         'is-expanded': isExpanded,
       })}
     >
       <div
-        className="content"
+        className="show-more-content"
         ref={contentRef}
         style={isExpanded ? undefined : { maxHeight: maxHeight }}
       >

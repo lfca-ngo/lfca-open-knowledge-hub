@@ -1,0 +1,173 @@
+@card-height: 160px;
+@card-border-radius: 16px;
+
+.color-card(@color, @text-color: @white) {
+  background-color: @color;
+  color: @text-color;
+
+  &:hover {
+    background-color: fade(@color, 90%);
+  }
+
+  :global {
+    .logo-group-label {
+      color: spin(@text-color, 180);
+    }
+
+    .ant-tag {
+      border-color: transparent;
+      background-color: fade(spin(@text-color, 180), 20%);
+      color: spin(@text-color, 180);
+    }
+  }
+}
+
+.actions-carousel {
+  @gutter-width: 7px;
+
+  :global {
+    .slick-list {
+      margin: 0 -@gutter-width;
+      padding: 10px 0;
+    }
+
+    .slick-arrow {
+      font-size: 20px;
+      z-index: 100;
+
+      .ant-avatar {
+        background-color: @grey-white;
+        color: @black;
+      }
+    }
+
+    .slick-next {
+      right: -5px;
+    }
+
+    .slick-prev {
+      left: -5px;
+    }
+
+    .slick-disabled {
+      visibility: hidden;
+    }
+
+    .slick-slide {
+      > div {
+        margin: 0 @gutter-width;
+      }
+
+      .ant-card {
+        color: @white;
+        height: @card-height;
+        border-radius: @card-border-radius;
+        cursor: pointer;
+
+        &.wine {
+          .color-card(@wine);
+        }
+
+        &.blue {
+          .color-card(@blue);
+        }
+
+        &.green {
+          .color-card(@green);
+        }
+
+        &.yellow {
+          .color-card(@yellow, @black);
+        }
+
+        &.black {
+          .color-card(@black);
+        }
+
+        .ant-card-body {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          height: 100%;
+          padding: 14px;
+        }
+
+        .logo-group-label {
+          color: @text-color-darkmode;
+          opacity: 0.7;
+        }
+
+        .action-card-content {
+          display: flex;
+          flex-direction: column;
+          margin-top: auto;
+          margin-bottom: 0;
+
+          .action-card-title {
+            font-size: @font-size-base;
+            margin-bottom: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+        }
+
+        .ant-tag {
+          border-color: transparent;
+          background-color: fade(@white, 20%);
+          color: @white;
+          display: flex;
+          margin-right: 0;
+          margin-left: auto;
+          font-size: 13px;
+          margin-top: 0;
+          margin-bottom: auto;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .ant-card.placeholder {
+        background: @grey-white;
+        color: @black;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        .wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+        }
+
+        .anticon {
+          font-size: 26px;
+          margin: 10px 0;
+        }
+
+        &:hover {
+          background: @grey-white;
+          color: @black;
+        }
+      }
+    }
+
+    // Skeleton loader
+    .ant-skeleton {
+      display: flex !important;
+      align-items: center;
+
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          margin: 0;
+          height: @card-height;
+          border-radius: @card-border-radius;
+        }
+      }
+    }
+  }
+}

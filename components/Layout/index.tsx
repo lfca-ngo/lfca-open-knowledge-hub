@@ -1,5 +1,3 @@
-require('../../styles/override-ant-globals.less')
-
 import { Container } from './Container'
 import { OneColLayout } from './OneColLayout'
 import { Main, Section, Sider } from './Sections'

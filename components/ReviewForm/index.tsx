@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   InfoCircleOutlined,
   MinusCircleFilled,
@@ -32,6 +30,7 @@ import {
 import { FormList } from '../FormList'
 import { RemovableInput } from '../RemovableInput'
 import { UserIdSearchInput } from '../UserIdSearchInput'
+import styles from './styles.module.less'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -131,7 +130,7 @@ export const ReviewForm = ({
 
   return (
     <Form
-      className="review-form"
+      className={styles['review-form']}
       form={form}
       initialValues={{
         ...initialValues,

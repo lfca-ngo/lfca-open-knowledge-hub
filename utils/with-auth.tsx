@@ -9,7 +9,7 @@ interface WithAuthOptions {
   adminOnly?: boolean
 }
 
-export function withAuth<T>(
+export function withAuth<T extends object>(
   WrappedComponent: React.ComponentType<T>,
   options?: WithAuthOptions
 ) {

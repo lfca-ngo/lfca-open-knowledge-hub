@@ -1,5 +1,7 @@
 import { Skeleton } from 'antd'
 
+import styles from './styles.module.less'
+
 export const ActionCardSkeleton = ({
   children,
   fetching,
@@ -10,7 +12,7 @@ export const ActionCardSkeleton = ({
   <Skeleton
     active
     avatar={{ shape: 'square', size: 'large' }}
-    className="action-card-skeleton"
+    className={styles['action-card-skeleton']}
     loading={fetching}
     paragraph={{ rows: 1 }}
   >

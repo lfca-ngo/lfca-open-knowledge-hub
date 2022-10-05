@@ -16,6 +16,7 @@ fragment Event on Event {
     status
     user {
       firstName
+      id
       lastName
       company {
         id

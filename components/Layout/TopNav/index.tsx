@@ -1,16 +1,15 @@
-require('./styles.less')
-
 import { ArrowLeftOutlined, EllipsisOutlined } from '@ant-design/icons'
 import { Button, Dropdown } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useScreenSize } from '../../../hooks/app'
+import styles from './styles.module.less'
 
 const Menu = ({ nav }: { nav: any }) => {
   const router = useRouter()
   return (
-    <ul className="top-nav">
+    <ul className={styles['top-nav']}>
       {nav.map((item: any, i: any) => (
         <li key={`item-${i}`}>
           <Link href={item.path}>
@@ -45,7 +44,7 @@ export const TopNav = ({ goBack, nav }: { nav: any; goBack: any }) => {
       return (
         <Dropdown
           overlay={<Menu nav={nav} />}
-          overlayClassName="top-nav-dropdown"
+          overlayClassName={styles['top-nav-dropdown']}
         >
           <Button icon={<EllipsisOutlined />} />
         </Dropdown>

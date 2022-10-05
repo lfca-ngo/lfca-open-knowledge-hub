@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import {
   Avatar,
@@ -16,6 +14,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { Subscription } from '../../services/contentful'
+import styles from './styles.module.less'
 
 const { TabPane } = Tabs
 
@@ -113,7 +112,7 @@ export const SubscriptionSelector = ({
   }
 
   return (
-    <div className="benefits-list">
+    <div className={styles['benefits-list']}>
       {/* Currently selected plan */}
       <div className="current-plan">
         <div className="current-plan-details">
@@ -132,7 +131,7 @@ export const SubscriptionSelector = ({
           <Form layout="inline">
             <Form.Item label="Team size">
               <InputNumber
-                onChange={(val) => setEmployeeCount(val)}
+                onChange={(val) => setEmployeeCount(val ?? undefined)}
                 placeholder="10"
                 size="large"
                 value={employeeCount}

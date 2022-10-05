@@ -1,5 +1,3 @@
-@import (reference) './variables.less';
-
 .font-bold(@color: var(--heading-color)) {
   font-family: @font-family;
   font-weight: 700;
@@ -78,39 +76,4 @@
   @media @desktop {
     font-size: @font-size-base;
   }
-}
-
-h1,
-h2,
-h3,
-h4 {
-  color: @heading-color;
-}
-
-h1 {
-  .h1();
-}
-
-h2 {
-  .h2();
-}
-
-h3 {
-  .h3();
-}
-
-h4 {
-  .h4();
-}
-
-p {
-  .default-text();
-  b {
-    color: @black;
-  }
-}
-
-ol,
-ul {
-  padding-inline-start: 25px;
 }

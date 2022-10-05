@@ -1,9 +1,9 @@
-require('./styles.less')
-
 import { CloseCircleFilled } from '@ant-design/icons'
 import { Button, Checkbox } from 'antd'
 import React, { useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
+
+import styles from './styles.module.less'
 
 const ChecklistElement = (props: any) => {
   return (
@@ -86,7 +86,7 @@ export const Pledge = (props: any) => {
   }
 
   return (
-    <div className="pledge">
+    <div className={styles.pledge}>
       {PLEDGE().map((el, i) => (
         <ChecklistElement
           checked={checkboxes[i]}

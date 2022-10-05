@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Button, Drawer, Popover, Table, Tag } from 'antd'
 import { useState } from 'react'
@@ -44,7 +42,6 @@ export const ActionsList = ({
   return (
     <div>
       <Table
-        className="actions-table"
         dataSource={searchData?.companyActions?.sort((a, b) =>
           (a?.title || '').localeCompare(b?.title || '')
         )}
@@ -103,7 +100,7 @@ export const ActionsList = ({
         <Drawer
           destroyOnClose
           onClose={() => setSelectedActionId(undefined)}
-          visible={!!selectedAction && !!selectedCompanyId}
+          open={!!selectedAction && !!selectedCompanyId}
         >
           <ActionsForm action={selectedAction} companyId={selectedCompanyId} />
         </Drawer>

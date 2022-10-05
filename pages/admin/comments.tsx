@@ -13,7 +13,7 @@ const Comments: NextPage = () => {
     useCreateActionCommentExportMutation()
 
   const handleExport = () => {
-    exportActionComments().then(({ data, error }) => {
+    exportActionComments({}).then(({ data, error }) => {
       if (error) message.error(error.message)
       const url = data?.createActionCommentExport
       if (url) {

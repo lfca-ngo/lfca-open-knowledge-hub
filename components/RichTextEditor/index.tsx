@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import isHotkey from 'is-hotkey'
 import React from 'react'
 import { createEditor, Descendant, Transforms } from 'slate'
@@ -19,6 +17,7 @@ import {
   withLinks,
   withMarkdownShortcuts,
 } from './plugins'
+import styles from './styles.module.less'
 import { createEmptyValue, toggleMark } from './utils'
 
 interface RichTextEditorProps {
@@ -70,7 +69,7 @@ export const RichTextEditor = ({
   )
 
   return (
-    <div className="richtext-editor">
+    <div className={styles['richtext-editor']}>
       <Slate
         editor={editor}
         onChange={(value) => {

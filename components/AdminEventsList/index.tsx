@@ -1,11 +1,10 @@
-require('./styles.less')
-
 import { Badge, Button, Drawer, Space, Table, Tag } from 'antd'
 import { useState } from 'react'
 
 import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 import { AdminEventParticipants } from '../AdminEventParticipants'
+import styles from './styles.module.less'
 
 const { Column } = Table
 
@@ -23,7 +22,7 @@ export const AdminEventsList = () => {
   })
 
   return (
-    <div className="admin-events-list">
+    <div className={styles['admin-events-list']}>
       <Table
         className="events-table"
         dataSource={data?.events || []}
@@ -89,7 +88,7 @@ export const AdminEventsList = () => {
         className="drawer-md"
         destroyOnClose
         onClose={() => setSelectedEvent(undefined)}
-        visible={!!selectedEvent}
+        open={!!selectedEvent}
       >
         {selectedEvent && (
           <AdminEventParticipants

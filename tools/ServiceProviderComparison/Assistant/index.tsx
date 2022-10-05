@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -17,6 +15,7 @@ import {
 } from '../../../services/lfca-backend'
 import { FilterFormItems } from '../FilterForm'
 import { getFilterValues } from '../utils'
+import styles from './styles.module.less'
 
 interface AssistantProps {
   filters: ServiceProviderFilterFragment[]
@@ -68,7 +67,7 @@ export const Assistant = ({
 
   return (
     <Form
-      className="assistant"
+      className={styles['styles']}
       form={form}
       layout="vertical"
       onValuesChange={onValuesChange}

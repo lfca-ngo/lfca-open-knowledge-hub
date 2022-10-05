@@ -1,11 +1,10 @@
-require('./styles.less')
-
 import { MessageOutlined, PaperClipOutlined } from '@ant-design/icons'
 import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LogoGroup } from '../LogoGroup'
+import styles from './styles.module.less'
 
 interface ActionStatProps {
   count: number
@@ -23,11 +22,11 @@ export const ActionStat = ({
   size,
 }: ActionStatProps) => {
   return (
-    <div className={classNames('action-stat', color)}>
+    <div className={classNames(styles['action-stat'], color)}>
       <div className="icon">
         <Avatar className={color} icon={icon} shape="square" size={size} />
       </div>
-      <div className="label">
+      <div className="action-stat-label">
         <span className="count">{count}</span> {label}
       </div>
     </div>
@@ -48,11 +47,10 @@ export const ActionStats = ({
   commentCount,
   companiesDoingCount,
   recentCompaniesDoing,
-
   size,
 }: ActionStatsProps) => {
   return (
-    <div className={classNames('action-stats', size)}>
+    <div className={classNames(styles['action-stats'], size)}>
       <LogoGroup
         data={recentCompaniesDoing}
         label={`${companiesDoingCount} working on this`}

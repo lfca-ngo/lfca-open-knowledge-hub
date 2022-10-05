@@ -7,8 +7,7 @@ import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
-
-require('./styles.less')
+import styles from './styles.module.less'
 
 const COLLAPSED_WIDTH = 85
 const COLLAPSED_WIDTH_MOBILE = 0
@@ -31,7 +30,11 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
     screenSizeType === 'sm' ? COLLAPSED_WIDTH_MOBILE : COLLAPSED_WIDTH
 
   return (
-    <Layout className="sider-layout" hasSider style={{ minHeight: '100vh' }}>
+    <Layout
+      className={styles['sider-layout']}
+      hasSider
+      style={{ minHeight: '100vh' }}
+    >
       <Sider
         breakpoint="xxl"
         collapsed={collapsed}
@@ -40,7 +43,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
         onCollapse={(collapsed) => setCollapsed(collapsed)}
         theme="light"
       >
-        <Logo />
+        <Logo centered />
         <div className="divider" />
         <MainNav />
       </Sider>

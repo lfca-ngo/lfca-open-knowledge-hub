@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   CopyOutlined,
   LinkedinOutlined,
@@ -13,6 +11,7 @@ import { LinkedinShareButton } from 'react-share'
 import { useUser } from '../../hooks/user'
 import { useCreateInvite } from '../../services/next-server'
 import { copyTextToClipboard } from '../../utils'
+import styles from './styles.module.less'
 
 const BTN_WIDTH = '60'
 
@@ -100,7 +99,7 @@ export const ShareImage = () => {
         </Col>
       </Row>
 
-      <div className="sharing-preview">
+      <div className={styles['sharing-preview']}>
         {data?.ogImageUrl && !fetching ? (
           <Image
             alt="share-image"

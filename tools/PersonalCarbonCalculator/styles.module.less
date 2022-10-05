@@ -1,0 +1,169 @@
+@icon-width: 40px;
+
+.carbon-calculator {
+  background: @white;
+  height: 100%;
+
+  > :global(.container) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global {
+    .container,
+    .container > .ant-row {
+      height: 100%;
+    }
+
+    .offset-section {
+      margin: 30px 0;
+    }
+
+    .provider-slider {
+      .slick-slide > div {
+        margin-right: 10px;
+      }
+
+      .slick-arrow.slick-next,
+      .slick-arrow.slick-prev {
+        color: black;
+        font-size: 20px;
+        z-index: 10;
+
+        &.slick-disabled {
+          display: none !important;
+        }
+      }
+
+      .slick-next {
+        right: 20px;
+      }
+
+      .slick-prev {
+        left: 10px;
+      }
+    }
+
+    .main-container {
+      padding: 30px 0px;
+
+      @media (min-width: @screen-md) {
+        padding: 20px 25px;
+      }
+    }
+
+    .side-container {
+      padding: 30px 0px;
+      border-left: none;
+      flex: 1;
+
+      @media (min-width: @screen-md) {
+        padding: 50px 30px;
+        border-left: 1px solid #ebebeb;
+      }
+    }
+
+    .footprint {
+      padding: 20px 0;
+
+      .ant-card {
+        background: #f4f4f4;
+        text-align: center;
+
+        h1 {
+          font-size: 36px;
+          margin: 10px 0 0;
+        }
+
+        .sub {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .housing-input,
+    .electricity-input {
+      .line {
+        margin: 12px 0;
+      }
+    }
+
+    .custom-list-item {
+      padding: 15px 10px;
+      border-bottom: 1px solid #dedede;
+
+      .text {
+        display: inline-block;
+        width: calc(100% - @icon-width);
+
+        .title {
+          .font-semi();
+          margin: 3px 0 10px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
+      .icon {
+        display: inline-block;
+        width: @icon-width;
+        vertical-align: top;
+        padding: 2px 4px;
+      }
+    }
+
+    // style questions
+    .ant-radio-wrapper {
+      display: block;
+      margin: 10px 0;
+    }
+
+    .question-form {
+      &.is-hidden {
+        .ant-form-item {
+          margin-bottom: 0;
+
+          .ant-form-item-control-input {
+            min-height: auto;
+          }
+        }
+      }
+
+      .ant-btn-primary {
+        margin: 10px 0 10px;
+      }
+
+      .hints {
+        padding-inline-start: 21px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+
+        li {
+          padding: 2px 0;
+        }
+      }
+    }
+
+    .progress-bar {
+      height: 6px;
+      width: 100%;
+      border-bottom: 1px solid #ebebeb;
+
+      .active {
+        min-width: 2%;
+        height: 100%;
+        background: @black;
+        transition: width 0.5s ease-in-out;
+      }
+    }
+
+    .category {
+      .anticon {
+        margin: 20px 0;
+        margin-right: 6px;
+      }
+    }
+  }
+}

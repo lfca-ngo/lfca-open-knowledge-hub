@@ -1,0 +1,107 @@
+.achievement-card {
+  border-width: 2px;
+  height: 100%;
+
+  :global {
+    .ant-card-body {
+      padding: 30px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      header {
+        text-align: center;
+        margin: 0 0 30px;
+      }
+
+      main {
+        .achievement-title {
+          .font-semi();
+          font-size: 21px;
+          display: flex;
+          align-items: center;
+
+          .title-icon {
+            margin-left: 5px;
+            font-size: 24px;
+          }
+        }
+        .action-status-list {
+          margin-bottom: 15px;
+          a {
+            text-decoration: none;
+          }
+          .title {
+            .font-semi();
+            margin-bottom: 15px;
+          }
+        }
+        .ant-list-item-meta-title {
+          .font-regular();
+          cursor: pointer;
+          .anticon {
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+          }
+          &:hover {
+            .anticon {
+              margin-left: 4px;
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      footer {
+        margin-bottom: 0;
+        margin-top: auto;
+      }
+    }
+  }
+
+  &[class~='achievement-reached'] {
+    border-color: @green;
+  }
+}
+
+.achievement-card-mini {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+  :global {
+    .ant-avatar {
+      margin-right: 12px;
+    }
+
+    .achievement-title {
+      .font-semi();
+      margin-bottom: 6px;
+    }
+
+    .achievement-stats {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .achievement-content {
+      flex: 1;
+    }
+  }
+}
+
+.achievement-stat {
+  display: flex;
+  flex-direction: row;
+  margin-right: 12px;
+  font-size: @font-size-sm;
+
+  :global {
+    .icon {
+      margin-right: 8px;
+    }
+  }
+}

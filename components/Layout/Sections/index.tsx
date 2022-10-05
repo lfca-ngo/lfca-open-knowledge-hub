@@ -1,12 +1,13 @@
 import classNames from 'classnames'
-require('./styles.less')
+
+import styles from './styles.module.less'
 
 export const Main = ({ children }: { children: any }) => (
-  <div className="main-section">{children}</div>
+  <div className={styles['main-section']}>{children}</div>
 )
 
 export const Sider = ({ children }: { children: any }) => (
-  <div className="sider-section">{children}</div>
+  <div className={styles['sider-section']}>{children}</div>
 )
 
 export const Section = ({
@@ -25,7 +26,7 @@ export const Section = ({
   bordered?: boolean
 }) => (
   <div
-    className={classNames('page-section', className, titleSize, {
+    className={classNames(styles['page-section'], className, titleSize, {
       bordered: bordered,
       'without-title': !title,
     })}

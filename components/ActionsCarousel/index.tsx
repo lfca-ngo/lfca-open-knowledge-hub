@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -18,6 +16,7 @@ import { rootTreeMetaData } from '../ActionsList/utils'
 import { EmptyState } from '../EmptyState'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
+import styles from './styles.module.less'
 
 export interface CompanyActionListItemFragmentWithRootCategory
   extends CompanyActionListItemFragment {
@@ -89,7 +88,7 @@ export const ActionsCarousel = ({
   return (
     <Carousel
       arrows={true}
-      className="actions-carousel"
+      className={styles['actions-carousel']}
       dots={false}
       infinite={false}
       nextArrow={<ArrowWrapper icon={<ArrowRightOutlined />} />}

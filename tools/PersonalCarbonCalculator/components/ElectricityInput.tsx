@@ -39,7 +39,7 @@ export const ElectricityInput: React.FC<ElectricityInputProps> = ({
         <span>We are </span>
         <InputNumber
           min={1}
-          onChange={onAmountChange}
+          onChange={(val) => onAmountChange(val ?? 0)}
           placeholder={placeholderValue?.people || 2}
           style={{ marginRight: '6px', width: '100px' }}
           type="text"

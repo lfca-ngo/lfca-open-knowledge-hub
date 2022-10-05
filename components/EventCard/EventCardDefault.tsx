@@ -6,6 +6,7 @@ import {
   EventParticipationStatus,
 } from '../../services/lfca-backend'
 import { Recurrence, Status } from './EventMeta'
+import styles from './styles.module.less'
 import { getUniqueParticipatingCompanies, matchStringToIcon } from './utils'
 
 export interface EventCardDefaultProps {
@@ -41,7 +42,7 @@ export const EventCardDefault = ({
 
   return (
     <Card
-      className="event-card default"
+      className={styles['event-card-default']}
       hoverable
       onClick={onClick}
       onMouseEnter={handleMouseEnter}

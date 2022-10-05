@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const withAntdLess = require('next-plugin-antd-less')
-const rootCategories = require('./next-fetch-during-build/root-categories')
 const companyTags = require('./next-fetch-during-build/company-tags')
+const path = require('path')
+const rootCategories = require('./next-fetch-during-build/root-categories')
+const withLess = require('next-with-less')
+
+const lessFontsFile = path.resolve(__dirname, './styles/fonts.less')
+const lessMixinsFile = path.resolve(__dirname, './styles/mixins.less')
+const lessVariablesFile = path.resolve(__dirname, './styles/variables.less')
 
 module.exports = async () => {
   // the next config file (node script) is executed during build time
@@ -10,15 +15,21 @@ module.exports = async () => {
   await rootCategories.fetchAndSaveByKey('_category-tree-data')
   await companyTags.fetchAndSaveByKey('_company-tags-data')
 
-  return withAntdLess({
+  return withLess({
     images: {
       domains: ['images.ctfassets.net', 'res.cloudinary.com'],
     },
 
-    lessVarsFilePath: './styles/variables.less',
-
-    nextjs: {
-      localIdentNameFollowDev: true, // default false, for easy to debug on PROD mode
+    lessLoaderOptions: {
+      additionalData: (content) =>
+        `${content}\n
+        @import '${lessFontsFile}';\n
+        @import '${lessMixinsFile}';\n
+        @import '${lessVariablesFile}';
+      `,
+      lessOptions: {
+        javascriptEnabled: true,
+      },
     },
 
     async redirects() {

@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Drawer, Form, List, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
@@ -18,6 +16,7 @@ import { FilterForm, FilterFormItems } from './FilterForm'
 import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
 import { SearchBar } from './SearchBar'
+import styles from './styles.module.less'
 
 const { TabPane } = Tabs
 
@@ -155,7 +154,7 @@ export const ServiceProviderComparison = ({
   const openWebsite = (url: string) => window.open(url ?? undefined, '_blank')
 
   return (
-    <div className="service-provider-comparison">
+    <div className={styles['service-provider-comparison']}>
       {showTitle ? <h2>{serviceProviderList?.title}</h2> : null}
       <Tabs defaultActiveKey="filter">
         <TabPane key="filter" tab="Filter">
@@ -210,7 +209,7 @@ export const ServiceProviderComparison = ({
         className="drawer-md"
         destroyOnClose
         onClose={() => setActiveProvider(null)}
-        visible={!!activeProvider}
+        open={!!activeProvider}
       >
         <Section title="Reviews">
           <ReviewsList serviceProviderContentId={activeProvider?.id} />

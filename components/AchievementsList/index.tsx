@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Drawer, List, Skeleton } from 'antd'
 import { useState } from 'react'
 
@@ -14,6 +12,7 @@ import { AchievementCard, AchievementCardMini } from '../AchievementCard'
 import { CompanyForm, FormValues } from '../CompanyForm'
 import { Section } from '../Layout/Sections'
 import { MicrositeBadges } from '../MicrositeBadges'
+import styles from './styles.module.less'
 
 export const AchievementsList = ({
   isParentLoading,
@@ -42,7 +41,7 @@ export const AchievementsList = ({
   return (
     <div>
       <List
-        className="achievements-list equal-height"
+        className={`${styles['achievements-list']} equal-height`}
         dataSource={achievements}
         grid={{
           gutter: 16,
@@ -73,7 +72,7 @@ export const AchievementsList = ({
       <Drawer
         className="drawer-md"
         onClose={() => setDrawerVisible(false)}
-        visible={drawerVisible}
+        open={drawerVisible}
       >
         <Section title="Edit Microsite">
           <CompanyForm
@@ -110,7 +109,7 @@ export const AchievementsListMini = ({
 
   return (
     <List
-      className="achievements-list-mini"
+      className={styles['achievements-list-mini']}
       dataSource={achievements}
       renderItem={(item) => (
         <List.Item>

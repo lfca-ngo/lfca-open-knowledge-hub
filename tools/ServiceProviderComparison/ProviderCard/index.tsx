@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   BankOutlined,
   CalculatorOutlined,
@@ -19,6 +17,7 @@ import {
   TagFragment,
 } from '../../../services/lfca-backend'
 import { ReviewMetaData } from './ReviewMetaData'
+import styles from './styles.module.less'
 
 const MAP_ICONS = (name: string) => {
   switch (name) {
@@ -57,7 +56,7 @@ export const ProviderCard = ({
   provider,
 }: ProviderCardProps) => {
   return (
-    <Card bordered={false} className="provider-card">
+    <Card bordered={false} className={styles['provider-card']}>
       <div className="hero">
         <div className="wrapper">
           {provider.logo?.url && (

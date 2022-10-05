@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Form, Tabs } from 'antd'
 import { useState } from 'react'
 
@@ -16,7 +14,7 @@ export const AdminActionsList = () => {
   const [form] = Form.useForm()
 
   return (
-    <div className="admin-actions-list">
+    <div>
       <Form
         form={form}
         layout="vertical"

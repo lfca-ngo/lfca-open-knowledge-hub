@@ -1,9 +1,8 @@
-require('./styles.less')
-
 import { Avatar, AvatarProps } from 'antd'
 import classNames from 'classnames'
 
 import { CompanyFragment } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface LogoGroupProps {
   data?: (Partial<CompanyFragment> | null | undefined)[]
@@ -21,7 +20,9 @@ export const LogoGroup = ({
   size,
 }: LogoGroupProps) => {
   return (
-    <div className={classNames('logo-group', size, { reverse: reverse })}>
+    <div
+      className={classNames(styles['logo-group'], size, { reverse: reverse })}
+    >
       <Avatar.Group maxCount={maxCount} size={size}>
         {data?.length > 0 ? (
           data?.map((item, i) => (
@@ -33,7 +34,7 @@ export const LogoGroup = ({
           </Avatar>
         )}
       </Avatar.Group>
-      {label && <div className="label">{label}</div>}
+      {label && <div className="logo-group-label">{label}</div>}
     </div>
   )
 }

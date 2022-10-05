@@ -74,7 +74,7 @@ const Source = ({ file, title, type, url }: ContentfulSourceFields) => {
   return (
     <div style={{ margin: '4px 0' }}>
       {render()}
-      <Modal onCancel={closeModal} visible={isVisible}>
+      <Modal onCancel={closeModal} open={isVisible}>
         <img src={fileUrl} style={{ maxWidth: '100%' }} />
       </Modal>
     </div>

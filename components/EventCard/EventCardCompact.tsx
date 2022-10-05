@@ -6,6 +6,7 @@ import {
   EventParticipationStatus,
 } from '../../services/lfca-backend'
 import { Recurrence, Status, Time } from './EventMeta'
+import styles from './styles.module.less'
 
 export interface EventCardDefaultProps {
   event: EventFragment
@@ -21,7 +22,7 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
     event.participationRequestStatus === EventParticipationStatus.APPROVED
 
   return (
-    <div className="event-card compact" onClick={onClick}>
+    <div className={styles['event-card-compact']} onClick={onClick}>
       <div className="header">
         <div className="summary">
           <div className="title">{event.title}</div>

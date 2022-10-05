@@ -1,7 +1,7 @@
-require('./styles.less')
-
 import { MinusOutlined } from '@ant-design/icons'
 import { Button, Input, Select } from 'antd'
+
+import styles from './styles.module.less'
 
 interface SelectOption {
   label?: string
@@ -26,7 +26,7 @@ export const RemovableSelect = ({
   value = '',
 }: RemovableSelectProps) => {
   return (
-    <div className="removable-select">
+    <div className={styles['removable-select']}>
       {icon && icon}
       <Input.Group compact>
         <Select

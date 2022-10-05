@@ -1,7 +1,8 @@
 import { Carousel, Col, List, Row } from 'antd'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
-require('./styles.less')
+
+import styles from './styles.module.less'
 
 const CarouselNav = (props: any) => {
   const isIconString = typeof props.icon === 'string'
@@ -41,7 +42,7 @@ export const InfoCarousel = (props: any) => {
   }
 
   return (
-    <div className="info-carousel">
+    <div className={styles['info-carousel']}>
       <Row className="container-half">
         <Col md={14} xs={24}>
           <div className="has-max-width">

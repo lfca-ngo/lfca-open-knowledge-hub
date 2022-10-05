@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { Switch } from 'antd'
 import React from 'react'
 

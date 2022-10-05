@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import {
   ClockCircleOutlined,
@@ -17,6 +15,7 @@ import {
   ServiceProviderReviewFragment,
   useDeleteServiceProviderReviewMutation,
 } from '../../../services/lfca-backend'
+import styles from './styles.module.less'
 
 const ReviewContent = ({
   cons,
@@ -28,7 +27,7 @@ const ReviewContent = ({
   pros: string[]
 }) => {
   return (
-    <div className="review-content">
+    <div className={styles['review-content']}>
       <div className="general">{content}</div>
       <div className="details">
         {pros.map((pro, i) => (
@@ -97,7 +96,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
         }
         author={<Rate disabled key="rating" value={review.rating} />}
         avatar={<UserAvatar user={review.author} />}
-        className="review-card"
+        className={styles['review-card']}
         content={
           <ReviewContent
             cons={review.cons}
@@ -116,7 +115,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
       <Drawer
         destroyOnClose={true}
         onClose={() => setIsEditing(false)}
-        visible={isEditing}
+        open={isEditing}
       >
         <ReviewForm initialValues={review} />
       </Drawer>

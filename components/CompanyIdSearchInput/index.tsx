@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Select, Spin } from 'antd'
 import _debounce from 'lodash.debounce'
@@ -9,6 +7,7 @@ import {
   useCompaniesQuery,
   useSearchCompanyQuery,
 } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface CompanyIdSearchInputProps {
   value?: string
@@ -77,7 +76,7 @@ export const CompanyIdSearchInput = ({
   const selectedName = initialData?.companies.items[0]?.name || ''
 
   return (
-    <div className="company-id-search-input">
+    <div className={styles['company-id-search-input']}>
       <Select
         defaultActiveFirstOption={false}
         filterOption={false}

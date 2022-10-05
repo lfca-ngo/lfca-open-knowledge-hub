@@ -52,7 +52,7 @@ export const HistoryItem = ({
       {isDataArray && (
         <Modal
           onCancel={() => setVisible(false)}
-          visible={visible}
+          open={visible}
           wrapClassName="modal-md"
         >
           <Space align="center" direction="horizontal">

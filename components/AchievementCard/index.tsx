@@ -1,5 +1,3 @@
-require('./styles.less')
-
 import {
   ArrowRightOutlined,
   CheckCircleFilled,
@@ -19,6 +17,7 @@ import {
   CompanyAchievementMiniFragment,
   isAchievementReached,
 } from '../../services/lfca-backend'
+import styles from './styles.module.less'
 
 interface ActionsStatusListProps {
   items:
@@ -86,7 +85,7 @@ export const AchievementCard = ({
 
   return (
     <Card
-      className={classNames('achievement-card', {
+      className={classNames(styles['achievement-card'], {
         'achievement-reached': achievementReached,
       })}
     >
@@ -147,7 +146,7 @@ const AchievementStat = ({
   completedCount,
   targetCount,
 }: AchievementStatProps) => (
-  <div className="achievement-stat">
+  <div className={styles['achievement-stat']}>
     <div className="icon">
       {completedCount >= targetCount ? (
         <CheckCircleFilled className="green" />
@@ -169,7 +168,7 @@ export const AchievementCardMini = ({
   const achievementReached = isAchievementReached(achievement)
   return (
     <Link href={`/achievements`}>
-      <div className={'achievement-card-mini'}>
+      <div className={styles['achievement-card-mini']}>
         <SuccessAvatar isSuccess={achievementReached} size={58} />
         <div className="achievement-content">
           <div className="achievement-title">{achievement.name}</div>
