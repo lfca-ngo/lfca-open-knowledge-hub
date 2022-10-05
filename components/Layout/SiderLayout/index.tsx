@@ -43,7 +43,7 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
         onCollapse={(collapsed) => setCollapsed(collapsed)}
         theme="light"
       >
-        <Logo />
+        <Logo centered />
         <div className="divider" />
         <MainNav />
       </Sider>

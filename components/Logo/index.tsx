@@ -20,21 +20,29 @@ const variants = (theme: any) => ({
   },
 })
 
+interface LogoProps {
+  animated?: boolean
+  centered?: boolean
+  size?: 'small' | 'medium' | 'large'
+  theme?: 'light' | 'dark'
+}
+
 export const Logo = ({
   animated = false,
+  centered = false,
   size = 'medium',
   theme = 'light',
-}: {
-  animated?: boolean
-  theme?: 'light' | 'dark'
-  size?: 'small' | 'medium' | 'large'
-}) => {
+}: LogoProps) => {
   const animationVariants = animated ? variants(theme) : {}
   const logoSize =
     size === 'small' ? SIZE_SM : size === 'medium' ? SIZE_MD : SIZE_LG
 
   return (
-    <div className={classNames(styles['logo-wrapper'], size, theme)}>
+    <div
+      className={classNames(styles['logo-wrapper'], size, theme, {
+        centered,
+      })}
+    >
       <svg fill="none" height={logoSize} viewBox="0 0 239 239" width={logoSize}>
         <motion.path
           animate="animate"

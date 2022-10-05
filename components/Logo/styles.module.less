@@ -1,5 +1,10 @@
 .logo-wrapper {
-  display: flex;
   align-items: center;
-  justify-content: center;
+  display: flex;
+  height: @layout-header-height;
+  justify-content: flex-start;
+
+  &[class~='centered'] {
+    justify-content: center;
+  }
 }
