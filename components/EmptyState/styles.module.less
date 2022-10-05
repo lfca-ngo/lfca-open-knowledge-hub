@@ -37,21 +37,21 @@
     padding: 10px;
     margin-top: 14px;
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 35px 0 20px;
-
-      .h4();
-
-      .icon {
-        margin: 0;
-        margin-right: 8px;
-      }
-    }
-
     :global {
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 35px 0 20px;
+
+        .h4();
+
+        .icon {
+          margin: 0;
+          margin-right: 8px;
+        }
+      }
+
       .actions {
         margin: 25px 0 10px;
       }
@@ -66,8 +66,10 @@
     text-align: left;
     padding: 0;
 
-    header {
-      justify-content: start;
+    :global {
+      header {
+        justify-content: start;
+      }
     }
   }
 }

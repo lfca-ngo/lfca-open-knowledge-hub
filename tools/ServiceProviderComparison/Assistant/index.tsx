@@ -67,7 +67,7 @@ export const Assistant = ({
 
   return (
     <Form
-      className="assistant"
+      className={styles['styles']}
       form={form}
       layout="vertical"
       onValuesChange={onValuesChange}

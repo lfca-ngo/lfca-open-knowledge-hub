@@ -1,22 +1,29 @@
 .assistant {
   padding: 10px 0 20px;
   min-height: 160px;
-  .multi-select.ungrouped {
-    .ant-btn {
-      margin-right: 8px;
-      margin-bottom: 8px;
+
+  :global {
+    .multi-select.ungrouped {
+      .ant-btn {
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
     }
-  }
-  .ant-form-item {
-    margin-bottom: 16px;
-  }
-  .question {
-    margin: 10px 0 20px;
-    .question-label {
-      .font-semi();
-      font-size: 20px;
-      .anticon {
-        margin-right: 10px;
+
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+
+    .question {
+      margin: 10px 0 20px;
+
+      .question-label {
+        .font-semi();
+        font-size: 20px;
+
+        .anticon {
+          margin-right: 10px;
+        }
       }
     }
   }

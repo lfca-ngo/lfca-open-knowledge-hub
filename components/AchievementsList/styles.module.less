@@ -29,24 +29,26 @@
 }
 
 .achievements-list-mini {
-  .ant-list-item {
-    padding: 16px 0;
-  }
+  :global {
+    .ant-list-item {
+      padding: 16px 0;
+    }
 
-  .ant-skeleton {
-    display: flex;
-    align-items: center;
-
-    .ant-skeleton-header {
+    .ant-skeleton {
       display: flex;
       align-items: center;
-    }
-    .ant-skeleton-content {
-      .ant-skeleton-title {
-        margin: 0;
+
+      .ant-skeleton-header {
+        display: flex;
+        align-items: center;
       }
-      .ant-skeleton-paragraph {
-        margin-top: 10px;
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          margin: 0;
+        }
+        .ant-skeleton-paragraph {
+          margin-top: 10px;
+        }
       }
     }
   }

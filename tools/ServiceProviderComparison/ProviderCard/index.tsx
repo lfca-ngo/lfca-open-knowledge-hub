@@ -56,7 +56,7 @@ export const ProviderCard = ({
   provider,
 }: ProviderCardProps) => {
   return (
-    <Card bordered={false} className="provider-card">
+    <Card bordered={false} className={styles['provider-card']}>
       <div className="hero">
         <div className="wrapper">
           {provider.logo?.url && (

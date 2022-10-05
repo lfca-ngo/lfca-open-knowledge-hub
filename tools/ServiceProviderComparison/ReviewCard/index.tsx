@@ -27,7 +27,7 @@ const ReviewContent = ({
   pros: string[]
 }) => {
   return (
-    <div className="review-content">
+    <div className={styles['review-content']}>
       <div className="general">{content}</div>
       <div className="details">
         {pros.map((pro, i) => (
@@ -96,7 +96,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
         }
         author={<Rate disabled key="rating" value={review.rating} />}
         avatar={<UserAvatar user={review.author} />}
-        className="review-card"
+        className={styles['review-card']}
         content={
           <ReviewContent
             cons={review.cons}
