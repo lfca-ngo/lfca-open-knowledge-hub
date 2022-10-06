@@ -17,6 +17,7 @@ import { ProviderCard } from './ProviderCard'
 import { ReviewsList } from './ReviewsList'
 import { SearchBar } from './SearchBar'
 import styles from './styles.module.less'
+import { getProviderValueForFilterAttribute } from './utils'
 
 const { TabPane } = Tabs
 
@@ -69,8 +70,10 @@ export const ServiceProviderComparison = ({
         // Deselecting a value from a multiselect can return in an empty array which is equal to no filter
         if (!filterValue.length) return true
 
-        const providerValueForAttribute =
-          provider[attribute as keyof ServiceProviderFragment]
+        const providerValueForAttribute = getProviderValueForFilterAttribute(
+          provider,
+          attribute
+        )
 
         // If a provider does not have any value for the filtered attribute, it is filtered out
         if (
@@ -137,7 +140,10 @@ export const ServiceProviderComparison = ({
   const handleSearch = (value: string) => {
     const filtered = serviceProviderList?.items.filter((provider) => {
       const providerName = provider.name
-      const providerServices = provider.services?.map((service) => service.name)
+      // TODO: Find more elegant way instead of filtering for hardcoded categoryId
+      const providerServices = provider.tags
+        ?.filter((t) => t.categoryId === 'services')
+        .map((service) => service.name)
       // find results regardless of case and completeness of search term
       return (
         providerName?.toLowerCase().includes(value.toLowerCase()) ||

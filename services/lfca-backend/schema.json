@@ -2964,6 +2964,24 @@
             "args": []
           },
           {
+            "name": "tags",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Tag",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "website",
             "type": {
               "kind": "SCALAR",
@@ -3367,6 +3385,17 @@
         "kind": "OBJECT",
         "name": "Tag",
         "fields": [
+          {
+            "name": "categoryId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
           {
             "name": "help",
             "type": {

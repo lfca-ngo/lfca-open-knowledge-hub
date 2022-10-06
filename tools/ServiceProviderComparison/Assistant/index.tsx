@@ -44,7 +44,7 @@ export const Assistant = ({
   const renderInput = (filter: ServiceProviderFilterFragment) => {
     const possibleValues = getFilterValues(
       providers,
-      filter.attribute as 'model' | 'services' | 'supplyChainComplexity',
+      filter.attribute,
       filter.values
     )
 
@@ -67,7 +67,7 @@ export const Assistant = ({
 
   return (
     <Form
-      className={styles['styles']}
+      className={styles['assistant']}
       form={form}
       layout="vertical"
       onValuesChange={onValuesChange}

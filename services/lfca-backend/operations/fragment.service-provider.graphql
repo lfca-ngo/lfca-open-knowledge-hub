@@ -1,33 +1,21 @@
 fragment ServiceProvider on ServiceProvider {
   averageRating
-  certifications {
-    ...Tag
-  }
   description
   email
   freeDemo
   highestPrice
   id
   isPrivate
-  languages {
-    ...Tag
-  }
   logo {
     id
     url
   }
   lowestPrice
   memberId
-  model {
-    ...Tag
-  }
   name
   reviewsCount
-  services {
-    ...Tag
-  }
   size
-  supplyChainComplexity {
+  tags {
     ...Tag
   }
   year

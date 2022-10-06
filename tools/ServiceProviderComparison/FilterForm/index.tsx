@@ -11,7 +11,7 @@ import { getFilterValues } from '../utils'
 const { Option } = Select
 
 export type FilterFormItems = Record<
-  keyof ServiceProviderFragment,
+  string,
   number | string | (number | string)[] | undefined
 >
 
@@ -31,7 +31,7 @@ export const FilterForm = ({
   const renderInput = (filter: ServiceProviderFilterFragment) => {
     const possibleValues = getFilterValues(
       providers,
-      filter.attribute as 'model' | 'services' | 'supplyChainComplexity',
+      filter.attribute,
       filter.values
     )
 
