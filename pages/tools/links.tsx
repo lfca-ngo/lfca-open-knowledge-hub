@@ -17,7 +17,7 @@ const Community: NextPage = ({
       <Main>
         <Section title="Links" titleSize="big">
           <Container>
-            <ContentList content={content} />
+            <ContentList content={content} contentId="community" type="list" />
           </Container>
         </Section>
       </Main>

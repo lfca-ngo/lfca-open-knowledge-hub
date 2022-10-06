@@ -8,7 +8,7 @@ import {
   CompanyActionListItemFragmentWithRootCategory,
 } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
-import { ContentListMini } from '../../components/ContentList'
+import { ContentList } from '../../components/ContentList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -129,7 +129,11 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
 
         <Section title="Links">
-          <ContentListMini content={content} />
+          <ContentList
+            content={content}
+            contentId="community"
+            type="mini-list"
+          />
         </Section>
       </Sider>
     </SiderLayout>
