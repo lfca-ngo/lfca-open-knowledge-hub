@@ -35,3 +35,5 @@ export const REFERRAL_PROGRAM = '/tools/referral-program'
 // Onboardings
 export const ONBOARDING_LEADER = '/onboarding-leader'
 export const ONBOARDING_OFFICER = '/onboarding-officer'
+// Support
+export const SUPPORT = '/support'

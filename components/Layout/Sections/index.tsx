@@ -2,11 +2,11 @@ import classNames from 'classnames'
 
 import styles from './styles.module.less'
 
-export const Main = ({ children }: { children: any }) => (
+export const Main = ({ children }: { children: React.ReactNode }) => (
   <div className={styles['main-section']}>{children}</div>
 )
 
-export const Sider = ({ children }: { children: any }) => (
+export const Sider = ({ children }: { children: React.ReactNode }) => (
   <div className={styles['sider-section']}>{children}</div>
 )
 
@@ -16,13 +16,13 @@ export const Section = ({
   className,
   id,
   title,
-  titleSize,
+  titleSize = 'default',
 }: {
-  children: any
+  children?: React.ReactNode
   id?: string
-  title?: any
-  titleSize?: any
-  className?: any
+  title?: React.ReactNode | string
+  titleSize?: 'big' | 'default' | 'small'
+  className?: string
   bordered?: boolean
 }) => (
   <div

@@ -17,12 +17,11 @@ import {
   TeamOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
-import { Menu, MenuProps, Modal } from 'antd'
+import { Menu, MenuProps } from 'antd'
 import { useRouter } from 'next/router'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 
 import { useUser } from '../../../hooks/user'
-import { PRODUCT_VIDEO_URL, SUPPORT_EMAIL_LINK } from '../../../utils'
 import {
   ACHIEVEMENTS,
   ACTIONS,
@@ -39,14 +38,12 @@ import {
   PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
   SERVICE_PROVIDERS,
+  SUPPORT,
   TOOLS,
   USEFUL_LINKS,
 } from '../../../utils/routes'
 import { PaywallPopover } from '../../PayWall/PaywallPopover'
-import { VideoWrapper } from '../../VideoWrapper'
 import styles from './styles.module.less'
-
-const OPEN_HELP_MODAL = 'open-help-modal'
 
 const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS]
 
@@ -107,7 +104,7 @@ const NAV_ITEMS_DEFAULT: MenuProps['items'] = [
       },
       {
         icon: <QuestionCircleOutlined />,
-        key: OPEN_HELP_MODAL,
+        key: SUPPORT,
         label: 'Help',
       },
     ],
@@ -158,7 +155,6 @@ const NAV_ITEMS_ADMIN: MenuProps['items'] = [
 ]
 
 export const MainNav = () => {
-  const [visible, setVisible] = useState(false)
   const { isAdmin, isPaying } = useUser()
 
   const router = useRouter()
@@ -185,40 +181,17 @@ export const MainNav = () => {
   }, [isAdmin, isPaying]) as MenuProps['items']
 
   const handleSelect = ({ key }: { key: string }) => {
-    if (key === OPEN_HELP_MODAL) {
-      setVisible(true)
-    } else {
-      router.push(key)
-    }
+    router.push(key)
   }
 
   return (
-    <>
-      <Menu
-        className={styles['main-menu']}
-        items={items}
-        mode="inline"
-        onSelect={handleSelect}
-        selectedKeys={[router.pathname]}
-        theme="light"
-      />
-
-      <Modal
-        destroyOnClose
-        onCancel={() => setVisible(false)}
-        open={visible}
-        wrapClassName="modal-md"
-      >
-        <h3>Need help?</h3>
-        <p>
-          Check out the video below to get a better understanding of your
-          Members Area. If this does not help, shoot us an email{' '}
-          {SUPPORT_EMAIL_LINK}
-        </p>
-        <VideoWrapper
-          sources={[{ src: PRODUCT_VIDEO_URL, type: 'video/mp4' }]}
-        />
-      </Modal>
-    </>
+    <Menu
+      className={styles['main-menu']}
+      items={items}
+      mode="inline"
+      onSelect={handleSelect}
+      selectedKeys={[router.pathname]}
+      theme="light"
+    />
   )
 }
