@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Drawer, Form, message, Popconfirm, Space } from 'antd'
+import { Button, Drawer, Form, List, message, Popconfirm, Space } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
@@ -12,10 +12,12 @@ import {
   useDeleteCompanyMutation,
   UserFragment,
   useUpdateCompanyMutation,
+  useUserInvitesQuery,
   useUsersQuery,
 } from '../../services/lfca-backend'
 import { RemoveNull } from '../../types'
 import { removeObjectNullProps } from '../../utils'
+import { InviteItem } from '../InviteTeam/Item'
 import { UserForm } from '../UserForm'
 import { ConnectedUsersList } from './ConnectedUsersList'
 import { convertFormValues } from './convert-form-values'
@@ -73,6 +75,18 @@ export const CompanyForm = ({
   const { isAdmin } = useUser()
 
   const [selectedUser, setSelectedUser] = useState<UserFragment | undefined>()
+
+  const [{ data: invitesData, fetching: isFetchingInvites }] =
+    useUserInvitesQuery({
+      pause: !initialValues?.id,
+      variables: {
+        input: {
+          filter: {
+            companyId: initialValues?.id,
+          },
+        },
+      },
+    })
 
   const [{ fetching: isCreatingCompany }, createCompany] =
     useCreateCompanyMutation()
@@ -164,11 +178,20 @@ export const CompanyForm = ({
         />
 
         {showConnectedUsers && type === 'update' && isAdmin ? (
-          <ConnectedUsersList
-            items={usersData?.users.items || []}
-            loading={isFetchingUsers}
-            onSelectItem={setSelectedUser}
-          />
+          <div style={{ marginBottom: '20px' }}>
+            <ConnectedUsersList
+              items={usersData?.users.items || []}
+              loading={isFetchingUsers}
+              onSelectItem={setSelectedUser}
+            />
+            <List
+              className="simple-list"
+              dataSource={invitesData?.userInvites || []}
+              header={<h3>Invited users</h3>}
+              loading={isFetchingInvites}
+              renderItem={(item) => <InviteItem copyBtnInline item={item} />}
+            />
+          </div>
         ) : null}
 
         <Form.Item>

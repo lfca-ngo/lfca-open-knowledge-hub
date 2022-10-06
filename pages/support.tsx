@@ -1,3 +1,4 @@
+import { MailOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 
@@ -7,14 +8,8 @@ import { Container } from '../components/Layout/Container'
 import { VideoWrapper } from '../components/VideoWrapper'
 import { ContentfulContentCollectionFields } from '../services/contentful'
 import { fetchAllContentCollections } from '../services/contentful'
-import {
-  DEFAULT_SUPPORT_EMAIL,
-  PRODUCT_VIDEO_URL,
-  SUPPORT_EMAIL_LINK,
-} from '../utils'
+import { DEFAULT_SUPPORT_EMAIL, PRODUCT_VIDEO_URL } from '../utils'
 import { withAuth } from '../utils/with-auth'
-
-import { MailOutlined } from '@ant-design/icons'
 const Support: NextPage = ({
   content,
 }: {
