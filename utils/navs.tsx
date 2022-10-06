@@ -3,6 +3,7 @@ import {
   LikeOutlined,
   LoadingOutlined,
   LogoutOutlined,
+  QuestionCircleOutlined,
   ThunderboltOutlined,
   UserOutlined,
 } from '@ant-design/icons'
@@ -22,6 +23,7 @@ import {
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
   SETTINGS_SUBSCRIPTION,
+  SUPPORT,
 } from './routes'
 
 export const LOGOUT = 'logout'
@@ -70,6 +72,11 @@ export const PROFILE_NAV = (loading: boolean) => [
     icon: <ThunderboltOutlined />,
     key: SETTINGS_SUBSCRIPTION,
     label: 'Your membership',
+  },
+  {
+    icon: <QuestionCircleOutlined />,
+    key: SUPPORT,
+    label: 'Need help?',
   },
   {
     icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,
