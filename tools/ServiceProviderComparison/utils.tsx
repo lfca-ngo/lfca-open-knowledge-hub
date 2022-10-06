@@ -12,9 +12,28 @@ interface FilterValue {
   sortWeight?: number
   key: string | number
 }
+
+/**
+ *
+ * NOTE:
+ * We assume that a filterAttribute is either a prop of the `ServiceProviderFragment`
+ * or `tags:<tagCategoryId>`
+ */
+export const getProviderValueForFilterAttribute = (
+  provider: ServiceProviderFragment,
+  filterAttribute: string
+) => {
+  if (filterAttribute.startsWith('tags:')) {
+    const [, tagCategoryId] = filterAttribute.split(':')
+    return provider.tags.filter((t) => t.categoryId === tagCategoryId)
+  } else {
+    return provider[filterAttribute as keyof ServiceProviderFragment]
+  }
+}
+
 export const getFilterValues = (
   providers: ServiceProviderFragment[],
-  key: keyof ServiceProviderFragment,
+  key: string,
   values: ServiceProviderFilterFragment['values']
 ): FilterValue[] => {
   if (values) {
@@ -29,7 +48,8 @@ export const getFilterValues = (
   }
 
   return providers.reduce((acc, provider) => {
-    const valueForProvider = provider[key]
+    const valueForProvider = getProviderValueForFilterAttribute(provider, key)
+
     if (!valueForProvider) return acc
 
     if (!Array.isArray(valueForProvider)) {

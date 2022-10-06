@@ -1,4 +1,5 @@
 fragment Tag on Tag {
+  categoryId
   help
   id
   name

@@ -73,7 +73,10 @@ export const ProviderCard = ({
         <div className="content-wrapper">
           <div className="title-wrapper">
             <div className="title">{provider.name}</div>
-            <TypeTags tags={provider?.model} />
+            {/** TODO: Find more elegant way instead of filtering for hardcoded categoryId */}
+            <TypeTags
+              tags={provider?.tags.filter((t) => t.categoryId === 'model')}
+            />
             {provider?.memberId && provider?.email && (
               <Popover
                 content={
@@ -119,11 +122,13 @@ export const ProviderCard = ({
             )}
           </div>
           <div className="services">
-            {provider.services?.map((service, i: number) => (
-              <Tag className="service-tag" key={`service-${i}`}>
-                {service?.name}
-              </Tag>
-            ))}
+            {provider.tags
+              ?.filter((t) => t.categoryId === 'services')
+              .map((service, i: number) => (
+                <Tag className="service-tag" key={`service-${i}`}>
+                  {service?.name}
+                </Tag>
+              ))}
           </div>
         </div>
       </div>
