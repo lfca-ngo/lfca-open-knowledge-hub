@@ -1,4 +1,4 @@
-import { Spin, Tabs } from 'antd'
+import { Skeleton, Tabs } from 'antd'
 import type { NextPage } from 'next'
 
 import { Main, Section, SiderLayout } from '../../components/Layout'
@@ -21,7 +21,11 @@ const ServiceProviders: NextPage = () => {
             <PayWall>
               <>
                 {fetching ? (
-                  <Spin />
+                  <Skeleton
+                    active
+                    className={'service-providers-skeleton'}
+                    paragraph={{ rows: 10 }}
+                  />
                 ) : (
                   <Tabs defaultActiveKey="0">
                     {data?.serviceProviderLists.map(
