@@ -1,4 +1,4 @@
-import { CloseOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import React from 'react'
@@ -50,7 +50,12 @@ export const StepsLayout = ({
                 <Step
                   key={`step-${i}`}
                   progressDot={() => null}
-                  title={step.title}
+                  title={
+                    <div className="step-title">
+                      <div className="title">{step.title}</div>
+                      <ArrowRightOutlined />
+                    </div>
+                  }
                 />
               ))}
             </Steps>

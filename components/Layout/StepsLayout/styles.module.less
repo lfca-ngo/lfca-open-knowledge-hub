@@ -1,6 +1,7 @@
 @header-height: 62px;
 @space-between-items: 30px;
 @icon-width: 12px;
+@content-margin-top: 120px;
 
 .steps-layout {
   background-color: var(--layout-body-background);
@@ -20,13 +21,40 @@
 
       .ant-steps {
         width: auto;
+        padding-top: 0;
+        height: @header-height;
+        display: flex;
+        align-items: center;
 
         .ant-steps-item::after {
           display: none;
         }
 
         .ant-steps-item::before {
-          background-color: @black;
+          display: none;
+        }
+
+        .ant-steps-item,
+        .ant-steps-item-container,
+        .ant-steps-item-content,
+        .ant-steps-item-title,
+        .ant-steps-item-title .step-title,
+        .ant-steps-item-title .step-title .title {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+
+        // active state
+        .ant-steps-item.ant-steps-item-active {
+          .step-title .title::after {
+            height: 2px;
+            background-color: @black;
+            content: '';
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+          }
         }
 
         .ant-steps-item {
@@ -34,6 +62,25 @@
           flex-grow: 0;
           flex-shrink: 1;
           flex-basis: auto;
+
+          .ant-steps-item-container {
+            padding-bottom: 0;
+          }
+
+          .step-title {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .title {
+              position: relative;
+            }
+
+            .anticon {
+              margin: 0 24px;
+              font-size: @font-size-xs;
+            }
+          }
         }
 
         .ant-steps-item-container {
@@ -95,6 +142,7 @@
         width: 100%;
         background: white;
         width: @md-container-width;
+        padding-top: @content-margin-top;
       }
 
       aside {
@@ -103,6 +151,7 @@
         display: flex;
         min-height: 100vh;
         width: @xs-container-width;
+        padding-top: @content-margin-top;
       }
 
       header {
