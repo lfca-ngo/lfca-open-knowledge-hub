@@ -1,3 +1,33 @@
+// PlusJakartaSans Font
+@font-face {
+  font-family: 'PlusJakartaSans';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''), url('/fonts/PlusJakartaSans-Regular.woff2') format('woff2'),
+    url('/fonts/PlusJakartaSans-Regular.woff2') format('woff');
+}
+@font-face {
+  font-family: 'PlusJakartaSans';
+  font-style: normal;
+  font-weight: 500;
+  src: local(''), url('/fonts/PlusJakartaSans-Medium.woff2') format('woff2'),
+    url('/fonts/PlusJakartaSans-Medium.woff2') format('woff');
+}
+@font-face {
+  font-family: 'PlusJakartaSans';
+  font-style: normal;
+  font-weight: 600;
+  src: local(''), url('/fonts/PlusJakartaSans-SemiBold.woff2') format('woff2'),
+    url('/fonts/PlusJakartaSans-SemiBold.woff2') format('woff');
+}
+@font-face {
+  font-family: 'PlusJakartaSans';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''), url('/fonts/PlusJakartaSans-Bold.woff2') format('woff2'),
+    url('/fonts/PlusJakartaSans-Bold.woff2') format('woff');
+}
+
 .font-bold(@color: var(--heading-color)) {
   font-family: @font-family;
   font-weight: 700;
@@ -8,7 +38,7 @@
 
 .font-semi(@color: var(--heading-color)) {
   font-family: @font-family;
-  font-weight: 500;
+  font-weight: 600;
   font-style: normal;
   color: @color;
   line-height: 1.2;
@@ -16,7 +46,7 @@
 
 .font-medium(@color: var(--heading-color)) {
   font-family: @font-family;
-  font-weight: 400;
+  font-weight: 500;
   font-style: normal;
   color: @color;
   line-height: 1.2;
@@ -32,20 +62,20 @@
 .h1() {
   .font-bold();
   font-size: 32px;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.4px;
 
   @media @desktop {
-    font-size: 38px;
+    font-size: 36px;
   }
 }
 
 .h2() {
   .font-bold();
   font-size: 24px;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.2px;
 
   @media @desktop {
-    font-size: 28px;
+    font-size: 26px;
   }
 }
 
