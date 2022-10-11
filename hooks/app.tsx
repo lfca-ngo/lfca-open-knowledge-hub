@@ -14,6 +14,7 @@ const AppContext = createContext({
   screenSize: DESKTOP,
 })
 
+// @TODO: replace with ant design useBreakpoint hook
 // to avoid unnecessary rerenders, we set the screen
 // size outside of the react lifecycle
 if (isBrowser()) {

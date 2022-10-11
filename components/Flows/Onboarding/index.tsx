@@ -27,12 +27,18 @@ const Intro = ({ onNext }: StepProps) => {
 export const OnboardingSteps = [
   {
     component: Intro,
-    description: 'Get to know the platform',
-    title: 'Intro',
+    title: 'Company Info',
   },
   {
     component: Intro,
-    description: 'Second step',
-    title: 'Something',
+    title: 'Personal Info',
+  },
+  {
+    component: Intro,
+    title: 'Groups',
+  },
+  {
+    component: Intro,
+    title: 'Personalize',
   },
 ]

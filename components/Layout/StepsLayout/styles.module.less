@@ -1,4 +1,6 @@
 @header-height: 62px;
+@space-between-items: 30px;
+@icon-width: 12px;
 
 .steps-layout {
   background-color: var(--layout-body-background);
@@ -10,13 +12,42 @@
       border-bottom: 1px solid @grey-light;
       display: flex;
       align-items: center;
+      padding: 0 @default-padding-min;
+
+      .steps-wrapper {
+        flex: 1;
+      }
 
       .ant-steps {
-        flex: 1;
+        width: auto;
+
+        .ant-steps-item::after {
+          display: none;
+        }
+
+        .ant-steps-item::before {
+          background-color: @black;
+        }
+
+        .ant-steps-item {
+          text-align: left;
+          flex-grow: 0;
+          flex-shrink: 1;
+          flex-basis: auto;
+        }
+
+        .ant-steps-item-container {
+          margin-left: 0;
+        }
 
         .ant-steps-item-icon {
           display: none;
         }
+      }
+
+      .close-icon {
+        margin-right: 0;
+        margin-left: auto;
       }
     }
 
@@ -29,43 +60,62 @@
         flex-direction: row;
       }
 
-      .content-layout-wrapper {
-        min-width: 0;
-        flex: 1;
-        margin: 20px 20px;
+      .content-wrapper {
+        max-width: @lg-container-width;
+        margin: 0 auto;
+        z-index: 1;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+      }
 
-        @media @desktop {
-          margin: 120px 70px;
+      .color-bg {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 0;
+        display: flex;
+
+        &::after,
+        &::before {
+          width: 50%;
+          height: 100%;
+          content: '';
         }
 
-        main {
-          width: 100%;
-
-          @media @desktop-xl {
-            max-width: 520px;
-          }
-
-          @media @desktop-xl {
-            max-width: 780px;
-          }
+        &::after {
+          background: @chalk;
         }
-
-        header {
-          position: absolute;
-          top: 10px;
-          right: 10px;
+        &::before {
+          background: @white;
         }
+      }
 
-        footer {
-          position: absolute;
-          bottom: 10px;
-          right: 10px;
-          font-size: @font-size-xs;
-        }
+      main {
+        width: 100%;
+        background: white;
+        width: @md-container-width;
+      }
+
+      aside {
+        background: @chalk;
+        height: 100%;
+        display: flex;
+        min-height: 100vh;
+        width: @xs-container-width;
+      }
+
+      header {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: @font-size-xs;
       }
     }
   }

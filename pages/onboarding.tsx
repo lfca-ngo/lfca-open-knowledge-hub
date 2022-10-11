@@ -25,6 +25,7 @@ const Onboarding: NextPage = () => {
 
   return (
     <StepsLayout
+      asideChildren={<div style={{ width: '1000px' }}>Test</div>}
       canClose
       currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}
