@@ -1,5 +1,6 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
+import { Header } from 'antd/lib/layout/layout'
 import React from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
@@ -33,35 +34,33 @@ export const StepsLayout = ({
 
   return (
     <Layout className={styles['steps-layout']} style={{ minHeight: '100vh' }}>
-      <Content>
-        <div className="steps-layout-wrapper">
-          <Logo size="large" />
-          <Steps
-            current={currentStepIndex}
-            direction={'vertical'}
-            size={isMobile ? 'small' : 'default'}
+      <Header>
+        <Logo size="small" />
+        <Steps
+          current={currentStepIndex}
+          size={isMobile ? 'small' : 'default'}
+          type="navigation"
+        >
+          {steps?.map((step, i) => (
+            <Step
+              key={`step-${i}`}
+              progressDot={() => null}
+              title={step.title}
+            />
+          ))}
+        </Steps>
+        {canClose && (
+          <Popconfirm
+            onConfirm={onClose}
+            placement="left"
+            title="Are you sure?"
           >
-            {steps?.map((step, i) => (
-              <Step
-                description={step.description}
-                key={`step-${i}`}
-                title={step.title}
-              />
-            ))}
-          </Steps>
-        </div>
+            <Button icon={<CloseOutlined />} type="link" />
+          </Popconfirm>
+        )}
+      </Header>
+      <Content>
         <div className="content-layout-wrapper">
-          <header>
-            {canClose && (
-              <Popconfirm
-                onConfirm={onClose}
-                placement="left"
-                title="Are you sure?"
-              >
-                <Button icon={<CloseOutlined />} type="link" />
-              </Popconfirm>
-            )}
-          </header>
           <main>{children}</main>
           <Footer />
         </div>
