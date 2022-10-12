@@ -1,11 +1,9 @@
-import { OnboardingSteps } from './Onboarding'
-import { OnboardingLeaderSteps } from './OnboardingLeader'
-import { OnboardingOfficerSteps } from './OnboardingOfficer'
-import { RenewalLeaderSteps } from './RenewalLeader'
+export * from './Onboarding'
+export * from './OnboardingLeader'
+export * from './OnboardingOfficer'
 
-export {
-  OnboardingLeaderSteps,
-  OnboardingOfficerSteps,
-  OnboardingSteps,
-  RenewalLeaderSteps,
+export interface StepProps {
+  title: string
+  component?: React.ReactNode
+  sideComponent?: React.ReactNode
 }

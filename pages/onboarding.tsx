@@ -3,13 +3,25 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import React from 'react'
 
-import { OnboardingSteps } from '../components/Flows'
+import { CompanyInfo, CompanyInfoSide } from '../components/Flows/Onboarding'
 import { StepsLayout } from '../components/Layout'
 // import { withAuth } from '../utils/with-auth'
 
 const Onboarding: NextPage = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
+
+  const OnboardingSteps = [
+    {
+      component: CompanyInfo,
+      sideComponent: CompanyInfoSide,
+      title: 'Company Info',
+    },
+    {
+      component: CompanyInfo,
+      title: 'Personal Info',
+    },
+  ]
 
   const handleOnNext = () => {
     if (currentStepIndex === OnboardingSteps.length - 1) {
@@ -22,14 +34,15 @@ const Onboarding: NextPage = () => {
   }
 
   const Step = OnboardingSteps[currentStepIndex]?.component
+  const SideComponent = OnboardingSteps[currentStepIndex]?.sideComponent
 
   return (
     <StepsLayout
-      asideChildren={<div style={{ width: '1000px' }}>Test</div>}
+      asideChildren={SideComponent ? <SideComponent /> : null}
       canClose
       currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}
-      steps={OnboardingSteps}
+      steps={OnboardingSteps.map((s) => ({ title: s.title }))}
     >
       {Step ? <Step onNext={handleOnNext} /> : null}
     </StepsLayout>

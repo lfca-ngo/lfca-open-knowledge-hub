@@ -1,6 +1,7 @@
 import { ArrowRightOutlined, CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
+import classNames from 'classnames'
 import React from 'react'
 
 import { useScreenSize } from '../../../hooks/app'
@@ -19,7 +20,6 @@ interface StepsLayoutProps {
   currentStepIndex: number
   onClose?: () => void
   steps: {
-    description: string
     title: string
   }[]
 }
@@ -36,7 +36,12 @@ export const StepsLayout = ({
   const isMobile = screenSizeType === 'sm'
 
   return (
-    <Layout className={styles['steps-layout']} style={{ minHeight: '100vh' }}>
+    <Layout
+      className={classNames(styles['steps-layout'], {
+        'has-sider': asideChildren,
+      })}
+      style={{ minHeight: '100vh' }}
+    >
       <Header>
         <Logo size="small" />
         <div className="steps-wrapper">
