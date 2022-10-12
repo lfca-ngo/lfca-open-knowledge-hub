@@ -1,0 +1,84 @@
+@keyframes noise {
+  0%,
+  4%,
+  27%,
+  64%,
+  93% {
+    transform: scale(1.15);
+  }
+  10%,
+  14%,
+  24%,
+  37%,
+  74%,
+  83% {
+    transform: scale(1.05);
+  }
+  21%,
+  67%,
+  47%,
+  69%,
+  77%,
+  9%,
+  30% {
+    transform: scale(1);
+  }
+  5%,
+  7%,
+  12%,
+  32%,
+  54%,
+  89% {
+    transform: scale(1.1);
+  }
+}
+
+.animation-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  [class~='bubble-wrapper'] {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+
+    &[class~='woman'] {
+      [class~='video-wrapper'] {
+        border-color: @blue;
+        &::before {
+          transition-delay: 1.2s;
+          background: @blue;
+        }
+      }
+    }
+
+    [class~='video-wrapper'] {
+      overflow: hidden;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      border: 5px solid @yellow;
+
+      &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        content: '';
+        animation: 3s 0.4s noise ease-in-out infinite alternate;
+        opacity: 0.5;
+        border-radius: 50%;
+        background: @yellow;
+        transform: scale(1);
+      }
+
+      video {
+        width: 100%;
+        position: relative;
+      }
+    }
+  }
+}

@@ -21,5 +21,5 @@ export const Personalize = ({ onNext }: DefaultStepProps) => {
 }
 
 export const PersonalizeSide = () => {
-  return <div style={{ minWidth: '300px' }}>Side Content</div>
+  return <div style={{ minWidth: '300px' }}></div>
 }

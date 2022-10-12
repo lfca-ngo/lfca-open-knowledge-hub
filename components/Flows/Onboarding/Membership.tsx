@@ -21,5 +21,5 @@ export const Membership = ({ onNext }: DefaultStepProps) => {
 }
 
 export const MembershipSide = () => {
-  return <div style={{ minWidth: '300px' }}>Side Content</div>
+  return <div style={{ minWidth: '300px' }}></div>
 }

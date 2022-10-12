@@ -78,5 +78,5 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
 }
 
 export const PersonalInfoSide = () => {
-  return <div style={{ minWidth: '300px' }}>Side Content</div>
+  return <div style={{ minWidth: '300px' }}></div>
 }

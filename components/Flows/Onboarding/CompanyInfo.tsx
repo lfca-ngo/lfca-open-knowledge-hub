@@ -9,8 +9,10 @@ import {
   Space,
   Tag,
 } from 'antd'
+import { motion } from 'framer-motion'
 
 import { DefaultStepProps } from '.'
+import styles from './styles.module.less'
 
 export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
   return (
@@ -59,6 +61,59 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
   )
 }
 
+const variantsWoman = {
+  hidden: {
+    bottom: -200,
+    left: 200,
+    opacity: 0,
+  },
+  visible: {
+    bottom: 200,
+    opacity: 1,
+    transition: { duration: 2 },
+  },
+}
+
+const variantsMan = {
+  hidden: {
+    bottom: -200,
+    opacity: 0,
+  },
+  visible: {
+    bottom: 250,
+    opacity: 1,
+    transition: { duration: 2.5 },
+  },
+}
+
 export const CompanyInfoSide = () => {
-  return <div style={{ minWidth: '300px' }}>Side Content</div>
+  return (
+    <div className={styles['animation-container']}>
+      <motion.div
+        animate="visible"
+        className="bubble-wrapper man"
+        initial="hidden"
+        variants={variantsMan}
+      >
+        <div className="video-wrapper">
+          <video autoPlay loop muted>
+            <source src="/video/person-talking.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </motion.div>
+
+      <motion.div
+        animate="visible"
+        className="bubble-wrapper woman"
+        initial="hidden"
+        variants={variantsWoman}
+      >
+        <div className="video-wrapper">
+          <video autoPlay loop muted>
+            <source src="/video/woman-talking.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </motion.div>
+    </div>
+  )
 }

@@ -21,5 +21,5 @@ export const Invite = ({ onNext }: DefaultStepProps) => {
 }
 
 export const InviteSide = () => {
-  return <div style={{ minWidth: '300px' }}>Side Content</div>
+  return <div style={{ minWidth: '300px' }}></div>
 }

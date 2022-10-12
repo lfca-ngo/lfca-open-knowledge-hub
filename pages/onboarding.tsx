@@ -17,7 +17,9 @@ import {
   Personalize,
   PersonalizeSide,
 } from '../components/Flows/Onboarding'
-import iPadImage from '../components/Flows/Onboarding/bg-image.png'
+import CommunityFacesImage from '../components/Flows/Onboarding/community-faces.png'
+import CoursePreviewImage from '../components/Flows/Onboarding/course-preview.png'
+import PlatformPreviewImage from '../components/Flows/Onboarding/platform-preview.png'
 import { StepsLayout } from '../components/Layout'
 
 const Onboarding: NextPage = () => {
@@ -28,17 +30,19 @@ const Onboarding: NextPage = () => {
     {
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
-      sideComponentBackgroundImage: iPadImage,
+      sideComponentBackgroundImage: PlatformPreviewImage,
       title: 'Company Info',
     },
     {
       component: PersonalInfo,
       sideComponent: PersonalInfoSide,
+      sideComponentBackgroundImage: CommunityFacesImage,
       title: 'Personal Info',
     },
     {
       component: Groups,
       sideComponent: GroupsSide,
+      sideComponentBackgroundImage: CoursePreviewImage,
       title: 'Groups',
     },
     {
