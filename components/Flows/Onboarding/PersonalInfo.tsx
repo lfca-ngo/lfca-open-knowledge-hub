@@ -10,11 +10,9 @@ import {
   Tag,
 } from 'antd'
 
-export interface PersonalInfoProps {
-  onNext: () => void
-}
+import { DefaultStepProps } from '.'
 
-export const PersonalInfo = ({ onNext }: PersonalInfoProps) => {
+export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Personal Info</Tag>

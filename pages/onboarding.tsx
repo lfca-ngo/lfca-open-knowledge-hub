@@ -6,8 +6,16 @@ import React from 'react'
 import {
   CompanyInfo,
   CompanyInfoSide,
+  Groups,
+  GroupsSide,
+  Invite,
+  InviteSide,
+  Membership,
+  MembershipSide,
   PersonalInfo,
   PersonalInfoSide,
+  Personalize,
+  PersonalizeSide,
 } from '../components/Flows/Onboarding'
 import iPadImage from '../components/Flows/Onboarding/bg-image.png'
 import { StepsLayout } from '../components/Layout'
@@ -27,6 +35,26 @@ const Onboarding: NextPage = () => {
       component: PersonalInfo,
       sideComponent: PersonalInfoSide,
       title: 'Personal Info',
+    },
+    {
+      component: Groups,
+      sideComponent: GroupsSide,
+      title: 'Groups',
+    },
+    {
+      component: Personalize,
+      sideComponent: PersonalizeSide,
+      title: 'Personalize',
+    },
+    {
+      component: Invite,
+      sideComponent: InviteSide,
+      title: 'Invite',
+    },
+    {
+      component: Membership,
+      sideComponent: MembershipSide,
+      title: 'Membership',
     },
   ]
 
