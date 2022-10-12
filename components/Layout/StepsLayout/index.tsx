@@ -48,7 +48,7 @@ export const StepsLayout = ({
           <Container alignment="center" size="lg">
             <Steps
               current={currentStepIndex}
-              size={isMobile ? 'small' : 'default'}
+              direction="horizontal"
               type="navigation"
             >
               {steps?.map((step, i) => (

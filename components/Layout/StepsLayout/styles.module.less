@@ -2,6 +2,7 @@
 @space-between-items: 30px;
 @icon-width: 12px;
 @content-margin-top: 120px;
+@content-margin-top-mobile: 40px;
 
 .steps-layout {
   background-color: var(--layout-body-background);
@@ -15,7 +16,6 @@
         width: 100%;
         height: 100%;
         z-index: 0;
-        display: flex;
 
         &::after,
         &::before {
@@ -31,8 +31,9 @@
           background: @white;
         }
 
-        @media @mobile {
-          display: none;
+        display: none;
+        @media @desktop {
+          display: flex;
         }
       }
     }
@@ -46,7 +47,9 @@
       border-bottom: 1px solid @grey-light;
       display: flex;
       align-items: center;
-      padding: 0 @default-padding-min;
+      padding: 0 @default-padding-xs;
+      max-width: 100%;
+      overflow: scroll;
 
       .steps-wrapper {
         flex: 1;
@@ -54,10 +57,11 @@
 
       .ant-steps {
         width: auto;
-        padding-top: 0;
         height: @header-height;
         display: flex;
         align-items: center;
+        padding: 0 @default-padding-xs;
+        flex-direction: row;
 
         .ant-steps-item::after {
           display: none;
@@ -158,10 +162,11 @@
         width: 100%;
         background: white;
         width: 100%;
-        padding-top: @content-margin-top;
+        padding: @content-margin-top-mobile @default-padding-xs 0;
 
         @media @desktop {
           width: @md-container-width;
+          padding: @content-margin-top @default-padding-xs 0;
         }
       }
 
@@ -171,8 +176,10 @@
         display: flex;
         width: 100%;
         padding-top: @content-margin-top;
+        padding: @content-margin-top-mobile @default-padding-xs 0;
 
         @media @desktop {
+          padding: @content-margin-top @default-padding-xs 0;
           min-height: 100vh;
           width: @xs-container-width;
         }
