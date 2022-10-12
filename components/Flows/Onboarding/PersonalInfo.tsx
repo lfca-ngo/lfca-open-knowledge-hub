@@ -23,7 +23,7 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
 
       <Form layout="vertical">
         <Form.Item label="What's your role at Netflix?">
-          <Select>
+          <Select placeholder="Please select">
             <Select.Option>Something</Select.Option>
           </Select>
         </Form.Item>
@@ -31,12 +31,12 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
         <Row gutter={24}>
           <Col md={12} xs={24}>
             <Form.Item label="First name">
-              <Input />
+              <Input placeholder="Greta" />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Last name">
-              <Input />
+              <Input placeholder="Thunberg" />
             </Form.Item>
           </Col>
         </Row>
@@ -44,24 +44,24 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
         <Row gutter={24}>
           <Col md={12} xs={24}>
             <Form.Item label="Email">
-              <Input />
+              <Input placeholder="greta@thunberg.earth" type="email" />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Password">
-              <Input />
+              <Input placeholder="*********" type="password" />
             </Form.Item>
           </Col>
         </Row>
 
-        <Form.Item>
+        <Form.Item className="flat">
           <Checkbox>
             I hereby confirm that I am entitled to take action for my
             organization
           </Checkbox>
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item className="flat">
           <Checkbox>
             I have read the Terms and Conditions and Privacy Policy
           </Checkbox>

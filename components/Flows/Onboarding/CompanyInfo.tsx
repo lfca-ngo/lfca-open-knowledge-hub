@@ -29,14 +29,14 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
         <Row gutter={24}>
           <Col md={12} xs={24}>
             <Form.Item label="Choose sectors">
-              <Select>
+              <Select placeholder="Please select">
                 <Select.Option>Something</Select.Option>
               </Select>
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Team size">
-              <Select>
+              <Select placeholder="Please select">
                 <Select.Option>Something</Select.Option>
               </Select>
             </Form.Item>
