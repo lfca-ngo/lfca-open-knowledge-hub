@@ -2,7 +2,7 @@ import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { RenewalLeaderSteps } from '../components/Flows'
+import { Compare, Footprint, Share } from '../components/Flows/RenewalLeader'
 import { StepsLayout } from '../components/Layout'
 import { useUser } from '../hooks/user'
 import { fetchAllQuestionnaires } from '../services/contentful'
@@ -13,6 +13,24 @@ const OnboardingLeader: NextPage = (props: any) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
   const { user } = useUser()
+
+  const RenewalLeaderSteps = [
+    {
+      component: Footprint,
+      description: 'Understand your emissions',
+      title: 'Footprint',
+    },
+    {
+      component: Compare,
+      description: 'Compare to last year',
+      title: 'Compare',
+    },
+    {
+      component: Share,
+      description: 'Use your influence',
+      title: 'Share the news',
+    },
+  ]
 
   const handleOnNext = () => {
     if (currentStepIndex === RenewalLeaderSteps.length - 1) {

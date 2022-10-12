@@ -2,7 +2,12 @@ import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { OnboardingLeaderSteps } from '../components/Flows'
+import {
+  Commit,
+  Footprint,
+  Invite,
+  Share,
+} from '../components/Flows/OnboardingLeader'
 import { StepsLayout } from '../components/Layout'
 import { useUser } from '../hooks/user'
 import { fetchAllQuestionnaires } from '../services/contentful'
@@ -13,6 +18,25 @@ const OnboardingLeader: NextPage = (props: any) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
   const { user } = useUser()
+
+  const OnboardingLeaderSteps = [
+    {
+      component: Commit,
+      title: 'Pledge',
+    },
+    {
+      component: Invite,
+      title: 'Invite',
+    },
+    {
+      component: Footprint,
+      title: 'Footprint',
+    },
+    {
+      component: Share,
+      title: 'Share the news',
+    },
+  ]
 
   const handleOnNext = () => {
     if (currentStepIndex === OnboardingLeaderSteps.length - 1) {

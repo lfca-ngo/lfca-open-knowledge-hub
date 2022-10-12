@@ -3,9 +3,14 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import React from 'react'
 
-import { CompanyInfo, CompanyInfoSide } from '../components/Flows/Onboarding'
+import {
+  CompanyInfo,
+  CompanyInfoSide,
+  PersonalInfo,
+  PersonalInfoSide,
+} from '../components/Flows/Onboarding'
+import iPadImage from '../components/Flows/Onboarding/bg-image.png'
 import { StepsLayout } from '../components/Layout'
-// import { withAuth } from '../utils/with-auth'
 
 const Onboarding: NextPage = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
@@ -15,10 +20,12 @@ const Onboarding: NextPage = () => {
     {
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
+      sideComponentBackgroundImage: iPadImage,
       title: 'Company Info',
     },
     {
-      component: CompanyInfo,
+      component: PersonalInfo,
+      sideComponent: PersonalInfoSide,
       title: 'Personal Info',
     },
   ]
@@ -35,10 +42,13 @@ const Onboarding: NextPage = () => {
 
   const Step = OnboardingSteps[currentStepIndex]?.component
   const SideComponent = OnboardingSteps[currentStepIndex]?.sideComponent
+  const BackgroundImage =
+    OnboardingSteps[currentStepIndex]?.sideComponentBackgroundImage
 
   return (
     <StepsLayout
       asideChildren={SideComponent ? <SideComponent /> : null}
+      backgroundImage={BackgroundImage}
       canClose
       currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}

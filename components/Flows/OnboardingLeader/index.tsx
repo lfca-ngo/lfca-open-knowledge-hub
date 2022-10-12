@@ -13,7 +13,7 @@ interface StepProps {
   onNext: () => void
 }
 
-const Commit = ({ onNext }: StepProps) => {
+export const Commit = ({ onNext }: StepProps) => {
   const { user } = useUser()
 
   return (
@@ -32,7 +32,7 @@ const Commit = ({ onNext }: StepProps) => {
   )
 }
 
-const Invite = ({ onNext }: StepProps) => {
+export const Invite = ({ onNext }: StepProps) => {
   const [hasMinimumInvited, setHasMinimumInvited] = useState(false)
   const [isLeaderOfficer, setIsLeaderOfficer] = useState(false)
 
@@ -82,7 +82,7 @@ interface FootprintProps extends StepProps {
   questionnaire: ContentfulQuestionnaireFields
 }
 
-const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
+export const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
 
   const [{ error, fetching }, completeUserAction] =
@@ -138,7 +138,7 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   )
 }
 
-const Share = () => {
+export const Share = () => {
   return (
     <div>
       <Tag className="super-text">Share</Tag>
@@ -155,26 +155,3 @@ const Share = () => {
     </div>
   )
 }
-
-export const OnboardingLeaderSteps = [
-  {
-    component: Commit,
-    description: 'Commit to action',
-    title: 'Pledge',
-  },
-  {
-    component: Invite,
-    description: 'Get your team on board',
-    title: 'Invite',
-  },
-  {
-    component: Footprint,
-    description: 'Understand your emissions',
-    title: 'Footprint',
-  },
-  {
-    component: Share,
-    description: 'Use your influence',
-    title: 'Share the news',
-  },
-]

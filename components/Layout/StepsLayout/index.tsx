@@ -2,9 +2,9 @@ import { ArrowRightOutlined, CloseOutlined } from '@ant-design/icons'
 import { Button, Layout, Popconfirm, Steps } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import classNames from 'classnames'
+import { ImageProps } from 'next/image'
 import React from 'react'
 
-import { useScreenSize } from '../../../hooks/app'
 import { Logo } from '../../Logo'
 import { Container } from '../Container'
 import { Footer } from '../Footer'
@@ -15,6 +15,7 @@ const { Step } = Steps
 
 interface StepsLayoutProps {
   asideChildren?: React.ReactNode
+  backgroundImage?: ImageProps
   canClose: boolean
   children: React.ReactNode
   currentStepIndex: number
@@ -26,21 +27,20 @@ interface StepsLayoutProps {
 
 export const StepsLayout = ({
   asideChildren,
+  backgroundImage,
   canClose,
   children,
   currentStepIndex,
   onClose,
   steps,
 }: StepsLayoutProps) => {
-  const screenSizeType = useScreenSize()
-  const isMobile = screenSizeType === 'sm'
+  const bgImageWidth = backgroundImage?.width || 0
 
   return (
     <Layout
       className={classNames(styles['steps-layout'], {
         'has-sider': asideChildren,
       })}
-      style={{ minHeight: '100vh' }}
     >
       <Header>
         <Logo size="small" />
@@ -81,13 +81,21 @@ export const StepsLayout = ({
           </Popconfirm>
         )}
       </Header>
-      <Content className="content-layout-wrapper">
+      <Content>
         <div className="content-wrapper">
           <main>{children}</main>
           {asideChildren && <aside>{asideChildren}</aside>}
         </div>
-
-        <div className="color-bg" />
+        {/* Needed for background styling on large screens */}
+        <div
+          className="color-bg"
+          style={{
+            backgroundImage: backgroundImage
+              ? `url(${backgroundImage.src})`
+              : 'none',
+            backgroundSize: backgroundImage ? `calc(${bgImageWidth}px / 2)` : 0,
+          }}
+        />
       </Content>
       <Footer />
     </Layout>
