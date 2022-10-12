@@ -64,13 +64,13 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
 const variantsWoman = {
   hidden: {
     bottom: -200,
-    left: 200,
+    left: 160,
     opacity: 0,
   },
   visible: {
-    bottom: 200,
+    bottom: 160,
     opacity: 1,
-    transition: { duration: 2 },
+    transition: { damping: 10, duration: 2, stiffness: 20, type: 'spring' },
   },
 }
 
@@ -80,9 +80,15 @@ const variantsMan = {
     opacity: 0,
   },
   visible: {
-    bottom: 250,
+    bottom: 220,
     opacity: 1,
-    transition: { duration: 2.5 },
+    transition: {
+      damping: 10,
+      delay: 0.5,
+      duration: 2,
+      stiffness: 20,
+      type: 'spring',
+    },
   },
 }
 

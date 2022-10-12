@@ -39,16 +39,16 @@
   position: relative;
 
   [class~='bubble-wrapper'] {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     position: absolute;
 
     &[class~='woman'] {
       [class~='video-wrapper'] {
-        border-color: @blue;
+        border-color: @yellow;
         &::before {
           transition-delay: 1.2s;
-          background: @blue;
+          background: @yellow;
         }
       }
     }
@@ -58,7 +58,7 @@
       border-radius: 50%;
       width: 100%;
       height: 100%;
-      border: 5px solid @yellow;
+      border: 5px solid @wine;
 
       &::before {
         position: absolute;
@@ -68,10 +68,10 @@
         left: 0;
         margin: 0;
         content: '';
-        animation: 3s 0.4s noise ease-in-out infinite alternate;
-        opacity: 0.5;
+        animation: 5s 0.4s noise ease-in-out infinite alternate;
+        opacity: 0.3;
         border-radius: 50%;
-        background: @yellow;
+        background: @wine;
         transform: scale(1);
       }
 
