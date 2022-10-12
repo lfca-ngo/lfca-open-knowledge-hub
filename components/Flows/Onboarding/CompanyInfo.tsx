@@ -103,7 +103,7 @@ export const CompanyInfoSide = () => {
       >
         <div className="video-wrapper">
           <video autoPlay loop muted>
-            <source src="/video/person-talking.mp4" type="video/mp4" />
+            <source src="/video/man-talking.mp4" type="video/mp4" />
           </video>
         </div>
       </motion.div>
