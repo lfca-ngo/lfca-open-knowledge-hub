@@ -14,6 +14,48 @@ import { motion } from 'framer-motion'
 import { DefaultStepProps } from '.'
 import styles from './styles.module.less'
 
+const SECTOR_OPTIONS = [
+  {
+    key: 'tech',
+    label: 'Software',
+  },
+  {
+    key: 'media',
+    label: 'Media',
+  },
+  {
+    key: 'food',
+    label: 'Food',
+  },
+  {
+    key: 'mobility',
+    label: 'Mobility',
+  },
+]
+
+const TEAM_SIZE_OPTIONS = [
+  {
+    key: '1',
+    label: '1-10',
+  },
+  {
+    key: '10',
+    label: '10-50',
+  },
+  {
+    key: '50',
+    label: '50-100',
+  },
+  {
+    key: '100',
+    label: '100-500',
+  },
+  {
+    key: '500',
+    label: '>500',
+  },
+]
+
 export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
   return (
     <div>
@@ -31,15 +73,19 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
         <Row gutter={24}>
           <Col md={12} xs={24}>
             <Form.Item label="Choose sectors">
-              <Select placeholder="Please select">
-                <Select.Option>Something</Select.Option>
+              <Select mode="multiple" placeholder="Please select">
+                {SECTOR_OPTIONS.map((option) => (
+                  <Select.Option key={option.key}>{option.label}</Select.Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Team size">
               <Select placeholder="Please select">
-                <Select.Option>Something</Select.Option>
+                {TEAM_SIZE_OPTIONS.map((option) => (
+                  <Select.Option key={option.key}>{option.label}</Select.Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -103,7 +149,7 @@ export const CompanyInfoSide = () => {
       >
         <div className="video-wrapper">
           <video autoPlay loop muted>
-            <source src="/video/man-talking.mp4" type="video/mp4" />
+            <source src="/video/woman-talking.mp4" type="video/mp4" />
           </video>
         </div>
       </motion.div>
@@ -116,7 +162,7 @@ export const CompanyInfoSide = () => {
       >
         <div className="video-wrapper">
           <video autoPlay loop muted>
-            <source src="/video/woman-talking.mp4" type="video/mp4" />
+            <source src="/video/man-talking.mp4" type="video/mp4" />
           </video>
         </div>
       </motion.div>

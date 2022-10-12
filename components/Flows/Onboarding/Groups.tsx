@@ -1,12 +1,12 @@
-import { Button, List, Space, Tag } from 'antd'
+import { Button, Space, Tag } from 'antd'
 
 import { DefaultStepProps } from '.'
 
-const GROUPS_FEATURES = [
-  { subtitle: '4 sessions a 1h with 10-20 members', title: 'Format' },
-  { subtitle: 'Meet and mingle with peers', title: 'Get to know us' },
-  { subtitle: 'How to build a good climate strategy', title: 'Outcome' },
-]
+// const GROUPS_FEATURES = [
+//   { subtitle: '4 sessions a 1h with 10-20 members', title: 'Format' },
+//   { subtitle: 'Meet and mingle with peers', title: 'Get to know us' },
+//   { subtitle: 'How to build a good climate strategy', title: 'Outcome' },
+// ]
 
 export const Groups = ({ onNext }: DefaultStepProps) => {
   return (
@@ -28,8 +28,8 @@ export const Groups = ({ onNext }: DefaultStepProps) => {
 
 export const GroupsSide = () => {
   return (
-    <div style={{ minWidth: '300px' }}>
-      <List
+    <div>
+      {/* <List
         bordered
         className="simple-bordered-list"
         dataSource={GROUPS_FEATURES}
@@ -39,7 +39,7 @@ export const GroupsSide = () => {
             <div className="subtitle">{item.subtitle}</div>
           </List.Item>
         )}
-      />
+      /> */}
     </div>
   )
 }

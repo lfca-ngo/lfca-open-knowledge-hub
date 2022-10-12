@@ -12,6 +12,25 @@ import {
 
 import { DefaultStepProps } from '.'
 
+const JOB_OPTIONS = [
+  {
+    key: 'ceo',
+    label: 'CEO, Managing Director',
+  },
+  {
+    key: 'sust',
+    label: 'Head of Sustainability',
+  },
+  {
+    key: 'marketing',
+    label: 'Marketing',
+  },
+  {
+    key: 'product',
+    label: 'Product',
+  },
+]
+
 export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
   return (
     <div>
@@ -24,7 +43,9 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
       <Form layout="vertical">
         <Form.Item label="What's your role at Netflix?">
           <Select placeholder="Please select">
-            <Select.Option>Something</Select.Option>
+            {JOB_OPTIONS.map((option) => (
+              <Select.Option key={option.key}>{option.label}</Select.Option>
+            ))}
           </Select>
         </Form.Item>
 
