@@ -5,6 +5,7 @@ fragment User on User {
     name
     programContentId
     subscriptionType
+    employeeCount
   }
   country
   deletedAt

@@ -7,13 +7,15 @@ import styles from './styles.module.less'
 export type OptionKey = string | number | string[] | number[]
 
 export interface Option {
+  description?: string
+  icon?: React.ReactNode
+  recommended?: boolean
   key: OptionKey
   label: string
   help?: string
 }
 
 interface ListSelectProps {
-  grouped?: boolean
   value?: OptionKey[]
   mode?: 'multiple' | 'single'
   onChange?: (value: OptionKey[]) => void
@@ -61,7 +63,13 @@ export const ListSelect = ({
             key={`key-${i}`}
             onClick={() => handleChange(item.key)}
           >
-            {item.label}
+            {item?.icon && <div className="icon-wrapper">{item?.icon}</div>}
+            <div className="content">
+              <div className="label">{item.label}</div>
+              {item?.description && (
+                <div className="short-description">{item?.description}</div>
+              )}
+            </div>
           </Button>
         )
       })}

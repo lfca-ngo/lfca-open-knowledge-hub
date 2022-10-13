@@ -1,11 +1,12 @@
-import { CloseCircleFilled, CheckCircleFilled } from '@ant-design/icons'
-import { Button, Card, Divider, List, Space, Tag } from 'antd'
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
+import { Avatar, Button, Card, Col, Divider, List, Row, Space, Tag } from 'antd'
 
+import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
 import { withAuth } from '../../../utils/with-auth'
 import { ListSelect, OptionKey } from '../../ListSelect'
+import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
-
 import styles from './styles.module.less'
 
 export const MembershipContent = ({
@@ -33,13 +34,16 @@ export const MembershipContent = ({
         mode="single"
         onChange={onSubscriptionChange}
         options={subscriptionsData.map((s) => ({
+          description: s.shortDescription,
+          icon: <Avatar shape="square" src={s.icon.url} />,
           key: s.name,
           label: s.name,
+          recommended: s.name === 'PREMIUM',
         }))}
         value={sharedState?.selectedSubscriptionType}
       />
 
-      <Space>
+      <Space style={{ marginTop: '20px' }}>
         <Button onClick={onNext} size="large" type="primary">
           Continue
         </Button>
@@ -61,6 +65,9 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
 
+  const { company } = useUser()
+  const calculatedPrice = calculatePricePoint(plan, company?.employeeCount)
+
   return (
     <div className={styles['membership-summary']}>
       <h4>Summary</h4>
@@ -78,9 +85,9 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
               <List.Item>
                 <div className="icon-wrapper">
                   {item?.disabled ? (
-                    <CloseCircleFilled className="wine" />
-                  ) : (
                     <CheckCircleFilled className="green" />
+                  ) : (
+                    <CloseCircleFilled className="wine" />
                   )}
                 </div>
                 {item?.title}
@@ -89,6 +96,18 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
           }}
         />
         <Divider />
+        <Row className="price-summary">
+          <Col className="price-hints" xs={12}>
+            <div>Total</div>
+            <small>per month, paid yearly</small>
+          </Col>
+          <Col className="price" xs={12}>
+            <div>
+              {calculatedPrice?.price ? `${calculatedPrice?.price} €` : '-'}
+            </div>
+            <small>add. VAT</small>
+          </Col>
+        </Row>
       </Card>
     </div>
   )

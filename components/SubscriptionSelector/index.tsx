@@ -28,25 +28,9 @@ import {
 } from '../../services/lfca-backend'
 import { getMailToLink } from '../../utils'
 import { VideoWrapper } from '../VideoWrapper'
+import { calculatePricePoint, getUpgradeEmailBody } from './utils'
 
 const DEFAULT_PLAN = 'BASIC'
-
-const getUpgradeEmailBody = ({
-  companyName,
-  plan,
-  size,
-  userName,
-}: {
-  companyName: string
-  plan: string
-  size: string
-  userName: string
-}) => `Hello lfca.earth Team! 
-We would love to upgrade our membership to ${plan}. Our team size as of today is ${size}. Could you please provide us with a payment link?
-
-Thanks,
-${userName}
-${companyName}`
 
 export const SubscriptionSelector = ({
   subscriptions = [],
@@ -152,9 +136,7 @@ export const SubscriptionSelector = ({
         tabPosition="left"
       >
         {subscriptions.map((plan) => {
-          const calculatedPricePoint = plan.pricing.find(
-            (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
-          )
+          const calculatedPricePoint = calculatePricePoint(plan, employeeCount)
 
           return (
             <TabPane

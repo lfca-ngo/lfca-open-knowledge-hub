@@ -108,12 +108,27 @@
   :global {
     .summary-title {
       .font-semi();
+      margin: 0 0 20px;
     }
     .ant-list .ant-list-item {
       display: flex;
       justify-content: flex-start;
       .icon-wrapper {
         margin-right: 10px;
+      }
+    }
+    .price-summary {
+      .price {
+        text-align: right;
+      }
+
+      .price-hints,
+      .price {
+        .font-semi();
+
+        small {
+          .font-regular();
+        }
       }
     }
   }
