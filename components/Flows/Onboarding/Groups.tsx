@@ -5,6 +5,7 @@ import {
   EventParticipationStatus,
   EventStatus,
 } from '../../../services/lfca-backend'
+import { withAuth } from '../../../utils/with-auth'
 import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
 import { DefaultStepProps } from './..'
@@ -59,14 +60,14 @@ const GROUPS: EventFragment[] = [
     participationRequestsPendingCount: 0,
     participationRequestStatus: null,
     recurrence: 'RRULE:FREQ=WEEKLY;WKST=SU;INTERVAL=4;BYDAY=WE',
-    start: '2022-10-12T08:00:00.000Z',
-    status: EventStatus.RUNNING,
-    title: 'Food Products (e-commerce)',
+    start: '2022-03-21T08:00:00.000Z',
+    status: EventStatus.UPCOMING,
+    title: 'Onboarding March',
     videoConferenceUrl: 'https://meet.google.com/tfk-njja-xun',
   },
 ]
 
-export const Groups = ({ onNext }: DefaultStepProps) => {
+const GroupsContent = ({ onNext }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
@@ -104,6 +105,8 @@ export const Groups = ({ onNext }: DefaultStepProps) => {
     </div>
   )
 }
+
+export const Groups = withAuth(GroupsContent)
 
 export const GroupsSide = () => {
   return null

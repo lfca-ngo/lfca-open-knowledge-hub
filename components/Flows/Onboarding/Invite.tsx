@@ -1,8 +1,9 @@
 import { Button, Space, Tag } from 'antd'
 
+import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from './..'
 
-export const Invite = ({ onNext }: DefaultStepProps) => {
+const InviteContent = ({ onNext }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
@@ -19,6 +20,8 @@ export const Invite = ({ onNext }: DefaultStepProps) => {
     </div>
   )
 }
+
+export const Invite = withAuth(InviteContent)
 
 export const InviteSide = () => {
   return null

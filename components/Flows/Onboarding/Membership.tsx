@@ -1,8 +1,9 @@
 import { Button, Space, Tag } from 'antd'
 
+import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from './..'
 
-export const Membership = ({ onNext }: DefaultStepProps) => {
+export const MembershipContent = ({ onNext }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
@@ -19,6 +20,8 @@ export const Membership = ({ onNext }: DefaultStepProps) => {
     </div>
   )
 }
+
+export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = () => {
   return null
