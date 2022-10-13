@@ -2,27 +2,15 @@ fragment Event on Event {
   description
   end
   id
-  isAllDay
-  participationRequestsApprovedCount
-  participationRequestsPendingCount
-  participationRequestStatus
-  recurrence
+  isCancelled
+  participationsAwaitingAdminApprovalCount
+  participationsAwaitingUserRSVPCount
+  participationStatus
+  participationsUserRSVPAcceptedCount
+  participationsUserRSVPDeclinedCount
+  recurrenceRule
   start
   status
   title
   videoConferenceUrl
-  participationRequests {
-    id
-    status
-    user {
-      firstName
-      id
-      lastName
-      company {
-        id
-        name
-        logoUrl
-      }
-    }
-  }
 }

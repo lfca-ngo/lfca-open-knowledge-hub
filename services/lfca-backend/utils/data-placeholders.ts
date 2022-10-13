@@ -50,15 +50,17 @@ export const EMPTY_EVENT: EventFragment = {
   description: '',
   end: '',
   id: '',
-  isAllDay: false,
-  participationRequests: [],
-  participationRequestsApprovedCount: 0,
-  participationRequestsPendingCount: 0,
-  participationRequestStatus: null,
-  recurrence: null,
+  isCancelled: false,
+  participationsAwaitingAdminApprovalCount: 0,
+  participationsAwaitingUserRSVPCount: 0,
+  participationStatus: null,
+  participationsUserRSVPAcceptedCount: 0,
+  participationsUserRSVPDeclinedCount: 0,
+  recurrenceRule: null,
   start: '',
   status: EventStatus.UPCOMING,
   title: '',
+  videoConferenceUrl: '',
 }
 
 // create array with 2 empty events
