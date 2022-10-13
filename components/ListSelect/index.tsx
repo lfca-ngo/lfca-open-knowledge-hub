@@ -1,7 +1,8 @@
 import { Button } from 'antd'
-import classNames from 'classnames'
 import isEqual from 'lodash.isequal'
 import { useEffect, useState } from 'react'
+
+import styles from './styles.module.less'
 
 export type OptionKey = string | number | string[] | number[]
 
@@ -51,14 +52,14 @@ export const ListSelect = ({
   }, [value, selected])
 
   return (
-    <div className={classNames('list-select')}>
+    <div className={styles['list-select']}>
       {options?.map((item, i) => {
         const isSelected = selected?.includes(item.key)
         return (
           <Button
+            ghost={isSelected}
             key={`key-${i}`}
             onClick={() => handleChange(item.key)}
-            type={isSelected ? 'primary' : 'default'}
           >
             {item.label}
           </Button>

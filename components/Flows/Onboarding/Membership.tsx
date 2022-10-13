@@ -1,9 +1,12 @@
-import { Button, List, Space, Tag } from 'antd'
+import { CloseCircleFilled, CheckCircleFilled } from '@ant-design/icons'
+import { Button, Card, Divider, List, Space, Tag } from 'antd'
 
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
 import { withAuth } from '../../../utils/with-auth'
 import { ListSelect, OptionKey } from '../../ListSelect'
 import { StepPropsWithSharedState } from './..'
+
+import styles from './styles.module.less'
 
 export const MembershipContent = ({
   onNext,
@@ -59,23 +62,34 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     })
 
   return (
-    <div>
-      <List
-        dataSource={allFeatures.map((i) => {
-          const isIncluded = plan?.features?.some(
-            (f) => f.contentId === i.contentId
-          )
-          return { ...i, disabled: isIncluded }
-        })}
-        renderItem={(item) => {
-          return (
-            <List.Item>
-              {item?.title}
-              {item?.disabled && 'jo'}
-            </List.Item>
-          )
-        }}
-      />
+    <div className={styles['membership-summary']}>
+      <h4>Summary</h4>
+      <Card>
+        <div className="summary-title">{plan?.name}</div>
+        <List
+          dataSource={allFeatures.map((i) => {
+            const isIncluded = plan?.features?.some(
+              (f) => f.contentId === i.contentId
+            )
+            return { ...i, disabled: isIncluded }
+          })}
+          renderItem={(item) => {
+            return (
+              <List.Item>
+                <div className="icon-wrapper">
+                  {item?.disabled ? (
+                    <CloseCircleFilled className="wine" />
+                  ) : (
+                    <CheckCircleFilled className="green" />
+                  )}
+                </div>
+                {item?.title}
+              </List.Item>
+            )
+          }}
+        />
+        <Divider />
+      </Card>
     </div>
   )
 }
