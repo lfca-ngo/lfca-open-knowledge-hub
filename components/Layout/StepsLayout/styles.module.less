@@ -217,12 +217,13 @@
           display: flex;
           width: 100%;
           padding-top: @content-margin-top;
-          padding: @content-margin-top-mobile @default-padding-xs 0;
+          padding: @content-margin-top-mobile @default-padding-xs
+            @default-padding-xs;
           align-items: center;
           flex: 1;
 
           @media @desktop {
-            padding: @content-margin-top @default-padding-xs 0;
+            padding: @content-margin-top @default-padding-xs @default-padding-xs;
             width: @xs-container-width;
             padding-left: 40px;
           }

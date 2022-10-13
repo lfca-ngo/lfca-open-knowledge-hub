@@ -1,5 +1,22 @@
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
-import { Avatar, Button, Card, Col, Divider, List, Row, Space, Tag } from 'antd'
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+  InfoCircleOutlined,
+} from '@ant-design/icons'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { Document } from '@contentful/rich-text-types'
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  List,
+  Popover,
+  Row,
+  Space,
+  Tag,
+} from 'antd'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
@@ -91,6 +108,16 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
                   )}
                 </div>
                 {item?.title}
+
+                <Popover
+                  content={documentToReactComponents(
+                    item?.description as Document
+                  )}
+                  overlayClassName="popover-lg"
+                  title={item?.title}
+                >
+                  <InfoCircleOutlined />
+                </Popover>
               </List.Item>
             )
           }}
@@ -103,7 +130,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
           </Col>
           <Col className="price" xs={12}>
             <div>
-              {calculatedPrice?.price ? `${calculatedPrice?.price} €` : '-'}
+              {calculatedPrice?.price ? `${calculatedPrice?.price} €` : '0 €'}
             </div>
             <small>add. VAT</small>
           </Col>
