@@ -10,6 +10,6 @@ export interface DefaultStepProps {
 }
 
 export interface StepPropsWithSharedState extends DefaultStepProps {
-  sharedState: object
-  setSharedState?: (newState: object) => void
+  sharedState: any
+  setSharedState?: (newState: any) => void
 }

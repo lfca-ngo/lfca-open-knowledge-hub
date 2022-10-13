@@ -22,6 +22,8 @@ import PlatformPreviewImage from '../components/Flows/Onboarding/platform-previe
 import { StepsLayout } from '../components/Layout'
 import { useSteps } from '../hooks/useSteps'
 
+const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
+
 const Onboarding: NextPage = () => {
   const router = useRouter()
 
@@ -61,7 +63,9 @@ const Onboarding: NextPage = () => {
     },
   ]
 
-  const [sharedState, setSharedState] = useState({})
+  const [sharedState, setSharedState] = useState({
+    selectedSubscriptionType: DEFAULT_SUBSCRIPTION_TYPE,
+  })
   const { currentStepIndex, next, prev } = useSteps(
     OnboardingSteps.length,
     () => router.push('/')
@@ -77,8 +81,8 @@ const Onboarding: NextPage = () => {
       asideChildren={
         SideComponent ? (
           <SideComponent
-            sharedState={sharedState}
             setSharedState={setSharedState}
+            sharedState={sharedState}
           />
         ) : null
       }
@@ -92,8 +96,8 @@ const Onboarding: NextPage = () => {
         <Step
           onNext={next}
           onPrev={prev}
-          sharedState={sharedState}
           setSharedState={setSharedState}
+          sharedState={sharedState}
         />
       ) : null}
     </StepsLayout>
