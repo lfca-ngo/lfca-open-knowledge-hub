@@ -91,7 +91,7 @@ export const StepsLayout = ({
           className="color-bg"
           style={{
             backgroundImage: backgroundImage
-              ? `url(${backgroundImage.src})`
+              ? `url(${backgroundImage.src}), linear-gradient(#fbf7f0, #F4F0E8)`
               : 'none',
             backgroundSize: backgroundImage ? `calc(${bgImageWidth}px / 2)` : 0,
           }}

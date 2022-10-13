@@ -49,7 +49,7 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
           </Select>
         </Form.Item>
 
-        <Row gutter={24}>
+        <Row gutter={16}>
           <Col md={12} xs={24}>
             <Form.Item label="First name">
               <Input placeholder="Greta" />
@@ -62,7 +62,7 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
           </Col>
         </Row>
 
-        <Row gutter={24}>
+        <Row gutter={16}>
           <Col md={12} xs={24}>
             <Form.Item label="Email">
               <Input placeholder="greta@thunberg.earth" type="email" />

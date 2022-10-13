@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
   CompanyInfo,
@@ -27,9 +27,9 @@ const Onboarding: NextPage = () => {
 
   const OnboardingSteps = [
     {
-      component: Personalize,
-      sideComponent: PersonalizeSide,
-      title: 'Personalize',
+      component: Membership,
+      sideComponent: MembershipSide,
+      title: 'Membership',
     },
     {
       component: CompanyInfo,
@@ -49,19 +49,19 @@ const Onboarding: NextPage = () => {
       sideComponentBackgroundImage: CoursePreviewImage,
       title: 'Groups',
     },
-
+    {
+      component: Personalize,
+      sideComponent: PersonalizeSide,
+      title: 'Personalize',
+    },
     {
       component: Invite,
       sideComponent: InviteSide,
       title: 'Invite',
     },
-    {
-      component: Membership,
-      sideComponent: MembershipSide,
-      title: 'Membership',
-    },
   ]
 
+  const [sharedState, setSharedState] = useState({})
   const { currentStepIndex, next, prev } = useSteps(
     OnboardingSteps.length,
     () => router.push('/')
@@ -74,14 +74,28 @@ const Onboarding: NextPage = () => {
 
   return (
     <StepsLayout
-      asideChildren={SideComponent ? <SideComponent /> : null}
+      asideChildren={
+        SideComponent ? (
+          <SideComponent
+            sharedState={sharedState}
+            setSharedState={setSharedState}
+          />
+        ) : null
+      }
       backgroundImage={BackgroundImage}
       canClose
       currentStepIndex={currentStepIndex}
       onClose={() => router.push('/')}
       steps={OnboardingSteps.map((s) => ({ title: s.title }))}
     >
-      {Step ? <Step onNext={next} onPrev={prev} /> : null}
+      {Step ? (
+        <Step
+          onNext={next}
+          onPrev={prev}
+          sharedState={sharedState}
+          setSharedState={setSharedState}
+        />
+      ) : null}
     </StepsLayout>
   )
 }

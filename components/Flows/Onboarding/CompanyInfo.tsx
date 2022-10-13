@@ -70,7 +70,7 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
           <Input placeholder="Acme Inc." />
         </Form.Item>
 
-        <Row gutter={24}>
+        <Row gutter={16}>
           <Col md={12} xs={24}>
             <Form.Item label="Choose sectors">
               <Select mode="multiple" placeholder="Please select">
@@ -113,7 +113,7 @@ const variantsWoman = {
     opacity: 0,
   },
   visible: {
-    bottom: 160,
+    bottom: 100,
     opacity: 1,
     transition: { damping: 10, duration: 2, stiffness: 20, type: 'spring' },
   },
@@ -125,7 +125,7 @@ const variantsMan = {
     opacity: 0,
   },
   visible: {
-    bottom: 200,
+    bottom: 130,
     opacity: 1,
     transition: {
       damping: 10,

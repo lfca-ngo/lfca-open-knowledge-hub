@@ -1,4 +1,4 @@
-import { Col, List, Row } from 'antd'
+import { List } from 'antd'
 import classNames from 'classnames'
 
 import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'

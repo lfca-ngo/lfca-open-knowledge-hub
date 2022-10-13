@@ -56,7 +56,7 @@ export const PersonalizeContent = ({ onNext }: DefaultStepProps) => {
 
       <Space style={{ margin: '30px 0 0' }}>
         <Button onClick={onNext} size="large" type="primary">
-          Join group
+          Continue
         </Button>
       </Space>
 

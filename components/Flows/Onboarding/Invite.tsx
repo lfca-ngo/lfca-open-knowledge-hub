@@ -1,6 +1,7 @@
 import { Button, Space, Tag } from 'antd'
 
 import { withAuth } from '../../../utils/with-auth'
+import { InviteTeam } from '../../InviteTeam'
 import { DefaultStepProps } from './..'
 
 const InviteContent = ({ onNext }: DefaultStepProps) => {
@@ -12,9 +13,11 @@ const InviteContent = ({ onNext }: DefaultStepProps) => {
         {`Climate action is team work. Assemble your A team and invite them to join the platform and take action together.`}
       </div>
 
-      <Space>
+      <InviteTeam />
+
+      <Space style={{ marginTop: '20px' }}>
         <Button onClick={onNext} size="large" type="primary">
-          Join group
+          Continue
         </Button>
       </Space>
     </div>

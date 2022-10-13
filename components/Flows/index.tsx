@@ -8,3 +8,8 @@ export interface DefaultStepProps {
   onNext?: () => void
   onPrev?: () => void
 }
+
+export interface StepPropsWithSharedState extends DefaultStepProps {
+  sharedState: object
+  setSharedState?: (newState: object) => void
+}

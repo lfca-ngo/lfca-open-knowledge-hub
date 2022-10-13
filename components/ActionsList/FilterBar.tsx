@@ -39,7 +39,7 @@ export const FilterBar = ({
     >
       {mode === 'compact' ? (
         <>
-          <Row gutter={12}>
+          <Row gutter={16}>
             <Col md={12} xs={24}>
               <Form.Item name="categories">
                 <RootCategorySelector />
