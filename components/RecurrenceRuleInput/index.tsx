@@ -60,7 +60,9 @@ export const RecurrenceRuleInput = ({
               type="number"
               value={existingCount}
             />
-            <span> times.</span>
+            <span>{` time${
+              existingCount && existingCount > 1 ? 's' : ''
+            }`}</span>
           </>
         ) : null}
       </Input.Group>
