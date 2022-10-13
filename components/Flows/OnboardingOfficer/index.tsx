@@ -127,12 +127,11 @@ export const Personalize = ({
             setSelectedActionContentId(action.contentId)
           },
           selectText: 'Select',
-          showInfoBox: true,
           unselectText: 'Unselect',
         }}
         actions={actions}
         fetching={fetching}
-        hideCategoryTree
+        mode="compact"
       />
       <Button onClick={handleContinue} size="large" type="primary">
         Continue

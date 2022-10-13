@@ -1,68 +1,15 @@
-import {
-  CalendarOutlined,
-  CarryOutOutlined,
-  CheckCircleFilled,
-  InfoCircleOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons'
-import {
-  Badge,
-  Button,
-  Card,
-  List,
-  message,
-  Popover,
-  Space,
-  Tooltip,
-} from 'antd'
+import { CheckCircleFilled } from '@ant-design/icons'
+import { Badge, Button, Card, message, Space } from 'antd'
+import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import {
   CompanyActionListItemFragment,
   useCompleteCompanyActionMutation,
-  usePlanCompanyActionMutation,
 } from '../../services/lfca-backend'
 import { ActionStats } from '../ActionStats'
 import styles from './styles.module.less'
-
-const InfoBox = ({
-  requirements,
-}: {
-  requirements: CompanyActionListItemFragment['requirements']
-}) => {
-  return (
-    <Popover
-      content={
-        <List
-          className="info-list-sm"
-          dataSource={requirements}
-          header={
-            <Tooltip
-              placement="right"
-              title={`You don't need to complete all tips to mark an action as complete`}
-            >
-              <h4>
-                How to
-                <QuestionCircleOutlined style={{ marginLeft: '6px' }} />
-              </h4>
-            </Tooltip>
-          }
-          renderItem={(item) => (
-            <List.Item>
-              <CheckCircleFilled className="yellow" /> {item.title}
-            </List.Item>
-          )}
-          size="small"
-        />
-      }
-      overlayClassName="popover-lg"
-      placement="left"
-    >
-      <InfoCircleOutlined />
-    </Popover>
-  )
-}
 
 export interface ActionCardProps {
   action: CompanyActionListItemFragment
@@ -70,23 +17,21 @@ export interface ActionCardProps {
   onCtaClick?: (action: CompanyActionListItemFragment) => void
   onSavePosition?: () => void
   renderAsLink?: boolean
-  showInfoBox?: boolean
+  mode?: 'default' | 'compact'
   unselectText?: string
 }
 
 export const ActionCard = ({
   action,
+  mode = 'default',
   onCtaClick,
   onSavePosition,
   renderAsLink = false,
   selectText = 'View',
-  showInfoBox = false,
   unselectText = 'Unselect',
 }: ActionCardProps) => {
   const [{ fetching: isCompleting }, completeCompanyAction] =
     useCompleteCompanyActionMutation()
-  const [{ fetching: isPlanning }, planCompanyAction] =
-    usePlanCompanyActionMutation()
 
   const handleUnselect = (action: CompanyActionListItemFragment) => {
     completeCompanyAction({
@@ -97,23 +42,6 @@ export const ActionCard = ({
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else message.success('Marked action as incomplete')
-    })
-  }
-
-  const handleTogglePlan = (action: CompanyActionListItemFragment) => {
-    planCompanyAction({
-      input: {
-        actionContentId: action.contentId,
-        isPlanned: !!!action.plannedAt,
-      },
-    }).then(({ data, error }) => {
-      if (error) message.error(error.message)
-      else
-        message.success(
-          `Marked action as ${
-            data?.planCompanyAction.plannedAt ? 'planned' : 'unplanned'
-          }`
-        )
     })
   }
 
@@ -133,7 +61,7 @@ export const ActionCard = ({
   }
 
   return (
-    <Card bordered={false} className={styles['action-card']}>
+    <Card bordered={false} className={classNames(styles['action-card'], mode)}>
       <div className="hero">
         <Badge
           count={
@@ -156,33 +84,17 @@ export const ActionCard = ({
         </Badge>
       </div>
       <div className="content">
-        <div className="title">
-          {action.title}{' '}
-          {showInfoBox && <InfoBox requirements={action.requirements} />}
-          <span className="tags"></span>
-        </div>
+        <div className="title">{action.title}</div>
         <ActionStats
           commentAttachmentCount={action.commentAttachmentCount}
           commentCount={action.commentCount}
           companiesDoingCount={action.companiesDoingCount}
+          mode={mode}
           recentCompaniesDoing={action.recentCompaniesDoing}
         />
       </div>
       <div className="actions">
         <Space>
-          {!renderAsLink && !action.completedAt && (
-            <Tooltip title={`Mark as ${action.plannedAt ? 'un' : ''}planned`}>
-              <Button
-                ghost={action.plannedAt}
-                icon={
-                  action.plannedAt ? <CarryOutOutlined /> : <CalendarOutlined />
-                }
-                loading={isPlanning}
-                onClick={() => handleTogglePlan(action)}
-              />
-            </Tooltip>
-          )}
-
           <Button
             loading={isCompleting}
             onClick={handleSelect}

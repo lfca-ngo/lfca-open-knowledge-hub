@@ -8,6 +8,7 @@ import {
 } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
 import { withAuth } from '../../../utils/with-auth'
+import { ActionPillars } from '../../ActionPillars'
 import { ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { DefaultStepProps } from './..'
@@ -26,25 +27,34 @@ export const PersonalizeContent = ({ onNext }: DefaultStepProps) => {
       <Tag className="super-text">Company Info</Tag>
       <h1>{`Where are you on your climate journey? 🎯`}</h1>
       <div className="description">
-        {`Let's start with a simple exercise: Did you already take climate action in your company? Which actions have you taken and what have you learned?`}
+        <p>
+          {`Let's start with a simple exercise: Did you already start taking
+          climate action in your organization? Which actions have you taken and
+          what have you learned?`}
+        </p>
+        <p>
+          Tip: You can filter the available actions by stages. See our Action
+          Pillars as a reference on the right.
+        </p>
       </div>
 
       <ActionsList
         actionListItemProps={{
+          mode: 'compact',
           onCtaClick: (action) => {
             setActiveAction(action)
             setSelectedActionContentId(action.contentId)
           },
           selectText: 'Select',
-          showInfoBox: true,
           unselectText: 'Unselect',
         }}
         actions={data?.companyActions || EMPTY_ACTIONS}
         fetching={fetchingActions}
-        hideCategoryTree
+        mode="compact"
+        pageSize={8}
       />
 
-      <Space>
+      <Space style={{ margin: '30px 0 0' }}>
         <Button onClick={onNext} size="large" type="primary">
           Join group
         </Button>
@@ -71,5 +81,9 @@ export const PersonalizeContent = ({ onNext }: DefaultStepProps) => {
 export const Personalize = withAuth(PersonalizeContent)
 
 export const PersonalizeSide = () => {
-  return null
+  return (
+    <div>
+      <ActionPillars />
+    </div>
+  )
 }

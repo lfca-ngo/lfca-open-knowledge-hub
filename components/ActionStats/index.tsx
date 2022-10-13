@@ -37,8 +37,8 @@ interface ActionStatsProps {
   commentAttachmentCount: CompanyActionListItemFragment['commentAttachmentCount']
   commentCount: CompanyActionListItemFragment['commentCount']
   companiesDoingCount: CompanyActionListItemFragment['companiesDoingCount']
+  mode?: 'default' | 'compact'
   recentCompaniesDoing: CompanyActionListItemFragment['recentCompaniesDoing']
-
   size?: AvatarProps['size']
 }
 
@@ -46,30 +46,35 @@ export const ActionStats = ({
   commentAttachmentCount,
   commentCount,
   companiesDoingCount,
+  mode = 'default',
   recentCompaniesDoing,
   size,
 }: ActionStatsProps) => {
   return (
-    <div className={classNames(styles['action-stats'], size)}>
+    <div className={classNames(styles['action-stats'], size, mode)}>
       <LogoGroup
         data={recentCompaniesDoing}
         label={`${companiesDoingCount} working on this`}
         size={size}
       />
-      <ActionStat
-        color="wine-inverse"
-        count={commentCount}
-        icon={<MessageOutlined />}
-        label="messages"
-        size={size}
-      />
-      <ActionStat
-        color="blue-inverse"
-        count={commentAttachmentCount}
-        icon={<PaperClipOutlined />}
-        label="documents"
-        size={size}
-      />
+      {mode !== 'compact' && (
+        <>
+          <ActionStat
+            color="wine-inverse"
+            count={commentCount}
+            icon={<MessageOutlined />}
+            label="messages"
+            size={size}
+          />
+          <ActionStat
+            color="blue-inverse"
+            count={commentAttachmentCount}
+            icon={<PaperClipOutlined />}
+            label="documents"
+            size={size}
+          />
+        </>
+      )}
     </div>
   )
 }

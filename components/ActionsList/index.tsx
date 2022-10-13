@@ -15,14 +15,16 @@ export interface ActionListProps {
   actions: CompanyActionListItemFragment[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
-  hideCategoryTree?: boolean
+  mode?: 'default' | 'compact'
+  pageSize?: number
 }
 
 export const ActionsList = ({
   actionListItemProps,
   actions,
   fetching,
-  hideCategoryTree,
+  mode,
+  pageSize = 10,
 }: ActionListProps) => {
   const { persistentNavigation, resetPosition, savePosition } =
     usePersistentNavigation(true)
@@ -84,8 +86,8 @@ export const ActionsList = ({
     <div className={styles['actions-list']}>
       <FilterBar
         form={form}
-        hideCategoryTree={hideCategoryTree}
         initialValues={formOptions}
+        mode={mode}
         onValuesChange={handleChange}
       />
       <Divider />
@@ -102,7 +104,7 @@ export const ActionsList = ({
               currentPage: page,
               scrollPosition: window.scrollY,
             }),
-          pageSize: 10,
+          pageSize: pageSize,
         }}
         renderItem={(item) => {
           return (

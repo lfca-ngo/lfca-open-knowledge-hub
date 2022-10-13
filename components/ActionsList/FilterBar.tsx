@@ -1,8 +1,9 @@
-import { Form, FormInstance, Input, Select, Space } from 'antd'
+import { Col, Form, FormInstance, Input, Row, Select, Space } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
 import { CategoryTreeComponent } from './CategoryTree'
+import { RootCategorySelector } from './RootCategorySelector'
 
 const { Search } = Input
 
@@ -18,50 +19,66 @@ export interface FilterFormItems {
 
 interface FilterBarProps {
   form: FormInstance<FilterFormItems>
-  hideCategoryTree?: boolean
+  mode?: 'default' | 'compact'
   initialValues?: FilterFormItems
   onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
 }
 
 export const FilterBar = ({
   form,
-  hideCategoryTree,
   initialValues,
+  mode = 'default',
   onValuesChange,
 }: FilterBarProps) => {
   return (
     <Form
-      className={`filter-bar ${classNames({
-        'without-category-tree': hideCategoryTree,
-      })}`}
+      className={`filter-bar ${classNames(mode)}`}
       form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <div className="header-bar">
-        {!hideCategoryTree && <div className="title">Browse all actions</div>}
+      {mode === 'compact' ? (
+        <>
+          <Row gutter={12}>
+            <Col md={12} xs={24}>
+              <Form.Item name="categories">
+                <RootCategorySelector />
+              </Form.Item>
+            </Col>
+            <Col md={12} xs={24}>
+              <Form.Item name="search">
+                <Search placeholder="Search..." size="large" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <>
+          <div className="header-bar">
+            <div className="title">Browse all actions</div>
+            <Space>
+              <Form.Item name="sorting">
+                <Select placeholder="Please select" size="small">
+                  {SORT_OPTIONS.map((option) => (
+                    <Select.Option key={option.key}>
+                      {option.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
 
-        <Space>
-          <Form.Item name="sorting">
-            <Select placeholder="Please select" size="small">
-              {SORT_OPTIONS.map((option) => (
-                <Select.Option key={option.key}>{option.label}</Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
+              <Form.Item name="search">
+                <Search placeholder="Search..." size="small" />
+              </Form.Item>
+            </Space>
+          </div>
 
-          <Form.Item name="search">
-            <Search placeholder="Search..." size="small" />
-          </Form.Item>
-        </Space>
-      </div>
-
-      {!hideCategoryTree && (
-        <Space className="category-tree-container" direction="vertical">
-          <Form.Item name="categories">
-            <CategoryTreeComponent />
-          </Form.Item>
-        </Space>
+          <Space className="category-tree-container" direction="vertical">
+            <Form.Item name="categories">
+              <CategoryTreeComponent />
+            </Form.Item>
+          </Space>
+        </>
       )}
     </Form>
   )
