@@ -31,7 +31,7 @@ const JOB_OPTIONS = [
   },
 ]
 
-export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
+export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Personal Info</Tag>
@@ -92,6 +92,9 @@ export const PersonalInfo = ({ onNext }: DefaultStepProps) => {
       <Space>
         <Button onClick={onNext} size="large" type="primary">
           Continue
+        </Button>
+        <Button onClick={onPrev} size="large" type="link">
+          Back
         </Button>
       </Space>
     </div>

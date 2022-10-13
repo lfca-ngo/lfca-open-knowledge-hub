@@ -6,6 +6,7 @@ import {
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Document } from '@contentful/rich-text-types'
 import {
+  Alert,
   Avatar,
   Button,
   Card,
@@ -28,6 +29,7 @@ import styles from './styles.module.less'
 
 export const MembershipContent = ({
   onNext,
+  onPrev,
   setSharedState,
   sharedState,
 }: StepPropsWithSharedState) => {
@@ -38,6 +40,8 @@ export const MembershipContent = ({
       selectedSubscriptionType: subscription,
     })
   }
+
+  const isFreeTierSelected = sharedState?.selectedSubscriptionType === 'FREE'
 
   return (
     <div>
@@ -60,9 +64,21 @@ export const MembershipContent = ({
         value={sharedState?.selectedSubscriptionType}
       />
 
+      {isFreeTierSelected && (
+        <Alert
+          description="You can continue on a basic or premium tier and pay in the next 30 days. During this time you can downgrade your tier."
+          message="Tip: Pay in the next 30 days"
+          showIcon
+          type="warning"
+        />
+      )}
+
       <Space style={{ marginTop: '20px' }}>
         <Button onClick={onNext} size="large" type="primary">
           Continue
+        </Button>
+        <Button onClick={onPrev} size="large" type="link">
+          Back
         </Button>
       </Space>
     </div>

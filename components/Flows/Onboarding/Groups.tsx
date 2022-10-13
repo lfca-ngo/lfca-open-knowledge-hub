@@ -67,7 +67,7 @@ const GROUPS: EventFragment[] = [
   },
 ]
 
-const GroupsContent = ({ onNext }: DefaultStepProps) => {
+const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
@@ -100,6 +100,9 @@ const GroupsContent = ({ onNext }: DefaultStepProps) => {
       <Space>
         <Button onClick={onNext} size="large" type="primary">
           Join group
+        </Button>
+        <Button onClick={onPrev} size="large" type="link">
+          Back
         </Button>
       </Space>
     </div>

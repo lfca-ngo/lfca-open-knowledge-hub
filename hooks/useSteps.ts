@@ -17,7 +17,7 @@ export const useSteps = (stepsLength: number, onComplete: () => void) => {
     if (currentStepIndex > 0) {
       // always scroll to top
       window?.scrollTo(0, 0)
-      setCurrentStepIndex((i) => i + 1)
+      setCurrentStepIndex((i) => i - 1)
     }
   }
 

@@ -4,7 +4,7 @@ import { withAuth } from '../../../utils/with-auth'
 import { InviteTeam } from '../../InviteTeam'
 import { DefaultStepProps } from './..'
 
-const InviteContent = ({ onNext }: DefaultStepProps) => {
+const InviteContent = ({ onNext, onPrev }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
@@ -18,6 +18,9 @@ const InviteContent = ({ onNext }: DefaultStepProps) => {
       <Space style={{ marginTop: '20px' }}>
         <Button onClick={onNext} size="large" type="primary">
           Continue
+        </Button>
+        <Button onClick={onPrev} size="large" type="link">
+          Back
         </Button>
       </Space>
     </div>

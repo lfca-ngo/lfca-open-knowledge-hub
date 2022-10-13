@@ -13,7 +13,7 @@ import { ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { DefaultStepProps } from './..'
 
-export const PersonalizeContent = ({ onNext }: DefaultStepProps) => {
+export const PersonalizeContent = ({ onNext, onPrev }: DefaultStepProps) => {
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [selectedActionContentId, setSelectedActionContentId] = useState<
@@ -57,6 +57,9 @@ export const PersonalizeContent = ({ onNext }: DefaultStepProps) => {
       <Space style={{ margin: '30px 0 0' }}>
         <Button onClick={onNext} size="large" type="primary">
           Continue
+        </Button>
+        <Button onClick={onPrev} size="large" type="link">
+          Back
         </Button>
       </Space>
 

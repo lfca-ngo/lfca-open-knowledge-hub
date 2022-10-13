@@ -16,9 +16,9 @@ import {
   Personalize,
   PersonalizeSide,
 } from '../components/Flows/Onboarding'
-import CommunityFacesImage from '../components/Flows/Onboarding/community-faces.png'
-import CoursePreviewImage from '../components/Flows/Onboarding/course-preview.png'
-import PlatformPreviewImage from '../components/Flows/Onboarding/platform-preview.png'
+import CommunityFacesImage from '../components/Flows/Onboarding/images/community-faces.png'
+import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
+import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
 import { StepsLayout } from '../components/Layout'
 import { useSteps } from '../hooks/useSteps'
 
@@ -28,11 +28,6 @@ const Onboarding: NextPage = () => {
   const router = useRouter()
 
   const OnboardingSteps = [
-    {
-      component: Membership,
-      sideComponent: MembershipSide,
-      title: 'Membership',
-    },
     {
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
@@ -60,6 +55,11 @@ const Onboarding: NextPage = () => {
       component: Invite,
       sideComponent: InviteSide,
       title: 'Invite',
+    },
+    {
+      component: Membership,
+      sideComponent: MembershipSide,
+      title: 'Membership',
     },
   ]
 
