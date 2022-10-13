@@ -172,19 +172,16 @@
 @screen-xl-min: @screen-xl;
 
 // added in between step
-@screen-xl-small: 1300px;
-@screen-xl-small-min: @screen-xl-small;
-@screen-xl-small-factor: 1.11;
-
-// Extra extra large screen / large descktop
-@screen-xxl: 1601px;
+@screen-xxl: 1440px;
 @screen-xxl-min: @screen-xxl;
-@screen-xxl-factor: 1.33;
 
 // Extra extra large screen / large descktop
-@screen-xxxl: 1900px;
-@screen-xxxl-min: @screen-xxl;
-@screen-xxl-factor: 1.5;
+@screen-xxxl: 1601px;
+@screen-xxxl-min: @screen-xxxl;
+
+// Extra extra large screen / large descktop
+@screen-xxxxl: 1900px;
+@screen-xxxxl-min: @screen-xxxl;
 
 // provide a maximum
 @screen-xs-max: (@screen-sm-min - 1px);
@@ -193,6 +190,7 @@
 @screen-lg-max: (@screen-xl-min - 1px);
 @screen-xl-max: (@screen-xxl-min - 1px);
 @screen-xxl-max: (@screen-xxxl-min - 1px);
+@screen-xxxl-max: (@screen-xxxxl-min - 1px);
 
 @mobile: ~'only screen and (max-width: @{screen-sm-max})';
 @desktop: ~'only screen and (min-width: @{screen-lg})';

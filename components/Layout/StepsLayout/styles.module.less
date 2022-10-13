@@ -8,6 +8,15 @@
   background-color: var(--layout-body-background);
   min-height: 100vh;
 
+  &:not(&[class~='has-sider']) {
+    :global {
+      .ant-layout-content .content-wrapper main {
+        width: @base-container-width;
+        padding-right: @default-padding-xs;
+      }
+    }
+  }
+
   &[class~='has-sider'] {
     :global {
       .color-bg {
@@ -20,7 +29,19 @@
         background-color: @chalk;
         background-size: contain;
         background-repeat: no-repeat;
-        background-position: right;
+        background-position: top 50% right -400px;
+
+        @media (min-width: @screen-xl) {
+          background-position: top 50% right -400px;
+        }
+
+        @media (min-width: @screen-xxl) {
+          background-position: top 50% right -320px;
+        }
+
+        @media (min-width: @screen-xxxl) {
+          background-position: top 50% right -170px;
+        }
 
         &::before {
           width: 50%;
@@ -155,6 +176,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
 
       @media @desktop {
         flex-direction: row;
@@ -197,10 +219,15 @@
           padding-top: @content-margin-top;
           padding: @content-margin-top-mobile @default-padding-xs 0;
           align-items: center;
+          flex: 1;
 
           @media @desktop {
             padding: @content-margin-top @default-padding-xs 0;
             width: @xs-container-width;
+            padding-left: 40px;
+          }
+
+          @media (min-width: @screen-xl) {
             padding-left: 80px;
           }
         }

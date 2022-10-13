@@ -1,6 +1,6 @@
 import { Button, Space, Tag } from 'antd'
 
-import { DefaultStepProps } from '.'
+import { DefaultStepProps } from './..'
 
 // const GROUPS_FEATURES = [
 //   { subtitle: '4 sessions a 1h with 10-20 members', title: 'Format' },

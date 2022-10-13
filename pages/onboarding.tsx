@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import React from 'react'
 
 import {
@@ -21,9 +20,9 @@ import CommunityFacesImage from '../components/Flows/Onboarding/community-faces.
 import CoursePreviewImage from '../components/Flows/Onboarding/course-preview.png'
 import PlatformPreviewImage from '../components/Flows/Onboarding/platform-preview.png'
 import { StepsLayout } from '../components/Layout'
+import { useSteps } from '../hooks/useSteps'
 
 const Onboarding: NextPage = () => {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
 
   const OnboardingSteps = [
@@ -62,15 +61,10 @@ const Onboarding: NextPage = () => {
     },
   ]
 
-  const handleOnNext = () => {
-    if (currentStepIndex === OnboardingSteps.length - 1) {
-      router.push('/')
-    } else {
-      // always scroll to top
-      window?.scrollTo(0, 0)
-      setCurrentStepIndex((i) => i + 1)
-    }
-  }
+  const { currentStepIndex, next, prev } = useSteps(
+    OnboardingSteps.length,
+    () => router.push('/')
+  )
 
   const Step = OnboardingSteps[currentStepIndex]?.component
   const SideComponent = OnboardingSteps[currentStepIndex]?.sideComponent
@@ -86,7 +80,7 @@ const Onboarding: NextPage = () => {
       onClose={() => router.push('/')}
       steps={OnboardingSteps.map((s) => ({ title: s.title }))}
     >
-      {Step ? <Step onNext={handleOnNext} /> : null}
+      {Step ? <Step onNext={next} onPrev={prev} /> : null}
     </StepsLayout>
   )
 }

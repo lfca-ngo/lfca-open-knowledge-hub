@@ -10,7 +10,7 @@ import {
   Tag,
 } from 'antd'
 
-import { DefaultStepProps } from '.'
+import { DefaultStepProps } from './..'
 
 const JOB_OPTIONS = [
   {

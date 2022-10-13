@@ -11,7 +11,7 @@ import {
 } from 'antd'
 import { motion } from 'framer-motion'
 
-import { DefaultStepProps } from '.'
+import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
 const SECTOR_OPTIONS = [
@@ -110,7 +110,6 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
 const variantsWoman = {
   hidden: {
     bottom: -200,
-    left: 160,
     opacity: 0,
   },
   visible: {
@@ -126,7 +125,7 @@ const variantsMan = {
     opacity: 0,
   },
   visible: {
-    bottom: 220,
+    bottom: 200,
     opacity: 1,
     transition: {
       damping: 10,
@@ -143,7 +142,7 @@ export const CompanyInfoSide = () => {
     <div className={styles['animation-container']}>
       <motion.div
         animate="visible"
-        className="bubble-wrapper man"
+        className="bubble-wrapper element-1"
         initial="hidden"
         variants={variantsMan}
       >
@@ -156,7 +155,7 @@ export const CompanyInfoSide = () => {
 
       <motion.div
         animate="visible"
-        className="bubble-wrapper woman"
+        className="bubble-wrapper element-2"
         initial="hidden"
         variants={variantsWoman}
       >

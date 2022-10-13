@@ -42,8 +42,27 @@
     width: 100px;
     height: 100px;
     position: absolute;
+    left: 0;
+    right: auto;
+    display: none;
 
-    &[class~='woman'] {
+    @media @desktop {
+      display: block;
+    }
+
+    @media (min-width: @screen-xl) {
+      left: auto;
+      right: 0;
+    }
+
+    &[class~='element-1'] {
+      left: 140px;
+
+      @media (min-width: @screen-xl) {
+        left: auto;
+        right: 140px;
+      }
+
       [class~='video-wrapper'] {
         border-color: @yellow;
         &::before {

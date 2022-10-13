@@ -1,6 +1,6 @@
 import { Button, Space, Tag } from 'antd'
 
-import { DefaultStepProps } from '.'
+import { DefaultStepProps } from './..'
 
 export const Personalize = ({ onNext }: DefaultStepProps) => {
   return (

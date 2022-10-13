@@ -3,3 +3,8 @@ export interface StepProps {
   component?: React.ReactNode
   sideComponent?: React.ReactNode
 }
+
+export interface DefaultStepProps {
+  onNext?: () => void
+  onPrev?: () => void
+}

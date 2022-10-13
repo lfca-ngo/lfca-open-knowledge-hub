@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import React from 'react'
 
 import {
@@ -10,6 +9,7 @@ import {
   Start,
 } from '../components/Flows/OnboardingOfficer'
 import { StepsLayout } from '../components/Layout'
+import { useSteps } from '../hooks/useSteps'
 import {
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
@@ -17,7 +17,6 @@ import {
 import { withAuth } from '../utils/with-auth'
 
 const OnboardingOfficer: NextPage = () => {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
 
   const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
@@ -45,15 +44,10 @@ const OnboardingOfficer: NextPage = () => {
     },
   ]
 
-  const handleOnNext = () => {
-    if (currentStepIndex === OnboardingOfficerSteps.length - 1) {
-      router.push('/')
-    } else {
-      // always scroll to top
-      window?.scrollTo(0, 0)
-      setCurrentStepIndex((i) => i + 1)
-    }
-  }
+  const { currentStepIndex, next } = useSteps(
+    OnboardingOfficerSteps.length,
+    () => router.push('/')
+  )
 
   const Step = OnboardingOfficerSteps[currentStepIndex]?.component
 
@@ -68,7 +62,7 @@ const OnboardingOfficer: NextPage = () => {
         <Step
           actions={data?.companyActions || EMPTY_ACTIONS}
           fetching={fetchingActions}
-          onNext={handleOnNext}
+          onNext={next}
         />
       ) : null}
     </StepsLayout>
