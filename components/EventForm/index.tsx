@@ -69,7 +69,7 @@ export const EventForm = ({
 
   return (
     <>
-      <h1>{initialValues ? 'Update' : 'Create'} Event</h1>
+      <h1>{initialValues ? 'Update' : 'Create'} Group</h1>
 
       <Form
         form={form}
