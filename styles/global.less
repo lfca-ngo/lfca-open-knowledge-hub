@@ -40,3 +40,10 @@ ol,
 ul {
   padding-inline-start: 25px;
 }
+
+.capitalize,
+.capitalize > div {
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}

@@ -15,6 +15,8 @@ import {
   PersonalInfoSide,
   Personalize,
   PersonalizeSide,
+  Share,
+  ShareSide,
 } from '../components/Flows/Onboarding'
 import CommunityFacesImage from '../components/Flows/Onboarding/images/community-faces.png'
 import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
@@ -60,6 +62,11 @@ const Onboarding: NextPage = () => {
       component: Membership,
       sideComponent: MembershipSide,
       title: 'Membership',
+    },
+    {
+      component: Share,
+      sideComponent: ShareSide,
+      title: 'Share',
     },
   ]
 

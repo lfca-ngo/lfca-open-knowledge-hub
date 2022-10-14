@@ -16,10 +16,33 @@ const fetchAndSaveByKey = async (key) => {
   })
   const subscriptions = data.items
 
+  // sort them
+  const sortedSubscriptions = subscriptions.sort(
+    (a, b) => a.pricing[0].price - b.pricing[0].price
+  )
+
+  // save employee tiers separately
+  const basicTier = subscriptions.find((s) => s.name === 'BASIC')
+  const employeeTiers = basicTier?.pricing.map((p) => p?.maxEmployees) || []
+
   // fetch stuff here
-  const CACHE_PATH = path.join(__dirname, `/data/${key}.json`)
+  const CACHE_PATH_SUBSCRIPTIONS = path.join(__dirname, `/data/${key}.json`)
+  const CACHE_PATH_EMPLOYEE_TIERS = path.join(
+    __dirname,
+    `/data/_employee-tiers.json`
+  )
+
   try {
-    fs.writeFileSync(CACHE_PATH, JSON.stringify(subscriptions), 'utf8')
+    fs.writeFileSync(
+      CACHE_PATH_SUBSCRIPTIONS,
+      JSON.stringify(sortedSubscriptions),
+      'utf8'
+    )
+    fs.writeFileSync(
+      CACHE_PATH_EMPLOYEE_TIERS,
+      JSON.stringify(employeeTiers),
+      'utf8'
+    )
   } catch (e) {
     // Nothing to do here
   }

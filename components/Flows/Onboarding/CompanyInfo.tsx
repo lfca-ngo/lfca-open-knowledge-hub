@@ -4,59 +4,46 @@ import {
   Col,
   Form,
   Input,
+  InputNumber,
+  Popover,
   Row,
   Select,
   Space,
   Tag,
 } from 'antd'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
+import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const SECTOR_OPTIONS = [
-  {
-    key: 'tech',
-    label: 'Software',
-  },
-  {
-    key: 'media',
-    label: 'Media',
-  },
-  {
-    key: 'food',
-    label: 'Food',
-  },
-  {
-    key: 'mobility',
-    label: 'Mobility',
-  },
-]
-
-const TEAM_SIZE_OPTIONS = [
-  {
-    key: '1',
-    label: '1-10',
-  },
-  {
-    key: '10',
-    label: '10-50',
-  },
-  {
-    key: '50',
-    label: '50-100',
-  },
-  {
-    key: '100',
-    label: '100-500',
-  },
-  {
-    key: '500',
-    label: '>500',
-  },
-]
+const SECTOR_OPTIONS = companyTagsData.map((t) => ({
+  key: t,
+  label: t,
+}))
 
 export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
+  const [hintOpen, setHintOpen] = useState(false)
+
+  const onValuesChange = (_: any, allValues: any) => {
+    if (
+      allValues?.policy &&
+      allValues?.name &&
+      allValues?.companyTags?.length > 0 &&
+      allValues?.employeeCount > 0 &&
+      !hintOpen
+    ) {
+      setHintOpen(true)
+    } else if (hintOpen) {
+      setHintOpen(false)
+    }
+  }
+
+  const onFinish = () => {
+    onNext?.()
+  }
+
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
@@ -65,15 +52,36 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
         {`To get started, we need some basic information about the organization that you represent.`}
       </div>
 
-      <Form layout="vertical">
-        <Form.Item label="Company Name">
+      <Form
+        layout="vertical"
+        onFinish={onFinish}
+        onValuesChange={onValuesChange}
+      >
+        <Form.Item
+          label="Company Name"
+          name="name"
+          rules={[
+            { message: 'Please input your company name', required: true },
+          ]}
+        >
           <Input placeholder="Acme Inc." />
         </Form.Item>
 
         <Row gutter={16}>
           <Col md={12} xs={24}>
-            <Form.Item label="Choose sectors">
-              <Select mode="multiple" placeholder="Please select">
+            <Form.Item
+              label="Choose sectors"
+              name="companyTags"
+              rules={[
+                { message: 'Please choose a sector tag', required: true },
+              ]}
+            >
+              <Select
+                className="capitalize"
+                mode="multiple"
+                placeholder="Please select"
+                popupClassName="capitalize"
+              >
                 {SECTOR_OPTIONS.map((option) => (
                   <Select.Option key={option.key}>{option.label}</Select.Option>
                 ))}
@@ -81,28 +89,60 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Team size">
-              <Select placeholder="Please select">
-                {TEAM_SIZE_OPTIONS.map((option) => (
-                  <Select.Option key={option.key}>{option.label}</Select.Option>
-                ))}
-              </Select>
+            <Form.Item
+              label="Team size"
+              name="employeeCount"
+              rules={[
+                { message: 'Please share your team size', required: true },
+              ]}
+            >
+              <InputNumber
+                max={1000000}
+                min={1}
+                placeholder="120"
+                style={{ width: '100%' }}
+              />
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item>
+        <Form.Item
+          name="policy"
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('Should accept policy')),
+            },
+          ]}
+          valuePropName="checked"
+        >
           <Checkbox>
             I hereby confirm that the organization I represent is not involved
             in fossil fuel extraction, xyz
           </Checkbox>
         </Form.Item>
-      </Form>
 
-      <Space>
-        <Button onClick={onNext} size="large" type="primary">
-          Continue
-        </Button>
-      </Space>
+        <Form.Item>
+          <Popover
+            content={
+              <span>
+                {`It’s a match! You’ll meet `}
+                <b style={{ color: '#1E1C1C' }}>
+                  {(Math.random() * (120 - 12) + 12).toFixed(0)}
+                </b>
+                {` similar companies 🎉`}
+              </span>
+            }
+            open={hintOpen}
+            placement="right"
+          >
+            <Button htmlType="submit" size="large" type="primary">
+              Continue
+            </Button>
+          </Popover>
+        </Form.Item>
+      </Form>
     </div>
   )
 }

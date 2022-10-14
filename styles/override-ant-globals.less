@@ -72,6 +72,29 @@ body {
   }
 }
 
+// Select
+.ant-select {
+  &.capitalize {
+    .ant-select-selection-item-content,
+    .ant-select-item-option-content {
+      &::first-letter {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+// Select dropdown is rendered as absolute element
+.ant-select-dropdown {
+  &.capitalize {
+    .ant-select-item-option-content {
+      &::first-letter {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
 // List
 .ant-list.ant-list-split {
   .ant-list-item {
