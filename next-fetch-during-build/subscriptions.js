@@ -18,7 +18,7 @@ const fetchAndSaveByKey = async (key) => {
 
   // sort them
   const sortedSubscriptions = subscriptions.sort(
-    (a, b) => a.pricing[0].price - b.pricing[0].price
+    (a, b) => b.pricing[0].price - a.pricing[0].price
   )
 
   // save employee tiers separately

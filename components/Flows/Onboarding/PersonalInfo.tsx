@@ -9,7 +9,11 @@ import {
   Space,
   Tag,
 } from 'antd'
+import { RuleObject } from 'antd/lib/form'
 
+import { TERMS_OF_SERVICE_URL } from '../../../utils'
+import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
+import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { DefaultStepProps } from './..'
 
 const JOB_OPTIONS = [
@@ -36,6 +40,14 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
     onNext?.()
   }
 
+  const passwordValidator = (_: RuleObject, value: any) => {
+    const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+
+    return regEx.test(value)
+      ? Promise.resolve()
+      : Promise.reject(new Error('6-16 characters incl. a number'))
+  }
+
   return (
     <div>
       <Tag className="super-text">Personal Info</Tag>
@@ -46,7 +58,7 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
 
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
-          label="What's your role at Netflix?"
+          label="What best describes your role?"
           name="role"
           rules={[{ message: 'Please select a role', required: true }]}
         >
@@ -108,7 +120,10 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
               name="password"
               rules={[
                 {
-                  message: 'Please input your password!',
+                  validator: passwordValidator,
+                },
+                {
+                  message: 'Please input your password',
                   required: true,
                 },
               ]}
@@ -117,6 +132,14 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
             </Form.Item>
           </Col>
         </Row>
+
+        <Form.Item
+          label="Picture"
+          name="picture"
+          rules={[{ message: 'Please add a picture', required: true }]}
+        >
+          <ImageUpload customPreset={CLOUDINARY_PRESETS.profilePictures} />
+        </Form.Item>
 
         <Form.Item
           className="flat"
@@ -132,8 +155,8 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
           valuePropName="checked"
         >
           <Checkbox>
-            I hereby confirm that I am entitled to take action for my
-            organization
+            I hereby confirm that I am entitled to take and publicly communicate
+            climate action on behalf of my organization
           </Checkbox>
         </Form.Item>
 
@@ -151,7 +174,10 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
           valuePropName="checked"
         >
           <Checkbox>
-            I have read the Terms and Conditions and Privacy Policy
+            I have read and agree to the{' '}
+            <a href={TERMS_OF_SERVICE_URL} rel="noreferrer" target="_blank">
+              Terms and Conditions
+            </a>
           </Checkbox>
         </Form.Item>
 
