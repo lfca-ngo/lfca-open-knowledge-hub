@@ -2,29 +2,29 @@ import { CheckOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, List, message, Popconfirm, Tooltip } from 'antd'
 
 import {
+  EventParticipantFragment,
   EventParticipantStatus,
-  EventParticipationFragment,
   useRemoveEventParticipantMutation,
-  useUpdateEventParticipationStatusMutation,
+  useUpdateEventParticipantStatusMutation,
 } from '../../services/lfca-backend'
 import {
-  eventParticipationStatusIcon,
-  readableEventParticipationStatus,
+  eventParticipantStatusIcon,
+  readableEventParticipantStatus,
 } from '../../utils/events'
 
-interface AdminEventParticipationItemProps {
+interface AdminEventParticipantItemProps {
   eventId: string
-  participation: EventParticipationFragment
+  participant: EventParticipantFragment
 }
 
-export const AdminEventParticipationItem = ({
+export const AdminEventParticipantItem = ({
   eventId,
-  participation,
-}: AdminEventParticipationItemProps) => {
+  participant,
+}: AdminEventParticipantItemProps) => {
   const [
-    { fetching: fetchingUpdateEventParticipationStatus },
-    updateEventParticipationStatus,
-  ] = useUpdateEventParticipationStatusMutation()
+    { fetching: fetchingUpdateEventParticipantStatus },
+    updateEventParticipantStatus,
+  ] = useUpdateEventParticipantStatusMutation()
   const [{ fetching: fetchingRemoveEventParticipant }, removeEventParticipant] =
     useRemoveEventParticipantMutation()
 
@@ -32,7 +32,7 @@ export const AdminEventParticipationItem = ({
     const res = await removeEventParticipant({
       input: {
         eventId,
-        userId: participation.user.id,
+        userId: participant.user.id,
       },
     })
 
@@ -42,11 +42,11 @@ export const AdminEventParticipationItem = ({
   }
 
   const handleAccept = async () => {
-    const res = await updateEventParticipationStatus({
+    const res = await updateEventParticipantStatus({
       input: {
         eventId,
         status: EventParticipantStatus.USER_RSVP_ACCEPTED,
-        userId: participation.user.id,
+        userId: participant.user.id,
       },
     })
 
@@ -72,25 +72,23 @@ export const AdminEventParticipationItem = ({
             type="ghost"
           />
         </Popconfirm>,
-        participation.status ===
+        participant.status ===
         EventParticipantStatus.AWAITING_ADMIN_APPROVAL ? (
           <Tooltip>
             <Button
               icon={<CheckOutlined />}
               key="approve"
-              loading={fetchingUpdateEventParticipationStatus}
+              loading={fetchingUpdateEventParticipantStatus}
               onClick={handleAccept}
               size="small"
               type="primary"
             />
           </Tooltip>
         ) : (
-          <Tooltip
-            title={readableEventParticipationStatus(participation.status)}
-          >
+          <Tooltip title={readableEventParticipantStatus(participant.status)}>
             <Button
               disabled
-              icon={eventParticipationStatusIcon(participation.status)}
+              icon={eventParticipantStatusIcon(participant.status)}
               key="status"
               size="small"
               type="default"
@@ -102,14 +100,14 @@ export const AdminEventParticipationItem = ({
       <List.Item.Meta
         avatar={
           <Avatar
-            icon={!participation.user?.picture && <UserOutlined />}
+            icon={!participant.user?.picture && <UserOutlined />}
             size={45}
-            src={participation.user?.picture}
+            src={participant.user?.picture}
             style={{ backgroundColor: '#6A1246' }}
           />
         }
-        description={participation.user?.company?.name}
-        title={`${participation.user?.firstName} ${participation.user?.lastName}`}
+        description={participant.user?.company?.name}
+        title={`${participant.user?.firstName} ${participant.user?.lastName}`}
       />
     </List.Item>
   )

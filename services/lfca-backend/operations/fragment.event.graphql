@@ -2,11 +2,11 @@ fragment Event on Event {
   description
   end
   id
-  participationsAwaitingAdminApprovalCount
-  participationsAwaitingUserRSVPCount
+  participantsAwaitingAdminApprovalCount
+  participantsAwaitingUserRSVPCount
+  participantsUserRSVPAcceptedCount
+  participantsUserRSVPDeclinedCount
   participationStatus
-  participationsUserRSVPAcceptedCount
-  participationsUserRSVPDeclinedCount
   recurrenceRule
   start
   status

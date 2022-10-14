@@ -1,4 +1,4 @@
-fragment EventParticipation on EventParticipation {
+fragment EventParticipant on EventParticipant {
   id
   status
   user {

@@ -10,7 +10,7 @@ export const removeEventParticipant: UpdateResolver<
   RemoveEventParticipantMutationVariables
 > = (_, args, cache) => {
   cache.invalidate({
-    __typename: 'EventParticipation',
+    __typename: 'EventParticipant',
     id: `${args.input.eventId}_${args.input.userId}`,
   })
 }

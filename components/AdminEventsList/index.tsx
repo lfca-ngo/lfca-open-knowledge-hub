@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 import { readableEventStatus } from '../../utils/events'
-import { AdminEventParticipations } from '../AdminEventParticipations'
+import { AdminEventParticipants } from '../AdminEventParticipants'
 import { EventForm } from '../EventForm'
 import styles from './styles.module.less'
 
@@ -67,7 +67,7 @@ export const AdminEventsList = () => {
           key="awaitingAdminApproval"
           render={(_, event: EventFragment) => (
             <Badge
-              count={event.participationsAwaitingAdminApprovalCount}
+              count={event.participantsAwaitingAdminApprovalCount}
               showZero
             />
           )}
@@ -76,21 +76,21 @@ export const AdminEventsList = () => {
         <Column
           key="awaitingUserRSVP"
           render={(_, event: EventFragment) => (
-            <Badge count={event.participationsAwaitingUserRSVPCount} showZero />
+            <Badge count={event.participantsAwaitingUserRSVPCount} showZero />
           )}
           title="Invited"
         />
         <Column
           key="userRSCPDeclined"
           render={(_, event: EventFragment) => (
-            <Badge count={event.participationsUserRSVPDeclinedCount} showZero />
+            <Badge count={event.participantsUserRSVPDeclinedCount} showZero />
           )}
           title="Declined"
         />
         <Column
           key="userRSCPAccepted"
           render={(_, event: EventFragment) => (
-            <Badge count={event.participationsUserRSVPAcceptedCount} showZero />
+            <Badge count={event.participantsUserRSVPAcceptedCount} showZero />
           )}
           title="Accepted"
         />
@@ -148,7 +148,7 @@ export const AdminEventsList = () => {
             onUpdated={handleCloseDrawer}
           />
         ) : isDrawerOpen === 'participants' && selectedEvent ? (
-          <AdminEventParticipations event={selectedEvent} />
+          <AdminEventParticipants event={selectedEvent} />
         ) : null}
       </Drawer>
     </div>

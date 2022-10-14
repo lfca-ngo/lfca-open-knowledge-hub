@@ -1349,54 +1349,54 @@
             "args": []
           },
           {
+            "name": "participantsAwaitingAdminApprovalCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participantsAwaitingUserRSVPCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participantsUserRSVPAcceptedCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participantsUserRSVPDeclinedCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "participationStatus",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "participationsAwaitingAdminApprovalCount",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "participationsAwaitingUserRSVPCount",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "participationsUserRSVPAcceptedCount",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "participationsUserRSVPDeclinedCount",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
             },
             "args": []
           },
@@ -1469,7 +1469,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "EventParticipation",
+        "name": "EventParticipant",
         "fields": [
           {
             "name": "id",
@@ -2205,7 +2205,7 @@
             ]
           },
           {
-            "name": "updateEventParticipationStatus",
+            "name": "updateEventParticipantStatus",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2510,7 +2510,7 @@
             "args": []
           },
           {
-            "name": "eventParticipations",
+            "name": "eventParticipants",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2519,7 +2519,7 @@
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "EventParticipation",
+                    "name": "EventParticipant",
                     "ofType": null
                   }
                 }

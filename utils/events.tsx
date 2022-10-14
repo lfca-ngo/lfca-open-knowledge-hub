@@ -22,7 +22,7 @@ export const readableEventStatus = (status: EventStatus): string => {
   }
 }
 
-export const readableEventParticipationStatus = (
+export const readableEventParticipantStatus = (
   status: EventParticipantStatus
 ): string => {
   switch (status) {
@@ -39,7 +39,7 @@ export const readableEventParticipationStatus = (
   }
 }
 
-export const eventParticipationStatusIcon = (
+export const eventParticipantStatusIcon = (
   status: EventParticipantStatus
 ): React.ReactNode => {
   switch (status) {

@@ -50,12 +50,11 @@ export const EMPTY_EVENT: EventFragment = {
   description: '',
   end: '',
   id: '',
-  isCancelled: false,
-  participationsAwaitingAdminApprovalCount: 0,
-  participationsAwaitingUserRSVPCount: 0,
+  participantsAwaitingAdminApprovalCount: 0,
+  participantsAwaitingUserRSVPCount: 0,
+  participantsUserRSVPAcceptedCount: 0,
+  participantsUserRSVPDeclinedCount: 0,
   participationStatus: null,
-  participationsUserRSVPAcceptedCount: 0,
-  participationsUserRSVPDeclinedCount: 0,
   recurrenceRule: null,
   start: '',
   status: EventStatus.UPCOMING,
@@ -64,7 +63,7 @@ export const EMPTY_EVENT: EventFragment = {
 }
 
 // create array with 2 empty events
-export const EMPTY_EVENTS = Array(2)
+export const EMPTY_EVENTS: EventFragment[] = Array(2)
   .fill(EMPTY_EVENT)
   .concat(
     Array(2).fill({ ...EMPTY_EVENT, participationRequestStatus: 'APPROVED' })

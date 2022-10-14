@@ -5,27 +5,26 @@ import {
   EventFragment,
   EventParticipantStatus,
   useAddEventParticipantMutation,
-  useEventParticipationsQuery,
+  useEventParticipantsQuery,
 } from '../../services/lfca-backend'
 import { UserIdSearchInput } from '../UserIdSearchInput'
-import { AdminEventParticipationItem } from './AdminEventParticipationItem'
+import { AdminEventParticipantItem } from './AdminEventParticipantItem'
 
 interface ParticipantsListProps {
   event: EventFragment
 }
 
-export const AdminEventParticipations = ({ event }: ParticipantsListProps) => {
+export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
   const [form] = Form.useForm()
 
-  const [{ data, fetching: fetchingParticipations }] =
-    useEventParticipationsQuery({
-      pause: !event.id,
-      variables: {
-        input: {
-          eventId: event.id,
-        },
+  const [{ data, fetching: fetchingParticipants }] = useEventParticipantsQuery({
+    pause: !event.id,
+    variables: {
+      input: {
+        eventId: event.id,
       },
-    })
+    },
+  })
 
   const [{ fetching: fetchingAddEventParticipant }, addEventParticipant] =
     useAddEventParticipantMutation()
@@ -70,13 +69,13 @@ export const AdminEventParticipations = ({ event }: ParticipantsListProps) => {
           </Form.Item>
         </Form>
         <List
-          dataSource={data?.eventParticipations || []}
+          dataSource={data?.eventParticipants || []}
           itemLayout="horizontal"
-          loading={fetchingParticipations}
-          renderItem={(participation) => (
-            <AdminEventParticipationItem
+          loading={fetchingParticipants}
+          renderItem={(participant) => (
+            <AdminEventParticipantItem
               eventId={event.id}
-              participation={participation}
+              participant={participant}
             />
           )}
         />

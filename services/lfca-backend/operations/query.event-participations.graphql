@@ -1,5 +1,0 @@
-query eventParticipations($input: EventParticipationsInput!) {
-  eventParticipations(input: $input) {
-    ...EventParticipation
-  }
-}

@@ -23,7 +23,7 @@ import {
   deleteServiceProviderReview,
   planCompanyAction,
   removeEventParticipant,
-  updateEventParticipationStatus,
+  updateEventParticipantStatus,
 } from './cache-updates'
 import schema from './schema.json'
 
@@ -72,7 +72,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
               deleteServiceProviderReview,
               planCompanyAction,
               removeEventParticipant,
-              updateEventParticipationStatus,
+              updateEventParticipantStatus,
             },
           },
         }),
