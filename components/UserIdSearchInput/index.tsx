@@ -53,7 +53,7 @@ export const UserIdSearchInput = ({
   useEffect(() => {
     setOptions(
       searchData?.searchUser.map((c) => ({
-        label: `${c.firstName} ${c.lastName}` || '',
+        label: `${c.firstName} ${c.lastName} (${c.company?.name})` || '',
         value: c.id,
       })) || []
     )
