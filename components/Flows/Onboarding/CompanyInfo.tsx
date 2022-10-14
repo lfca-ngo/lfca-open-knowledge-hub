@@ -8,7 +8,6 @@ import {
   Popover,
   Row,
   Select,
-  Space,
   Tag,
 } from 'antd'
 import { motion } from 'framer-motion'
@@ -24,19 +23,13 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
 }))
 
 export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
-  const [hintOpen, setHintOpen] = useState(false)
+  const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
 
   const onValuesChange = (_: any, allValues: any) => {
-    if (
-      allValues?.policy &&
-      allValues?.name &&
-      allValues?.companyTags?.length > 0 &&
-      allValues?.employeeCount > 0 &&
-      !hintOpen
-    ) {
-      setHintOpen(true)
-    } else if (hintOpen) {
-      setHintOpen(false)
+    if (allValues?.companyTags?.length > 0 && !otherCompanies) {
+      setOtherCompanies((Math.random() * (120 - 12) + 12).toFixed(0))
+    } else if (allValues?.companyTags?.length === 0) {
+      setOtherCompanies(null)
     }
   }
 
@@ -70,6 +63,7 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
         <Row gutter={16}>
           <Col md={12} xs={24}>
             <Form.Item
+              hasFeedback
               label="Choose sectors"
               name="companyTags"
               rules={[
@@ -128,13 +122,11 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
             content={
               <span>
                 {`It’s a match! You’ll meet `}
-                <b style={{ color: '#1E1C1C' }}>
-                  {(Math.random() * (120 - 12) + 12).toFixed(0)}
-                </b>
+                <b style={{ color: '#1E1C1C' }}>{otherCompanies}</b>
                 {` similar companies 🎉`}
               </span>
             }
-            open={hintOpen}
+            open={!!otherCompanies}
             placement="right"
           >
             <Button htmlType="submit" size="large" type="primary">

@@ -32,6 +32,10 @@ const JOB_OPTIONS = [
 ]
 
 export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
+  const onFinish = () => {
+    onNext?.()
+  }
+
   return (
     <div>
       <Tag className="super-text">Personal Info</Tag>
@@ -40,8 +44,12 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
         {`This information will be used to create your personal account on our platform. Tip: You can invite more colleagues later on.`}
       </div>
 
-      <Form layout="vertical">
-        <Form.Item label="What's your role at Netflix?">
+      <Form layout="vertical" onFinish={onFinish}>
+        <Form.Item
+          label="What's your role at Netflix?"
+          name="role"
+          rules={[{ message: 'Please select a role', required: true }]}
+        >
           <Select placeholder="Please select">
             {JOB_OPTIONS.map((option) => (
               <Select.Option key={option.key}>{option.label}</Select.Option>
@@ -51,12 +59,24 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
 
         <Row gutter={16}>
           <Col md={12} xs={24}>
-            <Form.Item label="First name">
+            <Form.Item
+              label="First name"
+              name="firstName"
+              rules={[
+                { message: 'Please input your first name', required: true },
+              ]}
+            >
               <Input placeholder="Greta" />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Last name">
+            <Form.Item
+              label="Last name"
+              name="lastName"
+              rules={[
+                { message: 'Please input your last name', required: true },
+              ]}
+            >
               <Input placeholder="Thunberg" />
             </Form.Item>
           </Col>
@@ -64,39 +84,88 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
 
         <Row gutter={16}>
           <Col md={12} xs={24}>
-            <Form.Item label="Email">
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  message: 'The input is not valid E-mail!',
+                  type: 'email',
+                },
+                {
+                  message: 'Please input your E-mail!',
+                  required: true,
+                },
+              ]}
+            >
               <Input placeholder="greta@thunberg.earth" type="email" />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Password">
+            <Form.Item
+              hasFeedback
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  message: 'Please input your password!',
+                  required: true,
+                },
+              ]}
+            >
               <Input placeholder="*********" type="password" />
             </Form.Item>
           </Col>
         </Row>
 
-        <Form.Item className="flat">
+        <Form.Item
+          className="flat"
+          name="isEntitled"
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('Needs org permission')),
+            },
+          ]}
+          valuePropName="checked"
+        >
           <Checkbox>
             I hereby confirm that I am entitled to take action for my
             organization
           </Checkbox>
         </Form.Item>
 
-        <Form.Item className="flat">
+        <Form.Item
+          className="flat"
+          name="readTerms"
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('Should accept terms')),
+            },
+          ]}
+          valuePropName="checked"
+        >
           <Checkbox>
             I have read the Terms and Conditions and Privacy Policy
           </Checkbox>
         </Form.Item>
-      </Form>
 
-      <Space>
-        <Button onClick={onNext} size="large" type="primary">
-          Continue
-        </Button>
-        <Button onClick={onPrev} size="large" type="link">
-          Back
-        </Button>
-      </Space>
+        <Form.Item style={{ marginTop: '24px' }}>
+          <Space>
+            <Button htmlType="submit" size="large" type="primary">
+              Continue
+            </Button>
+            <Button onClick={onPrev} size="large" type="link">
+              Back
+            </Button>
+          </Space>
+        </Form.Item>
+      </Form>
     </div>
   )
 }
