@@ -2,7 +2,6 @@ fragment Event on Event {
   description
   end
   id
-  isCancelled
   participationsAwaitingAdminApprovalCount
   participationsAwaitingUserRSVPCount
   participationStatus

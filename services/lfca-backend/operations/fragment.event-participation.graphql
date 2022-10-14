@@ -1,0 +1,16 @@
+fragment EventParticipation on EventParticipation {
+  id
+  status
+  user {
+    company {
+      id
+      name
+      logoUrl
+    }
+    email
+    firstName
+    id
+    lastName
+    picture
+  }
+}

@@ -387,7 +387,6 @@ export type Event = {
   description?: Maybe<Scalars['String']>;
   end: Scalars['DateTime'];
   id: Scalars['ID'];
-  isCancelled: Scalars['Boolean'];
   /** status for the current user */
   participationStatus?: Maybe<EventParticipantStatus>;
   participationsAwaitingAdminApprovalCount: Scalars['Int'];
@@ -443,6 +442,7 @@ export type EventStatsResult = {
 };
 
 export enum EventStatus {
+  CANCELLED = 'CANCELLED',
   EXPIRED = 'EXPIRED',
   RUNNING = 'RUNNING',
   UPCOMING = 'UPCOMING'
@@ -1088,7 +1088,9 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> };
 
-export type EventFragment = { __typename?: 'Event', description?: string | null, end: any, id: string, isCancelled: boolean, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null };
+export type EventParticipationFragment = { __typename?: 'EventParticipation', id: string, status: EventParticipantStatus, user: { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
+
+export type EventFragment = { __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null };
 
 export type FeaturedServiceProviderFragment = { __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null };
 
@@ -1109,6 +1111,13 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null };
+
+export type AddEventParticipantMutationVariables = Exact<{
+  input: AddEventParticipantInput;
+}>;
+
+
+export type AddEventParticipantMutation = { __typename?: 'Mutation', addEventParticipant: { __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type CompleteCompanyActionRequirementMutationVariables = Exact<{
   input: CompleteCompanyActionRequirementInput;
@@ -1160,7 +1169,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', description?: string | null, end: any, id: string, isCancelled: boolean, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type CreateServiceProviderReviewMutationVariables = Exact<{
   input: CreateServiceProviderReviewInput;
@@ -1223,6 +1232,13 @@ export type RegisterUserMutationVariables = Exact<{
 
 export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null } };
 
+export type RemoveEventParticipantMutationVariables = Exact<{
+  input: RemoveEventParticipantInput;
+}>;
+
+
+export type RemoveEventParticipantMutation = { __typename?: 'Mutation', removeEventParticipant: { __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
+
 export type RequestPasswordResetMutationVariables = Exact<{
   input: RequestPasswordResetInput;
 }>;
@@ -1244,12 +1260,19 @@ export type UpdateCompanyMutationVariables = Exact<{
 
 export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> } };
 
+export type UpdateEventParticipationStatusMutationVariables = Exact<{
+  input: UpdateEventParticipationStatusInput;
+}>;
+
+
+export type UpdateEventParticipationStatusMutation = { __typename?: 'Mutation', updateEventParticipationStatus: { __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
+
 export type UpdateEventMutationVariables = Exact<{
   input: UpdateEventInput;
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', description?: string | null, end: any, id: string, isCancelled: boolean, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
+export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type UpdateServiceProviderReviewMutationVariables = Exact<{
   input: UpdateServiceProviderReviewInput;
@@ -1324,12 +1347,19 @@ export type CompanyQueryVariables = Exact<{
 
 export type CompanyQuery = { __typename?: 'Query', company: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> } };
 
+export type EventParticipationsQueryVariables = Exact<{
+  input: EventParticipationsInput;
+}>;
+
+
+export type EventParticipationsQuery = { __typename?: 'Query', eventParticipations: Array<{ __typename?: 'EventParticipation', id: string, status: EventParticipantStatus, user: { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
+
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', description?: string | null, end: any, id: string, isCancelled: boolean, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', description?: string | null, end: any, id: string, participationsAwaitingAdminApprovalCount: number, participationsAwaitingUserRSVPCount: number, participationStatus?: EventParticipantStatus | null, participationsUserRSVPAcceptedCount: number, participationsUserRSVPDeclinedCount: number, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null }> };
 
 export type SearchCompanyQueryVariables = Exact<{
   input: SearchCompanyInput;
@@ -1638,12 +1668,29 @@ export const CompanyFragmentDoc = gql`
   websiteUrl
 }
     `;
+export const EventParticipationFragmentDoc = gql`
+    fragment EventParticipation on EventParticipation {
+  id
+  status
+  user {
+    company {
+      id
+      name
+      logoUrl
+    }
+    email
+    firstName
+    id
+    lastName
+    picture
+  }
+}
+    `;
 export const EventFragmentDoc = gql`
     fragment Event on Event {
   description
   end
   id
-  isCancelled
   participationsAwaitingAdminApprovalCount
   participationsAwaitingUserRSVPCount
   participationStatus
@@ -1714,6 +1761,17 @@ export const UserFragmentDoc = gql`
   sortWeight
 }
     `;
+export const AddEventParticipantDocument = gql`
+    mutation addEventParticipant($input: AddEventParticipantInput!) {
+  addEventParticipant(input: $input) {
+    ...Event
+  }
+}
+    ${EventFragmentDoc}`;
+
+export function useAddEventParticipantMutation() {
+  return Urql.useMutation<AddEventParticipantMutation, AddEventParticipantMutationVariables>(AddEventParticipantDocument);
+};
 export const CompleteCompanyActionRequirementDocument = gql`
     mutation completeCompanyActionRequirement($input: CompleteCompanyActionRequirementInput!) {
   completeCompanyActionRequirement(input: $input) {
@@ -1894,6 +1952,17 @@ export const RegisterUserDocument = gql`
 export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
+export const RemoveEventParticipantDocument = gql`
+    mutation removeEventParticipant($input: RemoveEventParticipantInput!) {
+  removeEventParticipant(input: $input) {
+    ...Event
+  }
+}
+    ${EventFragmentDoc}`;
+
+export function useRemoveEventParticipantMutation() {
+  return Urql.useMutation<RemoveEventParticipantMutation, RemoveEventParticipantMutationVariables>(RemoveEventParticipantDocument);
+};
 export const RequestPasswordResetDocument = gql`
     mutation requestPasswordReset($input: RequestPasswordResetInput!) {
   requestPasswordReset(input: $input)
@@ -1924,6 +1993,17 @@ export const UpdateCompanyDocument = gql`
 
 export function useUpdateCompanyMutation() {
   return Urql.useMutation<UpdateCompanyMutation, UpdateCompanyMutationVariables>(UpdateCompanyDocument);
+};
+export const UpdateEventParticipationStatusDocument = gql`
+    mutation updateEventParticipationStatus($input: UpdateEventParticipationStatusInput!) {
+  updateEventParticipationStatus(input: $input) {
+    ...Event
+  }
+}
+    ${EventFragmentDoc}`;
+
+export function useUpdateEventParticipationStatusMutation() {
+  return Urql.useMutation<UpdateEventParticipationStatusMutation, UpdateEventParticipationStatusMutationVariables>(UpdateEventParticipationStatusDocument);
 };
 export const UpdateEventDocument = gql`
     mutation updateEvent($input: UpdateEventInput!) {
@@ -2071,6 +2151,17 @@ export const CompanyDocument = gql`
 
 export function useCompanyQuery(options?: Omit<Urql.UseQueryArgs<CompanyQueryVariables>, 'query'>) {
   return Urql.useQuery<CompanyQuery, CompanyQueryVariables>({ query: CompanyDocument, ...options });
+};
+export const EventParticipationsDocument = gql`
+    query eventParticipations($input: EventParticipationsInput!) {
+  eventParticipations(input: $input) {
+    ...EventParticipation
+  }
+}
+    ${EventParticipationFragmentDoc}`;
+
+export function useEventParticipationsQuery(options: Omit<Urql.UseQueryArgs<EventParticipationsQueryVariables>, 'query'>) {
+  return Urql.useQuery<EventParticipationsQuery, EventParticipationsQueryVariables>({ query: EventParticipationsDocument, ...options });
 };
 export const EventsDocument = gql`
     query events($input: EventsInput) {

@@ -14,6 +14,7 @@ import {
 import { useFirebase } from '../../hooks/firebase'
 import { companyAction } from './cache-resolvers'
 import {
+  addEventParticipant,
   completeCompanyAction,
   completeUserAction,
   createActionComment,
@@ -21,6 +22,8 @@ import {
   deleteActionComment,
   deleteServiceProviderReview,
   planCompanyAction,
+  removeEventParticipant,
+  updateEventParticipationStatus,
 } from './cache-updates'
 import schema from './schema.json'
 
@@ -60,6 +63,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
           schema: schema as IntrospectionData,
           updates: {
             Mutation: {
+              addEventParticipant: addEventParticipant,
               completeCompanyAction,
               completeUserAction,
               createActionComment,
@@ -67,6 +71,8 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
               deleteActionComment,
               deleteServiceProviderReview,
               planCompanyAction,
+              removeEventParticipant,
+              updateEventParticipationStatus,
             },
           },
         }),

@@ -4,6 +4,8 @@ import { useState } from 'react'
 
 import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
+import { readableEventStatus } from '../../utils/events'
+import { AdminEventParticipations } from '../AdminEventParticipations'
 import { EventForm } from '../EventForm'
 import styles from './styles.module.less'
 
@@ -13,7 +15,9 @@ export const AdminEventsList = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventFragment | undefined>(
     undefined
   )
-  const [isOpen, setIsOpen] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState<
+    'event' | 'participants' | null
+  >(null)
 
   const [{ data, fetching }] = useEventsQuery({
     variables: {
@@ -23,13 +27,16 @@ export const AdminEventsList = () => {
     },
   })
 
-  const handleOpen = (event?: EventFragment) => {
-    setIsOpen(true)
+  const handleOpenDrawer = (
+    type: 'event' | 'participants',
+    event?: EventFragment
+  ) => {
+    setIsDrawerOpen(type)
     setSelectedEvent(event)
   }
 
-  const handleClose = () => {
-    setIsOpen(false)
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(null)
     setSelectedEvent(undefined)
   }
 
@@ -38,7 +45,7 @@ export const AdminEventsList = () => {
       <Space>
         <Button
           icon={<PlusOutlined />}
-          onClick={() => handleOpen()}
+          onClick={() => handleOpenDrawer('event')}
           type="primary"
         >
           Create new group
@@ -94,31 +101,36 @@ export const AdminEventsList = () => {
               color={
                 event.status === EventStatus.RUNNING
                   ? 'success'
-                  : event.status === EventStatus.EXPIRED
+                  : event.status === EventStatus.EXPIRED ||
+                    event.status === EventStatus.CANCELLED
                   ? 'error'
                   : 'processing'
               }
             >
-              {event.status === EventStatus.RUNNING
-                ? 'active'
-                : event.status === EventStatus.EXPIRED
-                ? 'expired'
-                : 'upcoming'}
+              {readableEventStatus(event.status)}
             </Tag>
           )}
           title="Status"
         />
         <Column
           key="action"
-          render={(_, event: EventFragment) =>
-            event.status !== 'EXPIRED' ? (
-              <Space size="middle">
-                <Button onClick={() => handleOpen(event)} type="primary">
-                  Edit
-                </Button>
-              </Space>
-            ) : null
-          }
+          render={(_, event: EventFragment) => (
+            <Space size="middle">
+              <Button
+                onClick={() => handleOpenDrawer('participants', event)}
+                type="default"
+              >
+                Manage Participants
+              </Button>
+
+              <Button
+                onClick={() => handleOpenDrawer('event', event)}
+                type="primary"
+              >
+                Edit
+              </Button>
+            </Space>
+          )}
           title="Action"
         />
       </Table>
@@ -126,18 +138,18 @@ export const AdminEventsList = () => {
       <Drawer
         className="drawer-md"
         destroyOnClose
-        onClose={handleClose}
-        open={isOpen}
+        onClose={handleCloseDrawer}
+        open={isDrawerOpen !== null}
       >
-        <>
-          <h1>{selectedEvent ? 'Update' : 'Create'} Event</h1>
-
+        {isDrawerOpen === 'event' ? (
           <EventForm
             initialValues={selectedEvent}
-            onCreated={handleClose}
-            onUpdated={handleClose}
+            onCreated={handleCloseDrawer}
+            onUpdated={handleCloseDrawer}
           />
-        </>
+        ) : isDrawerOpen === 'participants' && selectedEvent ? (
+          <AdminEventParticipations event={selectedEvent} />
+        ) : null}
       </Drawer>
     </div>
   )

@@ -69,6 +69,8 @@ export const EventForm = ({
 
   return (
     <>
+      <h1>{initialValues ? 'Update' : 'Create'} Event</h1>
+
       <Form
         form={form}
         initialValues={parseInitialValues(initialValues)}

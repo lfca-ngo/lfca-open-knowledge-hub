@@ -1,0 +1,5 @@
+mutation addEventParticipant($input: AddEventParticipantInput!) {
+  addEventParticipant(input: $input) {
+    ...Event
+  }
+}
