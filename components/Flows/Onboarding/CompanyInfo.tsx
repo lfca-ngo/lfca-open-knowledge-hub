@@ -14,6 +14,8 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
+import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
+import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
@@ -99,6 +101,13 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
             </Form.Item>
           </Col>
         </Row>
+        <Form.Item
+          label="Logo"
+          name="logoUrl"
+          rules={[{ message: 'Please add a picture', required: true }]}
+        >
+          <ImageUpload customPreset={CLOUDINARY_PRESETS.companyLogos} />
+        </Form.Item>
         <Form.Item
           name="policy"
           rules={[
