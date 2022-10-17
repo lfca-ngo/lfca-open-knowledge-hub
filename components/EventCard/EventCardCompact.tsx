@@ -3,7 +3,7 @@ import { Button, Space } from 'antd'
 
 import {
   EventFragment,
-  EventParticipationStatus,
+  EventParticipantStatus,
 } from '../../services/lfca-backend'
 import { Recurrence, Status, Time } from './EventMeta'
 import styles from './styles.module.less'
@@ -19,7 +19,7 @@ import { getUniqueParticipatingCompanies } from './utils'
 
 export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
   const eventIsApproved =
-    event.participationRequestStatus === EventParticipationStatus.APPROVED
+    event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
 
   return (
     <div className={styles['event-card-compact']} onClick={onClick}>

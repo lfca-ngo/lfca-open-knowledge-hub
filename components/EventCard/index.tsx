@@ -3,7 +3,7 @@ import { Button, Divider, Modal, Space } from 'antd'
 
 import {
   EventFragment,
-  EventParticipationStatus,
+  EventParticipantStatus,
 } from '../../services/lfca-backend'
 import {
   ParticipationRequestsApproved,
@@ -38,7 +38,7 @@ export const EventCard = ({
 }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
   const eventIsApproved =
-    event.participationRequestStatus === EventParticipationStatus.APPROVED
+    event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
   const isParticipatingAtLeastOneEvent = participatingEventsCount > 0
   const hasAppliedForAtLeastOneEvent = appliedEventsCount > 0
 
@@ -111,8 +111,8 @@ export const EventCard = ({
               block: true,
               disabled:
                 hasAppliedForAtLeastOneEvent &&
-                event.participationRequestStatus !==
-                  EventParticipationStatus.APPROVED,
+                event.participationStatus !==
+                  EventParticipantStatus.USER_RSVP_ACCEPTED,
             }}
             event={event}
             key="toggle-subscribe"

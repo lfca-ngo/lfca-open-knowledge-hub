@@ -1319,6 +1319,17 @@
         "name": "Event",
         "fields": [
           {
+            "name": "category",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "description",
             "type": {
               "kind": "SCALAR",
@@ -1347,6 +1358,32 @@
               }
             },
             "args": []
+          },
+          {
+            "name": "participants",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "EventParticipant",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "participantsAwaitingAdminApprovalCount",

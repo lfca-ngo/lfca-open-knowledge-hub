@@ -63,7 +63,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
           schema: schema as IntrospectionData,
           updates: {
             Mutation: {
-              addEventParticipant: addEventParticipant,
+              addEventParticipant,
               completeCompanyAction,
               completeUserAction,
               createActionComment,

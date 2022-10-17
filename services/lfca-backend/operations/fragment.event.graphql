@@ -1,7 +1,18 @@
 fragment Event on Event {
+  category
   description
   end
   id
+  participants(filter: { status: USER_RSVP_ACCEPTED }) {
+    id
+    user {
+      company {
+        id
+        logoUrl
+      }
+      id
+    }
+  }
   participantsAwaitingAdminApprovalCount
   participantsAwaitingUserRSVPCount
   participantsUserRSVPAcceptedCount

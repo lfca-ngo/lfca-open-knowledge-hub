@@ -1,9 +1,11 @@
-import { CreateEventInput, UpdateEventInput } from '../../services/lfca-backend'
 import { FormValues } from '.'
 
 export const convertFormValues = (
   values: FormValues
-): CreateEventInput | UpdateEventInput => {
+): Omit<FormValues, 'startEnd'> & {
+  end: Date
+  start: Date
+} => {
   const { startEnd, ...rest } = values
 
   const [start, end] = startEnd

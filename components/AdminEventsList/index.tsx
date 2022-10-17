@@ -2,7 +2,11 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Badge, Button, Drawer, Space, Table, Tag } from 'antd'
 import { useState } from 'react'
 
-import { EventStatus, useEventsQuery } from '../../services/lfca-backend'
+import {
+  EventCategory,
+  EventStatus,
+  useEventsQuery,
+} from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
 import { readableEventStatus } from '../../utils/events'
 import { AdminEventParticipants } from '../AdminEventParticipants'
@@ -22,7 +26,10 @@ export const AdminEventsList = () => {
   const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
-        includeCancelled: true,
+        filter: {
+          category: EventCategory.MASTERMIND_GROUP,
+          includeCancelled: true,
+        },
       },
     },
   })

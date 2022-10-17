@@ -4,8 +4,9 @@ import { SyntheticEvent } from 'react'
 
 import {
   EventFragment,
-  useCreateEventParticipationRequestMutation,
-  useDeleteEventParticipationRequestMutation,
+  EventParticipantStatus,
+  useAddEventParticipantMutation,
+  useRemoveEventParticipantMutation,
 } from '../../services/lfca-backend'
 
 export interface ToggleSubscribeButtonProps {
@@ -17,16 +18,17 @@ export const ToggleSubscribeButton = ({
   buttonProps,
   event,
 }: ToggleSubscribeButtonProps) => {
-  const isNotRequested = event.participationRequestStatus === null
-  const isPending = event.participationRequestStatus === 'PENDING'
+  const isNotRequested = event.participationStatus === null
+  const isPending =
+    event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
 
-  const [{ fetching: deleting }, deleteEventParticipationRequest] =
-    useDeleteEventParticipationRequestMutation()
-  const [{ fetching: subscribing }, createEventParticipationRequest] =
-    useCreateEventParticipationRequestMutation()
+  const [{ fetching: deleting }, removeEventParticipant] =
+    useRemoveEventParticipantMutation()
+  const [{ fetching: subscribing }, addEventParticipant] =
+    useAddEventParticipantMutation()
 
   const handleJoin = async () => {
-    const res = await createEventParticipationRequest({
+    const res = await addEventParticipant({
       input: {
         eventId: event.id,
       },
@@ -40,7 +42,7 @@ export const ToggleSubscribeButton = ({
   }
 
   const handleDelete = async () => {
-    const res = await deleteEventParticipationRequest({
+    const res = await removeEventParticipant({
       input: {
         eventId: event.id,
       },

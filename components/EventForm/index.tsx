@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 
 import {
   CreateEventInput,
+  EventCategory,
   EventFragment,
   UpdateEventInput,
   useCreateEventMutation,
@@ -51,7 +52,10 @@ export const EventForm = ({
       })
     } else {
       createEvent({
-        input: convertedValues as CreateEventInput,
+        input: {
+          category: EventCategory.MASTERMIND_GROUP,
+          ...convertedValues,
+        } as CreateEventInput,
       }).then(({ error }) => {
         if (error) message.error(error.message)
         else {
