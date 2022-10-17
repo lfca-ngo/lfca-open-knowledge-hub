@@ -17,7 +17,10 @@ export const createEvent: UpdateResolver<
       query: EventsDocument,
       variables: {
         input: {
-          includeCancelled: true,
+          filter: {
+            category: args.input.category,
+            includeCancelled: true,
+          },
         },
       },
     },
