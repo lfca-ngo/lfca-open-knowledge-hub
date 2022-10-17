@@ -1,6 +1,7 @@
 import { CompanyActionListItemFragmentWithRootCategory } from '../../../components/ActionsCarousel'
 import {
   CompanyAchievementFragment,
+  EventCategory,
   EventFragment,
   EventStatus,
 } from '../generated'
@@ -47,9 +48,11 @@ export const EMPTY_ACHIEVEMENTS = Array(2).fill(EMPTY_ACHIEVEMENT)
 
 // empty event object
 export const EMPTY_EVENT: EventFragment = {
+  category: EventCategory.MASTERMIND_GROUP,
   description: '',
   end: '',
   id: '',
+  participants: [],
   participantsAwaitingAdminApprovalCount: 0,
   participantsAwaitingUserRSVPCount: 0,
   participantsUserRSVPAcceptedCount: 0,
