@@ -27,11 +27,11 @@ export const ReviewMetaData = ({
     <div className="review-meta-data">
       <Popover
         content="Take this with a grain of salt because we only have a small number of reviews so far."
-        overlayClassName="popover-sm"
-        placement="top"
-        visible={
+        open={
           provider.reviewsCount && provider.reviewsCount < 3 ? undefined : false
         }
+        overlayClassName="popover-sm"
+        placement="top"
       >
         <span>
           <Rate

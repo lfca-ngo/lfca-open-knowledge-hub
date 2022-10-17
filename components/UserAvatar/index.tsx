@@ -24,7 +24,7 @@ export const UserAvatar = ({ user }: UserAvatarProps) => {
           Contact via Email
         </Button>
       }
-      visible={!user?.email ? false : undefined}
+      open={!user?.email ? false : undefined}
     >
       {user?.picture ? (
         <Avatar className="blue" src={user.picture} />
