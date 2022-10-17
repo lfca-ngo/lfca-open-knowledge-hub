@@ -39,7 +39,6 @@ export const EventForm = ({
 
     if (initialValues && 'id' in initialValues) {
       // Updating an existing event
-
       updateEvent({
         input: {
           eventId: initialValues.id,
@@ -64,6 +63,20 @@ export const EventForm = ({
         }
       })
     }
+  }
+
+  const handleCancel = () => {
+    if (!initialValues?.id) return
+    updateEvent({
+      input: {
+        eventId: initialValues.id,
+        isCancelled: true,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Event cancelled')
+      onUpdated?.()
+    })
   }
 
   // when data is loaded async, populate form
@@ -93,11 +106,11 @@ export const EventForm = ({
               Save
             </Button>
 
-            {initialValues?.id === 'update' ? (
+            {initialValues?.id ? (
               <Popconfirm
                 cancelText="No"
                 okText="Yes"
-                onConfirm={() => alert('TODO')}
+                onConfirm={handleCancel}
                 title="Are you sure to cancel this event?"
               >
                 <Button

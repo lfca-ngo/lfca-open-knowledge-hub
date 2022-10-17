@@ -65,7 +65,11 @@ export const AdminEventsList = () => {
         loading={fetching}
         pagination={{ pageSize: 20 }}
         rowClassName={(event) =>
-          event.status === 'EXPIRED' ? 'row-expired' : 'undefined'
+          event.status === EventStatus.CANCELLED
+            ? 'row-cancelled'
+            : event.status === EventStatus.EXPIRED
+            ? 'row-expired'
+            : 'undefined'
         }
         rowKey={(event) => event.id}
       >
@@ -108,8 +112,8 @@ export const AdminEventsList = () => {
               color={
                 event.status === EventStatus.RUNNING
                   ? 'success'
-                  : event.status === EventStatus.EXPIRED ||
-                    event.status === EventStatus.CANCELLED
+                  : event.status === EventStatus.CANCELLED ||
+                    event.status === EventStatus.EXPIRED
                   ? 'error'
                   : 'processing'
               }
@@ -121,23 +125,26 @@ export const AdminEventsList = () => {
         />
         <Column
           key="action"
-          render={(_, event: EventFragment) => (
-            <Space size="middle">
-              <Button
-                onClick={() => handleOpenDrawer('participants', event)}
-                type="default"
-              >
-                Manage Participants
-              </Button>
+          render={(_, event: EventFragment) =>
+            event.status !== EventStatus.CANCELLED &&
+            event.status !== EventStatus.EXPIRED ? (
+              <Space size="middle">
+                <Button
+                  onClick={() => handleOpenDrawer('participants', event)}
+                  type="default"
+                >
+                  Manage Participants
+                </Button>
 
-              <Button
-                onClick={() => handleOpenDrawer('event', event)}
-                type="primary"
-              >
-                Edit
-              </Button>
-            </Space>
-          )}
+                <Button
+                  onClick={() => handleOpenDrawer('event', event)}
+                  type="primary"
+                >
+                  Edit
+                </Button>
+              </Space>
+            ) : null
+          }
           title="Action"
         />
       </Table>
