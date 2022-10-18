@@ -45,7 +45,7 @@ export const AdminEventParticipantItem = ({
     const res = await updateEventParticipantStatus({
       input: {
         eventId,
-        status: EventParticipantStatus.USER_RSVP_ACCEPTED,
+        status: EventParticipantStatus.AWAITING_USER_RSVP,
         userId: participant.user.id,
       },
     })
