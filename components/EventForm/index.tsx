@@ -2,6 +2,7 @@ import { StopOutlined } from '@ant-design/icons'
 import { Button, Form, message, Popconfirm, Space } from 'antd'
 import { Moment } from 'moment'
 import { useEffect } from 'react'
+import { Descendant } from 'slate'
 
 import {
   CreateEventInput,
@@ -15,7 +16,11 @@ import { convertFormValues } from './convert-form-values'
 import { FormItems } from './FormItems'
 import { parseInitialValues } from './parse-initial-values'
 
-export type FormValues = Omit<UpdateEventInput, 'end' | 'eventId' | 'start'> & {
+export type FormValues = Omit<
+  UpdateEventInput,
+  'description' | 'end' | 'eventId' | 'start'
+> & {
+  description?: Descendant[]
   startEnd: [Moment, Moment]
 }
 

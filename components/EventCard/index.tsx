@@ -25,6 +25,7 @@ import classNames from 'classnames'
 import { useState } from 'react'
 
 import { LogoGroup } from '../LogoGroup'
+import { MarkdownContent } from '../MarkdownContent'
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
@@ -122,11 +123,7 @@ export const EventCard = ({
         <Divider />
 
         {event.description ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: event.description,
-            }}
-          />
+          <MarkdownContent content={event.description} />
         ) : (
           <p>No description available.</p>
         )}

@@ -1,9 +1,8 @@
 import { DatePicker, Form, FormInstance, Input } from 'antd'
 
 import { RecurrenceRuleInput } from '../RecurrenceRuleInput'
+import { RichTextInput } from '../RichTextInput'
 import { FormValues } from '.'
-
-const { TextArea } = Input
 
 interface FormItemsProps {
   form: FormInstance
@@ -52,7 +51,7 @@ export const FormItems = ({}: FormItemsProps) => {
     ),
     description: (
       <Form.Item key="description" label="Description" name="description">
-        <TextArea placeholder="Description of the group" rows={4} />
+        <RichTextInput placeholder="Description of the group" />
       </Form.Item>
     ),
     videoConferenceUrl: (
