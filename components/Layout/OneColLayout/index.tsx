@@ -10,7 +10,11 @@ import styles from './styles.module.less'
 
 const { Content } = Layout
 
-export const OneColLayout = ({ children }: { children: any }) => {
+interface OneColLayoutProps {
+  children?: React.ReactNode
+}
+
+export const OneColLayout = ({ children }: OneColLayoutProps) => {
   const [isDarkMode] = useDarkMode()
 
   return (
