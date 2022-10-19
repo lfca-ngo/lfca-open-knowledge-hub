@@ -50,7 +50,7 @@ export const EventRSVPResult = ({
         <>
           <h1>Thank you!</h1>
           <p>
-            You can update your RSVP anytime in our{' '}
+            You can re-join anytime in our{' '}
             <Link href="/community/groups">app</Link>.
           </p>
         </>
