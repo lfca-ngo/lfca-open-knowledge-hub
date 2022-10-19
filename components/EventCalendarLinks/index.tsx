@@ -4,6 +4,7 @@ import { CalendarEvent, google, ics, office365, outlook } from 'calendar-link'
 import React, { useMemo } from 'react'
 
 import { EventFragment } from '../../services/lfca-backend'
+import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { parseMarkdownContent } from '../MarkdownContent'
 import GmailIcon from './icons/gmail.svg'
 import IcsIcon from './icons/ics.svg'
@@ -35,6 +36,11 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
         event.videoConferenceUrl
       ),
       end: event.end,
+      organizer: {
+        email: DEFAULT_SUPPORT_EMAIL,
+        name: 'LFCA',
+      },
+      rRule: event.recurrenceRule ?? undefined,
       start: event.start,
       title: event.title,
     }),
@@ -54,26 +60,31 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
       >
         Add to Google Calendar
       </Button>
-      <Button
-        block
-        icon={<Icon component={OutlookIcon} />}
-        onClick={() => navigateToUrl(outlook(parsedEvent))}
-      >
-        Add to Outlook
-      </Button>
-      <Button
-        block
-        icon={<Icon component={Office365Icon} />}
-        onClick={() => navigateToUrl(office365(parsedEvent))}
-      >
-        Add to Office365
-      </Button>
+      {!parsedEvent.rRule ? (
+        <>
+          {' '}
+          <Button
+            block
+            icon={<Icon component={OutlookIcon} />}
+            onClick={() => navigateToUrl(outlook(parsedEvent))}
+          >
+            Add to Outlook
+          </Button>
+          <Button
+            block
+            icon={<Icon component={Office365Icon} />}
+            onClick={() => navigateToUrl(office365(parsedEvent))}
+          >
+            Add to Office365
+          </Button>
+        </>
+      ) : null}
       <Button
         block
         icon={<Icon component={IcsIcon} />}
         onClick={() => navigateToUrl(ics(parsedEvent))}
       >
-        Download .ics file
+        Download iCal file
       </Button>
     </Space>
   )

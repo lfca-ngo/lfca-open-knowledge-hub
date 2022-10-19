@@ -17,7 +17,7 @@
     "@urql/exchange-graphcache": "5.0.1",
     "antd": "4.23.3",
     "axios": "0.27.2",
-    "calendar-link": "2.2.0",
+    "calendar-link": "file:./calendar-link",
     "classnames": "2.3.2",
     "cloudinary": "1.32.0",
     "contentful": "9.2.5",
