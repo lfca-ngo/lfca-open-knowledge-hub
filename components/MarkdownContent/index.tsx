@@ -14,14 +14,18 @@ interface MarkdownContentProps {
   content: string
 }
 
+export function parseMarkdownContent(content: string): string {
+  return marked.parse(content, {
+    breaks: true,
+    renderer,
+  })
+}
+
 export const MarkdownContent = ({ content }: MarkdownContentProps) => {
   return (
     <div
       dangerouslySetInnerHTML={{
-        __html: marked.parse(content, {
-          breaks: true,
-          renderer,
-        }),
+        __html: parseMarkdownContent(content),
       }}
     />
   )

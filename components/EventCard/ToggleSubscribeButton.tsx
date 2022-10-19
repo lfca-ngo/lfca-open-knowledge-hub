@@ -115,37 +115,48 @@ export const ToggleSubscribeButton = ({
     else return null
   }
 
-  return (
-    <Popover content={popoverContent()}>
-      {isPendingUserRSVP ? (
-        <Space>
-          <Button
-            icon={<StopOutlined />}
-            key="decline"
-            loading={updating}
-            onClick={() => handleRSVP(false)}
-            type="default"
-          />
-          <Button
-            icon={<CheckOutlined />}
-            key="accept"
-            loading={updating}
-            onClick={() => handleRSVP(true)}
-            type="primary"
-          />
-        </Space>
-      ) : (
+  return isPendingUserRSVP ? (
+    <Space
+      direction={buttonProps?.block ? 'vertical' : 'horizontal'}
+      style={buttonProps?.block ? { width: '100%' } : undefined}
+    >
+      <Popover content={!buttonProps?.block ? 'Cancel invitation' : ''}>
         <Button
-          icon={hasNotJoined ? <UserAddOutlined /> : <CloseCircleOutlined />}
-          key="unsubscribe"
-          loading={subscribing || deleting}
-          onClick={changeEventSubscription}
-          type={hasNotJoined ? 'primary' : 'default'}
-          {...buttonProps}
+          block={buttonProps?.block}
+          icon={<StopOutlined />}
+          key="decline"
+          loading={updating}
+          onClick={() => handleRSVP(false)}
+          type="default"
         >
-          {hasNotJoined ? 'Join' : 'Unsubscribe'}
+          {buttonProps?.block ? 'Cancel invitation' : ''}
         </Button>
-      )}
+      </Popover>
+      <Popover content={!buttonProps?.block ? 'Confirm invitation' : ''}>
+        <Button
+          block={buttonProps?.block}
+          icon={<CheckOutlined />}
+          key="accept"
+          loading={updating}
+          onClick={() => handleRSVP(true)}
+          type="primary"
+        >
+          {buttonProps?.block ? 'Confirm invitation' : ''}
+        </Button>
+      </Popover>
+    </Space>
+  ) : (
+    <Popover content={popoverContent()}>
+      <Button
+        icon={hasNotJoined ? <UserAddOutlined /> : <CloseCircleOutlined />}
+        key="unsubscribe"
+        loading={subscribing || deleting}
+        onClick={changeEventSubscription}
+        type={hasNotJoined ? 'primary' : 'default'}
+        {...buttonProps}
+      >
+        {hasNotJoined ? 'Join' : 'Unsubscribe'}
+      </Button>
     </Popover>
   )
 }

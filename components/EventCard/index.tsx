@@ -24,6 +24,7 @@ export interface EventCardProps {
 import classNames from 'classnames'
 import { useState } from 'react'
 
+import { EventCalendarLinks } from '../EventCalendarLinks'
 import { LogoGroup } from '../LogoGroup'
 import { MarkdownContent } from '../MarkdownContent'
 import { EventCardCompact } from './EventCardCompact'
@@ -40,6 +41,8 @@ export const EventCard = ({
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
   const eventIsApproved =
     event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
+  const eventIsPending =
+    event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
   const isParticipatingAtLeastOneEvent = participatingEventsCount > 0
   const hasAppliedForAtLeastOneEvent = appliedEventsCount > 0
 
@@ -111,13 +114,13 @@ export const EventCard = ({
             buttonProps={{
               block: true,
               disabled:
-                hasAppliedForAtLeastOneEvent &&
-                event.participationStatus !==
-                  EventParticipantStatus.USER_RSVP_ACCEPTED,
+                (hasAppliedForAtLeastOneEvent && !eventIsPending) ||
+                (isParticipatingAtLeastOneEvent && !eventIsApproved),
             }}
             event={event}
             key="toggle-subscribe"
           />
+          {eventIsApproved ? <EventCalendarLinks event={event} /> : null}
         </Space>
 
         <Divider />
