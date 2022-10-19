@@ -34,7 +34,7 @@ export const EventRSVPResult = ({
         width: '100%',
       }}
     >
-      {hasError || !event ? (
+      {hasError ? (
         <>
           <h1>Something went wrong...</h1>
           <p>
@@ -45,7 +45,7 @@ export const EventRSVPResult = ({
             .
           </p>
         </>
-      ) : event.participationStatus ===
+      ) : event?.participationStatus ===
         EventParticipantStatus.USER_RSVP_DECLINED ? (
         <>
           <h1>Thank you!</h1>
@@ -54,7 +54,8 @@ export const EventRSVPResult = ({
             <Link href="/community/groups">app</Link>.
           </p>
         </>
-      ) : (
+      ) : event?.participationStatus ===
+        EventParticipantStatus.USER_RSVP_ACCEPTED ? (
         <>
           <h1>Thank you!</h1>
           <p>
@@ -63,7 +64,7 @@ export const EventRSVPResult = ({
           </p>
           <EventCalendarLinks event={event} />
         </>
-      )}
+      ) : null}
     </Skeleton>
   )
 }
