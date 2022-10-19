@@ -2061,6 +2061,29 @@
             "args": []
           },
           {
+            "name": "processEventRSVPToken",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "processUserActionExpiry",
             "type": {
               "kind": "NON_NULL",

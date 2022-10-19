@@ -507,6 +507,7 @@ export type Mutation = {
   planCompanyAction: CompanyAction;
   processCompanyActionDeprecation: Scalars['Boolean'];
   processCompanyActionExpiry: Scalars['Boolean'];
+  processEventRSVPToken: Event;
   processUserActionExpiry: Scalars['Boolean'];
   pushAchievementFunnelStatsToGeckoboard: Scalars['Boolean'];
   pushActionsCompletedStatsToGeckoboard: Scalars['Boolean'];
@@ -595,6 +596,11 @@ export type MutationPlanCompanyActionArgs = {
 };
 
 
+export type MutationProcessEventRsvpTokenArgs = {
+  input: ProcessEventRsvpTokenInput;
+};
+
+
 export type MutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
@@ -644,6 +650,10 @@ export type PlanCompanyActionInput = {
   actionContentId: Scalars['String'];
   companyId?: InputMaybe<Scalars['ID']>;
   isPlanned: Scalars['Boolean'];
+};
+
+export type ProcessEventRsvpTokenInput = {
+  token: Scalars['String'];
 };
 
 export type QualifiedCompaniesInput = {
@@ -1133,6 +1143,13 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, email: string } | null };
 
 export type UserFragment = { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType } | null };
+
+export type ProcessEventRsvpTokenMutationVariables = Exact<{
+  input: ProcessEventRsvpTokenInput;
+}>;
+
+
+export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, user: { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> } };
 
 export type AddEventParticipantMutationVariables = Exact<{
   input: AddEventParticipantInput;
@@ -1794,6 +1811,17 @@ export const UserFragmentDoc = gql`
   sortWeight
 }
     `;
+export const ProcessEventRsvpTokenDocument = gql`
+    mutation processEventRSVPToken($input: ProcessEventRSVPTokenInput!) {
+  processEventRSVPToken(input: $input) {
+    ...Event
+  }
+}
+    ${EventFragmentDoc}`;
+
+export function useProcessEventRsvpTokenMutation() {
+  return Urql.useMutation<ProcessEventRsvpTokenMutation, ProcessEventRsvpTokenMutationVariables>(ProcessEventRsvpTokenDocument);
+};
 export const AddEventParticipantDocument = gql`
     mutation addEventParticipant($input: AddEventParticipantInput!) {
   addEventParticipant(input: $input) {
