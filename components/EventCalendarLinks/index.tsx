@@ -9,7 +9,6 @@ import GmailIcon from './icons/gmail.svg'
 import IcsIcon from './icons/ics.svg'
 import Office365Icon from './icons/office365.svg'
 import OutlookIcon from './icons/outlook.svg'
-import styles from './styles.module.less'
 
 interface EventCalendarLinksProps {
   event: EventFragment
@@ -47,7 +46,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
   }
 
   return (
-    <Space className={styles.eventCalendarLinks} direction="vertical">
+    <Space direction="vertical" style={{ width: '100%' }}>
       <Button
         block
         icon={<Icon component={GmailIcon} />}
