@@ -1,6 +1,12 @@
 import isHotkey from 'is-hotkey'
 import React from 'react'
-import { createEditor, Descendant, Transforms } from 'slate'
+import {
+  createEditor,
+  Descendant,
+  Editor,
+  Element as SlateElement,
+  Transforms,
+} from 'slate'
 import { withHistory } from 'slate-history'
 import {
   Editable,
@@ -11,7 +17,7 @@ import {
 } from 'slate-react'
 
 import { Element, Leaf, Toolbar } from './components'
-import { HOTKEYS } from './config'
+import { DEFAULT_ELEMENT_TYPE, HOTKEYS } from './config'
 import {
   withEscapeListsOnReturn,
   withLinks,
@@ -93,6 +99,16 @@ export const RichTextEditor = ({
                 const mark = HOTKEYS[hotkey]
                 toggleMark(editor, mark)
               }
+            }
+
+            if (event.shiftKey && event.key === 'Enter') {
+              const [matchingNodeEntry] = Editor.nodes(editor, {
+                match: (n) =>
+                  SlateElement.isElement(n) && n.type === DEFAULT_ELEMENT_TYPE,
+              })
+              if (!matchingNodeEntry) return
+              event.preventDefault()
+              Editor.insertText(editor, '\n')
             }
           }}
           placeholder={placeholder}
