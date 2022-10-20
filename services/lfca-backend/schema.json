@@ -1520,6 +1520,14 @@
             "args": []
           },
           {
+            "name": "notes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "status",
             "type": {
               "kind": "NON_NULL",

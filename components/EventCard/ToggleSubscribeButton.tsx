@@ -40,18 +40,6 @@ export const ToggleSubscribeButton = ({
     useUpdateEventParticipantStatusMutation()
 
   const handleJoin = async () => {
-    if (
-      event.participationStatus === EventParticipantStatus.USER_RSVP_DECLINED
-    ) {
-      // Declined is currently rendered for the user as if he is not part of the group at all
-      // so if the user want's to re-join, we first remove him.
-      await removeEventParticipant({
-        input: {
-          eventId: event.id,
-        },
-      })
-    }
-
     const res = await addEventParticipant({
       input: {
         eventId: event.id,

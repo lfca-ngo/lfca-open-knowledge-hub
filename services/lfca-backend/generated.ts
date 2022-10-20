@@ -417,6 +417,7 @@ export enum EventCategory {
 export type EventParticipant = {
   __typename?: 'EventParticipant';
   id: Scalars['ID'];
+  notes?: Maybe<Scalars['String']>;
   status: EventParticipantStatus;
   user: User;
 };
@@ -425,11 +426,13 @@ export enum EventParticipantStatus {
   AWAITING_ADMIN_APPROVAL = 'AWAITING_ADMIN_APPROVAL',
   AWAITING_USER_RSVP = 'AWAITING_USER_RSVP',
   USER_RSVP_ACCEPTED = 'USER_RSVP_ACCEPTED',
-  USER_RSVP_DECLINED = 'USER_RSVP_DECLINED'
+  USER_RSVP_DECLINED = 'USER_RSVP_DECLINED',
+  USER_UNSUBSCRIBED = 'USER_UNSUBSCRIBED'
 }
 
 export type EventParticipantsInput = {
   eventId: Scalars['String'];
+  filter?: InputMaybe<EventParticipantsInputFilter>;
 };
 
 export type EventParticipantsInputFilter = {
@@ -990,6 +993,7 @@ export type UpdateEventInput = {
 
 export type UpdateEventParticipantStatusInput = {
   eventId: Scalars['String'];
+  notes?: InputMaybe<Scalars['String']>;
   /** Only admins can set a status other than `USER_RSVP_ACCEPTED` and `USER_RSVP_DECLINED` */
   status: EventParticipantStatus;
   /** Only admins can change the status for participants other than themselves */
