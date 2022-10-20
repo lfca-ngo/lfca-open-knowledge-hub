@@ -43,7 +43,7 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
               />
             </div>
 
-            <div className="actions">
+            <div className="actions" onClick={(e) => e.stopPropagation()}>
               {eventIsApproved && event.videoConferenceUrl && (
                 <a
                   href={event.videoConferenceUrl}

@@ -656,6 +656,7 @@ export type PlanCompanyActionInput = {
 };
 
 export type ProcessEventRsvpTokenInput = {
+  notes?: InputMaybe<Scalars['String']>;
   token: Scalars['String'];
 };
 
@@ -1124,7 +1125,7 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> };
 
-export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, status: EventParticipantStatus, user: { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
+export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
 
 export type EventFragment = { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, user: { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> };
 
@@ -1395,7 +1396,7 @@ export type EventParticipantsQueryVariables = Exact<{
 }>;
 
 
-export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, status: EventParticipantStatus, user: { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
+export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
 
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
@@ -1714,6 +1715,7 @@ export const CompanyFragmentDoc = gql`
 export const EventParticipantFragmentDoc = gql`
     fragment EventParticipant on EventParticipant {
   id
+  notes
   status
   user {
     company {

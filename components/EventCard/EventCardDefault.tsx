@@ -84,7 +84,7 @@ export const EventCardDefault = ({
             </div>
           </div>
         </div>
-        <div className="actions">
+        <div className="actions" onClick={(e) => e.stopPropagation()}>
           <Space>
             <ToggleSubscribeButton
               buttonProps={{

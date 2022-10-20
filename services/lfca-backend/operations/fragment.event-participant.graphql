@@ -1,5 +1,6 @@
 fragment EventParticipant on EventParticipant {
   id
+  notes
   status
   user {
     company {

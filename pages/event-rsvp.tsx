@@ -29,6 +29,7 @@ const Maintenance: NextPage = () => {
         event={data?.processEventRSVPToken}
         hasError={!!error}
         isFetching={fetching}
+        token={token}
       />
     </OneColLayout>
   )

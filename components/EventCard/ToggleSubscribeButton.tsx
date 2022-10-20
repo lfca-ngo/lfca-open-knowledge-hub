@@ -4,7 +4,7 @@ import {
   StopOutlined,
   UserAddOutlined,
 } from '@ant-design/icons'
-import { Button, ButtonProps, message, Popover, Space } from 'antd'
+import { Button, ButtonProps, Form, Input, message, Popover, Space } from 'antd'
 import { SyntheticEvent } from 'react'
 
 import {
@@ -67,13 +67,27 @@ export const ToggleSubscribeButton = ({
     }
   }
 
-  const handleRSVP = async (accept: boolean) => {
+  const handleAccept = async () => {
     const res = await updateEventParticipantStatus({
       input: {
         eventId: event.id,
-        status: accept
-          ? EventParticipantStatus.USER_RSVP_ACCEPTED
-          : EventParticipantStatus.USER_RSVP_DECLINED,
+        status: EventParticipantStatus.USER_RSVP_ACCEPTED,
+      },
+    })
+
+    if (res.error) {
+      message.error(res.error.message)
+    } else {
+      message.success('Your RSVP has been saved')
+    }
+  }
+
+  const handleDeclineWithNotes = async ({ notes }: { notes?: string }) => {
+    const res = await updateEventParticipantStatus({
+      input: {
+        eventId: event.id,
+        notes,
+        status: EventParticipantStatus.USER_RSVP_DECLINED,
       },
     })
 
@@ -108,13 +122,31 @@ export const ToggleSubscribeButton = ({
       direction={buttonProps?.block ? 'vertical' : 'horizontal'}
       style={buttonProps?.block ? { width: '100%' } : undefined}
     >
-      <Popover content={!buttonProps?.block ? 'Cancel invitation' : ''}>
+      <Popover
+        content={
+          <Form layout="vertical" onFinish={handleDeclineWithNotes}>
+            <Form.Item
+              key="notes"
+              label="Let us know why you can not join"
+              name="notes"
+            >
+              <Input.TextArea placeholder="e.g. time does not fit my calendar" />
+            </Form.Item>
+
+            <Form.Item>
+              <Button htmlType="submit" loading={updating} type="primary">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        }
+        trigger="click"
+      >
         <Button
           block={buttonProps?.block}
           icon={<StopOutlined />}
           key="decline"
           loading={updating}
-          onClick={() => handleRSVP(false)}
           type="default"
         >
           {buttonProps?.block ? 'Cancel invitation' : ''}
@@ -126,7 +158,7 @@ export const ToggleSubscribeButton = ({
           icon={<CheckOutlined />}
           key="accept"
           loading={updating}
-          onClick={() => handleRSVP(true)}
+          onClick={() => handleAccept()}
           type="primary"
         >
           {buttonProps?.block ? 'Confirm invitation' : ''}
