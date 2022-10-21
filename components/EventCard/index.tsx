@@ -110,17 +110,25 @@ export const EventCard = ({
               </Button>
             </a>
           )}
+
+          {eventIsApproved ? (
+            <>
+              <EventCalendarLinks event={event} />
+              <Divider />
+            </>
+          ) : null}
+
           <ToggleSubscribeButton
             buttonProps={{
               block: true,
               disabled:
                 (hasAppliedForAtLeastOneEvent && !eventIsPending) ||
                 (isParticipatingAtLeastOneEvent && !eventIsApproved),
+              size: 'large',
             }}
             event={event}
             key="toggle-subscribe"
           />
-          {eventIsApproved ? <EventCalendarLinks event={event} /> : null}
         </Space>
 
         <Divider />

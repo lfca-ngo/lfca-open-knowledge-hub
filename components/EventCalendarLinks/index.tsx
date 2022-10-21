@@ -57,6 +57,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
         block
         icon={<Icon component={GmailIcon} />}
         onClick={() => navigateToUrl(google(parsedEvent))}
+        size="large"
       >
         Add to Google Calendar
       </Button>
@@ -67,6 +68,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
             block
             icon={<Icon component={OutlookIcon} />}
             onClick={() => navigateToUrl(outlook(parsedEvent))}
+            size="large"
           >
             Add to Outlook
           </Button>
@@ -74,6 +76,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
             block
             icon={<Icon component={Office365Icon} />}
             onClick={() => navigateToUrl(office365(parsedEvent))}
+            size="large"
           >
             Add to Office365
           </Button>
@@ -83,6 +86,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
         block
         icon={<Icon component={IcsIcon} />}
         onClick={() => navigateToUrl(ics(parsedEvent))}
+        size="large"
       >
         Download iCal file
       </Button>
