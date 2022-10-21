@@ -102,10 +102,13 @@ export const RichTextEditor = ({
             }
 
             if (event.shiftKey && event.key === 'Enter') {
-              const [matchingNodeEntry] = Editor.nodes(editor, {
-                match: (n) =>
-                  SlateElement.isElement(n) && n.type === DEFAULT_ELEMENT_TYPE,
-              })
+              const [matchingNodeEntry] = Array.from(
+                Editor.nodes(editor, {
+                  match: (n) =>
+                    SlateElement.isElement(n) &&
+                    n.type === DEFAULT_ELEMENT_TYPE,
+                })
+              )
               if (!matchingNodeEntry) return
               event.preventDefault()
               Editor.insertText(editor, '\n')
