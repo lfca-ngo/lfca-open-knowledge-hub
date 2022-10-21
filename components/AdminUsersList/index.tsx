@@ -108,7 +108,7 @@ export const AdminUsersList = ({
       if (error) message.error(error.message)
       const url = data?.createUserExport
       if (url) {
-        window.open(url, '_blank')
+        window.location.assign(url)
       }
     })
   }

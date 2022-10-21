@@ -56,7 +56,7 @@ export const AdminEventsList = () => {
       if (error) message.error(error.message)
       const url = data?.createEventParticipantExport
       if (url) {
-        window.open(url, '_blank')
+        window.location.assign(url)
       }
     })
   }

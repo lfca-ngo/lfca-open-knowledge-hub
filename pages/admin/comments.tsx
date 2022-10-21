@@ -17,7 +17,7 @@ const Comments: NextPage = () => {
       if (error) message.error(error.message)
       const url = data?.createActionCommentExport
       if (url) {
-        window.open(url, '_blank')
+        window.location.assign(url)
       }
     })
   }
