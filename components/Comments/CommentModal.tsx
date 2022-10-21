@@ -6,9 +6,9 @@ import {
   useCreateActionCommentMutation,
   useUpdateActionCommentMutation,
 } from '../../services/lfca-backend'
-import { CommentForm } from '../CompleteActionForm/CommentForm'
 import { File } from '../FileUpload/FileUpload'
 import { createEmptyValue, parseMarkdownToValue } from '../RichTextEditor/utils'
+import { CommentForm } from './CommentForm'
 
 interface CommentModalProps {
   actionContentId: string

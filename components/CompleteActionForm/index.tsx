@@ -4,12 +4,12 @@ import {
   useCompleteCompanyActionMutation,
   useCreateActionCommentMutation,
 } from '../../services/lfca-backend'
+import { CommentForm } from '../Comments/CommentForm'
 import { File } from '../FileUpload/FileUpload'
 import { IconSelector } from '../Icons'
 import { IconTypes } from '../Icons'
 import { Section } from '../Layout'
 import { ReviewForm } from '../ReviewForm'
-import { CommentForm } from './CommentForm'
 
 interface CompleteActionFormProps {
   actionContentId: string

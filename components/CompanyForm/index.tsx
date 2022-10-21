@@ -205,7 +205,7 @@ export const CompanyForm = ({
               Save
             </Button>
 
-            {isAdmin ? (
+            {isAdmin && type === 'update' ? (
               <>
                 <Popconfirm
                   cancelText="No"

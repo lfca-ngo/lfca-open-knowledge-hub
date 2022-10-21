@@ -5,7 +5,7 @@ import { CompanyFragment } from '../../services/lfca-backend'
 import styles from './styles.module.less'
 
 interface LogoGroupProps {
-  data?: (Partial<CompanyFragment> | null | undefined)[]
+  data?: Pick<CompanyFragment, 'id' | 'logoUrl'>[]
   label?: string
   maxCount?: number
   reverse?: boolean
@@ -25,8 +25,12 @@ export const LogoGroup = ({
     >
       <Avatar.Group maxCount={maxCount} size={size}>
         {data?.length > 0 ? (
-          data?.map((item, i) => (
-            <Avatar key={`avatar-${i}`} shape="square" src={item?.logoUrl} />
+          data?.map((item) => (
+            <Avatar
+              key={`avatar-${item?.id}`}
+              shape="square"
+              src={item?.logoUrl}
+            />
           ))
         ) : (
           <Avatar className="empty" shape="square">

@@ -75,10 +75,10 @@ export const LinkButton = ({ disabled, format }: LinkButtonProps) => {
         </div>
       }
       getPopupContainer={(trigger) => trigger.parentElement || trigger}
-      onVisibleChange={setIsPopoverVisible}
+      onOpenChange={setIsPopoverVisible}
+      open={isPopoverVisible}
       placement="bottom"
       trigger="click"
-      visible={isPopoverVisible}
     >
       <Button
         disabled={disabled}

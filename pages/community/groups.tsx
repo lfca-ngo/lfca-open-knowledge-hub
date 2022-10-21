@@ -7,12 +7,20 @@ import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
-import { useEventsQuery } from '../../services/lfca-backend'
+import { EventCategory, useEventsQuery } from '../../services/lfca-backend'
 import { COMMUNITY_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
 const Groups: NextPage = () => {
-  const [{ data, error, fetching }] = useEventsQuery()
+  const [{ data, error, fetching }] = useEventsQuery({
+    variables: {
+      input: {
+        filter: {
+          category: EventCategory.MASTERMIND_GROUP,
+        },
+      },
+    },
+  })
 
   const eventsByParticipation = getEventsByParticipationStatus(data?.events)
 

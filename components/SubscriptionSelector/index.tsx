@@ -1,3 +1,4 @@
+import { CheckOutlined, EllipsisOutlined, LockFilled } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import {
   Avatar,
@@ -10,24 +11,19 @@ import {
   Popover,
   Tabs,
 } from 'antd'
+import classNames from 'classnames'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import { Subscription } from '../../services/contentful'
-import styles from './styles.module.less'
-
-const { TabPane } = Tabs
-
-import { CheckOutlined, EllipsisOutlined, LockFilled } from '@ant-design/icons'
-import classNames from 'classnames'
-
 import { useUser } from '../../hooks/user'
+import { Subscription } from '../../services/contentful'
 import {
   CompanySubscriptionType,
   useCompanyQuery,
 } from '../../services/lfca-backend'
 import { getMailToLink } from '../../utils'
 import { VideoWrapper } from '../VideoWrapper'
+import styles from './styles.module.less'
 import { calculatePricePoint, getUpgradeEmailBody } from './utils'
 
 const DEFAULT_PLAN = 'BASIC'
@@ -132,25 +128,10 @@ export const SubscriptionSelector = ({
       {/* Full list of benefits */}
       <Tabs
         activeKey={activeTab}
-        onChange={(key) => setActiveTab(key)}
-        tabPosition="left"
-      >
-        {subscriptions.map((plan) => {
+        items={subscriptions.map((plan) => {
           const calculatedPricePoint = calculatePricePoint(plan, employeeCount)
-
-          return (
-            <TabPane
-              key={plan.name}
-              tab={
-                <div className="plan-details">
-                  <div className="title">{plan.name}</div>
-                  <div className="cost">
-                    {calculatedPricePoint?.price}€
-                    <span className="suffix">/month</span>
-                  </div>
-                </div>
-              }
-            >
+          return {
+            children: (
               <List
                 dataSource={allFeatures.map((i) => {
                   if (
@@ -237,10 +218,22 @@ export const SubscriptionSelector = ({
                   </Popover>
                 )}
               />
-            </TabPane>
-          )
+            ),
+            key: plan.name,
+            label: (
+              <div className="plan-details">
+                <div className="title">{plan.name}</div>
+                <div className="cost">
+                  {calculatedPricePoint?.price}€
+                  <span className="suffix">/month</span>
+                </div>
+              </div>
+            ),
+          }
         })}
-      </Tabs>
+        onChange={(key) => setActiveTab(key)}
+        tabPosition="left"
+      />
     </div>
   )
 }

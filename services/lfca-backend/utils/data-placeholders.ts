@@ -1,6 +1,7 @@
 import { CompanyActionListItemFragmentWithRootCategory } from '../../../components/ActionsCarousel'
 import {
   CompanyAchievementFragment,
+  EventCategory,
   EventFragment,
   EventStatus,
 } from '../generated'
@@ -47,22 +48,25 @@ export const EMPTY_ACHIEVEMENTS = Array(2).fill(EMPTY_ACHIEVEMENT)
 
 // empty event object
 export const EMPTY_EVENT: EventFragment = {
+  category: EventCategory.MASTERMIND_GROUP,
   description: '',
   end: '',
   id: '',
-  isAllDay: false,
-  participationRequests: [],
-  participationRequestsApprovedCount: 0,
-  participationRequestsPendingCount: 0,
-  participationRequestStatus: null,
-  recurrence: null,
+  participants: [],
+  participantsAwaitingAdminApprovalCount: 0,
+  participantsAwaitingUserRSVPCount: 0,
+  participantsUserRSVPAcceptedCount: 0,
+  participantsUserRSVPDeclinedCount: 0,
+  participationStatus: null,
+  recurrenceRule: null,
   start: '',
   status: EventStatus.UPCOMING,
   title: '',
+  videoConferenceUrl: '',
 }
 
 // create array with 2 empty events
-export const EMPTY_EVENTS = Array(2)
+export const EMPTY_EVENTS: EventFragment[] = Array(2)
   .fill(EMPTY_EVENT)
   .concat(
     Array(2).fill({ ...EMPTY_EVENT, participationRequestStatus: 'APPROVED' })

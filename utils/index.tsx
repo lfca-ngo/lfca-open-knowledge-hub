@@ -106,10 +106,14 @@ export const getScreenSizeType = (window: Window, document: Document) => {
   return DESKTOP
 }
 
-export function isValidUrl(url: string) {
-  return !!String(url).match(
-    /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
-  )
+export function isValidUrl(string: string) {
+  let url
+  try {
+    url = new URL(string)
+  } catch (_) {
+    return false
+  }
+  return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
 export const CSS_THEME_DARK = !isBrowser()

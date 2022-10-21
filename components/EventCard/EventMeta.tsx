@@ -21,9 +21,9 @@ export const ParticipationRequestsApproved = ({ event }: EventMetaProps) => {
   return (
     <Space align="start">
       <CheckOutlined />
-      {`${event.participationRequestsApprovedCount} participant${
-        event.participationRequestsApprovedCount === 0 ||
-        event.participationRequestsApprovedCount > 1
+      {`${event.participantsUserRSVPAcceptedCount} participant${
+        event.participantsUserRSVPAcceptedCount === 0 ||
+        event.participantsUserRSVPAcceptedCount > 1
           ? 's'
           : ''
       }`}
@@ -35,9 +35,9 @@ export const ParticipationRequestsPending = ({ event }: EventMetaProps) => {
   return (
     <Space align="start">
       <SolutionOutlined />
-      {`${event.participationRequestsPendingCount} application${
-        event.participationRequestsPendingCount === 0 ||
-        event.participationRequestsPendingCount > 1
+      {`${event.participantsAwaitingAdminApprovalCount} application${
+        event.participantsAwaitingAdminApprovalCount === 0 ||
+        event.participantsAwaitingAdminApprovalCount > 1
           ? 's'
           : ''
       }`}
@@ -49,8 +49,8 @@ export const Recurrence = ({ event }: EventMetaProps) => {
   return (
     <Space align="start">
       <CalendarOutlined />
-      {event.recurrence
-        ? RRule.fromString(event.recurrence).toText()
+      {event.recurrenceRule
+        ? RRule.fromString(event.recurrenceRule).toText()
         : moment(event.start).format('LL')}
     </Space>
   )
@@ -60,11 +60,9 @@ export const Time = ({ event }: EventMetaProps) => {
   return (
     <Space align="start">
       <ClockCircleOutlined />
-      {event.isAllDay
-        ? 'all day'
-        : `${moment(event.start).format('LT')} - ${moment(event.end).format(
-            'LT'
-          )}`}
+      {`${moment(event.start).format('LT')} - ${moment(event.end).format(
+        'LT'
+      )}`}
     </Space>
   )
 }
@@ -73,13 +71,13 @@ export const Status = ({ event }: EventMetaProps) => {
   const statusString = useMemo(() => {
     switch (event.status) {
       case EventStatus.UPCOMING: {
-        if (event.recurrence) {
+        if (event.recurrenceRule) {
           return `starts ${moment(event.start).format('LL')}`
         }
         return 'upcoming'
       }
       case EventStatus.RUNNING: {
-        if (event.recurrence) {
+        if (event.recurrenceRule) {
           return `running since ${moment(event.start).format('MMM Do')}`
         }
 
@@ -89,7 +87,7 @@ export const Status = ({ event }: EventMetaProps) => {
       default:
         return 'expired'
     }
-  }, [event.recurrence, event.start, event.status])
+  }, [event.recurrenceRule, event.start, event.status])
 
   return (
     <Space align="start">

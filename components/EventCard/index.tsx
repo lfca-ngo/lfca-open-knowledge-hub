@@ -3,7 +3,7 @@ import { Button, Divider, Modal, Space } from 'antd'
 
 import {
   EventFragment,
-  EventParticipationStatus,
+  EventParticipantStatus,
 } from '../../services/lfca-backend'
 import {
   ParticipationRequestsApproved,
@@ -24,7 +24,9 @@ export interface EventCardProps {
 import classNames from 'classnames'
 import { useState } from 'react'
 
+import { EventCalendarLinks } from '../EventCalendarLinks'
 import { LogoGroup } from '../LogoGroup'
+import { MarkdownContent } from '../MarkdownContent'
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
 import { EventCardSmall } from './EventCardSmall'
@@ -39,7 +41,9 @@ export const EventCard = ({
 }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
   const eventIsApproved =
-    event.participationRequestStatus === EventParticipationStatus.APPROVED
+    event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
+  const eventIsPending =
+    event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
   const isParticipatingAtLeastOneEvent = participatingEventsCount > 0
   const hasAppliedForAtLeastOneEvent = appliedEventsCount > 0
 
@@ -117,13 +121,21 @@ export const EventCard = ({
               </Button>
             </a>
           )}
+
+          {eventIsApproved ? (
+            <>
+              <EventCalendarLinks event={event} />
+              <Divider />
+            </>
+          ) : null}
+
           <ToggleSubscribeButton
             buttonProps={{
               block: true,
               disabled:
-                hasAppliedForAtLeastOneEvent &&
-                event.participationRequestStatus !==
-                  EventParticipationStatus.APPROVED,
+                (hasAppliedForAtLeastOneEvent && !eventIsPending) ||
+                (isParticipatingAtLeastOneEvent && !eventIsApproved),
+              size: 'large',
             }}
             event={event}
             key="toggle-subscribe"
@@ -133,11 +145,7 @@ export const EventCard = ({
         <Divider />
 
         {event.description ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: event.description,
-            }}
-          />
+          <MarkdownContent content={event.description} />
         ) : (
           <p>No description available.</p>
         )}

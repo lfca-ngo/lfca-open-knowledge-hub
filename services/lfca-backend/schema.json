@@ -1319,7 +1319,7 @@
         "name": "Event",
         "fields": [
           {
-            "name": "description",
+            "name": "category",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1330,10 +1330,21 @@
             "args": []
           },
           {
-            "name": "end",
+            "name": "description",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "end",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
             },
             "args": []
           },
@@ -1349,26 +1360,7 @@
             "args": []
           },
           {
-            "name": "isAllDay",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "participationRequestStatus",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "participationRequests",
+            "name": "participants",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1377,38 +1369,91 @@
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "EventParticipationRequest",
+                    "name": "EventParticipant",
                     "ofType": null
                   }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "participantsAwaitingAdminApprovalCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participantsAwaitingUserRSVPCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participantsUserRSVPAcceptedCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participantsUserRSVPDeclinedCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "participationStatus",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "recurrenceOverrides",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "EventRecurrenceOverride",
+                  "ofType": null
                 }
               }
             },
             "args": []
           },
           {
-            "name": "participationRequestsApprovedCount",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "participationRequestsPendingCount",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "recurrence",
+            "name": "recurrenceRule",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -1461,20 +1506,8 @@
       },
       {
         "kind": "OBJECT",
-        "name": "EventParticipationRequest",
+        "name": "EventParticipant",
         "fields": [
-          {
-            "name": "event",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Event",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
           {
             "name": "id",
             "type": {
@@ -1483,6 +1516,14 @@
                 "kind": "SCALAR",
                 "name": "Any"
               }
+            },
+            "args": []
+          },
+          {
+            "name": "notes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           },
@@ -1500,9 +1541,81 @@
           {
             "name": "user",
             "type": {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "EventRecurrenceOverride",
+        "fields": [
+          {
+            "name": "description",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "end",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "isCancelled",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "start",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "title",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "videoConferenceUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           }
@@ -1579,6 +1692,29 @@
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "addEventParticipant",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
           {
             "name": "completeCompanyAction",
             "type": {
@@ -1717,12 +1853,12 @@
             "args": []
           },
           {
-            "name": "createEventParticipationRequest",
+            "name": "createEvent",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "EventParticipationRequest",
+                "name": "Event",
                 "ofType": null
               }
             },
@@ -1738,6 +1874,17 @@
                 }
               }
             ]
+          },
+          {
+            "name": "createEventParticipantExport",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           },
           {
             "name": "createServiceProviderReview",
@@ -1825,29 +1972,6 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Company",
-                "ofType": null
-              }
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "deleteEventParticipationRequest",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "EventParticipationRequest",
                 "ofType": null
               }
             },
@@ -1956,6 +2080,29 @@
             "args": []
           },
           {
+            "name": "processEventRSVPToken",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "processUserActionExpiry",
             "type": {
               "kind": "NON_NULL",
@@ -2006,6 +2153,29 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "User",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "removeEventParticipant",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
                 "ofType": null
               }
             },
@@ -2091,12 +2261,35 @@
             ]
           },
           {
-            "name": "updateEventParticipationRequest",
+            "name": "updateEvent",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "EventParticipationRequest",
+                "name": "Event",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "updateEventParticipantStatus",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
                 "ofType": null
               }
             },
@@ -2396,7 +2589,7 @@
             "args": []
           },
           {
-            "name": "eventParticipationRequests",
+            "name": "eventParticipants",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2405,7 +2598,7 @@
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "EventParticipationRequest",
+                    "name": "EventParticipant",
                     "ofType": null
                   }
                 }

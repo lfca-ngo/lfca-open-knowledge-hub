@@ -14,14 +14,16 @@ import {
 import { useFirebase } from '../../hooks/firebase'
 import { companyAction } from './cache-resolvers'
 import {
+  addEventParticipant,
   completeCompanyAction,
   completeUserAction,
   createActionComment,
-  createEventParticipationRequest,
+  createEvent,
   deleteActionComment,
-  deleteEventParticipationRequest,
   deleteServiceProviderReview,
   planCompanyAction,
+  removeEventParticipant,
+  updateEventParticipantStatus,
 } from './cache-updates'
 import schema from './schema.json'
 
@@ -61,14 +63,16 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
           schema: schema as IntrospectionData,
           updates: {
             Mutation: {
+              addEventParticipant,
               completeCompanyAction,
               completeUserAction,
               createActionComment,
-              createEventParticipationRequest,
+              createEvent,
               deleteActionComment,
-              deleteEventParticipationRequest,
               deleteServiceProviderReview,
               planCompanyAction,
+              removeEventParticipant,
+              updateEventParticipantStatus,
             },
           },
         }),

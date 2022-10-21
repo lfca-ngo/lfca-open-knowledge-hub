@@ -3,17 +3,19 @@ import { Descendant } from 'slate'
 
 import { RichTextEditor } from '../RichTextEditor'
 
-interface CommentInputProps {
+interface RichTextInputProps {
   disabled?: boolean
   onChange?: (value: Descendant[]) => void
+  placeholder?: string
   value?: Descendant[]
 }
 
-export const CommentInput = ({
+export const RichTextInput = ({
   disabled,
   onChange,
+  placeholder,
   value,
-}: CommentInputProps) => {
+}: RichTextInputProps) => {
   const [initialValue] = React.useState(value)
 
   return (
@@ -21,7 +23,7 @@ export const CommentInput = ({
       disabled={!!disabled}
       initialValue={initialValue}
       onChange={onChange}
-      placeholder="The most difficult thing was solving xyz. Luckily we found this overview that really helped us (attached)."
+      placeholder={placeholder}
     />
   )
 }

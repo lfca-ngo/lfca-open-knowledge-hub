@@ -4,23 +4,14 @@ import {
   SettingOutlined,
 } from '@ant-design/icons'
 import { Button, Popconfirm, Popover, Space } from 'antd'
-import { marked } from 'marked'
 import React from 'react'
 
 import { ActionCommentFragment } from '../../services/lfca-backend'
 import { toReadibleDate } from '../../utils'
 import { AttachmentButton } from '../AttachmentsList/AttachmentButton'
+import { MarkdownContent } from '../MarkdownContent'
 import { ShowMore } from '../ShowMore'
 import { UserAvatar } from '../UserAvatar'
-
-// Extend the default renderer to open links in a new window
-// See: https://github.com/markedjs/marked/issues/655#issuecomment-383226346
-const renderer = new marked.Renderer()
-const linkRenderer = renderer.link
-renderer.link = (href: string, title: string, text: string) => {
-  const html = linkRenderer.call(renderer, href, title, text)
-  return html.replace(/^<a /, '<a target="_blank" rel="nofollow" ')
-}
 
 interface CommentItemProps {
   comment: ActionCommentFragment
@@ -82,14 +73,8 @@ export const CommentItem = ({
             maxHeight={140}
             text={
               <>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: marked.parse(comment.message, {
-                      breaks: true,
-                      renderer,
-                    }),
-                  }}
-                />
+                <MarkdownContent content={comment.message} />
+
                 <div className="attachments">
                   {comment.attachments?.map((attachment, i) => (
                     <AttachmentButton

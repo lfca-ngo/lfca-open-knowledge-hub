@@ -1,21 +1,25 @@
 import {
   EMPTY_EVENTS,
   EventFragment,
-  EventParticipationStatus,
+  EventParticipantStatus,
 } from '../../services/lfca-backend'
 
-export const getEventsByParticipationStatus = (events?: EventFragment[]) =>
-  (events || EMPTY_EVENTS).reduce(
+export const getEventsByParticipationStatus = (
+  events: EventFragment[] | undefined = EMPTY_EVENTS
+) =>
+  events.reduce(
     (acc, curr) => {
       if (
-        curr.participationRequestStatus === EventParticipationStatus.APPROVED
+        curr.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
       ) {
         acc.participatingEvents.push(curr)
       } else {
         acc.otherEvents.push(curr)
         // push additionally to applied events
         if (
-          curr.participationRequestStatus === EventParticipationStatus.PENDING
+          curr.participationStatus ===
+            EventParticipantStatus.AWAITING_ADMIN_APPROVAL ||
+          curr.participationStatus === EventParticipantStatus.AWAITING_USER_RSVP
         ) {
           acc.appliedEvents.push(curr)
         }

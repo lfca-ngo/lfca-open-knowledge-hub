@@ -1,0 +1,7 @@
+mutation updateEventParticipantStatus(
+  $input: UpdateEventParticipantStatusInput!
+) {
+  updateEventParticipantStatus(input: $input) {
+    ...Event
+  }
+}

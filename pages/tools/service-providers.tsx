@@ -8,8 +8,6 @@ import { useServiceProviderListsQuery } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
 import { withAuth } from '../../utils/with-auth'
 
-const { TabPane } = Tabs
-
 const ServiceProviders: NextPage = () => {
   const [{ data, fetching }] = useServiceProviderListsQuery()
 
@@ -27,20 +25,20 @@ const ServiceProviders: NextPage = () => {
                     paragraph={{ rows: 10 }}
                   />
                 ) : (
-                  <Tabs defaultActiveKey="0">
-                    {data?.serviceProviderLists.map(
-                      (serviceProviderList, i) => (
-                        <TabPane
-                          key={i.toString()}
-                          tab={serviceProviderList.title}
-                        >
+                  <Tabs
+                    defaultActiveKey="0"
+                    items={data?.serviceProviderLists.map(
+                      (serviceProviderList, i) => ({
+                        children: (
                           <ServiceProviderComparison
                             serviceProviderList={serviceProviderList}
                           />
-                        </TabPane>
-                      )
+                        ),
+                        key: i.toString(),
+                        label: serviceProviderList.title,
+                      })
                     )}
-                  </Tabs>
+                  />
                 )}
               </>
             </PayWall>
