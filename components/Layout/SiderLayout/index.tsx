@@ -1,13 +1,14 @@
-import { Layout } from 'antd'
+import { Grid, Layout } from 'antd'
 import React, { useState } from 'react'
 
-import { useScreenSize } from '../../../hooks/app'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
 import styles from './styles.module.less'
+
+const { useBreakpoint } = Grid
 
 const COLLAPSED_WIDTH = 85
 const COLLAPSED_WIDTH_MOBILE = 0
@@ -21,13 +22,10 @@ interface SiderLayoutProps {
 }
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
-  const screenSizeType = useScreenSize()
-  const [collapsed, setCollapsed] = useState(
-    screenSizeType === 'xl' ? false : true
-  )
+  const isDesktop = useBreakpoint().md
 
-  const collapsedWidth =
-    screenSizeType === 'sm' ? COLLAPSED_WIDTH_MOBILE : COLLAPSED_WIDTH
+  const [collapsed, setCollapsed] = useState(true)
+  const collapsedWidth = isDesktop ? COLLAPSED_WIDTH : COLLAPSED_WIDTH_MOBILE
 
   return (
     <Layout
@@ -36,7 +34,6 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
       style={{ minHeight: '100vh' }}
     >
       <Sider
-        breakpoint="xxl"
         collapsed={collapsed}
         collapsedWidth={collapsedWidth}
         collapsible

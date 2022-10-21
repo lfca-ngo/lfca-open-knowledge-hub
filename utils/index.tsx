@@ -1,5 +1,8 @@
 import { CompanyActionListItemFragment } from '../services/lfca-backend'
 import { RemoveNull } from '../types'
+import { Grid } from 'antd'
+
+const { useBreakpoint } = Grid
 
 export const isDev = process.env.NODE_ENV === 'development'
 export const isBrowser = () => typeof window !== 'undefined'

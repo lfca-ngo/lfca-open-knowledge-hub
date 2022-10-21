@@ -1,32 +1,14 @@
 import { useRouter } from 'next/router'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import { trackEvent } from '../services/analytics'
-import { DESKTOP, getScreenSizeType, isBrowser } from '../utils'
 import { ACTIONS } from '../utils/routes'
 import useIsClient from './useIsClient'
-import { useLocalStorage } from './useLocalStorage'
 import { usePersistentNavigation } from './usePersistentNavigation'
-
-const SCREEN_SIZE = 'screen_size'
-
-const AppContext = createContext({
-  screenSize: DESKTOP,
-})
-
-// @TODO: replace with ant design useBreakpoint hook
-// to avoid unnecessary rerenders, we set the screen
-// size outside of the react lifecycle
-if (isBrowser()) {
-  window.localStorage.setItem(
-    SCREEN_SIZE,
-    JSON.stringify(getScreenSizeType(window, document))
-  )
-}
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const { resetPosition } = usePersistentNavigation(false)
-  const [screenSize] = useLocalStorage(SCREEN_SIZE, DESKTOP)
+
   const isClient = useIsClient()
   const router = useRouter()
 
@@ -65,18 +47,5 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // to avoid SSR flashing
   if (!isClient) return null
 
-  return (
-    <AppContext.Provider
-      value={{
-        screenSize,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  )
-}
-
-export const useScreenSize = () => {
-  const { screenSize } = useContext(AppContext)
-  return screenSize
+  return <>{children}</>
 }
