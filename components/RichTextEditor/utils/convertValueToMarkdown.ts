@@ -7,6 +7,9 @@ export function convertValueToMarkdown(nodes: Descendant[]) {
 function serialize(node: Descendant, prefix?: string): string {
   if (Text.isText(node)) {
     let string = node.text
+
+    if (!string) return ''
+
     if (node.bold) {
       string = `**${string}**`
     }
@@ -37,6 +40,6 @@ function serialize(node: Descendant, prefix?: string): string {
     }
     case 'paragraph':
     default:
-      return node.children.map((n) => serialize(n)).join('')
+      return node.children.map((n) => serialize(n)).join('') + '\n'
   }
 }

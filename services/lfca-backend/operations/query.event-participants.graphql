@@ -1,0 +1,5 @@
+query eventParticipants($input: EventParticipantsInput!) {
+  eventParticipants(input: $input) {
+    ...EventParticipant
+  }
+}

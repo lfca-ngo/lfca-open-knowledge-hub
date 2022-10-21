@@ -10,7 +10,11 @@ import styles from './styles.module.less'
 
 const { Content } = Layout
 
-export const OneColLayout = ({ children }: { children: any }) => {
+interface OneColLayoutProps {
+  children?: React.ReactNode
+}
+
+export const OneColLayout = ({ children }: OneColLayoutProps) => {
   const [isDarkMode] = useDarkMode()
 
   return (
@@ -33,9 +37,11 @@ export const OneColLayout = ({ children }: { children: any }) => {
           <Col className="bg" md={12} xs={24}>
             <div className="bg-wrapper">
               <Image
+                alt="app-preview"
                 layout="fill"
                 objectFit="contain"
                 objectPosition="center right"
+                priority={true}
                 src={AppPreview}
               />
             </div>

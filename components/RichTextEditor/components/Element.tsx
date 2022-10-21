@@ -35,6 +35,6 @@ export const Element = ({
       return <ol {...attributes}>{children}</ol>
     case 'paragraph':
     default:
-      return <div {...attributes}>{children}</div>
+      return <p {...attributes}>{children}</p>
   }
 }

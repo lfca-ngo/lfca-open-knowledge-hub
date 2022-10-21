@@ -1,44 +1,39 @@
 import { Button, Form, List, message } from 'antd'
+import React from 'react'
 
 import {
-  useCreateEventParticipationRequestMutation,
-  useEventParticipationRequestsQuery,
+  EventFragment,
+  EventParticipantStatus,
+  useAddEventParticipantMutation,
+  useEventParticipantsQuery,
 } from '../../services/lfca-backend'
-import { EventFragment } from '../../services/lfca-backend'
 import { UserIdSearchInput } from '../UserIdSearchInput'
-import { AdminEventParticipationRequest } from './AdminEventParticipationRequest'
+import { AdminEventParticipantItem } from './AdminEventParticipantItem'
 
-interface AdminEventParticipantsProps {
+interface ParticipantsListProps {
   event: EventFragment
-  onClose: () => void
 }
 
-export const AdminEventParticipants = ({
-  event,
-}: AdminEventParticipantsProps) => {
+export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
   const [form] = Form.useForm()
 
-  const [{ data, fetching: fetchingRequests }] =
-    useEventParticipationRequestsQuery({
-      pause: !event?.id,
-      variables: {
-        input: {
-          eventId: event?.id || '',
-        },
-      },
-    })
-
-  const [
-    { fetching: fetchingCreateEventParticipationRequest },
-    createEventParticipationRequest,
-  ] = useCreateEventParticipationRequestMutation()
-
-  const handleCreate = async ({ userId }: { userId?: string }) => {
-    if (!event) return
-    const res = await createEventParticipationRequest({
+  const [{ data, fetching: fetchingParticipants }] = useEventParticipantsQuery({
+    pause: !event.id,
+    variables: {
       input: {
-        approved: true,
         eventId: event.id,
+      },
+    },
+  })
+
+  const [{ fetching: fetchingAddEventParticipant }, addEventParticipant] =
+    useAddEventParticipantMutation()
+
+  const handleAdd = async ({ userId }: { userId?: string }) => {
+    const res = await addEventParticipant({
+      input: {
+        eventId: event.id,
+        status: EventParticipantStatus.AWAITING_USER_RSVP,
         userId,
       },
     })
@@ -51,35 +46,40 @@ export const AdminEventParticipants = ({
   }
 
   return (
-    <div>
-      <h1>{event?.title}</h1>
-      <Form form={form} layout="vertical" onFinish={handleCreate}>
-        <Form.Item
-          label="Invite a specific user to this event"
-          name="userId"
-          rules={[{ message: 'Please select a user', required: true }]}
-        >
-          <UserIdSearchInput />
-        </Form.Item>
-
-        <Form.Item>
-          <Button
-            htmlType="submit"
-            loading={fetchingCreateEventParticipationRequest}
-            type="primary"
+    <>
+      <div>
+        <h1>{event?.title}</h1>
+        <Form form={form} layout="vertical" onFinish={handleAdd}>
+          <Form.Item
+            label="Invite a specific user to this event"
+            name="userId"
+            rules={[{ message: 'Please select a user', required: true }]}
           >
-            Invite
-          </Button>
-        </Form.Item>
-      </Form>
-      <List
-        dataSource={data?.eventParticipationRequests || []}
-        itemLayout="horizontal"
-        loading={fetchingRequests}
-        renderItem={(request) => (
-          <AdminEventParticipationRequest event={event} request={request} />
-        )}
-      />
-    </div>
+            <UserIdSearchInput />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              htmlType="submit"
+              loading={fetchingAddEventParticipant}
+              type="primary"
+            >
+              Invite
+            </Button>
+          </Form.Item>
+        </Form>
+        <List
+          dataSource={data?.eventParticipants || []}
+          itemLayout="horizontal"
+          loading={fetchingParticipants}
+          renderItem={(participant) => (
+            <AdminEventParticipantItem
+              eventId={event.id}
+              participant={participant}
+            />
+          )}
+        />
+      </div>
+    </>
   )
 }

@@ -4,8 +4,6 @@ import { useState } from 'react'
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { ActionsList } from './ActionsList'
 
-const { TabPane } = Tabs
-
 export const AdminActionsList = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<
     string | undefined
@@ -25,14 +23,22 @@ export const AdminActionsList = () => {
         </Form.Item>
       </Form>
 
-      <Tabs>
-        <TabPane key="default" tab="Default">
-          <ActionsList selectedCompanyId={selectedCompanyId} />
-        </TabPane>
-        <TabPane key="expired" tab="Expired">
-          <ActionsList isExpired selectedCompanyId={selectedCompanyId} />
-        </TabPane>
-      </Tabs>
+      <Tabs
+        items={[
+          {
+            children: <ActionsList selectedCompanyId={selectedCompanyId} />,
+            key: 'default',
+            label: 'Default',
+          },
+          {
+            children: (
+              <ActionsList isExpired selectedCompanyId={selectedCompanyId} />
+            ),
+            key: 'expired',
+            label: 'Expired',
+          },
+        ]}
+      />
     </div>
   )
 }

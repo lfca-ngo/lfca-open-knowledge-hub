@@ -33,8 +33,6 @@ import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
 
-const { TabPane } = Tabs
-
 interface ActionProps {
   action: ContentfulActionFields
 }
@@ -80,42 +78,61 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           />
         </Section>
         <Section>
-          <Tabs defaultActiveKey="1">
-            <TabPane key="1" tab="Description">
-              <ShowMore
-                maxHeight={140}
-                text={
-                  action?.aboutText &&
-                  documentToReactComponents(action?.aboutText, options)
-                }
-              />
-            </TabPane>
-            <TabPane key="2" tab="How To">
-              <RequirementsList
-                actionContentId={action.actionId}
-                requirements={actionData?.companyAction?.requirements}
-                requirementsContent={action?.requirements}
-              />
-            </TabPane>
-            <TabPane key="3" tab="Examples">
-              <ShowMore
-                maxHeight={140}
-                text={
-                  action?.examples &&
-                  documentToReactComponents(action?.examples, options)
-                }
-              />
-            </TabPane>
-            <TabPane key="4" tab="Benefits">
-              <ShowMore
-                maxHeight={140}
-                text={
-                  action?.benefits &&
-                  documentToReactComponents(action?.benefits, options)
-                }
-              />
-            </TabPane>
-          </Tabs>
+          <Tabs
+            defaultActiveKey="1"
+            items={[
+              {
+                children: (
+                  <ShowMore
+                    maxHeight={140}
+                    text={
+                      action?.aboutText &&
+                      documentToReactComponents(action?.aboutText, options)
+                    }
+                  />
+                ),
+                key: '1',
+                label: 'Description',
+              },
+              {
+                children: (
+                  <RequirementsList
+                    actionContentId={action.actionId}
+                    requirements={actionData?.companyAction?.requirements}
+                    requirementsContent={action?.requirements}
+                  />
+                ),
+                key: '2',
+                label: 'How to',
+              },
+              {
+                children: (
+                  <ShowMore
+                    maxHeight={140}
+                    text={
+                      action?.examples &&
+                      documentToReactComponents(action?.examples, options)
+                    }
+                  />
+                ),
+                key: '3',
+                label: 'Examples',
+              },
+              {
+                children: (
+                  <ShowMore
+                    maxHeight={140}
+                    text={
+                      action?.benefits &&
+                      documentToReactComponents(action?.benefits, options)
+                    }
+                  />
+                ),
+                key: '4',
+                label: 'Benefits',
+              },
+            ]}
+          />
         </Section>
         {/* Render optional service provider comparison */}
         {fetchingActionExtended || staleActionExtended ? (

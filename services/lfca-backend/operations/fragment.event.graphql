@@ -1,28 +1,26 @@
 fragment Event on Event {
+  category
   description
   end
   id
-  isAllDay
-  participationRequestsApprovedCount
-  participationRequestsPendingCount
-  participationRequestStatus
-  recurrence
+  participants(filter: { status: USER_RSVP_ACCEPTED }) {
+    id
+    user {
+      company {
+        id
+        logoUrl
+      }
+      id
+    }
+  }
+  participantsAwaitingAdminApprovalCount
+  participantsAwaitingUserRSVPCount
+  participantsUserRSVPAcceptedCount
+  participantsUserRSVPDeclinedCount
+  participationStatus
+  recurrenceRule
   start
   status
   title
   videoConferenceUrl
-  participationRequests {
-    id
-    status
-    user {
-      firstName
-      id
-      lastName
-      company {
-        id
-        name
-        logoUrl
-      }
-    }
-  }
 }

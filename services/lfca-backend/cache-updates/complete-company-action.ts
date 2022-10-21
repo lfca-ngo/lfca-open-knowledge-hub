@@ -1,9 +1,6 @@
 import { UpdateResolver } from '@urql/exchange-graphcache'
 
 import {
-  CompanyActionsListDocument,
-  CompanyActionsListQuery,
-  CompanyActionsListQueryVariables,
   CompleteCompanyActionMutation,
   CompleteCompanyActionMutationVariables,
 } from '../generated'

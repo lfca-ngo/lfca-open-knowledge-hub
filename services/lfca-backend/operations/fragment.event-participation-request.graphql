@@ -1,4 +1,0 @@
-fragment EventParticipationRequest on EventParticipationRequest {
-  id
-  status
-}

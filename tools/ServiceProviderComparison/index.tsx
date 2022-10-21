@@ -19,8 +19,6 @@ import { SearchBar } from './SearchBar'
 import styles from './styles.module.less'
 import { getProviderValueForFilterAttribute } from './utils'
 
-const { TabPane } = Tabs
-
 interface ServiceProviderComparisonProps {
   serviceProviderList?: ServiceProviderListFragment
   showTitle?: boolean
@@ -162,24 +160,35 @@ export const ServiceProviderComparison = ({
   return (
     <div className={styles['service-provider-comparison']}>
       {showTitle ? <h2>{serviceProviderList?.title}</h2> : null}
-      <Tabs defaultActiveKey="filter">
-        <TabPane key="filter" tab="Filter">
-          <FilterForm
-            filters={serviceProviderList?.filters || []}
-            form={form}
-            onValuesChange={handleChange}
-            providers={serviceProviderList?.items || []}
-          />
-        </TabPane>
-        <TabPane key="assistant" tab="Assistant">
-          <Assistant
-            filters={serviceProviderList?.filters || []}
-            form={form}
-            onValuesChange={handleChange}
-            providers={serviceProviderList?.items || []}
-          />
-        </TabPane>
-      </Tabs>
+      <Tabs
+        defaultActiveKey="filter"
+        items={[
+          {
+            children: (
+              <FilterForm
+                filters={serviceProviderList?.filters || []}
+                form={form}
+                onValuesChange={handleChange}
+                providers={serviceProviderList?.items || []}
+              />
+            ),
+            key: 'filter',
+            label: 'Filter',
+          },
+          {
+            children: (
+              <Assistant
+                filters={serviceProviderList?.filters || []}
+                form={form}
+                onValuesChange={handleChange}
+                providers={serviceProviderList?.items || []}
+              />
+            ),
+            key: 'assistant',
+            label: 'Assistant',
+          },
+        ]}
+      />
 
       {/* Hide feature providers for non paying users */}
       {isPaying && (

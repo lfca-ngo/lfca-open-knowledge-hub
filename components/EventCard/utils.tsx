@@ -54,11 +54,12 @@ export const matchStringToIcon = (s: string) => {
 }
 
 export const getUniqueParticipatingCompanies = (event: EventFragment) => {
-  const participatingCompanies = event.participationRequests.map(
-    (r) => r?.user?.company
-  )
+  const participatingCompanies = event.participants.map((r) => r.user.company)
+
   const uniqueCompanies = participatingCompanies.filter(
-    (value, index, self) => self.map((x) => x?.id).indexOf(value?.id) == index
-  )
+    (value, index, self) =>
+      !!value?.id && self.map((x) => x?.id).indexOf(value?.id) == index
+  ) as NonNullable<typeof participatingCompanies[0]>[]
+
   return uniqueCompanies
 }
