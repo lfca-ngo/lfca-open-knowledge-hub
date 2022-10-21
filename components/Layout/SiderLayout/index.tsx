@@ -1,5 +1,5 @@
 import { Grid, Layout } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
@@ -23,7 +23,6 @@ interface SiderLayoutProps {
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
   const isDesktop = useBreakpoint().md
-  const [collapsed, setCollapsed] = useState(true)
   const collapsedWidth = isDesktop ? COLLAPSED_WIDTH : COLLAPSED_WIDTH_MOBILE
 
   return (
@@ -33,10 +32,9 @@ export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
       style={{ minHeight: '100vh' }}
     >
       <Sider
-        collapsed={collapsed}
+        breakpoint="xxl"
         collapsedWidth={collapsedWidth}
         collapsible
-        onCollapse={(collapsed) => setCollapsed(collapsed)}
         theme="light"
       >
         <Logo centered />
