@@ -23,7 +23,6 @@ interface SiderLayoutProps {
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
   const isDesktop = useBreakpoint().md
-
   const [collapsed, setCollapsed] = useState(true)
   const collapsedWidth = isDesktop ? COLLAPSED_WIDTH : COLLAPSED_WIDTH_MOBILE
 
