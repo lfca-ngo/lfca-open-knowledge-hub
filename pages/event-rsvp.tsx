@@ -6,8 +6,8 @@ import { EventRSVPResult } from '../components/EventRSVPResult'
 import { OneColLayout } from '../components/Layout'
 import { useProcessEventRsvpTokenMutation } from '../services/lfca-backend'
 
-const Maintenance: NextPage = () => {
-  const { query } = useRouter()
+const EventRsvp: NextPage = () => {
+  const { isReady, query } = useRouter()
   const { token } = query
 
   const [{ data, error, fetching }, processEventRSVPToken] =
@@ -28,11 +28,11 @@ const Maintenance: NextPage = () => {
       <EventRSVPResult
         event={data?.processEventRSVPToken}
         hasError={!!error}
-        isFetching={fetching}
+        isFetching={fetching || !isReady}
         token={token}
       />
     </OneColLayout>
   )
 }
 
-export default Maintenance
+export default EventRsvp

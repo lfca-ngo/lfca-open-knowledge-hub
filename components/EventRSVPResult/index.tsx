@@ -107,7 +107,18 @@ export const EventRSVPResult = ({
           </p>
           <EventCalendarLinks event={event} />
         </>
-      ) : null}
+      ) : (
+        <>
+          <h1>Missing event data</h1>
+          <p>
+            The link you are trying to open seems to be broken. If the problem
+            persists, please contact us via{' '}
+            <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`}>
+              {DEFAULT_SUPPORT_EMAIL}
+            </a>{' '}
+          </p>
+        </>
+      )}
     </Skeleton>
   )
 }

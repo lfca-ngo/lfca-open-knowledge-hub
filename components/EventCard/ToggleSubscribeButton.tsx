@@ -134,7 +134,12 @@ export const ToggleSubscribeButton = ({
             </Form.Item>
 
             <Form.Item>
-              <Button htmlType="submit" loading={updating} type="primary">
+              <Button
+                htmlType="submit"
+                loading={updating}
+                size={buttonProps?.size}
+                type="primary"
+              >
                 Submit
               </Button>
             </Form.Item>
@@ -147,6 +152,7 @@ export const ToggleSubscribeButton = ({
           icon={<StopOutlined />}
           key="decline"
           loading={updating}
+          size={buttonProps?.size}
           type="default"
         >
           {buttonProps?.block ? 'Cancel invitation' : ''}
@@ -159,6 +165,7 @@ export const ToggleSubscribeButton = ({
           key="accept"
           loading={updating}
           onClick={() => handleAccept()}
+          size={buttonProps?.size}
           type="primary"
         >
           {buttonProps?.block ? 'Confirm invitation' : ''}
