@@ -1,10 +1,11 @@
-import { PlusOutlined } from '@ant-design/icons'
-import { Badge, Button, Drawer, Space, Table, Tag } from 'antd'
+import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
+import { Badge, Button, Drawer, message, Space, Table, Tag } from 'antd'
 import { useState } from 'react'
 
 import {
   EventCategory,
   EventStatus,
+  useCreateEventParticipantExportMutation,
   useEventsQuery,
 } from '../../services/lfca-backend'
 import { EventFragment } from '../../services/lfca-backend'
@@ -22,6 +23,9 @@ export const AdminEventsList = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<
     'event' | 'participants' | null
   >(null)
+
+  const [{ fetching: isExporting }, exportParticipants] =
+    useCreateEventParticipantExportMutation()
 
   const [{ data, fetching }] = useEventsQuery({
     variables: {
@@ -47,6 +51,16 @@ export const AdminEventsList = () => {
     setSelectedEvent(undefined)
   }
 
+  const handleExport = () => {
+    exportParticipants({}).then(({ data, error }) => {
+      if (error) message.error(error.message)
+      const url = data?.createEventParticipantExport
+      if (url) {
+        window.open(url, '_blank')
+      }
+    })
+  }
+
   return (
     <div className={styles['admin-events-list']}>
       <Space>
@@ -56,6 +70,15 @@ export const AdminEventsList = () => {
           type="primary"
         >
           Create new group
+        </Button>
+
+        <Button
+          icon={<DownloadOutlined />}
+          loading={isExporting}
+          onClick={() => handleExport()}
+          type="ghost"
+        >
+          Export Participants
         </Button>
       </Space>
 

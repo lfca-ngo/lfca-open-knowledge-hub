@@ -110,7 +110,7 @@ export const AdminCompaniesList = ({
       if (error) message.error(error.message)
       const url = data?.createCompanyExport
       if (url) {
-        window.location.assign(url)
+        window.open(url, '_blank')
       }
     })
   }

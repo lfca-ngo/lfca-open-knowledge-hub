@@ -500,6 +500,7 @@ export type Mutation = {
   createCompanyExport: Scalars['String'];
   /** Admin-only operation */
   createEvent: Event;
+  createEventParticipantExport: Scalars['String'];
   createServiceProviderReview: ServiceProviderReview;
   createUserExport: Scalars['String'];
   createUserInvite: UserInvite;
@@ -1208,6 +1209,11 @@ export type CreateCompanyMutationVariables = Exact<{
 
 export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> } };
 
+export type CreateEventParticipantExportMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateEventParticipantExportMutation = { __typename?: 'Mutation', createEventParticipantExport: string };
+
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventInput;
 }>;
@@ -1911,6 +1917,15 @@ export const CreateCompanyDocument = gql`
 
 export function useCreateCompanyMutation() {
   return Urql.useMutation<CreateCompanyMutation, CreateCompanyMutationVariables>(CreateCompanyDocument);
+};
+export const CreateEventParticipantExportDocument = gql`
+    mutation createEventParticipantExport {
+  createEventParticipantExport
+}
+    `;
+
+export function useCreateEventParticipantExportMutation() {
+  return Urql.useMutation<CreateEventParticipantExportMutation, CreateEventParticipantExportMutationVariables>(CreateEventParticipantExportDocument);
 };
 export const CreateEventDocument = gql`
     mutation createEvent($input: CreateEventInput!) {

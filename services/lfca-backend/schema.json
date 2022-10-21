@@ -1876,6 +1876,17 @@
             ]
           },
           {
+            "name": "createEventParticipantExport",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "createServiceProviderReview",
             "type": {
               "kind": "NON_NULL",
