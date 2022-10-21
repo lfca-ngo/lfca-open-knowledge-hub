@@ -3,7 +3,7 @@ import { Avatar, Card, Space } from 'antd'
 
 import {
   EventFragment,
-  EventParticipationStatus,
+  EventParticipantStatus,
 } from '../../services/lfca-backend'
 import { Recurrence, Status } from './EventMeta'
 import styles from './styles.module.less'
@@ -28,7 +28,7 @@ export const EventCardSmall = ({
   onClick,
 }: EventCardDefaultProps) => {
   const isPending =
-    event.participationRequestStatus === EventParticipationStatus.PENDING
+    event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
   const [isHovered, setIsHovered] = useState(false)
 
   const handleMouseEnter = () => {
