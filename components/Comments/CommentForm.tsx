@@ -10,7 +10,6 @@ import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { convertValueToMarkdown } from '../RichTextEditor/utils'
 import { RichTextInput } from '../RichTextInput'
 import { UserIdSearchInput } from '../UserIdSearchInput'
-import { CommentInput } from './CommentInput'
 import styles from './styles.module.less'
 
 const { TextArea } = Input
