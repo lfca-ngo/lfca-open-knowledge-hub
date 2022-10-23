@@ -1,10 +1,9 @@
 import { ArrowLeftOutlined, EllipsisOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Grid } from 'antd'
+import { Button, Dropdown } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const { useBreakpoint } = Grid
-
+import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import styles from './styles.module.less'
 
 const Menu = ({ nav }: { nav: any }) => {
@@ -25,7 +24,7 @@ const Menu = ({ nav }: { nav: any }) => {
 }
 
 export const TopNav = ({ goBack, nav }: { nav: any; goBack: any }) => {
-  const isDesktop = useBreakpoint().md
+  const isDesktop = useBreakpoints().md
   const shouldRenderGoBack = goBack
   const shouldRenderNav = nav?.length > 0
 

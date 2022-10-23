@@ -1,8 +1,8 @@
-import { Grid, Layout } from 'antd'
+import { Layout } from 'antd'
 import classNames from 'classnames'
 import React, { useState } from 'react'
 
-import { getBreakpoints } from '../../../utils'
+import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
@@ -10,14 +10,10 @@ import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
 import styles from './styles.module.less'
 
-const { useBreakpoint } = Grid
-
 const COLLAPSED_WIDTH = 85
 const COLLAPSED_WIDTH_MOBILE = 0
 
 const { Content, Header, Sider } = Layout
-
-const INITIAL_BREAKPOINTS = getBreakpoints()
 
 interface SiderLayoutProps {
   children: React.ReactNode
@@ -26,16 +22,10 @@ interface SiderLayoutProps {
 }
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
-  const breakpoints = useBreakpoint()
+  const breakpoints = useBreakpoints()
 
-  const isVeryLargeDesktop =
-    typeof breakpoints.xxl !== 'undefined'
-      ? breakpoints.xxl
-      : INITIAL_BREAKPOINTS.xxl
-  const isDesktop =
-    typeof breakpoints.lg !== 'undefined'
-      ? breakpoints.lg
-      : INITIAL_BREAKPOINTS.lg
+  const isVeryLargeDesktop = breakpoints.xxl
+  const isDesktop = breakpoints.lg
 
   const collapsedWidth = isDesktop ? COLLAPSED_WIDTH : COLLAPSED_WIDTH_MOBILE
   const [collapsed, setCollapsed] = useState(!isVeryLargeDesktop)
