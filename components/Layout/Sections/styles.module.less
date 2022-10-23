@@ -33,6 +33,12 @@
     margin-bottom: 40px;
   }
 
+  &[class~='sticky'] {
+    top: 0;
+    position: sticky;
+    z-index: 10;
+  }
+
   &[class~='without-title'] {
     :global {
       .section-content {
@@ -90,6 +96,10 @@
 
   @media @desktop {
     width: @sider-section-width;
+  }
+
+  @media (min-width: @screen-xl) {
+    width: @sider-section-width-xl;
   }
 }
 

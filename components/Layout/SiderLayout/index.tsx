@@ -1,6 +1,8 @@
 import { Grid, Layout } from 'antd'
-import React from 'react'
+import classNames from 'classnames'
+import React, { useState } from 'react'
 
+import { getBreakpoints } from '../../../utils'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
 import { MainNav } from '../MainNav'
@@ -15,6 +17,8 @@ const COLLAPSED_WIDTH_MOBILE = 0
 
 const { Content, Header, Sider } = Layout
 
+const INITIAL_BREAKPOINTS = getBreakpoints()
+
 interface SiderLayoutProps {
   children: React.ReactNode
   nav?: Array<any>
@@ -22,19 +26,33 @@ interface SiderLayoutProps {
 }
 
 export const SiderLayout = ({ children, goBack, nav }: SiderLayoutProps) => {
-  const isDesktop = useBreakpoint().md
+  const breakpoints = useBreakpoint()
+
+  const isVeryLargeDesktop =
+    typeof breakpoints.xxl !== 'undefined'
+      ? breakpoints.xxl
+      : INITIAL_BREAKPOINTS.xxl
+  const isDesktop =
+    typeof breakpoints.lg !== 'undefined'
+      ? breakpoints.lg
+      : INITIAL_BREAKPOINTS.lg
+
   const collapsedWidth = isDesktop ? COLLAPSED_WIDTH : COLLAPSED_WIDTH_MOBILE
+  const [collapsed, setCollapsed] = useState(!isVeryLargeDesktop)
 
   return (
     <Layout
-      className={styles['sider-layout']}
+      className={classNames(styles['sider-layout'], {
+        'is-collapsed': collapsed,
+      })}
       hasSider
       style={{ minHeight: '100vh' }}
     >
       <Sider
-        breakpoint="xxl"
+        collapsed={collapsed}
         collapsedWidth={collapsedWidth}
         collapsible
+        onCollapse={(collapsed) => setCollapsed(collapsed)}
         theme="light"
       >
         <Logo centered />

@@ -68,7 +68,7 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
 
   return (
     <div className={styles['actions-bar']}>
-      <Space direction="vertical" style={{ width: '100%' }}>
+      <Space className="wrapper" direction="vertical" style={{ width: '100%' }}>
         {canExpire && isCompleted ? (
           <Button
             block

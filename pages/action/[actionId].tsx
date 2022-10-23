@@ -77,63 +77,93 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             fetching={fetchingAction}
           />
         </Section>
-        <Section>
+        <Section className="sticky">
           <Tabs
+            className="sticky-tabs"
             defaultActiveKey="1"
             items={[
               {
-                children: (
-                  <ShowMore
-                    maxHeight={140}
-                    text={
-                      action?.aboutText &&
-                      documentToReactComponents(action?.aboutText, options)
-                    }
-                  />
-                ),
                 key: '1',
                 label: 'Description',
               },
               {
-                children: (
-                  <RequirementsList
-                    actionContentId={action.actionId}
-                    requirements={actionData?.companyAction?.requirements}
-                    requirementsContent={action?.requirements}
-                  />
-                ),
                 key: '2',
                 label: 'How to',
               },
               {
-                children: (
-                  <ShowMore
-                    maxHeight={140}
-                    text={
-                      action?.examples &&
-                      documentToReactComponents(action?.examples, options)
-                    }
-                  />
-                ),
                 key: '3',
                 label: 'Examples',
               },
               {
-                children: (
-                  <ShowMore
-                    maxHeight={140}
-                    text={
-                      action?.benefits &&
-                      documentToReactComponents(action?.benefits, options)
-                    }
-                  />
-                ),
                 key: '4',
                 label: 'Benefits',
               },
             ]}
           />
         </Section>
+
+        <Section>
+          <ShowMore
+            maxHeight={140}
+            text={
+              action?.aboutText &&
+              documentToReactComponents(action?.aboutText, options)
+            }
+          />
+        </Section>
+
+        <Section>
+          <Section title="Community">
+            <LogoGroup
+              data={actionData?.companyAction?.recentCompaniesDoing}
+              label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
+              reverse
+              size="large"
+            />
+            <Divider orientation="left" orientationMargin="0">
+              Latest Messages
+            </Divider>
+            <Comments actionContentId={action.actionId} />
+          </Section>
+          <Section title="Attachments">
+            <AttachmentsList
+              attachments={attachmentsData?.actionCommentAttachments || []}
+              fetching={fetchingAttachments}
+            />
+          </Section>
+          <Section title="History">
+            <ActionHistory contentId={actionData?.companyAction.contentId} />
+          </Section>
+        </Section>
+
+        <Section>
+          <RequirementsList
+            actionContentId={action.actionId}
+            requirements={actionData?.companyAction?.requirements}
+            requirementsContent={action?.requirements}
+          />
+        </Section>
+
+        <Section>
+          <ShowMore
+            maxHeight={140}
+            text={
+              action?.examples &&
+              documentToReactComponents(action?.examples, options)
+            }
+          />
+        </Section>
+
+        <Section>
+          <ShowMore
+            maxHeight={140}
+            text={
+              action?.benefits &&
+              documentToReactComponents(action?.benefits, options)
+            }
+          />
+        </Section>
+
         {/* Render optional service provider comparison */}
         {fetchingActionExtended || staleActionExtended ? (
           <Spin />
@@ -170,34 +200,13 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       </Main>
 
       <Sider>
-        <Section title="Your progress">
+        <Section className="sticky">
           {actionData?.companyAction && (
             <ActionBar
               action={actionData?.companyAction}
               actionDetails={action}
             />
           )}
-        </Section>
-        <Section title="Community">
-          <LogoGroup
-            data={actionData?.companyAction?.recentCompaniesDoing}
-            label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
-            reverse
-            size="large"
-          />
-          <Divider orientation="left" orientationMargin="0">
-            Latest Messages
-          </Divider>
-          <Comments actionContentId={action.actionId} />
-        </Section>
-        <Section title="Attachments">
-          <AttachmentsList
-            attachments={attachmentsData?.actionCommentAttachments || []}
-            fetching={fetchingAttachments}
-          />
-        </Section>
-        <Section title="History">
-          <ActionHistory contentId={actionData?.companyAction.contentId} />
         </Section>
       </Sider>
     </SiderLayout>

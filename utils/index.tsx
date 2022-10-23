@@ -4,10 +4,14 @@ import { RemoveNull } from '../types'
 export const isDev = process.env.NODE_ENV === 'development'
 export const isBrowser = () => typeof window !== 'undefined'
 
-export const SM_BREAKPOINT = 767
-export const MD_BREAKPOINT = 992
-export const LG_BREAKPOINT = 1200
-export const XL_BREAKPOINT = 1441
+export const LAYOUT_BREAKPOINTS = [
+  { maxWidth: 575, name: 'xs' },
+  { minWidth: 576, name: 'sm' },
+  { minWidth: 768, name: 'md' },
+  { minWidth: 992, name: 'lg' },
+  { minWidth: 1200, name: 'xl' },
+  { minWidth: 1600, name: 'xxl' },
+]
 
 export const SIDER = 'sider'
 export const MAIN = 'main'
@@ -26,6 +30,22 @@ export const SUPPORT_EMAIL_LINK = (
 export function toFixedNumber(num: number, digits: number, base = 10) {
   const pow = Math.pow(base, digits)
   return Math.round(num * pow) / pow
+}
+
+export const getBreakpoints = () => {
+  const screenWidth =
+    typeof window !== 'undefined'
+      ? window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      : 0
+
+  return LAYOUT_BREAKPOINTS.reduce((acc, val) => {
+    acc[val.name] = val?.maxWidth
+      ? screenWidth <= val?.maxWidth
+      : screenWidth > (val?.minWidth || 0)
+    return acc
+  }, {} as { [key: string]: boolean })
 }
 
 export const arrayContains = (
