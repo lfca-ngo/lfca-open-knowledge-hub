@@ -74,6 +74,111 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     rootCategory,
   } as CompanyActionListItemFragmentWithRootCategory
 
+  const sections = [
+    {
+      children: (
+        <Section>
+          <ShowMore
+            maxHeight={140}
+            text={
+              action?.aboutText &&
+              documentToReactComponents(action?.aboutText, options)
+            }
+          />
+        </Section>
+      ),
+      key: 'about',
+      label: 'Description',
+      renderCondition: () => true,
+    },
+    {
+      children: (
+        <Section>
+          <Section title="Community">
+            <LogoGroup
+              data={actionData?.companyAction?.recentCompaniesDoing}
+              label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
+              reverse
+              size="large"
+            />
+            <Divider orientation="left" orientationMargin="0">
+              Latest Messages
+            </Divider>
+            <Comments actionContentId={action.actionId} />
+          </Section>
+          <Section title="Attachments">
+            <AttachmentsList
+              attachments={attachmentsData?.actionCommentAttachments || []}
+              fetching={fetchingAttachments}
+            />
+          </Section>
+          <Section title="History">
+            <ActionHistory contentId={actionData?.companyAction.contentId} />
+          </Section>
+        </Section>
+      ),
+      key: 'community',
+      label: 'Community',
+      renderCondition: () => true,
+    },
+    {
+      children: (
+        <Section>
+          <RequirementsList
+            actionContentId={action.actionId}
+            requirements={actionData?.companyAction?.requirements}
+            requirementsContent={action?.requirements}
+          />
+        </Section>
+      ),
+      key: 'how-to',
+      label: 'How To',
+      renderCondition: () => true,
+    },
+    {
+      children: (
+        <>
+          {fetchingActionExtended || staleActionExtended ? (
+            <Spin />
+          ) : actionDataExtended?.companyAction.serviceProviderList ? (
+            <ServiceProviderComparison
+              serviceProviderList={
+                actionDataExtended.companyAction.serviceProviderList
+              }
+              showTitle={true}
+            />
+          ) : (
+            <EmptyState
+              actions={[
+                <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
+                  <Button size="large" type="primary">
+                    Share idea
+                  </Button>
+                </a>,
+              ]}
+              bordered
+              icon={<BulbOutlined />}
+              text={
+                <div>
+                  We are gradually adding more and more community powered
+                  content to the platform. You can check the{' '}
+                  <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
+                  as an example. If you have relevant content ideas for this
+                  module, please share them with us!
+                </div>
+              }
+              title="There is more to come..."
+            />
+          )}
+        </>
+      ),
+      key: 'providers',
+      label: 'Service Providers',
+      renderCondition: () =>
+        !!actionDataExtended?.companyAction.serviceProviderList,
+    },
+  ]
+
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
@@ -87,127 +192,22 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           <Tabs
             activeKey={activeNavItem}
             className="sticky-tabs"
-            items={[
-              {
-                key: 'about',
-                label: 'Description',
-              },
-              {
-                key: 'community',
-                label: 'Community',
-              },
-            ]}
+            items={sections.map((s) => ({ ...s, children: null }))}
             onChange={(key) => scrollToId(key)}
           />
         </Section>
 
-        <SectionWrapper
-          id={'about'}
-          key={'about'}
-          setActiveNavItem={setActiveNavItem}
-        >
-          <Section>
-            <ShowMore
-              maxHeight={140}
-              text={
-                action?.aboutText &&
-                documentToReactComponents(action?.aboutText, options)
-              }
-            />
-          </Section>
-        </SectionWrapper>
-
-        <SectionWrapper
-          id={'community'}
-          key={'community'}
-          setActiveNavItem={setActiveNavItem}
-        >
-          <Section>
-            <Section title="Community">
-              <LogoGroup
-                data={actionData?.companyAction?.recentCompaniesDoing}
-                label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
-                reverse
-                size="large"
-              />
-              <Divider orientation="left" orientationMargin="0">
-                Latest Messages
-              </Divider>
-              <Comments actionContentId={action.actionId} />
-            </Section>
-            <Section title="Attachments">
-              <AttachmentsList
-                attachments={attachmentsData?.actionCommentAttachments || []}
-                fetching={fetchingAttachments}
-              />
-            </Section>
-            <Section title="History">
-              <ActionHistory contentId={actionData?.companyAction.contentId} />
-            </Section>
-          </Section>
-        </SectionWrapper>
-
-        <Section>
-          <RequirementsList
-            actionContentId={action.actionId}
-            requirements={actionData?.companyAction?.requirements}
-            requirementsContent={action?.requirements}
-          />
-        </Section>
-
-        <Section>
-          <ShowMore
-            maxHeight={140}
-            text={
-              action?.examples &&
-              documentToReactComponents(action?.examples, options)
-            }
-          />
-        </Section>
-
-        <Section>
-          <ShowMore
-            maxHeight={140}
-            text={
-              action?.benefits &&
-              documentToReactComponents(action?.benefits, options)
-            }
-          />
-        </Section>
-
-        {/* Render optional service provider comparison */}
-        {fetchingActionExtended || staleActionExtended ? (
-          <Spin />
-        ) : actionDataExtended?.companyAction.serviceProviderList ? (
-          <ServiceProviderComparison
-            serviceProviderList={
-              actionDataExtended.companyAction.serviceProviderList
-            }
-            showTitle={true}
-          />
-        ) : (
-          <EmptyState
-            actions={[
-              <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
-                <Button size="large" type="primary">
-                  Share idea
-                </Button>
-              </a>,
-            ]}
-            bordered
-            icon={<BulbOutlined />}
-            text={
-              <div>
-                We are gradually adding more and more community powered content
-                to the platform. You can check the{' '}
-                <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
-                as an example. If you have relevant content ideas for this
-                module, please share them with us!
-              </div>
-            }
-            title="There is more to come..."
-          />
-        )}
+        {sections
+          .filter((s) => s.renderCondition)
+          .map((s) => (
+            <SectionWrapper
+              id={s.key}
+              key={s.key}
+              setActiveNavItem={setActiveNavItem}
+            >
+              {s.children}
+            </SectionWrapper>
+          ))}
       </Main>
 
       <Sider>
