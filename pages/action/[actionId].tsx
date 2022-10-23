@@ -4,6 +4,7 @@ import { Button, Divider, Spin, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
 import { ActionDetails } from '../../components/ActionDetails'
@@ -13,6 +14,10 @@ import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
 import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import {
+  scrollToId,
+  SectionWrapper,
+} from '../../components/Layout/SectionWrapper'
 import { LogoGroup } from '../../components/LogoGroup'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
@@ -38,6 +43,7 @@ interface ActionProps {
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
+  const [activeNavItem, setActiveNavItem] = useState('')
   const rootCategoryLookUp: RootCategoryLookUpProps =
     categoryTreeData.rootCategoryLookUp
   const router = useRouter()
@@ -79,62 +85,67 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         </Section>
         <Section className="sticky">
           <Tabs
+            activeKey={activeNavItem}
             className="sticky-tabs"
-            defaultActiveKey="1"
             items={[
               {
-                key: '1',
+                key: 'about',
                 label: 'Description',
               },
               {
-                key: '2',
-                label: 'How to',
-              },
-              {
-                key: '3',
-                label: 'Examples',
-              },
-              {
-                key: '4',
-                label: 'Benefits',
+                key: 'community',
+                label: 'Community',
               },
             ]}
+            onChange={(key) => scrollToId(key)}
           />
         </Section>
 
-        <Section>
-          <ShowMore
-            maxHeight={140}
-            text={
-              action?.aboutText &&
-              documentToReactComponents(action?.aboutText, options)
-            }
-          />
-        </Section>
+        <SectionWrapper
+          id={'about'}
+          key={'about'}
+          setActiveNavItem={setActiveNavItem}
+        >
+          <Section>
+            <ShowMore
+              maxHeight={140}
+              text={
+                action?.aboutText &&
+                documentToReactComponents(action?.aboutText, options)
+              }
+            />
+          </Section>
+        </SectionWrapper>
 
-        <Section>
-          <Section title="Community">
-            <LogoGroup
-              data={actionData?.companyAction?.recentCompaniesDoing}
-              label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
-              reverse
-              size="large"
-            />
-            <Divider orientation="left" orientationMargin="0">
-              Latest Messages
-            </Divider>
-            <Comments actionContentId={action.actionId} />
+        <SectionWrapper
+          id={'community'}
+          key={'community'}
+          setActiveNavItem={setActiveNavItem}
+        >
+          <Section>
+            <Section title="Community">
+              <LogoGroup
+                data={actionData?.companyAction?.recentCompaniesDoing}
+                label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
+                reverse
+                size="large"
+              />
+              <Divider orientation="left" orientationMargin="0">
+                Latest Messages
+              </Divider>
+              <Comments actionContentId={action.actionId} />
+            </Section>
+            <Section title="Attachments">
+              <AttachmentsList
+                attachments={attachmentsData?.actionCommentAttachments || []}
+                fetching={fetchingAttachments}
+              />
+            </Section>
+            <Section title="History">
+              <ActionHistory contentId={actionData?.companyAction.contentId} />
+            </Section>
           </Section>
-          <Section title="Attachments">
-            <AttachmentsList
-              attachments={attachmentsData?.actionCommentAttachments || []}
-              fetching={fetchingAttachments}
-            />
-          </Section>
-          <Section title="History">
-            <ActionHistory contentId={actionData?.companyAction.contentId} />
-          </Section>
-        </Section>
+        </SectionWrapper>
 
         <Section>
           <RequirementsList
