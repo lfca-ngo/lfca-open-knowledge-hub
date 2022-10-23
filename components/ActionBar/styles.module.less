@@ -9,3 +9,19 @@
     }
   }
 }
+
+.status-button {
+  &[class~='ant-input-group'] {
+    width: 100%;
+    display: flex;
+    :global {
+      .ant-btn:first-of-type {
+        flex: 1;
+        text-align: left;
+      }
+      .ant-btn:nth-of-type(2) {
+        border-left: 1px solid fade(@black, 10%);
+      }
+    }
+  }
+}

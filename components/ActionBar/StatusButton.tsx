@@ -1,11 +1,12 @@
 import {
+  AppstoreAddOutlined,
   CalendarOutlined,
   CheckOutlined,
-  CloseOutlined,
+  EllipsisOutlined,
   ReloadOutlined,
-  UndoOutlined,
 } from '@ant-design/icons'
-import { Button, Drawer, Dropdown, Menu, message } from 'antd'
+import { Button, Drawer, Dropdown, Input, Menu, message } from 'antd'
+import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
 import { useState } from 'react'
 
 import {
@@ -15,10 +16,34 @@ import {
 } from '../../services/lfca-backend'
 import { actionHasReviews } from '../../utils'
 import { CompleteActionForm } from '../CompleteActionForm'
+import styles from './styles.module.less'
 
 interface StatusButtonProps {
   action: CompanyActionListItemFragment
   canExpire?: boolean
+}
+
+const BTN_STATES: { [key: string]: MenuItemType } = {
+  BACKLOG: {
+    icon: <AppstoreAddOutlined />,
+    key: 'BACKLOG',
+    label: 'Backlog',
+  },
+  COMPLETE: {
+    icon: <CheckOutlined />,
+    key: 'COMPLETE',
+    label: 'Complete',
+  },
+  PLANNED: {
+    icon: <CalendarOutlined />,
+    key: 'PLANNED',
+    label: 'Planned',
+  },
+  RENEW: {
+    icon: <ReloadOutlined />,
+    key: 'RENEW',
+    label: 'Renew',
+  },
 }
 
 export const StatusButton = ({
@@ -28,6 +53,12 @@ export const StatusButton = ({
   const [isOpen, setIsOpen] = useState(false)
   const isCompleted = !!action.completedAt
   const isPlanned = !!action.plannedAt
+
+  const actionStatus = isCompleted
+    ? BTN_STATES.COMPLETE
+    : isPlanned
+    ? BTN_STATES.PLANNED
+    : BTN_STATES.BACKLOG
 
   const [{ fetching: fetchingPlanCompanyAction }, planCompanyAction] =
     usePlanCompanyActionMutation()
@@ -65,40 +96,47 @@ export const StatusButton = ({
     })
   }
 
+  const handleClick = async ({ key }: { key: string }) => {
+    switch (key) {
+      case BTN_STATES.RENEW.key:
+      case BTN_STATES.COMPLETE.key:
+        handleComplete(true)
+        break
+      case BTN_STATES.PLANNED.key:
+        await handlePlan()
+        break
+      case BTN_STATES.BACKLOG.key:
+        await handleComplete(false)
+        break
+      default:
+        return
+    }
+  }
+
   const menu = (
     <Menu
-      items={[
-        {
-          key: '0',
-          label: 'Backlog',
-          onClick: () => handleComplete(false),
-        },
-        {
-          key: '1',
-          label: 'Plan',
-          onClick: handlePlan,
-        },
-        {
-          key: '2',
-          label: 'Complete',
-          onClick: () => handleComplete(true),
-        },
-        {
-          disabled: true,
-          key: '3',
-          label: 'In progress',
-        },
-      ]}
-      // onClick={handleMenuClick}
+      items={Object.keys(BTN_STATES).map((key) => ({
+        ...BTN_STATES[key],
+        disabled: key === 'RENEW' && !canExpire,
+      }))}
+      onClick={handleClick}
     />
   )
 
   return (
     <>
       <Dropdown overlay={menu}>
-        <Button block size="large" type="primary">
-          Test
-        </Button>
+        <Input.Group className={styles['status-button']} compact>
+          <Button
+            icon={actionStatus.icon}
+            loading={fetchingCompleteCompanyAction || fetchingPlanCompanyAction}
+            size="large"
+            type="primary"
+          >
+            {actionStatus.label}
+          </Button>
+          <Button icon={<EllipsisOutlined />} size="large" type="primary" />
+        </Input.Group>
       </Dropdown>
 
       <Drawer
