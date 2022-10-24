@@ -832,6 +832,7 @@ export type RegisterUserInput = {
 
 export type RemoveEventParticipantInput = {
   eventId: Scalars['String'];
+  isExternal?: InputMaybe<Scalars['Boolean']>;
   /** Only admin users are allowed to remove other users from an event */
   userId?: InputMaybe<Scalars['String']>;
 };

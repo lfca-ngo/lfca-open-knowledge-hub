@@ -37,6 +37,7 @@ export const AdminEventParticipantItem = ({
     const res = await removeEventParticipant({
       input: {
         eventId,
+        isExternal: participant.isExternal,
         userId: participant.user.id,
       },
     })
