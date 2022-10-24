@@ -682,6 +682,7 @@ export type PlanCompanyActionInput = {
 };
 
 export type ProcessEventRsvpTokenInput = {
+  forwardEmail?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
   token: Scalars['String'];
 };
@@ -1021,6 +1022,7 @@ export type UpdateEventInput = {
 
 export type UpdateEventParticipantStatusInput = {
   eventId: Scalars['String'];
+  isExternal?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
   /** Only admins can set a status other than `USER_RSVP_ACCEPTED` and `USER_RSVP_DECLINED` */
   status: EventParticipantStatus;

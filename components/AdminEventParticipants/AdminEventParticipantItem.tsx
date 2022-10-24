@@ -51,6 +51,7 @@ export const AdminEventParticipantItem = ({
     const res = await updateEventParticipantStatus({
       input: {
         eventId,
+        isExternal: participant.isExternal,
         status: EventParticipantStatus.AWAITING_USER_RSVP,
         userId: participant.user.id,
       },
