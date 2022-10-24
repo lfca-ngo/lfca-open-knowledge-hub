@@ -3,4 +3,7 @@ fragment UserAvatar on User {
   firstName
   id
   picture
+  company {
+    name
+  }
 }

@@ -85,6 +85,8 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     {
       children: (
         <ShowMore
+          buttonProps={{ type: 'link' }}
+          maskMode="transparent"
           maxHeight={140}
           text={
             action?.aboutText &&
@@ -230,7 +232,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           />
         </Section>
 
-        <div id="scroll-wrapper">
+        <div className={styles['sections']}>
           {sections
             .filter((s) => s.renderCondition)
             .map((s, i) => (

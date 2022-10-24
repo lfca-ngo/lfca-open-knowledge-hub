@@ -19,10 +19,9 @@ export const SectionWrapper = ({
   intersectionOptions,
   setActiveNavItem,
 }: SectionWrapperProps) => {
-  const { inView, ref, entry, entries } = useInView(intersectionOptions)
+  const { inView, ref } = useInView(intersectionOptions)
 
   useEffect(() => {
-    console.log(entry)
     if (inView) {
       setActiveNavItem(id)
     }

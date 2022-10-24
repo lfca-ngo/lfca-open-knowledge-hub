@@ -7,11 +7,13 @@ import styles from './styles.module.less'
 export const ShowMore = ({
   buttonProps = { size: 'small' },
   maxHeight,
+  maskMode = 'blur',
   text,
 }: {
   buttonProps?: ButtonProps
   text: any
   maxHeight: number
+  maskMode?: 'transparent' | 'blur'
 }) => {
   const [isInactive, setIsInactive] = useState(false)
   const [isShowMoreVisible, setIsShowMoreVisible] = useState(false)
@@ -33,7 +35,7 @@ export const ShowMore = ({
 
   return (
     <div
-      className={classNames(styles['show-more'], {
+      className={classNames(styles['show-more'], maskMode, {
         'is-active': isShowMoreVisible,
         'is-expanded': isExpanded,
       })}

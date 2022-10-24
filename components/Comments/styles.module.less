@@ -9,16 +9,21 @@
     .comment-item {
       width: 100%;
       margin: 10px 0 10px;
+      display: flex;
+
+      .main-message-wrapper {
+        flex: 1;
+      }
+
+      .ant-avatar {
+        margin-right: 12px;
+      }
 
       .author {
         display: flex;
         align-items: center;
         font-size: @font-size-xs;
         color: @black;
-
-        .ant-avatar {
-          margin-right: 8px;
-        }
 
         .name {
           flex: 1;
@@ -40,22 +45,25 @@
 
       .message {
         .attachments {
-          margin: 8px 0;
+          margin: 8px 0 0;
+
+          .ant-btn {
+            background: transparent;
+          }
         }
 
         .body {
-          padding: 12px 0 0;
+          padding: 12px;
+          background: @white-grey;
+          border-radius: @border-radius-base;
+          margin: 10px 0 10px;
 
           .show-more-content {
-            font-size: @font-size-sm;
-
             p {
-              font-size: @font-size-sm;
               margin-bottom: 3px;
             }
 
             li {
-              font-size: @font-size-sm;
               &::marker {
                 float: left;
               }

@@ -72,7 +72,8 @@ export const Comments = ({ actionContentId }: CommentsProps) => {
             dataSource={data?.actionComments}
             pagination={{
               hideOnSinglePage: true,
-              pageSize: 2,
+              pageSize: 3,
+              showSizeChanger: true,
               size: 'small',
             }}
             renderItem={(comment) => (
