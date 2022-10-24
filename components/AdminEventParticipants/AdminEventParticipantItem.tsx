@@ -1,4 +1,9 @@
-import { CheckOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  CheckOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Avatar, Button, List, message, Popconfirm, Tooltip } from 'antd'
 
 import {
@@ -32,6 +37,7 @@ export const AdminEventParticipantItem = ({
     const res = await removeEventParticipant({
       input: {
         eventId,
+        isExternal: participant.isExternal,
         userId: participant.user.id,
       },
     })
@@ -45,6 +51,7 @@ export const AdminEventParticipantItem = ({
     const res = await updateEventParticipantStatus({
       input: {
         eventId,
+        isExternal: participant.isExternal,
         status: EventParticipantStatus.AWAITING_USER_RSVP,
         userId: participant.user.id,
       },
@@ -87,10 +94,7 @@ export const AdminEventParticipantItem = ({
         ) : (
           <Tooltip
             title={`${readableEventParticipantStatus(participant.status)}${
-              participant.status ===
-                EventParticipantStatus.USER_RSVP_DECLINED && participant.notes
-                ? `: ${participant.notes}`
-                : ''
+              participant.notes ? `: ${participant.notes}` : ''
             }`}
           >
             <Button
@@ -104,18 +108,32 @@ export const AdminEventParticipantItem = ({
         ),
       ]}
     >
-      <List.Item.Meta
-        avatar={
-          <Avatar
-            icon={!participant.user?.picture && <UserOutlined />}
-            size={45}
-            src={participant.user?.picture}
-            style={{ backgroundColor: '#6A1246' }}
-          />
-        }
-        description={participant.user?.company?.name}
-        title={`${participant.user?.firstName} ${participant.user?.lastName}`}
-      />
+      {'company' in participant.user ? (
+        <List.Item.Meta
+          avatar={
+            <Avatar
+              icon={!participant.user?.picture && <UserOutlined />}
+              size={45}
+              src={participant.user?.picture}
+              style={{ backgroundColor: '#6A1246' }}
+            />
+          }
+          description={participant.user?.company?.name}
+          title={`${participant.user?.firstName} ${participant.user?.lastName}`}
+        />
+      ) : (
+        <List.Item.Meta
+          avatar={
+            <Avatar
+              icon={<ExportOutlined />}
+              size={45}
+              style={{ backgroundColor: '#6A1246' }}
+            />
+          }
+          description="external"
+          title={participant.user.email}
+        />
+      )}
     </List.Item>
   )
 }

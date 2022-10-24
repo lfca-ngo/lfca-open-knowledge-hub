@@ -1,4 +1,4 @@
-import { Button, Form, Input, Skeleton } from 'antd'
+import { Button, Form, Input, message, Skeleton } from 'antd'
 import Link from 'next/link'
 import React from 'react'
 
@@ -27,17 +27,26 @@ export const EventRSVPResult = ({
   const [{ data, fetching: isSubmittingNotes }, updateTokenRSVPWithNotes] =
     useProcessEventRsvpTokenMutation()
 
-  const handleSubmit = async (allValues: { notes?: string }) => {
-    const notes = allValues.notes
+  const handleSubmit = async ({
+    forwardEmail,
+    notes,
+  }: {
+    forwardEmail?: string
+    notes?: string
+  }) => {
+    if ((!notes && !forwardEmail) || typeof token !== 'string') return
 
-    if (!notes || typeof token !== 'string') return
-
-    updateTokenRSVPWithNotes({
+    const res = await updateTokenRSVPWithNotes({
       input: {
+        forwardEmail,
         notes,
         token,
       },
     })
+
+    if (res.error?.message) {
+      message.error(res.error.message)
+    }
   }
 
   return (
@@ -77,6 +86,13 @@ export const EventRSVPResult = ({
               >
                 <Input.TextArea placeholder="e.g. time does not fit my calendar" />
               </Form.Item>
+              {/* <Form.Item
+                key="forwardEmail"
+                label="Invite a colleague"
+                name="forwardEmail"
+              >
+                <Input placeholder="greta@thunbergvc.earth" type="email" />
+              </Form.Item> */}
 
               <Form.Item>
                 <Button

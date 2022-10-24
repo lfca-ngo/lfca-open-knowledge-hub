@@ -15,6 +15,7 @@ import { useFirebase } from '../../hooks/firebase'
 import { companyAction } from './cache-resolvers'
 import {
   addEventParticipant,
+  addExternalEventParticipant,
   completeCompanyAction,
   completeUserAction,
   createActionComment,
@@ -64,6 +65,7 @@ export const LFCABackendProvider = ({ children }: LFCABackendProviderProps) => {
           updates: {
             Mutation: {
               addEventParticipant,
+              addExternalEventParticipant,
               completeCompanyAction,
               completeUserAction,
               createActionComment,

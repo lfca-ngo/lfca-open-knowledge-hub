@@ -1,4 +1,5 @@
 export * from './add-event-participant'
+export * from './add-external-event-participant'
 export * from './complete-company-action'
 export * from './complete-user-action'
 export * from './create-action-comment'

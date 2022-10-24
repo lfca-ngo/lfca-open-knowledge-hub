@@ -1,21 +1,22 @@
-import React from 'react'
-import { Form, Button } from 'antd'
-import renderSwitch from './renderSwitch'
-import { Category } from './Category'
+import { Button, Form } from 'antd'
 import classNames from 'classnames'
+import React from 'react'
+
+import { Category } from './Category'
+import renderSwitch from './renderSwitch'
 
 export const QuestionBlock = ({
-  activeQuestion,
   activeAnswer,
-  submit,
+  activeQuestion,
   goBack,
+  submit,
 }: {
   activeQuestion: any
   activeAnswer: any
   submit: any
   goBack: any
 }) => {
-  const { id, question, category, message, type, hints, label, description } =
+  const { category, description, hints, id, label, message, question, type } =
     activeQuestion
   const isHidden = activeQuestion.type === 'fixed'
 
@@ -37,15 +38,15 @@ export const QuestionBlock = ({
   const itemRules =
     type === 'housing'
       ? { validator: housingValidator }
-      : { required: true, message: message }
+      : { message: message, required: true }
   const initialValue = activeAnswer ? activeAnswer.values : undefined
 
   return (
     <Form
-      onFinish={handleSubmit}
-      onValuesChange={updateAnswer}
       className={classNames('question-form', { 'is-hidden': isHidden })}
       initialValues={{ id: initialValue }}
+      onFinish={handleSubmit}
+      onValuesChange={updateAnswer}
     >
       <Category category={category} />
       <h1>{question}</h1>
@@ -57,15 +58,15 @@ export const QuestionBlock = ({
           ))}
         </ul>
       )}
-      <Form.Item name={id} label={label} rules={[itemRules]}>
+      <Form.Item label={label} name={id} rules={[itemRules]}>
         {renderSwitch(activeQuestion)}
       </Form.Item>
       <Form.Item>
-        <Button size="large" type="primary" htmlType="submit">
+        <Button htmlType="submit" size="large" type="primary">
           Continue
         </Button>
 
-        <Button type="link" size="large" onClick={goBack}>
+        <Button onClick={goBack} size="large" type="link">
           Back
         </Button>
       </Form.Item>

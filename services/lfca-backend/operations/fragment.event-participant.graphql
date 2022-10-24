@@ -1,17 +1,24 @@
 fragment EventParticipant on EventParticipant {
   id
+  isExternal
   notes
   status
   user {
-    company {
+    ... on ExternalUser {
+      email
       id
-      name
-      logoUrl
     }
-    email
-    firstName
-    id
-    lastName
-    picture
+    ... on User {
+      company {
+        id
+        name
+        logoUrl
+      }
+      email
+      firstName
+      id
+      lastName
+      picture
+    }
   }
 }

@@ -1,10 +1,11 @@
-import { Button, Form, List, message } from 'antd'
+import { Button, Form, Input, List, message } from 'antd'
 import React from 'react'
 
 import {
   EventFragment,
   EventParticipantStatus,
   useAddEventParticipantMutation,
+  useAddExternalEventParticipantMutation,
   useEventParticipantsQuery,
 } from '../../services/lfca-backend'
 import { UserIdSearchInput } from '../UserIdSearchInput'
@@ -28,18 +29,44 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
 
   const [{ fetching: fetchingAddEventParticipant }, addEventParticipant] =
     useAddEventParticipantMutation()
+  const [
+    { fetching: fetchingAddExternalEventParticipant },
+    addExternalEventParticipant,
+  ] = useAddExternalEventParticipantMutation()
 
-  const handleAdd = async ({ userId }: { userId?: string }) => {
-    const res = await addEventParticipant({
-      input: {
-        eventId: event.id,
-        status: EventParticipantStatus.AWAITING_USER_RSVP,
-        userId,
-      },
-    })
+  const handleAdd = async ({
+    externalUserEmail,
+    userId,
+  }: {
+    externalUserEmail?: string
+    userId?: string
+  }) => {
+    let errorMessage: string | undefined
 
-    if (res.error) {
-      message.error(res.error.message)
+    if (userId) {
+      const res = await addEventParticipant({
+        input: {
+          eventId: event.id,
+          status: EventParticipantStatus.AWAITING_USER_RSVP,
+          userId,
+        },
+      })
+
+      errorMessage = res.error?.message
+    } else if (externalUserEmail) {
+      const res = await addExternalEventParticipant({
+        input: {
+          eventId: event.id,
+          externalUserEmail,
+          status: EventParticipantStatus.AWAITING_USER_RSVP,
+        },
+      })
+
+      errorMessage = res.error?.message
+    }
+
+    if (errorMessage) {
+      message.error(errorMessage)
     } else {
       form.resetFields()
     }
@@ -51,17 +78,67 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
         <h1>{event?.title}</h1>
         <Form form={form} layout="vertical" onFinish={handleAdd}>
           <Form.Item
-            label="Invite a specific user to this event"
+            dependencies={['externalUserEmail']}
+            label="Invite a specific community member"
             name="userId"
-            rules={[{ message: 'Please select a user', required: true }]}
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (
+                    (!value && !getFieldValue('externalUserEmail')) ||
+                    (value && getFieldValue('externalUserEmail'))
+                  ) {
+                    return Promise.reject(
+                      new Error(
+                        'Select a community member OR enter an external email!'
+                      )
+                    )
+                  }
+                  return Promise.resolve()
+                },
+              }),
+            ]}
           >
             <UserIdSearchInput />
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item
+            dependencies={['userId']}
+            key="externalUserEmail"
+            label="or invite an external user to this event"
+            name="externalUserEmail"
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (
+                    (!value && !getFieldValue('userId')) ||
+                    (value && getFieldValue('userId'))
+                  ) {
+                    return Promise.reject(
+                      new Error(
+                        'Select a community member OR enter an external email!'
+                      )
+                    )
+                  }
+                  return Promise.resolve()
+                },
+              }),
+            ]}
+          >
+            <Input placeholder="greta@thunbergvc.earth" type="email" />
+          </Form.Item>
+
+          <Form.Item
+            extra={
+              'NOTE: adding a user that is already a participant will set the status back to "Awaiting RSVP" and resend the RSVP email.'
+            }
+          >
             <Button
               htmlType="submit"
-              loading={fetchingAddEventParticipant}
+              loading={
+                fetchingAddEventParticipant ||
+                fetchingAddExternalEventParticipant
+              }
               type="primary"
             >
               Invite
