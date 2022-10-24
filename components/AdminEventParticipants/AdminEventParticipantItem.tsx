@@ -1,4 +1,9 @@
-import { CheckOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  CheckOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Avatar, Button, List, message, Popconfirm, Tooltip } from 'antd'
 
 import {
@@ -104,18 +109,32 @@ export const AdminEventParticipantItem = ({
         ),
       ]}
     >
-      <List.Item.Meta
-        avatar={
-          <Avatar
-            icon={!participant.user?.picture && <UserOutlined />}
-            size={45}
-            src={participant.user?.picture}
-            style={{ backgroundColor: '#6A1246' }}
-          />
-        }
-        description={participant.user?.company?.name}
-        title={`${participant.user?.firstName} ${participant.user?.lastName}`}
-      />
+      {'company' in participant.user ? (
+        <List.Item.Meta
+          avatar={
+            <Avatar
+              icon={!participant.user?.picture && <UserOutlined />}
+              size={45}
+              src={participant.user?.picture}
+              style={{ backgroundColor: '#6A1246' }}
+            />
+          }
+          description={participant.user?.company?.name}
+          title={`${participant.user?.firstName} ${participant.user?.lastName}`}
+        />
+      ) : (
+        <List.Item.Meta
+          avatar={
+            <Avatar
+              icon={<ExportOutlined />}
+              size={45}
+              style={{ backgroundColor: '#6A1246' }}
+            />
+          }
+          description="external"
+          title={participant.user.email}
+        />
+      )}
     </List.Item>
   )
 }

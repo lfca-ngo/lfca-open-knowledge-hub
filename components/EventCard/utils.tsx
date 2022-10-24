@@ -20,7 +20,7 @@ import {
   StarOutlined,
 } from '@ant-design/icons'
 
-import { EventFragment } from '../../services/lfca-backend'
+import { CompanyFragment, EventFragment } from '../../services/lfca-backend'
 
 const contains = (string: string, words: string[]) => {
   for (const word of words) {
@@ -54,12 +54,16 @@ export const matchStringToIcon = (s: string) => {
 }
 
 export const getUniqueParticipatingCompanies = (event: EventFragment) => {
-  const participatingCompanies = event.participants.map((r) => r.user.company)
+  const uniqueCompaniesById = event.participants.reduce((acc, curr) => {
+    if (
+      'company' in curr.user &&
+      curr.user.company?.id &&
+      !acc[curr.user.company.id]
+    ) {
+      acc[curr.id] = curr.user.company
+    }
+    return acc
+  }, {} as Record<string, Pick<CompanyFragment, 'id' | 'logoUrl'>>)
 
-  const uniqueCompanies = participatingCompanies.filter(
-    (value, index, self) =>
-      !!value?.id && self.map((x) => x?.id).indexOf(value?.id) == index
-  ) as NonNullable<typeof participatingCompanies[0]>[]
-
-  return uniqueCompanies
+  return Object.values(uniqueCompaniesById)
 }
