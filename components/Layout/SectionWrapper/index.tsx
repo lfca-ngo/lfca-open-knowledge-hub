@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { IntersectionOptions, useInView } from 'react-intersection-observer'
 
 export const scrollToId = (id: string) => {
   const section = document.querySelector(`#${id}`)
@@ -9,17 +9,20 @@ export const scrollToId = (id: string) => {
 interface SectionWrapperProps {
   children: React.ReactNode
   id: string
+  intersectionOptions?: IntersectionOptions
   setActiveNavItem: (key: string) => void
 }
 
 export const SectionWrapper = ({
   children,
   id,
+  intersectionOptions,
   setActiveNavItem,
 }: SectionWrapperProps) => {
-  const { inView, ref } = useInView({ threshold: 0.3 })
+  const { inView, ref, entry, entries } = useInView(intersectionOptions)
 
   useEffect(() => {
+    console.log(entry)
     if (inView) {
       setActiveNavItem(id)
     }

@@ -1,4 +1,10 @@
-import { BulbOutlined } from '@ant-design/icons'
+import {
+  BulbOutlined,
+  CommentOutlined,
+  InfoCircleOutlined,
+  InsertRowRightOutlined,
+  OrderedListOutlined,
+} from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Divider, Spin, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
@@ -34,9 +40,10 @@ import {
   useCompanyActionExtendedDetailsQuery,
 } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
-import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
+import { DEFAULT_SUPPORT_EMAIL, isBrowser } from '../../utils'
 import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
+import styles from './styles.module.less'
 
 interface ActionProps {
   action: ContentfulActionFields
@@ -77,62 +84,65 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   const sections = [
     {
       children: (
-        <Section>
-          <ShowMore
-            maxHeight={140}
-            text={
-              action?.aboutText &&
-              documentToReactComponents(action?.aboutText, options)
-            }
-          />
-        </Section>
+        <ShowMore
+          maxHeight={140}
+          text={
+            action?.aboutText &&
+            documentToReactComponents(action?.aboutText, options)
+          }
+        />
       ),
+      hideSectionTitle: true,
       key: 'about',
-      label: 'Description',
+      label: (
+        <span>
+          <InfoCircleOutlined /> About
+        </span>
+      ),
       renderCondition: () => true,
     },
     {
       children: (
-        <Section>
-          <Section title="Community">
-            <LogoGroup
-              data={actionData?.companyAction?.recentCompaniesDoing}
-              label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
-              reverse
-              size="large"
-            />
-            <Divider orientation="left" orientationMargin="0">
-              Latest Messages
-            </Divider>
-            <Comments actionContentId={action.actionId} />
-          </Section>
-          <Section title="Attachments">
-            <AttachmentsList
-              attachments={attachmentsData?.actionCommentAttachments || []}
-              fetching={fetchingAttachments}
-            />
-          </Section>
-          <Section title="History">
-            <ActionHistory contentId={actionData?.companyAction.contentId} />
-          </Section>
-        </Section>
+        <>
+          <LogoGroup
+            data={actionData?.companyAction?.recentCompaniesDoing}
+            label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
+            reverse
+            size="large"
+          />
+          <Divider orientation="left" orientationMargin="0">
+            Latest Messages
+          </Divider>
+          <Comments actionContentId={action.actionId} />
+          <AttachmentsList
+            attachments={attachmentsData?.actionCommentAttachments || []}
+            fetching={fetchingAttachments}
+          />
+        </>
       ),
       key: 'community',
-      label: 'Community',
+      label: (
+        <span>
+          <CommentOutlined /> Community
+        </span>
+      ),
+
       renderCondition: () => true,
     },
     {
       children: (
-        <Section>
-          <RequirementsList
-            actionContentId={action.actionId}
-            requirements={actionData?.companyAction?.requirements}
-            requirementsContent={action?.requirements}
-          />
-        </Section>
+        <RequirementsList
+          actionContentId={action.actionId}
+          requirements={actionData?.companyAction?.requirements}
+          requirementsContent={action?.requirements}
+        />
       ),
       key: 'how-to',
-      label: 'How To',
+      label: (
+        <span>
+          <OrderedListOutlined /> Steps
+        </span>
+      ),
       renderCondition: () => true,
     },
     {
@@ -173,41 +183,78 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         </>
       ),
       key: 'providers',
-      label: 'Service Providers',
+      label: (
+        <span>
+          <InsertRowRightOutlined /> Services
+        </span>
+      ),
       renderCondition: () =>
         !!actionDataExtended?.companyAction.serviceProviderList,
     },
+    {
+      children: (
+        <ActionHistory contentId={actionData?.companyAction.contentId} />
+      ),
+      key: 'history',
+      label: (
+        <span>
+          <OrderedListOutlined /> History
+        </span>
+      ),
+      renderCondition: () => true,
+    },
   ]
+
+  const docHeight = isBrowser() ? document.documentElement.offsetHeight : 0
+  const tabElement = isBrowser()
+    ? (document?.querySelector('#tab-container') as HTMLElement)
+    : null
+  const tabHeight = tabElement?.offsetHeight || 0
 
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
-        <Section>
+        <Section className={styles['header-section']}>
           <ActionDetails
             action={actionDetails || EMPTY_ACTION}
             fetching={fetchingAction}
           />
         </Section>
-        <Section className="sticky">
+        <Section className="sticky" id="tab-container">
           <Tabs
             activeKey={activeNavItem}
-            className="sticky-tabs"
+            className={styles['tabs']}
             items={sections.map((s) => ({ ...s, children: null }))}
             onChange={(key) => scrollToId(key)}
+            size="large"
           />
         </Section>
 
-        {sections
-          .filter((s) => s.renderCondition)
-          .map((s) => (
-            <SectionWrapper
-              id={s.key}
-              key={s.key}
-              setActiveNavItem={setActiveNavItem}
-            >
-              {s.children}
-            </SectionWrapper>
-          ))}
+        <div id="scroll-wrapper">
+          {sections
+            .filter((s) => s.renderCondition)
+            .map((s, i) => (
+              <SectionWrapper
+                id={s.key}
+                intersectionOptions={{
+                  initialInView: i === 0,
+                  rootMargin: `0px 0px ${
+                    (docHeight - tabHeight - 40) * -1
+                  }px 0px`,
+                  threshold: 0,
+                }}
+                key={s.key}
+                setActiveNavItem={setActiveNavItem}
+              >
+                <Section
+                  title={s.hideSectionTitle ? null : s.label}
+                  titleSize="small"
+                >
+                  {s.children}
+                </Section>
+              </SectionWrapper>
+            ))}
+        </div>
       </Main>
 
       <Sider>
