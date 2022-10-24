@@ -86,13 +86,13 @@ export const EventRSVPResult = ({
               >
                 <Input.TextArea placeholder="e.g. time does not fit my calendar" />
               </Form.Item>
-              <Form.Item
+              {/* <Form.Item
                 key="forwardEmail"
                 label="Invite a colleague"
                 name="forwardEmail"
               >
                 <Input placeholder="greta@thunbergvc.earth" type="email" />
-              </Form.Item>
+              </Form.Item> */}
 
               <Form.Item>
                 <Button
