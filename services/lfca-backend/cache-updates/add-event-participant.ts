@@ -21,7 +21,7 @@ export const addEventParticipant: UpdateResolver<
    * the client cache for the `eventParticipants` Query.
    */
 
-  // Reset the cache for the CompletedActions
+  // Reset the cache for all eventParticipants
   cache.invalidate('Query', 'eventParticipants', {
     input: {
       eventId: args.input.eventId,
