@@ -94,10 +94,7 @@ export const AdminEventParticipantItem = ({
         ) : (
           <Tooltip
             title={`${readableEventParticipantStatus(participant.status)}${
-              participant.status ===
-                EventParticipantStatus.USER_RSVP_DECLINED && participant.notes
-                ? `: ${participant.notes}`
-                : ''
+              participant.notes ? `: ${participant.notes}` : ''
             }`}
           >
             <Button
