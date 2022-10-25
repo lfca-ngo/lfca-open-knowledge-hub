@@ -1,5 +1,6 @@
 import {
   CalendarOutlined,
+  CommentOutlined,
   ContainerOutlined,
   DownloadOutlined,
   MessageOutlined,
@@ -10,6 +11,7 @@ import {
   Button,
   Col,
   Divider,
+  Popover,
   Radio,
   Row,
   Skeleton,
@@ -32,6 +34,8 @@ import { UserAvatar } from '../UserAvatar'
 import { CommentItem } from './CommentItem'
 import { CommentModal } from './CommentModal'
 import styles from './styles.module.less'
+
+const ATTACHMENTS_KEY = 'attachments'
 
 const TabsSkeletonChild = {
   children: (
@@ -76,6 +80,7 @@ const CommentAuthor = ({ author }: { author: UserAvatarFragment }) => {
 }
 
 export const Comments = ({ actionContentId, title }: CommentsProps) => {
+  const [activeComment, setActiveComment] = useState('0')
   const [visible, setVisible] = useState(false)
   const [editingComment, setEditingComment] = useState<ActionCommentFragment>()
   const [{ data, fetching }] = useActionCommentsQuery({
@@ -140,11 +145,27 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
   return (
     <div className={styles['action-comments']}>
       <Row align="middle">
-        <Col md={12} xs={24}>
+        <Col md={6} xs={24}>
           <h2 className={'section-title no-margin'}>{title}</h2>
         </Col>
-        <Col md={12} style={{ textAlign: 'right' }} xs={24}>
+        <Col md={18} style={{ textAlign: 'right' }} xs={24}>
           <Space>
+            <Popover content="Comments">
+              <Button icon={<CommentOutlined />}>
+                {' '}
+                {data?.actionComments?.length}
+              </Button>
+            </Popover>
+            <Popover content="Comments">
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={() => setActiveComment(ATTACHMENTS_KEY)}
+              >
+                {' '}
+                {attachmentsData?.actionCommentAttachments.length}
+              </Button>
+            </Popover>
+
             <Button
               icon={<PlusOutlined />}
               key="create"
@@ -164,8 +185,8 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
       <Divider />
 
       <Tabs
+        activeKey={activeComment}
         className={'comments-tabs'}
-        defaultActiveKey="1"
         id="test"
         items={
           fetching
@@ -214,7 +235,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
                       fetching={fetchingAttachments}
                     />
                   ),
-                  key: 'attachments',
+                  key: ATTACHMENTS_KEY,
                   label: (
                     <div className="attachments-element">
                       <Avatar
@@ -228,6 +249,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
                 },
               ]
         }
+        onChange={(key) => setActiveComment(key)}
         tabPosition={'left'}
       />
 
