@@ -78,7 +78,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   return (
     <SiderLayout nav={ACTIONS_NAV}>
       <Main>
-        <Section className="mb-40" title="What's next?" titleSize="big">
+        <Section title="What's next?" titleSize="big">
           <ActionsCarousel
             actions={highlightedActions}
             fetching={fetchingActions}
