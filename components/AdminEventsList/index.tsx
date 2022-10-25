@@ -1,5 +1,5 @@
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
-import { Badge, Button, Drawer, message, Space, Table, Tag } from 'antd'
+import { Badge, Button, Drawer, message, Select, Space, Table, Tag } from 'antd'
 import { useState } from 'react'
 
 import {
@@ -17,6 +17,9 @@ import styles from './styles.module.less'
 const { Column } = Table
 
 export const AdminEventsList = () => {
+  const [eventCategory, setEventCategory] = useState<EventCategory | undefined>(
+    undefined
+  )
   const [selectedEvent, setSelectedEvent] = useState<EventFragment | undefined>(
     undefined
   )
@@ -31,7 +34,7 @@ export const AdminEventsList = () => {
     variables: {
       input: {
         filter: {
-          category: EventCategory.MASTERMIND_GROUP,
+          category: eventCategory,
           includeCancelled: true,
         },
       },
@@ -80,6 +83,16 @@ export const AdminEventsList = () => {
         >
           Export Participants
         </Button>
+
+        <Select
+          onChange={(val) => setEventCategory(val)}
+          placeholder="Filter by category"
+          style={{ width: '200px' }}
+        >
+          {Object.keys(EventCategory).map((category) => (
+            <Select.Option key={category}>{category}</Select.Option>
+          ))}
+        </Select>
       </Space>
 
       <Table
