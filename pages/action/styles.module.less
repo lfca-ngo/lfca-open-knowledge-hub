@@ -1,3 +1,15 @@
+.section-title-style() {
+  .font-bold();
+
+  font-size: 24px;
+
+  :global {
+    .anticon {
+      margin-right: 8px;
+    }
+  }
+}
+
 .header-section {
   margin: 20px 0 10px;
 }
@@ -18,40 +30,16 @@
 
       .section-title {
         margin: 30px 0 10px;
-        font-size: 22px;
-        .anticon {
-          margin-right: 8px;
+        .section-title-style();
+
+        &.no-margin {
+          margin: 0;
         }
       }
     }
   }
 }
 
-.avatar-meta {
-  display: flex;
-  flex-direction: row;
-
-  :global {
-    .text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-left: 16px;
-      justify-content: center;
-
-      .company {
-        font-size: @font-size-xs;
-        color: fade(@black, 40%);
-      }
-    }
-  }
-}
-
-.comments-tabs {
-  :global {
-    .ant-tabs-nav .ant-tabs-tab {
-      max-width: 180px;
-      padding-left: 0;
-    }
-  }
+.section-title {
+  .section-title-style();
 }

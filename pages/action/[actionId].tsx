@@ -6,30 +6,26 @@ import {
   OrderedListOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Divider, Spin, Tabs } from 'antd'
+import { Button, Spin, Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useRef, useState } from 'react'
-import _debounce from 'lodash.debounce'
+import { useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
-import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
-import { CommentItem } from '../../components/Comments/CommentItem'
 import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import {
   scrollToId,
   SectionWrapper,
 } from '../../components/Layout/SectionWrapper'
-import { LogoGroup } from '../../components/LogoGroup'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
-import { UserAvatar } from '../../components/UserAvatar'
+import { useUser } from '../../hooks/user'
 import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
   ContentfulActionFields,
@@ -37,11 +33,15 @@ import {
   RootCategoryLookUpProps,
 } from '../../services/contentful'
 import {
+  ActionCommentFragment,
   EMPTY_ACTION,
   useActionCommentAttachmentsQuery,
   useActionCommentsQuery,
   useCompanyActionDetailsQuery,
   useCompanyActionExtendedDetailsQuery,
+  useCreateActionCommentMutation,
+  useDeleteActionCommentMutation,
+  useUpdateActionCommentMutation,
 } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
 import { DEFAULT_SUPPORT_EMAIL, isBrowser } from '../../utils'
@@ -54,8 +54,6 @@ interface ActionProps {
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
-  const [activeComment, setActiveComment] = useState('0')
-  const [blocked, setBlocked] = useState(false)
   const [activeNavItem, setActiveNavItem] = useState('')
   const rootCategoryLookUp: RootCategoryLookUpProps =
     categoryTreeData.rootCategoryLookUp
@@ -87,26 +85,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     rootCategory,
   } as CompanyActionListItemFragmentWithRootCategory
 
-  const [{ data, fetching }] = useActionCommentsQuery({
-    pause: !action.actionId,
-    variables: {
-      input: { actionContentId: action.actionId },
-    },
-  })
-
-  const debouncedActiveComment = useRef(
-    _debounce(async (value) => {
-      setActiveComment(value)
-    }, 500)
-  ).current
-
-  const offset = 40
-  const elHeight = 78
-  const tabsWindowHeight = 3 * elHeight + offset
-
   const sections = [
     {
-      children: (
+      children: () => (
         <ShowMore
           buttonProps={{ type: 'link' }}
           maskMode="transparent"
@@ -127,97 +108,26 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       renderCondition: () => true,
     },
     {
-      children: (
+      children: ({ label }: { label: React.ReactNode }) => (
         <div style={{ margin: '30px 0 0' }}>
-          {/* <LogoGroup
-            data={actionData?.companyAction?.recentCompaniesDoing}
-            label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
-            reverse
-            size="large"
-          /> */}
-          {/* <Divider orientation="left" orientationMargin="0">
-            Comments
-          </Divider> */}
-          <Tabs
-            className={styles['comments-tabs']}
-            defaultActiveKey="1"
-            id="test"
-            tabPosition={'left'}
-            onChange={(key) => {
-              setBlocked(true)
-              setActiveComment(key)
-            }}
-            onTabScroll={() => setBlocked(false)}
-            activeKey={activeComment}
-            style={{ height: `${tabsWindowHeight}px` }}
-            items={data?.actionComments.map((comment, i) => {
-              const id = String(i)
-              return {
-                label: (
-                  <SectionWrapper
-                    intersectionOptions={{
-                      root: document.querySelector('#test .ant-tabs-nav-wrap'),
-                      rootMargin: `0px 0px ${
-                        (tabsWindowHeight - elHeight + 10) * -1
-                      }px 0px`,
-                      threshold: 0,
-                      // triggerOnce: true,
-                    }}
-                    id={id}
-                    setActiveNavItem={(key) => {
-                      if (key === activeComment) return
-                      console.log('key', key, activeComment)
-                      !blocked && debouncedActiveComment(key)
-                    }}
-                  >
-                    <div className={styles['avatar-meta']}>
-                      {' '}
-                      <UserAvatar
-                        avatarProps={{ shape: 'square', size: 45 }}
-                        user={comment.author}
-                      />{' '}
-                      <div className="text">
-                        <div className="name">{comment.author?.firstName}</div>
-                        <div className="company">
-                          {comment.author?.company?.name}
-                        </div>
-                      </div>
-                    </div>
-                  </SectionWrapper>
-                ),
-                key: id,
-                children: (
-                  <div>
-                    <CommentItem
-                      comment={comment}
-                      isAdmin={true}
-                      onDelete={() => console.log('delete')}
-                      onEdit={() => console.log('edit')}
-                    />
-                  </div>
-                ),
-              }
-            })}
-          />
-
-          {/* <Comments actionContentId={action.actionId} />
-          <AttachmentsList
+          <Comments actionContentId={action.actionId} title={label} />
+          {/* <AttachmentsList
             attachments={attachmentsData?.actionCommentAttachments || []}
             fetching={fetchingAttachments}
           /> */}
         </div>
       ),
+      hideSectionTitle: true,
       key: 'community',
       label: (
         <span>
           <CommentOutlined /> Community
         </span>
       ),
-
       renderCondition: () => true,
     },
     {
-      children: (
+      children: () => (
         <RequirementsList
           actionContentId={action.actionId}
           requirements={actionData?.companyAction?.requirements}
@@ -233,7 +143,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       renderCondition: () => true,
     },
     {
-      children: (
+      children: () => (
         <>
           {fetchingActionExtended || staleActionExtended ? (
             <Spin />
@@ -279,7 +189,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         !!actionDataExtended?.companyAction.serviceProviderList,
     },
     {
-      children: (
+      children: () => (
         <ActionHistory contentId={actionData?.companyAction.contentId} />
       ),
       key: 'history',
@@ -337,7 +247,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
                   title={s.hideSectionTitle ? null : s.label}
                   titleSize="small"
                 >
-                  {s.children}
+                  {s.children({ label: s.label })}
                 </Section>
               </SectionWrapper>
             ))}

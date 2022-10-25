@@ -11,7 +11,6 @@ import { toReadibleDate } from '../../utils'
 import { AttachmentButton } from '../AttachmentsList/AttachmentButton'
 import { MarkdownContent } from '../MarkdownContent'
 import { ShowMore } from '../ShowMore'
-import { UserAvatar } from '../UserAvatar'
 
 interface CommentItemProps {
   comment: ActionCommentFragment
@@ -29,23 +28,11 @@ export const CommentItem = ({
   const readibleDate = toReadibleDate(comment.createdAt)
   const defaultFontSize = 17
   const defaultLineHeight = 1.5
-  const visibleRows = 4
+  const visibleRows = 8
 
   return (
     <div className="comment-item">
-      {/* <UserAvatar
-        avatarProps={{ shape: 'square', size: 'large' }}
-        user={comment.author}
-      /> */}
       <div className="main-message-wrapper">
-        <div className="author">
-          {comment.author?.firstName ? (
-            <span className="name">
-              {/* {comment.author.firstName}{' '} */}
-              <span className="time">{readibleDate}</span>
-            </span>
-          ) : null}
-        </div>
         <div className="message">
           <div className="body">
             <ShowMore
@@ -69,6 +56,7 @@ export const CommentItem = ({
             />
           </div>
         </div>
+        <span className="time">{readibleDate}</span>
         {isAdmin && (
           <Popover
             content={
