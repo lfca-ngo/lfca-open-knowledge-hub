@@ -5,6 +5,7 @@ import {
   DownloadOutlined,
   MessageOutlined,
   PlusOutlined,
+  SlackOutlined,
 } from '@ant-design/icons'
 import {
   Avatar,
@@ -28,6 +29,7 @@ import {
   useDeleteActionCommentMutation,
   UserAvatarFragment,
 } from '../../services/lfca-backend'
+import { OPEN_SLACK_LINK } from '../../utils'
 import { AttachmentsList } from '../AttachmentsList'
 import { EmptyState } from '../EmptyState'
 import { UserAvatar } from '../UserAvatar'
@@ -158,6 +160,15 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
         </Col>
         <Col md={18} style={{ textAlign: 'right' }} xs={24}>
           <Space>
+            <Popover content="Coming soon: Save comments directly from Slack to our Knowledge Base">
+              <Button
+                icon={<SlackOutlined />}
+                onClick={() => window.open(OPEN_SLACK_LINK, '_blank')}
+              >
+                {' '}
+                Open Slack
+              </Button>
+            </Popover>
             <Popover content="Comments">
               <Button icon={<CommentOutlined />}>
                 {' '}

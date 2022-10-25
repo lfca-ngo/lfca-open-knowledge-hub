@@ -7,7 +7,7 @@ import {
   OrderedListOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Spin, Tabs } from 'antd'
+import { Button, Tabs } from 'antd'
 import classNames from 'classnames'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
@@ -137,10 +137,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     {
       children: () => (
         <>
-          {fetchingActionExtended || staleActionExtended ? (
-            <Spin />
-          ) : actionDataExtended?.companyAction.serviceProviderList ? (
+          {actionDataExtended?.companyAction.serviceProviderList ? (
             <ServiceProviderComparison
+              loading={fetchingActionExtended || staleActionExtended}
               serviceProviderList={
                 actionDataExtended.companyAction.serviceProviderList
               }
@@ -215,7 +214,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             className={styles['tabs']}
             items={sections.map((s) => ({ ...s, children: null }))}
             onChange={(key) => scrollToId(key)}
-            size="large"
+            size="middle"
           />
         </Section>
 

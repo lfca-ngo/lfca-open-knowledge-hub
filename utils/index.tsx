@@ -13,6 +13,7 @@ export const LAYOUT_BREAKPOINTS = [
   { minWidth: 1600, name: 'xxl' },
 ]
 
+export const OPEN_SLACK_LINK = 'https://lfca-co.slack.com/ssb/redirect'
 export const DEFAULT_FONT_SIZE = 17
 export const DEFAULT_LINE_HEIGHT = 1.5
 export const SIDER = 'sider'

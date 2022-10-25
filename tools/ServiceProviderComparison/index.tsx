@@ -20,11 +20,13 @@ import styles from './styles.module.less'
 import { getProviderValueForFilterAttribute } from './utils'
 
 interface ServiceProviderComparisonProps {
+  loading?: boolean
   serviceProviderList?: ServiceProviderListFragment
   showTitle?: boolean
 }
 
 export const ServiceProviderComparison = ({
+  loading = false,
   serviceProviderList,
   showTitle,
 }: ServiceProviderComparisonProps) => {
@@ -206,6 +208,7 @@ export const ServiceProviderComparison = ({
       <SearchBar itemsCount={list.length} onSearch={handleSearch} />
       <List
         dataSource={list}
+        loadMore={loading}
         pagination={{ pageSize: 10 }}
         renderItem={(item) => (
           <List.Item key={item.id}>
