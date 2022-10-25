@@ -13,6 +13,8 @@ export const LAYOUT_BREAKPOINTS = [
   { minWidth: 1600, name: 'xxl' },
 ]
 
+export const DEFAULT_FONT_SIZE = 17
+export const DEFAULT_LINE_HEIGHT = 1.5
 export const SIDER = 'sider'
 export const MAIN = 'main'
 export const THEME_DARK = 'theme-dark'

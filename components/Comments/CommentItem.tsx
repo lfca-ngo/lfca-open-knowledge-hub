@@ -7,7 +7,11 @@ import { Button, Popconfirm, Popover, Space } from 'antd'
 import React from 'react'
 
 import { ActionCommentFragment } from '../../services/lfca-backend'
-import { toReadibleDate } from '../../utils'
+import {
+  DEFAULT_FONT_SIZE,
+  DEFAULT_LINE_HEIGHT,
+  toReadibleDate,
+} from '../../utils'
 import { AttachmentButton } from '../AttachmentsList/AttachmentButton'
 import { MarkdownContent } from '../MarkdownContent'
 import { ShowMore } from '../ShowMore'
@@ -26,8 +30,6 @@ export const CommentItem = ({
   onEdit,
 }: CommentItemProps) => {
   const readibleDate = toReadibleDate(comment.createdAt)
-  const defaultFontSize = 17
-  const defaultLineHeight = 1.5
   const visibleRows = 8
 
   return (
@@ -38,7 +40,7 @@ export const CommentItem = ({
             <ShowMore
               buttonProps={{ size: 'small', type: 'link' }}
               maskMode="transparent"
-              maxHeight={defaultFontSize * defaultLineHeight * visibleRows}
+              maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * visibleRows}
               text={
                 <>
                   <MarkdownContent content={comment.message} />

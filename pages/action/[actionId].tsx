@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Spin, Tabs } from 'antd'
+import classNames from 'classnames'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -38,7 +39,12 @@ import {
   useCompanyActionExtendedDetailsQuery,
 } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
-import { DEFAULT_SUPPORT_EMAIL, isBrowser } from '../../utils'
+import {
+  DEFAULT_FONT_SIZE,
+  DEFAULT_LINE_HEIGHT,
+  DEFAULT_SUPPORT_EMAIL,
+  isBrowser,
+} from '../../utils'
 import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
 import styles from './styles.module.less'
@@ -81,7 +87,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <ShowMore
           buttonProps={{ type: 'link' }}
           maskMode="transparent"
-          maxHeight={140}
+          maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * 4}
           text={
             action?.aboutText &&
             documentToReactComponents(action?.aboutText, options)
@@ -241,7 +247,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       </Main>
 
       <Sider>
-        <Section className="sticky">
+        <Section className={classNames(styles['sticky-sider'], 'sticky')}>
           {actionData?.companyAction && (
             <ActionBar
               action={actionData?.companyAction}

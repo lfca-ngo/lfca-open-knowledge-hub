@@ -27,12 +27,22 @@
       border-bottom: 1px solid @grey-light;
 
       .section-title {
-        margin: 30px 0 10px;
+        margin: 30px 0 20px;
         .section-title-style();
 
         &.no-margin {
           margin: 0;
         }
+      }
+    }
+  }
+}
+
+.sticky-sider {
+  :global {
+    .section-content {
+      @media @desktop {
+        margin-right: 10px;
       }
     }
   }
