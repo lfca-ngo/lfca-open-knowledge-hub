@@ -1,5 +1,5 @@
 import {
-  CalendarOutlined,
+  // CalendarOutlined,
   CommentOutlined,
   ContainerOutlined,
   DownloadOutlined,
@@ -12,13 +12,13 @@ import {
   Col,
   Divider,
   Popover,
-  Radio,
+  // Radio,
   Row,
   Skeleton,
   Space,
   Tabs,
 } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
 import {
@@ -36,6 +36,7 @@ import { CommentModal } from './CommentModal'
 import styles from './styles.module.less'
 
 const ATTACHMENTS_KEY = 'attachments'
+const LOADING_KEY = 'loading'
 
 const TabsSkeletonChild = {
   children: (
@@ -46,7 +47,7 @@ const TabsSkeletonChild = {
       title={false}
     />
   ),
-  key: 'loading',
+  key: LOADING_KEY,
   label: (
     <Skeleton.Avatar
       active
@@ -57,10 +58,10 @@ const TabsSkeletonChild = {
   ),
 }
 
-const FILTERS = [
-  { icon: <CalendarOutlined />, label: 'Relevance', value: 'Apple' },
-  { label: 'Date', value: 'Pear' },
-]
+// const FILTERS = [
+//   { icon: <CalendarOutlined />, label: 'Relevance', value: 'Apple' },
+//   { label: 'Date', value: 'Pear' },
+// ]
 
 interface CommentsProps {
   actionContentId: string
@@ -80,7 +81,7 @@ const CommentAuthor = ({ author }: { author: UserAvatarFragment }) => {
 }
 
 export const Comments = ({ actionContentId, title }: CommentsProps) => {
-  const [activeComment, setActiveComment] = useState('0')
+  const [activeComment, setActiveComment] = useState(LOADING_KEY)
   const [visible, setVisible] = useState(false)
   const [editingComment, setEditingComment] = useState<ActionCommentFragment>()
   const [{ data, fetching }] = useActionCommentsQuery({
@@ -96,6 +97,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
     })
 
   const [, deleteActionComment] = useDeleteActionCommentMutation()
+  const hasComments = !!data?.actionComments
 
   const { isAdmin } = useUser()
 
@@ -106,6 +108,12 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
       },
     })
   }
+
+  useEffect(() => {
+    if (hasComments && activeComment === LOADING_KEY) {
+      setActiveComment('0')
+    }
+  }, [hasComments, activeComment])
 
   const EmptyChild = {
     children: (
@@ -177,7 +185,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
             >
               Comment
             </Button>
-            <Radio.Group optionType="button" options={FILTERS} size="middle" />
+            {/* <Radio.Group optionType="button" options={FILTERS} size="middle" /> */}
           </Space>
         </Col>
       </Row>
@@ -191,7 +199,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
         items={
           fetching
             ? [TabsSkeletonChild]
-            : !data?.actionComments.length
+            : !hasComments
             ? [EmptyChild]
             : [
                 ...data?.actionComments.map((comment, i) => {
