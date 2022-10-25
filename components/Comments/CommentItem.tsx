@@ -30,7 +30,7 @@ export const CommentItem = ({
   onEdit,
 }: CommentItemProps) => {
   const readibleDate = toReadibleDate(comment.createdAt)
-  const visibleRows = 8
+  const visibleRows = 7
 
   return (
     <div className="comment-item">

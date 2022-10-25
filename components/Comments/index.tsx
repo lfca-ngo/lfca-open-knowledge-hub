@@ -65,7 +65,7 @@ interface CommentsProps {
 
 const CommentAuthor = ({ author }: { author: UserAvatarFragment }) => {
   return (
-    <div className={'avatar-meta'}>
+    <div className={styles['avatar-meta']}>
       <UserAvatar avatarProps={{ shape: 'square', size: 45 }} user={author} />
       <div className="text">
         <div className="name">{author?.firstName}</div>

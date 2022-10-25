@@ -35,27 +35,9 @@
       }
     }
 
-    .avatar-meta {
-      display: flex;
-      flex-direction: row;
-
-      .text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-left: 16px;
-        justify-content: center;
-
-        .company {
-          font-size: @font-size-xs;
-          color: fade(@black, 40%);
-        }
-      }
-    }
-
     .comments-tabs {
       .ant-tabs-nav {
-        max-height: 345px;
+        max-height: 270px;
       }
 
       .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
@@ -144,6 +126,26 @@
         border-color: transparent;
         color: @wine;
         background-color: fade(@wine, 8%);
+      }
+    }
+  }
+}
+
+.avatar-meta {
+  display: flex;
+  flex-direction: row;
+
+  :global {
+    .text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 16px;
+      justify-content: center;
+
+      .company {
+        font-size: @font-size-xs;
+        color: fade(@black, 40%);
       }
     }
   }
