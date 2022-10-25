@@ -96,7 +96,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
 
   const offset = 40
   const elHeight = 78
-  const tabsWindowHeight = data?.actionComments ? 240 : 4 * elHeight + offset
+  const tabsWindowHeight = 4 * elHeight + offset
 
   const EmptyChild = {
     children: (
@@ -201,7 +201,6 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
                 }
               })
         }
-        style={{ height: `${tabsWindowHeight}px` }}
         tabPosition={'left'}
       />
 
