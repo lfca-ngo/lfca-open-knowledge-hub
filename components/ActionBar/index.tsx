@@ -55,7 +55,11 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
               loading={fetching}
               renderItem={(item) => (
                 <List.Item className="news">
-                  <Avatar size="small" src={item.author?.picture} />
+                  <Avatar
+                    shape="square"
+                    size="small"
+                    src={item.author?.picture}
+                  />
                   <div className="text">
                     {item.author?.firstName} left a comment
                   </div>
