@@ -1,5 +1,5 @@
 import { StopOutlined } from '@ant-design/icons'
-import { Button, Form, message, Popconfirm, Space } from 'antd'
+import { Button, Form, message, Popconfirm, Select, Space } from 'antd'
 import { Moment } from 'moment'
 import { useEffect } from 'react'
 import { Descendant } from 'slate'
@@ -20,6 +20,7 @@ export type FormValues = Omit<
   UpdateEventInput,
   'description' | 'end' | 'eventId' | 'start'
 > & {
+  category?: EventCategory
   description?: Descendant[]
   startEnd: [Moment, Moment]
 }
@@ -38,11 +39,12 @@ export const EventForm = ({
   const [{ fetching: isCreatingEvent }, createEvent] = useCreateEventMutation()
   const [{ fetching: isUpdatingEvent }, updateEvent] = useUpdateEventMutation()
   const [form] = Form.useForm()
+  const shouldUpdate = initialValues && 'id' in initialValues
 
   const handleSubmit = (allValues: FormValues) => {
     const convertedValues = convertFormValues(allValues)
 
-    if (initialValues && 'id' in initialValues) {
+    if (shouldUpdate) {
       // Updating an existing event
       updateEvent({
         input: {
@@ -57,7 +59,7 @@ export const EventForm = ({
     } else {
       createEvent({
         input: {
-          category: EventCategory.MASTERMIND_GROUP,
+          category: allValues?.category,
           ...convertedValues,
         } as CreateEventInput,
       }).then(({ error }) => {
@@ -99,6 +101,21 @@ export const EventForm = ({
         layout="vertical"
         onFinish={handleSubmit}
       >
+        {!shouldUpdate && (
+          <Form.Item
+            key="category"
+            label="Category"
+            name="category"
+            rules={[{ message: 'Please add a category!', required: true }]}
+          >
+            <Select placeholder="Please select">
+              {Object.keys(EventCategory).map((category) => (
+                <Select.Option key={category}>{category}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        )}
+
         <FormItems form={form} />
 
         <Form.Item>
