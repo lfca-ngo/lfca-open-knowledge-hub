@@ -11,6 +11,7 @@ import classNames from 'classnames'
 import { useState } from 'react'
 
 import {
+  CompanyAction,
   CompanyActionListItemFragment,
   useCompleteCompanyActionMutation,
   usePlanCompanyActionMutation,
@@ -20,11 +21,11 @@ import { CompleteActionForm } from '../CompleteActionForm'
 import styles from './styles.module.less'
 
 interface StatusButtonProps {
-  action: CompanyActionListItemFragment
+  action: CompanyAction
   canExpire?: boolean
 }
 
-const BTN_STATES: {
+export const ACTION_STATES: {
   [key: string]: MenuItemType & {
     color?: 'purple' | 'yellow' | 'red' | 'black' | 'green'
   }
@@ -47,6 +48,12 @@ const BTN_STATES: {
     key: 'PLANNED',
     label: 'Planned',
   },
+  PROCEED: {
+    color: 'green',
+    icon: <CheckOutlined />,
+    key: 'PROCEED',
+    label: 'Started',
+  },
   RENEW: {
     color: 'red',
     icon: <ReloadOutlined />,
@@ -55,19 +62,27 @@ const BTN_STATES: {
   },
 }
 
+export const getActionStatus = (
+  action?: CompanyAction | CompanyActionListItemFragment
+) => {
+  if (!action) return ACTION_STATES.BACKLOG
+
+  const isCompleted = !!action.completedAt
+  const isPlanned = !!action.plannedAt
+
+  return isCompleted
+    ? ACTION_STATES.COMPLETE
+    : isPlanned
+    ? ACTION_STATES.PLANNED
+    : ACTION_STATES.BACKLOG
+}
+
 export const StatusButton = ({
   action,
   canExpire = false,
 }: StatusButtonProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const isCompleted = !!action.completedAt
-  const isPlanned = !!action.plannedAt
-
-  const actionStatus = isCompleted
-    ? BTN_STATES.COMPLETE
-    : isPlanned
-    ? BTN_STATES.PLANNED
-    : BTN_STATES.BACKLOG
+  const actionStatus = getActionStatus(action)
 
   const [{ fetching: fetchingPlanCompanyAction }, planCompanyAction] =
     usePlanCompanyActionMutation()
@@ -107,14 +122,14 @@ export const StatusButton = ({
 
   const handleClick = async ({ key }: { key: string }) => {
     switch (key) {
-      case BTN_STATES.RENEW.key:
-      case BTN_STATES.COMPLETE.key:
+      case ACTION_STATES.RENEW.key:
+      case ACTION_STATES.COMPLETE.key:
         handleComplete(true)
         break
-      case BTN_STATES.PLANNED.key:
+      case ACTION_STATES.PLANNED.key:
         await handlePlan()
         break
-      case BTN_STATES.BACKLOG.key:
+      case ACTION_STATES.BACKLOG.key:
         await handleComplete(false)
         break
       default:
@@ -124,8 +139,8 @@ export const StatusButton = ({
 
   const menu = (
     <Menu
-      items={Object.keys(BTN_STATES).map((key) => ({
-        ...BTN_STATES[key],
+      items={Object.keys(ACTION_STATES).map((key) => ({
+        ...ACTION_STATES[key],
         disabled: key === 'RENEW' && !canExpire,
       }))}
       onClick={handleClick}

@@ -15,6 +15,10 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
+import {
+  ACTION_STATES,
+  getActionStatus,
+} from '../../components/ActionBar/StatusButton'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
@@ -74,6 +78,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     variables: { input: { actionContentId: action.actionId } },
   })
 
+  const actionStatus = getActionStatus(actionData?.companyAction)
+  console.log('use actionStatus to preselect the todo step', actionStatus)
+
   const [firstCategory] = actionData?.companyAction?.categories || []
   const rootCategory = rootCategoryLookUp[firstCategory?.id]
   const actionDetails = {
@@ -120,11 +127,51 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     },
     {
       children: () => (
-        <RequirementsList
-          actionContentId={action.actionId}
-          requirements={actionData?.companyAction?.requirements}
-          requirementsContent={action?.requirements}
-        />
+        <>
+          <Tabs
+            items={[
+              {
+                children: (
+                  <RequirementsList
+                    actionContentId={action.actionId}
+                    requirements={actionData?.companyAction?.requirements}
+                    requirementsContent={action?.requirements.filter(
+                      (r) => r.stage === 'Plan'
+                    )}
+                  />
+                ),
+                key: `${ACTION_STATES.BACKLOG.key}`,
+                label: 'Plan',
+              },
+              {
+                children: (
+                  <RequirementsList
+                    actionContentId={action.actionId}
+                    requirements={actionData?.companyAction?.requirements}
+                    requirementsContent={action?.requirements.filter(
+                      (r) => r.stage === 'Proceed'
+                    )}
+                  />
+                ),
+                key: `${ACTION_STATES.PROCEED.key}`,
+                label: 'Proceed',
+              },
+              {
+                children: (
+                  <RequirementsList
+                    actionContentId={action.actionId}
+                    requirements={actionData?.companyAction?.requirements}
+                    requirementsContent={action?.requirements.filter(
+                      (r) => r.stage === 'Share'
+                    )}
+                  />
+                ),
+                key: `${ACTION_STATES.COMPLETE.key}`,
+                label: 'Share',
+              },
+            ]}
+          />
+        </>
       ),
       key: 'how-to',
       label: (

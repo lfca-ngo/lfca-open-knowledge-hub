@@ -51,6 +51,7 @@ export interface ContentfulContentCollectionFields {
 }
 
 export interface ContentfulRequirementFields {
+  stage: 'Plan' | 'Proceed' | 'Share'
   title: string
   reqId: string
   howTo: Document
