@@ -1520,6 +1520,17 @@
             "args": []
           },
           {
+            "name": "isExternal",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "notes",
             "type": {
               "kind": "SCALAR",
@@ -1543,8 +1554,8 @@
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
+                "kind": "UNION",
+                "name": "InternalExternalUser",
                 "ofType": null
               }
             },
@@ -1664,6 +1675,51 @@
       },
       {
         "kind": "OBJECT",
+        "name": "ExternalUser",
+        "fields": [
+          {
+            "name": "email",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "firstName",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "lastName",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "File",
         "fields": [
           {
@@ -1689,11 +1745,48 @@
         "interfaces": []
       },
       {
+        "kind": "UNION",
+        "name": "InternalExternalUser",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "ExternalUser"
+          },
+          {
+            "kind": "OBJECT",
+            "name": "User"
+          }
+        ]
+      },
+      {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
           {
             "name": "addEventParticipant",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "addExternalEventParticipant",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

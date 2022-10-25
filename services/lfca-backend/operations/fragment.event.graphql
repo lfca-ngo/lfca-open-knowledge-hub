@@ -5,12 +5,15 @@ fragment Event on Event {
   id
   participants(filter: { status: USER_RSVP_ACCEPTED }) {
     id
+    isExternal
     user {
-      company {
+      ... on User {
+        company {
+          id
+          logoUrl
+        }
         id
-        logoUrl
       }
-      id
     }
   }
   participantsAwaitingAdminApprovalCount

@@ -1,0 +1,6 @@
+fragment ExternalUser on ExternalUser {
+  email
+  firstName
+  id
+  lastName
+}
