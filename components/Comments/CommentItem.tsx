@@ -33,44 +33,16 @@ export const CommentItem = ({
 
   return (
     <div className="comment-item">
-      <UserAvatar
+      {/* <UserAvatar
         avatarProps={{ shape: 'square', size: 'large' }}
         user={comment.author}
-      />
+      /> */}
       <div className="main-message-wrapper">
         <div className="author">
           {comment.author?.firstName ? (
             <span className="name">
-              {comment.author.firstName}{' '}
-              <span className="time">• {readibleDate}</span>
-              {isAdmin && (
-                <Popover
-                  content={
-                    <Space className="admin-actions">
-                      <Popconfirm
-                        cancelText="No"
-                        okText="Yes"
-                        onConfirm={onDelete}
-                        title="Are you sure to delete this comment?"
-                      >
-                        <Button icon={<DeleteOutlined />} size="small" />
-                      </Popconfirm>
-                      <Button
-                        icon={<EditOutlined />}
-                        onClick={onEdit}
-                        size="small"
-                      />
-                    </Space>
-                  }
-                  placement="left"
-                >
-                  <Button
-                    className="admin-btn"
-                    icon={<SettingOutlined />}
-                    size="small"
-                  />
-                </Popover>
-              )}
+              {/* {comment.author.firstName}{' '} */}
+              <span className="time">{readibleDate}</span>
             </span>
           ) : null}
         </div>
@@ -97,6 +69,30 @@ export const CommentItem = ({
             />
           </div>
         </div>
+        {isAdmin && (
+          <Popover
+            content={
+              <Space className="admin-actions">
+                <Popconfirm
+                  cancelText="No"
+                  okText="Yes"
+                  onConfirm={onDelete}
+                  title="Are you sure to delete this comment?"
+                >
+                  <Button icon={<DeleteOutlined />} size="small" />
+                </Popconfirm>
+                <Button icon={<EditOutlined />} onClick={onEdit} size="small" />
+              </Space>
+            }
+            placement="left"
+          >
+            <Button
+              className="admin-btn"
+              icon={<SettingOutlined />}
+              size="small"
+            />
+          </Popover>
+        )}
       </div>
     </div>
   )

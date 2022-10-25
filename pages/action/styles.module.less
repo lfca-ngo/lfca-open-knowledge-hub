@@ -26,3 +26,32 @@
     }
   }
 }
+
+.avatar-meta {
+  display: flex;
+  flex-direction: row;
+
+  :global {
+    .text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 16px;
+      justify-content: center;
+
+      .company {
+        font-size: @font-size-xs;
+        color: fade(@black, 40%);
+      }
+    }
+  }
+}
+
+.comments-tabs {
+  :global {
+    .ant-tabs-nav .ant-tabs-tab {
+      max-width: 180px;
+      padding-left: 0;
+    }
+  }
+}
