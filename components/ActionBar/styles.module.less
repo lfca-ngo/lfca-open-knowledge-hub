@@ -12,6 +12,21 @@
       font-size: 18px;
       margin: 0 0 15px;
     }
+
+    .news {
+      display: flex;
+      justify-content: flex-start;
+      padding: 8px 0;
+
+      .text {
+        font-size: @font-size-xs;
+        margin-left: 10px;
+      }
+    }
+
+    .see-all {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -19,6 +34,43 @@
   &[class~='ant-input-group'] {
     width: 100%;
     display: flex;
+
+    &[class~='purple'] {
+      :global {
+        .ant-btn {
+          background-color: @purple;
+          border-color: @purple;
+          color: @white;
+        }
+      }
+    }
+    &[class~='black'] {
+      :global {
+        .ant-btn {
+          background-color: @black;
+          border-color: @black;
+          color: @white;
+        }
+      }
+    }
+    &[class~='red'] {
+      :global {
+        .ant-btn {
+          background-color: @red;
+          border-color: @red;
+        }
+      }
+    }
+    &[class~='green'] {
+      :global {
+        .ant-btn {
+          background-color: lighten(@green, 10%);
+          border-color: lighten(@green, 10%);
+          color: @white;
+        }
+      }
+    }
+
     :global {
       .ant-btn:first-of-type {
         flex: 1;

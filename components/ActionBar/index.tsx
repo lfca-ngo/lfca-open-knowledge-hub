@@ -1,5 +1,4 @@
-import { MessageOutlined, PaperClipOutlined } from '@ant-design/icons'
-import { Divider, Form, Space } from 'antd'
+import { Avatar, Button, Divider, List } from 'antd'
 import React from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
@@ -7,7 +6,7 @@ import {
   CompanyActionListItemFragment,
   useActionCommentsQuery,
 } from '../../services/lfca-backend'
-import { ActionStat } from '../ActionStats'
+import { scrollToId } from '../Layout/SectionWrapper'
 import { LogoGroup } from '../LogoGroup'
 import { StatusButton } from './StatusButton'
 import styles from './styles.module.less'
@@ -26,7 +25,7 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
   })
 
   const latestComments = data?.actionComments.slice(0, 3)
-  console.log(latestComments)
+
   return (
     <div className={styles['actions-bar']}>
       <div className="wrapper">
@@ -39,32 +38,42 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
         <Divider />
         <h4>Community activity</h4>
 
-        <Space direction="vertical">
-          <LogoGroup
-            data={action.recentCompaniesDoing}
-            label={`${action.companiesDoingCount} working on this`}
-            size={'large'}
-          />
+        <LogoGroup
+          data={action.recentCompaniesDoing}
+          label={`${action.companiesDoingCount} working on this`}
+          size={'large'}
+        />
 
-          {latestComments?.map((comment) => (
-            <div>{comment.author?.firstName} left a comment</div>
-          ))}
+        {latestComments && (
+          <>
+            <Divider orientation="left" orientationMargin={0}>
+              Latest
+            </Divider>
 
-          {/* <ActionStat
-            color="wine-inverse"
-            count={action.commentCount}
-            icon={<MessageOutlined />}
-            label="messages"
-            size={'large'}
-          />
-          <ActionStat
-            color="blue-inverse"
-            count={action?.commentAttachmentCount}
-            icon={<PaperClipOutlined />}
-            label="documents"
-            size={'large'}
-          /> */}
-        </Space>
+            <List
+              dataSource={latestComments}
+              loading={fetching}
+              renderItem={(item) => (
+                <List.Item className="news">
+                  <Avatar size="small" src={item.author?.picture} />
+                  <div className="text">
+                    {item.author?.firstName} left a comment
+                  </div>
+                </List.Item>
+              )}
+            />
+
+            <Divider
+              className="see-all"
+              orientation="center"
+              orientationMargin={0}
+            >
+              <Button onClick={() => scrollToId('community')} size="small">
+                See all
+              </Button>
+            </Divider>
+          </>
+        )}
       </div>
     </div>
   )

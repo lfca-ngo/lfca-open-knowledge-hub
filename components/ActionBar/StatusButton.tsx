@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons'
 import { Button, Drawer, Dropdown, Input, Menu, message } from 'antd'
 import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
+import classNames from 'classnames'
 import { useState } from 'react'
 
 import {
@@ -23,23 +24,31 @@ interface StatusButtonProps {
   canExpire?: boolean
 }
 
-const BTN_STATES: { [key: string]: MenuItemType } = {
+const BTN_STATES: {
+  [key: string]: MenuItemType & {
+    color?: 'purple' | 'yellow' | 'red' | 'black' | 'green'
+  }
+} = {
   BACKLOG: {
+    color: 'yellow',
     icon: <AppstoreAddOutlined />,
     key: 'BACKLOG',
     label: 'Backlog',
   },
   COMPLETE: {
+    color: 'green',
     icon: <CheckOutlined />,
     key: 'COMPLETE',
     label: 'Complete',
   },
   PLANNED: {
+    color: 'purple',
     icon: <CalendarOutlined />,
     key: 'PLANNED',
     label: 'Planned',
   },
   RENEW: {
+    color: 'red',
     icon: <ReloadOutlined />,
     key: 'RENEW',
     label: 'Renew',
@@ -126,7 +135,10 @@ export const StatusButton = ({
   return (
     <>
       <Dropdown overlay={menu}>
-        <Input.Group className={styles['status-button']} compact>
+        <Input.Group
+          className={classNames(actionStatus?.color, styles['status-button'])}
+          compact
+        >
           <Button
             icon={actionStatus.icon}
             loading={fetchingCompleteCompanyAction || fetchingPlanCompanyAction}

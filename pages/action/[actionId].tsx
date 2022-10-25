@@ -1,8 +1,9 @@
 import {
+  AppstoreOutlined,
   BulbOutlined,
-  CommentOutlined,
+  HistoryOutlined,
   InfoCircleOutlined,
-  InsertRowRightOutlined,
+  MessageOutlined,
   OrderedListOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
@@ -33,7 +34,6 @@ import {
 } from '../../services/contentful'
 import {
   EMPTY_ACTION,
-  useActionCommentAttachmentsQuery,
   useCompanyActionDetailsQuery,
   useCompanyActionExtendedDetailsQuery,
 } from '../../services/lfca-backend'
@@ -67,10 +67,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     requestPolicy: 'cache-and-network',
     variables: { input: { actionContentId: action.actionId } },
   })
-  const [{ data: attachmentsData, fetching: fetchingAttachments }] =
-    useActionCommentAttachmentsQuery({
-      variables: { input: { actionContentId: action.actionId } },
-    })
 
   const [firstCategory] = actionData?.companyAction?.categories || []
   const rootCategory = rootCategoryLookUp[firstCategory?.id]
@@ -105,17 +101,13 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       children: ({ label }: { label: React.ReactNode }) => (
         <div style={{ margin: '30px 0 0' }}>
           <Comments actionContentId={action.actionId} title={label} />
-          {/* <AttachmentsList
-            attachments={attachmentsData?.actionCommentAttachments || []}
-            fetching={fetchingAttachments}
-          /> */}
         </div>
       ),
       hideSectionTitle: true,
       key: 'community',
       label: (
         <span>
-          <CommentOutlined /> Community
+          <MessageOutlined /> Community
         </span>
       ),
       renderCondition: () => true,
@@ -176,7 +168,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       key: 'providers',
       label: (
         <span>
-          <InsertRowRightOutlined /> Services
+          <AppstoreOutlined /> Services
         </span>
       ),
       renderCondition: () =>
@@ -189,7 +181,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       key: 'history',
       label: (
         <span>
-          <OrderedListOutlined /> History
+          <HistoryOutlined /> History
         </span>
       ),
       renderCondition: () => true,

@@ -1,6 +1,7 @@
 import {
   CalendarOutlined,
   ContainerOutlined,
+  DownloadOutlined,
   MessageOutlined,
   PlusOutlined,
 } from '@ant-design/icons'
@@ -20,10 +21,12 @@ import { useState } from 'react'
 import { useUser } from '../../hooks/user'
 import {
   ActionCommentFragment,
+  useActionCommentAttachmentsQuery,
   useActionCommentsQuery,
   useDeleteActionCommentMutation,
   UserAvatarFragment,
 } from '../../services/lfca-backend'
+import { AttachmentsList } from '../AttachmentsList'
 import { EmptyState } from '../EmptyState'
 import { UserAvatar } from '../UserAvatar'
 import { CommentItem } from './CommentItem'
@@ -81,6 +84,11 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
       input: { actionContentId },
     },
   })
+
+  const [{ data: attachmentsData, fetching: fetchingAttachments }] =
+    useActionCommentAttachmentsQuery({
+      variables: { input: { actionContentId: actionContentId } },
+    })
 
   const [, deleteActionComment] = useDeleteActionCommentMutation()
 
@@ -164,38 +172,61 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
             ? [TabsSkeletonChild]
             : !data?.actionComments.length
             ? [EmptyChild]
-            : data?.actionComments.map((comment, i) => {
-                const id = String(i)
-                return {
-                  children: (
-                    <div>
-                      <CommentItem
-                        comment={comment}
-                        isAdmin={isAdmin}
-                        onDelete={() => onDelete(comment)}
-                        onEdit={() => {
-                          setEditingComment(comment)
-                          setVisible(true)
-                        }}
-                      />
+            : [
+                ...data?.actionComments.map((comment, i) => {
+                  const id = String(i)
+                  return {
+                    children: (
+                      <div>
+                        <CommentItem
+                          comment={comment}
+                          isAdmin={isAdmin}
+                          onDelete={() => onDelete(comment)}
+                          onEdit={() => {
+                            setEditingComment(comment)
+                            setVisible(true)
+                          }}
+                        />
 
-                      <CommentModal
-                        actionContentId={actionContentId}
-                        editingComment={editingComment}
-                        onClose={() => {
-                          setVisible(false)
-                          setEditingComment(undefined)
-                        }}
-                        visible={visible}
+                        <CommentModal
+                          actionContentId={actionContentId}
+                          editingComment={editingComment}
+                          onClose={() => {
+                            setVisible(false)
+                            setEditingComment(undefined)
+                          }}
+                          visible={visible}
+                        />
+                      </div>
+                    ),
+                    key: id,
+                    label: comment.author ? (
+                      <CommentAuthor author={comment.author} />
+                    ) : null,
+                  }
+                }),
+                {
+                  children: (
+                    <AttachmentsList
+                      attachments={
+                        attachmentsData?.actionCommentAttachments || []
+                      }
+                      fetching={fetchingAttachments}
+                    />
+                  ),
+                  key: 'attachments',
+                  label: (
+                    <div className="attachments-element">
+                      <Avatar
+                        className="black-inverse"
+                        icon={<DownloadOutlined />}
+                        shape="square"
                       />
+                      All Materials
                     </div>
                   ),
-                  key: id,
-                  label: comment.author ? (
-                    <CommentAuthor author={comment.author} />
-                  ) : null,
-                }
-              })
+                },
+              ]
         }
         tabPosition={'left'}
       />

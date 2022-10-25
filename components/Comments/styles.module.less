@@ -19,6 +19,16 @@
       }
     }
 
+    .attachments-element {
+      color: @text-color;
+      display: flex;
+      align-items: center;
+
+      .ant-avatar {
+        margin-right: 10px;
+      }
+    }
+
     .avatar-skeleton {
       .ant-skeleton-avatar {
         border-radius: @border-radius-base;
@@ -117,6 +127,24 @@
 
     .richtext-editor {
       margin: 12px 0;
+    }
+  }
+}
+
+.share-learnings-form {
+  :global {
+    .buzzwords {
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 20px;
+
+      .ant-tag {
+        font-size: 13px;
+        margin: 2px;
+        border-color: transparent;
+        color: @wine;
+        background-color: fade(@wine, 8%);
+      }
     }
   }
 }
