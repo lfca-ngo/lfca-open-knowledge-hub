@@ -195,6 +195,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
       <Tabs
         activeKey={activeComment}
         className={'comments-tabs'}
+        destroyInactiveTabPane
         id="test"
         items={
           fetching

@@ -38,8 +38,9 @@ export const CommentItem = ({
         <div className="message">
           <div className="body">
             <ShowMore
+              blurColor="#f9f9f9"
               buttonProps={{ size: 'small', type: 'link' }}
-              maskMode="transparent"
+              maskMode="blur"
               maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * visibleRows}
               text={
                 <>

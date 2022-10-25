@@ -5,11 +5,13 @@ import React, { createRef, useState } from 'react'
 import styles from './styles.module.less'
 
 export const ShowMore = ({
+  blurColor = '#fff',
   buttonProps = { size: 'small' },
   maxHeight,
   maskMode = 'blur',
   text,
 }: {
+  blurColor?: string
   buttonProps?: ButtonProps
   text: any
   maxHeight: number
@@ -55,6 +57,14 @@ export const ShowMore = ({
               <div
                 className="fade-out"
                 style={{
+                  backgroundImage:
+                    maskMode === 'blur'
+                      ? `linear-gradient(
+                    to bottom,
+                    transparent,
+                    ${blurColor}
+                  )`
+                      : 'none',
                   opacity: isExpanded ? 0 : 1,
                 }}
               />
