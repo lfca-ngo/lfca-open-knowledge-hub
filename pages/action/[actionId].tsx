@@ -25,7 +25,6 @@ import {
 } from '../../components/Layout/SectionWrapper'
 import { RequirementsList } from '../../components/RequirementsList'
 import { ShowMore } from '../../components/ShowMore'
-import { useUser } from '../../hooks/user'
 import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
   ContentfulActionFields,
@@ -33,15 +32,10 @@ import {
   RootCategoryLookUpProps,
 } from '../../services/contentful'
 import {
-  ActionCommentFragment,
   EMPTY_ACTION,
   useActionCommentAttachmentsQuery,
-  useActionCommentsQuery,
   useCompanyActionDetailsQuery,
   useCompanyActionExtendedDetailsQuery,
-  useCreateActionCommentMutation,
-  useDeleteActionCommentMutation,
-  useUpdateActionCommentMutation,
 } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
 import { DEFAULT_SUPPORT_EMAIL, isBrowser } from '../../utils'
@@ -152,7 +146,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
               serviceProviderList={
                 actionDataExtended.companyAction.serviceProviderList
               }
-              showTitle={true}
+              showTitle={false}
             />
           ) : (
             <EmptyState

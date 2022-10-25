@@ -94,10 +94,6 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
     })
   }
 
-  const offset = 40
-  const elHeight = 78
-  const tabsWindowHeight = 4 * elHeight + offset
-
   const EmptyChild = {
     children: (
       <EmptyState
