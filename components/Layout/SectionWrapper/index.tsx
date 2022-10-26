@@ -10,7 +10,7 @@ interface SectionWrapperProps {
   children: React.ReactNode
   id: string
   intersectionOptions?: IntersectionOptions
-  setActiveNavItem: (key: string) => void
+  setActiveNavItem?: (key: string) => void
 }
 
 export const SectionWrapper = ({
@@ -23,7 +23,7 @@ export const SectionWrapper = ({
 
   useEffect(() => {
     if (inView) {
-      setActiveNavItem(id)
+      setActiveNavItem?.(id)
     }
   }, [inView, setActiveNavItem, id])
 

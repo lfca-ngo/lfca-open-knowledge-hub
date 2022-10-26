@@ -133,6 +133,7 @@ export const StatusButton = ({
         await handlePlan()
         break
       case ACTION_STATES.BACKLOG.key:
+        if (action.plannedAt) await handlePlan()
         await handleComplete(false)
         break
       default:

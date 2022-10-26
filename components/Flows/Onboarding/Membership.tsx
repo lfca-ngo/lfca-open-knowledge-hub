@@ -12,12 +12,15 @@ import {
   Card,
   Col,
   Divider,
+  Form,
+  InputNumber,
   List,
   Popover,
   Row,
   Space,
   Tag,
 } from 'antd'
+import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
@@ -88,6 +91,8 @@ export const MembershipContent = ({
 export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
+  const [teamSize, setTeamSize] = useState<number>(10)
+
   const plan = subscriptionsData.find(
     (s) => s.name === sharedState?.selectedSubscriptionType
   )
@@ -105,7 +110,17 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     <div className={styles['membership-summary']}>
       <h4>Summary</h4>
       <Card>
-        <div className="summary-title">{plan?.name}</div>
+        <Row align="middle">
+          <Col xs={12}>
+            <div className="summary-title">{plan?.name}</div>
+          </Col>
+          <Col xs={12} style={{ textAlign: 'right' }}>
+            <Form.Item label="Team" style={{ margin: 0 }}>
+              <InputNumber size="small" value={teamSize} />
+            </Form.Item>
+          </Col>
+        </Row>
+
         <List
           dataSource={allFeatures.map((i) => {
             const isIncluded = plan?.features?.some(

@@ -161,21 +161,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       renderCondition: () => true,
     },
     {
-      children: ({ label }: { label: React.ReactNode }) => (
-        <div style={{ margin: '40px 0 0' }}>
-          <Comments actionContentId={action.actionId} title={label} />
-        </div>
-      ),
-      hideSectionTitle: true,
-      key: 'community',
-      label: (
-        <span>
-          <MessageOutlined /> Community
-        </span>
-      ),
-      renderCondition: () => true,
-    },
-    {
       children: () => (
         <Tabs
           activeKey={activeStatusTab}
@@ -191,6 +176,22 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       ),
       renderCondition: () => true,
     },
+    {
+      children: ({ label }: { label: React.ReactNode }) => (
+        <div style={{ margin: '40px 0 0' }}>
+          <Comments actionContentId={action.actionId} title={label} />
+        </div>
+      ),
+      hideSectionTitle: true,
+      key: 'community',
+      label: (
+        <span>
+          <MessageOutlined /> Community
+        </span>
+      ),
+      renderCondition: () => true,
+    },
+
     {
       children: () => (
         <>
@@ -235,18 +236,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       ),
       renderCondition: () =>
         !!actionDataExtended?.companyAction.serviceProviderList,
-    },
-    {
-      children: () => (
-        <ActionHistory contentId={actionData?.companyAction.contentId} />
-      ),
-      key: 'history',
-      label: (
-        <span>
-          <HistoryOutlined /> History
-        </span>
-      ),
-      renderCondition: () => true,
     },
   ]
 
@@ -306,6 +295,20 @@ const Action: NextPage<ActionProps> = ({ action }) => {
                 </Section>
               </SectionWrapper>
             ))}
+
+          {/* History section is hidden in tabs menu */}
+          <SectionWrapper id="history" key="history">
+            <Section
+              title={
+                <div>
+                  <HistoryOutlined /> History
+                </div>
+              }
+              titleSize="small"
+            >
+              <ActionHistory contentId={actionData?.companyAction.contentId} />
+            </Section>
+          </SectionWrapper>
         </div>
       </Main>
 
