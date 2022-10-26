@@ -187,6 +187,7 @@ export const MainNav = () => {
   return (
     <Menu
       className={styles['main-menu']}
+      inlineIndent={12}
       items={items}
       mode="inline"
       onSelect={handleSelect}
