@@ -162,7 +162,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     },
     {
       children: ({ label }: { label: React.ReactNode }) => (
-        <div style={{ margin: '30px 0 0' }}>
+        <div style={{ margin: '40px 0 0' }}>
           <Comments actionContentId={action.actionId} title={label} />
         </div>
       ),
