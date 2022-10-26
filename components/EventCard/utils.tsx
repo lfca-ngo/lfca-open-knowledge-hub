@@ -3,6 +3,7 @@ import {
   BankOutlined,
   BulbOutlined,
   CalculatorOutlined,
+  CalendarOutlined,
   CarOutlined,
   ControlOutlined,
   ExperimentOutlined,
@@ -50,7 +51,7 @@ export const matchStringToIcon = (s: string) => {
   if (contains(s, ['tourism'])) return <GlobalOutlined />
   if (contains(s, ['api', 'cloud', 'tech'])) return <ApiOutlined />
   if (contains(s, ['chem', 'physics'])) return <ExperimentOutlined />
-  return <HeartOutlined />
+  return <CalendarOutlined />
 }
 
 export const getUniqueParticipatingCompanies = (event: EventFragment) => {

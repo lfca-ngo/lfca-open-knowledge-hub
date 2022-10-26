@@ -6,6 +6,7 @@ import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
 import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
+import styles from './styles.module.less'
 
 const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
   const [{ data, fetching }] = useEventsQuery({
@@ -41,7 +42,8 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
       </div>
 
       <List
-        dataSource={data?.events}
+        className={styles['events-list']}
+        dataSource={data?.events.sort((a, b) => a.start.localeCompare(b.start))}
         loading={fetching}
         renderItem={(item) => (
           <List.Item className="list-item" key={item.id}>

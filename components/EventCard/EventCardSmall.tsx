@@ -5,7 +5,7 @@ import {
   EventFragment,
   EventParticipantStatus,
 } from '../../services/lfca-backend'
-import { Recurrence, Status } from './EventMeta'
+import { Recurrence, Status, Time } from './EventMeta'
 import styles from './styles.module.less'
 import { matchStringToIcon } from './utils'
 
@@ -62,7 +62,7 @@ export const EventCardSmall = ({
               )
             }
             shape="square"
-            size={90}
+            size={105}
           />
         </div>
         <div className="summary">
@@ -72,6 +72,7 @@ export const EventCardSmall = ({
               <Space size="large">
                 <Status event={event} />
                 <Recurrence event={event} />
+                <Time event={event} />
               </Space>
             </div>
           </div>
