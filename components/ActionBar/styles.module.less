@@ -31,44 +31,34 @@
 }
 
 .status-button {
+  .color-button(@color, @text-color: @white) {
+    :global {
+      .ant-btn {
+        background-color: @color;
+        border-color: @color;
+        color: @text-color;
+      }
+    }
+  }
+
   &[class~='ant-input-group'] {
     width: 100%;
     display: flex;
 
     &[class~='purple'] {
-      :global {
-        .ant-btn {
-          background-color: @purple;
-          border-color: @purple;
-          color: @white;
-        }
-      }
+      .color-button(@purple);
     }
     &[class~='black'] {
-      :global {
-        .ant-btn {
-          background-color: @black;
-          border-color: @black;
-          color: @white;
-        }
-      }
+      .color-button(@black);
     }
     &[class~='red'] {
-      :global {
-        .ant-btn {
-          background-color: @red;
-          border-color: @red;
-        }
-      }
+      .color-button(@red, @black);
     }
     &[class~='green'] {
-      :global {
-        .ant-btn {
-          background-color: lighten(@green, 10%);
-          border-color: lighten(@green, 10%);
-          color: @white;
-        }
-      }
+      .color-button(@green);
+    }
+    &[class~='blue'] {
+      .color-button(@blue);
     }
 
     :global {

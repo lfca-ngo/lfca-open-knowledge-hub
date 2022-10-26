@@ -12,7 +12,7 @@ import classNames from 'classnames'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
 import {
@@ -57,7 +57,23 @@ interface ActionProps {
   action: ContentfulActionFields
 }
 
+const STEPS_OPTIONS = [
+  {
+    key: `${ACTION_STATES.BACKLOG.key}`,
+    label: 'Plan',
+  },
+  {
+    key: `${ACTION_STATES.PLANNED.key}`,
+    label: 'Proceed',
+  },
+  {
+    key: `${ACTION_STATES.COMPLETE.key}`,
+    label: 'Share',
+  },
+]
+
 const Action: NextPage<ActionProps> = ({ action }) => {
+  const [activeStatusTab, setActiveStatusTab] = useState<string | undefined>()
   const [activeNavItem, setActiveNavItem] = useState('')
   const rootCategoryLookUp: RootCategoryLookUpProps =
     categoryTreeData.rootCategoryLookUp
@@ -79,14 +95,48 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   })
 
   const actionStatus = getActionStatus(actionData?.companyAction)
-  console.log('use actionStatus to preselect the todo step', actionStatus)
-
   const [firstCategory] = actionData?.companyAction?.categories || []
   const rootCategory = rootCategoryLookUp[firstCategory?.id]
   const actionDetails = {
     ...actionData?.companyAction,
     rootCategory,
   } as CompanyActionListItemFragmentWithRootCategory
+
+  const implementationSteps = useMemo(
+    () => [
+      ...STEPS_OPTIONS.filter(
+        (s) => action.requirements.findIndex((r) => r.stage === s.label) > -1
+      ).map((s) => ({
+        ...s,
+        children: (
+          <RequirementsList
+            actionContentId={action.actionId}
+            requirements={actionData?.companyAction?.requirements}
+            requirementsContent={action?.requirements.filter(
+              (r) => r.stage === s.label
+            )}
+          />
+        ),
+      })),
+    ],
+    [action, actionData]
+  )
+
+  // @TODO: Remove after migration is complete
+  // all untagged requirements land here
+  if (action.requirements.find((r) => !r.stage)) {
+    implementationSteps.push({
+      children: (
+        <RequirementsList
+          actionContentId={action.actionId}
+          requirements={actionData?.companyAction?.requirements}
+          requirementsContent={action?.requirements.filter((r) => !r.stage)}
+        />
+      ),
+      key: 'all',
+      label: 'All',
+    })
+  }
 
   const sections = [
     {
@@ -127,51 +177,11 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     },
     {
       children: () => (
-        <>
-          <Tabs
-            items={[
-              {
-                children: (
-                  <RequirementsList
-                    actionContentId={action.actionId}
-                    requirements={actionData?.companyAction?.requirements}
-                    requirementsContent={action?.requirements.filter(
-                      (r) => r.stage === 'Plan'
-                    )}
-                  />
-                ),
-                key: `${ACTION_STATES.BACKLOG.key}`,
-                label: 'Plan',
-              },
-              {
-                children: (
-                  <RequirementsList
-                    actionContentId={action.actionId}
-                    requirements={actionData?.companyAction?.requirements}
-                    requirementsContent={action?.requirements.filter(
-                      (r) => r.stage === 'Proceed'
-                    )}
-                  />
-                ),
-                key: `${ACTION_STATES.PROCEED.key}`,
-                label: 'Proceed',
-              },
-              {
-                children: (
-                  <RequirementsList
-                    actionContentId={action.actionId}
-                    requirements={actionData?.companyAction?.requirements}
-                    requirementsContent={action?.requirements.filter(
-                      (r) => r.stage === 'Share'
-                    )}
-                  />
-                ),
-                key: `${ACTION_STATES.COMPLETE.key}`,
-                label: 'Share',
-              },
-            ]}
-          />
-        </>
+        <Tabs
+          activeKey={activeStatusTab}
+          items={implementationSteps}
+          onChange={(key) => setActiveStatusTab(key)}
+        />
       ),
       key: 'how-to',
       label: (
@@ -245,6 +255,13 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     ? (document?.querySelector('#tab-container') as HTMLElement)
     : null
   const tabHeight = tabElement?.offsetHeight || 0
+
+  // update the steps tab according to the action status
+  useEffect(() => {
+    if (implementationSteps.find((s) => s.key === actionStatus.key)) {
+      setActiveStatusTab(`${actionStatus.key}`)
+    }
+  }, [actionStatus, implementationSteps])
 
   return (
     <SiderLayout goBack={() => router.back()}>

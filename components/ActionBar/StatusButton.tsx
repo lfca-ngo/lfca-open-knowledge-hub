@@ -3,6 +3,7 @@ import {
   CalendarOutlined,
   CheckOutlined,
   EllipsisOutlined,
+  PlayCircleOutlined,
   ReloadOutlined,
 } from '@ant-design/icons'
 import { Button, Drawer, Dropdown, Input, Menu, message } from 'antd'
@@ -21,13 +22,13 @@ import { CompleteActionForm } from '../CompleteActionForm'
 import styles from './styles.module.less'
 
 interface StatusButtonProps {
-  action: CompanyAction
+  action: CompanyActionListItemFragment
   canExpire?: boolean
 }
 
 export const ACTION_STATES: {
   [key: string]: MenuItemType & {
-    color?: 'purple' | 'yellow' | 'red' | 'black' | 'green'
+    color?: 'purple' | 'yellow' | 'red' | 'black' | 'green' | 'blue'
   }
 } = {
   BACKLOG: {
@@ -36,23 +37,25 @@ export const ACTION_STATES: {
     key: 'BACKLOG',
     label: 'Backlog',
   },
-  COMPLETE: {
-    color: 'green',
-    icon: <CheckOutlined />,
-    key: 'COMPLETE',
-    label: 'Complete',
+  PROCEED: {
+    color: 'blue',
+    icon: <PlayCircleOutlined />,
+    key: 'PROCEED',
+    label: 'Started',
   },
+  // eslint-disable-next-line sort-keys
   PLANNED: {
     color: 'purple',
     icon: <CalendarOutlined />,
     key: 'PLANNED',
     label: 'Planned',
   },
-  PROCEED: {
+  // eslint-disable-next-line sort-keys
+  COMPLETE: {
     color: 'green',
     icon: <CheckOutlined />,
-    key: 'PROCEED',
-    label: 'Started',
+    key: 'COMPLETE',
+    label: 'Complete',
   },
   RENEW: {
     color: 'red',
