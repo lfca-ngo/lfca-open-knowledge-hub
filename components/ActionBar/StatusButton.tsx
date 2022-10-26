@@ -37,12 +37,13 @@ export const ACTION_STATES: {
     key: 'BACKLOG',
     label: 'Backlog',
   },
-  PROCEED: {
-    color: 'blue',
-    icon: <PlayCircleOutlined />,
-    key: 'PROCEED',
-    label: 'Started',
-  },
+  // PROCEED: {
+  //   color: 'blue',
+  //   disabled: true,
+  //   icon: <PlayCircleOutlined />,
+  //   key: 'PROCEED',
+  //   label: 'Started',
+  // },
   // eslint-disable-next-line sort-keys
   PLANNED: {
     color: 'purple',
@@ -143,10 +144,12 @@ export const StatusButton = ({
 
   const menu = (
     <Menu
-      items={Object.keys(ACTION_STATES).map((key) => ({
-        ...ACTION_STATES[key],
-        disabled: key === 'RENEW' && !canExpire,
-      }))}
+      items={Object.keys(ACTION_STATES)
+        .filter((key) => !(key === ACTION_STATES.RENEW.key && !canExpire))
+        .map((key) => ({
+          ...ACTION_STATES[key],
+          disabled: key === actionStatus.key,
+        }))}
       onClick={handleClick}
     />
   )
