@@ -3,6 +3,7 @@ import {
   CommentOutlined,
   ContainerOutlined,
   DownloadOutlined,
+  EllipsisOutlined,
   MessageOutlined,
   PlusOutlined,
   SlackOutlined,
@@ -20,6 +21,7 @@ import {
   Tabs,
 } from 'antd'
 import { useEffect, useState } from 'react'
+import { useBreakpoints } from '../../hooks/useBreakpoints'
 
 import { useUser } from '../../hooks/user'
 import {
@@ -152,52 +154,64 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
     ),
   }
 
+  const isDesktop = useBreakpoints().md
+
+  const CommentsActions = (
+    <Space direction={isDesktop ? 'horizontal' : 'vertical'}>
+      <Popover content="Coming soon: Save comments directly from Slack to our Knowledge Base">
+        <Button
+          icon={<SlackOutlined />}
+          onClick={() => window.open(OPEN_SLACK_LINK, '_blank')}
+        >
+          {' '}
+          Open Slack
+        </Button>
+      </Popover>
+      <Popover content="Comments">
+        <Button icon={<CommentOutlined />}>
+          {' '}
+          {data?.actionComments?.length}
+        </Button>
+      </Popover>
+      <Popover content="Comments">
+        <Button
+          icon={<DownloadOutlined />}
+          onClick={() => setActiveComment(ATTACHMENTS_KEY)}
+        >
+          {' '}
+          {attachmentsData?.actionCommentAttachments.length}
+        </Button>
+      </Popover>
+
+      <Button
+        icon={<PlusOutlined />}
+        key="create"
+        onClick={() => {
+          setEditingComment(undefined)
+          setVisible(true)
+        }}
+        type="primary"
+      >
+        Comment
+      </Button>
+      {/* <Radio.Group optionType="button" options={FILTERS} size="middle" /> */}
+    </Space>
+  )
+
   return (
     <div className={styles['action-comments']}>
       <Row align="middle">
-        <Col md={6} xs={24}>
+        <Col md={6} xs={18}>
           <h2 className={'section-title no-margin'}>{title}</h2>
         </Col>
-        <Col md={18} style={{ textAlign: 'right' }} xs={24}>
-          <Space>
-            <Popover content="Coming soon: Save comments directly from Slack to our Knowledge Base">
-              <Button
-                icon={<SlackOutlined />}
-                onClick={() => window.open(OPEN_SLACK_LINK, '_blank')}
-              >
-                {' '}
-                Open Slack
-              </Button>
+        <Col md={18} style={{ textAlign: 'right' }} xs={6}>
+          {isDesktop ? (
+            CommentsActions
+          ) : (
+            <Popover content={CommentsActions} placement="left">
+              <Button icon={<EllipsisOutlined />} />
             </Popover>
-            <Popover content="Comments">
-              <Button icon={<CommentOutlined />}>
-                {' '}
-                {data?.actionComments?.length}
-              </Button>
-            </Popover>
-            <Popover content="Comments">
-              <Button
-                icon={<DownloadOutlined />}
-                onClick={() => setActiveComment(ATTACHMENTS_KEY)}
-              >
-                {' '}
-                {attachmentsData?.actionCommentAttachments.length}
-              </Button>
-            </Popover>
-
-            <Button
-              icon={<PlusOutlined />}
-              key="create"
-              onClick={() => {
-                setEditingComment(undefined)
-                setVisible(true)
-              }}
-              type="primary"
-            >
-              Comment
-            </Button>
-            {/* <Radio.Group optionType="button" options={FILTERS} size="middle" /> */}
-          </Space>
+          )}
         </Col>
       </Row>
 
