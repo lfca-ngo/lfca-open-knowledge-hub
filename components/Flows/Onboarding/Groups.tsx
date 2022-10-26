@@ -4,6 +4,7 @@ import { EventCategory, useEventsQuery } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
 import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
+import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 
 const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
@@ -11,12 +12,18 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
     variables: {
       input: {
         filter: {
+          // @TODO: add filter for expired events
           category: EventCategory.ONBOARDING_COURSE,
           includeCancelled: false,
         },
       },
     },
   })
+
+  const eventsStatus = getEventsByParticipationStatus(data?.events)
+  const appliedOrAttendsAtLeastOneEvent =
+    eventsStatus.appliedEvents.length > 0 ||
+    eventsStatus.participatingEvents.length > 0
 
   return (
     <div>
@@ -51,8 +58,13 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
       />
 
       <Space>
-        <Button onClick={onNext} size="large" type="primary">
-          Join group
+        <Button
+          disabled={!appliedOrAttendsAtLeastOneEvent}
+          onClick={onNext}
+          size="large"
+          type="primary"
+        >
+          Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">
           Back
