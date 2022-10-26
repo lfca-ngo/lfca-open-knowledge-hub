@@ -21,8 +21,8 @@ import {
   Tabs,
 } from 'antd'
 import { useEffect, useState } from 'react'
-import { useBreakpoints } from '../../hooks/useBreakpoints'
 
+import { useBreakpoints } from '../../hooks/useBreakpoints'
 import { useUser } from '../../hooks/user'
 import {
   ActionCommentFragment,

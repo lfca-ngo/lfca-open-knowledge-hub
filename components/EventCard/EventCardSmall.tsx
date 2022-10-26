@@ -41,7 +41,7 @@ export const EventCardSmall = ({
 
   return (
     <Card
-      className={styles['event-card-default']}
+      className={styles['event-card-small']}
       hoverable
       onClick={onClick}
       onMouseEnter={handleMouseEnter}

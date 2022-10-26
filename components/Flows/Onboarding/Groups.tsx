@@ -1,20 +1,31 @@
 import { Button, List, Space, Tag } from 'antd'
 
-import { EventFragment } from '../../../services/lfca-backend'
+import { EventCategory, useEventsQuery } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
 import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
 import { DefaultStepProps } from './..'
 
-const GROUPS: EventFragment[] = []
-
 const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
+  const [{ data, fetching }] = useEventsQuery({
+    variables: {
+      input: {
+        filter: {
+          category: EventCategory.ONBOARDING_COURSE,
+          includeCancelled: false,
+        },
+      },
+    },
+  })
+
   return (
     <div>
       <Tag className="super-text">Company Info</Tag>
       <h1>{`Let’s get together! 🥳`}</h1>
       <div className="description">
-        {`Our group formats are the heartbeat of our community. Every new member starts with our free onboarding sessions. During the webinar you will:`}
+        Our group formats are the heartbeat of our community. Every new member
+        starts with our <b>free onboarding sessions</b>. During the webinar you
+        will:
         <ul style={{ margin: '15px 0 0' }}>
           <li>get to know peers from our community</li>
           <li>understand our tools, action pillars and group formats</li>
@@ -23,7 +34,8 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
       </div>
 
       <List
-        dataSource={GROUPS}
+        dataSource={data?.events}
+        loading={fetching}
         renderItem={(item) => (
           <List.Item className="list-item" key={item.id}>
             <EventCardSkeleton fetching={false} type={'small'}>
