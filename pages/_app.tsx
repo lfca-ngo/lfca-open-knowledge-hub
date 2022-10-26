@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AppProvider>
       <FirebaseProvider>
         <LFCABackendProvider>
-          <TopBar />
+          <TopBar hideOnPaths={['onboarding']} />
           <Component {...pageProps} />
         </LFCABackendProvider>
       </FirebaseProvider>

@@ -1,4 +1,4 @@
-import { Button, List, Space, Tag } from 'antd'
+import { Button, List, Popover, Space, Tag } from 'antd'
 
 import { EventCategory, useEventsQuery } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
@@ -60,14 +60,23 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
       />
 
       <Space>
-        <Button
-          disabled={!appliedOrAttendsAtLeastOneEvent}
-          onClick={onNext}
-          size="large"
-          type="primary"
+        <Popover
+          content={
+            !appliedOrAttendsAtLeastOneEvent
+              ? 'Please select one of the onboarding sessions first'
+              : null
+          }
         >
-          Continue
-        </Button>
+          <Button
+            disabled={!appliedOrAttendsAtLeastOneEvent}
+            onClick={onNext}
+            size="large"
+            type="primary"
+          >
+            Continue
+          </Button>
+        </Popover>
+
         <Button onClick={onPrev} size="large" type="link">
           Back
         </Button>

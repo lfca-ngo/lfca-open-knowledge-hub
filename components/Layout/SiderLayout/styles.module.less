@@ -1,20 +1,6 @@
-@collapsed-sider-width: 85px;
-@uncollapsed-sider-width: 200px;
-
 .sider-layout {
   > [class~='site-layout'] {
     transition: padding 0.3s ease-in-out;
-
-    @media @desktop {
-      padding-left: @uncollapsed-sider-width;
-    }
-  }
-  &[class~='is-collapsed'] {
-    > [class~='site-layout'] {
-      @media @desktop {
-        padding-left: @collapsed-sider-width;
-      }
-    }
   }
 
   :global {
@@ -64,8 +50,9 @@
     }
 
     .ant-layout-sider {
-      position: fixed;
+      position: sticky;
       height: 100%;
+      min-height: 100vh;
       z-index: 1000;
 
       @media @desktop {
