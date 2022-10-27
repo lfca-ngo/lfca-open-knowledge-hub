@@ -46,7 +46,7 @@ interface StepProps {
   onNext: () => void
 }
 
-const Intro = ({ onNext }: StepProps) => {
+export const Intro = ({ onNext }: StepProps) => {
   const [visible, setVisible] = useState(false)
   const { user } = useUser()
 
@@ -94,7 +94,11 @@ interface PersonalizeProps extends StepProps {
   fetching?: boolean
 }
 
-const Personalize = ({ actions, fetching, onNext }: PersonalizeProps) => {
+export const Personalize = ({
+  actions,
+  fetching,
+  onNext,
+}: PersonalizeProps) => {
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [selectedActionContentId, setSelectedActionContentId] = useState<
@@ -123,12 +127,11 @@ const Personalize = ({ actions, fetching, onNext }: PersonalizeProps) => {
             setSelectedActionContentId(action.contentId)
           },
           selectText: 'Select',
-          showInfoBox: true,
           unselectText: 'Unselect',
         }}
         actions={actions}
         fetching={fetching}
-        hideCategoryTree
+        mode="compact"
       />
       <Button onClick={handleContinue} size="large" type="primary">
         Continue
@@ -151,7 +154,7 @@ const Personalize = ({ actions, fetching, onNext }: PersonalizeProps) => {
   )
 }
 
-const Slack = ({ onNext }: StepProps) => {
+export const Slack = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">{`Slack`}</Tag>
@@ -177,7 +180,7 @@ const Slack = ({ onNext }: StepProps) => {
   )
 }
 
-const Start = ({ onNext }: StepProps) => {
+export const Start = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">{`Let's go!`}</Tag>
@@ -199,26 +202,3 @@ const Start = ({ onNext }: StepProps) => {
     </div>
   )
 }
-
-export const OnboardingOfficerSteps = [
-  {
-    component: Intro,
-    description: 'Get to know the platform',
-    title: 'Intro',
-  },
-  {
-    component: Personalize,
-    description: 'What’s your status quo',
-    title: 'Personalize',
-  },
-  {
-    component: Slack,
-    description: 'Slack',
-    title: 'Connect to Slack',
-  },
-  {
-    component: Start,
-    description: 'Get started',
-    title: 'Let’s go!',
-  },
-]

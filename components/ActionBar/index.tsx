@@ -1,22 +1,15 @@
-import {
-  CalendarOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  ReloadOutlined,
-  UndoOutlined,
-} from '@ant-design/icons'
-import { Button, Drawer, message, Space } from 'antd'
-import React, { useState } from 'react'
+import { Avatar, Button, ConfigProvider, Divider, List, Skeleton } from 'antd'
+import React from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
 import {
   CompanyActionListItemFragment,
-  useCompleteCompanyActionMutation,
-  usePlanCompanyActionMutation,
+  EMPTY_COMMENTS,
+  useActionCommentsQuery,
 } from '../../services/lfca-backend'
-import { actionHasReviews } from '../../utils'
-import { CompleteActionForm } from '../CompleteActionForm'
-import { PaywallPopover } from '../PayWall/PaywallPopover'
+import { scrollToId } from '../Layout/SectionWrapper'
+import { LogoGroup } from '../LogoGroup'
+import { StatusButton } from './StatusButton'
 import styles from './styles.module.less'
 
 interface ActionBarProps {
@@ -25,101 +18,73 @@ interface ActionBarProps {
 }
 
 export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const isCompleted = !!action.completedAt
-  const isPlanned = !!action.plannedAt
-  const canExpire = !!actionDetails.expiresAfterDays
+  const [{ data, fetching }] = useActionCommentsQuery({
+    pause: !action.contentId,
+    variables: {
+      input: { actionContentId: action.contentId },
+    },
+  })
 
-  const [{ fetching: fetchingPlanCompanyAction }, planCompanyAction] =
-    usePlanCompanyActionMutation()
-  const [{ fetching: fetchingCompleteCompanyAction }, completeCompanyAction] =
-    useCompleteCompanyActionMutation()
-
-  const handleComplete = async (isCompleted: boolean) => {
-    if (!isCompleted) {
-      await completeCompanyAction({
-        input: {
-          actionContentId: action.contentId,
-          isCompleted: false,
-        },
-      })
-    } else {
-      setIsOpen(true)
-    }
-  }
-
-  const handlePlan = async () => {
-    planCompanyAction({
-      input: {
-        actionContentId: action.contentId,
-        isPlanned: !action.plannedAt,
-      },
-    }).then(({ data, error }) => {
-      if (error) message.error(error.message)
-      else {
-        if (data?.planCompanyAction?.plannedAt) {
-          message.success('Marked as planned')
-        } else {
-          message.info('Removed from planned actions')
-        }
-      }
-    })
-  }
+  const latestComments = data?.actionComments.slice(0, 3)
 
   return (
     <div className={styles['actions-bar']}>
-      <Space direction="vertical" style={{ width: '100%' }}>
-        {canExpire && isCompleted ? (
-          <Button
-            block
-            icon={<ReloadOutlined />}
-            loading={fetchingCompleteCompanyAction}
-            onClick={() => handleComplete(true)}
-            size="large"
-            type="primary"
-          >
-            Renew
-          </Button>
-        ) : null}
-        <Button
-          block
-          ghost={isCompleted}
-          icon={isCompleted ? <CloseOutlined /> : <CheckOutlined />}
-          loading={fetchingCompleteCompanyAction}
-          onClick={() => handleComplete(!isCompleted)}
-          size="large"
-          type={isCompleted ? 'default' : 'primary'}
-        >
-          {isCompleted ? 'Mark as incomplete' : 'Mark as done'}
-        </Button>
-        {!isCompleted && (
-          <PaywallPopover>
-            <Button
-              block
-              ghost
-              icon={isPlanned ? <UndoOutlined /> : <CalendarOutlined />}
-              loading={fetchingPlanCompanyAction}
-              onClick={handlePlan}
-              size="large"
-            >
-              {isPlanned ? 'Mark as unplanned' : 'Mark as planned'}
-            </Button>
-          </PaywallPopover>
-        )}
-      </Space>
-
-      <Drawer
-        className="drawer-md"
-        destroyOnClose
-        onClose={() => setIsOpen(false)}
-        open={isOpen}
-      >
-        <CompleteActionForm
-          actionContentId={action.contentId}
-          onComplete={() => setIsOpen(false)}
-          withReviewForm={actionHasReviews(action)}
+      <div className="wrapper">
+        <h4>Action Status</h4>
+        <StatusButton
+          action={action}
+          canExpire={!!actionDetails.expiresAfterDays}
         />
-      </Drawer>
+
+        <Divider />
+        <h4>Community activity</h4>
+
+        <LogoGroup
+          data={action.recentCompaniesDoing}
+          label={`${action.companiesDoingCount} working on this`}
+          size={'large'}
+        />
+
+        <>
+          <Divider orientation="left" orientationMargin={0}>
+            Latest
+          </Divider>
+
+          <ConfigProvider renderEmpty={() => 'No activity yet'}>
+            <List
+              dataSource={latestComments || EMPTY_COMMENTS}
+              renderItem={(item) => (
+                <List.Item className="news">
+                  <Skeleton
+                    avatar={{ shape: 'square', size: 'small' }}
+                    loading={fetching}
+                    paragraph={false}
+                  >
+                    <Avatar
+                      shape="square"
+                      size="small"
+                      src={item.author?.picture}
+                    />
+                    <div className="text">
+                      {item.author?.firstName} left a comment
+                    </div>
+                  </Skeleton>
+                </List.Item>
+              )}
+            />
+          </ConfigProvider>
+
+          <Divider
+            className="see-all"
+            orientation="center"
+            orientationMargin={0}
+          >
+            <Button onClick={() => scrollToId('community')} size="small">
+              See all
+            </Button>
+          </Divider>
+        </>
+      </div>
     </div>
   )
 }

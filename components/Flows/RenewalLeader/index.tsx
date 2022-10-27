@@ -18,7 +18,7 @@ interface FootprintProps extends StepProps {
   questionnaire: ContentfulQuestionnaireFields
 }
 
-const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
+export const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   const [drawerVisible, setDrawerVisible] = useState(false)
   const { user } = useUser()
 
@@ -79,7 +79,7 @@ const Footprint = ({ onNext, questionnaire }: FootprintProps) => {
   )
 }
 
-const Compare = ({ onNext }: StepProps) => {
+export const Compare = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">Compare</Tag>
@@ -98,7 +98,7 @@ const Compare = ({ onNext }: StepProps) => {
   )
 }
 
-const Share = ({ onNext }: StepProps) => {
+export const Share = ({ onNext }: StepProps) => {
   return (
     <div>
       <Tag className="super-text">Share</Tag>
@@ -126,21 +126,3 @@ const Share = ({ onNext }: StepProps) => {
     </div>
   )
 }
-
-export const RenewalLeaderSteps = [
-  {
-    component: Footprint,
-    description: 'Understand your emissions',
-    title: 'Footprint',
-  },
-  {
-    component: Compare,
-    description: 'Compare to last year',
-    title: 'Compare',
-  },
-  {
-    component: Share,
-    description: 'Use your influence',
-    title: 'Share the news',
-  },
-]

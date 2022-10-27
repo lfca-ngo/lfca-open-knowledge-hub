@@ -30,13 +30,26 @@ h4 {
 }
 
 p {
+  margin-bottom: 1.5em;
   .default-text();
   b {
     color: @black;
   }
 }
 
+b,
+strong {
+  .font-medium();
+}
+
 ol,
 ul {
   padding-inline-start: 25px;
+}
+
+.capitalize,
+.capitalize > div {
+  &::first-letter {
+    text-transform: capitalize;
+  }
 }

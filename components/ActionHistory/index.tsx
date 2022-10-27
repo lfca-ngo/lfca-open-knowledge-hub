@@ -23,6 +23,13 @@ export const ActionHistory = ({ contentId = '' }: ActionHistoryProps) => {
     },
   })
 
+  if ((actionsData?.companyActions?.length || 0) < 1)
+    return (
+      <div>
+        No history data available. This action has not yet been completed.
+      </div>
+    )
+
   return (
     <Collapse accordion className="mini-collapse" ghost>
       {actionsData?.companyActions.map((action) => (

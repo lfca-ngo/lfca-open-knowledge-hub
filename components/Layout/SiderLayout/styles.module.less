@@ -1,4 +1,8 @@
 .sider-layout {
+  > [class~='site-layout'] {
+    transition: padding 0.3s ease-in-out;
+  }
+
   :global {
     .ant-layout.site-layout {
       background: var(--layout-body-background);
@@ -14,11 +18,11 @@
 
       @media @desktop {
         flex-direction: row;
-        padding: calc(@default-padding / 2) 0 0 @default-padding;
+        padding: calc(@default-padding-lg / 2) 0 0 @default-padding-lg;
       }
 
       .ant-breadcrumb {
-        padding: @default-padding 0;
+        padding: @default-padding-lg 0;
       }
     }
 
@@ -36,7 +40,7 @@
       background: var(--layout-body-background);
 
       @media @desktop {
-        padding: 0 0 0 @default-padding;
+        padding: 0 0 0 @default-padding-lg;
       }
     }
 
@@ -46,21 +50,28 @@
     }
 
     .ant-layout-sider {
-      @media @mobile {
-        position: absolute;
-        height: 100%;
-        z-index: 1000;
+      position: absolute;
+      height: 100%;
+      min-height: 100vh;
+      z-index: 1000;
+
+      @media @desktop {
+        position: sticky;
+        overflow: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
       }
 
       .divider {
         width: 70%;
         margin: 0 auto 30px;
-        border-bottom: 1px solid @black;
+        border-bottom: 1px solid fade(@black, 10%);
       }
     }
 
     .trigger {
-      padding: 0 calc(@default-padding / 2);
+      padding: 0 calc(@default-padding-lg / 2);
       font-size: 18px;
       line-height: 64px;
       cursor: pointer;

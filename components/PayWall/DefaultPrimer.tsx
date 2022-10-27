@@ -49,7 +49,7 @@ export const DefaultPrimer = ({
     bordered={false}
     icon={<LockOutlined />}
     size="small"
-    text="You can upgrade your plan anytime and unlock all benefits of our community and platform!"
+    text="You can upgrade your plan at anytime to unlock all benefits of our community and platform."
     title="Locked"
   />
 )

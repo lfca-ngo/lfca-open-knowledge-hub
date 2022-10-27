@@ -1,17 +1,10 @@
 .page-section {
   width: 100%;
-  margin: 20px 0 40px;
-
-  &:not(:first-child) {
-    margin: 0 0 60px;
-  }
+  margin: 20px 0 20px;
 
   :global {
     .section-content {
-      margin: 20px 0 0;
-      @media @desktop {
-        padding-right: 30px;
-      }
+      margin: 10px 0 0;
     }
 
     .section-title {
@@ -29,8 +22,11 @@
     }
   }
 
-  &[class~='mb-40'] {
-    margin-bottom: 40px;
+  &[class~='sticky'] {
+    top: 0;
+    position: sticky;
+    z-index: 10;
+    margin: 0;
   }
 
   &[class~='without-title'] {
@@ -44,7 +40,7 @@
   &[class~='bordered'] {
     :global {
       .section-title {
-        border-bottom: 1px solid var(--layout-highlight);
+        border-bottom: 1px solid @grey-light;
         padding-bottom: 15px;
       }
     }
@@ -55,6 +51,7 @@
       .section-title {
         border-bottom: none;
         padding-bottom: 0;
+        margin-bottom: 20px;
         .h1();
       }
     }
@@ -91,6 +88,14 @@
   @media @desktop {
     width: @sider-section-width;
   }
+
+  @media (min-width: @screen-xl) {
+    width: @sider-section-width-xl;
+  }
+
+  @media (min-width: @screen-xxl) {
+    width: @sider-section-width-xxl;
+  }
 }
 
 .main-section {
@@ -98,10 +103,10 @@
   min-width: 0;
 
   @media @desktop {
-    padding-right: 40px;
+    padding-right: 60px;
   }
 
   @media @desktop-xxl {
-    padding-right: 60px;
+    padding-right: 80px;
   }
 }

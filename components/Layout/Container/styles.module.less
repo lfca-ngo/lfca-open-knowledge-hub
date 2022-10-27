@@ -1,7 +1,22 @@
 .container {
   max-width: @base-container-width;
 
+  &[class~='xs'] {
+    max-width: @xs-container-width;
+  }
+  &[class~='md'] {
+    max-width: @md-container-width;
+  }
   &[class~='lg'] {
     max-width: @lg-container-width;
+  }
+
+  &[class~='alignment-center'] {
+    margin: 0 auto;
+  }
+
+  &[class~='alignment-right'] {
+    margin-left: auto;
+    margin-right: 0;
   }
 }

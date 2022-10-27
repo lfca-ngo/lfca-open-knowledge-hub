@@ -3,7 +3,7 @@ import { Button, Dropdown } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useScreenSize } from '../../../hooks/app'
+import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import styles from './styles.module.less'
 
 const Menu = ({ nav }: { nav: any }) => {
@@ -24,7 +24,7 @@ const Menu = ({ nav }: { nav: any }) => {
 }
 
 export const TopNav = ({ goBack, nav }: { nav: any; goBack: any }) => {
-  const screenSizeType = useScreenSize()
+  const isDesktop = useBreakpoints().md
   const shouldRenderGoBack = goBack
   const shouldRenderNav = nav?.length > 0
 
@@ -40,7 +40,7 @@ export const TopNav = ({ goBack, nav }: { nav: any; goBack: any }) => {
   // render list of nav items
   if (shouldRenderNav) {
     // on mobile render menu in dropdown
-    if (screenSizeType === 'sm') {
+    if (!isDesktop) {
       return (
         <Dropdown
           overlay={<Menu nav={nav} />}

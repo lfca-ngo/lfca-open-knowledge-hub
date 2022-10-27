@@ -1,8 +1,10 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
+import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 
 import { handleCustomRequest, UPLOAD_API } from './helper'
+import styles from './styles.module.less'
 
 interface ImageUploadProps {
   value?: any
@@ -40,7 +42,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   )
 
   return (
-    <div className="clearfix">
+    <div className={classNames(styles['image-upload'], 'clearfix')}>
       <Upload
         accept={'image/*'}
         action={UPLOAD_API}

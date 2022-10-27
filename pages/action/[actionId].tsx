@@ -1,20 +1,32 @@
-import { BulbOutlined } from '@ant-design/icons'
+import {
+  AppstoreOutlined,
+  BulbOutlined,
+  HistoryOutlined,
+  InfoCircleOutlined,
+  MessageOutlined,
+  OrderedListOutlined,
+} from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Divider, Spin, Tabs } from 'antd'
+import { Button, Tabs } from 'antd'
+import classNames from 'classnames'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
+import { getActionStatus } from '../../components/ActionBar/StatusButton'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
-import { AttachmentsList } from '../../components/AttachmentsList'
 import { Comments } from '../../components/Comments'
 import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
-import { LogoGroup } from '../../components/LogoGroup'
-import { RequirementsList } from '../../components/RequirementsList'
+import {
+  scrollToId,
+  SectionWrapper,
+} from '../../components/Layout/SectionWrapper'
+import { RequirementsListTabs } from '../../components/RequirementsListTabs'
 import { ShowMore } from '../../components/ShowMore'
 import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
@@ -24,24 +36,35 @@ import {
 } from '../../services/contentful'
 import {
   EMPTY_ACTION,
-  useActionCommentAttachmentsQuery,
   useCompanyActionDetailsQuery,
   useCompanyActionExtendedDetailsQuery,
 } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
-import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
+import {
+  DEFAULT_FONT_SIZE,
+  DEFAULT_LINE_HEIGHT,
+  DEFAULT_SUPPORT_EMAIL,
+  isBrowser,
+} from '../../utils'
 import { options } from '../../utils/richTextOptions'
 import { withAuth } from '../../utils/with-auth'
+import styles from './styles.module.less'
 
 interface ActionProps {
   action: ContentfulActionFields
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
-  const rootCategoryLookUp: RootCategoryLookUpProps =
-    categoryTreeData.rootCategoryLookUp
   const router = useRouter()
+  /**
+   * Local State
+   */
+  const [activeStatusTab, setActiveStatusTab] = useState<string | undefined>()
+  const [activeNavItem, setActiveNavItem] = useState('')
 
+  /**
+   * Data fetching
+   */
   const [{ data: actionData, fetching: fetchingAction }] =
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
@@ -56,148 +79,205 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     requestPolicy: 'cache-and-network',
     variables: { input: { actionContentId: action.actionId } },
   })
-  const [{ data: attachmentsData, fetching: fetchingAttachments }] =
-    useActionCommentAttachmentsQuery({
-      variables: { input: { actionContentId: action.actionId } },
-    })
 
+  /**
+   * Local variables
+   */
+  const rootCategoryLookUp: RootCategoryLookUpProps =
+    categoryTreeData.rootCategoryLookUp
+  const actionStatus = getActionStatus(actionData?.companyAction)
   const [firstCategory] = actionData?.companyAction?.categories || []
   const rootCategory = rootCategoryLookUp[firstCategory?.id]
   const actionDetails = {
     ...actionData?.companyAction,
     rootCategory,
   } as CompanyActionListItemFragmentWithRootCategory
+  const docHeight = isBrowser() ? document.documentElement.offsetHeight : 0
+  const tabElement = isBrowser()
+    ? (document?.querySelector('#tab-container') as HTMLElement)
+    : null
+  const tabHeight = tabElement?.offsetHeight || 0
+
+  /**
+   * Definition of all scrollable sections
+   */
+  const sections = [
+    {
+      children: () => (
+        <ShowMore
+          buttonProps={{ type: 'link' }}
+          maskMode="transparent"
+          maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * 4}
+          text={
+            action?.aboutText &&
+            documentToReactComponents(action?.aboutText, options)
+          }
+        />
+      ),
+      hideSectionTitle: true,
+      key: 'about',
+      label: (
+        <span>
+          <InfoCircleOutlined /> About
+        </span>
+      ),
+      renderCondition: () => true,
+    },
+    {
+      children: () => (
+        <RequirementsListTabs
+          action={actionData?.companyAction}
+          actionContent={action}
+          activeStatusTab={activeStatusTab}
+          setActiveStatusTab={setActiveStatusTab}
+        />
+      ),
+      key: 'how-to',
+      label: (
+        <span>
+          <OrderedListOutlined /> Steps
+        </span>
+      ),
+      renderCondition: () => true,
+    },
+    {
+      children: ({ label }: { label: React.ReactNode }) => (
+        <div style={{ margin: '40px 0 0' }}>
+          <Comments actionContentId={action.actionId} title={label} />
+        </div>
+      ),
+      hideSectionTitle: true,
+      key: 'community',
+      label: (
+        <span>
+          <MessageOutlined /> Community
+        </span>
+      ),
+      renderCondition: () => true,
+    },
+
+    {
+      children: () => (
+        <>
+          {actionDataExtended?.companyAction.serviceProviderList ? (
+            <ServiceProviderComparison
+              loading={fetchingActionExtended || staleActionExtended}
+              serviceProviderList={
+                actionDataExtended.companyAction.serviceProviderList
+              }
+              showTitle={false}
+            />
+          ) : (
+            <EmptyState
+              actions={[
+                <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
+                  <Button size="large" type="primary">
+                    Share idea
+                  </Button>
+                </a>,
+              ]}
+              bordered
+              icon={<BulbOutlined />}
+              text={
+                <div>
+                  We are gradually adding more and more community powered
+                  content to the platform. You can check the{' '}
+                  <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
+                  as an example. If you have relevant content ideas for this
+                  module, please share them with us!
+                </div>
+              }
+              title="There is more to come..."
+            />
+          )}
+        </>
+      ),
+      key: 'providers',
+      label: (
+        <span>
+          <AppstoreOutlined /> Services
+        </span>
+      ),
+      renderCondition: () =>
+        !!actionDataExtended?.companyAction.serviceProviderList,
+    },
+  ]
+
+  // update the steps tab according to the action status
+  useEffect(() => {
+    if (action.requirements.find((s) => s.stage === actionStatus.statusLabel)) {
+      setActiveStatusTab(`${actionStatus.key}`)
+    }
+  }, [actionStatus, action])
 
   return (
     <SiderLayout goBack={() => router.back()}>
       <Main>
-        <Section>
+        <Section className={styles['header-section']}>
           <ActionDetails
             action={actionDetails || EMPTY_ACTION}
             fetching={fetchingAction}
           />
         </Section>
-        <Section>
+        <Section className="sticky" id="tab-container">
           <Tabs
-            defaultActiveKey="1"
-            items={[
-              {
-                children: (
-                  <ShowMore
-                    maxHeight={140}
-                    text={
-                      action?.aboutText &&
-                      documentToReactComponents(action?.aboutText, options)
-                    }
-                  />
-                ),
-                key: '1',
-                label: 'Description',
-              },
-              {
-                children: (
-                  <RequirementsList
-                    actionContentId={action.actionId}
-                    requirements={actionData?.companyAction?.requirements}
-                    requirementsContent={action?.requirements}
-                  />
-                ),
-                key: '2',
-                label: 'How to',
-              },
-              {
-                children: (
-                  <ShowMore
-                    maxHeight={140}
-                    text={
-                      action?.examples &&
-                      documentToReactComponents(action?.examples, options)
-                    }
-                  />
-                ),
-                key: '3',
-                label: 'Examples',
-              },
-              {
-                children: (
-                  <ShowMore
-                    maxHeight={140}
-                    text={
-                      action?.benefits &&
-                      documentToReactComponents(action?.benefits, options)
-                    }
-                  />
-                ),
-                key: '4',
-                label: 'Benefits',
-              },
-            ]}
+            activeKey={activeNavItem}
+            className={styles['tabs']}
+            items={sections.map((s) => ({ ...s, children: null }))}
+            onChange={(key) => scrollToId(key)}
+            size="middle"
           />
         </Section>
-        {/* Render optional service provider comparison */}
-        {fetchingActionExtended || staleActionExtended ? (
-          <Spin />
-        ) : actionDataExtended?.companyAction.serviceProviderList ? (
-          <ServiceProviderComparison
-            serviceProviderList={
-              actionDataExtended.companyAction.serviceProviderList
-            }
-            showTitle={true}
-          />
-        ) : (
-          <EmptyState
-            actions={[
-              <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
-                <Button size="large" type="primary">
-                  Share idea
-                </Button>
-              </a>,
-            ]}
-            bordered
-            icon={<BulbOutlined />}
-            text={
-              <div>
-                We are gradually adding more and more community powered content
-                to the platform. You can check the{' '}
-                <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
-                as an example. If you have relevant content ideas for this
-                module, please share them with us!
-              </div>
-            }
-            title="There is more to come..."
-          />
-        )}
+
+        <div className={styles['sections']}>
+          {sections
+            .filter((s) => s.renderCondition)
+            .map((s, i) => (
+              <SectionWrapper
+                id={s.key}
+                intersectionOptions={{
+                  initialInView: i === 0,
+                  rootMargin: `0px 0px ${
+                    (docHeight - tabHeight - 40) * -1
+                  }px 0px`,
+                  threshold: 0,
+                }}
+                key={s.key}
+                setActiveNavItem={setActiveNavItem}
+              >
+                <Section
+                  title={s.hideSectionTitle ? null : s.label}
+                  titleSize="small"
+                >
+                  {s.children({ label: s.label })}
+                </Section>
+              </SectionWrapper>
+            ))}
+
+          {/* History section is hidden in tabs menu */}
+          <SectionWrapper id="history" key="history">
+            <Section
+              title={
+                <div>
+                  <HistoryOutlined /> History
+                </div>
+              }
+              titleSize="small"
+            >
+              <ActionHistory contentId={actionData?.companyAction.contentId} />
+            </Section>
+          </SectionWrapper>
+        </div>
       </Main>
 
       <Sider>
-        <Section title="Your progress">
+        <Section className={classNames(styles['sticky-sider'], 'sticky')}>
           {actionData?.companyAction && (
             <ActionBar
               action={actionData?.companyAction}
               actionDetails={action}
             />
           )}
-        </Section>
-        <Section title="Community">
-          <LogoGroup
-            data={actionData?.companyAction?.recentCompaniesDoing}
-            label={`${actionData?.companyAction.companiesDoingCount} members working on this`}
-            reverse
-            size="large"
-          />
-          <Divider orientation="left" orientationMargin="0">
-            Latest Messages
-          </Divider>
-          <Comments actionContentId={action.actionId} />
-        </Section>
-        <Section title="Attachments">
-          <AttachmentsList
-            attachments={attachmentsData?.actionCommentAttachments || []}
-            fetching={fetchingAttachments}
-          />
-        </Section>
-        <Section title="History">
-          <ActionHistory contentId={actionData?.companyAction.contentId} />
         </Section>
       </Sider>
     </SiderLayout>

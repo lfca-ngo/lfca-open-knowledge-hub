@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const companyTags = require('./next-fetch-during-build/company-tags')
-const path = require('path')
 const rootCategories = require('./next-fetch-during-build/root-categories')
+const subscriptions = require('./next-fetch-during-build/subscriptions')
 const withLess = require('next-with-less')
+const path = require('path')
 
 const lessFontsFile = path.resolve(__dirname, './styles/fonts.less')
 const lessMixinsFile = path.resolve(__dirname, './styles/mixins.less')
@@ -14,6 +15,7 @@ module.exports = async () => {
   // here and make it accessible in a simple json structure
   await rootCategories.fetchAndSaveByKey('_category-tree-data')
   await companyTags.fetchAndSaveByKey('_company-tags-data')
+  await subscriptions.fetchAndSaveByKey('_subscriptions-data')
 
   return withLess({
     images: {

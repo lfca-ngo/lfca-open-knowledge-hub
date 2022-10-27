@@ -1,14 +1,15 @@
 import { MailOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Popover } from 'antd'
+import { Avatar, AvatarProps, Button, Popover } from 'antd'
 import React from 'react'
 
 import { UserAvatarFragment } from '../../services/lfca-backend'
 
 interface UserAvatarProps {
   user?: UserAvatarFragment | null
+  avatarProps?: AvatarProps
 }
 
-export const UserAvatar = ({ user }: UserAvatarProps) => {
+export const UserAvatar = ({ user, avatarProps = {} }: UserAvatarProps) => {
   const handleContactViaEmail = () => {
     location.href = `mailto:${user?.email}`
   }
@@ -27,9 +28,13 @@ export const UserAvatar = ({ user }: UserAvatarProps) => {
       open={!user?.email ? false : undefined}
     >
       {user?.picture ? (
-        <Avatar className="blue" src={user.picture} />
+        <Avatar className="blue" src={user.picture} {...avatarProps} />
       ) : (
-        <Avatar className="blue-inverse" icon={<UserOutlined />} />
+        <Avatar
+          className="blue-inverse"
+          icon={<UserOutlined />}
+          {...avatarProps}
+        />
       )}
     </Popover>
   )

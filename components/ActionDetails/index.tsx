@@ -5,7 +5,6 @@ import React from 'react'
 
 import { CompanyActionListItemFragmentWithRootCategory } from '../ActionsCarousel'
 import { rootTreeMetaData } from '../ActionsList/utils'
-import { ActionStats } from '../ActionStats'
 import styles from './styles.module.less'
 
 interface ActionDetailsProps {
@@ -47,12 +46,6 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
             </div>
           </div>
         </div>
-        <ActionStats
-          commentAttachmentCount={action?.commentAttachmentCount}
-          commentCount={action.commentCount}
-          companiesDoingCount={action.companiesDoingCount}
-          recentCompaniesDoing={action.recentCompaniesDoing}
-        />
       </div>
     </Skeleton>
   )

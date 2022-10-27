@@ -64,6 +64,35 @@ body {
   .ant-form-item-label > label {
     color: var(--heading-color);
   }
+
+  .ant-form-item.flat {
+    &:not(:last-of-type) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Select
+.ant-select {
+  &.capitalize {
+    .ant-select-selection-item-content,
+    .ant-select-item-option-content {
+      &::first-letter {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+// Select dropdown is rendered as absolute element
+.ant-select-dropdown {
+  &.capitalize {
+    .ant-select-item-option-content {
+      &::first-letter {
+        text-transform: capitalize;
+      }
+    }
+  }
 }
 
 .ant-select-dropdown {
@@ -90,6 +119,21 @@ body {
   }
 }
 .ant-list {
+  &.simple-bordered-list {
+    background: @white;
+    .ant-list-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .title {
+        font-size: @font-size-xs;
+        color: @text-color;
+      }
+      .subtitle {
+        color: @text-color-strong;
+      }
+    }
+  }
   &.equal-height {
     .ant-row {
       > div {
@@ -139,6 +183,15 @@ body {
   &.green {
     color: @green;
   }
+  &.green-medium {
+    color: @green-medium;
+  }
+  &.red {
+    color: @red;
+  }
+  &.purple {
+    color: @purple;
+  }
   &.wine {
     color: @wine;
   }
@@ -182,6 +235,9 @@ body {
   }
   &.yellow-inverse {
     .inverse-color(@yellow);
+  }
+  &.black-inverse {
+    .inverse-color(@black);
   }
 }
 
@@ -336,7 +392,11 @@ a.ant-btn {
       }
     }
     .ant-modal-body {
-      padding-top: 48px;
+      padding-top: 50px;
+
+      @media @desktop {
+        padding: 50px 40px 0;
+      }
     }
   }
 }

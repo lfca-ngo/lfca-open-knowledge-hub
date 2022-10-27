@@ -83,7 +83,7 @@ export const CommentModal = ({
       footer={null}
       onCancel={onClose}
       open={visible}
-      title="Edit comment"
+      title={`${editingComment ? 'Edit' : 'Create'} comment`}
     >
       <CommentForm
         initialValues={

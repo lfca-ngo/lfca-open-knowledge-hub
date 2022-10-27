@@ -5,13 +5,17 @@ import React, { createRef, useState } from 'react'
 import styles from './styles.module.less'
 
 export const ShowMore = ({
+  blurColor = '#fff',
   buttonProps = { size: 'small' },
   maxHeight,
+  maskMode = 'blur',
   text,
 }: {
+  blurColor?: string
   buttonProps?: ButtonProps
   text: any
   maxHeight: number
+  maskMode?: 'transparent' | 'blur'
 }) => {
   const [isInactive, setIsInactive] = useState(false)
   const [isShowMoreVisible, setIsShowMoreVisible] = useState(false)
@@ -33,7 +37,7 @@ export const ShowMore = ({
 
   return (
     <div
-      className={classNames(styles['show-more'], {
+      className={classNames(styles['show-more'], maskMode, {
         'is-active': isShowMoreVisible,
         'is-expanded': isExpanded,
       })}
@@ -53,6 +57,14 @@ export const ShowMore = ({
               <div
                 className="fade-out"
                 style={{
+                  backgroundImage:
+                    maskMode === 'blur'
+                      ? `linear-gradient(
+                    to bottom,
+                    transparent,
+                    ${blurColor}
+                  )`
+                      : 'none',
                   opacity: isExpanded ? 0 : 1,
                 }}
               />

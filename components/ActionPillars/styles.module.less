@@ -1,0 +1,55 @@
+.action-pillars {
+  background: @white;
+  border-radius: @border-radius-base;
+  border: 1px solid @grey-white;
+
+  :global {
+    .action-pillar {
+      color: @black;
+      padding: 30px;
+      border-radius: @border-radius-base;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      .content {
+        .name {
+          font-size: @font-size-lg;
+          .font-semi();
+          margin: 10px 0 10px;
+        }
+
+        .subtitle {
+          color: @text-color;
+        }
+      }
+
+      .icon-wrapper {
+        background: transparent;
+        margin-bottom: 10px;
+        padding: 12px;
+        border-radius: @border-radius-base;
+
+        .anticon {
+          font-size: 55px;
+        }
+        &.yellow {
+          background: fade(@yellow, 10%);
+          color: @yellow;
+        }
+        &.wine {
+          background: fade(@wine, 10%);
+          color: @wine;
+        }
+        &.green {
+          background: fade(@green, 10%);
+          color: @green;
+        }
+        &.blue {
+          background: fade(@blue, 10%);
+          color: @blue;
+        }
+      }
+    }
+  }
+}

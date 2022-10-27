@@ -1,0 +1,53 @@
+.section-title-style() {
+  .font-bold();
+
+  :global {
+    .anticon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.header-section {
+  margin: 20px 0 10px;
+}
+
+.tabs {
+  background: @white;
+  :global {
+    .ant-tabs-nav {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.sections {
+  :global {
+    .section-wrapper {
+      border-bottom: 1px solid @grey-light;
+
+      .section-title {
+        margin: 50px 0 20px;
+        .section-title-style();
+
+        &.no-margin {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+.sticky-sider {
+  :global {
+    .section-content {
+      @media @desktop {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.section-title {
+  .section-title-style();
+}

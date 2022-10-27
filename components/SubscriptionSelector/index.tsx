@@ -8,7 +8,6 @@ import {
   InputNumber,
   List,
   Menu,
-  Popover,
   Tabs,
 } from 'antd'
 import classNames from 'classnames'
@@ -22,27 +21,10 @@ import {
   useCompanyQuery,
 } from '../../services/lfca-backend'
 import { getMailToLink } from '../../utils'
-import { VideoWrapper } from '../VideoWrapper'
 import styles from './styles.module.less'
+import { calculatePricePoint, getUpgradeEmailBody } from './utils'
 
 const DEFAULT_PLAN = 'BASIC'
-
-const getUpgradeEmailBody = ({
-  companyName,
-  plan,
-  size,
-  userName,
-}: {
-  companyName: string
-  plan: string
-  size: string
-  userName: string
-}) => `Hello lfca.earth Team! 
-We would love to upgrade our membership to ${plan}. Our team size as of today is ${size}. Could you please provide us with a payment link?
-
-Thanks,
-${userName}
-${companyName}`
 
 export const SubscriptionSelector = ({
   subscriptions = [],
@@ -145,10 +127,7 @@ export const SubscriptionSelector = ({
       <Tabs
         activeKey={activeTab}
         items={subscriptions.map((plan) => {
-          const calculatedPricePoint = plan.pricing.find(
-            (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
-          )
-
+          const calculatedPricePoint = calculatePricePoint(plan, employeeCount)
           return {
             children: (
               <List
@@ -162,79 +141,28 @@ export const SubscriptionSelector = ({
                   } else return { ...i, disabled: true }
                 })}
                 renderItem={(item) => (
-                  <Popover
-                    content={
-                      item.video?.url ? (
-                        <VideoWrapper
-                          autoPlay={true}
-                          muted={true}
-                          sources={[
-                            {
-                              src: item.video?.url,
-                              type: 'video/mp4',
-                            },
-                          ]}
-                        />
-                      ) : (
-                        item.picture?.url && (
-                          <Image
-                            alt={item.title}
-                            height={400}
-                            layout="responsive"
-                            objectFit="cover"
-                            src={item.picture?.url}
-                            width={400}
-                          />
-                        )
-                      )
-                    }
-                    destroyTooltipOnHide
-                    overlayClassName="popover-xl title-big"
-                    placement="bottom"
-                    title={
-                      <div className="tooltip-title">
-                        <div className="text">
-                          {item?.disabled && <LockFilled />} {item?.title}
-                        </div>
-                        <div className="extra">
-                          {item?.disabled && (
-                            <Button
-                              onClick={() =>
-                                handleUpgrade({ key: DEFAULT_PLAN })
-                              }
-                              size="small"
-                              type="primary"
-                            >
-                              Unlock
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    }
+                  <List.Item
+                    className={classNames({ disabled: item.disabled })}
                   >
-                    <List.Item
-                      className={classNames({ disabled: item.disabled })}
-                    >
-                      {item?.picture?.url && (
-                        <div className="image-wrapper">
-                          <Image
-                            alt="Community"
-                            layout="fill"
-                            objectFit="cover"
-                            src={item?.picture?.url}
-                          />
-                        </div>
-                      )}
-                      <div className="content">
-                        <h4>
-                          {item?.disabled && <LockFilled />} {item?.title}
-                        </h4>
-                        <div className="description">
-                          {documentToReactComponents(item?.description)}
-                        </div>
+                    {item?.picture?.url && (
+                      <div className="image-wrapper">
+                        <Image
+                          alt="Community"
+                          layout="fill"
+                          objectFit="cover"
+                          src={item?.picture?.url}
+                        />
                       </div>
-                    </List.Item>
-                  </Popover>
+                    )}
+                    <div className="content">
+                      <h4>
+                        {item?.disabled && <LockFilled />} {item?.title}
+                      </h4>
+                      <div className="description">
+                        {documentToReactComponents(item?.description)}
+                      </div>
+                    </div>
+                  </List.Item>
                 )}
               />
             ),

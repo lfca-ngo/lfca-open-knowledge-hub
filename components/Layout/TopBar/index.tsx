@@ -2,6 +2,7 @@ import { LockOutlined } from '@ant-design/icons'
 import { ThunderboltOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { useFirebase } from '../../../hooks/firebase'
 import { useUser } from '../../../hooks/user'
@@ -34,8 +35,12 @@ const Bar = () => {
 // we need to make sure that it gets only rendered if
 // the user is logged in, otherwise we might run into
 // caching problems of the useUser query
-export const TopBar = () => {
+export const TopBar = ({ hideOnPaths }: { hideOnPaths: string[] }) => {
   const { token } = useFirebase()
+  const { asPath } = useRouter()
+  const cleanPath = asPath.replace(/\//, '')
 
-  return !token ? null : <Bar />
+  return !token || hideOnPaths.findIndex((p) => p === cleanPath) > -1 ? null : (
+    <Bar />
+  )
 }

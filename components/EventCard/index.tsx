@@ -18,7 +18,7 @@ export interface EventCardProps {
   event: EventFragment
   appliedEventsCount: number
   participatingEventsCount: number
-  type?: 'compact' | 'default'
+  type?: 'compact' | 'default' | 'small'
 }
 
 import classNames from 'classnames'
@@ -29,6 +29,7 @@ import { LogoGroup } from '../LogoGroup'
 import { MarkdownContent } from '../MarkdownContent'
 import { EventCardCompact } from './EventCardCompact'
 import { EventCardDefault } from './EventCardDefault'
+import { EventCardSmall } from './EventCardSmall'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 import { getUniqueParticipatingCompanies } from './utils'
 
@@ -48,6 +49,16 @@ export const EventCard = ({
 
   const renderCard = () => {
     switch (type) {
+      case 'small':
+        return (
+          <EventCardSmall
+            event={event}
+            hasAppliedForAtLeastOneEvent={hasAppliedForAtLeastOneEvent}
+            isParticipatingAtLeastOneEvent={isParticipatingAtLeastOneEvent}
+            onClick={() => setDetailsVisible(true)}
+            onClose={() => setDetailsVisible(false)}
+          />
+        )
       case 'compact':
         return (
           <EventCardCompact

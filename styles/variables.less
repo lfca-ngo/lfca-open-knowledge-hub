@@ -6,8 +6,11 @@
 // Palette
 @blue: #042b4f;
 @green: #06503d;
+@green-medium: lighten(@green, 10%);
 @orange: #ff832c;
 @wine: #6a1246;
+@red: #e94a28;
+@purple: #5530e7;
 @yellow: #ffc839;
 @chalk: #fbf7f0;
 
@@ -35,14 +38,16 @@
 @layout-footer-background: @white;
 @layout-sider-background-light: @chalk;
 @layout-trigger-background: fade(@black, 10%);
-@layout-header-height: 95px;
+@layout-header-height: 90px;
 @layout-trigger-background-light: fade(@black, 5%);
 @border-radius-base: 6px;
 @sider-section-width: 270px;
+@sider-section-width-xl: 290px;
+@sider-section-width-xxl: 320px;
 @steps-sider-section-width: 320px;
 
 // Fonts
-@font-family: 'DM Sans', -apple-system, Helvetica, Arial, sans-serif;
+@font-family: 'PlusJakartaSans', -apple-system, Helvetica, Arial, sans-serif;
 @font-size-base: 17px;
 @font-size-lg: 18px;
 @font-size-sm: 16px;
@@ -64,6 +69,8 @@
 @menu-bg: @chalk;
 @menu-highlight-color: @black;
 @menu-inline-submenu-bg: fade(@black, 3%);
+@menu-collapsed-width: 85px;
+@menu-item-font-size: @font-size-sm;
 
 // Border radius
 @border-radius-base: 10px;
@@ -172,19 +179,16 @@
 @screen-xl-min: @screen-xl;
 
 // added in between step
-@screen-xl-small: 1300px;
-@screen-xl-small-min: @screen-xl-small;
-@screen-xl-small-factor: 1.11;
-
-// Extra extra large screen / large descktop
-@screen-xxl: 1601px;
+@screen-xxl: 1440px;
 @screen-xxl-min: @screen-xxl;
-@screen-xxl-factor: 1.33;
 
 // Extra extra large screen / large descktop
-@screen-xxxl: 1900px;
-@screen-xxxl-min: @screen-xxl;
-@screen-xxl-factor: 1.5;
+@screen-xxxl: 1601px;
+@screen-xxxl-min: @screen-xxxl;
+
+// Extra extra large screen / large descktop
+@screen-xxxxl: 1900px;
+@screen-xxxxl-min: @screen-xxxl;
 
 // provide a maximum
 @screen-xs-max: (@screen-sm-min - 1px);
@@ -193,6 +197,7 @@
 @screen-lg-max: (@screen-xl-min - 1px);
 @screen-xl-max: (@screen-xxl-min - 1px);
 @screen-xxl-max: (@screen-xxxl-min - 1px);
+@screen-xxxl-max: (@screen-xxxxl-min - 1px);
 
 @mobile: ~'only screen and (max-width: @{screen-sm-max})';
 @desktop: ~'only screen and (min-width: @{screen-lg})';
@@ -200,14 +205,18 @@
 @desktop-xxl: ~'only screen and (min-width: @{screen-xxl})';
 
 // Defaults
-@default-padding: 60px;
+@default-padding: 30px;
+@default-padding-lg: 60px;
+@default-padding-xs: 20px;
 @max-container-width: 1400px;
 @base-container-width: 900px;
-@lg-container-width: 1080px;
+@lg-container-width: 1140px;
+@xs-container-width: 460px;
+@md-container-width: @lg-container-width - @xs-container-width;
 
 // Action card
-@action-card-hero-size: 80px;
-@action-card-padding: 14px;
+@action-card-hero-size: 90px;
+@action-card-padding: 16px;
 
 // Drawer
 @default-drawer-width: 550px;

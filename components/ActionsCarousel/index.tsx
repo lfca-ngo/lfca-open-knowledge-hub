@@ -11,9 +11,10 @@ import { Button, Card, Carousel, Skeleton, Tag } from 'antd'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { LG_BREAKPOINT, scrollToId, SM_BREAKPOINT } from '../../utils'
+import { LAYOUT_BREAKPOINTS } from '../../utils'
 import { rootTreeMetaData } from '../ActionsList/utils'
 import { EmptyState } from '../EmptyState'
+import { scrollToId } from '../Layout/SectionWrapper'
 import { LogoGroup } from '../LogoGroup'
 import { ArrowWrapper } from './ArrowWrapper'
 import styles from './styles.module.less'
@@ -51,14 +52,16 @@ export const ActionsCarousel = ({
 }: ActionsCarouselProps) => {
   const responsiveConfig = [
     {
-      breakpoint: SM_BREAKPOINT,
+      breakpoint:
+        LAYOUT_BREAKPOINTS.find((l) => l.name === 'sm')?.minWidth || 0,
       settings: {
         slidesToScroll: 1,
         slidesToShow: 1,
       },
     },
     {
-      breakpoint: LG_BREAKPOINT,
+      breakpoint:
+        LAYOUT_BREAKPOINTS.find((l) => l.name === 'xl')?.minWidth || 0,
       settings: {
         slidesToScroll: 2,
         slidesToShow: 2,
@@ -119,7 +122,7 @@ export const ActionsCarousel = ({
                 <LogoGroup
                   data={action.recentCompaniesDoing}
                   label={`${action.companiesDoingCount} working on this`}
-                  size="small"
+                  size={28}
                 />
               </div>
             </Card>

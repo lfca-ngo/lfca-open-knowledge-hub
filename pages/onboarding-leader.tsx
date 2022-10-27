@@ -1,28 +1,46 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 
-import { OnboardingLeaderSteps } from '../components/Flows'
+import {
+  Commit,
+  Footprint,
+  Invite,
+  Share,
+} from '../components/Flows/OnboardingLeader'
 import { StepsLayout } from '../components/Layout'
 import { useUser } from '../hooks/user'
+import { useSteps } from '../hooks/useSteps'
 import { fetchAllQuestionnaires } from '../services/contentful'
 import { DEFAULT_COUNTRY } from '../utils'
 import { withAuth } from '../utils/with-auth'
 
 const OnboardingLeader: NextPage = (props: any) => {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const router = useRouter()
   const { user } = useUser()
 
-  const handleOnNext = () => {
-    if (currentStepIndex === OnboardingLeaderSteps.length - 1) {
-      router.push('/')
-    } else {
-      // always scroll to top
-      window?.scrollTo(0, 0)
-      setCurrentStepIndex((i) => i + 1)
-    }
-  }
+  const OnboardingLeaderSteps = [
+    {
+      component: Commit,
+      title: 'Pledge',
+    },
+    {
+      component: Invite,
+      title: 'Invite',
+    },
+    {
+      component: Footprint,
+      title: 'Footprint',
+    },
+    {
+      component: Share,
+      title: 'Share the news',
+    },
+  ]
+
+  const { currentStepIndex, next } = useSteps(
+    OnboardingLeaderSteps.length,
+    () => router.push('/')
+  )
 
   const Step = OnboardingLeaderSteps[currentStepIndex]?.component
   const userCountry = user?.country || DEFAULT_COUNTRY
@@ -37,7 +55,7 @@ const OnboardingLeader: NextPage = (props: any) => {
     >
       {Step ? (
         <Step
-          onNext={handleOnNext}
+          onNext={next}
           questionnaire={
             props?.questionnaires[userCountry] || defaultQuestionnaire
           }
