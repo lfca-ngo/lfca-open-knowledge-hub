@@ -7,6 +7,7 @@ import { ContentfulActionFields } from '../../services/contentful'
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { DEFAULT_FONT_SIZE, DEFAULT_LINE_HEIGHT } from '../../utils'
 import { options } from '../../utils/richTextOptions'
+import { StatusButton } from '../ActionBar/StatusButton'
 import { Section } from '../Layout'
 import { RequirementsListTabs } from '../RequirementsListTabs'
 import { ShowMore } from '../ShowMore'
@@ -44,6 +45,10 @@ export const ActionPreview = ({
           }
         />
       </Section>
+
+      <Divider />
+
+      <StatusButton action={action} />
 
       <Divider />
       <Section title="How To" titleSize="small">

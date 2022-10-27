@@ -92,7 +92,6 @@ export const StatusButton = ({
   canExpire = false,
 }: StatusButtonProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const actionStatus = getActionStatus(action)
 
   const [{ fetching: fetchingPlanCompanyAction }, planCompanyAction] =
     usePlanCompanyActionMutation()
@@ -111,6 +110,8 @@ export const StatusButton = ({
       setIsOpen(true)
     }
   }
+
+  const actionStatus = getActionStatus(action)
 
   const handlePlan = async () => {
     planCompanyAction({
@@ -152,10 +153,14 @@ export const StatusButton = ({
     <Menu
       items={Object.keys(ACTION_STATES)
         .filter((key) => !(key === ACTION_STATES.RENEW.key && !canExpire))
-        .map((key) => ({
-          ...ACTION_STATES[key],
-          disabled: key === actionStatus.key,
-        }))}
+        .map((key) => {
+          const actionState = ACTION_STATES[key]
+          delete actionState.statusLabel
+          return {
+            ...actionState,
+            disabled: key === actionStatus.key,
+          }
+        })}
       onClick={handleClick}
     />
   )

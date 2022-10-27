@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 import { ContentfulActionFields } from '../../../services/contentful'
 import {
-  CompanyActionListItemFragment,
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
 } from '../../../services/lfca-backend'
@@ -23,8 +22,7 @@ export const PersonalizeContent = ({
   actionsContent?: Record<string, ContentfulActionFields>
 }) => {
   const [previewActionId, setPreviewActionId] = useState<string | undefined>()
-  const [activeAction, setActiveAction] =
-    useState<CompanyActionListItemFragment>()
+  const [activeActionIndex, setActiveActionIndex] = useState<number>(-1)
   const [selectedActionContentId, setSelectedActionContentId] = useState<
     string | null
   >(null)
@@ -33,6 +31,7 @@ export const PersonalizeContent = ({
 
   // to preview action content, we need the contentful data
   const actionContent = previewActionId && actionsContent?.[previewActionId]
+  const activeAction = data?.companyActions[activeActionIndex]
 
   return (
     <div>
@@ -54,11 +53,19 @@ export const PersonalizeContent = ({
         actionListItemProps={{
           mode: 'compact',
           onCtaClick: (action) => {
-            setActiveAction(action)
+            const actionIndex =
+              data?.companyActions.findIndex(
+                (a) => a.contentId === action.contentId
+              ) || -1
+            setActiveActionIndex(actionIndex)
             setSelectedActionContentId(action.contentId)
           },
           onToggleInfo(action, actionContentId) {
-            setActiveAction(action)
+            const actionIndex =
+              data?.companyActions.findIndex(
+                (a) => a.contentId === action.contentId
+              ) || -1
+            setActiveActionIndex(actionIndex)
             setPreviewActionId(actionContentId)
           },
           selectText: 'Select',
@@ -81,6 +88,7 @@ export const PersonalizeContent = ({
 
       <Modal
         destroyOnClose
+        footer={null}
         onCancel={() => setPreviewActionId(undefined)}
         open={!!previewActionId}
         wrapClassName="modal-md"
