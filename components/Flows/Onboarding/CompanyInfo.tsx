@@ -13,6 +13,7 @@ import {
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 
+import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
@@ -25,6 +26,7 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
 }))
 
 export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
+  const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
 
   const onValuesChange = (_: any, allValues: any) => {
@@ -136,7 +138,7 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
               </span>
             }
             open={!!otherCompanies}
-            placement="right"
+            placement={isDesktop ? 'right' : 'bottom'}
           >
             <Button htmlType="submit" size="large" type="primary">
               Continue

@@ -2,6 +2,7 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   InfoCircleOutlined,
+  LoadingOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Document } from '@contentful/rich-text-types'
@@ -12,18 +13,21 @@ import {
   Card,
   Col,
   Divider,
-  Form,
   InputNumber,
   List,
+  message,
   Popover,
   Row,
   Space,
   Tag,
 } from 'antd'
-import { useState } from 'react'
+import classNames from 'classnames'
+import _debounce from 'lodash.debounce'
+import { useEffect, useRef, useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { useUpdateCompanyMutation } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
 import { ListSelect, OptionKey } from '../../ListSelect'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
@@ -91,7 +95,8 @@ export const MembershipContent = ({
 export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
-  const [teamSize, setTeamSize] = useState<number>(10)
+  const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
+  const [teamSize, setTeamSize] = useState<number | null>()
 
   const plan = subscriptionsData.find(
     (s) => s.name === sharedState?.selectedSubscriptionType
@@ -106,6 +111,29 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
   const { company } = useUser()
   const calculatedPrice = calculatePricePoint(plan, company?.employeeCount)
 
+  const debouncedTeamSizeInput = useRef(
+    _debounce(async (value) => {
+      updateCompany({
+        input: {
+          employeeCount: value,
+        },
+      }).then(({ error }) => {
+        if (error) message.error(error.message)
+        message.success('Changed company size')
+      })
+    }, 500)
+  ).current
+
+  const handleTeamSizeChange = (val: number | null) => {
+    debouncedTeamSizeInput(val)
+  }
+
+  useEffect(() => {
+    if (company?.employeeCount) {
+      setTeamSize(company?.employeeCount)
+    }
+  }, [company?.employeeCount])
+
   return (
     <div className={styles['membership-summary']}>
       <h4>Summary</h4>
@@ -114,10 +142,15 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
           <Col xs={12}>
             <div className="summary-title">{plan?.name}</div>
           </Col>
-          <Col xs={12} style={{ textAlign: 'right' }}>
-            <Form.Item label="Team" style={{ margin: 0 }}>
-              <InputNumber size="small" value={teamSize} />
-            </Form.Item>
+          <Col className="team-input" xs={12}>
+            <span className="team-input-label">
+              {fetching && <LoadingOutlined />} Team
+            </span>
+            <InputNumber
+              onChange={handleTeamSizeChange}
+              size="small"
+              value={teamSize}
+            />
           </Col>
         </Row>
 
@@ -126,16 +159,20 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
             const isIncluded = plan?.features?.some(
               (f) => f.contentId === i.contentId
             )
-            return { ...i, disabled: isIncluded }
+            return { ...i, disabled: !isIncluded }
           })}
           renderItem={(item) => {
             return (
-              <List.Item>
+              <List.Item
+                className={classNames('benefits-list-item', {
+                  disabled: item?.disabled,
+                })}
+              >
                 <div className="icon-wrapper">
-                  {item?.disabled ? (
+                  {!item?.disabled ? (
                     <CheckCircleFilled className="green" />
                   ) : (
-                    <CloseCircleFilled className="wine" />
+                    <CloseCircleFilled className="red" />
                   )}
                 </div>
                 {item?.title}

@@ -71,7 +71,18 @@
       align-items: center;
       padding: 0 @default-padding-xs;
       max-width: 100%;
-      overflow: scroll;
+      overflow-x: scroll;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      scroll-behavior: smooth;
+
+      // Hide scroll bars
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .steps-wrapper {
         flex: 1;

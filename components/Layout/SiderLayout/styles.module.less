@@ -50,12 +50,13 @@
     }
 
     .ant-layout-sider {
-      position: sticky;
+      position: absolute;
       height: 100%;
       min-height: 100vh;
       z-index: 1000;
 
       @media @desktop {
+        position: sticky;
         overflow: auto;
         top: 0;
         bottom: 0;

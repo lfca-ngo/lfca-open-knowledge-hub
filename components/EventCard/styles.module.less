@@ -138,8 +138,13 @@
 
       .header {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+
+        @media @desktop {
+          flex-direction: row;
+          align-items: center;
+        }
 
         .icon {
           .ant-avatar {
@@ -149,10 +154,20 @@
       }
 
       .summary {
+        margin: 20px 0;
+
+        @media @desktop {
+          margin: 0;
+        }
+
         .info {
           display: flex;
           flex-direction: column;
-          margin: 4px 0;
+          margin: 6px 0;
+
+          @media @desktop {
+            margin: 4px 0;
+          }
         }
       }
 
@@ -183,9 +198,12 @@
         > .ant-space {
           flex-direction: column;
           align-items: flex-start;
-          gap: 2px !important;
+          gap: 4px !important;
 
-          font-size: @font-size-sm;
+          @media @desktop {
+            gap: 2px !important;
+            font-size: @font-size-sm;
+          }
         }
       }
 
@@ -198,8 +216,11 @@
       }
 
       .actions {
-        margin-right: 0;
-        margin-left: auto;
+        @media @desktop {
+          margin-right: 0;
+          margin-left: auto;
+        }
+
         display: flex;
         justify-content: space-between;
       }

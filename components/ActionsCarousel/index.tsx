@@ -61,7 +61,7 @@ export const ActionsCarousel = ({
     },
     {
       breakpoint:
-        LAYOUT_BREAKPOINTS.find((l) => l.name === 'lg')?.minWidth || 0,
+        LAYOUT_BREAKPOINTS.find((l) => l.name === 'xl')?.minWidth || 0,
       settings: {
         slidesToScroll: 2,
         slidesToShow: 2,
@@ -122,7 +122,7 @@ export const ActionsCarousel = ({
                 <LogoGroup
                   data={action.recentCompaniesDoing}
                   label={`${action.companiesDoingCount} working on this`}
-                  size="small"
+                  size={28}
                 />
               </div>
             </Card>

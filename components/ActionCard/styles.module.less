@@ -1,6 +1,9 @@
 .action-card {
   @card-padding: @action-card-padding;
-  .list-hover-effect(8px);
+
+  &:not([class~='compact']) {
+    .list-hover-effect(8px);
+  }
 
   width: 100%;
   border-radius: 0;
@@ -68,10 +71,13 @@
       .actions {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
+        margin: 10px 0 0;
 
         @media @desktop {
+          margin: 0;
           margin-right: 0;
+          justify-content: flex-end;
         }
       }
     }

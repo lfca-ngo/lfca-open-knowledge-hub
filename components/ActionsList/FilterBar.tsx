@@ -1,4 +1,4 @@
-import { Col, Form, FormInstance, Input, Row, Select, Space } from 'antd'
+import { Form, FormInstance, Input, Select, Space } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
@@ -38,20 +38,14 @@ export const FilterBar = ({
       onValuesChange={onValuesChange}
     >
       {mode === 'compact' ? (
-        <>
-          <Row gutter={16}>
-            <Col md={12} xs={24}>
-              <Form.Item name="categories">
-                <RootCategorySelector />
-              </Form.Item>
-            </Col>
-            <Col md={12} xs={24}>
-              <Form.Item name="search">
-                <Search placeholder="Search..." size="large" />
-              </Form.Item>
-            </Col>
-          </Row>
-        </>
+        <Space className="compact-filter-bar">
+          <Form.Item name="categories">
+            <RootCategorySelector />
+          </Form.Item>
+          <Form.Item name="search">
+            <Search placeholder="Search..." size="large" />
+          </Form.Item>
+        </Space>
       ) : (
         <>
           <div className="header-bar">

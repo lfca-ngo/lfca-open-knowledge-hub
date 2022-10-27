@@ -74,7 +74,10 @@ export const CompleteActionForm = ({
   }
 
   return (
-    <Section title="Share your learnings">
+    <Section>
+      <h2>Mark action as done</h2>
+      <Divider />
+
       {withReviewForm && (
         <>
           <ReviewForm actionContentId={actionContentId} />
@@ -82,7 +85,7 @@ export const CompleteActionForm = ({
         </>
       )}
       <CommentForm
-        ctaText="Complete Action"
+        ctaText="Mark action as done"
         loading={fetchingCompleteAction || fetchingCreateActionComment}
         onSubmit={handleComplete}
         showNotes

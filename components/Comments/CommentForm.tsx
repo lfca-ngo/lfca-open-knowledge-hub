@@ -1,4 +1,4 @@
-import { QuestionCircleOutlined } from '@ant-design/icons'
+import { CheckOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input, Tag, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { Descendant } from 'slate'
@@ -145,7 +145,14 @@ export const CommentForm = ({
       )}
 
       <Form.Item>
-        <Button block htmlType="submit" loading={loading} type="primary">
+        <Button
+          block
+          htmlType="submit"
+          icon={<CheckOutlined />}
+          loading={loading}
+          size="large"
+          type="primary"
+        >
           {ctaText}
         </Button>
       </Form.Item>

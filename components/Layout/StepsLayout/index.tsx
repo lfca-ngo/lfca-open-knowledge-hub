@@ -3,8 +3,9 @@ import { Button, Layout, Popconfirm, Steps } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import classNames from 'classnames'
 import { ImageProps } from 'next/image'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
+import { isBrowser } from '../../../utils'
 import { Logo } from '../../Logo'
 import { Container } from '../Container'
 import { Footer } from '../Footer'
@@ -34,7 +35,16 @@ export const StepsLayout = ({
   onClose,
   steps,
 }: StepsLayoutProps) => {
+  const headerRef = useRef<HTMLElement>(null)
   const bgImageWidth = backgroundImage?.width || 0
+
+  useEffect(() => {
+    // scroll the active element into view
+    const stepEl = document.querySelector(
+      `.ant-steps-item:nth-of-type(${currentStepIndex + 1})`
+    ) as HTMLElement
+    stepEl?.scrollIntoView()
+  }, [currentStepIndex])
 
   return (
     <Layout
@@ -42,7 +52,7 @@ export const StepsLayout = ({
         'has-sider': asideChildren,
       })}
     >
-      <Header>
+      <Header ref={headerRef}>
         <Logo size="small" />
         <div className="steps-wrapper">
           <Container alignment="center" size="lg">
@@ -56,7 +66,7 @@ export const StepsLayout = ({
                   key={`step-${i}`}
                   progressDot={() => null}
                   title={
-                    <div className="step-title">
+                    <div className="step-title" id={`step-${i}`}>
                       <div className="title">{step.title}</div>
                       <ArrowRightOutlined />
                     </div>
