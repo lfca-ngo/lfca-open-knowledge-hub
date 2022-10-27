@@ -5,7 +5,6 @@ import classNames from 'classnames'
 import { ImageProps } from 'next/image'
 import React, { useEffect, useRef } from 'react'
 
-import { isBrowser } from '../../../utils'
 import { Logo } from '../../Logo'
 import { Container } from '../Container'
 import { Footer } from '../Footer'
