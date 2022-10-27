@@ -12,13 +12,10 @@ import classNames from 'classnames'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
-import {
-  ACTION_STATES,
-  getActionStatus,
-} from '../../components/ActionBar/StatusButton'
+import { getActionStatus } from '../../components/ActionBar/StatusButton'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
@@ -29,7 +26,7 @@ import {
   scrollToId,
   SectionWrapper,
 } from '../../components/Layout/SectionWrapper'
-import { RequirementsList } from '../../components/RequirementsList'
+import { RequirementsListTabs } from '../../components/RequirementsListTabs'
 import { ShowMore } from '../../components/ShowMore'
 import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
 import {
@@ -57,28 +54,17 @@ interface ActionProps {
   action: ContentfulActionFields
 }
 
-const STEPS_OPTIONS = [
-  {
-    key: `${ACTION_STATES.BACKLOG.key}`,
-    label: 'Plan',
-  },
-  {
-    key: `${ACTION_STATES.PLANNED.key}`,
-    label: 'Proceed',
-  },
-  {
-    key: `${ACTION_STATES.COMPLETE.key}`,
-    label: 'Share',
-  },
-]
-
 const Action: NextPage<ActionProps> = ({ action }) => {
+  const router = useRouter()
+  /**
+   * Local State
+   */
   const [activeStatusTab, setActiveStatusTab] = useState<string | undefined>()
   const [activeNavItem, setActiveNavItem] = useState('')
-  const rootCategoryLookUp: RootCategoryLookUpProps =
-    categoryTreeData.rootCategoryLookUp
-  const router = useRouter()
 
+  /**
+   * Data fetching
+   */
   const [{ data: actionData, fetching: fetchingAction }] =
     useCompanyActionDetailsQuery({
       variables: { input: { actionContentId: action.actionId } },
@@ -94,6 +80,11 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     variables: { input: { actionContentId: action.actionId } },
   })
 
+  /**
+   * Local variables
+   */
+  const rootCategoryLookUp: RootCategoryLookUpProps =
+    categoryTreeData.rootCategoryLookUp
   const actionStatus = getActionStatus(actionData?.companyAction)
   const [firstCategory] = actionData?.companyAction?.categories || []
   const rootCategory = rootCategoryLookUp[firstCategory?.id]
@@ -101,43 +92,15 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     ...actionData?.companyAction,
     rootCategory,
   } as CompanyActionListItemFragmentWithRootCategory
+  const docHeight = isBrowser() ? document.documentElement.offsetHeight : 0
+  const tabElement = isBrowser()
+    ? (document?.querySelector('#tab-container') as HTMLElement)
+    : null
+  const tabHeight = tabElement?.offsetHeight || 0
 
-  const implementationSteps = useMemo(
-    () => [
-      ...STEPS_OPTIONS.filter(
-        (s) => action.requirements.findIndex((r) => r.stage === s.label) > -1
-      ).map((s) => ({
-        ...s,
-        children: (
-          <RequirementsList
-            actionContentId={action.actionId}
-            requirements={actionData?.companyAction?.requirements}
-            requirementsContent={action?.requirements.filter(
-              (r) => r.stage === s.label
-            )}
-          />
-        ),
-      })),
-    ],
-    [action, actionData]
-  )
-
-  // @TODO: Remove after migration is complete
-  // all untagged requirements land here
-  if (action.requirements.find((r) => !r.stage)) {
-    implementationSteps.push({
-      children: (
-        <RequirementsList
-          actionContentId={action.actionId}
-          requirements={actionData?.companyAction?.requirements}
-          requirementsContent={action?.requirements.filter((r) => !r.stage)}
-        />
-      ),
-      key: 'all',
-      label: 'All',
-    })
-  }
-
+  /**
+   * Definition of all scrollable sections
+   */
   const sections = [
     {
       children: () => (
@@ -162,10 +125,11 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     },
     {
       children: () => (
-        <Tabs
-          activeKey={activeStatusTab}
-          items={implementationSteps}
-          onChange={(key) => setActiveStatusTab(key)}
+        <RequirementsListTabs
+          action={actionData?.companyAction}
+          actionContent={action}
+          activeStatusTab={activeStatusTab}
+          setActiveStatusTab={setActiveStatusTab}
         />
       ),
       key: 'how-to',
@@ -239,18 +203,12 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     },
   ]
 
-  const docHeight = isBrowser() ? document.documentElement.offsetHeight : 0
-  const tabElement = isBrowser()
-    ? (document?.querySelector('#tab-container') as HTMLElement)
-    : null
-  const tabHeight = tabElement?.offsetHeight || 0
-
   // update the steps tab according to the action status
   useEffect(() => {
-    if (implementationSteps.find((s) => s.key === actionStatus.key)) {
+    if (action.requirements.find((s) => s.stage === actionStatus.statusLabel)) {
       setActiveStatusTab(`${actionStatus.key}`)
     }
-  }, [actionStatus, implementationSteps])
+  }, [actionStatus, action])
 
   return (
     <SiderLayout goBack={() => router.back()}>

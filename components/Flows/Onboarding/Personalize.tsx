@@ -1,6 +1,7 @@
-import { Button, Drawer, Space, Tag } from 'antd'
+import { Button, Drawer, Modal, Space, Tag } from 'antd'
 import { useState } from 'react'
 
+import { ContentfulActionFields } from '../../../services/contentful'
 import {
   CompanyActionListItemFragment,
   EMPTY_ACTIONS,
@@ -9,11 +10,19 @@ import {
 import { actionHasReviews } from '../../../utils'
 import { withAuth } from '../../../utils/with-auth'
 import { ActionPillars } from '../../ActionPillars'
+import { ActionPreview } from '../../ActionPreview'
 import { ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { DefaultStepProps } from './..'
 
-export const PersonalizeContent = ({ onNext, onPrev }: DefaultStepProps) => {
+export const PersonalizeContent = ({
+  actionsContent,
+  onNext,
+  onPrev,
+}: DefaultStepProps & {
+  actionsContent?: Record<string, ContentfulActionFields>
+}) => {
+  const [previewActionId, setPreviewActionId] = useState<string | undefined>()
   const [activeAction, setActiveAction] =
     useState<CompanyActionListItemFragment>()
   const [selectedActionContentId, setSelectedActionContentId] = useState<
@@ -21,6 +30,9 @@ export const PersonalizeContent = ({ onNext, onPrev }: DefaultStepProps) => {
   >(null)
 
   const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
+
+  // to preview action content, we need the contentful data
+  const actionContent = previewActionId && actionsContent?.[previewActionId]
 
   return (
     <div>
@@ -45,6 +57,10 @@ export const PersonalizeContent = ({ onNext, onPrev }: DefaultStepProps) => {
             setActiveAction(action)
             setSelectedActionContentId(action.contentId)
           },
+          onToggleInfo(action, actionContentId) {
+            setActiveAction(action)
+            setPreviewActionId(actionContentId)
+          },
           selectText: 'Select',
           unselectText: 'Unselect',
         }}
@@ -62,6 +78,19 @@ export const PersonalizeContent = ({ onNext, onPrev }: DefaultStepProps) => {
           Back
         </Button>
       </Space>
+
+      <Modal
+        destroyOnClose
+        onCancel={() => setPreviewActionId(undefined)}
+        open={!!previewActionId}
+        wrapClassName="modal-md"
+      >
+        {actionContent && activeAction ? (
+          <ActionPreview action={activeAction} actionContent={actionContent} />
+        ) : (
+          'Missing data..'
+        )}
+      </Modal>
 
       <Drawer
         className="drawer-md"

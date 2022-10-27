@@ -1,15 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Checkbox, Collapse, List, message } from 'antd'
-import { useMemo } from 'react'
+import { Checkbox, Collapse, message } from 'antd'
 
 import { ContentfulRequirementFields } from '../../services/contentful'
-import {
-  CompanyAction,
-  useCompleteCompanyActionRequirementMutation,
-} from '../../services/lfca-backend'
+import { useCompleteCompanyActionRequirementMutation } from '../../services/lfca-backend'
 import { options } from '../../utils/richTextOptions'
-import styles from './styles.module.less'
 
 const { Panel } = Collapse
 
@@ -71,39 +66,5 @@ export const RequirementsItem = ({
         </div>
       </Panel>
     </Collapse>
-  )
-}
-
-export const RequirementsList = ({
-  actionContentId,
-  requirements = [],
-  requirementsContent = [],
-}: {
-  actionContentId: string
-  requirements?: CompanyAction['requirements']
-  requirementsContent?: ContentfulRequirementFields[]
-}) => {
-  const requirementsList = useMemo(() => {
-    if (!requirementsContent) return []
-
-    return requirementsContent.map((item) => {
-      const matchedEntry = requirements?.find((r) => r.contentId === item.reqId)
-      return {
-        ...item,
-        completedAt: matchedEntry?.completedAt,
-      }
-    })
-  }, [requirements, requirementsContent]) as MergedRequirementItem[]
-
-  return (
-    <List
-      className={styles['requirements-list']}
-      dataSource={requirementsList}
-      renderItem={(item) => (
-        <List.Item>
-          <RequirementsItem actionContentId={actionContentId} item={item} />
-        </List.Item>
-      )}
-    />
   )
 }

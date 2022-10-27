@@ -11,6 +11,7 @@ import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
 import classNames from 'classnames'
 import { useState } from 'react'
 
+import { ContentfulRequirementFields } from '../../services/contentful'
 import {
   CompanyAction,
   CompanyActionListItemFragment,
@@ -29,6 +30,7 @@ interface StatusButtonProps {
 export const ACTION_STATES: {
   [key: string]: MenuItemType & {
     color?: 'purple' | 'yellow' | 'red' | 'black' | 'green' | 'blue'
+    statusLabel?: ContentfulRequirementFields['stage']
   }
 } = {
   BACKLOG: {
@@ -36,6 +38,7 @@ export const ACTION_STATES: {
     icon: <AppstoreAddOutlined />,
     key: 'BACKLOG',
     label: 'Backlog',
+    statusLabel: 'Plan',
   },
   // PROCEED: {
   //   color: 'blue',
@@ -43,6 +46,7 @@ export const ACTION_STATES: {
   //   icon: <PlayCircleOutlined />,
   //   key: 'PROCEED',
   //   label: 'Started',
+  //   statusLabel: 'Proceed'
   // },
   // eslint-disable-next-line sort-keys
   PLANNED: {
@@ -50,6 +54,7 @@ export const ACTION_STATES: {
     icon: <CalendarOutlined />,
     key: 'PLANNED',
     label: 'Planned',
+    statusLabel: 'Proceed',
   },
   // eslint-disable-next-line sort-keys
   COMPLETE: {
@@ -57,6 +62,7 @@ export const ACTION_STATES: {
     icon: <CheckOutlined />,
     key: 'COMPLETE',
     label: 'Complete',
+    statusLabel: 'Share',
   },
   RENEW: {
     color: 'red',

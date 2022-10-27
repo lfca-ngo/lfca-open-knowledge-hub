@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
@@ -23,13 +23,23 @@ import CoursePreviewImage from '../components/Flows/Onboarding/images/course-pre
 import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
 import { StepsLayout } from '../components/Layout'
 import { useSteps } from '../hooks/useSteps'
+import { ContentfulActionFields, fetchAllActions } from '../services/contentful'
 
 const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
 
-const Onboarding: NextPage = () => {
+interface OnboardingProps {
+  actionsContent: Record<string, ContentfulActionFields>
+}
+
+const Onboarding: NextPage<OnboardingProps> = ({ actionsContent }) => {
   const router = useRouter()
 
   const OnboardingSteps = [
+    {
+      component: Personalize,
+      sideComponent: PersonalizeSide,
+      title: 'Personalize',
+    },
     {
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
@@ -47,11 +57,6 @@ const Onboarding: NextPage = () => {
       sideComponent: GroupsSide,
       sideComponentBackgroundImage: CoursePreviewImage,
       title: 'Groups',
-    },
-    {
-      component: Personalize,
-      sideComponent: PersonalizeSide,
-      title: 'Personalize',
     },
     {
       component: Invite,
@@ -101,6 +106,7 @@ const Onboarding: NextPage = () => {
     >
       {Step ? (
         <Step
+          actionsContent={actionsContent}
           onNext={next}
           onPrev={prev}
           setSharedState={setSharedState}
@@ -109,6 +115,16 @@ const Onboarding: NextPage = () => {
       ) : null}
     </StepsLayout>
   )
+}
+
+export const getStaticProps: GetStaticProps<OnboardingProps> = async () => {
+  const actionsById = await fetchAllActions()
+
+  return {
+    props: {
+      actionsContent: actionsById,
+    },
+  }
 }
 
 export default Onboarding
