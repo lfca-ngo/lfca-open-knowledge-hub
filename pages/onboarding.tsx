@@ -36,11 +36,6 @@ const Onboarding: NextPage<OnboardingProps> = ({ actionsContent }) => {
 
   const OnboardingSteps = [
     {
-      component: Personalize,
-      sideComponent: PersonalizeSide,
-      title: 'Personalize',
-    },
-    {
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
       sideComponentBackgroundImage: PlatformPreviewImage,
@@ -57,6 +52,11 @@ const Onboarding: NextPage<OnboardingProps> = ({ actionsContent }) => {
       sideComponent: GroupsSide,
       sideComponentBackgroundImage: CoursePreviewImage,
       title: 'Groups',
+    },
+    {
+      component: Personalize,
+      sideComponent: PersonalizeSide,
+      title: 'Personalize',
     },
     {
       component: Invite,
