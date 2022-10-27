@@ -50,6 +50,11 @@
         max-width: 180px;
         padding-left: 0;
         border-bottom: 1px solid @grey-white;
+
+        .ant-tabs-tab-btn {
+          max-width: 100%;
+          display: flex;
+        }
       }
     }
 
@@ -137,6 +142,7 @@
 .avatar-meta {
   display: flex;
   flex-direction: row;
+  max-width: 100%;
 
   :global {
     .text {
@@ -145,10 +151,18 @@
       align-items: flex-start;
       margin-left: 16px;
       justify-content: center;
+      flex: 1;
+      overflow: hidden;
+      text-align: left;
 
       .company {
         font-size: @font-size-xs;
         color: fade(@black, 40%);
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
       }
     }
   }
