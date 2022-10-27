@@ -55,7 +55,11 @@ export const MembershipContent = ({
       <Tag className="super-text">Company Info</Tag>
       <h1>{`Last step - choose your plan 👍`}</h1>
       <div className="description">
-        {`Last but not least: Choose your membership tier. If you can afford to support us with a premium subscription, you will enable us to bring lfca to others for free.`}
+        <p>
+          Last but not least: Choose your membership tier. If you can afford to
+          support us with a premium subscription, you will enable us to bring
+          lfca to others for free.
+        </p>
       </div>
 
       <ListSelect
@@ -71,13 +75,15 @@ export const MembershipContent = ({
         value={sharedState?.selectedSubscriptionType}
       />
 
-      {isFreeTierSelected && (
+      {isFreeTierSelected ? (
         <Alert
-          description="You can continue on a basic or premium tier and pay in the next 30 days. During this time you can downgrade your tier."
-          message="Tip: Pay in the next 30 days"
+          description="You can continue on a basic or premium tier and pay at any point in the next 30 days. During this time you can downgrade your tier without any extra costs."
+          message="Tip: Try Basic or Premium for free"
           showIcon
           type="warning"
         />
+      ) : (
+        <p>We will send you an invoice with a payment link.</p>
       )}
 
       <Space style={{ marginTop: '20px' }}>
@@ -170,7 +176,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
               >
                 <div className="icon-wrapper">
                   {!item?.disabled ? (
-                    <CheckCircleFilled className="green" />
+                    <CheckCircleFilled className="green-medium" />
                   ) : (
                     <CloseCircleFilled className="red" />
                   )}
@@ -182,6 +188,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
                     item?.description as Document
                   )}
                   overlayClassName="popover-lg"
+                  placement="left"
                   title={item?.title}
                 >
                   <InfoCircleOutlined />
