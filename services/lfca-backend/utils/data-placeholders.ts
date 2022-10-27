@@ -1,5 +1,6 @@
 import { CompanyActionListItemFragmentWithRootCategory } from '../../../components/ActionsCarousel'
 import {
+  ActionComment,
   CompanyAchievementFragment,
   EventCategory,
   EventFragment,
@@ -71,3 +72,10 @@ export const EMPTY_EVENTS: EventFragment[] = Array(2)
   .concat(
     Array(2).fill({ ...EMPTY_EVENT, participationRequestStatus: 'APPROVED' })
   )
+
+export const EMPTY_COMMENT = {
+  id: '0',
+  message: '',
+} as ActionComment
+
+export const EMPTY_COMMENTS = Array(3).fill(EMPTY_COMMENT)

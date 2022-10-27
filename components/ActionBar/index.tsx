@@ -1,9 +1,10 @@
-import { Avatar, Button, Divider, List } from 'antd'
+import { Avatar, Button, ConfigProvider, Divider, List, Skeleton } from 'antd'
 import React from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
 import {
   CompanyActionListItemFragment,
+  EMPTY_COMMENTS,
   useActionCommentsQuery,
 } from '../../services/lfca-backend'
 import { scrollToId } from '../Layout/SectionWrapper'
@@ -44,40 +45,45 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
           size={'large'}
         />
 
-        {latestComments && (
-          <>
-            <Divider orientation="left" orientationMargin={0}>
-              Latest
-            </Divider>
+        <>
+          <Divider orientation="left" orientationMargin={0}>
+            Latest
+          </Divider>
 
+          <ConfigProvider renderEmpty={() => 'No activity yet'}>
             <List
-              dataSource={latestComments}
-              loading={fetching}
+              dataSource={latestComments || EMPTY_COMMENTS}
               renderItem={(item) => (
                 <List.Item className="news">
-                  <Avatar
-                    shape="square"
-                    size="small"
-                    src={item.author?.picture}
-                  />
-                  <div className="text">
-                    {item.author?.firstName} left a comment
-                  </div>
+                  <Skeleton
+                    avatar={{ shape: 'square', size: 'small' }}
+                    loading={fetching}
+                    paragraph={false}
+                  >
+                    <Avatar
+                      shape="square"
+                      size="small"
+                      src={item.author?.picture}
+                    />
+                    <div className="text">
+                      {item.author?.firstName} left a comment
+                    </div>
+                  </Skeleton>
                 </List.Item>
               )}
             />
+          </ConfigProvider>
 
-            <Divider
-              className="see-all"
-              orientation="center"
-              orientationMargin={0}
-            >
-              <Button onClick={() => scrollToId('community')} size="small">
-                See all
-              </Button>
-            </Divider>
-          </>
-        )}
+          <Divider
+            className="see-all"
+            orientation="center"
+            orientationMargin={0}
+          >
+            <Button onClick={() => scrollToId('community')} size="small">
+              See all
+            </Button>
+          </Divider>
+        </>
       </div>
     </div>
   )

@@ -1,5 +1,4 @@
 import {
-  // CalendarOutlined,
   CommentOutlined,
   ContainerOutlined,
   DownloadOutlined,
@@ -14,7 +13,6 @@ import {
   Col,
   Divider,
   Popover,
-  // Radio,
   Row,
   Skeleton,
   Space,
@@ -41,6 +39,8 @@ import styles from './styles.module.less'
 
 const ATTACHMENTS_KEY = 'attachments'
 const LOADING_KEY = 'loading'
+const EMPTY_KEY = 'empty'
+const INITIAL_KEY = '0'
 
 const TabsSkeletonChild = {
   children: (
@@ -61,11 +61,6 @@ const TabsSkeletonChild = {
     />
   ),
 }
-
-// const FILTERS = [
-//   { icon: <CalendarOutlined />, label: 'Relevance', value: 'Apple' },
-//   { label: 'Date', value: 'Pear' },
-// ]
 
 interface CommentsProps {
   actionContentId: string
@@ -101,7 +96,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
     })
 
   const [, deleteActionComment] = useDeleteActionCommentMutation()
-  const hasComments = !!data?.actionComments
+  const hasComments = (data?.actionComments || []).length > 0
 
   const { isAdmin } = useUser()
 
@@ -114,8 +109,15 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
   }
 
   useEffect(() => {
-    if (hasComments && activeComment === LOADING_KEY) {
-      setActiveComment('0')
+    // once loading is done, set the active tab based
+    // on whether or not comments are available
+    if (activeComment === LOADING_KEY) {
+      setActiveComment(hasComments ? INITIAL_KEY : EMPTY_KEY)
+    }
+    // if the comments where empty and a new one is being added
+    // jump to the new comment
+    if (activeComment === EMPTY_KEY && hasComments) {
+      setActiveComment(INITIAL_KEY)
     }
   }, [hasComments, activeComment])
 
@@ -143,7 +145,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
         title="Be the first to leave a comment"
       />
     ),
-    key: 'empty',
+    key: EMPTY_KEY,
     label: (
       <Avatar
         className="black-inverse"
@@ -194,7 +196,6 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
       >
         Comment
       </Button>
-      {/* <Radio.Group optionType="button" options={FILTERS} size="middle" /> */}
     </Space>
   )
 
@@ -228,7 +229,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
             : !hasComments
             ? [EmptyChild]
             : [
-                ...data?.actionComments.map((comment, i) => {
+                ...(data?.actionComments || []).map((comment, i) => {
                   const id = String(i)
                   return {
                     children: (
