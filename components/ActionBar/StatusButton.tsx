@@ -155,9 +155,9 @@ export const StatusButton = ({
         .filter((key) => !(key === ACTION_STATES.RENEW.key && !canExpire))
         .map((key) => {
           const actionState = ACTION_STATES[key]
-          delete actionState.statusLabel
+          const { statusLabel, ...rest } = actionState
           return {
-            ...actionState,
+            ...rest,
             disabled: key === actionStatus.key,
           }
         })}

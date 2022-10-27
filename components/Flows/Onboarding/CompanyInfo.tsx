@@ -17,7 +17,7 @@ import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
-import { DefaultStepProps } from './..'
+import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
 
 const SECTOR_OPTIONS = companyTagsData.map((t) => ({
@@ -25,7 +25,10 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
   label: t,
 }))
 
-export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
+export const CompanyInfo = ({
+  onNext,
+  setSharedState,
+}: StepPropsWithSharedState) => {
   const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
 
@@ -37,7 +40,8 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
     }
   }
 
-  const onFinish = () => {
+  const onFinish = (allValues: any) => {
+    setSharedState?.({ company: allValues })
     onNext?.()
   }
 
@@ -117,7 +121,11 @@ export const CompanyInfo = ({ onNext }: DefaultStepProps) => {
               validator: (_, value) =>
                 value
                   ? Promise.resolve()
-                  : Promise.reject(new Error('Should accept policy')),
+                  : Promise.reject(
+                      new Error(
+                        'Please accept our membership admittance guidelines'
+                      )
+                    ),
             },
           ]}
           valuePropName="checked"

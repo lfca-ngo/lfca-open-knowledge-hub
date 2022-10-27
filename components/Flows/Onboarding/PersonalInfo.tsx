@@ -14,16 +14,16 @@ import { RuleObject } from 'antd/lib/form'
 import { TERMS_OF_SERVICE_URL } from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
-import { DefaultStepProps } from './..'
+import { StepPropsWithSharedState } from './..'
 
 const JOB_OPTIONS = [
   {
-    key: 'ceo',
-    label: 'CEO, Managing Director',
+    key: 'leadership',
+    label: 'Leadership',
   },
   {
     key: 'sust',
-    label: 'Head of Sustainability',
+    label: 'Sustainability',
   },
   {
     key: 'marketing',
@@ -33,9 +33,21 @@ const JOB_OPTIONS = [
     key: 'product',
     label: 'Product',
   },
+  {
+    key: 'operations',
+    label: 'Operations',
+  },
+  {
+    key: 'sales',
+    label: 'Sales',
+  },
 ]
 
-export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
+export const PersonalInfo = ({
+  onNext,
+  onPrev,
+  sharedState,
+}: StepPropsWithSharedState) => {
   const onFinish = () => {
     onNext?.()
   }
@@ -58,7 +70,9 @@ export const PersonalInfo = ({ onNext, onPrev }: DefaultStepProps) => {
 
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
-          label="What best describes your role?"
+          label={`What best describes your role${
+            sharedState?.company?.name ? `at ${sharedState?.company?.name}` : ''
+          }?`}
           name="role"
           rules={[{ message: 'Please select a role', required: true }]}
         >

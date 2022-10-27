@@ -4,7 +4,10 @@ module.exports = {
   rules: {
     '@typescript-eslint/ban-ts-ignore': 'off',
     // See: https://github.com/import-js/eslint-plugin-import/issues/653#issuecomment-840228881
-    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { ignoreRestSiblings: true },
+    ],
     '@typescript-eslint/no-use-before-define': [
       'error',
       {
