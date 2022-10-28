@@ -3,6 +3,7 @@ import { Button, Space } from 'antd'
 import { CalendarEvent, google, ics, office365, outlook } from 'calendar-link'
 import React, { useMemo } from 'react'
 
+import { trackEvent } from '../../services/analytics'
 import { EventFragment } from '../../services/lfca-backend'
 import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { parseMarkdownContent } from '../MarkdownContent'
@@ -48,6 +49,9 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
   )
 
   const navigateToUrl = (url: string) => {
+    // track event
+    trackEvent({ name: 'rsvpAddToCal', values: { url: url } })
+    // open url
     window.open(url, '_blank')
   }
 
