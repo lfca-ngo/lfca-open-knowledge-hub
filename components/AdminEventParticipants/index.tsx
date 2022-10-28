@@ -27,6 +27,9 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
     },
   })
 
+  const handleAlreadyInvitedUser = () =>
+    message.error('Selected user is already invited')
+
   const [{ fetching: fetchingAddEventParticipant }, addEventParticipant] =
     useAddEventParticipantMutation()
   const [
@@ -44,6 +47,12 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
     let errorMessage: string | undefined
 
     if (userId) {
+      // check if participant is already invited
+      const isAlreadyInvited = !!data?.eventParticipants.find(
+        (p) => p.user.id === userId
+      )
+      if (isAlreadyInvited) return handleAlreadyInvitedUser()
+
       const res = await addEventParticipant({
         input: {
           eventId: event.id,
@@ -54,6 +63,12 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
 
       errorMessage = res.error?.message
     } else if (externalUserEmail) {
+      // check if external participant is already invited
+      const isAlreadyInvited = !!data?.eventParticipants.find(
+        (p) => p.user.email === externalUserEmail
+      )
+      if (isAlreadyInvited) return handleAlreadyInvitedUser()
+
       const res = await addExternalEventParticipant({
         input: {
           eventId: event.id,
@@ -128,11 +143,7 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
             <Input placeholder="greta@thunbergvc.earth" type="email" />
           </Form.Item>
 
-          <Form.Item
-            extra={
-              'NOTE: adding a user that is already a participant will set the status back to "Awaiting RSVP" and resend the RSVP email.'
-            }
-          >
+          <Form.Item>
             <Button
               htmlType="submit"
               loading={
