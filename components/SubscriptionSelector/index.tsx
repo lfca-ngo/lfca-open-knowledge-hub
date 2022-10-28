@@ -127,7 +127,8 @@ export const SubscriptionSelector = ({
       <Tabs
         activeKey={activeTab}
         items={subscriptions.map((plan) => {
-          const calculatedPricePoint = calculatePricePoint(plan, employeeCount)
+          const calculatedPricePoint =
+            plan.pricing && calculatePricePoint(plan.pricing, employeeCount)
           return {
             children: (
               <List

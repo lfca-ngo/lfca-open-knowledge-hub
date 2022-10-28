@@ -1,6 +1,14 @@
-export const calculatePricePoint = (plan: any, employeeCount?: number) =>
-  plan.pricing.find(
-    (price: any) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
+export interface PlanPricingProps {
+  price: number
+  maxEmployees?: number
+}
+
+export const calculatePricePoint = (
+  pricing: PlanPricingProps[],
+  employeeCount?: number
+) =>
+  pricing.find(
+    (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
   )
 
 export const getUpgradeEmailBody = ({

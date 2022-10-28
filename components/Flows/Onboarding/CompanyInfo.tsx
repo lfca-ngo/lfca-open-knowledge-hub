@@ -28,6 +28,7 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
 export const CompanyInfo = ({
   onNext,
   setSharedState,
+  sharedState,
 }: StepPropsWithSharedState) => {
   const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
@@ -41,7 +42,7 @@ export const CompanyInfo = ({
   }
 
   const onFinish = (allValues: any) => {
-    setSharedState?.({ company: allValues })
+    setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
   }
 

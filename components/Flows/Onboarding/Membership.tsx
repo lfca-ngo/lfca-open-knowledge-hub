@@ -115,7 +115,8 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     })
 
   const { company } = useUser()
-  const calculatedPrice = calculatePricePoint(plan, company?.employeeCount)
+  const calculatedPrice =
+    plan?.pricing && calculatePricePoint(plan?.pricing, company?.employeeCount)
 
   const debouncedTeamSizeInput = useRef(
     _debounce(async (value) => {
