@@ -115,11 +115,11 @@ export const StatusButton = ({
 
   const actionStatus = getActionStatus(action)
 
-  const handlePlan = async () => {
+  const handlePlan = async (isPlanned: boolean) => {
     planCompanyAction({
       input: {
         actionContentId: action.contentId,
-        isPlanned: !action.plannedAt,
+        isPlanned: isPlanned,
       },
     }).then(({ data, error }) => {
       if (error) message.error(error.message)
@@ -140,10 +140,11 @@ export const StatusButton = ({
         handleComplete(true)
         break
       case ACTION_STATES.PLANNED.key:
-        await handlePlan()
+        if (action.completedAt) await handleComplete(false)
+        await handlePlan(true)
         break
       case ACTION_STATES.BACKLOG.key:
-        if (action.plannedAt) await handlePlan()
+        if (action.plannedAt) await handlePlan(false)
         await handleComplete(false)
         break
       default:
