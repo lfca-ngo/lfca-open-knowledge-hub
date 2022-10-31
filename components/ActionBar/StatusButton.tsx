@@ -27,11 +27,13 @@ interface StatusButtonProps {
   canExpire?: boolean
 }
 
+export interface ActionStatusProps extends MenuItemType {
+  color?: 'purple' | 'yellow' | 'red' | 'black' | 'green-medium' | 'blue'
+  statusLabel?: ContentfulRequirementFields['stage']
+}
+
 export const ACTION_STATES: {
-  [key: string]: MenuItemType & {
-    color?: 'purple' | 'yellow' | 'red' | 'black' | 'green' | 'blue'
-    statusLabel?: ContentfulRequirementFields['stage']
-  }
+  [key: string]: ActionStatusProps
 } = {
   BACKLOG: {
     color: 'yellow',
@@ -58,7 +60,7 @@ export const ACTION_STATES: {
   },
   // eslint-disable-next-line sort-keys
   COMPLETE: {
-    color: 'green',
+    color: 'green-medium',
     icon: <CheckOutlined />,
     key: 'COMPLETE',
     label: 'Complete',

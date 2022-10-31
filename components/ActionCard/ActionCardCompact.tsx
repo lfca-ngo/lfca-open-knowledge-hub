@@ -1,8 +1,9 @@
-import { CheckCircleFilled, InfoCircleOutlined } from '@ant-design/icons'
-import { Badge, Button, Card, Popover, Space } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Avatar, Badge, Button, Card, Popover, Space } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 
+import { getActionStatus } from '../ActionBar/StatusButton'
 import { ActionStats } from '../ActionStats'
 import { ActionCardProps } from '.'
 import styles from './styles.module.less'
@@ -12,6 +13,8 @@ export const ActionCardCompact = ({
   mode = 'default',
   onToggleInfo,
 }: ActionCardProps) => {
+  const actionStatus = getActionStatus(action)
+
   return (
     <Card
       bordered={false}
@@ -20,9 +23,14 @@ export const ActionCardCompact = ({
       <div className="hero">
         <Badge
           count={
-            action.completedAt ? (
-              <CheckCircleFilled className="success" />
-            ) : null
+            actionStatus.key === 'BACKLOG' ? null : (
+              <Avatar
+                className={actionStatus.color}
+                icon={actionStatus.icon}
+                shape="square"
+                size="small"
+              />
+            )
           }
           offset={[-6, 6]}
         >
