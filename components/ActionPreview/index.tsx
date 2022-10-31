@@ -1,6 +1,6 @@
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Popover, Tag } from 'antd'
+import { Divider, Form, Popover, Tag } from 'antd'
 import { useState } from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
@@ -48,7 +48,20 @@ export const ActionPreview = ({
 
       <Divider />
 
-      <StatusButton action={action} />
+      <Form layout="vertical">
+        <Form.Item
+          label={
+            <span>
+              Change action status{' '}
+              <Popover content="You can always change that information later">
+                <InfoCircleOutlined />
+              </Popover>
+            </span>
+          }
+        >
+          <StatusButton action={action} />
+        </Form.Item>
+      </Form>
 
       <Divider />
       <Section title="How To" titleSize="small">

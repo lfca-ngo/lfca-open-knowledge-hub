@@ -1,4 +1,4 @@
-import { Button, List, Popover, Space, Tag } from 'antd'
+import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 
 import { EventCategory, useEventsQuery } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
@@ -59,27 +59,37 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
         )}
       />
 
-      <Space>
-        <Popover
-          content={
-            !appliedOrAttendsAtLeastOneEvent
-              ? 'Please select one of the onboarding sessions first'
-              : null
-          }
-        >
-          <Button
-            disabled={!appliedOrAttendsAtLeastOneEvent}
-            onClick={onNext}
-            size="large"
-            type="primary"
+      <Space direction="vertical" size="large">
+        {appliedOrAttendsAtLeastOneEvent && (
+          <Alert
+            description="You will receive an Email with your calendar invite and details as soon as your request got approved."
+            message="Request sent"
+            showIcon
+            type="success"
+          />
+        )}
+        <Space>
+          <Popover
+            content={
+              !appliedOrAttendsAtLeastOneEvent
+                ? 'Please select one of the onboarding sessions first'
+                : null
+            }
           >
-            Continue
-          </Button>
-        </Popover>
+            <Button
+              disabled={!appliedOrAttendsAtLeastOneEvent}
+              onClick={onNext}
+              size="large"
+              type="primary"
+            >
+              Continue
+            </Button>
+          </Popover>
 
-        <Button onClick={onPrev} size="large" type="link">
-          Back
-        </Button>
+          <Button onClick={onPrev} size="large" type="link">
+            Back
+          </Button>
+        </Space>
       </Space>
     </div>
   )

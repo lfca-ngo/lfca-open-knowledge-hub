@@ -180,7 +180,9 @@ export const PersonalInfo = ({
               validator: (_, value) =>
                 value
                   ? Promise.resolve()
-                  : Promise.reject(new Error('Should accept terms')),
+                  : Promise.reject(
+                      new Error('Please accept our T&C and privacy statement')
+                    ),
             },
           ]}
           valuePropName="checked"
