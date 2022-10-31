@@ -4,10 +4,10 @@ import { withAuth } from '../../../utils/with-auth'
 import { InviteTeam } from '../../InviteTeam'
 import { DefaultStepProps } from './..'
 
-const InviteContent = ({ onNext, onPrev }: DefaultStepProps) => {
+const InviteContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Get your team on board! 💪🏽`}</h1>
       <div className="description">
         {`Climate action is team work. Assemble your A team and invite them to join the platform and take action together.`}

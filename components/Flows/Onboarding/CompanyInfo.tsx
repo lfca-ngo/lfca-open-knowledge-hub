@@ -32,6 +32,7 @@ export const CompanyInfo = ({
   onNext,
   setSharedState,
   sharedState,
+  title,
 }: StepPropsWithSharedState) => {
   const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
@@ -51,7 +52,7 @@ export const CompanyInfo = ({
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Welcome! 👋`}</h1>
       <div className="description">
         {`To get started, we need some basic information about the organization that you represent.`}

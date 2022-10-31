@@ -7,6 +7,7 @@ export interface StepProps {
 export interface DefaultStepProps {
   onNext?: () => void
   onPrev?: () => void
+  title?: string
 }
 
 export interface StepPropsWithSharedState extends DefaultStepProps {

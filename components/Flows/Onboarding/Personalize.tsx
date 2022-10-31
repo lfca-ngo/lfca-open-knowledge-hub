@@ -18,6 +18,7 @@ export const PersonalizeContent = ({
   actionsContent,
   onNext,
   onPrev,
+  title,
 }: DefaultStepProps & {
   actionsContent?: Record<string, ContentfulActionFields>
 }) => {
@@ -35,7 +36,7 @@ export const PersonalizeContent = ({
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Where are you on your climate journey? 🎯`}</h1>
       <div className="description">
         <p>

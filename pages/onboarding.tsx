@@ -17,10 +17,13 @@ import {
   PersonalizeSide,
   Share,
   ShareSide,
+  Slack,
+  SlackSide,
 } from '../components/Flows/Onboarding'
 import CommunityFacesImage from '../components/Flows/Onboarding/images/community-faces.png'
 import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
 import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
+import SlackImage from '../components/Flows/Onboarding/images/slack.png'
 import { StepsLayout } from '../components/Layout'
 import { useSteps } from '../hooks/useSteps'
 import {
@@ -48,19 +51,25 @@ const Onboarding: NextPage<OnboardingProps> = ({
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
       sideComponentBackgroundImage: PlatformPreviewImage,
-      title: 'Company Info',
+      title: 'Organisation',
     },
     {
       component: PersonalInfo,
       sideComponent: PersonalInfoSide,
       sideComponentBackgroundImage: CommunityFacesImage,
-      title: 'Personal Info',
+      title: 'Account',
     },
     {
       component: Groups,
       sideComponent: GroupsSide,
       sideComponentBackgroundImage: CoursePreviewImage,
       title: 'Groups',
+    },
+    {
+      component: Slack,
+      sideComponent: SlackSide,
+      sideComponentBackgroundImage: SlackImage,
+      title: 'Slack',
     },
     {
       component: Personalize,
@@ -92,10 +101,10 @@ const Onboarding: NextPage<OnboardingProps> = ({
     () => router.push('/')
   )
 
-  const Step = OnboardingSteps[currentStepIndex]?.component
-  const SideComponent = OnboardingSteps[currentStepIndex]?.sideComponent
-  const BackgroundImage =
-    OnboardingSteps[currentStepIndex]?.sideComponentBackgroundImage
+  const StepItem = OnboardingSteps[currentStepIndex]
+  const Step = StepItem?.component
+  const SideComponent = StepItem?.sideComponent
+  const BackgroundImage = StepItem?.sideComponentBackgroundImage
 
   return (
     <StepsLayout
@@ -121,6 +130,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
           onPrev={prev}
           setSharedState={setSharedState}
           sharedState={sharedState}
+          title={StepItem?.title}
         />
       ) : null}
     </StepsLayout>

@@ -9,10 +9,10 @@ import { DefaultStepProps } from './..'
 import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
-const ShareContent = ({ onNext, onPrev }: DefaultStepProps) => {
+const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   return (
     <div>
-      <Tag className="super-text">Share</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`That's it! Time to share the good news! 🎉`}</h1>
       <div className="description">
         <p>

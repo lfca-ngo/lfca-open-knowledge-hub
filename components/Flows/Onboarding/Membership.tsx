@@ -45,6 +45,7 @@ export const MembershipContent = ({
   onPrev,
   setSharedState,
   sharedState,
+  title,
 }: StepPropsWithSharedState & {
   membershipFaq?: ContentfulContentCollectionFields
 }) => {
@@ -61,7 +62,7 @@ export const MembershipContent = ({
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Last step - choose your plan 👍`}</h1>
       <div className="description">
         <p>

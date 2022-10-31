@@ -8,7 +8,7 @@ import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
+const GroupsContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
@@ -28,7 +28,7 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Let’s get together! 🥳`}</h1>
       <div className="description">
         Our group formats are the heartbeat of our community. Every new member

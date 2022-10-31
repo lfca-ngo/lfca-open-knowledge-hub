@@ -53,6 +53,7 @@ export const PersonalInfo = ({
   onNext,
   onPrev,
   sharedState,
+  title,
 }: StepPropsWithSharedState) => {
   const onFinish = () => {
     onNext?.()
@@ -70,7 +71,7 @@ export const PersonalInfo = ({
 
   return (
     <div>
-      <Tag className="super-text">Personal Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Who are you? 👩🏽‍💻`}</h1>
       <div className="description">
         {`This information will be used to create your personal account on our platform. Tip: You can invite more colleagues later on.`}
