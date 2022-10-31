@@ -20,7 +20,7 @@ import {
   RootCategoryLookUpProps,
 } from '../../services/contentful'
 import { CategoryTreeProps } from '../../services/contentful'
-import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
+import { fetchContentCollectionById } from '../../services/contentful/fetch-all-content-collections'
 import {
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
@@ -30,7 +30,7 @@ import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils/with-auth'
 
 interface HomePageProps {
-  content: ContentfulContentCollectionFields[]
+  content: ContentfulContentCollectionFields
   categoryTree: CategoryTreeProps
 }
 
@@ -129,11 +129,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
 
         <Section title="Links">
-          <ContentList
-            content={content}
-            contentId="community"
-            type="mini-list"
-          />
+          <ContentList content={content} type="mini-list" />
         </Section>
       </Sider>
     </SiderLayout>
@@ -141,7 +137,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const content = await fetchAllContentCollections()
+  const content = await fetchContentCollectionById('community')
 
   return {
     props: {

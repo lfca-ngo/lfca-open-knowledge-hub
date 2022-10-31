@@ -14,3 +14,18 @@ export const fetchAllContentCollections = async () => {
 
   return contentCollection
 }
+
+export const fetchContentCollectionById = async (id: string) => {
+  const res = await getEntries({
+    content_type: 'contentCollection',
+    'fields.collectionId': id,
+    include: 3,
+    locale: 'en-US',
+  })
+
+  const stringifiedData = safeJsonStringify(res)
+  const contentCollection = JSON.parse(stringifiedData)
+  const firstCollection = contentCollection[0]
+
+  return firstCollection
+}

@@ -6,14 +6,17 @@ import { ContentList } from '../components/ContentList'
 import { Main, Section, SiderLayout } from '../components/Layout'
 import { Container } from '../components/Layout/Container'
 import { VideoWrapper } from '../components/VideoWrapper'
-import { ContentfulContentCollectionFields } from '../services/contentful'
-import { fetchAllContentCollections } from '../services/contentful'
+import {
+  ContentfulContentCollectionFields,
+  fetchContentCollectionById,
+} from '../services/contentful'
 import { DEFAULT_SUPPORT_EMAIL, PRODUCT_VIDEO_URL } from '../utils'
 import { withAuth } from '../utils/with-auth'
+
 const Support: NextPage = ({
   content,
 }: {
-  content?: ContentfulContentCollectionFields[]
+  content?: ContentfulContentCollectionFields
 }) => {
   return (
     <SiderLayout>
@@ -28,7 +31,7 @@ const Support: NextPage = ({
           </Section>
 
           <Section bordered={false} title="FAQ" titleSize="default">
-            <ContentList content={content} contentId="faq" type="accordion" />
+            <ContentList content={content} type="accordion" />
           </Section>
 
           <Section bordered={false} title="How it works" titleSize="default">
@@ -60,7 +63,7 @@ const Support: NextPage = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const content = await fetchAllContentCollections()
+  const content = await fetchContentCollectionById('faq')
 
   return {
     props: {

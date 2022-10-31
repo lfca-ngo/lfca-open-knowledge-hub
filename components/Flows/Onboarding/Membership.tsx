@@ -13,6 +13,8 @@ import {
   Card,
   Col,
   Divider,
+  Drawer,
+  Form,
   InputNumber,
   List,
   message,
@@ -27,19 +29,26 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { ContentfulContentCollectionFields } from '../../../services/contentful'
 import { useUpdateCompanyMutation } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
+import { ContentList } from '../../ContentList'
+import { Section } from '../../Layout'
 import { ListSelect, OptionKey } from '../../ListSelect'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
 
 export const MembershipContent = ({
+  membershipFaq,
   onNext,
   onPrev,
   setSharedState,
   sharedState,
-}: StepPropsWithSharedState) => {
+}: StepPropsWithSharedState & {
+  membershipFaq?: ContentfulContentCollectionFields
+}) => {
+  const [showFaq, setShowFaq] = useState(false)
   const onSubscriptionChange = (value: OptionKey[]) => {
     const [subscription] = value
 
@@ -58,22 +67,27 @@ export const MembershipContent = ({
         <p>
           Last but not least: Choose your membership tier. If you can afford to
           support us with a premium subscription, you will enable us to bring
-          lfca to others for free.
+          lfca to others for free. Need some help with your decision?{' '}
+          <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>
       </div>
 
-      <ListSelect
-        mode="single"
-        onChange={onSubscriptionChange}
-        options={subscriptionsData.map((s) => ({
-          description: s.shortDescription,
-          icon: <Avatar shape="square" src={s.icon.url} />,
-          key: s.name,
-          label: s.name,
-          recommended: s.name === 'PREMIUM',
-        }))}
-        value={sharedState?.selectedSubscriptionType}
-      />
+      <Form layout="vertical">
+        <Form.Item label="Please select your membership">
+          <ListSelect
+            mode="single"
+            onChange={onSubscriptionChange}
+            options={subscriptionsData.map((s) => ({
+              description: s.shortDescription,
+              icon: <Avatar shape="square" src={s.icon.url} />,
+              key: s.name,
+              label: s.name,
+              recommended: s.name === 'PREMIUM',
+            }))}
+            value={sharedState?.selectedSubscriptionType}
+          />
+        </Form.Item>
+      </Form>
 
       {isFreeTierSelected ? (
         <Alert
@@ -83,7 +97,12 @@ export const MembershipContent = ({
           type="warning"
         />
       ) : (
-        <p>We will send you an invoice with a payment link.</p>
+        <Alert
+          description="We will send you an invoice with a payment link shortly after your onboarding is done. You can downgrade your subscription at any time."
+          message="What's next?"
+          showIcon
+          type="info"
+        />
       )}
 
       <Space style={{ marginTop: '20px' }}>
@@ -94,6 +113,19 @@ export const MembershipContent = ({
           Back
         </Button>
       </Space>
+
+      <Drawer
+        className="drawer-md"
+        onClose={() => setShowFaq(false)}
+        open={showFaq}
+        placement="left"
+      >
+        <Section bordered={false} title="Membership" titleSize="default">
+          <div style={{ margin: '20px 0 0' }}>
+            <ContentList content={membershipFaq} type="accordion" />
+          </div>
+        </Section>
+      </Drawer>
     </div>
   )
 }

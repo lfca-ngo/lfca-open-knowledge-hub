@@ -1,5 +1,5 @@
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Button, Card, Popover, Space } from 'antd'
+import { Avatar, Badge, Button, Card, Space } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 
@@ -59,15 +59,13 @@ export const ActionCardCompact = ({
       <div className="actions">
         <Space>
           {onToggleInfo && (
-            <Popover content="View details and change action status">
-              <Button
-                icon={<InfoCircleOutlined />}
-                onClick={() => onToggleInfo(action, action.contentId)}
-                type="primary"
-              >
-                Details
-              </Button>
-            </Popover>
+            <Button
+              icon={<InfoCircleOutlined />}
+              onClick={() => onToggleInfo(action, action.contentId)}
+              type="primary"
+            >
+              Details
+            </Button>
           )}
         </Space>
       </div>

@@ -12,7 +12,7 @@ import styles from './styles.module.less'
 const ShareContent = ({ onNext, onPrev }: DefaultStepProps) => {
   return (
     <div>
-      <Tag className="super-text">Slack</Tag>
+      <Tag className="super-text">Share</Tag>
       <h1>{`That's it! Time to share the good news! 🎉`}</h1>
       <div className="description">
         <p>

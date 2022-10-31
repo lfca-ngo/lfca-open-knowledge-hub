@@ -7,8 +7,7 @@ export type ContentListTypes = 'mini-list' | 'list' | 'accordion'
 export type ContentIds = 'community' | 'faq'
 
 export interface ContentListDefaultProps {
-  content?: ContentfulContentCollectionFields[]
-  contentId: ContentIds
+  content?: ContentfulContentCollectionFields
   type: ContentListTypes
 }
 

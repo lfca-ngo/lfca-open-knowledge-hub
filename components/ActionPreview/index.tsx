@@ -52,10 +52,8 @@ export const ActionPreview = ({
         <Form.Item
           label={
             <span>
-              Change action status{' '}
-              <Popover content="You can always change that information later">
-                <InfoCircleOutlined />
-              </Popover>
+              {`Mark an action as "Done" and share your learnings with the
+              community `}
             </span>
           }
         >

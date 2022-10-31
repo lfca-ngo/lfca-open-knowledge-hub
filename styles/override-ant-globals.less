@@ -339,11 +339,6 @@ a.ant-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    // .title {
-    // }
-    // .extra {
-    // }
   }
 }
 
@@ -366,6 +361,17 @@ a.ant-btn {
   &.ant-divider-horizontal.ant-divider-with-text {
     .ant-divider-inner-text {
       font-size: @font-size-sm;
+    }
+  }
+}
+
+// Alert
+.ant-alert {
+  &.ant-alert-info {
+    background-color: fade(@blue-medium, 5%);
+    border-color: fade(@blue-medium, 40%);
+    .ant-alert-icon {
+      color: lighten(@blue-medium, 5%);
     }
   }
 }

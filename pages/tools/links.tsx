@@ -3,21 +3,23 @@ import type { GetStaticProps, NextPage } from 'next'
 import { ContentList } from '../../components/ContentList'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
-import { ContentfulContentCollectionFields } from '../../services/contentful'
-import { fetchAllContentCollections } from '../../services/contentful'
+import {
+  ContentfulContentCollectionFields,
+  fetchContentCollectionById,
+} from '../../services/contentful'
 import { withAuth } from '../../utils/with-auth'
 
 const Community: NextPage = ({
   content,
 }: {
-  content?: ContentfulContentCollectionFields[]
+  content?: ContentfulContentCollectionFields
 }) => {
   return (
     <SiderLayout>
       <Main>
         <Section title="Links" titleSize="big">
           <Container>
-            <ContentList content={content} contentId="community" type="list" />
+            <ContentList content={content} type="list" />
           </Container>
         </Section>
       </Main>
@@ -26,7 +28,7 @@ const Community: NextPage = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const content = await fetchAllContentCollections()
+  const content = await fetchContentCollectionById('community')
 
   return {
     props: {

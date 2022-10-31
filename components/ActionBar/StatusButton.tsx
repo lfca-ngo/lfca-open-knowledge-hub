@@ -63,7 +63,7 @@ export const ACTION_STATES: {
     color: 'green-medium',
     icon: <CheckOutlined />,
     key: 'COMPLETE',
-    label: 'Complete',
+    label: 'Done',
     statusLabel: 'Share',
   },
   RENEW: {

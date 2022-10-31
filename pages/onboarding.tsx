@@ -23,15 +23,24 @@ import CoursePreviewImage from '../components/Flows/Onboarding/images/course-pre
 import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
 import { StepsLayout } from '../components/Layout'
 import { useSteps } from '../hooks/useSteps'
-import { ContentfulActionFields, fetchAllActions } from '../services/contentful'
+import {
+  ContentfulActionFields,
+  ContentfulContentCollectionFields,
+  fetchAllActions,
+  fetchContentCollectionById,
+} from '../services/contentful'
 
 const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
 
 interface OnboardingProps {
   actionsContent: Record<string, ContentfulActionFields>
+  membershipFaq: ContentfulContentCollectionFields
 }
 
-const Onboarding: NextPage<OnboardingProps> = ({ actionsContent }) => {
+const Onboarding: NextPage<OnboardingProps> = ({
+  actionsContent,
+  membershipFaq,
+}) => {
   const router = useRouter()
 
   const OnboardingSteps = [
@@ -107,6 +116,7 @@ const Onboarding: NextPage<OnboardingProps> = ({ actionsContent }) => {
       {Step ? (
         <Step
           actionsContent={actionsContent}
+          membershipFaq={membershipFaq}
           onNext={next}
           onPrev={prev}
           setSharedState={setSharedState}
@@ -119,10 +129,12 @@ const Onboarding: NextPage<OnboardingProps> = ({ actionsContent }) => {
 
 export const getStaticProps: GetStaticProps<OnboardingProps> = async () => {
   const actionsById = await fetchAllActions()
+  const membershipFaq = await fetchContentCollectionById('membership')
 
   return {
     props: {
       actionsContent: actionsById,
+      membershipFaq,
     },
   }
 }
