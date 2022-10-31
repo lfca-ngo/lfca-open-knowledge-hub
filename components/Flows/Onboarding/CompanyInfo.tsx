@@ -1,4 +1,4 @@
-import { QuestionCircleOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Checkbox,
@@ -117,7 +117,7 @@ export const CompanyInfo = ({
               content="Your logo will be used on your microsite and throughout the app"
               placement="left"
             >
-              Logo <QuestionCircleOutlined />
+              Logo <InfoCircleOutlined />
             </Popover>
           }
           name="logoUrl"

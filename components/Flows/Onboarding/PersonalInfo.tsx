@@ -1,4 +1,4 @@
-import { QuestionCircleOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Checkbox,
@@ -163,7 +163,7 @@ export const PersonalInfo = ({
               content="Adding a picture makes interactions with other members more personal!"
               placement="left"
             >
-              Picture <QuestionCircleOutlined />
+              Picture <InfoCircleOutlined />
             </Popover>
           }
           name="picture"
