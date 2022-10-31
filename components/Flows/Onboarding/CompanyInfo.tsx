@@ -1,3 +1,4 @@
+import { QuestionCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Checkbox,
@@ -19,6 +20,8 @@ import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
+
+const COMMUNITY_ADMITTANCE_URL = 'https://lfca.earth/community-admittance'
 
 const SECTOR_OPTIONS = companyTagsData.map((t) => ({
   key: t,
@@ -70,13 +73,13 @@ export const CompanyInfo = ({
         </Form.Item>
 
         <Row gutter={16}>
-          <Col md={12} xs={24}>
+          <Col md={17} xs={24}>
             <Form.Item
               hasFeedback
-              label="Choose sectors"
+              label="Which tags best describe your business?"
               name="companyTags"
               rules={[
-                { message: 'Please choose a sector tag', required: true },
+                { message: 'Please choose at least 1 tag', required: true },
               ]}
             >
               <Select
@@ -91,7 +94,7 @@ export const CompanyInfo = ({
               </Select>
             </Form.Item>
           </Col>
-          <Col md={12} xs={24}>
+          <Col md={7} xs={24}>
             <Form.Item
               label="Team size"
               name="employeeCount"
@@ -109,9 +112,16 @@ export const CompanyInfo = ({
           </Col>
         </Row>
         <Form.Item
-          label="Logo"
+          label={
+            <Popover
+              content="Your logo will be used on your microsite and throughout the app"
+              placement="left"
+            >
+              Logo <QuestionCircleOutlined />
+            </Popover>
+          }
           name="logoUrl"
-          rules={[{ message: 'Please add a picture', required: true }]}
+          rules={[{ message: 'Please add a picture', required: false }]}
         >
           <ImageUpload customPreset={CLOUDINARY_PRESETS.companyLogos} />
         </Form.Item>
@@ -124,7 +134,7 @@ export const CompanyInfo = ({
                   ? Promise.resolve()
                   : Promise.reject(
                       new Error(
-                        'Please accept our membership admittance guidelines'
+                        'Please accept our community admittance guidelines'
                       )
                     ),
             },
@@ -133,7 +143,10 @@ export const CompanyInfo = ({
         >
           <Checkbox>
             I hereby confirm that the organization I represent is not involved
-            in fossil fuel extraction, xyz
+            in xzy. Read our{' '}
+            <a href={COMMUNITY_ADMITTANCE_URL} rel="noreferrer" target="_blank">
+              Community Admittance Rules
+            </a>
           </Checkbox>
         </Form.Item>
 

@@ -1,9 +1,11 @@
+import { QuestionCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Checkbox,
   Col,
   Form,
   Input,
+  Popover,
   Row,
   Select,
   Space,
@@ -11,7 +13,7 @@ import {
 } from 'antd'
 import { RuleObject } from 'antd/lib/form'
 
-import { TERMS_OF_SERVICE_URL } from '../../../utils'
+import { PRIVACY_URL, TERMS_OF_SERVICE_URL } from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
@@ -41,6 +43,10 @@ const JOB_OPTIONS = [
     key: 'sales',
     label: 'Sales',
   },
+  {
+    key: 'other',
+    label: 'Other',
+  },
 ]
 
 export const PersonalInfo = ({
@@ -52,12 +58,14 @@ export const PersonalInfo = ({
     onNext?.()
   }
 
-  const passwordValidator = (_: RuleObject, value: any) => {
+  const passwordValidator = (_: RuleObject, value: string) => {
     const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
 
     return regEx.test(value)
       ? Promise.resolve()
-      : Promise.reject(new Error('6-16 characters incl. a number'))
+      : Promise.reject(
+          new Error('6-16 characters, include a number and a special character')
+        )
   }
 
   return (
@@ -71,7 +79,9 @@ export const PersonalInfo = ({
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
           label={`What best describes your role${
-            sharedState?.company?.name ? `at ${sharedState?.company?.name}` : ''
+            sharedState?.company?.name
+              ? ` at ${sharedState?.company?.name}`
+              : ''
           }?`}
           name="role"
           rules={[{ message: 'Please select a role', required: true }]}
@@ -148,30 +158,18 @@ export const PersonalInfo = ({
         </Row>
 
         <Form.Item
-          label="Picture"
+          label={
+            <Popover
+              content="Adding a picture makes interactions with other members more personal!"
+              placement="left"
+            >
+              Picture <QuestionCircleOutlined />
+            </Popover>
+          }
           name="picture"
-          rules={[{ message: 'Please add a picture', required: true }]}
+          rules={[{ message: 'Please add a picture', required: false }]}
         >
           <ImageUpload customPreset={CLOUDINARY_PRESETS.profilePictures} />
-        </Form.Item>
-
-        <Form.Item
-          className="flat"
-          name="isEntitled"
-          rules={[
-            {
-              validator: (_, value) =>
-                value
-                  ? Promise.resolve()
-                  : Promise.reject(new Error('Needs org permission')),
-            },
-          ]}
-          valuePropName="checked"
-        >
-          <Checkbox>
-            I hereby confirm that I am entitled to take and publicly communicate
-            climate action on behalf of my organization
-          </Checkbox>
         </Form.Item>
 
         <Form.Item
@@ -190,7 +188,11 @@ export const PersonalInfo = ({
           <Checkbox>
             I have read and agree to the{' '}
             <a href={TERMS_OF_SERVICE_URL} rel="noreferrer" target="_blank">
-              Terms and Conditions
+              terms and conditions
+            </a>{' '}
+            as well as the{' '}
+            <a href={PRIVACY_URL} rel="noreferrer" target="_blank">
+              data privacy guidelines
             </a>
           </Checkbox>
         </Form.Item>
