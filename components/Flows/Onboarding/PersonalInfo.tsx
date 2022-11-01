@@ -5,6 +5,7 @@ import {
   Col,
   Form,
   Input,
+  message,
   Popover,
   Row,
   Select,
@@ -13,6 +14,12 @@ import {
 } from 'antd'
 import { RuleObject } from 'antd/lib/form'
 
+import {
+  CreateCompanyInput,
+  RegisterUserInput,
+  useCreateCompanyMutation,
+  useRegisterUserMutation,
+} from '../../../services/lfca-backend'
 import { JOB_ROLES_OPTIONS } from '../../../services/lfca-backend/utils/job-roles'
 import { PRIVACY_URL, TERMS_OF_SERVICE_URL } from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
@@ -20,14 +27,46 @@ import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 
 export const PersonalInfo = ({
-  onNext,
   onPrev,
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
-  const onFinish = () => {
-    onNext?.()
+  const [{ fetching: registeringUser }, registerUser] =
+    useRegisterUserMutation()
+  const [{ data: companyData, fetching: creatingCompany }, createCompany] =
+    useCreateCompanyMutation()
+
+  const onFinish = async (userInfo: RegisterUserInput) => {
+    const companyInfo = {
+      ...sharedState?.company,
+      subscriptionType: 'FREE',
+    } as CreateCompanyInput
+
+    console.log(companyInfo, userInfo)
+
+    createCompany({
+      input: companyInfo,
+    })
+      .then(() => message.success('jo'))
+      .catch((err) => message.error(err.toString()))
+
+    // try {
+    //   // create company
+
+    //   console.log('data', companyData)
+    //   // // create user
+    //   // await registerUser({
+    //   //   input: userInfo,
+    //   // })
+    //   message.success('worked')
+    // } catch (error) {
+    //   message.error('failed')
+    // }
+
+    // onNext?.()
   }
+
+  const isLoading = registeringUser || creatingCompany
 
   const passwordValidator = (_: RuleObject, value: string) => {
     const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
@@ -172,8 +211,13 @@ export const PersonalInfo = ({
 
         <Form.Item style={{ marginTop: '24px' }}>
           <Space>
-            <Button htmlType="submit" size="large" type="primary">
-              Continue
+            <Button
+              htmlType="submit"
+              loading={isLoading}
+              size="large"
+              type="primary"
+            >
+              Create Account
             </Button>
             <Button onClick={onPrev} size="large" type="link">
               Back

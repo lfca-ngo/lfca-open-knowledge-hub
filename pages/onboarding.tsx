@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React from 'react'
 
 import {
   CompanyInfo,
@@ -22,11 +22,14 @@ import CommunityFacesImage from '../components/Flows/Onboarding/images/community
 import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
 import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
 import { StepsLayout } from '../components/Layout'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useSteps } from '../hooks/useSteps'
 import {
   ContentfulActionFields,
   ContentfulContentCollectionFields,
+  ContentfulCountryFields,
   fetchAllActions,
+  fetchAllCountries,
   fetchContentCollectionById,
 } from '../services/contentful'
 
@@ -34,11 +37,13 @@ const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
 
 interface OnboardingProps {
   actionsContent: Record<string, ContentfulActionFields>
+  countries: ContentfulCountryFields[]
   membershipFaq: ContentfulContentCollectionFields
 }
 
 const Onboarding: NextPage<OnboardingProps> = ({
   actionsContent,
+  countries,
   membershipFaq,
 }) => {
   const router = useRouter()
@@ -84,7 +89,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
     },
   ]
 
-  const [sharedState, setSharedState] = useState({
+  const [sharedState, setSharedState] = useLocalStorage('onboarding_state', {
     selectedSubscriptionType: DEFAULT_SUBSCRIPTION_TYPE,
   })
   const { currentStepIndex, next, prev } = useSteps(
@@ -117,6 +122,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
       {Step ? (
         <Step
           actionsContent={actionsContent}
+          countries={countries}
           membershipFaq={membershipFaq}
           onNext={next}
           onPrev={prev}
@@ -132,10 +138,12 @@ const Onboarding: NextPage<OnboardingProps> = ({
 export const getStaticProps: GetStaticProps<OnboardingProps> = async () => {
   const actionsById = await fetchAllActions()
   const membershipFaq = await fetchContentCollectionById('membership')
+  const countries = await fetchAllCountries()
 
   return {
     props: {
       actionsContent: actionsById,
+      countries,
       membershipFaq,
     },
   }

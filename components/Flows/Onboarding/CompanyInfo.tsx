@@ -9,17 +9,22 @@ import {
   Popover,
   Row,
   Select,
+  Space,
   Tag,
 } from 'antd'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
+import { ContentfulCountryFields } from '../../../services/contentful'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
+
+const { useForm } = Form
 
 const COMMUNITY_ADMITTANCE_URL = 'https://lfca.earth/community-admittance'
 
@@ -29,25 +34,31 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
 }))
 
 export interface CompanyInfoFormProps {
-  companyName: string
+  country: string
+  name: string
   employeeCount: number
-  companyTags: string[]
+  tags: string[]
   logoUrl: string
 }
 
 export const CompanyInfo = ({
+  countries,
   onNext,
   setSharedState,
   sharedState,
   title,
-}: StepPropsWithSharedState) => {
+}: StepPropsWithSharedState & { countries: ContentfulCountryFields[] }) => {
+  const [companyInfoForm] = useForm()
   const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
 
-  const onValuesChange = (_, allValues: CompanyInfoFormProps) => {
-    if (allValues?.companyTags?.length > 0 && !otherCompanies) {
+  const onValuesChange = (
+    _: keyof CompanyInfoFormProps,
+    allValues: CompanyInfoFormProps
+  ) => {
+    if (allValues?.tags?.length > 0 && !otherCompanies) {
       setOtherCompanies((Math.random() * (120 - 12) + 12).toFixed(0))
-    } else if (allValues?.companyTags?.length === 0) {
+    } else if (allValues?.tags?.length === 0) {
       setOtherCompanies(null)
     }
   }
@@ -56,6 +67,11 @@ export const CompanyInfo = ({
     setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
   }
+
+  // resync form state
+  useEffect(() => {
+    companyInfoForm.setFieldsValue(sharedState?.company)
+  }, [companyInfoForm, sharedState])
 
   return (
     <div>
@@ -66,26 +82,51 @@ export const CompanyInfo = ({
       </div>
 
       <Form
+        form={companyInfoForm}
         layout="vertical"
         onFinish={onFinish}
         onValuesChange={onValuesChange}
       >
-        <Form.Item
-          label="Company Name"
-          name="companyName"
-          rules={[
-            { message: 'Please input your company name', required: true },
-          ]}
-        >
-          <Input placeholder="Acme Inc." />
-        </Form.Item>
+        <Row gutter={16}>
+          <Col md={17} xs={24}>
+            <Form.Item
+              label="Company Name"
+              name="name"
+              rules={[
+                { message: 'Please input your company name', required: true },
+              ]}
+            >
+              <Input placeholder="Acme Inc." />
+            </Form.Item>
+          </Col>
+          <Col md={7} xs={24}>
+            <Form.Item label="Country">
+              <Select className="with-icon" placeholder="Please select">
+                {countries.map((country) => (
+                  <Select.Option key={country.isoCode}>
+                    <Space align="center">
+                      <Image
+                        alt={country.name}
+                        height={17}
+                        layout="fixed"
+                        src={country.icon?.url}
+                        width={17}
+                      />
+                      <span className="name">{country.name}</span>
+                    </Space>
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Row gutter={16}>
           <Col md={17} xs={24}>
             <Form.Item
               hasFeedback
               label="Which tags best describe your business?"
-              name="companyTags"
+              name="tags"
               rules={[
                 { message: 'Please choose at least 1 tag', required: true },
               ]}
