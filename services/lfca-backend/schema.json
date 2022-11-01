@@ -2207,6 +2207,17 @@
             "args": []
           },
           {
+            "name": "purgeCache",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "pushAchievementFunnelStatsToGeckoboard",
             "type": {
               "kind": "NON_NULL",
@@ -2293,6 +2304,44 @@
                 "kind": "SCALAR",
                 "name": "Any"
               }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "resendEmailVerification",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "triggerDeployment",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": [
               {
@@ -3800,6 +3849,14 @@
                 "kind": "SCALAR",
                 "name": "Any"
               }
+            },
+            "args": []
+          },
+          {
+            "name": "jobRole",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           },

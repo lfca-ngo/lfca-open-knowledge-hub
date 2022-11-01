@@ -75,6 +75,9 @@ export const AdminUsersList = ({
       pause: !nameFilter,
       variables: {
         input: {
+          filter: {
+            includeDeleted: true,
+          },
           query: nameFilter,
         },
       },
