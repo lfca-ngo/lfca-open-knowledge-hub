@@ -17,8 +17,8 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
+import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
-import sectorStatsData from '../../../next-fetch-during-build/data/_sector-stats.json'
 import { Country } from '../../../services/contentful'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
@@ -53,8 +53,8 @@ export const CompanyInfo = ({
   countries: Country[]
   country?: string | string[]
 }) => {
-  const [companyInfoForm] = useForm()
   const isDesktop = useBreakpoints().md
+  const [companyInfoForm] = useForm()
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
 
   const onValuesChange = (
@@ -85,7 +85,7 @@ export const CompanyInfo = ({
     }
   }, [country, countries, companyInfoForm])
 
-  console.log(sectorStatsData)
+  console.log(companyTagStatsData)
 
   return (
     <div>

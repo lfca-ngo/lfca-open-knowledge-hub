@@ -6,7 +6,13 @@ const fs = require('fs')
 const fetchAndSaveByKey = async (key) => {
   const options = {
     data: {
-      query: `query companyTags { companyTags { name } }`,
+      query: `
+        query companyTagStats { 
+          companyTagStats {
+            count
+            tagName
+          }
+        }`,
     },
     headers: {
       Authorization: `Bearer ${process.env.LFCA_BACKED_ADMIN_TOKEN}`,
@@ -19,7 +25,13 @@ const fetchAndSaveByKey = async (key) => {
   try {
     const response = await axios.request(options)
 
-    const companyStats = response.data.data.companyTags.map((t) => t.name)
+    const companyStats = response.data.data.companyTagStats.reduce(
+      (acc, val) => {
+        acc[val.tagName] = val.count
+        return acc
+      },
+      {}
+    )
 
     const FILE_PATH = path.join(__dirname, `/data/${key}.json`)
     fs.writeFileSync(FILE_PATH, JSON.stringify(companyStats), 'utf8')
