@@ -17,6 +17,7 @@ import {
   ADMIN_COMPANIES,
   ADMIN_GROUPS,
   ADMIN_REVIEWS,
+  ADMIN_SETTINGS,
   ADMIN_USERS,
   COMMUNITY_GROUPS,
   SETTINGS,
@@ -41,6 +42,7 @@ export const ADMIN_NAV = [
   { path: ADMIN_REVIEWS, title: 'Reviews' },
   { path: ADMIN_COMMENTS, title: 'Comments' },
   { path: ADMIN_ACTIONS, title: 'Actions' },
+  { path: ADMIN_SETTINGS, title: 'Settings' },
 ]
 
 export const COMMUNITY_NAV = [{ path: COMMUNITY_GROUPS, title: 'Groups' }]

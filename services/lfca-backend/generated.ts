@@ -277,6 +277,12 @@ export type CompanyTag = {
   name: Scalars['ID'];
 };
 
+export type CompanyTagStatsResultItem = {
+  __typename?: 'CompanyTagStatsResultItem';
+  count: Scalars['Int'];
+  tagName: Scalars['String'];
+};
+
 export type CompleteCompanyActionInput = {
   /** The ID for that action in contentful */
   actionContentId: Scalars['String'];
@@ -538,7 +544,6 @@ export type Mutation = {
   pushAchievementFunnelStatsToGeckoboard: Scalars['Boolean'];
   pushActionsCompletedStatsToGeckoboard: Scalars['Boolean'];
   pushEventStatsToGeckoboard: Scalars['Boolean'];
-  /** Allows users to register if they have been invited */
   registerUser: User;
   removeEventParticipant: Event;
   requestPasswordReset: Scalars['Boolean'];
@@ -720,6 +725,7 @@ export type Query = {
   company: Company;
   companyAction: CompanyAction;
   companyActions: Array<CompanyAction>;
+  companyTagStats: Array<CompanyTagStatsResultItem>;
   companyTags: Array<CompanyTag>;
   counterStats: CounterStatsResult;
   eventParticipants: Array<EventParticipant>;
@@ -837,7 +843,18 @@ export type QueryUsersArgs = {
   input?: InputMaybe<UsersInput>;
 };
 
+export type RegisterUserCompanyInput = {
+  country: Scalars['String'];
+  employeeCount: Scalars['Int'];
+  logoUrl: Scalars['String'];
+  name: Scalars['String'];
+  tags?: InputMaybe<Array<Scalars['String']>>;
+  websiteUrl?: InputMaybe<Scalars['String']>;
+};
+
 export type RegisterUserInput = {
+  /** If no company is provided, it is required that an invite for the provided email exists */
+  company?: InputMaybe<RegisterUserCompanyInput>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   jobRole?: InputMaybe<Scalars['String']>;
@@ -1186,7 +1203,7 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> };
 
-export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
+export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
 
 export type EventFragment = { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> };
 
@@ -1344,6 +1361,11 @@ export type ProcessEventRsvpTokenMutationVariables = Exact<{
 
 export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> } };
 
+export type PurgeCacheMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PurgeCacheMutation = { __typename?: 'Mutation', purgeCache: boolean };
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -1371,6 +1393,13 @@ export type ResendEmailVerificationMutationVariables = Exact<{
 
 
 export type ResendEmailVerificationMutation = { __typename?: 'Mutation', resendEmailVerification: boolean };
+
+export type TriggerDeploymentMutationVariables = Exact<{
+  input: TriggerDeploymentInput;
+}>;
+
+
+export type TriggerDeploymentMutation = { __typename?: 'Mutation', triggerDeployment?: boolean | null };
 
 export type UpdateActionCommentMutationVariables = Exact<{
   input: UpdateActionCommentInput;
@@ -1478,7 +1507,7 @@ export type EventParticipantsQueryVariables = Exact<{
 }>;
 
 
-export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
+export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
 
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
@@ -1814,6 +1843,7 @@ export const EventParticipantFragmentDoc = gql`
         name
         logoUrl
       }
+      deletedAt
       email
       firstName
       id
@@ -2136,6 +2166,15 @@ export const ProcessEventRsvpTokenDocument = gql`
 export function useProcessEventRsvpTokenMutation() {
   return Urql.useMutation<ProcessEventRsvpTokenMutation, ProcessEventRsvpTokenMutationVariables>(ProcessEventRsvpTokenDocument);
 };
+export const PurgeCacheDocument = gql`
+    mutation purgeCache {
+  purgeCache
+}
+    `;
+
+export function usePurgeCacheMutation() {
+  return Urql.useMutation<PurgeCacheMutation, PurgeCacheMutationVariables>(PurgeCacheDocument);
+};
 export const RegisterUserDocument = gql`
     mutation registerUser($input: RegisterUserInput!) {
   registerUser(input: $input) {
@@ -2175,6 +2214,15 @@ export const ResendEmailVerificationDocument = gql`
 
 export function useResendEmailVerificationMutation() {
   return Urql.useMutation<ResendEmailVerificationMutation, ResendEmailVerificationMutationVariables>(ResendEmailVerificationDocument);
+};
+export const TriggerDeploymentDocument = gql`
+    mutation triggerDeployment($input: TriggerDeploymentInput!) {
+  triggerDeployment(input: $input)
+}
+    `;
+
+export function useTriggerDeploymentMutation() {
+  return Urql.useMutation<TriggerDeploymentMutation, TriggerDeploymentMutationVariables>(TriggerDeploymentDocument);
 };
 export const UpdateActionCommentDocument = gql`
     mutation updateActionComment($input: UpdateActionCommentInput!) {

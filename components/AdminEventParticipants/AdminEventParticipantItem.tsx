@@ -62,6 +62,9 @@ export const AdminEventParticipantItem = ({
     }
   }
 
+  const isDeleted =
+    'company' in participant.user && !!participant.user.deletedAt
+
   return (
     <List.Item
       actions={[
@@ -120,7 +123,10 @@ export const AdminEventParticipantItem = ({
             />
           }
           description={participant.user?.company?.name}
-          title={`${participant.user?.firstName} ${participant.user?.lastName}`}
+          style={isDeleted ? { opacity: '0.3' } : undefined}
+          title={`${isDeleted ? 'DELETED: ' : ''} ${
+            participant.user?.firstName
+          } ${participant.user?.lastName}`}
         />
       ) : (
         <List.Item.Meta
