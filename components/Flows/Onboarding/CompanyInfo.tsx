@@ -111,7 +111,11 @@ export const CompanyInfo = ({
             </Form.Item>
           </Col>
           <Col md={7} xs={24}>
-            <Form.Item label="Country" name="country">
+            <Form.Item
+              label="Country"
+              name="country"
+              rules={[{ message: 'Please select a country', required: true }]}
+            >
               <Select className="with-icon" placeholder="Please select">
                 {countries.map((country) => (
                   <Select.Option key={country.countryCode}>
