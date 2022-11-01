@@ -17,7 +17,13 @@ const Settings: NextPage = () => {
         <Section title="Settings" titleSize="big">
           <Container>
             <UserForm
-              filterByKeys={['email', 'firstName', 'lastName', 'picture']}
+              filterByKeys={[
+                'email',
+                'firstName',
+                'lastName',
+                'jobRole',
+                'picture',
+              ]}
               initialValues={user}
               isLoadingInitialValues={fetchingUser}
             />

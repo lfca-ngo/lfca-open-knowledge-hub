@@ -13,41 +13,11 @@ import {
 } from 'antd'
 import { RuleObject } from 'antd/lib/form'
 
+import { JOB_ROLES_OPTIONS } from '../../../services/lfca-backend/utils/job-roles'
 import { PRIVACY_URL, TERMS_OF_SERVICE_URL } from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
-
-const JOB_OPTIONS = [
-  {
-    key: 'leadership',
-    label: 'Leadership',
-  },
-  {
-    key: 'sust',
-    label: 'Sustainability',
-  },
-  {
-    key: 'marketing',
-    label: 'Marketing',
-  },
-  {
-    key: 'product',
-    label: 'Product',
-  },
-  {
-    key: 'operations',
-    label: 'Operations',
-  },
-  {
-    key: 'sales',
-    label: 'Sales',
-  },
-  {
-    key: 'other',
-    label: 'Other',
-  },
-]
 
 export const PersonalInfo = ({
   onNext,
@@ -84,11 +54,11 @@ export const PersonalInfo = ({
               ? ` at ${sharedState?.company?.name}`
               : ''
           }?`}
-          name="role"
+          name="jobRole"
           rules={[{ message: 'Please select a role', required: true }]}
         >
           <Select placeholder="Please select">
-            {JOB_OPTIONS.map((option) => (
+            {JOB_ROLES_OPTIONS.map((option) => (
               <Select.Option key={option.key}>{option.label}</Select.Option>
             ))}
           </Select>

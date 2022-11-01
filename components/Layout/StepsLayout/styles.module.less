@@ -11,6 +11,14 @@
   &[class~='hide-last-item'] {
     :global {
       .ant-layout-header .ant-steps .ant-steps-item {
+        &:nth-last-of-type(2) {
+          .anticon {
+            width: 0;
+            visibility: hidden;
+            margin: 0;
+            overflow: hidden;
+          }
+        }
         &:last-of-type {
           display: none;
         }

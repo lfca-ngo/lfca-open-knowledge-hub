@@ -11,6 +11,7 @@ fragment User on User {
   deletedAt
   email
   firstName
+  jobRole
   id
   lastName
   phone

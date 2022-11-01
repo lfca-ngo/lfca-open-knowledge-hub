@@ -483,6 +483,7 @@ export type EventsInput = {
 export type EventsInputFilter = {
   category?: InputMaybe<EventCategory>;
   includeCancelled?: InputMaybe<Scalars['Boolean']>;
+  includeExpired?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ExternalUser = {
@@ -540,6 +541,7 @@ export type Mutation = {
   registerUser: User;
   removeEventParticipant: Event;
   requestPasswordReset: Scalars['Boolean'];
+  resendEmailVerification: Scalars['Boolean'];
   updateActionComment: ActionComment;
   updateCompany: Company;
   /** Admin-only operation */
@@ -642,6 +644,11 @@ export type MutationRemoveEventParticipantArgs = {
 
 export type MutationRequestPasswordResetArgs = {
   input: RequestPasswordResetInput;
+};
+
+
+export type MutationResendEmailVerificationArgs = {
+  input?: InputMaybe<ResendEmailVerificationInput>;
 };
 
 
@@ -826,6 +833,7 @@ export type QueryUsersArgs = {
 export type RegisterUserInput = {
   email: Scalars['String'];
   firstName: Scalars['String'];
+  jobRole?: InputMaybe<Scalars['String']>;
   lastName: Scalars['String'];
   password: Scalars['String'];
   picture?: InputMaybe<Scalars['String']>;
@@ -840,6 +848,11 @@ export type RemoveEventParticipantInput = {
 
 export type RequestPasswordResetInput = {
   email: Scalars['String'];
+};
+
+export type ResendEmailVerificationInput = {
+  /** NOTE: Only admins are allowed to input an userId other then their own */
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchCompanyInput = {
@@ -1047,6 +1060,7 @@ export type UpdateUserInput = {
   country?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
+  jobRole?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
@@ -1064,6 +1078,7 @@ export type User = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['ID'];
+  jobRole?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   phone?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
@@ -1178,7 +1193,7 @@ export type UserAvatarFragment = { __typename?: 'User', email: string, firstName
 
 export type UserInviteFragment = { __typename?: 'UserInvite', email: string, userRole: string, id: string, user?: { __typename?: 'User', id: string, email: string } | null };
 
-export type UserFragment = { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null };
+export type UserFragment = { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null };
 
 export type AddEventParticipantMutationVariables = Exact<{
   input: AddEventParticipantInput;
@@ -1296,7 +1311,7 @@ export type DeleteUserMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
 
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
@@ -1317,7 +1332,7 @@ export type RegisterUserMutationVariables = Exact<{
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
 
 export type RemoveEventParticipantMutationVariables = Exact<{
   input: RemoveEventParticipantInput;
@@ -1332,6 +1347,13 @@ export type RequestPasswordResetMutationVariables = Exact<{
 
 
 export type RequestPasswordResetMutation = { __typename?: 'Mutation', requestPasswordReset: boolean };
+
+export type ResendEmailVerificationMutationVariables = Exact<{
+  input: ResendEmailVerificationInput;
+}>;
+
+
+export type ResendEmailVerificationMutation = { __typename?: 'Mutation', resendEmailVerification: boolean };
 
 export type UpdateActionCommentMutationVariables = Exact<{
   input: UpdateActionCommentInput;
@@ -1373,7 +1395,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
 
 export type ActionCommentAttachmentsQueryVariables = Exact<{
   input: ActionCommentAttachmentsInput;
@@ -1460,7 +1482,7 @@ export type SearchUserQueryVariables = Exact<{
 }>;
 
 
-export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null }> };
+export type SearchUserQuery = { __typename?: 'Query', searchUser: Array<{ __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null }> };
 
 export type ServiceProviderListsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1500,14 +1522,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null } };
 
 export type UsersQueryVariables = Exact<{
   input?: InputMaybe<UsersInput>;
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null }> } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResult', cursor?: string | null, items: Array<{ __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number } | null }> } };
 
 export const ActionCommentAttachmentFragmentDoc = gql`
     fragment ActionCommentAttachment on ActionCommentAttachment {
@@ -1874,6 +1896,7 @@ export const UserFragmentDoc = gql`
   deletedAt
   email
   firstName
+  jobRole
   id
   lastName
   phone
@@ -2123,6 +2146,15 @@ export const RequestPasswordResetDocument = gql`
 
 export function useRequestPasswordResetMutation() {
   return Urql.useMutation<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(RequestPasswordResetDocument);
+};
+export const ResendEmailVerificationDocument = gql`
+    mutation resendEmailVerification($input: ResendEmailVerificationInput!) {
+  resendEmailVerification(input: $input)
+}
+    `;
+
+export function useResendEmailVerificationMutation() {
+  return Urql.useMutation<ResendEmailVerificationMutation, ResendEmailVerificationMutationVariables>(ResendEmailVerificationDocument);
 };
 export const UpdateActionCommentDocument = gql`
     mutation updateActionComment($input: UpdateActionCommentInput!) {
