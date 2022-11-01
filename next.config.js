@@ -2,6 +2,7 @@
 const companyTags = require('./next-fetch-during-build/company-tags')
 const rootCategories = require('./next-fetch-during-build/root-categories')
 const subscriptions = require('./next-fetch-during-build/subscriptions')
+const sectorStats = require('./next-fetch-during-build/sector-stats')
 const withLess = require('next-with-less')
 const path = require('path')
 
@@ -16,6 +17,7 @@ module.exports = async () => {
   await rootCategories.fetchAndSaveByKey('_category-tree-data')
   await companyTags.fetchAndSaveByKey('_company-tags-data')
   await subscriptions.fetchAndSaveByKey('_subscriptions-data')
+  await sectorStats.fetchAndSaveByKey('_sector-stats')
 
   return withLess({
     images: {

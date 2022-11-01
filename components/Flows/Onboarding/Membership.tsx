@@ -139,6 +139,9 @@ export const Membership = withAuth(MembershipContent)
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
   const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
   const [teamSize, setTeamSize] = useState<number | null>()
+  const { company } = useUser()
+
+  console.log(company)
 
   const plan = subscriptionsData.find(
     (s) => s.name === sharedState?.selectedSubscriptionType
@@ -150,7 +153,6 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
 
-  const { company } = useUser()
   const calculatedPrice =
     plan?.pricing && calculatePricePoint(plan?.pricing, company?.employeeCount)
 

@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
+import sectorStatsData from '../../../next-fetch-during-build/data/_sector-stats.json'
 import { Country } from '../../../services/contentful'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
@@ -83,6 +84,8 @@ export const CompanyInfo = ({
       companyInfoForm.setFieldValue('country', country)
     }
   }, [country, countries, companyInfoForm])
+
+  console.log(sectorStatsData)
 
   return (
     <div>

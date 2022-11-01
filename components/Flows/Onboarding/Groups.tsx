@@ -86,10 +86,6 @@ const GroupsContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
               Continue
             </Button>
           </Popover>
-
-          <Button onClick={onPrev} size="large" type="link">
-            Back
-          </Button>
         </Space>
       </Space>
     </div>
