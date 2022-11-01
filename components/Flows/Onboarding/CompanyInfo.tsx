@@ -143,10 +143,10 @@ export const CompanyInfo = ({
           valuePropName="checked"
         >
           <Checkbox>
-            I hereby confirm that the organization I represent is not involved
-            in xzy. Read our{' '}
+            I hereby confirm that the organization I represent is not
+            affiliated, directly or indirectly, with the fossil fuel industry.{' '}
             <a href={COMMUNITY_ADMITTANCE_URL} rel="noreferrer" target="_blank">
-              Community Admittance Rules
+              Read more
             </a>
           </Checkbox>
         </Form.Item>

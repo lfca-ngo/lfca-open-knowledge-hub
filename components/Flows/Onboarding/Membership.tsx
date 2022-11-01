@@ -63,12 +63,16 @@ export const MembershipContent = ({
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Last step - choose your plan 👍`}</h1>
+      <h1>{`Last but not least - choose the membership that suits you 🙌`}</h1>
       <div className="description">
         <p>
-          Last but not least: Choose your membership tier. If you can afford to
-          support us with a premium subscription, you will enable us to bring
-          lfca to others for free. Need some help with your decision?{' '}
+          {`We believe the solutions to the defining crisis of our times should
+          not be hidden behind paywalls. But achieving that goal is a collective
+          effort: We need those who can afford it, to support those who can't.`}
+        </p>
+        <p>
+          By joining us as a <b>SUPPORTER</b>, you help us achieve this mission.
+          Need some help with your decision?{' '}
           <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>
       </div>
@@ -83,7 +87,6 @@ export const MembershipContent = ({
               icon: <Avatar shape="square" src={s.icon.url} />,
               key: s.name,
               label: s.name,
-              recommended: s.name === 'PREMIUM',
             }))}
             value={sharedState?.selectedSubscriptionType}
           />

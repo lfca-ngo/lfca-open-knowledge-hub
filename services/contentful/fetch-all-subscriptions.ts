@@ -16,9 +16,12 @@ export const fetchAllSubscriptions = async () => {
   const subscriptions = JSON.parse(stringifiedData) as Subscription[]
 
   // sort subscriptions by price
-  const sortedSubscriptions = subscriptions.sort(
-    (a, b) => a.pricing[0].price - b.pricing[0].price
-  )
+  const sortedSubscriptions = subscriptions
+    .map((s) => ({
+      ...s,
+      name: s.name === 'PREMIUM' ? 'SUPPORTER' : s.name,
+    }))
+    .sort((a, b) => a.pricing[0].price - b.pricing[0].price)
 
   return sortedSubscriptions
 }

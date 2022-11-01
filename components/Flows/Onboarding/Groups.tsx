@@ -32,8 +32,8 @@ const GroupsContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
       <h1>{`Let’s get together! 🥳`}</h1>
       <div className="description">
         Our group formats are the heartbeat of our community. Every new member
-        starts with our <b>free onboarding sessions</b>. During the webinar you
-        will:
+        starts with one of our <b>free onboarding sessions</b>. During the
+        webinar you will:
         <ul style={{ margin: '15px 0 0' }}>
           <li>get to know peers from our community</li>
           <li>understand our tools, action pillars and group formats</li>
