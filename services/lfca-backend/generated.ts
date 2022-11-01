@@ -534,6 +534,7 @@ export type Mutation = {
   processCompanyActionExpiry: Scalars['Boolean'];
   processEventRSVPToken: Event;
   processUserActionExpiry: Scalars['Boolean'];
+  purgeCache: Scalars['Boolean'];
   pushAchievementFunnelStatsToGeckoboard: Scalars['Boolean'];
   pushActionsCompletedStatsToGeckoboard: Scalars['Boolean'];
   pushEventStatsToGeckoboard: Scalars['Boolean'];
@@ -1332,6 +1333,11 @@ export type ProcessEventRsvpTokenMutationVariables = Exact<{
 
 export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> } };
 
+export type PurgeCacheMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PurgeCacheMutation = { __typename?: 'Mutation', purgeCache: boolean };
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -2113,6 +2119,15 @@ export const ProcessEventRsvpTokenDocument = gql`
 
 export function useProcessEventRsvpTokenMutation() {
   return Urql.useMutation<ProcessEventRsvpTokenMutation, ProcessEventRsvpTokenMutationVariables>(ProcessEventRsvpTokenDocument);
+};
+export const PurgeCacheDocument = gql`
+    mutation purgeCache {
+  purgeCache
+}
+    `;
+
+export function usePurgeCacheMutation() {
+  return Urql.useMutation<PurgeCacheMutation, PurgeCacheMutationVariables>(PurgeCacheDocument);
 };
 export const RegisterUserDocument = gql`
     mutation registerUser($input: RegisterUserInput!) {
