@@ -27,7 +27,7 @@ import { useSteps } from '../hooks/useSteps'
 import {
   ContentfulActionFields,
   ContentfulContentCollectionFields,
-  ContentfulCountryFields,
+  Country,
   fetchAllActions,
   fetchAllCountries,
   fetchContentCollectionById,
@@ -37,7 +37,7 @@ const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
 
 interface OnboardingProps {
   actionsContent: Record<string, ContentfulActionFields>
-  countries: ContentfulCountryFields[]
+  countries: Country[]
   membershipFaq: ContentfulContentCollectionFields
 }
 
@@ -46,7 +46,8 @@ const Onboarding: NextPage<OnboardingProps> = ({
   countries,
   membershipFaq,
 }) => {
-  const router = useRouter()
+  const { isReady, push, query } = useRouter()
+  const { country } = query
 
   const OnboardingSteps = [
     {
@@ -94,7 +95,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
   })
   const { currentStepIndex, next, prev } = useSteps(
     OnboardingSteps.length,
-    () => router.push('/')
+    () => push('/')
   )
 
   const StepItem = OnboardingSteps[currentStepIndex]
@@ -116,13 +117,14 @@ const Onboarding: NextPage<OnboardingProps> = ({
       canClose
       currentStepIndex={currentStepIndex}
       hideLastItem
-      onClose={() => router.push('/')}
+      onClose={() => push('/')}
       steps={OnboardingSteps.map((s) => ({ title: s.title }))}
     >
       {Step ? (
         <Step
           actionsContent={actionsContent}
           countries={countries}
+          country={country}
           membershipFaq={membershipFaq}
           onNext={next}
           onPrev={prev}

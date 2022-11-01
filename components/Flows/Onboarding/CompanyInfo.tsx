@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
-import { ContentfulCountryFields } from '../../../services/contentful'
+import { Country } from '../../../services/contentful'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
@@ -43,11 +43,15 @@ export interface CompanyInfoFormProps {
 
 export const CompanyInfo = ({
   countries,
+  country,
   onNext,
   setSharedState,
   sharedState,
   title,
-}: StepPropsWithSharedState & { countries: ContentfulCountryFields[] }) => {
+}: StepPropsWithSharedState & {
+  countries: Country[]
+  country?: string | string[]
+}) => {
   const [companyInfoForm] = useForm()
   const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
@@ -72,6 +76,13 @@ export const CompanyInfo = ({
   useEffect(() => {
     companyInfoForm.setFieldsValue(sharedState?.company)
   }, [companyInfoForm, sharedState])
+
+  // update based on url param
+  useEffect(() => {
+    if (countries.findIndex((c) => c.countryCode === country) > -1) {
+      companyInfoForm.setFieldValue('country', country)
+    }
+  }, [country, countries, companyInfoForm])
 
   return (
     <div>
@@ -100,10 +111,10 @@ export const CompanyInfo = ({
             </Form.Item>
           </Col>
           <Col md={7} xs={24}>
-            <Form.Item label="Country">
+            <Form.Item label="Country" name="country">
               <Select className="with-icon" placeholder="Please select">
                 {countries.map((country) => (
-                  <Select.Option key={country.isoCode}>
+                  <Select.Option key={country.countryCode}>
                     <Space align="center">
                       <Image
                         alt={country.name}
