@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
+import subscriptionsData from '../../next-fetch-during-build/data/_subscriptions-data.json'
 import { Subscription } from '../../services/contentful'
 import {
   CompanySubscriptionType,
@@ -26,11 +27,8 @@ import { calculatePricePoint, getUpgradeEmailBody } from './utils'
 
 const DEFAULT_PLAN = 'BASIC'
 
-export const SubscriptionSelector = ({
-  subscriptions = [],
-}: {
-  subscriptions?: Subscription[]
-}) => {
+export const SubscriptionSelector = () => {
+  const subscriptions = subscriptionsData
   const [activeTab, setActiveTab] = useState(subscriptions[0].name)
   const [{ data: companyData }] = useCompanyQuery()
 

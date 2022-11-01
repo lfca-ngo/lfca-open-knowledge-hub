@@ -17,9 +17,12 @@ const fetchAndSaveByKey = async (key) => {
   const subscriptions = data.items
 
   // sort them
-  const sortedSubscriptions = subscriptions.sort(
-    (a, b) => b.pricing[0].price - a.pricing[0].price
-  )
+  const sortedSubscriptions = subscriptions
+    .map((s) => ({
+      ...s,
+      name: s.name === 'PREMIUM' ? 'SUPPORTER' : s.name,
+    }))
+    .sort((a, b) => b.pricing[0].price - a.pricing[0].price)
 
   // save employee tiers separately
   const basicTier = subscriptions.find((s) => s.name === 'BASIC')
