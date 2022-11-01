@@ -8,6 +8,16 @@
   background-color: var(--layout-body-background);
   min-height: 100vh;
 
+  &[class~='hide-last-item'] {
+    :global {
+      .ant-layout-header .ant-steps .ant-steps-item {
+        &:last-of-type {
+          display: none;
+        }
+      }
+    }
+  }
+
   &:not(&[class~='has-sider']) {
     :global {
       .ant-layout-content .content-wrapper main {

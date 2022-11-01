@@ -9,18 +9,21 @@ const SlackContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Join our Slack Channel ⭐️`}</h1>
+      <h1>{`Next: Join us on Slack ⭐️`}</h1>
       <div className="description">
-        {`Our Slack channel is the place to talk directly to other community members and our team.`}
+        Share experiences with other Climate Officers from our community. Access
+        sub-industry channels where you can connect with members from your
+        sector that are facing similar challenges (e.g. food, finance,
+        mobility).
       </div>
 
       <a href={SLACK_INVITE_URL} rel="noreferrer" target="_blank">
-        <Button block icon={<SlackOutlined />} size="large" type="primary">
-          Join our Slack Channels
+        <Button block icon={<SlackOutlined />} size="large">
+          Join our Slack Channel
         </Button>
       </a>
       <Space style={{ marginTop: '20px' }}>
-        <Button onClick={onNext} size="large">
+        <Button onClick={onNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">

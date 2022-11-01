@@ -51,7 +51,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
       component: CompanyInfo,
       sideComponent: CompanyInfoSide,
       sideComponentBackgroundImage: PlatformPreviewImage,
-      title: 'Organisation',
+      title: 'Company',
     },
     {
       component: PersonalInfo,
@@ -119,6 +119,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
       backgroundImage={BackgroundImage}
       canClose
       currentStepIndex={currentStepIndex}
+      hideLastItem
       onClose={() => router.push('/')}
       steps={OnboardingSteps.map((s) => ({ title: s.title }))}
     >

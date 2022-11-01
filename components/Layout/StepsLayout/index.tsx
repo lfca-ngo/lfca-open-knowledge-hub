@@ -19,6 +19,7 @@ interface StepsLayoutProps {
   canClose: boolean
   children: React.ReactNode
   currentStepIndex: number
+  hideLastItem?: boolean
   onClose?: () => void
   steps: {
     title: string
@@ -31,6 +32,7 @@ export const StepsLayout = ({
   canClose,
   children,
   currentStepIndex,
+  hideLastItem = false,
   onClose,
   steps,
 }: StepsLayoutProps) => {
@@ -49,6 +51,7 @@ export const StepsLayout = ({
     <Layout
       className={classNames(styles['steps-layout'], {
         'has-sider': asideChildren,
+        'hide-last-item': hideLastItem,
       })}
     >
       <Header ref={headerRef}>

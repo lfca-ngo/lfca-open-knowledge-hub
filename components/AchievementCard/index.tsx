@@ -44,6 +44,8 @@ const SuccessAvatar = ({
 const ActionsStatusList = ({ items, title }: ActionsStatusListProps) => {
   const router = useRouter()
 
+  if (items.length < 1) return null
+
   return (
     <div className="action-status-list">
       <div className="title">{title}</div>

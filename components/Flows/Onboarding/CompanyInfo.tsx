@@ -160,7 +160,9 @@ export const CompanyInfo = ({
                 {` similar companies 🎉`}
               </span>
             }
+            getPopupContainer={(container) => container}
             open={!!otherCompanies}
+            overlayClassName="popover-md no-max-width"
             placement={isDesktop ? 'right' : 'bottom'}
           >
             <Button htmlType="submit" size="large" type="primary">
