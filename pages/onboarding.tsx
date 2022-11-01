@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { FloatingHelp } from '../components/FloatingHelp'
 
 import {
   CompanyInfo,
@@ -46,7 +47,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
   countries,
   membershipFaq,
 }) => {
-  const { isReady, push, query } = useRouter()
+  const { push, query } = useRouter()
   const { country } = query
 
   const OnboardingSteps = [
@@ -133,6 +134,9 @@ const Onboarding: NextPage<OnboardingProps> = ({
           title={StepItem?.title}
         />
       ) : null}
+
+      {/* Show a floating help */}
+      <FloatingHelp />
     </StepsLayout>
   )
 }

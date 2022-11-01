@@ -16,6 +16,7 @@ const GroupsContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
           // @TODO: add filter for expired events
           category: EventCategory.ONBOARDING_COURSE,
           includeCancelled: false,
+          includeExpired: false,
         },
       },
     },

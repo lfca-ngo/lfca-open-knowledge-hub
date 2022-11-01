@@ -1,0 +1,36 @@
+@help-height: 60px;
+
+.floating-help {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+
+  @media @desktop {
+    bottom: 30px;
+    right: 30px;
+  }
+
+  :global {
+    .ant-btn {
+      display: flex;
+      align-items: center;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+      background-color: @purple;
+      color: @white;
+      padding: 16px;
+      height: auto;
+
+      &:hover {
+        .anticon {
+          transform: rotate(10deg);
+        }
+      }
+
+      .anticon {
+        font-size: 26px;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+}

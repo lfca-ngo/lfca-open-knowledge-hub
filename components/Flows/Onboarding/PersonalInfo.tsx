@@ -170,7 +170,7 @@ export const PersonalInfo = ({
         <Form.Item
           label={
             <Popover
-              content="Adding a picture makes interactions with other members more personal!"
+              content="Adding a picture makes interactions with other members more personal"
               placement="left"
             >
               Picture <InfoCircleOutlined />
