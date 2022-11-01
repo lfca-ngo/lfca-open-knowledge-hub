@@ -543,6 +543,7 @@ export type Mutation = {
   removeEventParticipant: Event;
   requestPasswordReset: Scalars['Boolean'];
   resendEmailVerification: Scalars['Boolean'];
+  triggerDeployment?: Maybe<Scalars['Boolean']>;
   updateActionComment: ActionComment;
   updateCompany: Company;
   /** Admin-only operation */
@@ -650,6 +651,11 @@ export type MutationRequestPasswordResetArgs = {
 
 export type MutationResendEmailVerificationArgs = {
   input?: InputMaybe<ResendEmailVerificationInput>;
+};
+
+
+export type MutationTriggerDeploymentArgs = {
+  input: TriggerDeploymentInput;
 };
 
 
@@ -995,6 +1001,11 @@ export type Tag = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   sortWeight?: Maybe<Scalars['Int']>;
+};
+
+export type TriggerDeploymentInput = {
+  eventType: Scalars['String'];
+  repoName: Scalars['String'];
 };
 
 export type UpdateActionCommentInput = {
@@ -1358,6 +1369,13 @@ export type RequestPasswordResetMutationVariables = Exact<{
 
 
 export type RequestPasswordResetMutation = { __typename?: 'Mutation', requestPasswordReset: boolean };
+
+export type TriggerDeploymentMutationVariables = Exact<{
+  input: TriggerDeploymentInput;
+}>;
+
+
+export type TriggerDeploymentMutation = { __typename?: 'Mutation', triggerDeployment?: boolean | null };
 
 export type UpdateActionCommentMutationVariables = Exact<{
   input: UpdateActionCommentInput;
@@ -2159,6 +2177,15 @@ export const RequestPasswordResetDocument = gql`
 
 export function useRequestPasswordResetMutation() {
   return Urql.useMutation<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(RequestPasswordResetDocument);
+};
+export const TriggerDeploymentDocument = gql`
+    mutation triggerDeployment($input: TriggerDeploymentInput!) {
+  triggerDeployment(input: $input)
+}
+    `;
+
+export function useTriggerDeploymentMutation() {
+  return Urql.useMutation<TriggerDeploymentMutation, TriggerDeploymentMutationVariables>(TriggerDeploymentDocument);
 };
 export const UpdateActionCommentDocument = gql`
     mutation updateActionComment($input: UpdateActionCommentInput!) {

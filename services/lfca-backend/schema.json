@@ -2338,6 +2338,25 @@
             ]
           },
           {
+            "name": "triggerDeployment",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateActionComment",
             "type": {
               "kind": "NON_NULL",

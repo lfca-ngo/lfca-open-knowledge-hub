@@ -1,0 +1,3 @@
+mutation triggerDeployment($input: TriggerDeploymentInput!) {
+  triggerDeployment(input: $input)
+}
