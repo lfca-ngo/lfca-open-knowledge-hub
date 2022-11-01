@@ -1,13 +1,27 @@
 import { MailOutlined, RedoOutlined } from '@ant-design/icons'
-import { Button, Space } from 'antd'
+import { Button, message, Space } from 'antd'
 import { useRouter } from 'next/router'
 
 import { useFirebase } from '../../../hooks/firebase'
 import { useUser } from '../../../hooks/user'
+import { useResendEmailVerificationMutation } from '../../../services/lfca-backend'
 import styles from './styles.module.less'
 
 const VerifyEmailBarContent = () => {
   const { user } = useUser()
+
+  const [{ fetching }, resendEmailVerification] =
+    useResendEmailVerificationMutation()
+
+  const handleClick = () => {
+    resendEmailVerification({
+      input: {
+        userId: user?.id,
+      },
+    })
+      .then(() => message.success('Check your Emails'))
+      .catch(() => message.error('Something went wrong'))
+  }
 
   return (
     <div className={styles['email-verification-bar']}>
@@ -17,7 +31,8 @@ const VerifyEmailBarContent = () => {
         <Button
           ghost
           icon={<RedoOutlined />}
-          onClick={() => alert('jo')}
+          loading={fetching}
+          onClick={handleClick}
           size="small"
         >
           Resend
