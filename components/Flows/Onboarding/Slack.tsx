@@ -1,41 +1,37 @@
 import { SlackOutlined } from '@ant-design/icons'
 import { Button, Space, Tag } from 'antd'
+import Link from 'next/link'
 
 import { SLACK_INVITE_URL } from '../../../utils'
-import { withAuth } from '../../../utils/with-auth'
-import { DefaultStepProps } from './..'
+import { ACTIONS } from '../../../utils/routes'
 
-const SlackContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+export const Slack = () => {
   return (
     <div>
-      <Tag className="super-text">{title}</Tag>
-      <h1>{`Next: Join us on Slack ⭐️`}</h1>
+      <Tag className="super-text">One last thing</Tag>
+      <h1>{`Join us on Slack! ⭐️`}</h1>
       <div className="description">
-        Share experiences with other Climate Officers from our community. Access
-        sub-industry channels where you can connect with members from your
-        sector that are facing similar challenges (e.g. food, finance,
-        mobility).
+        Share experiences with other community members. Access sub-industry
+        channels to connect with like-minded people from your sector that are
+        facing similar challenges.
       </div>
 
-      <a href={SLACK_INVITE_URL} rel="noreferrer" target="_blank">
-        <Button block icon={<SlackOutlined />} size="large">
-          Join our Slack Channel
-        </Button>
-      </a>
-      <Space style={{ marginTop: '20px' }}>
-        <Button onClick={onNext} size="large" type="primary">
-          Continue
-        </Button>
-        <Button onClick={onPrev} size="large" type="link">
-          Back
-        </Button>
+      <Space
+        direction="vertical"
+        size="large"
+        style={{ marginTop: '30px', width: '100%' }}
+      >
+        <a href={SLACK_INVITE_URL} rel="noreferrer" target="_blank">
+          <Button block icon={<SlackOutlined />} size="large">
+            Join our Slack Channel
+          </Button>
+        </a>
+        <Link href={ACTIONS}>
+          <Button block size="large" type="primary">
+            Continue to your dashboard
+          </Button>
+        </Link>
       </Space>
     </div>
   )
-}
-
-export const Slack = withAuth(SlackContent)
-
-export const SlackSide = () => {
-  return null
 }

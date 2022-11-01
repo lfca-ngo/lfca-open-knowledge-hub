@@ -17,13 +17,10 @@ import {
   PersonalizeSide,
   Share,
   ShareSide,
-  Slack,
-  SlackSide,
 } from '../components/Flows/Onboarding'
 import CommunityFacesImage from '../components/Flows/Onboarding/images/community-faces.png'
 import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
 import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
-import SlackImage from '../components/Flows/Onboarding/images/slack.png'
 import { StepsLayout } from '../components/Layout'
 import { useSteps } from '../hooks/useSteps'
 import {
@@ -64,12 +61,6 @@ const Onboarding: NextPage<OnboardingProps> = ({
       sideComponent: GroupsSide,
       sideComponentBackgroundImage: CoursePreviewImage,
       title: 'Groups',
-    },
-    {
-      component: Slack,
-      sideComponent: SlackSide,
-      sideComponentBackgroundImage: SlackImage,
-      title: 'Slack',
     },
     {
       component: Personalize,

@@ -1,6 +1,6 @@
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { BulbOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Divider, Form, Popover, Tag } from 'antd'
+import { Comment, Divider, Form, Popover, Tag } from 'antd'
 import { useState } from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
@@ -52,8 +52,12 @@ export const ActionPreview = ({
         <Form.Item
           label={
             <span>
-              {`Mark an action as "Done" and share your learnings with the
-              community `}
+              <Comment
+                avatar={<BulbOutlined />}
+                content={
+                  'Tip: When marking an action as "Done", you can share your learnings, documents and best practices with the community'
+                }
+              />
             </span>
           }
         >

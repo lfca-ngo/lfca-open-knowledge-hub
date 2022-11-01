@@ -1,15 +1,19 @@
 import { GlobalOutlined } from '@ant-design/icons'
-import { Button, Space, Tag } from 'antd'
+import { Button, Modal, Space, Tag } from 'antd'
 import Image from 'next/image'
+import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { ShareImage } from '../../../tools/ShareImage'
 import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from './..'
+import { Slack } from '.'
 import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
-const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+const ShareContent = ({ onPrev, title }: DefaultStepProps) => {
+  const [open, setOpen] = useState(false)
+
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
@@ -29,13 +33,22 @@ const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
       <ShareImage hideImage />
 
       <Space style={{ marginTop: '30px' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button onClick={() => setOpen(true)} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">
           Back
         </Button>
       </Space>
+
+      <Modal
+        className="modal-md"
+        footer={null}
+        onCancel={() => setOpen(false)}
+        open={open}
+      >
+        <Slack />
+      </Modal>
     </div>
   )
 }
