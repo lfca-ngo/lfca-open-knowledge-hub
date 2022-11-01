@@ -483,6 +483,7 @@ export type EventsInput = {
 export type EventsInputFilter = {
   category?: InputMaybe<EventCategory>;
   includeCancelled?: InputMaybe<Scalars['Boolean']>;
+  includeExpired?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ExternalUser = {
@@ -540,6 +541,7 @@ export type Mutation = {
   registerUser: User;
   removeEventParticipant: Event;
   requestPasswordReset: Scalars['Boolean'];
+  resendEmailVerification: Scalars['Boolean'];
   updateActionComment: ActionComment;
   updateCompany: Company;
   /** Admin-only operation */
@@ -642,6 +644,11 @@ export type MutationRemoveEventParticipantArgs = {
 
 export type MutationRequestPasswordResetArgs = {
   input: RequestPasswordResetInput;
+};
+
+
+export type MutationResendEmailVerificationArgs = {
+  input?: InputMaybe<ResendEmailVerificationInput>;
 };
 
 
@@ -826,6 +833,7 @@ export type QueryUsersArgs = {
 export type RegisterUserInput = {
   email: Scalars['String'];
   firstName: Scalars['String'];
+  jobRole?: InputMaybe<Scalars['String']>;
   lastName: Scalars['String'];
   password: Scalars['String'];
   picture?: InputMaybe<Scalars['String']>;
@@ -842,12 +850,22 @@ export type RequestPasswordResetInput = {
   email: Scalars['String'];
 };
 
+export type ResendEmailVerificationInput = {
+  /** NOTE: Only admins are allowed to input an userId other then their own */
+  userId?: InputMaybe<Scalars['String']>;
+};
+
 export type SearchCompanyInput = {
   query: Scalars['String'];
 };
 
 export type SearchUserInput = {
+  filter?: InputMaybe<SearchUserInputFilter>;
   query: Scalars['String'];
+};
+
+export type SearchUserInputFilter = {
+  includeDeleted?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ServiceProvider = {
@@ -1047,6 +1065,7 @@ export type UpdateUserInput = {
   country?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
+  jobRole?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
@@ -1064,6 +1083,7 @@ export type User = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['ID'];
+  jobRole?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   phone?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
@@ -1154,7 +1174,7 @@ export type CompanyActionRequirementFragment = { __typename?: 'CompanyActionRequ
 
 export type CompanyFragment = { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> };
 
-export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
+export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
 
 export type EventFragment = { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> };
 
@@ -1439,7 +1459,7 @@ export type EventParticipantsQueryVariables = Exact<{
 }>;
 
 
-export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
+export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
 
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
@@ -1775,6 +1795,7 @@ export const EventParticipantFragmentDoc = gql`
         name
         logoUrl
       }
+      deletedAt
       email
       firstName
       id
