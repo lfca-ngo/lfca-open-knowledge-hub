@@ -28,6 +28,13 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
   label: t,
 }))
 
+export interface CompanyInfoFormProps {
+  companyName: string
+  employeeCount: number
+  companyTags: string[]
+  logoUrl: string
+}
+
 export const CompanyInfo = ({
   onNext,
   setSharedState,
@@ -37,7 +44,7 @@ export const CompanyInfo = ({
   const isDesktop = useBreakpoints().md
   const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
 
-  const onValuesChange = (_: any, allValues: any) => {
+  const onValuesChange = (_, allValues: CompanyInfoFormProps) => {
     if (allValues?.companyTags?.length > 0 && !otherCompanies) {
       setOtherCompanies((Math.random() * (120 - 12) + 12).toFixed(0))
     } else if (allValues?.companyTags?.length === 0) {
@@ -45,7 +52,7 @@ export const CompanyInfo = ({
     }
   }
 
-  const onFinish = (allValues: any) => {
+  const onFinish = (allValues: CompanyInfoFormProps) => {
     setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
   }
@@ -65,7 +72,7 @@ export const CompanyInfo = ({
       >
         <Form.Item
           label="Company Name"
-          name="name"
+          name="companyName"
           rules={[
             { message: 'Please input your company name', required: true },
           ]}
