@@ -12,7 +12,6 @@ import {
   Space,
   Tag,
 } from 'antd'
-import { RuleObject } from 'antd/lib/form'
 
 import { useFirebase } from '../../../hooks/firebase'
 import {
@@ -22,6 +21,7 @@ import {
 } from '../../../services/lfca-backend'
 import { JOB_ROLES_OPTIONS } from '../../../services/lfca-backend/utils/job-roles'
 import { PRIVACY_URL, TERMS_OF_SERVICE_URL } from '../../../utils'
+import { passwordValidator } from '../../../utils/password-validator'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
@@ -63,23 +63,13 @@ export const PersonalInfo = ({
       else {
         // log user in automatically
         await login(userInfo.email, userInfo.password)
-        message.success('Account successfully created. Logging you in...')
+        message.success('Account created. Logging you in...')
         onNext?.()
       }
     })
   }
 
   const isLoading = registeringUser
-
-  const passwordValidator = (_: RuleObject, value: string) => {
-    const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-
-    return regEx.test(value)
-      ? Promise.resolve()
-      : Promise.reject(
-          new Error('6-16 characters, include a number and a special character')
-        )
-  }
 
   return (
     <div>

@@ -46,7 +46,7 @@ import {
   DEFAULT_SUPPORT_EMAIL,
   isBrowser,
 } from '../../utils'
-import { options } from '../../utils/richTextOptions'
+import { options } from '../../utils/rich-text-options'
 import { withAuth } from '../../utils/with-auth'
 import styles from './styles.module.less'
 

@@ -4,7 +4,7 @@ import { Checkbox, Collapse, message } from 'antd'
 
 import { ContentfulRequirementFields } from '../../services/contentful'
 import { useCompleteCompanyActionRequirementMutation } from '../../services/lfca-backend'
-import { options } from '../../utils/richTextOptions'
+import { options } from '../../utils/rich-text-options'
 
 const { Panel } = Collapse
 
