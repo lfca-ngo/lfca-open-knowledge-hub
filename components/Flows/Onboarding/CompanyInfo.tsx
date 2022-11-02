@@ -32,7 +32,8 @@ const { useForm, useWatch } = Form
 const BASIC_PLAN = subscriptionsData.find(
   (s) => s.name === CompanySubscriptionType.BASIC
 )
-const COMMUNITY_ADMITTANCE_URL = 'https://lfca.earth/community-admittance'
+const COMMUNITY_ADMITTANCE_URL =
+  'https://lfca.earth/become-a-member#requirements'
 const FUND_SIZE_OPTIONS = BASIC_PLAN?.pricingVentureCapital.reduce(
   (acc, val, i) => {
     const prev = acc[i - 1]
