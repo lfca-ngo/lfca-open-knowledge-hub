@@ -62,9 +62,8 @@ export const ShareImage = ({
 
   return (
     <div className="share-image">
-      {error && <Alert message={error} type="error" />}
-
-      {!fetching && data && !user?.picture && (
+      {error && <Alert message={error} showIcon type="error" />}
+      {!fetching && !user?.picture && (
         <Alert
           message="Please upload a personal picture to enable this feature"
           showIcon
@@ -72,7 +71,6 @@ export const ShareImage = ({
           type="warning"
         />
       )}
-
       {!hideShareButtons && (
         <Row gutter={16}>
           <Col md={12} xs={24}>
@@ -111,7 +109,6 @@ export const ShareImage = ({
           </Col>
         </Row>
       )}
-
       {!hideImage && (
         <div
           className={classNames(styles['sharing-preview'], {

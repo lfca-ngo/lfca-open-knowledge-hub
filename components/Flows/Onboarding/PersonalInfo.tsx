@@ -174,7 +174,7 @@ export const PersonalInfo = ({
             </Popover>
           }
           name="picture"
-          rules={[{ message: 'Please add a picture', required: false }]}
+          rules={[{ message: 'Please add a picture', required: true }]}
         >
           <ImageUpload customPreset={CLOUDINARY_PRESETS.profilePictures} />
         </Form.Item>
