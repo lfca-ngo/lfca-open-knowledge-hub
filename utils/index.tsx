@@ -22,6 +22,7 @@ export const THEME_DARK = 'theme-dark'
 export const ROLES = ['ADMIN', 'LEADER', 'OFFICER']
 export const SLACK_INVITE_URL = `https://join.slack.com/t/lfca-co/shared_invite/zt-dc9mv47r-J0Y2JPj536x3PurMjWuNdA`
 export const TERMS_OF_SERVICE_URL = `https://lfca.earth/terms/`
+export const PRIVACY_URL = `https://lfca.earth/privacy/`
 export const DEFAULT_COUNTRY = 'eu-DE'
 export const PRODUCT_VIDEO_URL =
   'https://res.cloudinary.com/dhpk1grmy/video/upload/v1655396711/Video/lfca-community-app-share_dbwgvq.mp4'

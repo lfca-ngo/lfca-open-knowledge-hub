@@ -1,5 +1,4 @@
-import { CheckCircleFilled } from '@ant-design/icons'
-import { Badge, Button, Card, message, Space } from 'antd'
+import { Avatar, Badge, Button, Card, message, Space } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 
@@ -7,6 +6,7 @@ import {
   CompanyActionListItemFragment,
   useCompleteCompanyActionMutation,
 } from '../../services/lfca-backend'
+import { getActionStatus } from '../ActionBar/StatusButton'
 import { ActionStats } from '../ActionStats'
 import { ActionCardProps } from '.'
 import styles from './styles.module.less'
@@ -20,6 +20,7 @@ export const ActionCard = ({
   selectText = 'View',
   unselectText = 'Unselect',
 }: ActionCardProps) => {
+  const actionStatus = getActionStatus(action)
   const [{ fetching: isCompleting }, completeCompanyAction] =
     useCompleteCompanyActionMutation()
 
@@ -55,9 +56,14 @@ export const ActionCard = ({
       <div className="hero">
         <Badge
           count={
-            action.completedAt ? (
-              <CheckCircleFilled className="success" />
-            ) : null
+            actionStatus.key === 'BACKLOG' ? null : (
+              <Avatar
+                className={actionStatus.color}
+                icon={actionStatus.icon}
+                shape="square"
+                size="small"
+              />
+            )
           }
           offset={[-6, 6]}
         >

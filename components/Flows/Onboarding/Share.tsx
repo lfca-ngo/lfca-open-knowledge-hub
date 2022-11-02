@@ -9,11 +9,11 @@ import { DefaultStepProps } from './..'
 import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
-const ShareContent = ({ onNext, onPrev }: DefaultStepProps) => {
+const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   return (
     <div>
-      <Tag className="super-text">Slack</Tag>
-      <h1>{`That's it! Time to share the good news! 🎉`}</h1>
+      <Tag className="super-text">{title}</Tag>
+      <h1>{`Welcome on board, time to share the news! 🎉`}</h1>
       <div className="description">
         <p>
           Did you know? LFCA has grown entirely by word of mouth. As a

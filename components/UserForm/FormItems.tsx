@@ -1,5 +1,6 @@
 import { Form, Input, InputNumber, Select } from 'antd'
 
+import { JOB_ROLES_OPTIONS } from '../../services/lfca-backend/utils/job-roles'
 import { ROLES } from '../../utils'
 import { CompanyIdSearchInput } from '../CompanyIdSearchInput'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
@@ -74,6 +75,20 @@ export const FormItems = ({
         rules={[{ message: 'Please add a first name', required: true }]}
       >
         <Input placeholder="Greta" />
+      </Form.Item>
+    ),
+    jobRole: (
+      <Form.Item
+        key="jobRole"
+        label="Job Role"
+        name="jobRole"
+        rules={[{ message: 'Please select a job role', required: true }]}
+      >
+        <Select placeholder="Please select">
+          {JOB_ROLES_OPTIONS.map((option) => (
+            <Select.Option key={option.key}>{option.label}</Select.Option>
+          ))}
+        </Select>
       </Form.Item>
     ),
     lastName: (

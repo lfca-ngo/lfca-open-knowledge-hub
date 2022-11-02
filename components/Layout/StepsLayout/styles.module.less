@@ -8,6 +8,24 @@
   background-color: var(--layout-body-background);
   min-height: 100vh;
 
+  &[class~='hide-last-item'] {
+    :global {
+      .ant-layout-header .ant-steps .ant-steps-item {
+        &:nth-last-of-type(2) {
+          .anticon {
+            width: 0;
+            visibility: hidden;
+            margin: 0;
+            overflow: hidden;
+          }
+        }
+        &:last-of-type {
+          display: none;
+        }
+      }
+    }
+  }
+
   &:not(&[class~='has-sider']) {
     :global {
       .ant-layout-content .content-wrapper main {

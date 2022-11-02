@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { useFirebase } from '../../hooks/firebase'
 import { useRegisterUserMutation } from '../../services/lfca-backend'
 import { getErrorMessage, TERMS_OF_SERVICE_URL } from '../../utils'
+import { passwordValidator } from '../../utils/password-validator'
 import {
   ONBOARDING_LEADER,
   ONBOARDING_OFFICER,
@@ -107,7 +108,15 @@ export const Signup = ({ email }: { email: string }) => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ message: 'Please input a password!', required: true }]}
+          rules={[
+            {
+              validator: passwordValidator,
+            },
+            {
+              message: 'Please input your password',
+              required: true,
+            },
+          ]}
         >
           <Input.Password placeholder="********" />
         </Form.Item>

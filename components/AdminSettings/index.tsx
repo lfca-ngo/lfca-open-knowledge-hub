@@ -45,7 +45,6 @@ export const AdminSettings = () => {
           icon={<DeleteOutlined />}
           loading={isPurgingCache}
           onClick={handlePurgeCache}
-          type="primary"
         >
           Purge backend cache
         </Button>

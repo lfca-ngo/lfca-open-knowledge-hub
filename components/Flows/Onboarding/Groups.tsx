@@ -1,4 +1,4 @@
-import { Button, List, Popover, Space, Tag } from 'antd'
+import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 
 import { EventCategory, useEventsQuery } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
@@ -8,14 +8,14 @@ import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
+const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
   const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
         filter: {
-          // @TODO: add filter for expired events
           category: EventCategory.ONBOARDING_COURSE,
           includeCancelled: false,
+          includeExpired: false,
         },
       },
     },
@@ -28,12 +28,12 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Let’s get together! 🥳`}</h1>
       <div className="description">
         Our group formats are the heartbeat of our community. Every new member
-        starts with our <b>free onboarding sessions</b>. During the webinar you
-        will:
+        starts with one of our <b>free onboarding sessions</b>. During the
+        webinar you will:
         <ul style={{ margin: '15px 0 0' }}>
           <li>get to know peers from our community</li>
           <li>understand our tools, action pillars and group formats</li>
@@ -59,27 +59,33 @@ const GroupsContent = ({ onNext, onPrev }: DefaultStepProps) => {
         )}
       />
 
-      <Space>
-        <Popover
-          content={
-            !appliedOrAttendsAtLeastOneEvent
-              ? 'Please select one of the onboarding sessions first'
-              : null
-          }
-        >
-          <Button
-            disabled={!appliedOrAttendsAtLeastOneEvent}
-            onClick={onNext}
-            size="large"
-            type="primary"
+      <Space direction="vertical" size="large">
+        {appliedOrAttendsAtLeastOneEvent && (
+          <Alert
+            description="You will receive an Email with your calendar invite and details as soon as your request got approved."
+            message="Request sent"
+            showIcon
+            type="success"
+          />
+        )}
+        <Space>
+          <Popover
+            content={
+              !appliedOrAttendsAtLeastOneEvent
+                ? 'Please select one of the onboarding sessions first'
+                : null
+            }
           >
-            Continue
-          </Button>
-        </Popover>
-
-        <Button onClick={onPrev} size="large" type="link">
-          Back
-        </Button>
+            <Button
+              disabled={!appliedOrAttendsAtLeastOneEvent}
+              onClick={onNext}
+              size="large"
+              type="primary"
+            >
+              Continue
+            </Button>
+          </Popover>
+        </Space>
       </Space>
     </div>
   )

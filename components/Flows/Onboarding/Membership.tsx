@@ -13,6 +13,8 @@ import {
   Card,
   Col,
   Divider,
+  Drawer,
+  Form,
   InputNumber,
   List,
   message,
@@ -27,19 +29,32 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
-import { useUpdateCompanyMutation } from '../../../services/lfca-backend'
+import { ContentfulContentCollectionFields } from '../../../services/contentful'
+import {
+  CompanySubscriptionType,
+  useUpdateCompanyMutation,
+} from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
+import { ContentList } from '../../ContentList'
+import { Section } from '../../Layout'
 import { ListSelect, OptionKey } from '../../ListSelect'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
 
 export const MembershipContent = ({
+  membershipFaq,
   onNext,
   onPrev,
   setSharedState,
   sharedState,
-}: StepPropsWithSharedState) => {
+  title,
+}: StepPropsWithSharedState & {
+  membershipFaq?: ContentfulContentCollectionFields
+}) => {
+  const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
+
+  const [showFaq, setShowFaq] = useState(false)
   const onSubscriptionChange = (value: OptionKey[]) => {
     const [subscription] = value
 
@@ -48,32 +63,59 @@ export const MembershipContent = ({
     })
   }
 
-  const isFreeTierSelected = sharedState?.selectedSubscriptionType === 'FREE'
+  const handleContinue = () => {
+    // save subscription type
+    updateCompany({
+      input: {
+        subscriptionType: sharedState?.selectedSubscriptionType,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Updated membership')
+        onNext?.()
+      }
+    })
+  }
+
+  const isFreeTierSelected =
+    sharedState?.selectedSubscriptionType === CompanySubscriptionType.FREE
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
-      <h1>{`Last step - choose your plan 👍`}</h1>
+      <Tag className="super-text">{title}</Tag>
+      <h1>{`Choose the membership that suits you best 🙌`}</h1>
       <div className="description">
         <p>
-          Last but not least: Choose your membership tier. If you can afford to
-          support us with a premium subscription, you will enable us to bring
-          lfca to others for free.
+          {`We believe the solutions to the defining crisis of our times should
+          not be hidden behind paywalls. But achieving that goal is a collective
+          effort: We need those who can afford it, to support those who can't.`}
+        </p>
+        <p>
+          By joining us as a PREMIUM Supporter, you help us achieve this
+          mission. Need some help with your decision?{' '}
+          <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>
       </div>
 
-      <ListSelect
-        mode="single"
-        onChange={onSubscriptionChange}
-        options={subscriptionsData.map((s) => ({
-          description: s.shortDescription,
-          icon: <Avatar shape="square" src={s.icon.url} />,
-          key: s.name,
-          label: s.name,
-          recommended: s.name === 'PREMIUM',
-        }))}
-        value={sharedState?.selectedSubscriptionType}
-      />
+      <Form layout="vertical">
+        <Form.Item label="Please select your membership">
+          <ListSelect
+            mode="single"
+            onChange={onSubscriptionChange}
+            options={subscriptionsData.map((s) => ({
+              description: s.shortDescription,
+              icon: <Avatar shape="square" src={s.icon.url} />,
+              key: s.name,
+              label:
+                s.name === CompanySubscriptionType.FREE
+                  ? s.name
+                  : `${s.name} Supporter`,
+            }))}
+            value={sharedState?.selectedSubscriptionType}
+          />
+        </Form.Item>
+      </Form>
 
       {isFreeTierSelected ? (
         <Alert
@@ -83,17 +125,40 @@ export const MembershipContent = ({
           type="warning"
         />
       ) : (
-        <p>We will send you an invoice with a payment link.</p>
+        <Alert
+          description="We will send you an invoice with a payment link shortly after your onboarding is done. During the next 30 days you can downgrade your subscription at any time."
+          message="What's next?"
+          showIcon
+          type="info"
+        />
       )}
 
       <Space style={{ marginTop: '20px' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button
+          loading={fetching}
+          onClick={handleContinue}
+          size="large"
+          type="primary"
+        >
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">
           Back
         </Button>
       </Space>
+
+      <Drawer
+        className="drawer-md"
+        onClose={() => setShowFaq(false)}
+        open={showFaq}
+        placement="left"
+      >
+        <Section bordered={false} title="Membership" titleSize="default">
+          <div style={{ margin: '20px 0 0' }}>
+            <ContentList content={membershipFaq} type="accordion" />
+          </div>
+        </Section>
+      </Drawer>
     </div>
   )
 }
@@ -102,7 +167,9 @@ export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
   const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
+  const [fundSize, setFundSize] = useState<number | null>()
   const [teamSize, setTeamSize] = useState<number | null>()
+  const { company, isVentureCapitalCompany } = useUser()
 
   const plan = subscriptionsData.find(
     (s) => s.name === sharedState?.selectedSubscriptionType
@@ -114,9 +181,9 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
 
-  const { company } = useUser()
-  const calculatedPrice =
-    plan?.pricing && calculatePricePoint(plan?.pricing, company?.employeeCount)
+  const calculatedPrice = isVentureCapitalCompany
+    ? calculatePricePoint(plan?.pricingVentureCapital, company?.fundSize, true)
+    : calculatePricePoint(plan?.pricing, company?.employeeCount)
 
   const debouncedTeamSizeInput = useRef(
     _debounce(async (value) => {
@@ -131,33 +198,73 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     }, 500)
   ).current
 
+  const debouncedFundSizeInput = useRef(
+    _debounce(async (value) => {
+      updateCompany({
+        input: {
+          fundSize: value,
+        },
+      }).then(({ error }) => {
+        if (error) message.error(error.message)
+        message.success('Changed fund size')
+      })
+    }, 500)
+  ).current
+
   const handleTeamSizeChange = (val: number | null) => {
     debouncedTeamSizeInput(val)
   }
 
+  const handleFundSizeChange = (val: number | null) => {
+    debouncedFundSizeInput(val)
+  }
+
+  // update employee count
   useEffect(() => {
     if (company?.employeeCount) {
       setTeamSize(company?.employeeCount)
     }
   }, [company?.employeeCount])
 
+  // update fund count
+  useEffect(() => {
+    if (company?.fundSize) {
+      setFundSize(company?.fundSize)
+    }
+  }, [company?.fundSize])
+
   return (
     <div className={styles['membership-summary']}>
       <h4>Summary</h4>
       <Card>
         <Row align="middle">
-          <Col xs={12}>
+          <Col xs={8}>
             <div className="summary-title">{plan?.name}</div>
           </Col>
-          <Col className="team-input" xs={12}>
-            <span className="team-input-label">
-              {fetching && <LoadingOutlined />} Team
-            </span>
-            <InputNumber
-              onChange={handleTeamSizeChange}
-              size="small"
-              value={teamSize}
-            />
+          <Col className="team-input" xs={16}>
+            {isVentureCapitalCompany ? (
+              <>
+                <span className="team-input-label">
+                  {fetching && <LoadingOutlined />} Fundsize
+                </span>
+                <InputNumber
+                  onChange={handleFundSizeChange}
+                  size="small"
+                  value={fundSize}
+                />
+              </>
+            ) : (
+              <>
+                <span className="team-input-label">
+                  {fetching && <LoadingOutlined />} Team
+                </span>
+                <InputNumber
+                  onChange={handleTeamSizeChange}
+                  size="small"
+                  value={teamSize}
+                />
+              </>
+            )}
           </Col>
         </Row>
 

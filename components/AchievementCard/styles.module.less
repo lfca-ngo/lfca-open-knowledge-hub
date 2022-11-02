@@ -3,6 +3,10 @@
   height: 100%;
 
   :global {
+    .achievement-section-title {
+      .font-semi();
+      margin-bottom: 10px;
+    }
     .ant-card-body {
       padding: 30px;
       width: 100%;
@@ -27,14 +31,26 @@
             font-size: 24px;
           }
         }
+        .achievement-description {
+          margin-top: 15px;
+        }
         .action-status-list {
-          margin-bottom: 15px;
+          margin-bottom: 30px;
+
+          &:last-of-type {
+            margin-bottom: 10px;
+          }
+
           a {
             text-decoration: none;
           }
-          .title {
-            .font-semi();
-            margin-bottom: 15px;
+          .ant-list-item {
+            padding: 6px 0;
+            margin: 0;
+
+            .ant-list-item-meta-title {
+              margin: 0;
+            }
           }
         }
         .ant-list-item-meta-title {

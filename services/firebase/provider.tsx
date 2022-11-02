@@ -31,6 +31,7 @@ if (isDev) {
 
 interface FirebaseContextProps {
   auth: Auth
+  emailVerified: boolean | null
   login: (email: string, password: string) => Promise<UserCredential>
   logout: () => Promise<void>
   refreshToken: () => Promise<string | undefined>
@@ -39,6 +40,7 @@ interface FirebaseContextProps {
 
 export const FirebaseContext = React.createContext<FirebaseContextProps>({
   auth: firebaseAuth,
+  emailVerified: null,
   login: async () => ({} as UserCredential),
   logout: async () => {
     // Nothing
@@ -52,6 +54,7 @@ interface FirebaseProviderProps {
 }
 
 export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
+  const [emailVerified, setEmailVerified] = React.useState<boolean | null>(null)
   const [token, setToken] = React.useState<string | null>(
     typeof window !== 'undefined'
       ? localStorage.getItem(FIREBASE_TOKEN_STORAGE_KEY)
@@ -63,6 +66,8 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
       if (user) {
         const token = await user.getIdToken()
         handleTokenChange(token, user.uid)
+        // check if email is verified
+        setEmailVerified(user.emailVerified)
       } else {
         handleTokenChange()
       }
@@ -88,6 +93,7 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     <FirebaseContext.Provider
       value={{
         auth: firebaseAuth,
+        emailVerified,
         login,
         logout,
         refreshToken,

@@ -73,6 +73,7 @@ export const AdminEventParticipantItem = ({
           key="delete"
           okText="Yes"
           onConfirm={handleRemove}
+          placement="left"
           title="Are you sure to remove this user from the event?"
         >
           <Button

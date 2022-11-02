@@ -4,12 +4,8 @@ import { List } from 'antd'
 import { ContentListDefaultProps } from '.'
 import styles from './styles.module.less'
 
-export const ContentListMini = ({
-  content = [],
-  contentId,
-}: ContentListDefaultProps) => {
-  const communityCollection = content.find((c) => c.collectionId === contentId)
-  const items = communityCollection?.content || []
+export const ContentListMini = ({ content }: ContentListDefaultProps) => {
+  const items = content?.content || []
 
   return (
     <List

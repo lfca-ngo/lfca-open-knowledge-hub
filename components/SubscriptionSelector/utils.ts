@@ -1,15 +1,22 @@
 export interface PlanPricingProps {
   price: number
   maxEmployees?: number
+  maxFundsize?: number | null
 }
 
 export const calculatePricePoint = (
-  pricing: PlanPricingProps[],
-  employeeCount?: number
-) =>
-  pricing.find(
-    (price) => (price.maxEmployees || Infinity) >= (employeeCount || 0)
+  pricing?: PlanPricingProps[],
+  maxCount?: number | null,
+  isVentureCapital = false
+) => {
+  if (!pricing) return undefined
+
+  const maxAttribute = isVentureCapital ? 'maxFundsize' : 'maxEmployees'
+
+  return pricing.find(
+    (price) => (price[maxAttribute] || Infinity) >= (maxCount || 0)
   )
+}
 
 export const getUpgradeEmailBody = ({
   companyName,

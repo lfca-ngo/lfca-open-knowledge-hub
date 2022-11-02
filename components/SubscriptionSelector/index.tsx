@@ -1,5 +1,6 @@
 import { CheckOutlined, EllipsisOutlined, LockFilled } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { Document } from '@contentful/rich-text-types'
 import {
   Avatar,
   Button,
@@ -15,7 +16,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
-import { Subscription } from '../../services/contentful'
+import subscriptionsData from '../../next-fetch-during-build/data/_subscriptions-data.json'
 import {
   CompanySubscriptionType,
   useCompanyQuery,
@@ -26,11 +27,8 @@ import { calculatePricePoint, getUpgradeEmailBody } from './utils'
 
 const DEFAULT_PLAN = 'BASIC'
 
-export const SubscriptionSelector = ({
-  subscriptions = [],
-}: {
-  subscriptions?: Subscription[]
-}) => {
+export const SubscriptionSelector = () => {
+  const subscriptions = subscriptionsData
   const [activeTab, setActiveTab] = useState(subscriptions[0].name)
   const [{ data: companyData }] = useCompanyQuery()
 
@@ -101,7 +99,7 @@ export const SubscriptionSelector = ({
             <div className="title">{currentPlan?.name}</div>
             <div className="description">
               {currentPlan?.description &&
-                documentToReactComponents(currentPlan?.description)}
+                documentToReactComponents(currentPlan?.description as Document)}
             </div>
           </div>
         </div>
@@ -132,39 +130,37 @@ export const SubscriptionSelector = ({
           return {
             children: (
               <List
-                dataSource={allFeatures.map((i) => {
-                  if (
+                dataSource={allFeatures}
+                renderItem={(item) => {
+                  const isDisabled =
                     plan.features.findIndex(
-                      (f) => f.contentId === i.contentId
+                      (f) => f.contentId === item.contentId
                     ) > -1
-                  ) {
-                    return i
-                  } else return { ...i, disabled: true }
-                })}
-                renderItem={(item) => (
-                  <List.Item
-                    className={classNames({ disabled: item.disabled })}
-                  >
-                    {item?.picture?.url && (
-                      <div className="image-wrapper">
-                        <Image
-                          alt="Community"
-                          layout="fill"
-                          objectFit="cover"
-                          src={item?.picture?.url}
-                        />
+                  return (
+                    <List.Item className={classNames({ disabled: isDisabled })}>
+                      {item?.picture?.url && (
+                        <div className="image-wrapper">
+                          <Image
+                            alt="Community"
+                            layout="fill"
+                            objectFit="cover"
+                            src={item?.picture?.url}
+                          />
+                        </div>
+                      )}
+                      <div className="content">
+                        <h4>
+                          {isDisabled && <LockFilled />} {item?.title}
+                        </h4>
+                        <div className="description">
+                          {documentToReactComponents(
+                            item?.description as Document
+                          )}
+                        </div>
                       </div>
-                    )}
-                    <div className="content">
-                      <h4>
-                        {item?.disabled && <LockFilled />} {item?.title}
-                      </h4>
-                      <div className="description">
-                        {documentToReactComponents(item?.description)}
-                      </div>
-                    </div>
-                  </List.Item>
-                )}
+                    </List.Item>
+                  )
+                }}
               />
             ),
             key: plan.name,

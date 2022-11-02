@@ -8,12 +8,8 @@ import styles from './styles.module.less'
 
 const { Panel } = Collapse
 
-export const ContentAccordion = ({
-  content = [],
-  contentId,
-}: ContentListDefaultProps) => {
-  const communityCollection = content.find((c) => c.collectionId === contentId)
-  const items = communityCollection?.content || []
+export const ContentAccordion = ({ content }: ContentListDefaultProps) => {
+  const items = content?.content || []
 
   return (
     <Collapse accordion className={styles['content-accordion']}>

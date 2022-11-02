@@ -6,11 +6,16 @@ fragment User on User {
     programContentId
     subscriptionType
     employeeCount
+    fundSize
+    tags {
+      name
+    }
   }
   country
   deletedAt
   email
   firstName
+  jobRole
   id
   lastName
   phone

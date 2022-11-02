@@ -1,3 +1,4 @@
+import { InfoCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Checkbox,
@@ -8,75 +9,168 @@ import {
   Popover,
   Row,
   Select,
+  Space,
   Tag,
 } from 'antd'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
+import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
+import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { Country } from '../../../services/contentful'
+import { CompanySubscriptionType } from '../../../services/lfca-backend'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
+
+const { useForm, useWatch } = Form
+
+const BASIC_PLAN = subscriptionsData.find(
+  (s) => s.name === CompanySubscriptionType.BASIC
+)
+const COMMUNITY_ADMITTANCE_URL = 'https://lfca.earth/community-admittance'
+const FUND_SIZE_OPTIONS = BASIC_PLAN?.pricingVentureCapital.reduce(
+  (acc, val, i) => {
+    const prev = acc[i - 1]
+
+    acc.push({
+      key: val.maxFundsize || 0,
+      label: `${prev ? `${prev.key + 1} -` : '<'} ${val.maxFundsize}`,
+    })
+
+    return acc
+  },
+  [] as Array<{ key: number; label: string }>
+)
 
 const SECTOR_OPTIONS = companyTagsData.map((t) => ({
   key: t,
   label: t,
 }))
 
+export interface CompanyInfoFormProps {
+  country: string
+  fundSize?: number
+  name: string
+  employeeCount: number
+  tags: string[]
+  logoUrl: string
+}
+
 export const CompanyInfo = ({
+  countries,
+  country,
   onNext,
   setSharedState,
   sharedState,
-}: StepPropsWithSharedState) => {
+  title,
+}: StepPropsWithSharedState & {
+  countries: Country[]
+  country?: string | string[]
+}) => {
   const isDesktop = useBreakpoints().md
-  const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
+  const [companyInfoForm] = useForm()
+  const [otherCompanies, setOtherCompanies] = useState<number | null>(null)
+  const sectorStats = companyTagStatsData as { [key: string]: number }
+  const selectedTags = useWatch('tags', companyInfoForm) || []
+  const isVentureCapitalCompany = selectedTags.indexOf('vc') > -1
 
-  const onValuesChange = (_: any, allValues: any) => {
-    if (allValues?.companyTags?.length > 0 && !otherCompanies) {
-      setOtherCompanies((Math.random() * (120 - 12) + 12).toFixed(0))
-    } else if (allValues?.companyTags?.length === 0) {
+  const onValuesChange = (
+    changedValue: CompanyInfoFormProps,
+    allValues: CompanyInfoFormProps
+  ) => {
+    if (allValues?.tags?.length > 0 && changedValue.tags) {
+      let countOtherCompanies = 0
+      for (const tag of allValues?.tags) {
+        countOtherCompanies += sectorStats[tag]
+      }
+      setOtherCompanies(countOtherCompanies)
+    } else if (allValues?.tags?.length === 0) {
       setOtherCompanies(null)
     }
   }
 
-  const onFinish = (allValues: any) => {
+  const onFinish = (allValues: CompanyInfoFormProps) => {
     setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
   }
 
+  // resync form state
+  useEffect(() => {
+    companyInfoForm.setFieldsValue(sharedState?.company)
+  }, [companyInfoForm, sharedState])
+
+  // update based on url param
+  useEffect(() => {
+    if (countries.findIndex((c) => c.countryCode === country) > -1) {
+      companyInfoForm.setFieldValue('country', country)
+    }
+  }, [country, countries, companyInfoForm])
+
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Welcome! 👋`}</h1>
       <div className="description">
         {`To get started, we need some basic information about the organization that you represent.`}
       </div>
 
       <Form
+        form={companyInfoForm}
         layout="vertical"
         onFinish={onFinish}
         onValuesChange={onValuesChange}
       >
-        <Form.Item
-          label="Company Name"
-          name="name"
-          rules={[
-            { message: 'Please input your company name', required: true },
-          ]}
-        >
-          <Input placeholder="Acme Inc." />
-        </Form.Item>
+        <Row gutter={16}>
+          <Col md={17} xs={24}>
+            <Form.Item
+              label="Company Name"
+              name="name"
+              rules={[
+                { message: 'Please input your company name', required: true },
+              ]}
+            >
+              <Input placeholder="Acme Inc." />
+            </Form.Item>
+          </Col>
+          <Col md={7} xs={24}>
+            <Form.Item
+              label="Country"
+              name="country"
+              rules={[{ message: 'Please select a country', required: true }]}
+            >
+              <Select className="with-icon" placeholder="Please select">
+                {countries.map((country) => (
+                  <Select.Option key={country.countryCode}>
+                    <Space align="center">
+                      <Image
+                        alt={country.name}
+                        height={17}
+                        layout="fixed"
+                        src={country.icon?.url}
+                        width={17}
+                      />
+                      <span className="name">{country.name}</span>
+                    </Space>
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Row gutter={16}>
-          <Col md={12} xs={24}>
+          <Col md={17} xs={24}>
             <Form.Item
               hasFeedback
-              label="Choose sectors"
-              name="companyTags"
+              label="Which tags best describe your business?"
+              name="tags"
               rules={[
-                { message: 'Please choose a sector tag', required: true },
+                { message: 'Please choose at least 1 tag', required: true },
               ]}
             >
               <Select
@@ -91,7 +185,7 @@ export const CompanyInfo = ({
               </Select>
             </Form.Item>
           </Col>
-          <Col md={12} xs={24}>
+          <Col md={7} xs={24}>
             <Form.Item
               label="Team size"
               name="employeeCount"
@@ -108,10 +202,32 @@ export const CompanyInfo = ({
             </Form.Item>
           </Col>
         </Row>
+
+        {isVentureCapitalCompany && FUND_SIZE_OPTIONS ? (
+          <Form.Item
+            label="Fund Size in Million USD"
+            name="fundSize"
+            rules={[{ message: 'Please share your fund size', required: true }]}
+          >
+            <Select placeholder="Please select">
+              {FUND_SIZE_OPTIONS.map((option) => (
+                <Select.Option key={option.key}>{option.label} M</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        ) : null}
+
         <Form.Item
-          label="Logo"
+          label={
+            <Popover
+              content="Your logo will be used on your microsite and throughout the app"
+              placement="left"
+            >
+              Logo <InfoCircleOutlined />
+            </Popover>
+          }
           name="logoUrl"
-          rules={[{ message: 'Please add a picture', required: true }]}
+          rules={[{ message: 'Please add your company logo', required: true }]}
         >
           <ImageUpload customPreset={CLOUDINARY_PRESETS.companyLogos} />
         </Form.Item>
@@ -124,7 +240,7 @@ export const CompanyInfo = ({
                   ? Promise.resolve()
                   : Promise.reject(
                       new Error(
-                        'Please accept our membership admittance guidelines'
+                        'Please accept our community admittance guidelines'
                       )
                     ),
             },
@@ -132,8 +248,11 @@ export const CompanyInfo = ({
           valuePropName="checked"
         >
           <Checkbox>
-            I hereby confirm that the organization I represent is not involved
-            in fossil fuel extraction, xyz
+            I hereby confirm that the organization I represent is not
+            affiliated, directly or indirectly, with the fossil fuel industry.{' '}
+            <a href={COMMUNITY_ADMITTANCE_URL} rel="noreferrer" target="_blank">
+              Read more
+            </a>
           </Checkbox>
         </Form.Item>
 
@@ -146,7 +265,9 @@ export const CompanyInfo = ({
                 {` similar companies 🎉`}
               </span>
             }
+            getPopupContainer={(container) => container}
             open={!!otherCompanies}
+            overlayClassName="popover-md no-max-width"
             placement={isDesktop ? 'right' : 'bottom'}
           >
             <Button htmlType="submit" size="large" type="primary">

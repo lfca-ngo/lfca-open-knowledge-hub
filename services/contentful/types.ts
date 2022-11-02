@@ -85,6 +85,7 @@ export interface ContentfulCountryFields {
   name: string
   isoCode: string
   continent: ContentfulContinentFields
+  icon: Image
 }
 
 export interface ContentfulOptionFields {

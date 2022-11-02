@@ -5,12 +5,8 @@ import Image from 'next/image'
 import { ContentListDefaultProps } from '.'
 import styles from './styles.module.less'
 
-export const ContentListDefault = ({
-  content = [],
-  contentId,
-}: ContentListDefaultProps) => {
-  const communityCollection = content.find((c) => c.collectionId === contentId)
-  const items = communityCollection?.content || []
+export const ContentListDefault = ({ content }: ContentListDefaultProps) => {
+  const items = content?.content || []
 
   return (
     <List

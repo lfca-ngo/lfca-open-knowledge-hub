@@ -18,6 +18,7 @@ export const PersonalizeContent = ({
   actionsContent,
   onNext,
   onPrev,
+  title,
 }: DefaultStepProps & {
   actionsContent?: Record<string, ContentfulActionFields>
 }) => {
@@ -35,13 +36,14 @@ export const PersonalizeContent = ({
 
   return (
     <div>
-      <Tag className="super-text">Company Info</Tag>
+      <Tag className="super-text">{title}</Tag>
       <h1>{`Where are you on your climate journey? 🎯`}</h1>
       <div className="description">
         <p>
           {`Let's start with a simple exercise: Did you already start taking
-          climate action in your organization? Which actions have you taken and
-          what have you learned?`}
+          climate action in your organization? Update the status of actions that
+          you have already taken. But don't get lost: You can always update this
+          information later on.`}
         </p>
         <p>
           Tip: You can filter the available actions by stages. See our Action

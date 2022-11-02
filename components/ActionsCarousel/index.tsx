@@ -1,17 +1,16 @@
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
-  CalendarOutlined,
-  HeartOutlined,
   PlusCircleOutlined,
   SearchOutlined,
-  StarOutlined,
 } from '@ant-design/icons'
-import { Button, Card, Carousel, Skeleton, Tag } from 'antd'
+import { Button, Card, Carousel, Skeleton } from 'antd'
 import React from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { LAYOUT_BREAKPOINTS } from '../../utils'
+import { ActionStatusTag } from '../ActionBar/ActionStatusTag'
+import { getActionStatus } from '../ActionBar/StatusButton'
 import { rootTreeMetaData } from '../ActionsList/utils'
 import { EmptyState } from '../EmptyState'
 import { scrollToId } from '../Layout/SectionWrapper'
@@ -28,21 +27,6 @@ interface ActionsCarouselProps {
   actions: CompanyActionListItemFragmentWithRootCategory[]
   fetching?: boolean
   onSelect: (action: CompanyActionListItemFragment) => void
-}
-
-export const ActionStatusTag = ({
-  action,
-}: {
-  action: CompanyActionListItemFragment
-}) => {
-  const isPlanned = !!action?.plannedAt
-  const isRequired = !!action.requiredForCompanyAchievementIds.length
-  const isRecommended = !!action.recommendedForCompanyAchievementIds.length
-
-  if (isPlanned) return <Tag icon={<CalendarOutlined />}>Planned</Tag>
-  if (isRequired) return <Tag icon={<StarOutlined />}>Required</Tag>
-  if (isRecommended) return <Tag icon={<HeartOutlined />}>Recommended</Tag>
-  else return null
 }
 
 export const ActionsCarousel = ({
@@ -101,6 +85,11 @@ export const ActionsCarousel = ({
       slidesToShow={3}
     >
       {actions.map((action, i) => {
+        const actionStatus = getActionStatus(action)
+        const isRequired = !!action.requiredForCompanyAchievementIds.length
+        const isRecommended =
+          !!action.recommendedForCompanyAchievementIds.length
+
         return (
           <Skeleton
             active
@@ -116,7 +105,11 @@ export const ActionsCarousel = ({
               }
               onClick={() => onSelect(action)}
             >
-              <ActionStatusTag action={action} />
+              <ActionStatusTag
+                actionStatus={actionStatus}
+                isRecommended={isRecommended}
+                isRequired={isRequired}
+              />
               <div className="action-card-content">
                 <div className="action-card-title">{action.title}</div>
                 <LogoGroup

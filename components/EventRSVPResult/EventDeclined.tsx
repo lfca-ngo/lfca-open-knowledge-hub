@@ -70,9 +70,9 @@ export const EventDeclined = ({ token }: { token?: string | string[] }) => {
     <>
       <h1>Thanks for your response!</h1>
       <p style={{ marginBottom: '30px' }}>
-        Please let us know why you declined the invitation to join this
-        Mastermind Group. This will help us to improve our service and offer
-        better solutions for you in the future.
+        Please let us know why you declined the invitation to join this Event.
+        This will help us to improve our service and offer better solutions for
+        you in the future.
       </p>
       {!data?.processEventRSVPToken ? (
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
