@@ -101,14 +101,18 @@ export const AchievementCard = ({
             <CheckCircleOutlined className="title-icon green" />
           )}
         </div>
+        <div className="achievement-description">
+          {/* {achievement.description &&
+            documentToReactComponents(achievement.description)} */}
+        </div>
         <Divider />
-        <ActionsStatusList
-          items={achievement.recommendedActions}
-          title={'Recommended Actions'}
-        />
         <ActionsStatusList
           items={achievement.requiredActions}
           title={'Required Actions'}
+        />
+        <ActionsStatusList
+          items={achievement.recommendedActions}
+          title={'Recommended Actions'}
         />
       </main>
 
