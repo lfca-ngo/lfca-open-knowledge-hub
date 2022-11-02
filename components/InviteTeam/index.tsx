@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Form, Input, List, message } from 'antd'
+import { Button, ConfigProvider, Form, Input, List, message } from 'antd'
 import React from 'react'
 
 import {
@@ -59,14 +59,16 @@ export const InviteTeam = ({ onMinimumInvited }: InviteTeamProps) => {
         </Form.Item>
       </Form>
 
-      <List
-        className="simple-list"
-        dataSource={userInvites}
-        loading={isFetchingInvites}
-        renderItem={(item) => (
-          <InviteItem item={item} onMinimumInvited={onMinimumInvited} />
-        )}
-      />
+      <ConfigProvider renderEmpty={() => null}>
+        <List
+          className="simple-list"
+          dataSource={userInvites}
+          loading={isFetchingInvites}
+          renderItem={(item) => (
+            <InviteItem item={item} onMinimumInvited={onMinimumInvited} />
+          )}
+        />
+      </ConfigProvider>
     </div>
   )
 }

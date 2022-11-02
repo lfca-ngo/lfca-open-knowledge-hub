@@ -48,6 +48,7 @@ export const PersonalInfo = ({
         company: {
           country: companyInfo.country,
           employeeCount: companyInfo.employeeCount,
+          fundSize: companyInfo.fundSize,
           logoUrl: companyInfo.logoUrl,
           name: companyInfo.name,
           tags: companyInfo.tags,
@@ -63,7 +64,7 @@ export const PersonalInfo = ({
       if (error) message.error(error.message)
       else {
         // clear persisted form data
-        setSharedState?.({ company: null })
+        setSharedState?.({ ...sharedState, company: null })
         // log user in automatically
         await login(userInfo.email, userInfo.password)
         message.success('Account created. Logging you in...')
