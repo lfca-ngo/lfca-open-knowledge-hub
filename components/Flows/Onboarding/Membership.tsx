@@ -84,7 +84,7 @@ export const MembershipContent = ({
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Last but not least - choose the membership that suits you 🙌`}</h1>
+      <h1>{`Choose the membership that suits you best 🙌`}</h1>
       <div className="description">
         <p>
           {`We believe the solutions to the defining crisis of our times should
@@ -92,7 +92,7 @@ export const MembershipContent = ({
           effort: We need those who can afford it, to support those who can't.`}
         </p>
         <p>
-          By joining us as a <b>PREMIUM Supporter</b>, you help us achieve this
+          By joining us as a PREMIUM Supporter, you help us achieve this
           mission. Need some help with your decision?{' '}
           <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>

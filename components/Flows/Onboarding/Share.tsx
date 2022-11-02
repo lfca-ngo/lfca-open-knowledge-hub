@@ -1,23 +1,19 @@
 import { GlobalOutlined } from '@ant-design/icons'
-import { Button, Modal, Space, Tag } from 'antd'
+import { Button, Space, Tag } from 'antd'
 import Image from 'next/image'
-import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import { ShareImage } from '../../../tools/ShareImage'
 import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from './..'
-import { Slack } from '.'
 import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
-const ShareContent = ({ onPrev, title }: DefaultStepProps) => {
-  const [open, setOpen] = useState(false)
-
+const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`That's it! Time to share the good news! 🎉`}</h1>
+      <h1>{`Welcome on board, time to share the news! 🎉`}</h1>
       <div className="description">
         <p>
           Did you know? LFCA has grown entirely by word of mouth. As a
@@ -33,22 +29,13 @@ const ShareContent = ({ onPrev, title }: DefaultStepProps) => {
       <ShareImage hideImage />
 
       <Space style={{ marginTop: '30px' }}>
-        <Button onClick={() => setOpen(true)} size="large" type="primary">
+        <Button onClick={onNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">
           Back
         </Button>
       </Space>
-
-      <Modal
-        className="modal-md"
-        footer={null}
-        onCancel={() => setOpen(false)}
-        open={open}
-      >
-        <Slack />
-      </Modal>
     </div>
   )
 }

@@ -24,6 +24,7 @@ import {
 import CommunityFacesImage from '../components/Flows/Onboarding/images/community-faces.png'
 import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
 import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform-preview.png'
+import SlackImage from '../components/Flows/Onboarding/images/slack.png'
 import { StepsLayout } from '../components/Layout'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useSteps } from '../hooks/useSteps'
@@ -87,14 +88,15 @@ const Onboarding: NextPage<OnboardingProps> = ({
       title: 'Membership',
     },
     {
+      component: Slack,
+      sideComponent: SlackSide,
+      sideComponentBackgroundImage: SlackImage,
+      title: 'Slack',
+    },
+    {
       component: Share,
       sideComponent: ShareSide,
       title: 'Share',
-    },
-    {
-      component: Slack,
-      sideComponent: SlackSide,
-      title: 'Slack',
     },
   ]
 

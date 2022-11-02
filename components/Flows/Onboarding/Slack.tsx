@@ -1,15 +1,14 @@
 import { SlackOutlined } from '@ant-design/icons'
 import { Button, Space, Tag } from 'antd'
-import Link from 'next/link'
 
 import { SLACK_INVITE_URL } from '../../../utils'
-import { ACTIONS } from '../../../utils/routes'
 import { withAuth } from '../../../utils/with-auth'
+import { DefaultStepProps } from '..'
 
-export const SlackContent = () => {
+export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
   return (
     <div>
-      <Tag className="super-text">One last thing</Tag>
+      <Tag className="super-text">Slack</Tag>
       <h1>{`Join us on Slack! ⭐️`}</h1>
       <div className="description">
         Share experiences with other community members. Access sub-industry
@@ -27,11 +26,15 @@ export const SlackContent = () => {
             Join our Slack Channel
           </Button>
         </a>
-        <Link href={ACTIONS}>
-          <Button block size="large" type="primary">
-            Continue to your dashboard
+
+        <Space>
+          <Button onClick={onNext} size="large" type="primary">
+            Continue
           </Button>
-        </Link>
+          <Button onClick={onPrev} size="large" type="link">
+            Back
+          </Button>
+        </Space>
       </Space>
     </div>
   )
