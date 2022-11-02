@@ -18,6 +18,8 @@ import {
   PersonalizeSide,
   Share,
   ShareSide,
+  Slack,
+  SlackSide,
 } from '../components/Flows/Onboarding'
 import CommunityFacesImage from '../components/Flows/Onboarding/images/community-faces.png'
 import CoursePreviewImage from '../components/Flows/Onboarding/images/course-preview.png'
@@ -88,6 +90,11 @@ const Onboarding: NextPage<OnboardingProps> = ({
       component: Share,
       sideComponent: ShareSide,
       title: 'Share',
+    },
+    {
+      component: Slack,
+      sideComponent: SlackSide,
+      title: 'Slack',
     },
   ]
 

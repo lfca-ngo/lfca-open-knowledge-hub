@@ -4,8 +4,9 @@ import Link from 'next/link'
 
 import { SLACK_INVITE_URL } from '../../../utils'
 import { ACTIONS } from '../../../utils/routes'
+import { withAuth } from '../../../utils/with-auth'
 
-export const Slack = () => {
+export const SlackContent = () => {
   return (
     <div>
       <Tag className="super-text">One last thing</Tag>
@@ -34,4 +35,10 @@ export const Slack = () => {
       </Space>
     </div>
   )
+}
+
+export const Slack = withAuth(SlackContent)
+
+export const SlackSide = () => {
+  return null
 }
