@@ -17,12 +17,12 @@ export const fetchAllCountries = async () => {
   const stringifiedData = safeJsonStringify(res)
   const countries = JSON.parse(stringifiedData)
 
-  const withFullCountryCode = countries.map(
-    (country: ContentfulCountryFields) => ({
+  const withFullCountryCode = countries
+    .map((country: ContentfulCountryFields) => ({
       ...country,
       countryCode: `${country.continent.isoCode}-${country.isoCode}`,
-    })
-  ) as Country[]
+    }))
+    .sort((a: Country, b: Country) => a.name.localeCompare(b.name)) as Country[]
 
   return withFullCountryCode
 }

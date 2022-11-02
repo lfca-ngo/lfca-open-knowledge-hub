@@ -1,3 +1,5 @@
+import { DefaultOptionType } from 'antd/lib/select'
+import { ReactNode } from 'react'
 import { CompanyActionListItemFragment } from '../services/lfca-backend'
 import { RemoveNull } from '../types'
 
@@ -173,4 +175,21 @@ export const getMailToLink = ({
     url += '?' + args.join('&')
   }
   return url
+}
+
+export function getTextFromOptionChildren(
+  elem: React.ReactElement | string | DefaultOptionType['children']
+): string {
+  if (!elem) {
+    return ''
+  }
+  if (typeof elem === 'string') {
+    return elem
+  }
+
+  const children = 'props' in elem && elem.props && elem.props.children
+  if (children instanceof Array) {
+    return children.map(getTextFromOptionChildren).join('')
+  }
+  return getTextFromOptionChildren(children)
 }

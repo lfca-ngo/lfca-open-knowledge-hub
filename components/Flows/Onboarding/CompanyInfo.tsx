@@ -22,6 +22,7 @@ import companyTagsData from '../../../next-fetch-during-build/data/_company-tags
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
 import { Country } from '../../../services/contentful'
 import { CompanySubscriptionType } from '../../../services/lfca-backend'
+import { getTextFromOptionChildren } from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
@@ -34,6 +35,7 @@ const BASIC_PLAN = subscriptionsData.find(
 )
 const COMMUNITY_ADMITTANCE_URL =
   'https://lfca.earth/become-a-member#requirements'
+
 const FUND_SIZE_OPTIONS = BASIC_PLAN?.pricingVentureCapital.reduce(
   (acc, val, i) => {
     const prev = acc[i - 1]
@@ -144,7 +146,17 @@ export const CompanyInfo = ({
               name="country"
               rules={[{ message: 'Please select a country', required: true }]}
             >
-              <Select className="with-icon" placeholder="Please select">
+              <Select
+                className="with-icon"
+                filterOption={(input, option) => {
+                  return (getTextFromOptionChildren(option?.children) ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }}
+                optionFilterProp="children"
+                placeholder="Please select"
+                showSearch
+              >
                 {countries.map((country) => (
                   <Select.Option key={country.countryCode}>
                     <Space align="center">
