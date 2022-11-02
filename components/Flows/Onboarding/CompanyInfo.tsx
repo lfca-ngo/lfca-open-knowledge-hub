@@ -55,14 +55,19 @@ export const CompanyInfo = ({
 }) => {
   const isDesktop = useBreakpoints().md
   const [companyInfoForm] = useForm()
-  const [otherCompanies, setOtherCompanies] = useState<string | null>(null)
+  const [otherCompanies, setOtherCompanies] = useState<number | null>(null)
+  const sectorStats = companyTagStatsData as { [key: string]: number }
 
   const onValuesChange = (
-    _: keyof CompanyInfoFormProps,
+    changedValue: CompanyInfoFormProps,
     allValues: CompanyInfoFormProps
   ) => {
-    if (allValues?.tags?.length > 0 && !otherCompanies) {
-      setOtherCompanies((Math.random() * (120 - 12) + 12).toFixed(0))
+    if (allValues?.tags?.length > 0 && changedValue.tags) {
+      let countOtherCompanies = 0
+      for (const tag of allValues?.tags) {
+        countOtherCompanies += sectorStats[tag]
+      }
+      setOtherCompanies(countOtherCompanies)
     } else if (allValues?.tags?.length === 0) {
       setOtherCompanies(null)
     }
@@ -84,8 +89,6 @@ export const CompanyInfo = ({
       companyInfoForm.setFieldValue('country', country)
     }
   }, [country, countries, companyInfoForm])
-
-  console.log(companyTagStatsData)
 
   return (
     <div>
