@@ -13,6 +13,7 @@ fragment Company on Company {
   country
   crmId
   deletedAt
+  fundSize
   employeeCount
   id
   internalDescription

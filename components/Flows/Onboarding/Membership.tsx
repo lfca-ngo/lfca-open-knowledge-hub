@@ -159,7 +159,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     })
 
   const calculatedPrice = isVentureCapitalCompany
-    ? calculatePricePoint(plan?.pricingVentureCapital, 70, true) // @TODO: replace with fund size
+    ? calculatePricePoint(plan?.pricingVentureCapital, company?.fundSize, true)
     : calculatePricePoint(plan?.pricing, company?.employeeCount)
 
   const debouncedTeamSizeInput = useRef(
@@ -179,7 +179,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     _debounce(async (value) => {
       updateCompany({
         input: {
-          // fundSize: value,
+          fundSize: value,
         },
       }).then(({ error }) => {
         if (error) message.error(error.message)
@@ -206,7 +206,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
   // update fund count
   useEffect(() => {
     if (company?.fundSize) {
-      setTeamSize(company?.fundSize)
+      setFundSize(company?.fundSize)
     }
   }, [company?.fundSize])
 

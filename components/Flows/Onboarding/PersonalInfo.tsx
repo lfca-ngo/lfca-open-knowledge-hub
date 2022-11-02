@@ -17,7 +17,6 @@ import { RuleObject } from 'antd/lib/form'
 import {
   CreateCompanyInput,
   RegisterUserInput,
-  useCreateCompanyMutation,
   useRegisterUserMutation,
 } from '../../../services/lfca-backend'
 import { JOB_ROLES_OPTIONS } from '../../../services/lfca-backend/utils/job-roles'
@@ -33,8 +32,6 @@ export const PersonalInfo = ({
 }: StepPropsWithSharedState) => {
   const [{ fetching: registeringUser }, registerUser] =
     useRegisterUserMutation()
-  const [{ data: companyData, fetching: creatingCompany }, createCompany] =
-    useCreateCompanyMutation()
 
   const onFinish = async (userInfo: RegisterUserInput) => {
     const companyInfo = {
@@ -42,31 +39,32 @@ export const PersonalInfo = ({
       subscriptionType: 'FREE',
     } as CreateCompanyInput
 
-    console.log(companyInfo, userInfo)
-
-    createCompany({
-      input: companyInfo,
+    registerUser({
+      input: {
+        company: {
+          country: companyInfo.country,
+          employeeCount: companyInfo.employeeCount,
+          logoUrl: companyInfo.logoUrl,
+          name: companyInfo.name,
+          tags: companyInfo.tags,
+        },
+        email: userInfo.email,
+        firstName: userInfo.firstName,
+        jobRole: userInfo.jobRole,
+        lastName: userInfo.lastName,
+        password: userInfo.password,
+        picture: userInfo.picture,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Company created')
+        // onNext?.()
+      }
     })
-      .then(() => message.success('jo'))
-      .catch((err) => message.error(err.toString()))
-
-    // try {
-    //   // create company
-
-    //   console.log('data', companyData)
-    //   // // create user
-    //   // await registerUser({
-    //   //   input: userInfo,
-    //   // })
-    //   message.success('worked')
-    // } catch (error) {
-    //   message.error('failed')
-    // }
-
-    // onNext?.()
   }
 
-  const isLoading = registeringUser || creatingCompany
+  const isLoading = registeringUser
 
   const passwordValidator = (_: RuleObject, value: string) => {
     const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/

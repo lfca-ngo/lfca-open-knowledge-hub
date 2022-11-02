@@ -443,6 +443,14 @@
             "args": []
           },
           {
+            "name": "fundSize",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "id",
             "type": {
               "kind": "NON_NULL",

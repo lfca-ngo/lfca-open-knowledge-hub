@@ -18,9 +18,12 @@ const VerifyEmailBarContent = () => {
       input: {
         userId: user?.id,
       },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Check your Emails')
+      }
     })
-      .then(() => message.success('Check your Emails'))
-      .catch(() => message.error('Something went wrong'))
   }
 
   return (

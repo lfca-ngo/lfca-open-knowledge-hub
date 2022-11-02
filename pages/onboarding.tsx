@@ -58,11 +58,6 @@ const Onboarding: NextPage<OnboardingProps> = ({
       title: 'Company',
     },
     {
-      component: Membership,
-      sideComponent: MembershipSide,
-      title: 'Membership',
-    },
-    {
       component: PersonalInfo,
       sideComponent: PersonalInfoSide,
       sideComponentBackgroundImage: CommunityFacesImage,
@@ -84,7 +79,11 @@ const Onboarding: NextPage<OnboardingProps> = ({
       sideComponent: InviteSide,
       title: 'Invite',
     },
-
+    {
+      component: Membership,
+      sideComponent: MembershipSide,
+      title: 'Membership',
+    },
     {
       component: Share,
       sideComponent: ShareSide,

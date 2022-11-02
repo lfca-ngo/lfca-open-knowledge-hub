@@ -6,6 +6,7 @@ fragment User on User {
     programContentId
     subscriptionType
     employeeCount
+    fundSize
     tags {
       name
     }

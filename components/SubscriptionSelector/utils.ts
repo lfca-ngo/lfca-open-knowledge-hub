@@ -1,12 +1,12 @@
 export interface PlanPricingProps {
   price: number
   maxEmployees?: number
-  maxFundsize?: number
+  maxFundsize?: number | null
 }
 
 export const calculatePricePoint = (
   pricing?: PlanPricingProps[],
-  maxCount?: number,
+  maxCount?: number | null,
   isVentureCapital = false
 ) => {
   if (!pricing) return undefined

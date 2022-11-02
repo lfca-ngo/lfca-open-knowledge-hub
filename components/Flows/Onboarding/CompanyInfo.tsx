@@ -227,7 +227,7 @@ export const CompanyInfo = ({
             </Popover>
           }
           name="logoUrl"
-          rules={[{ message: 'Please add a picture', required: false }]}
+          rules={[{ message: 'Please add your company logo', required: true }]}
         >
           <ImageUpload customPreset={CLOUDINARY_PRESETS.companyLogos} />
         </Form.Item>
