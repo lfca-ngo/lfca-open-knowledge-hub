@@ -12,6 +12,7 @@ import {
   Space,
   Tag,
 } from 'antd'
+import { DefaultOptionType } from 'antd/lib/select'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -19,15 +20,33 @@ import { useEffect, useState } from 'react'
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
+import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
 import { Country } from '../../../services/contentful'
+import { CompanySubscriptionType } from '../../../services/lfca-backend'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
 
-const { useForm } = Form
+const { useForm, useWatch } = Form
 
+const BASIC_PLAN = subscriptionsData.find(
+  (s) => s.name === CompanySubscriptionType.BASIC
+)
 const COMMUNITY_ADMITTANCE_URL = 'https://lfca.earth/community-admittance'
+const FUND_SIZE_OPTIONS = BASIC_PLAN?.pricingVentureCapital.reduce(
+  (acc, val, i) => {
+    const prev = acc[i - 1]
+
+    acc.push({
+      key: val.maxFundsize || 0,
+      label: `${prev ? `${prev.key + 1} -` : '<'} ${val.maxFundsize}`,
+    })
+
+    return acc
+  },
+  [] as Array<{ key: number; label: string }>
+)
 
 const SECTOR_OPTIONS = companyTagsData.map((t) => ({
   key: t,
@@ -57,6 +76,8 @@ export const CompanyInfo = ({
   const [companyInfoForm] = useForm()
   const [otherCompanies, setOtherCompanies] = useState<number | null>(null)
   const sectorStats = companyTagStatsData as { [key: string]: number }
+  const selectedTags = useWatch('tags', companyInfoForm) || []
+  const isVentureCapitalCompany = selectedTags.indexOf('vc') > -1
 
   const onValuesChange = (
     changedValue: CompanyInfoFormProps,
@@ -181,6 +202,21 @@ export const CompanyInfo = ({
             </Form.Item>
           </Col>
         </Row>
+
+        {isVentureCapitalCompany && FUND_SIZE_OPTIONS ? (
+          <Form.Item
+            label="Fund Size in Million USD"
+            name="fundSize"
+            rules={[{ message: 'Please share your fund size', required: true }]}
+          >
+            <Select placeholder="Please select">
+              {FUND_SIZE_OPTIONS.map((option) => (
+                <Select.Option key={option.key}>{option.label} M</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        ) : null}
+
         <Form.Item
           label={
             <Popover
