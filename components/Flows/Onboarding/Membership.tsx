@@ -30,7 +30,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
 import { ContentfulContentCollectionFields } from '../../../services/contentful'
-import { useUpdateCompanyMutation } from '../../../services/lfca-backend'
+import {
+  CompanySubscriptionType,
+  useUpdateCompanyMutation,
+} from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
 import { ContentList } from '../../ContentList'
 import { Section } from '../../Layout'
@@ -71,8 +74,8 @@ export const MembershipContent = ({
           effort: We need those who can afford it, to support those who can't.`}
         </p>
         <p>
-          By joining us as a <b>SUPPORTER</b>, you help us achieve this mission.
-          Need some help with your decision?{' '}
+          By joining us as a <b>PREMIUM Supporter</b>, you help us achieve this
+          mission. Need some help with your decision?{' '}
           <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>
       </div>
@@ -86,7 +89,10 @@ export const MembershipContent = ({
               description: s.shortDescription,
               icon: <Avatar shape="square" src={s.icon.url} />,
               key: s.name,
-              label: s.name,
+              label:
+                s.name === CompanySubscriptionType.FREE
+                  ? s.name
+                  : `${s.name} Supporter`,
             }))}
             value={sharedState?.selectedSubscriptionType}
           />
@@ -102,7 +108,7 @@ export const MembershipContent = ({
         />
       ) : (
         <Alert
-          description="We will send you an invoice with a payment link shortly after your onboarding is done. You can downgrade your subscription at any time."
+          description="We will send you an invoice with a payment link shortly after your onboarding is done. During the next 30 days you can downgrade your subscription at any time."
           message="What's next?"
           showIcon
           type="info"
@@ -138,6 +144,7 @@ export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
   const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
+  const [fundSize, setFundSize] = useState<number | null>()
   const [teamSize, setTeamSize] = useState<number | null>()
   const { company, isVentureCapitalCompany } = useUser()
 
@@ -152,7 +159,7 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     })
 
   const calculatedPrice = isVentureCapitalCompany
-    ? calculatePricePoint(plan?.pricingVentureCapital, 50) // @TODO: replace with fund size
+    ? calculatePricePoint(plan?.pricingVentureCapital, 70, true) // @TODO: replace with fund size
     : calculatePricePoint(plan?.pricing, company?.employeeCount)
 
   const debouncedTeamSizeInput = useRef(
@@ -168,33 +175,73 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
     }, 500)
   ).current
 
+  const debouncedFundSizeInput = useRef(
+    _debounce(async (value) => {
+      updateCompany({
+        input: {
+          // fundSize: value,
+        },
+      }).then(({ error }) => {
+        if (error) message.error(error.message)
+        message.success('Changed fund size')
+      })
+    }, 500)
+  ).current
+
   const handleTeamSizeChange = (val: number | null) => {
     debouncedTeamSizeInput(val)
   }
 
+  const handleFundSizeChange = (val: number | null) => {
+    debouncedFundSizeInput(val)
+  }
+
+  // update employee count
   useEffect(() => {
     if (company?.employeeCount) {
       setTeamSize(company?.employeeCount)
     }
   }, [company?.employeeCount])
 
+  // update fund count
+  useEffect(() => {
+    if (company?.fundSize) {
+      setTeamSize(company?.fundSize)
+    }
+  }, [company?.fundSize])
+
   return (
     <div className={styles['membership-summary']}>
       <h4>Summary</h4>
       <Card>
         <Row align="middle">
-          <Col xs={12}>
+          <Col xs={8}>
             <div className="summary-title">{plan?.name}</div>
           </Col>
-          <Col className="team-input" xs={12}>
-            <span className="team-input-label">
-              {fetching && <LoadingOutlined />} Team
-            </span>
-            <InputNumber
-              onChange={handleTeamSizeChange}
-              size="small"
-              value={teamSize}
-            />
+          <Col className="team-input" xs={16}>
+            {isVentureCapitalCompany ? (
+              <>
+                <span className="team-input-label">
+                  {fetching && <LoadingOutlined />} Fundsize
+                </span>
+                <InputNumber
+                  onChange={handleFundSizeChange}
+                  size="small"
+                  value={fundSize}
+                />
+              </>
+            ) : (
+              <>
+                <span className="team-input-label">
+                  {fetching && <LoadingOutlined />} Team
+                </span>
+                <InputNumber
+                  onChange={handleTeamSizeChange}
+                  size="small"
+                  value={teamSize}
+                />
+              </>
+            )}
           </Col>
         </Row>
 

@@ -12,7 +12,6 @@ import {
   Space,
   Tag,
 } from 'antd'
-import { DefaultOptionType } from 'antd/lib/select'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -55,6 +54,7 @@ const SECTOR_OPTIONS = companyTagsData.map((t) => ({
 
 export interface CompanyInfoFormProps {
   country: string
+  fundSize?: number
   name: string
   employeeCount: number
   tags: string[]

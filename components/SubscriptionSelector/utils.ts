@@ -1,16 +1,20 @@
 export interface PlanPricingProps {
   price: number
   maxEmployees?: number
+  maxFundsize?: number
 }
 
 export const calculatePricePoint = (
   pricing?: PlanPricingProps[],
-  maxCount?: number
+  maxCount?: number,
+  isVentureCapital = false
 ) => {
   if (!pricing) return undefined
 
+  const maxAttribute = isVentureCapital ? 'maxFundsize' : 'maxEmployees'
+
   return pricing.find(
-    (price) => (price.maxEmployees || Infinity) >= (maxCount || 0)
+    (price) => (price[maxAttribute] || Infinity) >= (maxCount || 0)
   )
 }
 
