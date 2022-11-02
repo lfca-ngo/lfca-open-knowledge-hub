@@ -14,6 +14,7 @@ import {
 } from 'antd'
 import { RuleObject } from 'antd/lib/form'
 
+import { useFirebase } from '../../../hooks/firebase'
 import {
   CreateCompanyInput,
   RegisterUserInput,
@@ -26,10 +27,12 @@ import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 
 export const PersonalInfo = ({
+  onNext,
   onPrev,
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
+  const { login } = useFirebase()
   const [{ fetching: registeringUser }, registerUser] =
     useRegisterUserMutation()
 
@@ -55,11 +58,13 @@ export const PersonalInfo = ({
         password: userInfo.password,
         picture: userInfo.picture,
       },
-    }).then(({ error }) => {
+    }).then(async ({ error }) => {
       if (error) message.error(error.message)
       else {
-        message.success('Company created')
-        // onNext?.()
+        // log user in automatically
+        await login(userInfo.email, userInfo.password)
+        message.success('Account successfully created. Logging you in...')
+        onNext?.()
       }
     })
   }
