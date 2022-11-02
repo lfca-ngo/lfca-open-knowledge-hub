@@ -8,7 +8,7 @@ import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const GroupsContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
   const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
