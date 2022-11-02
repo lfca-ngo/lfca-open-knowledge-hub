@@ -29,6 +29,7 @@ import { StepPropsWithSharedState } from './..'
 export const PersonalInfo = ({
   onNext,
   onPrev,
+  setSharedState,
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
@@ -61,6 +62,8 @@ export const PersonalInfo = ({
     }).then(async ({ error }) => {
       if (error) message.error(error.message)
       else {
+        // clear persisted form data
+        setSharedState?.({ company: null })
         // log user in automatically
         await login(userInfo.email, userInfo.password)
         message.success('Account created. Logging you in...')

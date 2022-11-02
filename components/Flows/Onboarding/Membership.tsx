@@ -52,6 +52,8 @@ export const MembershipContent = ({
 }: StepPropsWithSharedState & {
   membershipFaq?: ContentfulContentCollectionFields
 }) => {
+  const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
+
   const [showFaq, setShowFaq] = useState(false)
   const onSubscriptionChange = (value: OptionKey[]) => {
     const [subscription] = value
@@ -61,7 +63,23 @@ export const MembershipContent = ({
     })
   }
 
-  const isFreeTierSelected = sharedState?.selectedSubscriptionType === 'FREE'
+  const handleContinue = () => {
+    // save subscription type
+    updateCompany({
+      input: {
+        subscriptionType: sharedState?.selectedSubscriptionType,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else {
+        message.success('Updated membership')
+        onNext?.()
+      }
+    })
+  }
+
+  const isFreeTierSelected =
+    sharedState?.selectedSubscriptionType === CompanySubscriptionType.FREE
 
   return (
     <div>
@@ -116,7 +134,12 @@ export const MembershipContent = ({
       )}
 
       <Space style={{ marginTop: '20px' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button
+          loading={fetching}
+          onClick={handleContinue}
+          size="large"
+          type="primary"
+        >
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">
