@@ -27,10 +27,6 @@ export const PayWall = ({
   popoverTitle,
   primer,
 }: PayWallProps) => {
-  // @TODO: for testing purposes the programId will
-  // be our restriction, this should be replaced with a
-  // dynamic attribute connected to payment and with expiry date
-
   const { fetching, isPaying } = useUser()
 
   if (!isPaying && !fetching)
