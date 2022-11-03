@@ -7,6 +7,7 @@ export const EventSignUp = () => {
 
   return (
     <div>
+      <h1>Sign Up for this Event</h1>
       <Form onFinish={handleSubmit}>
         <Form.Item
           name="email"
@@ -18,7 +19,7 @@ export const EventSignUp = () => {
             },
           ]}
         >
-          <Input type="email" />
+          <Input placeholder="nelson@impact.earth" type="email" />
         </Form.Item>
         <Form.Item>
           <Button block htmlType="submit" size="large" type="primary">
