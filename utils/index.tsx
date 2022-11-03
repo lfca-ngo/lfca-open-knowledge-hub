@@ -1,10 +1,12 @@
 import { DefaultOptionType } from 'antd/lib/select'
-import { ReactNode } from 'react'
+
 import { CompanyActionListItemFragment } from '../services/lfca-backend'
 import { RemoveNull } from '../types'
 
 export const isDev = process.env.NODE_ENV === 'development'
 export const isBrowser = () => typeof window !== 'undefined'
+
+export const COPY_BTN_WIDTH = '60'
 
 export const LAYOUT_BREAKPOINTS = [
   { maxWidth: 575, name: 'xs' },

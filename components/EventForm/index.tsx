@@ -39,12 +39,12 @@ export const EventForm = ({
   const [{ fetching: isCreatingEvent }, createEvent] = useCreateEventMutation()
   const [{ fetching: isUpdatingEvent }, updateEvent] = useUpdateEventMutation()
   const [form] = Form.useForm()
-  const shouldUpdate = initialValues && 'id' in initialValues
+  const isUpdate = initialValues && 'id' in initialValues
 
   const handleSubmit = (allValues: FormValues) => {
     const convertedValues = convertFormValues(allValues)
 
-    if (shouldUpdate) {
+    if (isUpdate) {
       // Updating an existing event
       updateEvent({
         input: {
@@ -101,7 +101,7 @@ export const EventForm = ({
         layout="vertical"
         onFinish={handleSubmit}
       >
-        {!shouldUpdate && (
+        {!isUpdate && (
           <Form.Item
             key="category"
             label="Category"

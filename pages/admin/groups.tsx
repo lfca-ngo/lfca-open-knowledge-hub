@@ -9,7 +9,7 @@ const Reviews: NextPage = () => {
   return (
     <SiderLayout nav={ADMIN_NAV}>
       <Main>
-        <Section title="Groups" titleSize="big">
+        <Section title="Groups & Events" titleSize="big">
           <AdminEventsList />
         </Section>
       </Main>

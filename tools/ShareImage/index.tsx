@@ -11,10 +11,8 @@ import { LinkedinShareButton } from 'react-share'
 
 import { useUser } from '../../hooks/user'
 import { useCreateInvite } from '../../services/next-server'
-import { copyTextToClipboard } from '../../utils'
+import { COPY_BTN_WIDTH, copyTextToClipboard } from '../../utils'
 import styles from './styles.module.less'
-
-const BTN_WIDTH = '60'
 
 interface ShareImageProps {
   hideImage?: boolean
@@ -78,14 +76,14 @@ export const ShareImage = ({
               <Input
                 disabled
                 size="large"
-                style={{ width: `calc(100% - ${BTN_WIDTH}px` }}
+                style={{ width: `calc(100% - ${COPY_BTN_WIDTH}px` }}
                 value={data?.shortLink}
               />
               <Button
                 icon={<CopyOutlined />}
                 onClick={handleCopy}
                 size="large"
-                style={{ width: `${BTN_WIDTH}px` }}
+                style={{ width: `${COPY_BTN_WIDTH}px` }}
               />
             </Input.Group>
           </Col>

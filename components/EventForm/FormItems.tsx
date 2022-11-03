@@ -3,6 +3,7 @@ import { DatePicker, Form, FormInstance, Input } from 'antd'
 import { RecurrenceRuleInput } from '../RecurrenceRuleInput'
 import { RichTextInput } from '../RichTextInput'
 import { FormValues } from '.'
+import { PublicEventLink } from './PublicEventLink'
 
 interface FormItemsProps {
   form: FormInstance
@@ -69,6 +70,7 @@ export const FormItems = ({}: FormItemsProps) => {
   return (
     <>
       {Object.keys(formItems).map((key) => formItems[key as keyof FormValues])}
+      <PublicEventLink />
     </>
   )
 }
