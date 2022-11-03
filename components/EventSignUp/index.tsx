@@ -7,24 +7,33 @@ import {
 } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
 import { Recurrence, Status } from '../EventCard/EventMeta'
+import { InviteMode } from '../EventLinkCreator'
 import { MarkdownContent } from '../MarkdownContent'
 
 interface EventSignUpProps {
   event: EventFragment
+  mode?: string
   token: string
 }
 
 const { Panel } = Collapse
 
-export const EventSignUp = ({ event, token }: EventSignUpProps) => {
+export const EventSignUp = ({
+  event,
+  mode = InviteMode.DIRECT,
+  token,
+}: EventSignUpProps) => {
   const [{ data, fetching }, processInviteToken] =
     useProcessEventInviteTokenMutation()
+  const isDirectInvite = mode === InviteMode.DIRECT
 
   const handleSubmit = ({ email }: { email: string }) => {
     processInviteToken({
       input: {
         inviteParticipantEmail: email,
-        inviteParticipantStatus: EventParticipantStatus.USER_RSVP_ACCEPTED,
+        inviteParticipantStatus: isDirectInvite
+          ? EventParticipantStatus.USER_RSVP_ACCEPTED
+          : EventParticipantStatus.AWAITING_ADMIN_APPROVAL,
         token,
       },
     }).then((res) => {
@@ -36,12 +45,18 @@ export const EventSignUp = ({ event, token }: EventSignUpProps) => {
 
   return data?.processEventInviteToken ? (
     <>
-      <h1>Wonderful!</h1>
-      <p>
-        We are looking forward to seeing you at the event. Please add the invite
-        to your calendar.
-      </p>
-      <EventCalendarLinks event={data.processEventInviteToken} />
+      {isDirectInvite ? (
+        <>
+          <h1>Wonderful!</h1>
+          <p>
+            We are looking forward to seeing you at the event. Please add the
+            invite to your calendar.
+          </p>
+          <EventCalendarLinks event={data.processEventInviteToken} />
+        </>
+      ) : (
+        <>We will approve</>
+      )}
     </>
   ) : (
     <div>
