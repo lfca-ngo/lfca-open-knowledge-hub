@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from 'antd'
+import { Button, Collapse, Form, Input, message } from 'antd'
 
 import {
   EventFragment,
@@ -6,11 +6,14 @@ import {
   useProcessEventInviteTokenMutation,
 } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
+import { Recurrence, Status } from '../EventCard/EventMeta'
 
 interface EventSignUpProps {
   event: EventFragment
   token: string
 }
+
+const { Panel } = Collapse
 
 export const EventSignUp = ({ event, token }: EventSignUpProps) => {
   const [{ data, fetching }, processInviteToken] =
@@ -32,14 +35,21 @@ export const EventSignUp = ({ event, token }: EventSignUpProps) => {
 
   return data?.processEventInviteToken ? (
     <>
-      <h1>Success</h1>
+      <h1>Wonderful!</h1>
+      <p>
+        We are looking forward to seeing you at the event. Please add the invite
+        to your calendar.
+      </p>
       <EventCalendarLinks event={data.processEventInviteToken} />
     </>
   ) : (
     <div>
-      <h1>Sign Up for {event.title}</h1>
-      <Form onFinish={handleSubmit}>
+      <h1>{event.title}</h1>
+      <p>To Sign up for this event, please enter your Email address below.</p>
+
+      <Form layout="vertical" onFinish={handleSubmit}>
         <Form.Item
+          label="Your Email"
           name="email"
           rules={[
             {
@@ -61,6 +71,18 @@ export const EventSignUp = ({ event, token }: EventSignUpProps) => {
           >
             Sign up for event
           </Button>
+        </Form.Item>
+
+        <Form.Item label="Event Details">
+          <Collapse accordion>
+            <Panel header="Time & Date" key="time">
+              <Recurrence event={event} />
+              <Status event={event} />
+            </Panel>
+            <Panel header="Event Description" key="details">
+              {event?.description}
+            </Panel>
+          </Collapse>
         </Form.Item>
       </Form>
     </div>

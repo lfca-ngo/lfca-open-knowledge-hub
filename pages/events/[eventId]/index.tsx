@@ -34,7 +34,7 @@ const EventPage: NextPage<EventPageProps> = ({ event }) => {
 export const getStaticProps: GetStaticProps<EventPageProps> = async ({
   params,
 }) => {
-  console.log(params)
+  console.log('or here', params)
   const eventId = params?.eventId as string
 
   const options = {
