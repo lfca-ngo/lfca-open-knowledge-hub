@@ -1,0 +1,81 @@
+import axios from 'axios'
+import { decode } from 'jsonwebtoken'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { useRouter } from 'next/router'
+import React from 'react'
+
+import { OneColLayout } from '../../../components/Layout'
+import { EventFragment } from '../../../services/lfca-backend'
+
+interface EventPageProps {
+  event: EventFragment
+}
+
+const EventPage: NextPage<EventPageProps> = ({ event }) => {
+  const { query } = useRouter()
+  const { token } = query
+
+  const isVerified = React.useMemo(() => {
+    if (!token || Array.isArray(token)) return false
+    const decoded = decode(token) as { eventId: string }
+
+    return decoded?.eventId === event.id
+  }, [event, token])
+
+  return !isVerified ? (
+    <h1>Not found</h1>
+  ) : (
+    <OneColLayout>
+      <h1>{event.title} details</h1>
+    </OneColLayout>
+  )
+}
+
+export const getStaticProps: GetStaticProps<EventPageProps> = async ({
+  params,
+}) => {
+  console.log(params)
+  const eventId = params?.eventId as string
+
+  const options = {
+    data: {
+      operationName: 'event',
+      query:
+        'query event($input: EventInput!) {event(input: $input) {category description id title}}',
+      variables: { input: { eventId } },
+    },
+
+    headers: {
+      Authorization: `Bearer ${process.env.LFCA_BACKED_ADMIN_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    url: process.env.NEXT_PUBLIC_LFCA_BACKED_URL,
+  }
+
+  try {
+    const response = await axios.request(options)
+
+    const event = response.data.data.event
+
+    return {
+      props: {
+        event,
+      },
+    }
+  } catch (e) {
+    return {
+      notFound: true,
+      revalidate: 300, // 5min
+    }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    fallback: 'blocking',
+    paths: [],
+  }
+}
+
+export default EventPage
