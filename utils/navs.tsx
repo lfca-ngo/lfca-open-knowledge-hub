@@ -38,7 +38,7 @@ export const ACTIONS_NAV = [
 export const ADMIN_NAV = [
   { path: ADMIN_USERS, title: 'Users' },
   { path: ADMIN_COMPANIES, title: 'Companies' },
-  { path: ADMIN_GROUPS, title: 'Groups' },
+  { path: ADMIN_GROUPS, title: 'Events' },
   { path: ADMIN_REVIEWS, title: 'Reviews' },
   { path: ADMIN_COMMENTS, title: 'Comments' },
   { path: ADMIN_ACTIONS, title: 'Actions' },

@@ -15,6 +15,7 @@ import {
 import { convertFormValues } from './convert-form-values'
 import { FormItems } from './FormItems'
 import { parseInitialValues } from './parse-initial-values'
+import { PublicEventLink } from './PublicEventLink'
 
 export type FormValues = Omit<
   UpdateEventInput,
@@ -39,12 +40,12 @@ export const EventForm = ({
   const [{ fetching: isCreatingEvent }, createEvent] = useCreateEventMutation()
   const [{ fetching: isUpdatingEvent }, updateEvent] = useUpdateEventMutation()
   const [form] = Form.useForm()
-  const shouldUpdate = initialValues && 'id' in initialValues
+  const isUpdate = initialValues && 'id' in initialValues
 
   const handleSubmit = (allValues: FormValues) => {
     const convertedValues = convertFormValues(allValues)
 
-    if (shouldUpdate) {
+    if (isUpdate) {
       // Updating an existing event
       updateEvent({
         input: {
@@ -101,7 +102,7 @@ export const EventForm = ({
         layout="vertical"
         onFinish={handleSubmit}
       >
-        {!shouldUpdate && (
+        {!isUpdate && (
           <Form.Item
             key="category"
             label="Category"
@@ -117,6 +118,8 @@ export const EventForm = ({
         )}
 
         <FormItems form={form} />
+
+        {isUpdate && <PublicEventLink eventId={initialValues.id} />}
 
         <Form.Item>
           <Space>

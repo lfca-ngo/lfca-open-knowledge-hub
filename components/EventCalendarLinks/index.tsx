@@ -13,7 +13,15 @@ import Office365Icon from './icons/office365.svg'
 import OutlookIcon from './icons/outlook.svg'
 
 interface EventCalendarLinksProps {
-  event: EventFragment
+  event: Pick<
+    EventFragment,
+    | 'description'
+    | 'videoConferenceUrl'
+    | 'end'
+    | 'recurrenceRule'
+    | 'start'
+    | 'title'
+  >
 }
 
 function generateHTMLDescription(
@@ -65,9 +73,8 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
       >
         Add to Google Calendar
       </Button>
-      {!parsedEvent.rRule ? (
+      {!parsedEvent.rRule && (
         <>
-          {' '}
           <Button
             block
             icon={<Icon component={OutlookIcon} />}
@@ -85,7 +92,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
             Add to Office365
           </Button>
         </>
-      ) : null}
+      )}
       <Button
         block
         icon={<Icon component={IcsIcon} />}
