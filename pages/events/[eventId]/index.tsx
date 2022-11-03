@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
-import { OneColLayout } from '../../components/Layout'
-import { useProcessEventRsvpTokenMutation } from '../../services/lfca-backend'
+import { OneColLayout } from '../../../components/Layout'
+import { useProcessEventRsvpTokenMutation } from '../../../services/lfca-backend'
 
 const EventDetails: NextPage = () => {
   const { isReady, query } = useRouter()
@@ -22,7 +22,12 @@ const EventDetails: NextPage = () => {
     }
   }, [processEventRSVPToken, token])
 
-  return <OneColLayout>Event Details</OneColLayout>
+  return (
+    <OneColLayout>
+      <h1>Event Details</h1>
+      <EventDetails event={event} />
+    </OneColLayout>
+  )
 }
 
 export default EventDetails

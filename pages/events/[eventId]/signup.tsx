@@ -22,7 +22,12 @@ const EventSignUp: NextPage = () => {
     }
   }, [processEventRSVPToken, token])
 
-  return <OneColLayout>Sign up</OneColLayout>
+  return (
+    <OneColLayout>
+      <h1>Sign up for Event</h1>
+      <EventSignUp />
+    </OneColLayout>
+  )
 }
 
 export default EventSignUp
