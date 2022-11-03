@@ -1,18 +1,18 @@
 import type { NextPage } from 'next'
 import React from 'react'
 
-import { EventSignUp } from '../../../components/EventSignUp'
+import { EventDetails } from '../../../components/EventDetails'
 import { OneColLayout } from '../../../components/Layout'
 import { withEventToken } from '../../../hooks/useProcessEventToken'
 
-export const WrappedEventSignUp = withEventToken(EventSignUp)
+export const WrappedEventDetails = withEventToken(EventDetails)
 
-const EventSignUpPage: NextPage = () => {
+const Event: NextPage = () => {
   return (
     <OneColLayout>
-      <WrappedEventSignUp />
+      <WrappedEventDetails />
     </OneColLayout>
   )
 }
 
-export default EventSignUpPage
+export default Event
