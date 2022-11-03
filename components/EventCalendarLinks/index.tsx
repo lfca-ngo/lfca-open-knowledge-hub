@@ -13,7 +13,15 @@ import Office365Icon from './icons/office365.svg'
 import OutlookIcon from './icons/outlook.svg'
 
 interface EventCalendarLinksProps {
-  event: EventFragment
+  event: Pick<
+    EventFragment,
+    | 'description'
+    | 'videoConferenceUrl'
+    | 'end'
+    | 'recurrenceRule'
+    | 'start'
+    | 'title'
+  >
 }
 
 function generateHTMLDescription(

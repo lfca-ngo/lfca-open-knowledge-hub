@@ -358,6 +358,11 @@ export type CreateEventInput = {
   videoConferenceUrl?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateEventInviteTokenInput = {
+  allowedInviteParticipantStatus?: InputMaybe<Array<EventParticipantStatus>>;
+  eventId: Scalars['String'];
+};
+
 export type CreateServiceProviderReviewInput = {
   cons?: InputMaybe<Array<Scalars['String']>>;
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
@@ -428,6 +433,10 @@ export enum EventCategory {
   MASTERMIND_GROUP = 'MASTERMIND_GROUP',
   ONBOARDING_COURSE = 'ONBOARDING_COURSE'
 }
+
+export type EventInput = {
+  eventId: Scalars['ID'];
+};
 
 export type EventParticipant = {
   __typename?: 'EventParticipant';
@@ -529,6 +538,8 @@ export type Mutation = {
   createCompanyExport: Scalars['String'];
   /** Admin-only operation */
   createEvent: Event;
+  /** Admin-only operation */
+  createEventInviteToken?: Maybe<Scalars['String']>;
   createEventParticipantExport: Scalars['String'];
   createServiceProviderReview: ServiceProviderReview;
   createUserExport: Scalars['String'];
@@ -540,6 +551,7 @@ export type Mutation = {
   planCompanyAction: CompanyAction;
   processCompanyActionDeprecation: Scalars['Boolean'];
   processCompanyActionExpiry: Scalars['Boolean'];
+  processEventInviteToken: Event;
   processEventRSVPToken: Event;
   processUserActionExpiry: Scalars['Boolean'];
   purgeCache: Scalars['Boolean'];
@@ -601,6 +613,11 @@ export type MutationCreateEventArgs = {
 };
 
 
+export type MutationCreateEventInviteTokenArgs = {
+  input: CreateEventInviteTokenInput;
+};
+
+
 export type MutationCreateServiceProviderReviewArgs = {
   input: CreateServiceProviderReviewInput;
 };
@@ -633,6 +650,11 @@ export type MutationDeleteUserArgs = {
 
 export type MutationPlanCompanyActionArgs = {
   input: PlanCompanyActionInput;
+};
+
+
+export type MutationProcessEventInviteTokenArgs = {
+  input: ProcessEventInviteTokenInput;
 };
 
 
@@ -702,6 +724,14 @@ export type PlanCompanyActionInput = {
   isPlanned: Scalars['Boolean'];
 };
 
+export type ProcessEventInviteTokenInput = {
+  /** System will check internally if user already exists or an external user should be created */
+  inviteParticipantEmail: Scalars['String'];
+  inviteParticipantStatus?: InputMaybe<EventParticipantStatus>;
+  notes?: InputMaybe<Scalars['String']>;
+  token: Scalars['String'];
+};
+
 export type ProcessEventRsvpTokenInput = {
   forwardEmail?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -730,6 +760,7 @@ export type Query = {
   companyTagStats: Array<CompanyTagStatsResultItem>;
   companyTags: Array<CompanyTag>;
   counterStats: CounterStatsResult;
+  event: Event;
   eventParticipants: Array<EventParticipant>;
   eventStats: EventStatsResult;
   events: Array<Event>;
@@ -783,6 +814,11 @@ export type QueryCompanyActionArgs = {
 
 export type QueryCompanyActionsArgs = {
   input?: InputMaybe<CompanyActionsInput>;
+};
+
+
+export type QueryEventArgs = {
+  input: EventInput;
 };
 
 
@@ -1292,6 +1328,13 @@ export type CreateCompanyMutationVariables = Exact<{
 
 export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany: { __typename?: 'Company', campaignContribution?: string | null, campaignGoals?: string | null, country: string, crmId?: string | null, deletedAt?: any | null, fundSize?: number | null, employeeCount: number, id: string, internalDescription?: string | null, logoUrl?: string | null, micrositeSlug?: string | null, name?: string | null, subscriptionType: CompanySubscriptionType, websiteUrl?: string | null, aboutSections?: Array<{ __typename?: 'CompanyAboutSection', heading?: string | null, imageUrl?: string | null, text?: string | null } | null> | null, campaignFiles: Array<{ __typename?: 'File', name?: string | null, url: string }>, program: { __typename?: 'CompanyProgram', contentId: string, name: string }, tags: Array<{ __typename?: 'CompanyTag', name: string }> } };
 
+export type CreateEventInviteTokenMutationVariables = Exact<{
+  input: CreateEventInviteTokenInput;
+}>;
+
+
+export type CreateEventInviteTokenMutation = { __typename?: 'Mutation', createEventInviteToken?: string | null };
+
 export type CreateEventParticipantExportMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1357,6 +1400,13 @@ export type PlanCompanyActionMutationVariables = Exact<{
 
 
 export type PlanCompanyActionMutation = { __typename?: 'Mutation', planCompanyAction: { __typename?: 'CompanyAction', commentAttachmentCount: number, commentCount: number, companiesDoingCount: number, completedAt?: any | null, contentId: string, id: string, impactValue: number, notes?: string | null, plannedAt?: any | null, recommendedForCompanyAchievementIds: Array<string>, requiredForCompanyAchievementIds: Array<string>, title?: string | null, categories: Array<{ __typename?: 'Category', id: string, name?: string | null }>, heroImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, recentCompaniesDoing: Array<{ __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null }>, requirements: Array<{ __typename?: 'CompanyActionRequirement', contentId: string, title?: string | null, completedAt?: any | null, description?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string } | null } };
+
+export type ProcessEventInviteTokenMutationVariables = Exact<{
+  input: ProcessEventInviteTokenInput;
+}>;
+
+
+export type ProcessEventInviteTokenMutation = { __typename?: 'Mutation', processEventInviteToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type ProcessEventRsvpTokenMutationVariables = Exact<{
   input: ProcessEventRsvpTokenInput;
@@ -2056,6 +2106,15 @@ export const CreateCompanyDocument = gql`
 export function useCreateCompanyMutation() {
   return Urql.useMutation<CreateCompanyMutation, CreateCompanyMutationVariables>(CreateCompanyDocument);
 };
+export const CreateEventInviteTokenDocument = gql`
+    mutation createEventInviteToken($input: CreateEventInviteTokenInput!) {
+  createEventInviteToken(input: $input)
+}
+    `;
+
+export function useCreateEventInviteTokenMutation() {
+  return Urql.useMutation<CreateEventInviteTokenMutation, CreateEventInviteTokenMutationVariables>(CreateEventInviteTokenDocument);
+};
 export const CreateEventParticipantExportDocument = gql`
     mutation createEventParticipantExport {
   createEventParticipantExport
@@ -2160,6 +2219,26 @@ export const PlanCompanyActionDocument = gql`
 
 export function usePlanCompanyActionMutation() {
   return Urql.useMutation<PlanCompanyActionMutation, PlanCompanyActionMutationVariables>(PlanCompanyActionDocument);
+};
+export const ProcessEventInviteTokenDocument = gql`
+    mutation processEventInviteToken($input: ProcessEventInviteTokenInput!) {
+  processEventInviteToken(input: $input) {
+    category
+    description
+    end
+    id
+    participationStatus
+    recurrenceRule
+    start
+    status
+    title
+    videoConferenceUrl
+  }
+}
+    `;
+
+export function useProcessEventInviteTokenMutation() {
+  return Urql.useMutation<ProcessEventInviteTokenMutation, ProcessEventInviteTokenMutationVariables>(ProcessEventInviteTokenDocument);
 };
 export const ProcessEventRsvpTokenDocument = gql`
     mutation processEventRSVPToken($input: ProcessEventRSVPTokenInput!) {

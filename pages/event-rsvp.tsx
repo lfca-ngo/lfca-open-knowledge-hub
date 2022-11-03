@@ -12,11 +12,10 @@ import { useProcessEventRsvpTokenMutation } from '../services/lfca-backend'
  */
 
 const EventRsvp: NextPage = () => {
-  const { isReady, query } = useRouter()
+  const { query } = useRouter()
   const { token } = query
 
-  const [{ data, error, fetching }, processEventRSVPToken] =
-    useProcessEventRsvpTokenMutation()
+  const [{ data }, processEventRSVPToken] = useProcessEventRsvpTokenMutation()
 
   useEffect(() => {
     if (typeof token === 'string') {
@@ -30,12 +29,7 @@ const EventRsvp: NextPage = () => {
 
   return (
     <OneColLayout>
-      <EventRSVPResult
-        event={data?.processEventRSVPToken}
-        hasError={!!error}
-        isFetching={fetching || !isReady}
-        token={token}
-      />
+      <EventRSVPResult event={data?.processEventRSVPToken} token={token} />
     </OneColLayout>
   )
 }

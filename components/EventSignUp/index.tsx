@@ -1,13 +1,43 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 
-export const EventSignUp = () => {
+import {
+  EventFragment,
+  EventParticipantStatus,
+  useProcessEventInviteTokenMutation,
+} from '../../services/lfca-backend'
+import { EventCalendarLinks } from '../EventCalendarLinks'
+
+interface EventSignUpProps {
+  event: EventFragment
+  token: string
+}
+
+export const EventSignUp = ({ event, token }: EventSignUpProps) => {
+  const [{ data, fetching }, processInviteToken] =
+    useProcessEventInviteTokenMutation()
+
   const handleSubmit = ({ email }: { email: string }) => {
-    //
+    processInviteToken({
+      input: {
+        inviteParticipantEmail: email,
+        inviteParticipantStatus: EventParticipantStatus.USER_RSVP_ACCEPTED,
+        token,
+      },
+    }).then((res) => {
+      if (res.error) {
+        message.error(res.error.message)
+      }
+    })
   }
 
-  return (
+  return data?.processEventInviteToken ? (
+    <>
+      <h1>Success</h1>
+      <EventCalendarLinks event={data.processEventInviteToken} />
+    </>
+  ) : (
     <div>
-      <h1>Sign Up for this Event</h1>
+      <h1>Sign Up for {event.title}</h1>
       <Form onFinish={handleSubmit}>
         <Form.Item
           name="email"
@@ -22,7 +52,13 @@ export const EventSignUp = () => {
           <Input placeholder="nelson@impact.earth" type="email" />
         </Form.Item>
         <Form.Item>
-          <Button block htmlType="submit" size="large" type="primary">
+          <Button
+            block
+            htmlType="submit"
+            loading={fetching}
+            size="large"
+            type="primary"
+          >
             Sign up for event
           </Button>
         </Form.Item>
