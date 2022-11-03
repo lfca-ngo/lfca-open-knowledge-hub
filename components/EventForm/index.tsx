@@ -12,10 +12,10 @@ import {
   useCreateEventMutation,
   useUpdateEventMutation,
 } from '../../services/lfca-backend'
+import { EventLinkCreator } from '../EventLinkCreator'
 import { convertFormValues } from './convert-form-values'
 import { FormItems } from './FormItems'
 import { parseInitialValues } from './parse-initial-values'
-import { PublicEventLink } from './PublicEventLink'
 
 export type FormValues = Omit<
   UpdateEventInput,
@@ -119,8 +119,6 @@ export const EventForm = ({
 
         <FormItems form={form} />
 
-        {isUpdate && <PublicEventLink eventId={initialValues.id} />}
-
         <Form.Item>
           <Space>
             <Button
@@ -150,6 +148,9 @@ export const EventForm = ({
           </Space>
         </Form.Item>
       </Form>
+
+      {/* Create invite links */}
+      {isUpdate && <EventLinkCreator eventId={initialValues.id} />}
     </>
   )
 }

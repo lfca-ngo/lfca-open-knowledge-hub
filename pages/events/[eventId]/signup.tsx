@@ -14,11 +14,15 @@ interface EventSignUpPageProps {
 
 const EventSignUpPage: NextPage<EventSignUpPageProps> = ({ event }) => {
   const { query } = useRouter()
-  const { token } = query
+  const { mode, token } = query
 
   return (
     <OneColLayout backgroundImage={EventBackgroundImage}>
-      <EventSignUp event={event} token={token as string} />
+      <EventSignUp
+        event={event}
+        mode={mode as string}
+        token={token as string}
+      />
     </OneColLayout>
   )
 }
