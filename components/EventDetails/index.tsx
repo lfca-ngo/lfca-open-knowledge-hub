@@ -3,6 +3,7 @@ import { Collapse, Divider } from 'antd'
 import { EventFragment } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
 import { Recurrence, Status } from '../EventCard/EventMeta'
+import { MarkdownContent } from '../MarkdownContent'
 import styles from './styles.module.less'
 
 const { Panel } = Collapse
@@ -19,7 +20,7 @@ export const EventDetails = ({ event }: EventCardDefaultProps) => {
       <h1>{event.title}</h1>
       <Collapse accordion>
         <Panel header="Event Description" key="details">
-          {event?.description}
+          <MarkdownContent content={event?.description || ''} />
         </Panel>
         <Panel header="Time & Date" key="time">
           {event && (

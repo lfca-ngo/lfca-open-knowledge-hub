@@ -7,6 +7,7 @@ import {
 } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
 import { Recurrence, Status } from '../EventCard/EventMeta'
+import { MarkdownContent } from '../MarkdownContent'
 
 interface EventSignUpProps {
   event: EventFragment
@@ -80,7 +81,7 @@ export const EventSignUp = ({ event, token }: EventSignUpProps) => {
               <Status event={event} />
             </Panel>
             <Panel header="Event Description" key="details">
-              {event?.description}
+              <MarkdownContent content={event?.description || ''} />
             </Panel>
           </Collapse>
         </Form.Item>

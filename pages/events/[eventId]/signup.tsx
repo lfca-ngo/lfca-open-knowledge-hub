@@ -31,8 +31,20 @@ export const getStaticProps: GetStaticProps<EventSignUpPageProps> = async ({
   const options = {
     data: {
       operationName: 'event',
-      query:
-        'query event($input: EventInput!) {event(input: $input) {category description id title}}',
+      query: `query event($input: EventInput!) {
+        event(input: $input) {
+          category
+          description
+          end
+          id
+          participationStatus
+          recurrenceRule
+          start
+          status
+          title
+          videoConferenceUrl
+        }
+      }`,
       variables: { input: { eventId } },
     },
 
