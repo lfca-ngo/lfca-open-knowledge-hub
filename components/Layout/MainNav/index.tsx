@@ -132,7 +132,7 @@ const NAV_ITEMS_ADMIN: MenuProps['items'] = [
       {
         icon: <TeamOutlined />,
         key: ADMIN_GROUPS,
-        label: 'Groups',
+        label: 'Events',
       },
       {
         icon: <StarOutlined />,

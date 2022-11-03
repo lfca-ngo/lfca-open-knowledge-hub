@@ -1,4 +1,4 @@
-import { Avatar, Card, Space } from 'antd'
+import { Avatar, Card, Collapse, Space } from 'antd'
 
 import { EventFragment } from '../../services/lfca-backend'
 import { Recurrence, Status } from '../EventCard/EventMeta'
@@ -8,43 +8,33 @@ import {
 } from '../EventCard/utils'
 import styles from './styles.module.less'
 
+const { Panel } = Collapse
+
 export interface EventCardDefaultProps {
-  event: EventFragment
+  event?: EventFragment
+  hideTitle?: boolean
 }
 
 import { LogoGroup } from '../LogoGroup'
 
-export const EventDetails = ({ event }: EventCardDefaultProps) => {
+export const EventDetails = ({
+  event,
+  hideTitle = false,
+}: EventCardDefaultProps) => {
   return (
-    <Card className={styles['event-card-large']}>
-      <div className="header">
-        <div className="icon">
-          <Avatar
-            className="wine-inverse"
-            icon={matchStringToIcon(event.title)}
-            shape="square"
-            size={90}
-          />
-        </div>
-        <div className="summary">
-          <div className="title">{event.title}</div>
-          <div className="info">
-            <div className="event-meta">
-              <Space size="large">
-                <Status event={event} />
-                <Recurrence event={event} />
-              </Space>
-            </div>
-            <div className="participants">
-              <LogoGroup
-                data={getUniqueParticipatingCompanies(event)}
-                maxCount={10}
-                size={35}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
+    <div className={styles['event-card-large']}>
+      {!hideTitle && <div className="header">event.title</div>}
+
+      <Collapse accordion>
+        <Panel header="Details" key="details">
+          Something
+        </Panel>
+        <Panel header="Time" key="time">
+          Something
+          {/* <Recurrence event={event} /> */}
+          {/* <Status event={event} /> */}
+        </Panel>
+      </Collapse>
+    </div>
   )
 }

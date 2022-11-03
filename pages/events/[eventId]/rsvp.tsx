@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { EventRSVPResult } from '../../../components/EventRSVPResult'
 import { OneColLayout } from '../../../components/Layout'
+import { useProcessEventToken } from '../../../hooks/useProcessEventToken'
 import { useProcessEventRsvpTokenMutation } from '../../../services/lfca-backend'
 
 const EventRsvp: NextPage = () => {
@@ -13,15 +14,7 @@ const EventRsvp: NextPage = () => {
   const [{ data, error, fetching }, processEventRSVPToken] =
     useProcessEventRsvpTokenMutation()
 
-  useEffect(() => {
-    if (typeof token === 'string') {
-      processEventRSVPToken({
-        input: {
-          token,
-        },
-      })
-    }
-  }, [processEventRSVPToken, token])
+  useProcessEventToken(processEventRSVPToken, token)
 
   return (
     <OneColLayout>
