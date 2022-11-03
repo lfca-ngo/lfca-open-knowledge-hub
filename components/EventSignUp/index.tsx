@@ -55,7 +55,13 @@ export const EventSignUp = ({
           <EventCalendarLinks event={data.processEventInviteToken} />
         </>
       ) : (
-        <>We will approve</>
+        <>
+          <h1>Thanks!</h1>
+          <p>
+            We will review your event application. You will receive an event
+            invitation with details to your email shortly.
+          </p>
+        </>
       )}
     </>
   ) : (
