@@ -19,7 +19,7 @@ export const PublicEventLink = ({ eventId }: PublicEventLinkProps) => {
     useCreateEventInviteTokenMutation()
 
   const link = data?.createEventInviteToken
-    ? `https://app.lfca.earth/events/${eventId}/signup?token=${data?.createEventInviteToken}`
+    ? `${process.env.NEXT_PUBLIC_URL}/events/${eventId}/signup?token=${data?.createEventInviteToken}`
     : ''
 
   const handleCopy = () => {
