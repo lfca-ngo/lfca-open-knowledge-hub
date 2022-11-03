@@ -15,7 +15,7 @@ export const EventDetails = ({ event }: EventCardDefaultProps) => {
   if (!event) return null
 
   return (
-    <div className={styles['event-card-large']}>
+    <div>
       <h1>{event.title}</h1>
       <Collapse accordion>
         <Panel header="Event Description" key="details">
