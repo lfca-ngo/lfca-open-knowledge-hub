@@ -13,11 +13,7 @@ interface EventRSVPResultProps {
   token?: string | string[]
 }
 
-export const EventRSVPResult = ({
-  event,
-
-  token,
-}: EventRSVPResultProps) => {
+export const EventRSVPResult = ({ event, token }: EventRSVPResultProps) => {
   if (event?.participationStatus === EventParticipantStatus.USER_RSVP_DECLINED)
     return <EventDeclined token={token} />
 

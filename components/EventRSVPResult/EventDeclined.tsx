@@ -49,9 +49,9 @@ export const EventDeclined = ({ token }: { token?: string | string[] }) => {
     notes?: string
     reason?: string
   }) => {
-    const notesText = `${reason} ${notes || ''}`
+    if ((!reason && !forwardEmail) || typeof token !== 'string') return
 
-    if ((!notes && !forwardEmail) || typeof token !== 'string') return
+    const notesText = `${reason} ${notes || ''}`
 
     const res = await updateTokenRSVPWithNotes({
       input: {
