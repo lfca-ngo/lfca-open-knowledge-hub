@@ -61,6 +61,7 @@ export const getStaticProps: GetStaticProps<EventPageProps> = async ({
       props: {
         event,
       },
+      revalidate: 21600, // 6h
     }
   } catch (e) {
     return {
