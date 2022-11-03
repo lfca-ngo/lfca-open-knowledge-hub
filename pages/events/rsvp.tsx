@@ -2,14 +2,9 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
-import { EventRSVPResult } from '../components/EventRSVPResult'
-import { OneColLayout } from '../components/Layout'
-import { useProcessEventRsvpTokenMutation } from '../services/lfca-backend'
-
-/**
- * IMPORTANT: Page will be deprecated in
- * favor of the new events/rsvp page
- */
+import { EventRSVPResult } from '../../components/EventRSVPResult'
+import { OneColLayout } from '../../components/Layout'
+import { useProcessEventRsvpTokenMutation } from '../../services/lfca-backend'
 
 const EventRsvp: NextPage = () => {
   const { isReady, query } = useRouter()
