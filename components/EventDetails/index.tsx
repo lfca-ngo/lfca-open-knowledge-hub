@@ -4,7 +4,6 @@ import { EventFragment } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
 import { Recurrence, Status } from '../EventCard/EventMeta'
 import { MarkdownContent } from '../MarkdownContent'
-import styles from './styles.module.less'
 
 const { Panel } = Collapse
 
