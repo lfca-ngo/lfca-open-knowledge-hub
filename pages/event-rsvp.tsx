@@ -8,7 +8,7 @@ import { useProcessEventRsvpTokenMutation } from '../services/lfca-backend'
 
 /**
  * IMPORTANT: Page will be deprecated in
- * favor of the new events/rsvp page
+ * favor of the new events/ pages
  */
 
 const EventRsvp: NextPage = () => {
