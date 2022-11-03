@@ -22,6 +22,8 @@ const EventSignUp: NextPage = () => {
     }
   }, [processEventRSVPToken, token])
 
+  // @TODO: after successful sign up forward to event detail page where the event can be added to your calendar
+
   return (
     <OneColLayout>
       <h1>Sign up for Event</h1>
