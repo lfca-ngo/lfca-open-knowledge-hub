@@ -5,6 +5,7 @@ import React from 'react'
 
 import { EventSignUp } from '../../../components/EventSignUp'
 import { OneColLayout } from '../../../components/Layout'
+import EventBackgroundImage from '../../../public/img/event-bg-image.png'
 import { EventFragment } from '../../../services/lfca-backend'
 
 interface EventSignUpPageProps {
@@ -16,7 +17,7 @@ const EventSignUpPage: NextPage<EventSignUpPageProps> = ({ event }) => {
   const { token } = query
 
   return (
-    <OneColLayout>
+    <OneColLayout backgroundImage={EventBackgroundImage}>
       <EventSignUp event={event} token={token as string} />
     </OneColLayout>
   )

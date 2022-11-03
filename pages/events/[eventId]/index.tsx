@@ -6,6 +6,7 @@ import React from 'react'
 
 import { EventDetails } from '../../../components/EventDetails'
 import { OneColLayout } from '../../../components/Layout'
+import EventBackgroundImage from '../../../public/img/event-bg-image.png'
 import { EventFragment } from '../../../services/lfca-backend'
 
 interface EventPageProps {
@@ -24,7 +25,7 @@ const EventPage: NextPage<EventPageProps> = ({ event }) => {
   }, [event, token])
 
   return (
-    <OneColLayout>
+    <OneColLayout backgroundImage={EventBackgroundImage}>
       {!isVerified ? <h1>Not found</h1> : <EventDetails event={event} />}
     </OneColLayout>
   )

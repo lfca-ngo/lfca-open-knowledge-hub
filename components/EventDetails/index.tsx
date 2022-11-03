@@ -18,10 +18,10 @@ export const EventDetails = ({ event }: EventCardDefaultProps) => {
     <div className={styles['event-card-large']}>
       <h1>{event.title}</h1>
       <Collapse accordion>
-        <Panel header="Details" key="details">
+        <Panel header="Event Description" key="details">
           {event?.description}
         </Panel>
-        <Panel header="Time" key="time">
+        <Panel header="Time & Date" key="time">
           {event && (
             <>
               <Recurrence event={event} />

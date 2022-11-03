@@ -1,5 +1,5 @@
 import { Col, Layout, Row } from 'antd'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import React from 'react'
 
 import { useDarkMode } from '../../../hooks/useDarkMode'
@@ -11,10 +11,14 @@ import styles from './styles.module.less'
 const { Content } = Layout
 
 interface OneColLayoutProps {
+  backgroundImage?: StaticImageData | string
   children?: React.ReactNode
 }
 
-export const OneColLayout = ({ children }: OneColLayoutProps) => {
+export const OneColLayout = ({
+  children,
+  backgroundImage = AppPreview,
+}: OneColLayoutProps) => {
   const [isDarkMode] = useDarkMode()
 
   return (
@@ -42,7 +46,7 @@ export const OneColLayout = ({ children }: OneColLayoutProps) => {
                 objectFit="contain"
                 objectPosition="center right"
                 priority={true}
-                src={AppPreview}
+                src={backgroundImage}
               />
             </div>
           </Col>
