@@ -1,13 +1,26 @@
 import { CopyOutlined } from '@ant-design/icons'
 import { Button, Collapse, Input, message, Space } from 'antd'
 
+import {
+  EventParticipantStatus,
+  useCreateEventInviteTokenMutation,
+} from '../../services/lfca-backend'
 import { COPY_BTN_WIDTH, copyTextToClipboard } from '../../utils'
 import styles from './styles.module.less'
 
 const { Panel } = Collapse
 
-export const PublicEventLink = () => {
-  const link = ''
+interface PublicEventLinkProps {
+  eventId: string
+}
+
+export const PublicEventLink = ({ eventId }: PublicEventLinkProps) => {
+  const [{ data, fetching }, createEventInviteToken] =
+    useCreateEventInviteTokenMutation()
+
+  const link = data?.createEventInviteToken
+    ? `https://app.lfca.earth/events/${eventId}/signup?token=${data?.createEventInviteToken}`
+    : ''
 
   const handleCopy = () => {
     link &&
@@ -16,6 +29,20 @@ export const PublicEventLink = () => {
           message.success(note)
         } else message.error(note)
       })
+  }
+
+  const handleCreate = () => {
+    createEventInviteToken({
+      input: {
+        allowedInviteParticipantStatus: [
+          EventParticipantStatus.USER_RSVP_ACCEPTED,
+        ],
+        eventId,
+      },
+    }).then(({ error }) => {
+      if (error) message.error(error.message)
+      else message.success('Event link created')
+    })
   }
 
   return (
@@ -32,7 +59,12 @@ export const PublicEventLink = () => {
           </ul>
 
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-            <Button block type="primary">
+            <Button
+              block
+              loading={fetching}
+              onClick={handleCreate}
+              type="primary"
+            >
               Generate sign up link
             </Button>
 

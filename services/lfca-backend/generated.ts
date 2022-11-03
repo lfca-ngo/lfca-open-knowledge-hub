@@ -434,10 +434,6 @@ export enum EventCategory {
   ONBOARDING_COURSE = 'ONBOARDING_COURSE'
 }
 
-export type EventInput = {
-  eventId: Scalars['ID'];
-};
-
 export type EventParticipant = {
   __typename?: 'EventParticipant';
   id: Scalars['ID'];
@@ -760,7 +756,6 @@ export type Query = {
   companyTagStats: Array<CompanyTagStatsResultItem>;
   companyTags: Array<CompanyTag>;
   counterStats: CounterStatsResult;
-  event: Event;
   eventParticipants: Array<EventParticipant>;
   eventStats: EventStatsResult;
   events: Array<Event>;
@@ -814,11 +809,6 @@ export type QueryCompanyActionArgs = {
 
 export type QueryCompanyActionsArgs = {
   input?: InputMaybe<CompanyActionsInput>;
-};
-
-
-export type QueryEventArgs = {
-  input: EventInput;
 };
 
 

@@ -15,6 +15,7 @@ import {
 import { convertFormValues } from './convert-form-values'
 import { FormItems } from './FormItems'
 import { parseInitialValues } from './parse-initial-values'
+import { PublicEventLink } from './PublicEventLink'
 
 export type FormValues = Omit<
   UpdateEventInput,
@@ -117,6 +118,8 @@ export const EventForm = ({
         )}
 
         <FormItems form={form} />
+
+        {isUpdate && <PublicEventLink eventId={initialValues.id} />}
 
         <Form.Item>
           <Space>

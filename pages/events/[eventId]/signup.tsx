@@ -5,7 +5,6 @@ import React from 'react'
 
 import { EventSignUp } from '../../../components/EventSignUp'
 import { OneColLayout } from '../../../components/Layout'
-import { withEventToken } from '../../../hooks/useProcessEventToken'
 import { EventFragment } from '../../../services/lfca-backend'
 
 interface EventSignUpPageProps {
