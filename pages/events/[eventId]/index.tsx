@@ -4,6 +4,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 
+import { EventDetails } from '../../../components/EventDetails'
 import { OneColLayout } from '../../../components/Layout'
 import { EventFragment } from '../../../services/lfca-backend'
 
@@ -22,11 +23,9 @@ const EventPage: NextPage<EventPageProps> = ({ event }) => {
     return decoded?.eventId === event.id
   }, [event, token])
 
-  return !isVerified ? (
-    <h1>Not found</h1>
-  ) : (
+  return (
     <OneColLayout>
-      <h1>{event.title} details</h1>
+      {!isVerified ? <h1>Not found</h1> : <EventDetails event={event} />}
     </OneColLayout>
   )
 }
@@ -34,7 +33,6 @@ const EventPage: NextPage<EventPageProps> = ({ event }) => {
 export const getStaticProps: GetStaticProps<EventPageProps> = async ({
   params,
 }) => {
-  console.log('or here', params)
   const eventId = params?.eventId as string
 
   const options = {

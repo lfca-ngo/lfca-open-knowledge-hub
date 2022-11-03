@@ -73,9 +73,8 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
       >
         Add to Google Calendar
       </Button>
-      {!parsedEvent.rRule ? (
+      {!parsedEvent.rRule && (
         <>
-          {' '}
           <Button
             block
             icon={<Icon component={OutlookIcon} />}
@@ -93,7 +92,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
             Add to Office365
           </Button>
         </>
-      ) : null}
+      )}
       <Button
         block
         icon={<Icon component={IcsIcon} />}
