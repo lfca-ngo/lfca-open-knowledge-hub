@@ -1,20 +1,11 @@
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
 
-import {
-  EventFragment,
-  EventParticipantStatus,
-} from '../../services/lfca-backend'
+import { EventParticipantStatus } from '../../services/lfca-backend'
+import { LogoGroup } from '../LogoGroup'
+import { EventCardDefaultProps } from '.'
 import { Recurrence, Status, Time } from './EventMeta'
 import styles from './styles.module.less'
-
-export interface EventCardDefaultProps {
-  event: EventFragment
-  onClick: () => void
-  onClose: () => void
-}
-
-import { LogoGroup } from '../LogoGroup'
 import { getUniqueParticipatingCompanies } from './utils'
 
 export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {

@@ -15,9 +15,18 @@ import { EventFragment, EventStatus } from '../../services/lfca-backend'
 export interface EventMetaProps {
   event: EventFragment
   compact?: boolean
+  minApprovedCount?: number
 }
 
-export const ParticipationRequestsApproved = ({ event }: EventMetaProps) => {
+export const ParticipationRequestsApproved = ({
+  event,
+  minApprovedCount,
+}: EventMetaProps) => {
+  if (
+    minApprovedCount &&
+    event.participantsUserRSVPAcceptedCount < minApprovedCount
+  )
+    return null
   return (
     <Space align="start">
       <CheckOutlined />
@@ -31,7 +40,16 @@ export const ParticipationRequestsApproved = ({ event }: EventMetaProps) => {
   )
 }
 
-export const ParticipationRequestsPending = ({ event }: EventMetaProps) => {
+export const ParticipationRequestsPending = ({
+  event,
+  minApprovedCount,
+}: EventMetaProps) => {
+  if (
+    minApprovedCount &&
+    event.participantsAwaitingAdminApprovalCount < minApprovedCount
+  )
+    return null
+
   return (
     <Space align="start">
       <SolutionOutlined />

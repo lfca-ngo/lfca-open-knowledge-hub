@@ -1,6 +1,7 @@
+import { message } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { FloatingHelp } from '../components/FloatingHelp'
 import {
@@ -27,6 +28,7 @@ import PlatformPreviewImage from '../components/Flows/Onboarding/images/platform
 import SlackImage from '../components/Flows/Onboarding/images/slack.png'
 import { StepsLayout } from '../components/Layout'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useUser } from '../hooks/user'
 import { useSteps } from '../hooks/useSteps'
 import {
   ContentfulActionFields,
@@ -36,8 +38,56 @@ import {
   fetchAllCountries,
   fetchContentCollectionById,
 } from '../services/contentful'
+import { EventParticipantStatus } from '../services/lfca-backend'
 
 const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
+
+const OnboardingSteps = [
+  {
+    component: CompanyInfo,
+    sideComponent: CompanyInfoSide,
+    sideComponentBackgroundImage: PlatformPreviewImage,
+    title: 'Company',
+  },
+  {
+    component: PersonalInfo,
+    sideComponent: PersonalInfoSide,
+    sideComponentBackgroundImage: CommunityFacesImage,
+    title: 'Account',
+  },
+  {
+    component: Groups,
+    sideComponent: GroupsSide,
+    sideComponentBackgroundImage: CoursePreviewImage,
+    title: 'Groups',
+  },
+  {
+    component: Personalize,
+    sideComponent: PersonalizeSide,
+    title: 'Personalize',
+  },
+  {
+    component: Invite,
+    sideComponent: InviteSide,
+    title: 'Invite',
+  },
+  {
+    component: Membership,
+    sideComponent: MembershipSide,
+    title: 'Membership',
+  },
+  {
+    component: Slack,
+    sideComponent: SlackSide,
+    sideComponentBackgroundImage: SlackImage,
+    title: 'Slack',
+  },
+  {
+    component: Share,
+    sideComponent: ShareSide,
+    title: 'Share',
+  },
+]
 
 interface OnboardingProps {
   actionsContent: Record<string, ContentfulActionFields>
@@ -50,63 +100,28 @@ const Onboarding: NextPage<OnboardingProps> = ({
   countries,
   membershipFaq,
 }) => {
+  const { user } = useUser()
   const { push, query } = useRouter()
   const { country } = query
-
-  const OnboardingSteps = [
-    {
-      component: CompanyInfo,
-      sideComponent: CompanyInfoSide,
-      sideComponentBackgroundImage: PlatformPreviewImage,
-      title: 'Company',
-    },
-    {
-      component: PersonalInfo,
-      sideComponent: PersonalInfoSide,
-      sideComponentBackgroundImage: CommunityFacesImage,
-      title: 'Account',
-    },
-    {
-      component: Groups,
-      sideComponent: GroupsSide,
-      sideComponentBackgroundImage: CoursePreviewImage,
-      title: 'Groups',
-    },
-    {
-      component: Personalize,
-      sideComponent: PersonalizeSide,
-      title: 'Personalize',
-    },
-    {
-      component: Invite,
-      sideComponent: InviteSide,
-      title: 'Invite',
-    },
-    {
-      component: Membership,
-      sideComponent: MembershipSide,
-      title: 'Membership',
-    },
-    {
-      component: Slack,
-      sideComponent: SlackSide,
-      sideComponentBackgroundImage: SlackImage,
-      title: 'Slack',
-    },
-    {
-      component: Share,
-      sideComponent: ShareSide,
-      title: 'Share',
-    },
-  ]
 
   const [sharedState, setSharedState] = useLocalStorage('onboarding_state', {
     selectedSubscriptionType: DEFAULT_SUBSCRIPTION_TYPE,
   })
-  const { currentStepIndex, next, prev } = useSteps(
+
+  const { currentStepIndex, goTo, next, prev } = useSteps(
     OnboardingSteps.length,
     () => push('/')
   )
+
+  useEffect(() => {
+    if (currentStepIndex === 0 && user) {
+      // when user is already logged in and flow
+      // is just starting (e.g. after verifying
+      // their email), skip registration steps
+      message.info('Already logged in. Skipping registration')
+      goTo(2)
+    }
+  }, [goTo, user, currentStepIndex])
 
   const StepItem = OnboardingSteps[currentStepIndex]
   const Step = StepItem?.component
@@ -140,6 +155,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
           onPrev={prev}
           setSharedState={setSharedState}
           sharedState={sharedState}
+          statusOnJoinGroup={EventParticipantStatus.USER_RSVP_ACCEPTED}
           title={StepItem?.title}
         />
       ) : null}
