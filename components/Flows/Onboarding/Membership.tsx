@@ -2,7 +2,6 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   InfoCircleOutlined,
-  LoadingOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Document } from '@contentful/rich-text-types'
@@ -15,7 +14,6 @@ import {
   Divider,
   Drawer,
   Form,
-  InputNumber,
   List,
   message,
   Popover,
@@ -24,8 +22,7 @@ import {
   Tag,
 } from 'antd'
 import classNames from 'classnames'
-import _debounce from 'lodash.debounce'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
@@ -38,6 +35,7 @@ import { withAuth } from '../../../utils/with-auth'
 import { ContentList } from '../../ContentList'
 import { Section } from '../../Layout'
 import { ListSelect, OptionKey } from '../../ListSelect'
+import { SizeInput } from '../../SubscriptionSelector/SizeInput'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
@@ -166,9 +164,6 @@ export const MembershipContent = ({
 export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
-  const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
-  const [fundSize, setFundSize] = useState<number | null>()
-  const [teamSize, setTeamSize] = useState<number | null>()
   const { company, isVentureCapitalCompany } = useUser()
 
   const plan = subscriptionsData.find(
@@ -181,57 +176,11 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
 
-  const calculatedPrice = isVentureCapitalCompany
-    ? calculatePricePoint(plan?.pricingVentureCapital, company?.fundSize, true)
-    : calculatePricePoint(plan?.pricing, company?.employeeCount)
-
-  const debouncedTeamSizeInput = useRef(
-    _debounce(async (value) => {
-      updateCompany({
-        input: {
-          employeeCount: value,
-        },
-      }).then(({ error }) => {
-        if (error) message.error(error.message)
-        message.success('Changed company size')
-      })
-    }, 500)
-  ).current
-
-  const debouncedFundSizeInput = useRef(
-    _debounce(async (value) => {
-      updateCompany({
-        input: {
-          fundSize: value,
-        },
-      }).then(({ error }) => {
-        if (error) message.error(error.message)
-        message.success('Changed fund size')
-      })
-    }, 500)
-  ).current
-
-  const handleTeamSizeChange = (val: number | null) => {
-    debouncedTeamSizeInput(val)
-  }
-
-  const handleFundSizeChange = (val: number | null) => {
-    debouncedFundSizeInput(val)
-  }
-
-  // update employee count
-  useEffect(() => {
-    if (company?.employeeCount) {
-      setTeamSize(company?.employeeCount)
-    }
-  }, [company?.employeeCount])
-
-  // update fund count
-  useEffect(() => {
-    if (company?.fundSize) {
-      setFundSize(company?.fundSize)
-    }
-  }, [company?.fundSize])
+  const calculatedPrice = calculatePricePoint(
+    isVentureCapitalCompany ? 'maxFundsize' : 'maxFundsize',
+    isVentureCapitalCompany ? plan?.pricingVentureCapital : plan?.pricing,
+    isVentureCapitalCompany ? company?.fundSize : company?.employeeCount
+  )
 
   return (
     <div className={styles['membership-summary']}>
@@ -242,29 +191,10 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
             <div className="summary-title">{plan?.name}</div>
           </Col>
           <Col className="team-input" xs={16}>
-            {isVentureCapitalCompany ? (
-              <>
-                <span className="team-input-label">
-                  {fetching && <LoadingOutlined />} Fundsize
-                </span>
-                <InputNumber
-                  onChange={handleFundSizeChange}
-                  size="small"
-                  value={fundSize}
-                />
-              </>
-            ) : (
-              <>
-                <span className="team-input-label">
-                  {fetching && <LoadingOutlined />} Team
-                </span>
-                <InputNumber
-                  onChange={handleTeamSizeChange}
-                  size="small"
-                  value={teamSize}
-                />
-              </>
-            )}
+            <SizeInput
+              optionalInputNumberProps={{ size: 'small' }}
+              style={{ justifyContent: 'flex-end' }}
+            />
           </Col>
         </Row>
 

@@ -35,7 +35,8 @@
 
         .cost {
           margin-top: 5px;
-          font-size: 21px;
+          font-size: 19px;
+          .font-medium();
 
           .suffix {
             font-size: 14px;
@@ -94,6 +95,20 @@
           font-size: @font-size-lg;
         }
       }
+    }
+  }
+}
+
+.size-input {
+  display: flex;
+  align-items: center;
+
+  :global {
+    .size-input {
+      text-align: right;
+    }
+    .size-input-label {
+      margin-right: 6px;
     }
   }
 }
