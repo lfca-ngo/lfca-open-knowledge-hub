@@ -92,8 +92,8 @@ export const MembershipContent = ({
           effort: We need those who can afford it, to support those who can't.`}
         </p>
         <p>
-          By joining us as a PREMIUM Supporter, you help us achieve this
-          mission. Need some help with your decision?{' '}
+          By joining us as a Premium Supporter, you help us achieve this
+          mission! Need some help with your decision?{' '}
           <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>
       </div>
@@ -119,14 +119,14 @@ export const MembershipContent = ({
 
       {isFreeTierSelected ? (
         <Alert
-          description="You can continue on a basic or premium tier and pay at any point in the next 30 days. During this time you can downgrade your tier without any extra costs."
+          description="You can continue on a Basic or Premium tier and pay at any point in the next 30 days. If you don't, you will be automatically downgraded."
           message="Tip: Try Basic or Premium for free"
           showIcon
           type="warning"
         />
       ) : (
         <Alert
-          description="We will send you an invoice with a payment link shortly after your onboarding is done. During the next 30 days you can downgrade your subscription at any time."
+          description="We will get back to you with a written offer and a summary presentation via Email. Most members have additional questions and/or need to check in with their finance departments before continuing. We understand that. By continuing, you do not yet enter into any legal agreement with us. After a trial phase of 30 days you will be automatically downgraded to the FREE tier."
           message="What's next?"
           showIcon
           type="info"

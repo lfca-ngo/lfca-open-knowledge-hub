@@ -20,19 +20,15 @@
   flex-direction: column;
   width: 100%;
   cursor: pointer;
+  padding: 10px 0 30px;
+  border-bottom: 1px solid @grey-light;
 
   :global {
-    .header {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .title {
-        flex: 1;
-        font-size: 18px;
-        margin: 10px 0 20px;
-        .font-semi(@black);
-      }
+    .title {
+      flex: 1;
+      font-size: 18px;
+      margin: 10px 0 20px;
+      .font-semi(@black);
     }
 
     .info {
