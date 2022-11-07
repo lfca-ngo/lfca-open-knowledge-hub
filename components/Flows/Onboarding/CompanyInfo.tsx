@@ -22,7 +22,10 @@ import companyTagsData from '../../../next-fetch-during-build/data/_company-tags
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
 import { Country } from '../../../services/contentful'
 import { CompanySubscriptionType } from '../../../services/lfca-backend'
-import { getTextFromOptionChildren } from '../../../utils'
+import {
+  getTextFromOptionChildren,
+  isVentureCapitalCompany,
+} from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
@@ -80,7 +83,7 @@ export const CompanyInfo = ({
   const [otherCompanies, setOtherCompanies] = useState<number | null>(null)
   const sectorStats = companyTagStatsData as { [key: string]: number }
   const selectedTags = useWatch('tags', companyInfoForm) || []
-  const isVentureCapitalCompany = selectedTags.indexOf('vc') > -1
+  const isVC = isVentureCapitalCompany(selectedTags)
 
   const onValuesChange = (
     changedValue: CompanyInfoFormProps,
@@ -216,7 +219,7 @@ export const CompanyInfo = ({
           </Col>
         </Row>
 
-        {isVentureCapitalCompany && FUND_SIZE_OPTIONS ? (
+        {isVC && FUND_SIZE_OPTIONS ? (
           <Form.Item
             label="Fund Size in Million USD"
             name="fundSize"

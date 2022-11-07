@@ -11,9 +11,9 @@ export const calculatePricePoint = (
 ) => {
   if (!pricing) return undefined
 
-  return pricing.find(
-    (price) => (price[maxAttribute] || Infinity) >= (maxCount || 0)
-  )
+  return pricing.find((price) => {
+    return (price[maxAttribute] || Infinity) >= (maxCount || 0)
+  })
 }
 
 export const getUpgradeEmailBody = ({

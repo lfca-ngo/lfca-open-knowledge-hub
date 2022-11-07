@@ -15,6 +15,7 @@ import {
 } from 'antd'
 
 import { CompanySubscriptionType } from '../../services/lfca-backend'
+import { isVentureCapitalCompany } from '../../utils'
 import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
 import { ImageUpload } from '../FileUpload/ImageUpload'
 import { ImageUploadMulti } from '../FileUpload/ImageUploadMulti'
@@ -40,7 +41,7 @@ export const FormItems = ({
   programs,
 }: FormItemsProps) => {
   const selectedTags = useWatch('companyTags', form)
-  const isVentureCapitalCompany = selectedTags?.indexOf('vc') > -1
+  const isVC = isVentureCapitalCompany(selectedTags)
 
   const formItems: { [key in keyof FormValues]: React.ReactNode } = {
     aboutSections: (
@@ -221,7 +222,7 @@ export const FormItems = ({
         rules={[
           {
             message: 'Please enter the fund size!',
-            required: isVentureCapitalCompany,
+            required: isVC,
           },
         ]}
       >

@@ -112,12 +112,13 @@ export const SubscriptionSelector = () => {
         activeKey={activeTab}
         items={subscriptions.map((plan) => {
           const calculatedPrice = calculatePricePoint(
-            isVentureCapitalCompany ? 'maxFundsize' : 'maxFundsize',
+            isVentureCapitalCompany ? 'maxFundsize' : 'maxEmployees',
             isVentureCapitalCompany
               ? plan?.pricingVentureCapital
               : plan?.pricing,
             isVentureCapitalCompany ? company?.fundSize : company?.employeeCount
           )
+
           return {
             children: (
               <List
