@@ -23,6 +23,8 @@ import { RemovableSelect } from '../RemovableSelect'
 import { CompanyFormProps, FormValues } from '.'
 import { COMPANY_MODELS, COMPANY_TAGS } from './consts'
 
+const { useWatch } = Form
+
 const { TextArea } = Input
 const { Option } = Select
 
@@ -37,6 +39,9 @@ export const FormItems = ({
   form,
   programs,
 }: FormItemsProps) => {
+  const selectedTags = useWatch('companyTags', form)
+  const isVentureCapitalCompany = selectedTags?.indexOf('vc') > -1
+
   const formItems: { [key in keyof FormValues]: React.ReactNode } = {
     aboutSections: (
       <Form.Item
@@ -204,6 +209,26 @@ export const FormItems = ({
           inputMode="numeric"
           pattern="[0-9]*"
           placeholder="10"
+          type="number"
+        />
+      </Form.Item>
+    ),
+    fundSize: (
+      <Form.Item
+        key="fundSize"
+        label="Fund size (in M)"
+        name="fundSize"
+        rules={[
+          {
+            message: 'Please enter the fund size!',
+            required: isVentureCapitalCompany,
+          },
+        ]}
+      >
+        <InputNumber
+          inputMode="numeric"
+          pattern="[0-9]*"
+          placeholder="100"
           type="number"
         />
       </Form.Item>
