@@ -1413,7 +1413,7 @@ export type ProcessEventRsvpTokenMutationVariables = Exact<{
 }>;
 
 
-export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> } };
+export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type PurgeCacheMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -2243,10 +2243,19 @@ export function useProcessEventInviteTokenMutation() {
 export const ProcessEventRsvpTokenDocument = gql`
     mutation processEventRSVPToken($input: ProcessEventRSVPTokenInput!) {
   processEventRSVPToken(input: $input) {
-    ...Event
+    category
+    description
+    end
+    id
+    participationStatus
+    recurrenceRule
+    start
+    status
+    title
+    videoConferenceUrl
   }
 }
-    ${EventFragmentDoc}`;
+    `;
 
 export function useProcessEventRsvpTokenMutation() {
   return Urql.useMutation<ProcessEventRsvpTokenMutation, ProcessEventRsvpTokenMutationVariables>(ProcessEventRsvpTokenDocument);
