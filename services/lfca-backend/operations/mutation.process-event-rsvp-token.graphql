@@ -1,5 +1,14 @@
 mutation processEventRSVPToken($input: ProcessEventRSVPTokenInput!) {
   processEventRSVPToken(input: $input) {
-    ...Event
+    category
+    description
+    end
+    id
+    participationStatus
+    recurrenceRule
+    start
+    status
+    title
+    videoConferenceUrl
   }
 }
