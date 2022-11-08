@@ -18,6 +18,7 @@ export interface EventCardProps {
   event: EventFragment
   appliedEventsCount: number
   participatingEventsCount: number
+  statusOnJoin?: EventParticipantStatus
   type?: 'compact' | 'default' | 'small'
 }
 
@@ -33,10 +34,18 @@ import { EventCardSmall } from './EventCardSmall'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 import { getUniqueParticipatingCompanies } from './utils'
 
+export interface EventCardDefaultProps {
+  event: EventFragment
+  onClick: () => void
+  onClose: () => void
+  statusOnJoin?: EventParticipantStatus
+}
+
 export const EventCard = ({
   appliedEventsCount,
   event,
   participatingEventsCount,
+  statusOnJoin,
   type,
 }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
@@ -57,6 +66,7 @@ export const EventCard = ({
             isParticipatingAtLeastOneEvent={isParticipatingAtLeastOneEvent}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
+            statusOnJoin={statusOnJoin}
           />
         )
       case 'compact':
@@ -65,6 +75,7 @@ export const EventCard = ({
             event={event}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
+            statusOnJoin={statusOnJoin}
           />
         )
       default:
@@ -75,6 +86,7 @@ export const EventCard = ({
             isParticipatingAtLeastOneEvent={isParticipatingAtLeastOneEvent}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
+            statusOnJoin={statusOnJoin}
           />
         )
     }
@@ -102,8 +114,8 @@ export const EventCard = ({
             <Status event={event} />
             <Time event={event} />
             <Recurrence event={event} />
-            <ParticipationRequestsApproved event={event} />
-            <ParticipationRequestsPending event={event} />
+            <ParticipationRequestsApproved event={event} minApprovedCount={5} />
+            <ParticipationRequestsPending event={event} minApprovedCount={5} />
             <LogoGroup
               data={getUniqueParticipatingCompanies(event)}
               maxCount={10}
@@ -139,6 +151,7 @@ export const EventCard = ({
             }}
             event={event}
             key="toggle-subscribe"
+            statusOnJoin={statusOnJoin}
           />
         </Space>
 

@@ -41,6 +41,7 @@ export interface ContentfulSubscriptionFields {
   name: string
   description: Document
   pricing: ContentfulPricingFields[]
+  pricingVentureCapital: ContentfulPricingFields[]
   features: ContentfulFeatureFields[]
   icon: Image
 }

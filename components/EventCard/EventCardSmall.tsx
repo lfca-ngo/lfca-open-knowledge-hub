@@ -1,24 +1,19 @@
 import { EyeOutlined } from '@ant-design/icons'
 import { Avatar, Card, Space } from 'antd'
 
-import {
-  EventFragment,
-  EventParticipantStatus,
-} from '../../services/lfca-backend'
+import { EventParticipantStatus } from '../../services/lfca-backend'
 import { Recurrence, Status, Time } from './EventMeta'
 import styles from './styles.module.less'
 import { matchStringToIcon } from './utils'
 
-export interface EventCardDefaultProps {
-  event: EventFragment
-  onClick: () => void
-  onClose: () => void
+export interface EventCardSmallProps extends EventCardDefaultProps {
   hasAppliedForAtLeastOneEvent: boolean
   isParticipatingAtLeastOneEvent: boolean
 }
 
 import { useState } from 'react'
 
+import { EventCardDefaultProps } from '.'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 
 export const EventCardSmall = ({
@@ -26,7 +21,8 @@ export const EventCardSmall = ({
   hasAppliedForAtLeastOneEvent,
   isParticipatingAtLeastOneEvent,
   onClick,
-}: EventCardDefaultProps) => {
+  statusOnJoin,
+}: EventCardSmallProps) => {
   const isPending =
     event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
   const [isHovered, setIsHovered] = useState(false)
@@ -86,6 +82,7 @@ export const EventCardSmall = ({
                   isParticipatingAtLeastOneEvent,
               }}
               event={event}
+              statusOnJoin={statusOnJoin}
             />
           </Space>
         </div>

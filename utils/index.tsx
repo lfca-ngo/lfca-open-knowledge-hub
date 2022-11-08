@@ -117,6 +117,11 @@ export function isValidUrl(string: string) {
   return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
+export const isVentureCapitalCompany = (tags?: string[]) => {
+  if (!tags) return false
+  return tags?.indexOf('vc') > -1
+}
+
 export const CSS_THEME_DARK = !isBrowser()
   ? THEME_DARK
   : getComputedStyle(document.documentElement)

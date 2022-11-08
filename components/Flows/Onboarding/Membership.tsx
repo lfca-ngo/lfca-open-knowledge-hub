@@ -2,7 +2,6 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   InfoCircleOutlined,
-  LoadingOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Document } from '@contentful/rich-text-types'
@@ -15,7 +14,6 @@ import {
   Divider,
   Drawer,
   Form,
-  InputNumber,
   List,
   message,
   Popover,
@@ -24,8 +22,7 @@ import {
   Tag,
 } from 'antd'
 import classNames from 'classnames'
-import _debounce from 'lodash.debounce'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
@@ -38,6 +35,7 @@ import { withAuth } from '../../../utils/with-auth'
 import { ContentList } from '../../ContentList'
 import { Section } from '../../Layout'
 import { ListSelect, OptionKey } from '../../ListSelect'
+import { SizeInput } from '../../SubscriptionSelector/SizeInput'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
 import styles from './styles.module.less'
@@ -92,8 +90,8 @@ export const MembershipContent = ({
           effort: We need those who can afford it, to support those who can't.`}
         </p>
         <p>
-          By joining us as a PREMIUM Supporter, you help us achieve this
-          mission. Need some help with your decision?{' '}
+          By joining us as a Premium Supporter, you help us achieve this
+          mission! Need some help with your decision?{' '}
           <a onClick={() => setShowFaq(true)}>We got you covered</a>
         </p>
       </div>
@@ -119,14 +117,14 @@ export const MembershipContent = ({
 
       {isFreeTierSelected ? (
         <Alert
-          description="You can continue on a basic or premium tier and pay at any point in the next 30 days. During this time you can downgrade your tier without any extra costs."
+          description="You can continue on a Basic or Premium tier and pay at any point in the next 30 days. If you don't, you will be automatically downgraded."
           message="Tip: Try Basic or Premium for free"
           showIcon
           type="warning"
         />
       ) : (
         <Alert
-          description="We will send you an invoice with a payment link shortly after your onboarding is done. During the next 30 days you can downgrade your subscription at any time."
+          description="We will get back to you with a written offer and a summary presentation via Email. Most members have additional questions and/or need to check in with their finance departments before continuing. We understand that. By continuing, you do not yet enter into any legal agreement with us. After a trial phase of 30 days you will be automatically downgraded to the FREE tier."
           message="What's next?"
           showIcon
           type="info"
@@ -166,9 +164,6 @@ export const MembershipContent = ({
 export const Membership = withAuth(MembershipContent)
 
 export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
-  const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
-  const [fundSize, setFundSize] = useState<number | null>()
-  const [teamSize, setTeamSize] = useState<number | null>()
   const { company, isVentureCapitalCompany } = useUser()
 
   const plan = subscriptionsData.find(
@@ -181,57 +176,11 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
       return self.findIndex((v) => v.contentId === value.contentId) === index
     })
 
-  const calculatedPrice = isVentureCapitalCompany
-    ? calculatePricePoint(plan?.pricingVentureCapital, company?.fundSize, true)
-    : calculatePricePoint(plan?.pricing, company?.employeeCount)
-
-  const debouncedTeamSizeInput = useRef(
-    _debounce(async (value) => {
-      updateCompany({
-        input: {
-          employeeCount: value,
-        },
-      }).then(({ error }) => {
-        if (error) message.error(error.message)
-        message.success('Changed company size')
-      })
-    }, 500)
-  ).current
-
-  const debouncedFundSizeInput = useRef(
-    _debounce(async (value) => {
-      updateCompany({
-        input: {
-          fundSize: value,
-        },
-      }).then(({ error }) => {
-        if (error) message.error(error.message)
-        message.success('Changed fund size')
-      })
-    }, 500)
-  ).current
-
-  const handleTeamSizeChange = (val: number | null) => {
-    debouncedTeamSizeInput(val)
-  }
-
-  const handleFundSizeChange = (val: number | null) => {
-    debouncedFundSizeInput(val)
-  }
-
-  // update employee count
-  useEffect(() => {
-    if (company?.employeeCount) {
-      setTeamSize(company?.employeeCount)
-    }
-  }, [company?.employeeCount])
-
-  // update fund count
-  useEffect(() => {
-    if (company?.fundSize) {
-      setFundSize(company?.fundSize)
-    }
-  }, [company?.fundSize])
+  const calculatedPrice = calculatePricePoint(
+    isVentureCapitalCompany ? 'maxFundsize' : 'maxFundsize',
+    isVentureCapitalCompany ? plan?.pricingVentureCapital : plan?.pricing,
+    isVentureCapitalCompany ? company?.fundSize : company?.employeeCount
+  )
 
   return (
     <div className={styles['membership-summary']}>
@@ -242,29 +191,10 @@ export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
             <div className="summary-title">{plan?.name}</div>
           </Col>
           <Col className="team-input" xs={16}>
-            {isVentureCapitalCompany ? (
-              <>
-                <span className="team-input-label">
-                  {fetching && <LoadingOutlined />} Fundsize
-                </span>
-                <InputNumber
-                  onChange={handleFundSizeChange}
-                  size="small"
-                  value={fundSize}
-                />
-              </>
-            ) : (
-              <>
-                <span className="team-input-label">
-                  {fetching && <LoadingOutlined />} Team
-                </span>
-                <InputNumber
-                  onChange={handleTeamSizeChange}
-                  size="small"
-                  value={teamSize}
-                />
-              </>
-            )}
+            <SizeInput
+              optionalInputNumberProps={{ size: 'small' }}
+              style={{ justifyContent: 'flex-end' }}
+            />
           </Col>
         </Row>
 

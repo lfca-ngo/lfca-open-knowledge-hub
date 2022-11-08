@@ -1,6 +1,10 @@
 import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 
-import { EventCategory, useEventsQuery } from '../../../services/lfca-backend'
+import {
+  EventCategory,
+  EventParticipantStatus,
+  useEventsQuery,
+} from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils/with-auth'
 import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
@@ -8,7 +12,11 @@ import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
+const GroupsContent = ({
+  onNext,
+  statusOnJoinGroup,
+  title,
+}: DefaultStepProps & { statusOnJoinGroup: EventParticipantStatus }) => {
   const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
@@ -52,6 +60,7 @@ const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
                 appliedEventsCount={0}
                 event={item}
                 participatingEventsCount={0}
+                statusOnJoin={statusOnJoinGroup}
                 type={'small'}
               />
             </EventCardSkeleton>
@@ -62,7 +71,7 @@ const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
       <Space direction="vertical" size="large">
         {appliedOrAttendsAtLeastOneEvent && (
           <Alert
-            description="You will receive an Email with your calendar invite and details as soon as your request got approved."
+            description="You will receive an Email with your calendar invite and details soon."
             message="Request sent"
             showIcon
             type="success"

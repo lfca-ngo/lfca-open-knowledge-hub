@@ -18,10 +18,12 @@ import {
 export interface ToggleSubscribeButtonProps {
   buttonProps?: ButtonProps
   event: EventFragment
+  statusOnJoin?: EventParticipantStatus
 }
 
 export const ToggleSubscribeButton = ({
   buttonProps,
+  statusOnJoin = EventParticipantStatus.AWAITING_ADMIN_APPROVAL,
   event,
 }: ToggleSubscribeButtonProps) => {
   const hasNotJoined =
@@ -43,13 +45,18 @@ export const ToggleSubscribeButton = ({
     const res = await addEventParticipant({
       input: {
         eventId: event.id,
+        status: statusOnJoin,
       },
     })
 
     if (res.error) {
       message.error(res.error.message)
     } else {
-      message.success('We will notify you once your spot is confirmed')
+      message.success(
+        statusOnJoin === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
+          ? 'We will notify you once your spot is confirmed'
+          : `We've sent you an invite to your mail inbox`
+      )
     }
   }
 

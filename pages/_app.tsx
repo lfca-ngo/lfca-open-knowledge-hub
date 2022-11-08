@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AppProvider>
       <FirebaseProvider>
         <LFCABackendProvider>
-          <VerifyEmailBar hideOnPaths={[]} />
+          <VerifyEmailBar hideOnPaths={['onboarding']} />
           <MembershipBar hideOnPaths={['onboarding']} />
           <Component {...pageProps} />
         </LFCABackendProvider>
