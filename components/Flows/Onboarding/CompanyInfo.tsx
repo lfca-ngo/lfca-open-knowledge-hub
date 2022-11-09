@@ -31,6 +31,7 @@ import {
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
+import { ONBOARDING_STEPS } from '.'
 import styles from './styles.module.less'
 
 const { useForm, useWatch } = Form
@@ -105,7 +106,7 @@ export const CompanyInfo = ({
   const onFinish = (allValues: CompanyInfoFormProps) => {
     // completed form
     trackEvent({
-      name: 'completedCompanyInfoStep',
+      name: ONBOARDING_STEPS.COMPLETED_COMPANY_INFO_STEP,
     })
 
     setSharedState?.({ ...sharedState, company: allValues })

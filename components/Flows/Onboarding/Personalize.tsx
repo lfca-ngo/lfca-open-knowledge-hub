@@ -14,6 +14,7 @@ import { ActionPreview } from '../../ActionPreview'
 import { ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { DefaultStepProps } from './..'
+import { ONBOARDING_STEPS } from '.'
 
 export const PersonalizeContent = ({
   actionsContent,
@@ -34,7 +35,7 @@ export const PersonalizeContent = ({
   const goNext = () => {
     // completed form
     trackEvent({
-      name: 'completedPersonalizationStep',
+      name: ONBOARDING_STEPS.COMPLETED_PERSONALIZATION_STEP,
     })
     onNext?.()
   }

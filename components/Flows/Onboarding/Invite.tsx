@@ -4,12 +4,13 @@ import { trackEvent } from '../../../services/analytics'
 import { withAuth } from '../../../utils/with-auth'
 import { InviteTeam } from '../../InviteTeam'
 import { DefaultStepProps } from './..'
+import { ONBOARDING_STEPS } from '.'
 
 const InviteContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   const goNext = () => {
     // completed form
     trackEvent({
-      name: 'completedInvitationStep',
+      name: ONBOARDING_STEPS.COMPLETED_INVITATION_STEP,
     })
     onNext?.()
   }
