@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 
 import { isBrowser } from '../../utils'
 import { FIREBASE_UID_STORAGE_KEY } from '../firebase/config'
@@ -31,6 +32,18 @@ interface TrackEventProps {
   values?: EventValuesProps
 }
 
+// gets & sets uid in window variable
+const getWindowUid = () => {
+  if (!isBrowser()) return 'server'
+  if (window.ui) return window.ui
+  const newUid = uuidv4()
+  window.ui = newUid
+  return newUid
+}
+
+const getUserId = () =>
+  localStorage.getItem(FIREBASE_UID_STORAGE_KEY) || getWindowUid()
+
 // helper, sending event to graphJSON collection
 const track = (collection?: string, event?: EventValuesProps) => {
   if (!collection) return
@@ -54,7 +67,7 @@ const track = (collection?: string, event?: EventValuesProps) => {
 export const trackPageView = (path?: string, values?: EventValuesProps) => {
   if (!isBrowser()) return
 
-  const userId = localStorage.getItem(FIREBASE_UID_STORAGE_KEY) || 'anonymous'
+  const userId = getUserId()
 
   const event = {
     Event: 'pageView',
@@ -74,7 +87,7 @@ export const trackEvent = ({
 }: TrackEventProps) => {
   if (!isBrowser()) return
 
-  const userId = localStorage.getItem(FIREBASE_UID_STORAGE_KEY) || 'anonymous'
+  const userId = getUserId()
 
   const event = {
     Event: name,
@@ -92,8 +105,7 @@ export const identifyUser = async (uid?: string) => {
   if (!uid) return
 
   try {
-    const anonymousUserId =
-      localStorage.getItem(FIREBASE_UID_STORAGE_KEY) || 'anonymous'
+    const anonymousUserId = getUserId()
 
     await track(process.env.NEXT_PUBLIC_GRAPH_JSON_IDENTITIES_COLLECTION, {
       anonymous_uid: anonymousUserId,
