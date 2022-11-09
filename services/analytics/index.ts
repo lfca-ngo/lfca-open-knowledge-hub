@@ -4,8 +4,14 @@ import { v4 as uuidv4 } from 'uuid'
 import { isBrowser } from '../../utils'
 import { FIREBASE_UID_STORAGE_KEY } from '../firebase/config'
 
-const DEFAULT_PAYLOAD = {
-  api_key: process.env.NEXT_PUBLIC_GRAPH_JSON_API_KEY,
+interface EventValuesProps {
+  [key: string]: string | number
+}
+
+interface TrackEventProps {
+  name: string
+  collection?: string
+  values?: EventValuesProps
 }
 
 const PATHS_TO_CUT: Array<string> = []
@@ -20,16 +26,6 @@ const getCleanPathName = () => {
   }
 
   return pathname
-}
-
-interface EventValuesProps {
-  [key: string]: string | number
-}
-
-interface TrackEventProps {
-  name: string
-  collection?: string
-  values?: EventValuesProps
 }
 
 // gets & sets uid in window variable
@@ -49,7 +45,7 @@ const track = (collection?: string, event?: EventValuesProps) => {
   if (!collection) return
 
   const payload = {
-    ...DEFAULT_PAYLOAD,
+    api_key: process.env.NEXT_PUBLIC_GRAPH_JSON_API_KEY,
     collection,
     json: JSON.stringify(event),
     timestamp: Math.floor(new Date().getTime() / 1000),
@@ -122,5 +118,4 @@ export const identifyUser = async (uid?: string) => {
 
 // event names
 export const EXTERNAL_LINK_CLICKED = 'external_link_clicked'
-export const PAGE_VISIT = 'page_visit'
 export const ERROR_BOUNDARY = 'error_boundary'
