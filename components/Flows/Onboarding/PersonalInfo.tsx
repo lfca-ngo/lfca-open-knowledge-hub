@@ -12,7 +12,7 @@ import {
   Space,
   Tag,
 } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
 import { identifyUser, trackEvent } from '../../../services/analytics'
@@ -29,6 +29,8 @@ import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 
+const { useForm } = Form
+
 export const PersonalInfo = ({
   onNext,
   onPrev,
@@ -36,6 +38,7 @@ export const PersonalInfo = ({
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
+  const [personalInfoForm] = useForm()
   const [savingIdentity, setSavingIdentity] = useState(false)
   const { login } = useFirebase()
   const [{ fetching: registeringUser }, registerUser] =
@@ -67,15 +70,15 @@ export const PersonalInfo = ({
     }).then(async ({ data, error }) => {
       if (error) message.error(error.message)
       else {
-        // track form completion
-        trackEvent({
-          name: 'completedUserRegistrationStep',
-        })
-
         // save in identity db
         setSavingIdentity(true)
         await identifyUser(data?.registerUser.id)
         setSavingIdentity(false)
+
+        // track form completion
+        trackEvent({
+          name: 'completedUserRegistrationStep',
+        })
 
         // clear persisted form data
         setSharedState?.({ ...sharedState, company: null })
@@ -88,6 +91,20 @@ export const PersonalInfo = ({
     })
   }
 
+  // when going back make sure to persist the form state
+  const onBack = () => {
+    setSharedState?.({
+      ...sharedState,
+      personal: personalInfoForm.getFieldsValue(),
+    })
+    onPrev?.()
+  }
+
+  // resync form state
+  useEffect(() => {
+    personalInfoForm.setFieldsValue(sharedState?.personal)
+  }, [personalInfoForm, sharedState])
+
   const isLoading = registeringUser || savingIdentity
 
   return (
@@ -98,7 +115,7 @@ export const PersonalInfo = ({
         {`This information will be used to create your personal account on our platform. Tip: You can invite more colleagues later on.`}
       </div>
 
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form form={personalInfoForm} layout="vertical" onFinish={onFinish}>
         <Form.Item
           label={`What best describes your role${
             sharedState?.company?.name
@@ -231,7 +248,7 @@ export const PersonalInfo = ({
             >
               Create Account
             </Button>
-            <Button onClick={onPrev} size="large" type="link">
+            <Button onClick={onBack} size="large" type="link">
               Back
             </Button>
           </Space>
