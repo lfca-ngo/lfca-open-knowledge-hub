@@ -20,7 +20,7 @@ declare global {
   }
   // Global window variables
   interface Window {
-    ui: string
+    ui?: string
   }
 }
 

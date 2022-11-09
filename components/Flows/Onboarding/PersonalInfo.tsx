@@ -17,6 +17,7 @@ import { useState } from 'react'
 import { useFirebase } from '../../../hooks/firebase'
 import { identifyUser, trackEvent } from '../../../services/analytics'
 import {
+  CompanySubscriptionType,
   CreateCompanyInput,
   RegisterUserInput,
   useRegisterUserMutation,
@@ -43,7 +44,7 @@ export const PersonalInfo = ({
   const onFinish = async (userInfo: RegisterUserInput) => {
     const companyInfo = {
       ...sharedState?.company,
-      subscriptionType: 'FREE',
+      subscriptionType: CompanySubscriptionType.FREE,
     } as CreateCompanyInput
 
     registerUser({
