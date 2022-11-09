@@ -119,7 +119,7 @@ export const EventCard = ({
             <LogoGroup
               data={getUniqueParticipatingCompanies(event)}
               maxCount={10}
-              size={60}
+              size={40}
             />
           </Space>
         </div>
