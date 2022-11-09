@@ -3,6 +3,7 @@ import { Button, Space, Tag } from 'antd'
 import Image from 'next/image'
 
 import { useUser } from '../../../hooks/user'
+import { trackEvent } from '../../../services/analytics'
 import { ShareImage } from '../../../tools/ShareImage'
 import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from './..'
@@ -10,6 +11,14 @@ import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
 const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+  const goNext = () => {
+    // completed form
+    trackEvent({
+      name: 'completedShareStep',
+    })
+    onNext?.()
+  }
+
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
@@ -29,7 +38,7 @@ const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
       <ShareImage hideImage />
 
       <Space style={{ marginTop: '30px' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button onClick={goNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">

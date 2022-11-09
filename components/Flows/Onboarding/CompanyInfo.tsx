@@ -17,9 +17,11 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
+import useIsClient from '../../../hooks/useIsClient'
 import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { trackEvent } from '../../../services/analytics'
 import { Country } from '../../../services/contentful'
 import { CompanySubscriptionType } from '../../../services/lfca-backend'
 import {
@@ -101,6 +103,11 @@ export const CompanyInfo = ({
   }
 
   const onFinish = (allValues: CompanyInfoFormProps) => {
+    // completed form
+    trackEvent({
+      name: 'completedCompanyInfoStep',
+    })
+
     setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
   }
@@ -116,6 +123,13 @@ export const CompanyInfo = ({
       companyInfoForm.setFieldValue('country', country)
     }
   }, [country, countries, companyInfoForm])
+
+  // track start of onboarding funnel
+  useIsClient(() => {
+    trackEvent({
+      name: 'startedOnboarding',
+    })
+  })
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import { Button, Drawer, Modal, Space, Tag } from 'antd'
 import { useState } from 'react'
 
+import { trackEvent } from '../../../services/analytics'
 import { ContentfulActionFields } from '../../../services/contentful'
 import {
   EMPTY_ACTIONS,
@@ -29,6 +30,14 @@ export const PersonalizeContent = ({
   >(null)
 
   const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
+
+  const goNext = () => {
+    // completed form
+    trackEvent({
+      name: 'completedPersonalizationStep',
+    })
+    onNext?.()
+  }
 
   // to preview action content, we need the contentful data
   const actionContent = previewActionId && actionsContent?.[previewActionId]
@@ -80,7 +89,7 @@ export const PersonalizeContent = ({
       />
 
       <Space style={{ margin: '30px 0 0' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button onClick={goNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">

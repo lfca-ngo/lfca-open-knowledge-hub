@@ -1,10 +1,19 @@
 import { Button, Space, Tag } from 'antd'
 
+import { trackEvent } from '../../../services/analytics'
 import { withAuth } from '../../../utils/with-auth'
 import { InviteTeam } from '../../InviteTeam'
 import { DefaultStepProps } from './..'
 
 const InviteContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+  const goNext = () => {
+    // completed form
+    trackEvent({
+      name: 'completedInvitationStep',
+    })
+    onNext?.()
+  }
+
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
@@ -16,7 +25,7 @@ const InviteContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
       <InviteTeam />
 
       <Space style={{ marginTop: '20px' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button onClick={goNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">

@@ -1,11 +1,29 @@
 import { SlackOutlined } from '@ant-design/icons'
 import { Button, Space, Tag } from 'antd'
 
+import { trackEvent } from '../../../services/analytics'
 import { SLACK_INVITE_URL } from '../../../utils'
 import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from '..'
 
 export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
+  const joinSlack = () => {
+    // track event
+    trackEvent({
+      name: 'joinedSlackDuringOnboarding',
+    })
+    // open url
+    window.open(SLACK_INVITE_URL, '_blank')
+  }
+
+  const goNext = () => {
+    // completed form
+    trackEvent({
+      name: 'completedSlackStep',
+    })
+    onNext?.()
+  }
+
   return (
     <div>
       <Tag className="super-text">Slack</Tag>
@@ -21,14 +39,12 @@ export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
         size="large"
         style={{ marginTop: '30px', width: '100%' }}
       >
-        <a href={SLACK_INVITE_URL} rel="noreferrer" target="_blank">
-          <Button block icon={<SlackOutlined />} size="large">
-            Join our Slack Channel
-          </Button>
-        </a>
+        <Button block icon={<SlackOutlined />} onClick={joinSlack} size="large">
+          Join our Slack Channel
+        </Button>
 
         <Space>
-          <Button onClick={onNext} size="large" type="primary">
+          <Button onClick={goNext} size="large" type="primary">
             Continue
           </Button>
           <Button onClick={onPrev} size="large" type="link">

@@ -12,8 +12,10 @@ import {
   Space,
   Tag,
 } from 'antd'
+import { useState } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
+import { identifyUser, trackEvent } from '../../../services/analytics'
 import {
   CreateCompanyInput,
   RegisterUserInput,
@@ -33,6 +35,7 @@ export const PersonalInfo = ({
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
+  const [savingIdentity, setSavingIdentity] = useState(false)
   const { login } = useFirebase()
   const [{ fetching: registeringUser }, registerUser] =
     useRegisterUserMutation()
@@ -60,11 +63,22 @@ export const PersonalInfo = ({
         password: userInfo.password,
         picture: userInfo.picture,
       },
-    }).then(async ({ error }) => {
+    }).then(async ({ data, error }) => {
       if (error) message.error(error.message)
       else {
+        // track form completion
+        trackEvent({
+          name: 'completedUserRegistrationStep',
+        })
+
+        // save in identity db
+        setSavingIdentity(true)
+        await identifyUser(data?.registerUser.id)
+        setSavingIdentity(false)
+
         // clear persisted form data
         setSharedState?.({ ...sharedState, company: null })
+
         // log user in automatically
         await login(userInfo.email, userInfo.password)
         message.success('Account created. Logging you in...')
@@ -73,7 +87,7 @@ export const PersonalInfo = ({
     })
   }
 
-  const isLoading = registeringUser
+  const isLoading = registeringUser || savingIdentity
 
   return (
     <div>

@@ -21,12 +21,52 @@ const getCleanPathName = () => {
   return pathname
 }
 
+interface EventValuesProps {
+  [key: string]: string | number
+}
+
 interface TrackEventProps {
   name: string
   collection?: string
-  values?: object
+  values?: EventValuesProps
 }
 
+// helper, sending event to graphJSON collection
+const track = (collection?: string, event?: EventValuesProps) => {
+  if (!collection) return
+
+  const payload = {
+    ...DEFAULT_PAYLOAD,
+    collection,
+    json: JSON.stringify(event),
+    timestamp: Math.floor(new Date().getTime() / 1000),
+  }
+
+  return axios({
+    data: payload,
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_GRAPH_JSON_URL}/log`,
+  })
+}
+
+// track page view events
+export const trackPageView = (path?: string, values?: EventValuesProps) => {
+  if (!isBrowser()) return
+
+  const userId = localStorage.getItem(FIREBASE_UID_STORAGE_KEY) || 'anonymous'
+
+  const event = {
+    Event: 'pageView',
+    path: path || getCleanPathName(),
+    User_ID: userId,
+    ...(values || {}),
+  }
+
+  track(process.env.NEXT_PUBLIC_GRAPH_JSON_EVENTS_COLLECTION || '', event)
+}
+
+// track basic events like button clicks
 export const trackEvent = ({
   collection = process.env.NEXT_PUBLIC_GRAPH_JSON_EVENTS_COLLECTION || '',
   name,
@@ -43,19 +83,29 @@ export const trackEvent = ({
     ...values,
   }
 
-  const payload = {
-    ...DEFAULT_PAYLOAD,
-    collection,
-    json: JSON.stringify(event),
-    timestamp: Math.floor(new Date().getTime() / 1000),
-  }
+  track(collection, event)
+}
 
-  axios({
-    data: payload,
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    url: `${process.env.NEXT_PUBLIC_GRAPH_JSON_URL}/log`,
-  })
+// we await this call during the login step and only
+// continue once the anonymous id is saved
+export const identifyUser = async (uid?: string) => {
+  if (!uid) return
+
+  try {
+    const anonymousUserId =
+      localStorage.getItem(FIREBASE_UID_STORAGE_KEY) || 'anonymous'
+
+    await track(process.env.NEXT_PUBLIC_GRAPH_JSON_IDENTITIES_COLLECTION, {
+      anonymous_uid: anonymousUserId,
+      uid: uid,
+    })
+
+    // override the stored uid in localstorage
+    // eventually this happens straight in auth listener?
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 // event names

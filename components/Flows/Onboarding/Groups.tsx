@@ -1,5 +1,6 @@
 import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 
+import { trackEvent } from '../../../services/analytics'
 import {
   EventCategory,
   EventParticipantStatus,
@@ -28,6 +29,14 @@ const GroupsContent = ({
       },
     },
   })
+
+  const goNext = () => {
+    // subscribed to course
+    trackEvent({
+      name: 'completedOnboardingCourseStep',
+    })
+    onNext?.()
+  }
 
   const eventsStatus = getEventsByParticipationStatus(data?.events)
   const appliedOrAttendsAtLeastOneEvent =
@@ -87,7 +96,7 @@ const GroupsContent = ({
           >
             <Button
               disabled={!appliedOrAttendsAtLeastOneEvent}
-              onClick={onNext}
+              onClick={goNext}
               size="large"
               type="primary"
             >

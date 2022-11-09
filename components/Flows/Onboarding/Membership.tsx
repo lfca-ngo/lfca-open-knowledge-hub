@@ -26,6 +26,7 @@ import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { trackEvent } from '../../../services/analytics'
 import { ContentfulContentCollectionFields } from '../../../services/contentful'
 import {
   CompanySubscriptionType,
@@ -70,6 +71,14 @@ export const MembershipContent = ({
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else {
+        // completed form
+        trackEvent({
+          name: 'completedMembershipStep',
+          values: {
+            membership: sharedState?.selectedSubscriptionType,
+          },
+        })
+        // go next
         message.success('Updated membership')
         onNext?.()
       }
