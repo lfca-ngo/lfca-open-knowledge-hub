@@ -18,6 +18,10 @@ declare global {
       NEXT_PUBLIC_URL: string
     }
   }
+  // Global window variables
+  interface Window {
+    ui?: string
+  }
 }
 
 export {}

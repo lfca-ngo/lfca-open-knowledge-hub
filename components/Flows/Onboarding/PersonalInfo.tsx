@@ -12,9 +12,12 @@ import {
   Space,
   Tag,
 } from 'antd'
+import { useEffect, useState } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
+import { identifyUser, trackEvent } from '../../../services/analytics'
 import {
+  CompanySubscriptionType,
   CreateCompanyInput,
   RegisterUserInput,
   useRegisterUserMutation,
@@ -26,6 +29,8 @@ import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
 
+const { useForm } = Form
+
 export const PersonalInfo = ({
   onNext,
   onPrev,
@@ -33,6 +38,8 @@ export const PersonalInfo = ({
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
+  const [personalInfoForm] = useForm()
+  const [savingIdentity, setSavingIdentity] = useState(false)
   const { login } = useFirebase()
   const [{ fetching: registeringUser }, registerUser] =
     useRegisterUserMutation()
@@ -40,7 +47,7 @@ export const PersonalInfo = ({
   const onFinish = async (userInfo: RegisterUserInput) => {
     const companyInfo = {
       ...sharedState?.company,
-      subscriptionType: 'FREE',
+      subscriptionType: CompanySubscriptionType.FREE,
     } as CreateCompanyInput
 
     registerUser({
@@ -60,11 +67,22 @@ export const PersonalInfo = ({
         password: userInfo.password,
         picture: userInfo.picture,
       },
-    }).then(async ({ error }) => {
+    }).then(async ({ data, error }) => {
       if (error) message.error(error.message)
       else {
+        // save in identity db
+        setSavingIdentity(true)
+        await identifyUser(data?.registerUser.id)
+        setSavingIdentity(false)
+
+        // track form completion
+        trackEvent({
+          name: 'completedUserRegistrationStep',
+        })
+
         // clear persisted form data
         setSharedState?.({ ...sharedState, company: null })
+
         // log user in automatically
         await login(userInfo.email, userInfo.password)
         message.success('Account created. Logging you in...')
@@ -73,17 +91,31 @@ export const PersonalInfo = ({
     })
   }
 
-  const isLoading = registeringUser
+  // when going back make sure to persist the form state
+  const onBack = () => {
+    setSharedState?.({
+      ...sharedState,
+      personal: personalInfoForm.getFieldsValue(),
+    })
+    onPrev?.()
+  }
+
+  // resync form state
+  useEffect(() => {
+    personalInfoForm.setFieldsValue(sharedState?.personal)
+  }, [personalInfoForm, sharedState])
+
+  const isLoading = registeringUser || savingIdentity
 
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
       <h1>{`Who are you? 👩🏽‍💻`}</h1>
       <div className="description">
-        {`This information will be used to create your personal account on our platform. Tip: You can invite more colleagues later on.`}
+        {`The below information will be used to create an account for your in our Members Area. You can invite your colleagues in one of the next steps.`}
       </div>
 
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form form={personalInfoForm} layout="vertical" onFinish={onFinish}>
         <Form.Item
           label={`What best describes your role${
             sharedState?.company?.name
@@ -132,7 +164,7 @@ export const PersonalInfo = ({
               name="email"
               rules={[
                 {
-                  message: 'The input is not valid E-mail!',
+                  message: 'This is not a valid e-mail address!',
                   type: 'email',
                 },
                 {
@@ -170,7 +202,7 @@ export const PersonalInfo = ({
               content="Adding a picture makes interactions with other members more personal"
               placement="left"
             >
-              Picture <InfoCircleOutlined />
+              Profile picture <InfoCircleOutlined />
             </Popover>
           }
           name="picture"
@@ -195,13 +227,13 @@ export const PersonalInfo = ({
           valuePropName="checked"
         >
           <Checkbox>
-            I have read and agree to the{' '}
+            I agree to the{' '}
             <a href={TERMS_OF_SERVICE_URL} rel="noreferrer" target="_blank">
               terms and conditions
             </a>{' '}
-            as well as the{' '}
+            and{' '}
             <a href={PRIVACY_URL} rel="noreferrer" target="_blank">
-              data privacy guidelines
+              privacy policy
             </a>
           </Checkbox>
         </Form.Item>
@@ -216,7 +248,7 @@ export const PersonalInfo = ({
             >
               Create Account
             </Button>
-            <Button onClick={onPrev} size="large" type="link">
+            <Button onClick={onBack} size="large" type="link">
               Back
             </Button>
           </Space>

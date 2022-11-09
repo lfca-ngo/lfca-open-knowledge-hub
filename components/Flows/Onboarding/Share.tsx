@@ -3,6 +3,7 @@ import { Button, Space, Tag } from 'antd'
 import Image from 'next/image'
 
 import { useUser } from '../../../hooks/user'
+import { trackEvent } from '../../../services/analytics'
 import { ShareImage } from '../../../tools/ShareImage'
 import { withAuth } from '../../../utils/with-auth'
 import { DefaultStepProps } from './..'
@@ -10,26 +11,34 @@ import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
 const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+  const goNext = () => {
+    // completed form
+    trackEvent({
+      name: 'completedShareStep',
+    })
+    onNext?.()
+  }
+
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Welcome on board, time to share the news! 🎉`}</h1>
+      <h1>{`Spread the word! 🎉`}</h1>
       <div className="description">
         <p>
-          Did you know? LFCA has grown entirely by word of mouth. As a
-          non-profit organization we rely on our community to spread the word.
-          Inviting other people and their companies to take action is one of the
-          most impactful things that you can do as an individual.
+          As a grassroots initiative, we have grown primarily thanks to word of
+          mouth.
         </p>
         <p>
-          Share your personal invite on LinkedIn or any other social network:
+          To help engage others in climate action, please share a personal
+          invitation on your LinkedIn profile and tag 3 companies you would like
+          to see join our community.
         </p>
       </div>
 
       <ShareImage hideImage />
 
       <Space style={{ marginTop: '30px' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button onClick={goNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">

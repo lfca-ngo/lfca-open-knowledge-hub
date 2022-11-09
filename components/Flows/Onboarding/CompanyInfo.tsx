@@ -17,9 +17,11 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
+import useIsClient from '../../../hooks/useIsClient'
 import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { trackEvent } from '../../../services/analytics'
 import { Country } from '../../../services/contentful'
 import { CompanySubscriptionType } from '../../../services/lfca-backend'
 import {
@@ -101,6 +103,11 @@ export const CompanyInfo = ({
   }
 
   const onFinish = (allValues: CompanyInfoFormProps) => {
+    // completed form
+    trackEvent({
+      name: 'completedCompanyInfoStep',
+    })
+
     setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
   }
@@ -117,12 +124,19 @@ export const CompanyInfo = ({
     }
   }, [country, countries, companyInfoForm])
 
+  // track start of onboarding funnel
+  useIsClient(() => {
+    trackEvent({
+      name: 'startedOnboarding',
+    })
+  })
+
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
       <h1>{`Welcome! 👋`}</h1>
       <div className="description">
-        {`To get started, we need some basic information about the organization that you represent.`}
+        {`To get started, we need to collect some basic information about the organization that you represent.`}
       </div>
 
       <Form
@@ -132,9 +146,9 @@ export const CompanyInfo = ({
         onValuesChange={onValuesChange}
       >
         <Row gutter={16}>
-          <Col md={17} xs={24}>
+          <Col md={18} xs={24}>
             <Form.Item
-              label="Company Name"
+              label="Company name"
               name="name"
               rules={[
                 { message: 'Please input your company name', required: true },
@@ -143,7 +157,7 @@ export const CompanyInfo = ({
               <Input placeholder="Acme Inc." />
             </Form.Item>
           </Col>
-          <Col md={7} xs={24}>
+          <Col md={6} xs={24}>
             <Form.Item
               label="Country"
               name="country"
@@ -157,7 +171,7 @@ export const CompanyInfo = ({
                     .includes(input.toLowerCase())
                 }}
                 optionFilterProp="children"
-                placeholder="Please select"
+                placeholder="Select"
                 showSearch
               >
                 {countries.map((country) => (
@@ -180,10 +194,10 @@ export const CompanyInfo = ({
         </Row>
 
         <Row gutter={16}>
-          <Col md={17} xs={24}>
+          <Col md={18} xs={24}>
             <Form.Item
               hasFeedback
-              label="Which tags best describe your business?"
+              label="Which categories best describe your company?"
               name="tags"
               rules={[
                 { message: 'Please choose at least 1 tag', required: true },
@@ -201,7 +215,7 @@ export const CompanyInfo = ({
               </Select>
             </Form.Item>
           </Col>
-          <Col md={7} xs={24}>
+          <Col md={6} xs={24}>
             <Form.Item
               label="Team size"
               name="employeeCount"
@@ -264,8 +278,8 @@ export const CompanyInfo = ({
           valuePropName="checked"
         >
           <Checkbox>
-            I hereby confirm that the organization I represent is not
-            affiliated, directly or indirectly, with the fossil fuel industry.{' '}
+            I hereby confirm that the organization I represent meets the LFCA
+            membership criteria.{' '}
             <a href={COMMUNITY_ADMITTANCE_URL} rel="noreferrer" target="_blank">
               Read more
             </a>
@@ -276,9 +290,9 @@ export const CompanyInfo = ({
           <Popover
             content={
               <span>
-                {`It’s a match! You’ll meet `}
+                {`It’s a match! We found `}
                 <b style={{ color: '#1E1C1C' }}>{otherCompanies}</b>
-                {` similar companies 🎉`}
+                {` companies similar to you 🎉`}
               </span>
             }
             getPopupContainer={(container) => container}

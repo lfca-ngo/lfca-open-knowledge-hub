@@ -26,11 +26,13 @@ import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { trackEvent } from '../../../services/analytics'
 import { ContentfulContentCollectionFields } from '../../../services/contentful'
 import {
   CompanySubscriptionType,
   useUpdateCompanyMutation,
 } from '../../../services/lfca-backend'
+import { DEFAULT_SUPPORT_EMAIL } from '../../../utils'
 import { withAuth } from '../../../utils/with-auth'
 import { ContentList } from '../../ContentList'
 import { Section } from '../../Layout'
@@ -70,6 +72,14 @@ export const MembershipContent = ({
     }).then(({ error }) => {
       if (error) message.error(error.message)
       else {
+        // completed form
+        trackEvent({
+          name: 'completedMembershipStep',
+          values: {
+            membership: sharedState?.selectedSubscriptionType,
+          },
+        })
+        // go next
         message.success('Updated membership')
         onNext?.()
       }
@@ -82,18 +92,29 @@ export const MembershipContent = ({
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Choose the membership that suits you best 🙌`}</h1>
+      <h1>Choose your membership type 🙌</h1>
       <div className="description">
         <p>
-          {`We believe the solutions to the defining crisis of our times should
-          not be hidden behind paywalls. But achieving that goal is a collective
-          effort: We need those who can afford it, to support those who can't.`}
+          {`We believe access to actionable knowledge shouldn't cost the Earth.
+          Climate solutions should be open, collaborative and public.`}
         </p>
-        <p>
-          By joining us as a Premium Supporter, you help us achieve this
-          mission! Need some help with your decision?{' '}
-          <a onClick={() => setShowFaq(true)}>We got you covered</a>
-        </p>
+        <ul>
+          <li>
+            By becoming a basic or premium supporter, you directly contribute to
+            making climate solutions available to the public
+          </li>
+          <li>
+            Can’t currently afford the annual fee?{' '}
+            <a href={DEFAULT_SUPPORT_EMAIL} rel="noreferrer" target="_blank">
+              Get in touch
+            </a>{' '}
+            with our team
+          </li>
+          <li>
+            Anything else on your mind? Check these{' '}
+            <a onClick={() => setShowFaq(true)}>frequently asked questions</a>
+          </li>
+        </ul>
       </div>
 
       <Form layout="vertical">
@@ -117,14 +138,26 @@ export const MembershipContent = ({
 
       {isFreeTierSelected ? (
         <Alert
-          description="You can continue on a Basic or Premium tier and pay at any point in the next 30 days. If you don't, you will be automatically downgraded."
-          message="Tip: Try Basic or Premium for free"
+          description="You can continue on the Basic or Premium tier and pay at any point in the next 30 days. If you don't, you will be automatically downgraded."
+          message="Tip: Try a paid membership for free"
           showIcon
           type="warning"
         />
       ) : (
         <Alert
-          description="We will get back to you with a written offer and a summary presentation via Email. Most members have additional questions and/or need to check in with their finance departments before continuing. We understand that. By continuing, you do not yet enter into any legal agreement with us. After a trial phase of 30 days you will be automatically downgraded to the FREE tier."
+          description={
+            <>
+              <p>
+                We will get in touch by email with additional information about
+                your membership.
+              </p>
+              <p style={{ margin: '0' }}>
+                The first 30 days are considered a trial phase to help you get
+                to know our community and finalise the purchasing process. Your
+                official membership only starts at the invoice date.
+              </p>
+            </>
+          }
           message="What's next?"
           showIcon
           type="info"

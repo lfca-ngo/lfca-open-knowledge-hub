@@ -1,6 +1,7 @@
 import { Button, Drawer, Modal, Space, Tag } from 'antd'
 import { useState } from 'react'
 
+import { trackEvent } from '../../../services/analytics'
 import { ContentfulActionFields } from '../../../services/contentful'
 import {
   EMPTY_ACTIONS,
@@ -30,6 +31,14 @@ export const PersonalizeContent = ({
 
   const [{ data, fetching: fetchingActions }] = useCompanyActionsListQuery()
 
+  const goNext = () => {
+    // completed form
+    trackEvent({
+      name: 'completedPersonalizationStep',
+    })
+    onNext?.()
+  }
+
   // to preview action content, we need the contentful data
   const actionContent = previewActionId && actionsContent?.[previewActionId]
   const activeAction = data?.companyActions[activeActionIndex]
@@ -37,17 +46,15 @@ export const PersonalizeContent = ({
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Where are you on your climate journey? 🎯`}</h1>
+      <h1>{`Where are you on the journey? 🎯`}</h1>
       <div className="description">
         <p>
-          {`Let's start with a simple exercise: Did you already start taking
-          climate action in your organization? Update the status of actions that
-          you have already taken. But don't get lost: You can always update this
-          information later on.`}
+          {`To personalize your experience, we invite you to select the actions
+          you are working on or have already completed. You can update this at a
+          later stage.`}
         </p>
         <p>
-          Tip: You can filter the available actions by stages. See our Action
-          Pillars as a reference on the right.
+          Tip: Make use of filters by action pillars (explanation on the right).
         </p>
       </div>
 
@@ -80,7 +87,7 @@ export const PersonalizeContent = ({
       />
 
       <Space style={{ margin: '30px 0 0' }}>
-        <Button onClick={onNext} size="large" type="primary">
+        <Button onClick={goNext} size="large" type="primary">
           Continue
         </Button>
         <Button onClick={onPrev} size="large" type="link">
