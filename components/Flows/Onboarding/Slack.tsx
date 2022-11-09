@@ -29,16 +29,11 @@ export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
       <Tag className="super-text">Slack</Tag>
       <h1>{`Join us on Slack! ⭐️`}</h1>
       <div className="description">
-        Share experiences with other community members. Access sub-industry
-        channels to connect with like-minded people from your sector that are
-        facing similar challenges.
+        Our Slack channel is where members get help, share insights and meet
+        other members.
       </div>
 
-      <Space
-        direction="vertical"
-        size="large"
-        style={{ marginTop: '30px', width: '100%' }}
-      >
+      <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <Button block icon={<SlackOutlined />} onClick={joinSlack} size="large">
           Join our Slack Channel
         </Button>

@@ -7,7 +7,7 @@ export const passwordValidator = (_: RuleObject, value: string) => {
     ? Promise.resolve()
     : Promise.reject(
         new Error(
-          'min. 8 chars incl. a number, a special and upper/lowercase char'
+          'A minimum of 8 characters with at least 1 upper case, numeric, and special character'
         )
       )
 }

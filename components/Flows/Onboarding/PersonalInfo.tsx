@@ -112,7 +112,7 @@ export const PersonalInfo = ({
       <Tag className="super-text">{title}</Tag>
       <h1>{`Who are you? 👩🏽‍💻`}</h1>
       <div className="description">
-        {`This information will be used to create your personal account on our platform. Tip: You can invite more colleagues later on.`}
+        {`The below information will be used to create an account for your in our Members Area. You can invite your colleagues in one of the next steps.`}
       </div>
 
       <Form form={personalInfoForm} layout="vertical" onFinish={onFinish}>
@@ -164,7 +164,7 @@ export const PersonalInfo = ({
               name="email"
               rules={[
                 {
-                  message: 'The input is not valid E-mail!',
+                  message: 'This is not a valid e-mail address!',
                   type: 'email',
                 },
                 {
@@ -202,7 +202,7 @@ export const PersonalInfo = ({
               content="Adding a picture makes interactions with other members more personal"
               placement="left"
             >
-              Picture <InfoCircleOutlined />
+              Profile picture <InfoCircleOutlined />
             </Popover>
           }
           name="picture"
@@ -227,13 +227,13 @@ export const PersonalInfo = ({
           valuePropName="checked"
         >
           <Checkbox>
-            I have read and agree to the{' '}
+            I agree to the{' '}
             <a href={TERMS_OF_SERVICE_URL} rel="noreferrer" target="_blank">
               terms and conditions
             </a>{' '}
-            as well as the{' '}
+            and{' '}
             <a href={PRIVACY_URL} rel="noreferrer" target="_blank">
-              data privacy guidelines
+              privacy policy
             </a>
           </Checkbox>
         </Form.Item>

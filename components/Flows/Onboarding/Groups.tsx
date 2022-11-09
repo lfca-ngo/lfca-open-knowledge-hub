@@ -48,13 +48,12 @@ const GroupsContent = ({
       <Tag className="super-text">{title}</Tag>
       <h1>{`Let’s get together! 🥳`}</h1>
       <div className="description">
-        Our group formats are the heartbeat of our community. Every new member
-        starts with one of our <b>free onboarding sessions</b>. During the
-        webinar you will:
+        Groups are at the heart of our community. Every member starts by joining
+        our open onboarding sessions, which help:
         <ul style={{ margin: '15px 0 0' }}>
-          <li>get to know peers from our community</li>
-          <li>understand our tools, action pillars and group formats</li>
-          <li>learn how to build a climate strategy</li>
+          <li>Get to know peers</li>
+          <li>Learn how to make use of our tools and resources</li>
+          <li>Get started on building a climate strategy</li>
         </ul>
       </div>
 
@@ -80,7 +79,7 @@ const GroupsContent = ({
       <Space direction="vertical" size="large">
         {appliedOrAttendsAtLeastOneEvent && (
           <Alert
-            description="You will receive an Email with your calendar invite and details soon."
+            description="You will receive a calendar invitation with all the details."
             message="Request sent"
             showIcon
             type="success"

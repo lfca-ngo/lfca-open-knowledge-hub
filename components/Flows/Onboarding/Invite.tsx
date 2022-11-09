@@ -17,9 +17,10 @@ const InviteContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
   return (
     <div>
       <Tag className="super-text">{title}</Tag>
-      <h1>{`Get your team on board! 💪🏽`}</h1>
+      <h1>Get others on board! 💪🏽</h1>
       <div className="description">
-        {`Climate action is team work. Assemble your A team and invite them to join the platform and take action together.`}
+        Taking climate action is a team sport. Assemble your crew by inviting
+        your colleagues to our Members Area.
       </div>
 
       <InviteTeam />
