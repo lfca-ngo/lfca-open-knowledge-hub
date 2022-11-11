@@ -1,5 +1,6 @@
-import { DatePicker, Form, FormInstance, Input } from 'antd'
+import { DatePicker, Form, FormInstance, Input, Radio, Space } from 'antd'
 
+import { EventParticipantStatus } from '../../services/lfca-backend'
 import { RecurrenceRuleInput } from '../RecurrenceRuleInput'
 import { RichTextInput } from '../RichTextInput'
 import { FormValues } from '.'
@@ -61,6 +62,30 @@ export const FormItems = ({}: FormItemsProps) => {
         name="videoConferenceUrl"
       >
         <Input placeholder="https://example.com/" type="url" />
+      </Form.Item>
+    ),
+    initialInviteStatus: (
+      <Form.Item
+        key="initialInviteStatus"
+        label="Invites need admin approval?"
+        name="initialInviteStatus"
+        rules={[
+          {
+            message: 'Please select an option',
+            required: true,
+          },
+        ]}
+      >
+        <Radio.Group>
+          <Space direction="vertical">
+            <Radio value={EventParticipantStatus.USER_RSVP_ACCEPTED}>
+              Direct Sign Up
+            </Radio>
+            <Radio value={EventParticipantStatus.AWAITING_ADMIN_APPROVAL}>
+              Require Admin Approval
+            </Radio>
+          </Space>
+        </Radio.Group>
       </Form.Item>
     ),
   }

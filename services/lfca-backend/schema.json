@@ -1397,6 +1397,14 @@
             "args": []
           },
           {
+            "name": "initialInviteStatus",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "participants",
             "type": {
               "kind": "NON_NULL",
@@ -2006,7 +2014,18 @@
             ]
           },
           {
-            "name": "createEventInviteToken",
+            "name": "createEventParticipantExport",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "createEventToken",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -2023,17 +2042,6 @@
                 }
               }
             ]
-          },
-          {
-            "name": "createEventParticipantExport",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
           },
           {
             "name": "createServiceProviderReview",

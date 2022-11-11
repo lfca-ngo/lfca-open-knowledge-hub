@@ -3,6 +3,7 @@ fragment Event on Event {
   description
   end
   id
+  initialInviteStatus
   participants(filter: { status: USER_RSVP_ACCEPTED }) {
     id
     isExternal
