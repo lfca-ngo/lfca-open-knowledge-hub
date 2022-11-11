@@ -80,9 +80,13 @@ export const FormItems = ({}: FormItemsProps) => {
           <Space direction="vertical">
             <Radio value={EventParticipantStatus.USER_RSVP_ACCEPTED}>
               Direct Sign Up
+              <br />
+              <i>(User will receive a confirmation email after signup)</i>
             </Radio>
             <Radio value={EventParticipantStatus.AWAITING_ADMIN_APPROVAL}>
               Require Admin Approval
+              <br />
+              <i>(User will receive an RSVP email after approval)</i>
             </Radio>
           </Space>
         </Radio.Group>
