@@ -7,7 +7,6 @@ import {
 } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
 import { Recurrence, Status } from '../EventCard/EventMeta'
-import { InviteMode } from '../EventLinkCreator'
 import { MarkdownContent } from '../MarkdownContent'
 
 interface EventSignUpProps {
@@ -18,22 +17,14 @@ interface EventSignUpProps {
 
 const { Panel } = Collapse
 
-export const EventSignUp = ({
-  event,
-  mode = InviteMode.DIRECT,
-  token,
-}: EventSignUpProps) => {
+export const EventSignUp = ({ event, token }: EventSignUpProps) => {
   const [{ data, fetching }, processInviteToken] =
     useProcessEventInviteTokenMutation()
-  const isDirectInvite = mode === InviteMode.DIRECT
 
   const handleSubmit = ({ email }: { email: string }) => {
     processInviteToken({
       input: {
-        inviteParticipantEmail: email,
-        inviteParticipantStatus: isDirectInvite
-          ? EventParticipantStatus.USER_RSVP_ACCEPTED
-          : EventParticipantStatus.AWAITING_ADMIN_APPROVAL,
+        participantEmail: email,
         token,
       },
     }).then((res) => {
@@ -45,7 +36,16 @@ export const EventSignUp = ({
 
   return data?.processEventInviteToken ? (
     <>
-      {isDirectInvite ? (
+      {data.processEventInviteToken.participationStatus ===
+      EventParticipantStatus.AWAITING_ADMIN_APPROVAL ? (
+        <>
+          <h1>Thanks!</h1>
+          <p>
+            We will review your event application. You will receive an event
+            invitation with details to your email shortly.
+          </p>
+        </>
+      ) : (
         <>
           <h1>Wonderful!</h1>
           <p>
@@ -53,14 +53,6 @@ export const EventSignUp = ({
             invite to your calendar.
           </p>
           <EventCalendarLinks event={data.processEventInviteToken} />
-        </>
-      ) : (
-        <>
-          <h1>Thanks!</h1>
-          <p>
-            We will review your event application. You will receive an event
-            invitation with details to your email shortly.
-          </p>
         </>
       )}
     </>
