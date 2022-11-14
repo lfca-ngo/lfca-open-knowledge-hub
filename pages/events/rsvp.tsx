@@ -15,7 +15,6 @@ import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 const EventRSVPPage: NextPage = () => {
   const { isReady, query } = useRouter()
   const { method, token } = query
-  console.log(query)
 
   const [{ data, error, fetching }, processEventRSVPToken] =
     useProcessEventRsvpTokenMutation()
