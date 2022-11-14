@@ -31,6 +31,7 @@ const EventPage: NextPage<EventPageProps> = ({ event }) => {
 
   return (
     <OneColLayout backgroundImage={EventBackgroundImage}>
+      {/**TODO: Allow updating event rsvp status (current status needs to be fetched first) */}
       {!isVerified ? <h1>Not found</h1> : <EventDetails event={event} />}
     </OneColLayout>
   )
