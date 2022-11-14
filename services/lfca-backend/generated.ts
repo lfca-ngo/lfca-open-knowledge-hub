@@ -1410,14 +1410,14 @@ export type ProcessEventInviteTokenMutationVariables = Exact<{
 }>;
 
 
-export type ProcessEventInviteTokenMutation = { __typename?: 'Mutation', processEventInviteToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
+export type ProcessEventInviteTokenMutation = { __typename?: 'Mutation', processEventInviteToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, initialInviteStatus?: EventParticipantStatus | null, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type ProcessEventRsvpTokenMutationVariables = Exact<{
   input: ProcessEventRsvpTokenInput;
 }>;
 
 
-export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
+export type ProcessEventRsvpTokenMutation = { __typename?: 'Mutation', processEventRSVPToken: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, initialInviteStatus?: EventParticipantStatus | null, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type PurgeCacheMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -2240,19 +2240,10 @@ export function usePlanCompanyActionMutation() {
 export const ProcessEventInviteTokenDocument = gql`
     mutation processEventInviteToken($input: ProcessEventInviteTokenInput!) {
   processEventInviteToken(input: $input) {
-    category
-    description
-    end
-    id
-    participationStatus
-    recurrenceRule
-    start
-    status
-    title
-    videoConferenceUrl
+    ...Event
   }
 }
-    `;
+    ${EventFragmentDoc}`;
 
 export function useProcessEventInviteTokenMutation() {
   return Urql.useMutation<ProcessEventInviteTokenMutation, ProcessEventInviteTokenMutationVariables>(ProcessEventInviteTokenDocument);
@@ -2260,19 +2251,10 @@ export function useProcessEventInviteTokenMutation() {
 export const ProcessEventRsvpTokenDocument = gql`
     mutation processEventRSVPToken($input: ProcessEventRSVPTokenInput!) {
   processEventRSVPToken(input: $input) {
-    category
-    description
-    end
-    id
-    participationStatus
-    recurrenceRule
-    start
-    status
-    title
-    videoConferenceUrl
+    ...Event
   }
 }
-    `;
+    ${EventFragmentDoc}`;
 
 export function useProcessEventRsvpTokenMutation() {
   return Urql.useMutation<ProcessEventRsvpTokenMutation, ProcessEventRsvpTokenMutationVariables>(ProcessEventRsvpTokenDocument);

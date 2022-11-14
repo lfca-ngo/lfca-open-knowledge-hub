@@ -1,4 +1,3 @@
-import axios from 'axios'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -6,7 +5,13 @@ import React from 'react'
 import { EventSignUp } from '../../../components/EventSignUp'
 import { OneColLayout } from '../../../components/Layout'
 import EventBackgroundImage from '../../../public/img/event-bg-image.png'
-import { EventFragment } from '../../../services/lfca-backend'
+import {
+  EventDocument,
+  EventFragment,
+  EventQuery,
+  EventQueryVariables,
+  ssrClient,
+} from '../../../services/lfca-backend'
 
 interface EventSignUpPageProps {
   event: EventFragment
@@ -32,42 +37,21 @@ export const getStaticProps: GetStaticProps<EventSignUpPageProps> = async ({
 }) => {
   const eventId = params?.eventId as string
 
-  const options = {
-    data: {
-      operationName: 'event',
-      query: `query event($input: EventInput!) {
-        event(input: $input) {
-          category
-          description
-          end
-          id
-          participationStatus
-          recurrenceRule
-          start
-          status
-          title
-          videoConferenceUrl
-        }
-      }`,
-      variables: { input: { eventId } },
-    },
-
-    headers: {
-      Authorization: `Bearer ${process.env.LFCA_BACKED_ADMIN_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    url: process.env.NEXT_PUBLIC_LFCA_BACKED_URL,
-  }
-
   try {
-    const response = await axios.request(options)
+    const res = await ssrClient
+      .query<EventQuery, EventQueryVariables>(EventDocument, {
+        input: {
+          eventId,
+        },
+      })
+      .toPromise()
 
-    const event = response.data.data.event
+    const event = res.data?.event
+    if (!event) throw new Error('Not found')
 
     return {
       props: {
-        event,
+        event: event,
       },
       revalidate: 21600, // 6h
     }

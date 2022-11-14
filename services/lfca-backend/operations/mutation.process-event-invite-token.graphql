@@ -1,14 +1,5 @@
 mutation processEventInviteToken($input: ProcessEventInviteTokenInput!) {
   processEventInviteToken(input: $input) {
-    category
-    description
-    end
-    id
-    participationStatus
-    recurrenceRule
-    start
-    status
-    title
-    videoConferenceUrl
+    ...Event
   }
 }
