@@ -28,6 +28,7 @@ import { passwordValidator } from '../../../utils/password-validator'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
+import { ONBOARDING_STEPS } from '.'
 
 const { useForm } = Form
 
@@ -77,7 +78,7 @@ export const PersonalInfo = ({
 
         // track form completion
         trackEvent({
-          name: 'completedUserRegistrationStep',
+          name: ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP,
         })
 
         // clear persisted form data

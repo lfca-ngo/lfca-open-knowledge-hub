@@ -5,6 +5,7 @@ import { trackEvent } from '../../../services/analytics'
 import { SLACK_INVITE_URL } from '../../../utils'
 import { withAuth } from '../../../utils-server-only'
 import { DefaultStepProps } from '..'
+import { ONBOARDING_STEPS } from '.'
 
 export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
   const joinSlack = () => {
@@ -19,7 +20,7 @@ export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
   const goNext = () => {
     // completed form
     trackEvent({
-      name: 'completedSlackStep',
+      name: ONBOARDING_STEPS.COMPLETED_SLACK_STEP,
     })
     onNext?.()
   }

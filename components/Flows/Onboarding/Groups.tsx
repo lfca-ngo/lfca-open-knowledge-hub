@@ -11,6 +11,7 @@ import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
 import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
+import { ONBOARDING_STEPS } from '.'
 import styles from './styles.module.less'
 
 const GroupsContent = ({
@@ -33,7 +34,7 @@ const GroupsContent = ({
   const goNext = () => {
     // subscribed to course
     trackEvent({
-      name: 'completedOnboardingCourseStep',
+      name: ONBOARDING_STEPS.COMPLETED_ONBOARDING_COURSE_STEP,
     })
     onNext?.()
   }

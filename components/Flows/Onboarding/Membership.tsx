@@ -40,6 +40,7 @@ import { ListSelect, OptionKey } from '../../ListSelect'
 import { SizeInput } from '../../SubscriptionSelector/SizeInput'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
+import { ONBOARDING_STEPS } from '.'
 import styles from './styles.module.less'
 
 export const MembershipContent = ({
@@ -74,7 +75,7 @@ export const MembershipContent = ({
       else {
         // completed form
         trackEvent({
-          name: 'completedMembershipStep',
+          name: ONBOARDING_STEPS.COMPLETED_MEMBERSHIP_STEP,
           values: {
             membership: sharedState?.selectedSubscriptionType,
           },
