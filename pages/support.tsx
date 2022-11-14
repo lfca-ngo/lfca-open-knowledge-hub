@@ -11,7 +11,7 @@ import {
   fetchContentCollectionById,
 } from '../services/contentful'
 import { DEFAULT_SUPPORT_EMAIL, PRODUCT_VIDEO_URL } from '../utils'
-import { withAuth } from '../utils/with-auth'
+import { withAuth } from '../utils-server-only'
 
 const Support: NextPage = ({
   content,

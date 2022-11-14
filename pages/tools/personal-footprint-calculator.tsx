@@ -13,7 +13,7 @@ import {
 import { useCompleteUserActionMutation } from '../../services/lfca-backend'
 import { PersonalCarbonCalculator } from '../../tools/PersonalCarbonCalculator'
 import { DEFAULT_COUNTRY } from '../../utils'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 interface PersonalFootprintCalculatorProps {
   questionnaires: Record<string, ContentfulQuestionnaireFields>

@@ -7,7 +7,7 @@ import {
   ContentfulContentCollectionFields,
   fetchContentCollectionById,
 } from '../../services/contentful'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const Community: NextPage = ({
   content,

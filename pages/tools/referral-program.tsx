@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { ShareImage } from '../../tools/ShareImage'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const ReferralProgram: NextPage = () => {
   return (

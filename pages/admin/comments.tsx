@@ -6,7 +6,7 @@ import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout'
 import { useCreateActionCommentExportMutation } from '../../services/lfca-backend'
 import { ADMIN_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const Comments: NextPage = () => {
   const [{ fetching: isExporting }, exportActionComments] =

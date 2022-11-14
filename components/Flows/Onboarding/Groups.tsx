@@ -6,7 +6,7 @@ import {
   EventParticipantStatus,
   useEventsQuery,
 } from '../../../services/lfca-backend'
-import { withAuth } from '../../../utils/with-auth'
+import { withAuth } from '../../../utils-server-only'
 import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
 import { getEventsByParticipationStatus } from '../../EventsList/utils'

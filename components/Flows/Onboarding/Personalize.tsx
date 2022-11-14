@@ -8,7 +8,7 @@ import {
   useCompanyActionsListQuery,
 } from '../../../services/lfca-backend'
 import { actionHasReviews } from '../../../utils'
-import { withAuth } from '../../../utils/with-auth'
+import { withAuth } from '../../../utils-server-only'
 import { ActionPillars } from '../../ActionPillars'
 import { ActionPreview } from '../../ActionPreview'
 import { ActionsList } from '../../ActionsList'

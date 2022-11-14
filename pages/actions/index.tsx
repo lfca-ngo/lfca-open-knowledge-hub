@@ -27,7 +27,7 @@ import {
   useEventsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 interface HomePageProps {
   content: ContentfulContentCollectionFields
