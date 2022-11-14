@@ -3,7 +3,7 @@ import React from 'react'
 
 import {
   EventFragment,
-  useProcessEventRsvpTokenMutation,
+  useProcessEventInviteTokenMutation,
 } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
 
@@ -16,15 +16,17 @@ export const EventAccepted = ({
   event: EventFragment
   token?: string | string[]
 }) => {
-  const [{ data, fetching: isSubmittingNotes }, updateTokenRSVPWithNotes] =
-    useProcessEventRsvpTokenMutation()
+  const [
+    { data: inviteData, error: inviteError, fetching: isInviting },
+    inviteUserToEvent,
+  ] = useProcessEventInviteTokenMutation()
 
   const handleSubmit = async ({ forwardEmail }: { forwardEmail?: string }) => {
     if (!forwardEmail || typeof token !== 'string') return
 
-    const res = await updateTokenRSVPWithNotes({
+    const res = await inviteUserToEvent({
       input: {
-        forwardEmail,
+        participantEmail: forwardEmail,
         token,
       },
     })
@@ -52,17 +54,13 @@ export const EventAccepted = ({
             the event.
           </p>
 
-          {!data?.processEventRSVPToken ? (
+          {!inviteData?.processEventInviteToken && !inviteError ? (
             <Form layout="vertical" onFinish={handleSubmit}>
               <Form.Item key="forwardEmail" label="Email" name="forwardEmail">
                 <Input placeholder="greta@thunbergvc.earth" type="email" />
               </Form.Item>
               <Form.Item>
-                <Button
-                  htmlType="submit"
-                  loading={isSubmittingNotes}
-                  type="primary"
-                >
+                <Button htmlType="submit" loading={isInviting} type="primary">
                   Submit
                 </Button>
               </Form.Item>

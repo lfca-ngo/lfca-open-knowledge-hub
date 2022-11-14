@@ -1,7 +1,11 @@
 import { Alert, Button, Form, Input, message, Select } from 'antd'
 import Link from 'next/link'
 
-import { useProcessEventRsvpTokenMutation } from '../../services/lfca-backend'
+import {
+  EventParticipantStatus,
+  useProcessEventInviteTokenMutation,
+  useProcessEventRsvpTokenMutation,
+} from '../../services/lfca-backend'
 
 const DECLINE_OPTIONS = [
   {
@@ -37,8 +41,14 @@ export const EventDeclined = ({ token }: { token?: string | string[] }) => {
   }>()
   const reasonValue = Form.useWatch('reason', form)
 
-  const [{ data, fetching: isSubmittingNotes }, updateTokenRSVPWithNotes] =
-    useProcessEventRsvpTokenMutation()
+  const [
+    { data: rsvpData, error: rsvpError, fetching: isSubmittingNotes },
+    updateTokenRSVPWithNotes,
+  ] = useProcessEventRsvpTokenMutation()
+  const [
+    { data: inviteData, error: inviteError, fetching: isInviting },
+    inviteUserToEvent,
+  ] = useProcessEventInviteTokenMutation()
 
   const handleSubmit = async ({
     forwardEmail,
@@ -49,20 +59,34 @@ export const EventDeclined = ({ token }: { token?: string | string[] }) => {
     notes?: string
     reason?: string
   }) => {
-    if ((!reason && !forwardEmail) || typeof token !== 'string') return
+    if (typeof token !== 'string') return
 
-    const notesText = `${reason} ${notes || ''}`
+    if (notes || reason) {
+      const notesText = `${reason} ${notes || ''}`
+      const res = await updateTokenRSVPWithNotes({
+        input: {
+          notes: notesText,
+          status: EventParticipantStatus.USER_RSVP_DECLINED,
+          token,
+        },
+      })
 
-    const res = await updateTokenRSVPWithNotes({
-      input: {
-        forwardEmail,
-        notes: notesText,
-        token,
-      },
-    })
+      if (res.error?.message) {
+        message.error(res.error.message)
+      }
+    }
 
-    if (res.error?.message) {
-      message.error(res.error.message)
+    if (forwardEmail) {
+      const res = await inviteUserToEvent({
+        input: {
+          participantEmail: forwardEmail,
+          token,
+        },
+      })
+
+      if (res.error?.message) {
+        message.error(res.error.message)
+      }
     }
   }
 
@@ -74,7 +98,10 @@ export const EventDeclined = ({ token }: { token?: string | string[] }) => {
         This will help us to improve our service and offer better solutions for
         you in the future.
       </p>
-      {!data?.processEventRSVPToken ? (
+      {(!rsvpData?.processEventRSVPToken &&
+        !inviteData?.processEventInviteToken) ||
+      rsvpError ||
+      inviteError ? (
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             key="reason"
@@ -117,7 +144,7 @@ export const EventDeclined = ({ token }: { token?: string | string[] }) => {
           <Form.Item>
             <Button
               htmlType="submit"
-              loading={isSubmittingNotes}
+              loading={isSubmittingNotes || isInviting}
               type="primary"
             >
               Submit
