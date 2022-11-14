@@ -3,7 +3,10 @@ import { Button, ConfigProvider, List, message } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { EventFragment } from '../../services/lfca-backend'
+import {
+  EventFragment,
+  EventWithParticipantsFragment,
+} from '../../services/lfca-backend'
 import { COMMUNITY_GROUPS } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 import { EventCard, EventCardProps } from '../EventCard'
@@ -12,7 +15,7 @@ import styles from './styles.module.less'
 
 interface EventsListProps {
   appliedEvents: EventFragment[]
-  events: EventFragment[]
+  events: EventWithParticipantsFragment[]
   fetching: boolean
   participatingEvents: EventFragment[]
   type?: EventCardProps['type']

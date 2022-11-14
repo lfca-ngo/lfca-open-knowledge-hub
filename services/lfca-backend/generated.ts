@@ -1247,7 +1247,9 @@ export type CompanyFragment = { __typename?: 'Company', campaignContribution?: s
 
 export type EventParticipantFragment = { __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } };
 
-export type EventFragment = { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, initialInviteStatus?: EventParticipantStatus | null, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> };
+export type EventWithParticipantsFragment = { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, initialInviteStatus?: EventParticipantStatus | null, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null, participants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, user: { __typename?: 'ExternalUser' } | { __typename?: 'User', id: string, company?: { __typename?: 'Company', id: string, logoUrl?: string | null } | null } }> };
+
+export type EventFragment = { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, initialInviteStatus?: EventParticipantStatus | null, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null };
 
 export type ExternalUserFragment = { __typename?: 'ExternalUser', email: string, firstName?: string | null, id: string, lastName?: string | null };
 
@@ -1564,6 +1566,13 @@ export type EventParticipantsQueryVariables = Exact<{
 
 
 export type EventParticipantsQuery = { __typename?: 'Query', eventParticipants: Array<{ __typename?: 'EventParticipant', id: string, isExternal: boolean, notes?: string | null, status: EventParticipantStatus, user: { __typename?: 'ExternalUser', email: string, id: string } | { __typename?: 'User', deletedAt?: any | null, email: string, firstName: string, id: string, lastName: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null, logoUrl?: string | null } | null } }> };
+
+export type EventQueryVariables = Exact<{
+  input: EventInput;
+}>;
+
+
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', category: EventCategory, description?: string | null, end: any, id: string, initialInviteStatus?: EventParticipantStatus | null, participantsAwaitingAdminApprovalCount: number, participantsAwaitingUserRSVPCount: number, participantsUserRSVPAcceptedCount: number, participantsUserRSVPDeclinedCount: number, participationStatus?: EventParticipantStatus | null, recurrenceRule?: string | null, start: any, status: EventStatus, title: string, videoConferenceUrl?: string | null } };
 
 export type EventsQueryVariables = Exact<{
   input?: InputMaybe<EventsInput>;
@@ -1917,6 +1926,21 @@ export const EventFragmentDoc = gql`
   end
   id
   initialInviteStatus
+  participantsAwaitingAdminApprovalCount
+  participantsAwaitingUserRSVPCount
+  participantsUserRSVPAcceptedCount
+  participantsUserRSVPDeclinedCount
+  participationStatus
+  recurrenceRule
+  start
+  status
+  title
+  videoConferenceUrl
+}
+    `;
+export const EventWithParticipantsFragmentDoc = gql`
+    fragment EventWithParticipants on Event {
+  ...Event
   participants(filter: {status: USER_RSVP_ACCEPTED}) {
     id
     isExternal
@@ -1930,18 +1954,8 @@ export const EventFragmentDoc = gql`
       }
     }
   }
-  participantsAwaitingAdminApprovalCount
-  participantsAwaitingUserRSVPCount
-  participantsUserRSVPAcceptedCount
-  participantsUserRSVPDeclinedCount
-  participationStatus
-  recurrenceRule
-  start
-  status
-  title
-  videoConferenceUrl
 }
-    `;
+    ${EventFragmentDoc}`;
 export const ExternalUserFragmentDoc = gql`
     fragment ExternalUser on ExternalUser {
   email
@@ -2017,10 +2031,10 @@ export const UserFragmentDoc = gql`
 export const AddEventParticipantDocument = gql`
     mutation addEventParticipant($input: AddEventParticipantInput!) {
   addEventParticipant(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }
-    ${EventFragmentDoc}`;
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useAddEventParticipantMutation() {
   return Urql.useMutation<AddEventParticipantMutation, AddEventParticipantMutationVariables>(AddEventParticipantDocument);
@@ -2028,10 +2042,10 @@ export function useAddEventParticipantMutation() {
 export const AddExternalEventParticipantDocument = gql`
     mutation addExternalEventParticipant($input: AddExternalEventParticipantInput!) {
   addExternalEventParticipant(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }
-    ${EventFragmentDoc}`;
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useAddExternalEventParticipantMutation() {
   return Urql.useMutation<AddExternalEventParticipantMutation, AddExternalEventParticipantMutationVariables>(AddExternalEventParticipantDocument);
@@ -2130,10 +2144,10 @@ export function useCreateEventTokenMutation() {
 export const CreateEventDocument = gql`
     mutation createEvent($input: CreateEventInput!) {
   createEvent(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }
-    ${EventFragmentDoc}`;
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useCreateEventMutation() {
   return Urql.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument);
@@ -2286,10 +2300,10 @@ export function useRegisterUserMutation() {
 export const RemoveEventParticipantDocument = gql`
     mutation removeEventParticipant($input: RemoveEventParticipantInput!) {
   removeEventParticipant(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }
-    ${EventFragmentDoc}`;
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useRemoveEventParticipantMutation() {
   return Urql.useMutation<RemoveEventParticipantMutation, RemoveEventParticipantMutationVariables>(RemoveEventParticipantDocument);
@@ -2346,10 +2360,10 @@ export function useUpdateCompanyMutation() {
 export const UpdateEventParticipantStatusDocument = gql`
     mutation updateEventParticipantStatus($input: UpdateEventParticipantStatusInput!) {
   updateEventParticipantStatus(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }
-    ${EventFragmentDoc}`;
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useUpdateEventParticipantStatusMutation() {
   return Urql.useMutation<UpdateEventParticipantStatusMutation, UpdateEventParticipantStatusMutationVariables>(UpdateEventParticipantStatusDocument);
@@ -2357,10 +2371,10 @@ export function useUpdateEventParticipantStatusMutation() {
 export const UpdateEventDocument = gql`
     mutation updateEvent($input: UpdateEventInput!) {
   updateEvent(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }
-    ${EventFragmentDoc}`;
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useUpdateEventMutation() {
   return Urql.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument);
@@ -2512,13 +2526,24 @@ export const EventParticipantsDocument = gql`
 export function useEventParticipantsQuery(options: Omit<Urql.UseQueryArgs<EventParticipantsQueryVariables>, 'query'>) {
   return Urql.useQuery<EventParticipantsQuery, EventParticipantsQueryVariables>({ query: EventParticipantsDocument, ...options });
 };
-export const EventsDocument = gql`
-    query events($input: EventsInput) {
-  events(input: $input) {
+export const EventDocument = gql`
+    query event($input: EventInput!) {
+  event(input: $input) {
     ...Event
   }
 }
     ${EventFragmentDoc}`;
+
+export function useEventQuery(options: Omit<Urql.UseQueryArgs<EventQueryVariables>, 'query'>) {
+  return Urql.useQuery<EventQuery, EventQueryVariables>({ query: EventDocument, ...options });
+};
+export const EventsDocument = gql`
+    query events($input: EventsInput) {
+  events(input: $input) {
+    ...EventWithParticipants
+  }
+}
+    ${EventWithParticipantsFragmentDoc}`;
 
 export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVariables>, 'query'>) {
   return Urql.useQuery<EventsQuery, EventsQueryVariables>({ query: EventsDocument, ...options });

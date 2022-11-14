@@ -2,6 +2,6 @@ mutation addExternalEventParticipant(
   $input: AddExternalEventParticipantInput!
 ) {
   addExternalEventParticipant(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }

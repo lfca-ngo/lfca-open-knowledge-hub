@@ -3,8 +3,8 @@ import {
   ActionComment,
   CompanyAchievementFragment,
   EventCategory,
-  EventFragment,
   EventStatus,
+  EventWithParticipantsFragment,
 } from '../generated'
 
 // to simulate the skeleton loader we ned to fill the list with dummy data
@@ -48,7 +48,7 @@ export const EMPTY_ACHIEVEMENT: CompanyAchievementFragment = {
 export const EMPTY_ACHIEVEMENTS = Array(2).fill(EMPTY_ACHIEVEMENT)
 
 // empty event object
-export const EMPTY_EVENT: EventFragment = {
+export const EMPTY_EVENT: EventWithParticipantsFragment = {
   category: EventCategory.MASTERMIND_GROUP,
   description: '',
   end: '',
@@ -67,7 +67,7 @@ export const EMPTY_EVENT: EventFragment = {
 }
 
 // create array with 2 empty events
-export const EMPTY_EVENTS: EventFragment[] = Array(2)
+export const EMPTY_EVENTS: EventWithParticipantsFragment[] = Array(2)
   .fill(EMPTY_EVENT)
   .concat(
     Array(2).fill({ ...EMPTY_EVENT, participationRequestStatus: 'APPROVED' })
