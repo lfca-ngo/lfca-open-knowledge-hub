@@ -1,0 +1,3 @@
+mutation createEventToken($input: CreateEventTokenInput!) {
+  createEventToken(input: $input)
+}

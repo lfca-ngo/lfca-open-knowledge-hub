@@ -33,7 +33,7 @@ import {
   useUpdateCompanyMutation,
 } from '../../../services/lfca-backend'
 import { DEFAULT_SUPPORT_EMAIL } from '../../../utils'
-import { withAuth } from '../../../utils/with-auth'
+import { withAuth } from '../../../utils-server-only'
 import { ContentList } from '../../ContentList'
 import { Section } from '../../Layout'
 import { ListSelect, OptionKey } from '../../ListSelect'

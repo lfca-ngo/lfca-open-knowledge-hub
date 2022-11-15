@@ -12,7 +12,7 @@ import { useUser } from '../hooks/user'
 import { useSteps } from '../hooks/useSteps'
 import { fetchAllQuestionnaires } from '../services/contentful'
 import { DEFAULT_COUNTRY } from '../utils'
-import { withAuth } from '../utils/with-auth'
+import { withAuth } from '../utils-server-only'
 
 const OnboardingLeader: NextPage = (props: any) => {
   const router = useRouter()

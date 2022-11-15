@@ -3,7 +3,7 @@ import { Button, Space, Tag } from 'antd'
 
 import { trackEvent } from '../../../services/analytics'
 import { SLACK_INVITE_URL } from '../../../utils'
-import { withAuth } from '../../../utils/with-auth'
+import { withAuth } from '../../../utils-server-only'
 import { DefaultStepProps } from '..'
 import { ONBOARDING_STEPS } from '.'
 

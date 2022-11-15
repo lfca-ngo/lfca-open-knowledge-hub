@@ -2,8 +2,8 @@ import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Divider, Modal, Space } from 'antd'
 
 import {
-  EventFragment,
   EventParticipantStatus,
+  EventWithParticipantsFragment,
 } from '../../services/lfca-backend'
 import {
   ParticipationRequestsApproved,
@@ -15,7 +15,7 @@ import {
 import styles from './styles.module.less'
 
 export interface EventCardProps {
-  event: EventFragment
+  event: EventWithParticipantsFragment
   appliedEventsCount: number
   participatingEventsCount: number
   statusOnJoin?: EventParticipantStatus
@@ -35,7 +35,7 @@ import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 import { getUniqueParticipatingCompanies } from './utils'
 
 export interface EventCardDefaultProps {
-  event: EventFragment
+  event: EventWithParticipantsFragment
   onClick: () => void
   onClose: () => void
   statusOnJoin?: EventParticipantStatus

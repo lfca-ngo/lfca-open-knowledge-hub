@@ -9,7 +9,7 @@ import {
   Program,
 } from '../../services/contentful'
 import { ADMIN_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 interface AdminCompaniesProps {
   countries: Country[]

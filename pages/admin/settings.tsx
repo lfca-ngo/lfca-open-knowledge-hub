@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { AdminSettings } from '../../components/AdminSettings'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { ADMIN_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const Settings: NextPage = () => {
   return (

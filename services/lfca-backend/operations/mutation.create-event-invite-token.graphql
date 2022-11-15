@@ -1,3 +1,0 @@
-mutation createEventInviteToken($input: CreateEventInviteTokenInput!) {
-  createEventInviteToken(input: $input)
-}

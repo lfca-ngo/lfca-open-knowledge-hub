@@ -21,7 +21,10 @@ import {
   StarOutlined,
 } from '@ant-design/icons'
 
-import { CompanyFragment, EventFragment } from '../../services/lfca-backend'
+import {
+  CompanyFragment,
+  EventWithParticipantsFragment,
+} from '../../services/lfca-backend'
 
 const contains = (string: string, words: string[]) => {
   for (const word of words) {
@@ -54,7 +57,9 @@ export const matchStringToIcon = (s: string) => {
   return <CalendarOutlined />
 }
 
-export const getUniqueParticipatingCompanies = (event: EventFragment) => {
+export const getUniqueParticipatingCompanies = (
+  event: EventWithParticipantsFragment
+) => {
   const uniqueCompaniesById = event.participants.reduce((acc, curr) => {
     if (
       'company' in curr.user &&

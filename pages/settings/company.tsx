@@ -5,7 +5,7 @@ import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { useCompanyQuery } from '../../services/lfca-backend'
 import { SETTINGS_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const CompanySettings: NextPage = () => {
   const [{ data, fetching: fetchingCompany }] = useCompanyQuery()

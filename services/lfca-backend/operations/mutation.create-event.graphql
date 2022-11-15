@@ -1,5 +1,5 @@
 mutation createEvent($input: CreateEventInput!) {
   createEvent(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }

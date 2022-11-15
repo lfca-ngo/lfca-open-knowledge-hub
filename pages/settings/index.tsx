@@ -5,7 +5,7 @@ import { Container } from '../../components/Layout/Container'
 import { UserForm } from '../../components/UserForm'
 import { useUserQuery } from '../../services/lfca-backend'
 import { SETTINGS_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const Settings: NextPage = () => {
   const [{ data, fetching: fetchingUser }] = useUserQuery()

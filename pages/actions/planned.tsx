@@ -11,7 +11,7 @@ import {
   useCompanyActionsListQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const PlannedActions: NextPage = () => {
   // TODO: UI for error state

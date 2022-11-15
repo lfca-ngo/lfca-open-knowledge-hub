@@ -6,7 +6,7 @@ import { Container } from '../../components/Layout/Container'
 import { PayWall } from '../../components/PayWall'
 import { useServiceProviderListsQuery } from '../../services/lfca-backend'
 import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 
 const ServiceProviders: NextPage = () => {
   const [{ data, fetching }] = useServiceProviderListsQuery()

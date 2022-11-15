@@ -47,7 +47,7 @@ import {
   isBrowser,
 } from '../../utils'
 import { options } from '../../utils/rich-text-options'
-import { withAuth } from '../../utils/with-auth'
+import { withAuth } from '../../utils-server-only'
 import styles from './styles.module.less'
 
 interface ActionProps {

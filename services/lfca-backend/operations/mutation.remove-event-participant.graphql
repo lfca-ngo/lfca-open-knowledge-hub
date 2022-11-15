@@ -1,5 +1,5 @@
 mutation removeEventParticipant($input: RemoveEventParticipantInput!) {
   removeEventParticipant(input: $input) {
-    ...Event
+    ...EventWithParticipants
   }
 }

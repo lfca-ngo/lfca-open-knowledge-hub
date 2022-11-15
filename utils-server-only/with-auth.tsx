@@ -3,7 +3,7 @@ import React from 'react'
 
 import { useFirebase } from '../hooks/firebase'
 import { useUser } from '../hooks/user'
-import { ROOT, SIGN_IN } from './routes'
+import { ROOT, SIGN_IN } from '../utils/routes'
 
 interface WithAuthOptions {
   adminOnly?: boolean

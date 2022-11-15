@@ -1,0 +1,5 @@
+query event($input: EventInput!) {
+  event(input: $input) {
+    ...Event
+  }
+}

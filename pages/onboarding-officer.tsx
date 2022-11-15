@@ -14,7 +14,7 @@ import {
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
 } from '../services/lfca-backend'
-import { withAuth } from '../utils/with-auth'
+import { withAuth } from '../utils-server-only'
 
 const OnboardingOfficer: NextPage = () => {
   const router = useRouter()

@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 
 import { AchievementsList } from '../components/AchievementsList'
 import { Main, Section, SiderLayout } from '../components/Layout'
-import { withAuth } from '../utils/with-auth'
+import { withAuth } from '../utils-server-only'
 
 const Achievements: NextPage = () => {
   return (
