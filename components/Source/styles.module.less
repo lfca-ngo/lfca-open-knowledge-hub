@@ -43,6 +43,17 @@
   }
 }
 
-.preview-image {
-  max-width: 100%;
+.preview-image-wrapper {
+  position: relative;
+  height: 600px;
+  width: 100%;
+  padding: 30px;
+}
+
+.preview-modal {
+  :global {
+    .preview-content {
+      padding: 0 0 40px;
+    }
+  }
 }

@@ -58,15 +58,22 @@ export const Source = ({
       {render()}
       <Modal
         className={styles['preview-modal']}
+        footer={null}
         onCancel={closeModal}
         open={isVisible}
+        wrapClassName="modal-lg"
       >
-        <Image
-          alt={'preview'}
-          className={styles['preview-image']}
-          layout="responsive"
-          src={fileUrl}
-        />
+        <div className="preview-content">
+          <div className={styles['preview-image-wrapper']}>
+            <Image
+              alt={'preview'}
+              className={styles['preview-image']}
+              layout="fill"
+              objectFit="contain"
+              src={fileUrl}
+            />
+          </div>
+        </div>
       </Modal>
     </span>
   )
