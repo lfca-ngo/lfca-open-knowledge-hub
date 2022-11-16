@@ -48,18 +48,18 @@ export const getCleanPathName = () => {
 }
 
 export enum ONBOARDING_STEPS {
-  STARTED_ONBOARDING = 'startedOnboarding',
-  COMPLETED_COMPANY_INFO_STEP = 'completedCompanyInfoStep',
-  COMPLETED_USER_REGISTRATION_STEP = 'completedUserRegistrationStep',
-  COMPLETED_ONBOARDING_COURSE_STEP = 'completedOnboardingCourseStep',
-  COMPLETED_PERSONALIZATION_STEP = 'completedPersonalizationStep',
-  COMPLETED_INVITATION_STEP = 'completedInvitationStep',
-  COMPLETED_MEMBERSHIP_STEP = 'completedMembershipStep',
-  COMPLETED_SLACK_STEP = 'completedSlackStep',
-  COMPLETED_SHARE_STEP = 'completedShareStep',
-  JOINED_SLACK_DURING_ONBOARDING = 'joinedSlackDuringOnboarding',
+  STARTED_ONBOARDING = 'Onboarding Started',
+  COMPLETED_COMPANY_INFO_STEP = 'Onboarding Company Info Completed',
+  COMPLETED_USER_REGISTRATION_STEP = 'Onboarding User Registration Completed',
+  COMPLETED_ONBOARDING_COURSE_STEP = 'Onboarding Course Subscription Completed',
+  COMPLETED_PERSONALIZATION_STEP = 'Onboarding Personalization Completed',
+  COMPLETED_INVITATION_STEP = 'Onboarding Invitation Completed',
+  COMPLETED_MEMBERSHIP_STEP = 'Onboarding Membership Completed',
+  COMPLETED_SLACK_STEP = 'Onboarding Slack Completed',
+  COMPLETED_SHARE_STEP = 'Onboarding Share Completed',
+  JOINED_SLACK_DURING_ONBOARDING = 'Onboarding Slack Joined',
 }
 
 export enum EVENTS {
-  RSVP_ADD_TO_CAL = 'rsvpAddToCal',
+  RSVP_ADD_TO_CAL = 'RSVP Event Added to Calendar',
 }

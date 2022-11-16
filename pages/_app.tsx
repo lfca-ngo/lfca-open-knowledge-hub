@@ -11,19 +11,17 @@ import { LFCABackendProvider } from '../services/lfca-backend'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AppProvider>
-      <FirebaseProvider>
-        <LFCABackendProvider>
-          <AnalyticsProvider
-            writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}
-          >
+    <AnalyticsProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+      <AppProvider>
+        <FirebaseProvider>
+          <LFCABackendProvider>
             <VerifyEmailBar hideOnPaths={['onboarding']} />
             <MembershipBar hideOnPaths={['onboarding']} />
             <Component {...pageProps} />
-          </AnalyticsProvider>
-        </LFCABackendProvider>
-      </FirebaseProvider>
-    </AppProvider>
+          </LFCABackendProvider>
+        </FirebaseProvider>
+      </AppProvider>
+    </AnalyticsProvider>
   )
 }
 
