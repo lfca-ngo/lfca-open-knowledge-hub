@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app'
 
 import { MembershipBar, VerifyEmailBar } from '../components/Layout/TopBar'
 import { AppProvider } from '../hooks/app'
+import { AnalyticsProvider } from '../hooks/segment'
 import { FirebaseProvider } from '../services/firebase'
 import { LFCABackendProvider } from '../services/lfca-backend'
 
@@ -13,9 +14,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AppProvider>
       <FirebaseProvider>
         <LFCABackendProvider>
-          <VerifyEmailBar hideOnPaths={['onboarding']} />
-          <MembershipBar hideOnPaths={['onboarding']} />
-          <Component {...pageProps} />
+          <AnalyticsProvider
+            writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}
+          >
+            <VerifyEmailBar hideOnPaths={['onboarding']} />
+            <MembershipBar hideOnPaths={['onboarding']} />
+            <Component {...pageProps} />
+          </AnalyticsProvider>
         </LFCABackendProvider>
       </FirebaseProvider>
     </AppProvider>

@@ -2,21 +2,21 @@ import { GlobalOutlined } from '@ant-design/icons'
 import { Button, Space, Tag } from 'antd'
 import Image from 'next/image'
 
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { useUser } from '../../../hooks/user'
-import { trackEvent } from '../../../services/analytics'
 import { ShareImage } from '../../../tools/ShareImage'
 import { withAuth } from '../../../utils-server-only'
 import { DefaultStepProps } from './..'
-import { ONBOARDING_STEPS } from '.'
 import LinkedInBackground from './images/linked-bg.png'
 import styles from './styles.module.less'
 
 const ShareContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+  const analytics = useAnalytics()
+
   const goNext = () => {
     // completed form
-    trackEvent({
-      name: ONBOARDING_STEPS.COMPLETED_SHARE_STEP,
-    })
+    analytics.track(ONBOARDING_STEPS.COMPLETED_SHARE_STEP)
+
     onNext?.()
   }
 

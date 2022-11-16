@@ -3,7 +3,7 @@ import { Button, Space } from 'antd'
 import { CalendarEvent, google, ics, office365, outlook } from 'calendar-link'
 import React, { useMemo } from 'react'
 
-import { trackEvent } from '../../services/analytics'
+import { EVENTS, useAnalytics } from '../../hooks/segment'
 import { EventFragment } from '../../services/lfca-backend'
 import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { parseMarkdownContent } from '../MarkdownContent'
@@ -38,6 +38,8 @@ function generateHTMLDescription(
 }
 
 export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
+  const analytics = useAnalytics()
+
   const parsedEvent = useMemo<CalendarEvent>(
     () => ({
       description: generateHTMLDescription(
@@ -58,7 +60,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
 
   const navigateToUrl = (url: string) => {
     // track event
-    trackEvent({ name: 'rsvpAddToCal', values: { url: url } })
+    analytics.track(EVENTS.RSVP_ADD_TO_CAL, { url })
     // open url
     window.open(url, '_blank')
   }
