@@ -71,7 +71,9 @@ export const PersonalInfo = ({
       if (error) message.error(error.message)
       else {
         // save in identity db
-        analytics.identify(data?.registerUser.id)
+        analytics.identify(data?.registerUser.id, {
+          companyId: data?.registerUser.company?.id,
+        })
         analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 
         // clear persisted form data

@@ -5,17 +5,25 @@ import { ACTIONS } from '../utils/routes'
 import { getCleanPathName, useAnalytics } from './segment'
 import useIsClient from './useIsClient'
 import { usePersistentNavigation } from './usePersistentNavigation'
+import { useUser } from './user'
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  const { company, user } = useUser()
   const { resetPosition } = usePersistentNavigation(false)
   const { events, pathname } = useRouter()
   const analytics = useAnalytics()
 
   const isClient = useIsClient(() => {
-    // track initial page view: the app provider is only mounted once
-    // the route change is not fired on initial mount
+    // log initial page view on mount
     analytics.page(getCleanPathName())
   })
+
+  // identify the user and group by company id
+  useEffect(() => {
+    if (company?.id && user?.id) {
+      analytics.identify(user?.id, { companyId: company?.id })
+    }
+  }, [company?.id, user?.id, analytics])
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {

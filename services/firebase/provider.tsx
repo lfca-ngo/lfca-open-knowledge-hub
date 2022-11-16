@@ -11,7 +11,6 @@ import {
 } from 'firebase/auth'
 import React from 'react'
 
-import { useAnalytics } from '../../hooks/segment'
 import { isDev } from '../../utils'
 import { FIREBASE_TOKEN_STORAGE_KEY, FIREBASE_UID_STORAGE_KEY } from './config'
 
@@ -55,7 +54,6 @@ interface FirebaseProviderProps {
 }
 
 export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
-  const analytics = useAnalytics()
   const [emailVerified, setEmailVerified] = React.useState<boolean | null>(null)
   const [token, setToken] = React.useState<string | null>(
     typeof window !== 'undefined'
@@ -70,8 +68,6 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
         handleTokenChange(token, user.uid)
         // check if email is verified
         setEmailVerified(user.emailVerified)
-        // identify user in segment
-        analytics.identify(user.uid)
       } else {
         handleTokenChange()
       }
