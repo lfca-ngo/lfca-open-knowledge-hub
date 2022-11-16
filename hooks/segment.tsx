@@ -1,5 +1,6 @@
 import { AnalyticsBrowser } from '@segment/analytics-next'
 import { createContext, useContext, useMemo } from 'react'
+import { capitalizeEveryWord } from '../utils'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const AnalyticsContext = createContext<AnalyticsBrowser>(undefined!)
@@ -33,18 +34,11 @@ export const useAnalytics = () => {
   return result
 }
 
-const PATHS_TO_CUT: Array<string> = []
+export const getCleanPathName = (path?: string) => {
+  const pathname = path || window?.location.pathname
+  const withoutTrailingSlash = pathname.split('/').slice(1).join(' ')
 
-export const getCleanPathName = () => {
-  const pathname = window?.location.pathname
-
-  for (const p of PATHS_TO_CUT) {
-    if (pathname.includes(p)) {
-      return pathname.split(p)[0].concat(p)
-    }
-  }
-
-  return pathname
+  return capitalizeEveryWord(withoutTrailingSlash)
 }
 
 export enum ONBOARDING_STEPS {

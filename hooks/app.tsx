@@ -21,14 +21,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // identify the user and group by company id
   useEffect(() => {
     if (company?.id && user?.id) {
-      analytics.identify(user?.id, { companyId: company?.id })
+      analytics.identify(user?.id, { ['Company ID']: company?.id })
     }
   }, [company?.id, user?.id, analytics])
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       // track page view when user navigates
-      analytics.page(url)
+      analytics.page(getCleanPathName(url))
 
       // only persist the browsing state when the user goes from
       // the dashboard to the action detail page and back

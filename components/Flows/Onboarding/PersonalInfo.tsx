@@ -72,7 +72,7 @@ export const PersonalInfo = ({
       else {
         // save in identity db
         analytics.identify(data?.registerUser.id, {
-          companyId: data?.registerUser.company?.id,
+          ['Company ID']: data?.registerUser.company?.id,
         })
         analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 
