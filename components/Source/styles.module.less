@@ -1,0 +1,59 @@
+.source {
+  &[class~='block'] {
+    display: flex;
+    width: 100%;
+    border: 1px solid @grey-light;
+    padding: 12px 12px;
+    border-radius: @border-radius-base;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    margin: 12px 0;
+
+    :global {
+      a {
+        text-decoration: none;
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .ant-btn {
+        margin-right: 0;
+        margin-left: auto;
+        font-size: @font-size-sm;
+        opacity: 0;
+      }
+    }
+
+    &:hover {
+      background: @white-grey;
+
+      :global {
+        .ant-btn {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  :global {
+    .ant-avatar {
+      margin-right: 12px;
+    }
+  }
+}
+
+.preview-image-wrapper {
+  position: relative;
+  height: 600px;
+  width: 100%;
+  padding: 30px;
+}
+
+.preview-modal {
+  :global {
+    .preview-content {
+      padding: 0 0 40px;
+    }
+  }
+}
