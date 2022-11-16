@@ -1,5 +1,6 @@
 import { AnalyticsBrowser } from '@segment/analytics-next'
 import { createContext, useContext, useMemo } from 'react'
+
 import { capitalizeEveryWord } from '../utils'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
