@@ -2165,7 +2165,7 @@
     dset "^3.1.2"
     tslib "^2.4.0"
 
-"@segment/analytics-next@^1.46.1":
+"@segment/analytics-next@1.46.1":
   version "1.46.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics-next/-/analytics-next-1.46.1.tgz#f310257b52f632025507dfe9e88c69e98ca51029"
   integrity sha512-wJe1y9c/YgL5TAlTLM8wfYAl8yaFIXoUr/0Ay4ZxvY807zzgBuk6ULd5nyDgE4EbKEfN8iYOp0hrtrjp4P0TFw==
