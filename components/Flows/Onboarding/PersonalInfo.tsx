@@ -15,11 +15,7 @@ import {
 import { useEffect } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
-import {
-  COMPANY_ID_KEY,
-  ONBOARDING_STEPS,
-  useAnalytics,
-} from '../../../hooks/segment'
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import {
   CompanySubscriptionType,
   CreateCompanyInput,
@@ -71,13 +67,9 @@ export const PersonalInfo = ({
         password: userInfo.password,
         picture: userInfo.picture,
       },
-    }).then(async ({ data, error }) => {
+    }).then(async ({ error }) => {
       if (error) message.error(error.message)
       else {
-        // save in identity db
-        analytics.identify(data?.registerUser.id, {
-          [COMPANY_ID_KEY]: data?.registerUser.company?.id,
-        })
         analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 
         // clear persisted form data
