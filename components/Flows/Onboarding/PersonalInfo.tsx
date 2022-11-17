@@ -15,7 +15,11 @@ import {
 import { useEffect } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
-import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
+import {
+  COMPANY_ID_KEY,
+  ONBOARDING_STEPS,
+  useAnalytics,
+} from '../../../hooks/segment'
 import {
   CompanySubscriptionType,
   CreateCompanyInput,
@@ -72,7 +76,7 @@ export const PersonalInfo = ({
       else {
         // save in identity db
         analytics.identify(data?.registerUser.id, {
-          ['Company ID']: data?.registerUser.company?.id,
+          [COMPANY_ID_KEY]: data?.registerUser.company?.id,
         })
         analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 

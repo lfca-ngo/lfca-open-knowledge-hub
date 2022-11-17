@@ -6,6 +6,8 @@ import { capitalizeEveryWord } from '../utils'
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const AnalyticsContext = createContext<AnalyticsBrowser>(undefined!)
 
+export const COMPANY_ID_KEY = 'Company ID'
+
 interface AnalyticsProviderProps {
   writeKey: string
   children: React.ReactNode

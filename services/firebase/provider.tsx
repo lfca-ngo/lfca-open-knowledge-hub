@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth'
 import React from 'react'
 
-import { useAnalytics } from '../../hooks/segment'
+import { COMPANY_ID_KEY, useAnalytics } from '../../hooks/segment'
 import { isDev } from '../../utils'
 import { FIREBASE_TOKEN_STORAGE_KEY, FIREBASE_UID_STORAGE_KEY } from './config'
 
@@ -71,7 +71,7 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
         handleTokenChange(token, user.uid)
         setEmailVerified(user.emailVerified)
         // identify the user and add company id for grouping
-        analytics.identify(user.uid, { ['Company ID']: claims?.companyId })
+        analytics.identify(user.uid, { [COMPANY_ID_KEY]: claims?.companyId })
       } else {
         handleTokenChange()
       }
