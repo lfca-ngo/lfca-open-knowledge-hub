@@ -1,17 +1,17 @@
 import { Button, Space, Tag } from 'antd'
 
-import { trackEvent } from '../../../services/analytics'
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { withAuth } from '../../../utils-server-only'
 import { InviteTeam } from '../../InviteTeam'
 import { DefaultStepProps } from './..'
-import { ONBOARDING_STEPS } from '.'
 
 const InviteContent = ({ onNext, onPrev, title }: DefaultStepProps) => {
+  const analytics = useAnalytics()
+
   const goNext = () => {
     // completed form
-    trackEvent({
-      name: ONBOARDING_STEPS.COMPLETED_INVITATION_STEP,
-    })
+    analytics.track(ONBOARDING_STEPS.COMPLETED_INVITATION_STEP)
+
     onNext?.()
   }
 

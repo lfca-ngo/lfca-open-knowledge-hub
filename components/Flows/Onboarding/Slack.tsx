@@ -1,27 +1,26 @@
 import { SlackOutlined } from '@ant-design/icons'
 import { Button, Space, Tag } from 'antd'
 
-import { trackEvent } from '../../../services/analytics'
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { SLACK_INVITE_URL } from '../../../utils'
 import { withAuth } from '../../../utils-server-only'
 import { DefaultStepProps } from '..'
-import { ONBOARDING_STEPS } from '.'
 
 export const SlackContent = ({ onNext, onPrev }: DefaultStepProps) => {
+  const analytics = useAnalytics()
+
   const joinSlack = () => {
     // track event
-    trackEvent({
-      name: 'joinedSlackDuringOnboarding',
-    })
+    analytics.track(ONBOARDING_STEPS.JOINED_SLACK_DURING_ONBOARDING)
+
     // open url
     window.open(SLACK_INVITE_URL, '_blank')
   }
 
   const goNext = () => {
     // completed form
-    trackEvent({
-      name: ONBOARDING_STEPS.COMPLETED_SLACK_STEP,
-    })
+    analytics.track(ONBOARDING_STEPS.COMPLETED_SLACK_STEP)
+
     onNext?.()
   }
 

@@ -16,12 +16,12 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import useIsClient from '../../../hooks/useIsClient'
 import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
-import { trackEvent } from '../../../services/analytics'
 import { Country } from '../../../services/contentful'
 import { CompanySubscriptionType } from '../../../services/lfca-backend'
 import {
@@ -31,7 +31,6 @@ import {
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
-import { ONBOARDING_STEPS } from '.'
 import styles from './styles.module.less'
 
 const { useForm, useWatch } = Form
@@ -81,6 +80,7 @@ export const CompanyInfo = ({
   countries: Country[]
   country?: string | string[]
 }) => {
+  const analytics = useAnalytics()
   const isDesktop = useBreakpoints().md
   const [companyInfoForm] = useForm()
   const [otherCompanies, setOtherCompanies] = useState<number | null>(null)
@@ -105,9 +105,7 @@ export const CompanyInfo = ({
 
   const onFinish = (allValues: CompanyInfoFormProps) => {
     // completed form
-    trackEvent({
-      name: ONBOARDING_STEPS.COMPLETED_COMPANY_INFO_STEP,
-    })
+    analytics.track(ONBOARDING_STEPS.COMPLETED_COMPANY_INFO_STEP)
 
     setSharedState?.({ ...sharedState, company: allValues })
     onNext?.()
@@ -127,9 +125,7 @@ export const CompanyInfo = ({
 
   // track start of onboarding funnel
   useIsClient(() => {
-    trackEvent({
-      name: 'startedOnboarding',
-    })
+    analytics.track(ONBOARDING_STEPS.STARTED_ONBOARDING)
   })
 
   return (
