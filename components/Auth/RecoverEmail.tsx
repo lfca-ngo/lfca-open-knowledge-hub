@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { Alert, Button, message } from 'antd'
-import { applyActionCode, checkActionCode } from 'firebase/auth'
+import { ActionCodeInfo, applyActionCode, checkActionCode } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import { useFirebase } from '../../hooks/firebase'
@@ -17,29 +17,6 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
 
   const { auth } = useFirebase()
 
-  const verifyCode = () => {
-    // Confirm the action code is valid.
-    checkActionCode(auth, actionCode).then(
-      (info: any) => {
-        // Get the restored email address.
-        const restoredEmail = info['data']['email']
-        // Revert to the old email.
-        applyActionCode(auth, actionCode).then(() => {
-          // Account email reverted to restoredEmail
-          setRestoredEmail(restoredEmail)
-          setVerifiedCode(true)
-          setValidCode(true)
-        })
-      },
-      (error) => {
-        // Invalid code.
-        setError(error.message)
-        setVerifiedCode(true)
-        setValidCode(false)
-      }
-    )
-  }
-
   const sendReset = () => {
     // You might also want to give the user the option to reset their password
     // in case the account was compromised:
@@ -55,9 +32,27 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
 
   useEffect(() => {
     if (actionCode) {
-      verifyCode()
+      checkActionCode(auth, actionCode).then(
+        (info: ActionCodeInfo) => {
+          // Get the restored email address.
+          const restoredEmail = info['data']['email']
+          // Revert to the old email.
+          applyActionCode(auth, actionCode).then(() => {
+            // Account email reverted to restoredEmail
+            setRestoredEmail(restoredEmail || '')
+            setVerifiedCode(true)
+            setValidCode(true)
+          })
+        },
+        (error) => {
+          // Invalid code.
+          setError(error.message)
+          setVerifiedCode(true)
+          setValidCode(false)
+        }
+      )
     }
-  }, [actionCode])
+  }, [actionCode, auth])
 
   let component = null
   if (!verifiedCode) {

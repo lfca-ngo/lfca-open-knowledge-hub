@@ -32,7 +32,7 @@ export const findCategoryChildren = (node: CategoryTreeNode): string[] => {
 interface MetaDataProps {
   color: string
   description: string
-  icon: any
+  icon: React.ReactNode
   name: string
 }
 
