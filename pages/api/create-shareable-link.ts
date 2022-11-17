@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { getErrorMessage } from '../../utils'
 import { createShareToken, getImageName } from '../../utils-server-only'
 
 const getSharingImage = (country: string) => {
@@ -106,7 +107,7 @@ export default async function handler(
     const { shortLink } = await response.json()
 
     res.status(200).json({ ogImageUrl, shortLink })
-  } catch (e: any) {
-    throw new Error(e.message || e)
+  } catch (e) {
+    throw new Error(getErrorMessage(e))
   }
 }

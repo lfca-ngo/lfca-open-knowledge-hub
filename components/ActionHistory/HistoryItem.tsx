@@ -4,7 +4,10 @@ import flat from 'flat'
 import { useMemo, useState } from 'react'
 
 import { CompanyActionListItemFragment } from '../../services/lfca-backend'
-import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
+import {
+  DEFAULT_SUPPORT_EMAIL,
+  LEGACY_CALCULATOR_VALUES_SHEET,
+} from '../../utils'
 
 export const HistoryItem = ({
   action,
@@ -17,6 +20,7 @@ export const HistoryItem = ({
     try {
       // if possible return as flattened array
       const parsed = JSON.parse(action?.notes || '')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const flattened = flat.flatten(parsed) as any
       const asArray = Object.keys(flattened).map((k) => ({
         key: k,
@@ -58,7 +62,7 @@ export const HistoryItem = ({
           <Space align="center" direction="horizontal">
             <h3>Data</h3>
             <a
-              href="https://docs.google.com/spreadsheets/d/1O8WBknC_uEluwQmN5RIAkMaCIgPDgS2366ciZShlJ_Y/edit#gid=0"
+              href={LEGACY_CALCULATOR_VALUES_SHEET}
               rel="noreferrer"
               target="_blank"
             >

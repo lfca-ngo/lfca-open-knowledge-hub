@@ -17,6 +17,8 @@ export const LAYOUT_BREAKPOINTS = [
   { minWidth: 1600, name: 'xxl' },
 ]
 
+export const LEGACY_CALCULATOR_VALUES_SHEET =
+  'https://docs.google.com/spreadsheets/d/1O8WBknC_uEluwQmN5RIAkMaCIgPDgS2366ciZShlJ_Y/edit#gid=0'
 export const OPEN_SLACK_LINK = 'https://lfca-co.slack.com/ssb/redirect'
 export const DEFAULT_FONT_SIZE = 17
 export const DEFAULT_LINE_HEIGHT = 1.5
