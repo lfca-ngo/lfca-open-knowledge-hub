@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
-import categoryTreeData from '../next-fetch-during-build/data/_category-tree-data.json'
+import categoryTreeData from '../public/data/_category-tree-data.json'
 import { isBrowser } from '../utils'
 import { useLocalStorage } from './useLocalStorage'
 

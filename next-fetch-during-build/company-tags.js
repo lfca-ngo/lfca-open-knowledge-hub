@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const axios = require('axios')
-const path = require('path')
 const fs = require('fs')
+const { CACHE_PATH } = require('./next-contentful')
 
 const fetchAndSaveByKey = async (key) => {
   const options = {
@@ -21,8 +21,11 @@ const fetchAndSaveByKey = async (key) => {
 
     const companyTagsArray = response.data.data.companyTags.map((t) => t.name)
 
-    const FILE_PATH = path.join(__dirname, `/data/${key}.json`)
-    fs.writeFileSync(FILE_PATH, JSON.stringify(companyTagsArray), 'utf8')
+    fs.writeFileSync(
+      `${CACHE_PATH}/${key}.json`,
+      JSON.stringify(companyTagsArray),
+      'utf8'
+    )
   } catch (e) {
     console.error(`Failed to fetch companyTags`, e)
   }

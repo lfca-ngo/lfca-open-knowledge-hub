@@ -1,7 +1,7 @@
 import { Select } from 'antd'
 import { DefaultOptionType } from 'antd/lib/select'
 
-import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import categoryTreeData from '../../public/data/_category-tree-data.json'
 import {
   ContentfulCategoryTreeFields,
   LookUpProps,

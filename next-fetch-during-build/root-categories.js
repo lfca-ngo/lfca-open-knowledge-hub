@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const nextContentful = require('./next-contentful')
-const path = require('path')
 const fs = require('fs')
+const { CACHE_PATH } = require('./next-contentful')
 
 const findCategoryChildren = (node) => {
   return node.elements?.map((e) => {
@@ -72,9 +72,12 @@ const fetchAndSaveByKey = async (key) => {
   }
 
   // fetch stuff here
-  const CACHE_PATH = path.join(__dirname, `/data/${key}.json`)
   try {
-    fs.writeFileSync(CACHE_PATH, JSON.stringify(treeData), 'utf8')
+    fs.writeFileSync(
+      `${CACHE_PATH}/${key}.json`,
+      JSON.stringify(treeData),
+      'utf8'
+    )
   } catch (e) {
     // Nothing to do here
   }

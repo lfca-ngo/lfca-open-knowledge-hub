@@ -16,7 +16,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { useUser } from '../../hooks/user'
-import subscriptionsData from '../../next-fetch-during-build/data/_subscriptions-data.json'
+import subscriptionsData from '../../public/data/_subscriptions-data.json'
 import {
   CompanySubscriptionType,
   useCompanyQuery,

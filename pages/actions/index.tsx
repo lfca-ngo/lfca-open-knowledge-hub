@@ -14,7 +14,7 @@ import { getEventsByParticipationStatus } from '../../components/EventsList/util
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
-import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import categoryTreeData from '../../public/data/_category-tree-data.json'
 import {
   ContentfulContentCollectionFields,
   RootCategoryLookUpProps,

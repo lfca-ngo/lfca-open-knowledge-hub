@@ -28,7 +28,7 @@ import {
 } from '../../components/Layout/SectionWrapper'
 import { RequirementsListTabs } from '../../components/RequirementsListTabs'
 import { ShowMore } from '../../components/ShowMore'
-import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import categoryTreeData from '../../public/data/_category-tree-data.json'
 import {
   ContentfulActionFields,
   fetchAllActions,

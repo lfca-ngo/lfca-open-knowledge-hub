@@ -1,7 +1,7 @@
 import { Checkbox } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
-import categoryTreeData from '../../next-fetch-during-build/data/_category-tree-data.json'
+import categoryTreeData from '../../public/data/_category-tree-data.json'
 import {
   ContentfulCategoryTreeFields,
   LookUpProps,

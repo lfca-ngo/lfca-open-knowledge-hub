@@ -1,4 +1,4 @@
-import ALL_TAGS from '../../next-fetch-during-build/data/_company-tags-data.json'
+import ALL_TAGS from '../../public/data/_company-tags-data.json'
 
 export const COMPANY_MODELS = ['impact by design', 'physical supply chain']
 
