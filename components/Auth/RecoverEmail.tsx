@@ -55,6 +55,7 @@ export const RecoverEmail = ({ actionCode }: { actionCode: string }) => {
   }, [actionCode, auth])
 
   let component = null
+
   if (!verifiedCode) {
     component = <LoadingOutlined />
   } else if (resetSent) {

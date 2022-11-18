@@ -1,13 +1,18 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import { handleCustomRequest, UPLOAD_API } from './helper'
+import {
+  AnyUploadFile,
+  handleCustomRequest,
+  UPLOAD_API,
+  UploadInfo,
+} from './helper'
 
 interface ImageUploadMultiProps {
-  value?: any
-  onChange?: any
-  customPreset?: any
+  value?: AnyUploadFile[]
+  onChange?: (fileList: AnyUploadFile[]) => void
+  customPreset?: string
 }
 
 export const ImageUploadMulti: React.FC<ImageUploadMultiProps> = ({
@@ -15,14 +20,14 @@ export const ImageUploadMulti: React.FC<ImageUploadMultiProps> = ({
   customPreset,
   value = [],
 }) => {
-  const initialValue = value || []
-  const [fileList, setFileList] = useState(initialValue)
+  const initialValue = useMemo(() => value || [], [value])
+  const [fileList, setFileList] = useState<AnyUploadFile[]>(initialValue)
 
   useEffect(() => {
     setFileList(initialValue)
-  }, [value])
+  }, [initialValue])
 
-  const parseFileList = (fileList: any) => {
+  const parseFileList = (fileList: AnyUploadFile[]) => {
     const formatted = []
     // check for all values if they have "fileList" attribute
     for (const file of fileList) {
@@ -36,7 +41,7 @@ export const ImageUploadMulti: React.FC<ImageUploadMultiProps> = ({
     return formatted
   }
 
-  const handleChange = (info: any) => {
+  const handleChange = (info: UploadInfo) => {
     const fileList = [...info.fileList]
     setFileList(fileList)
     const parsedFileList = parseFileList(fileList)

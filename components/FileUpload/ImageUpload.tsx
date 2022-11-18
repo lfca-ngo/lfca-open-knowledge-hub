@@ -3,13 +3,13 @@ import { Upload } from 'antd'
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 
-import { handleCustomRequest, UPLOAD_API } from './helper'
+import { handleCustomRequest, UPLOAD_API, UploadInfo } from './helper'
 import styles from './styles.module.less'
 
 interface ImageUploadProps {
-  value?: any
-  onChange?: any
-  customPreset?: any
+  value?: string
+  onChange?: (fileUrl: string) => void
+  customPreset?: string
 }
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -24,7 +24,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     setImageUrl(value)
   }, [value])
 
-  const handleChange = (info: any) => {
+  const handleChange = (info: UploadInfo) => {
     if (info.file.status === 'uploading') {
       setLoading(true)
       return
@@ -52,6 +52,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         showUploadList={false}
       >
         {imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img alt="avatar" src={imageUrl} style={{ width: '100%' }} />
         ) : (
           uploadButton
