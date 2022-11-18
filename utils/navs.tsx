@@ -30,28 +30,34 @@ import {
 export const LOGOUT = 'logout'
 
 export const ACTIONS_NAV = [
-  { path: ACTIONS, title: 'Dashboard' },
-  { path: ACTIONS_PLANNED, title: 'Planned Actions' },
-  { path: ACTIONS_COMPLETED, title: 'Completed Actions' },
+  { key: ACTIONS, label: 'Dashboard' },
+  { key: ACTIONS_PLANNED, label: 'Planned Actions' },
+  { key: ACTIONS_COMPLETED, label: 'Completed Actions' },
 ]
+
+// {
+//   icon: <AppstoreAddOutlined />,
+//   key: SERVICE_PROVIDERS,
+//   label: 'Tool Comparison',
+// }
 
 export const ADMIN_NAV = [
-  { path: ADMIN_USERS, title: 'Users' },
-  { path: ADMIN_COMPANIES, title: 'Companies' },
-  { path: ADMIN_GROUPS, title: 'Events' },
-  { path: ADMIN_REVIEWS, title: 'Reviews' },
-  { path: ADMIN_COMMENTS, title: 'Comments' },
-  { path: ADMIN_ACTIONS, title: 'Actions' },
-  { path: ADMIN_SETTINGS, title: 'Settings' },
+  { key: ADMIN_USERS, label: 'Users' },
+  { key: ADMIN_COMPANIES, label: 'Companies' },
+  { key: ADMIN_GROUPS, label: 'Events' },
+  { key: ADMIN_REVIEWS, label: 'Reviews' },
+  { key: ADMIN_COMMENTS, label: 'Comments' },
+  { key: ADMIN_ACTIONS, label: 'Actions' },
+  { key: ADMIN_SETTINGS, label: 'Settings' },
 ]
 
-export const COMMUNITY_NAV = [{ path: COMMUNITY_GROUPS, title: 'Groups' }]
+export const COMMUNITY_NAV = [{ key: COMMUNITY_GROUPS, label: 'Groups' }]
 
 export const SETTINGS_NAV = [
-  { path: SETTINGS, title: 'Edit Profile' },
-  { path: SETTINGS_COMPANY, title: 'Edit Company' },
-  { path: SETTINGS_INVITE, title: 'Invite Team' },
-  { path: SETTINGS_SUBSCRIPTION, title: 'Your membership' },
+  { key: SETTINGS, label: 'Edit Profile' },
+  { key: SETTINGS_COMPANY, label: 'Edit Company' },
+  { key: SETTINGS_INVITE, label: 'Invite Team' },
+  { key: SETTINGS_SUBSCRIPTION, label: 'Your membership' },
 ]
 
 export const PROFILE_NAV = (loading: boolean) => [

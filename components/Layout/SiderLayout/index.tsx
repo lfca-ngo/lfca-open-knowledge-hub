@@ -1,4 +1,5 @@
 import { Layout } from 'antd'
+import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
 import classNames from 'classnames'
 import React, { useState } from 'react'
 
@@ -17,7 +18,7 @@ const { Content, Header, Sider } = Layout
 
 interface SiderLayoutProps {
   children: React.ReactNode
-  nav?: Array<any>
+  nav?: MenuItemType[]
   goBack?: () => void
 }
 
