@@ -24,9 +24,9 @@ import {
 import classNames from 'classnames'
 import { useState } from 'react'
 
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
-import { trackEvent } from '../../../services/analytics'
 import { ContentfulContentCollectionFields } from '../../../services/contentful'
 import {
   CompanySubscriptionType,
@@ -40,7 +40,6 @@ import { ListSelect, OptionKey } from '../../ListSelect'
 import { SizeInput } from '../../SubscriptionSelector/SizeInput'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
 import { StepPropsWithSharedState } from './..'
-import { ONBOARDING_STEPS } from '.'
 import styles from './styles.module.less'
 
 export const MembershipContent = ({
@@ -54,6 +53,7 @@ export const MembershipContent = ({
   membershipFaq?: ContentfulContentCollectionFields
 }) => {
   const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
+  const analytics = useAnalytics()
 
   const [showFaq, setShowFaq] = useState(false)
   const onSubscriptionChange = (value: OptionKey[]) => {
@@ -74,12 +74,10 @@ export const MembershipContent = ({
       if (error) message.error(error.message)
       else {
         // completed form
-        trackEvent({
-          name: ONBOARDING_STEPS.COMPLETED_MEMBERSHIP_STEP,
-          values: {
-            membership: sharedState?.selectedSubscriptionType,
-          },
+        analytics.track(ONBOARDING_STEPS.COMPLETED_MEMBERSHIP_STEP, {
+          membership: sharedState?.selectedSubscriptionType,
         })
+
         // go next
         message.success('Updated membership')
         onNext?.()

@@ -1,6 +1,6 @@
 import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 
-import { trackEvent } from '../../../services/analytics'
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import {
   EventCategory,
   EventParticipantStatus,
@@ -11,7 +11,6 @@ import { EventCard } from '../../EventCard'
 import { EventCardSkeleton } from '../../EventCard/EventCardSkeleton'
 import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
-import { ONBOARDING_STEPS } from '.'
 import styles from './styles.module.less'
 
 const GroupsContent = ({
@@ -19,6 +18,8 @@ const GroupsContent = ({
   statusOnJoinGroup,
   title,
 }: DefaultStepProps & { statusOnJoinGroup: EventParticipantStatus }) => {
+  const analytics = useAnalytics()
+
   const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
@@ -33,9 +34,8 @@ const GroupsContent = ({
 
   const goNext = () => {
     // subscribed to course
-    trackEvent({
-      name: ONBOARDING_STEPS.COMPLETED_ONBOARDING_COURSE_STEP,
-    })
+    analytics.track(ONBOARDING_STEPS.COMPLETED_ONBOARDING_COURSE_STEP)
+
     onNext?.()
   }
 

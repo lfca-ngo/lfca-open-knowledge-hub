@@ -12,10 +12,10 @@ import {
   Space,
   Tag,
 } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
-import { identifyUser, trackEvent } from '../../../services/analytics'
+import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import {
   CompanySubscriptionType,
   CreateCompanyInput,
@@ -28,7 +28,6 @@ import { passwordValidator } from '../../../utils/password-validator'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
 import { StepPropsWithSharedState } from './..'
-import { ONBOARDING_STEPS } from '.'
 
 const { useForm } = Form
 
@@ -39,8 +38,8 @@ export const PersonalInfo = ({
   sharedState,
   title,
 }: StepPropsWithSharedState) => {
+  const analytics = useAnalytics()
   const [personalInfoForm] = useForm()
-  const [savingIdentity, setSavingIdentity] = useState(false)
   const { login } = useFirebase()
   const [{ fetching: registeringUser }, registerUser] =
     useRegisterUserMutation()
@@ -68,18 +67,10 @@ export const PersonalInfo = ({
         password: userInfo.password,
         picture: userInfo.picture,
       },
-    }).then(async ({ data, error }) => {
+    }).then(async ({ error }) => {
       if (error) message.error(error.message)
       else {
-        // save in identity db
-        setSavingIdentity(true)
-        await identifyUser(data?.registerUser.id)
-        setSavingIdentity(false)
-
-        // track form completion
-        trackEvent({
-          name: ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP,
-        })
+        analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 
         // clear persisted form data
         setSharedState?.({ ...sharedState, company: null })
@@ -105,8 +96,6 @@ export const PersonalInfo = ({
   useEffect(() => {
     personalInfoForm.setFieldsValue(sharedState?.personal)
   }, [personalInfoForm, sharedState])
-
-  const isLoading = registeringUser || savingIdentity
 
   return (
     <div>
@@ -243,7 +232,7 @@ export const PersonalInfo = ({
           <Space>
             <Button
               htmlType="submit"
-              loading={isLoading}
+              loading={registeringUser}
               size="large"
               type="primary"
             >

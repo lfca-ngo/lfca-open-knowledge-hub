@@ -202,3 +202,17 @@ export function getTextFromOptionChildren(
   }
   return getTextFromOptionChildren(children)
 }
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+export const capitalizeEveryWord = (words: string) => {
+  const wordsArray = words.split(' ')
+
+  for (let i = 0; i < wordsArray.length; i++) {
+    wordsArray[i] = capitalizeFirstLetter(wordsArray[i])
+  }
+
+  return wordsArray.join(' ')
+}

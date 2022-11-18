@@ -1,25 +1,25 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
-import { trackPageView } from '../services/analytics'
 import { ACTIONS } from '../utils/routes'
+import { getCleanPathName, useAnalytics } from './segment'
 import useIsClient from './useIsClient'
 import { usePersistentNavigation } from './usePersistentNavigation'
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const { resetPosition } = usePersistentNavigation(false)
   const { events, pathname } = useRouter()
+  const analytics = useAnalytics()
 
   const isClient = useIsClient(() => {
-    // track initial page view: the app provider is only mounted once
-    // the route change is not fired on initial mount
-    trackPageView()
+    // log initial page view on mount
+    analytics.page(getCleanPathName())
   })
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       // track page view when user navigates
-      trackPageView(url)
+      analytics.page(getCleanPathName(url))
 
       // only persist the browsing state when the user goes from
       // the dashboard to the action detail page and back
@@ -41,7 +41,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       events.off('routeChangeStart', handleRouteChange)
     }
-  }, [pathname, events, resetPosition])
+  }, [analytics, pathname, events, resetPosition])
 
   // wait with initial render until client side
   // to avoid SSR flashing

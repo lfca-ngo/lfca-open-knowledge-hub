@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "4.7.0",
     "@contentful/rich-text-react-renderer": "15.12.1",
+    "@segment/analytics-next": "1.46.1",
     "@urql/exchange-auth": "1.0.0",
     "@urql/exchange-graphcache": "5.0.1",
     "antd": "4.23.3",
@@ -68,6 +69,7 @@
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "@types/react-signature-canvas": "1.0.2",
+    "@types/segment-analytics": "^0.0.34",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.38.1",
     "@typescript-eslint/parser": "5.38.1",
