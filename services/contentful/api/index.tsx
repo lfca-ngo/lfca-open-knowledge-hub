@@ -1,4 +1,7 @@
-import { client, parseResponse } from '../../../public/next-contentful'
+import {
+  client,
+  parseResponse,
+} from '../../../next-fetch-during-build/next-contentful'
 import { createKey, getData, setData } from './cache'
 
 export const getEntry = async (id: any, query: any) => {
