@@ -7,7 +7,7 @@ import {
   OrderedListOutlined,
 } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, Tabs } from 'antd'
+import { Button, List, Tabs } from 'antd'
 import classNames from 'classnames'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 
 import { ActionBar } from '../../components/ActionBar'
 import { getActionStatus } from '../../components/ActionBar/StatusButton'
+import { ActionCardMini } from '../../components/ActionCard/ActionCardMini'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
 import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
@@ -26,6 +27,7 @@ import {
   scrollToId,
   SectionWrapper,
 } from '../../components/Layout/SectionWrapper'
+import { Wrapper } from '../../components/Layout/Wrapper'
 import { RequirementsListTabs } from '../../components/RequirementsListTabs'
 import { ShowMore } from '../../components/ShowMore'
 import categoryTreeData from '../../public/data/_category-tree-data.json'
@@ -273,10 +275,27 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       <Sider>
         <Section className={classNames(styles['sticky-sider'], 'sticky')}>
           {actionData?.companyAction && (
-            <ActionBar
-              action={actionData?.companyAction}
-              actionDetails={action}
-            />
+            <Wrapper style={{ margin: '20px 0' }}>
+              <ActionBar
+                action={actionData?.companyAction}
+                actionDetails={action}
+              />
+            </Wrapper>
+          )}
+
+          {action?.relatedActions && (
+            <div>
+              <h5 style={{ margin: '20px 0 5px' }}>Related Actions</h5>
+              <List
+                className="without-divider"
+                dataSource={action.relatedActions}
+                renderItem={(action) => (
+                  <List.Item>
+                    <ActionCardMini action={action} key={action.actionId} />
+                  </List.Item>
+                )}
+              />
+            </div>
           )}
         </Section>
       </Sider>

@@ -75,6 +75,7 @@ export interface ContentfulActionFields {
   examples: Document
   extraMile: Document
   expiresAfterDays: number
+  relatedActions?: ContentfulActionFields[]
 }
 
 export interface ContentfulContinentFields {

@@ -6,7 +6,7 @@ import { ContentfulActionFields } from './types'
 export const fetchAllActions = async () => {
   const res = await getEntries({
     content_type: 'action',
-    include: 3,
+    include: 1, // Note: relatedActions can cause a circular reference if we include >1 layers
     locale: 'en-US',
   })
 

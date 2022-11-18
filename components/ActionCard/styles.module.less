@@ -45,9 +45,8 @@
         }
 
         .title {
-          font-size: 18px;
           margin-bottom: 10px;
-          .font-semi();
+          .h5();
         }
 
         .stats {
@@ -179,6 +178,38 @@
           margin-top: 10px;
         }
       }
+    }
+  }
+}
+
+.action-card-mini {
+  display: flex;
+  align-items: center;
+  height: auto;
+  padding: 12px;
+  white-space: normal;
+  text-align: left;
+  font-size: @font-size-sm;
+  color: @text-color;
+
+  :global {
+    .hero-wrapper {
+      border-radius: 6px;
+      margin-right: 12px;
+      position: relative;
+      width: 45px;
+      height: 45px;
+      overflow: hidden;
+      border-radius: @border-radius-base;
+    }
+
+    .text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
   }
 }

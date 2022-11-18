@@ -729,6 +729,7 @@ export type ProcessEventInviteTokenInput = {
   notes?: InputMaybe<Scalars['String']>;
   /** System will check internally if user already exists or an external user should be created */
   participantEmail: Scalars['String'];
+  participantStatus?: InputMaybe<EventParticipantStatus>;
   token: Scalars['String'];
 };
 
