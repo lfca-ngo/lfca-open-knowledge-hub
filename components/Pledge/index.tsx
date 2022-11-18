@@ -69,7 +69,7 @@ export const Pledge = ({
   const completeAndSigned = isComplete && hasSigned
   const signatureRef = useRef<SignatureCanvas>(null)
 
-  const handleToggle = (i: any, checked: boolean) => {
+  const handleToggle = (i: number, checked: boolean) => {
     const newState = [...checkboxes]
     newState[i] = checked
     setCheckboxes(newState)
