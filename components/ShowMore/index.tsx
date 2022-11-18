@@ -28,7 +28,7 @@ export const ShowMore = ({
     const clientHeight = element?.clientHeight || 0
     const scrollHeight = element?.scrollHeight || 0
 
-    if (!element) setIsShowMoreVisible(scrollHeight > clientHeight)
+    if (element) setIsShowMoreVisible(scrollHeight > clientHeight)
 
     // if the element size is smaller than the maxHeight, do not restrict size
     if (clientHeight < maxHeight) {
