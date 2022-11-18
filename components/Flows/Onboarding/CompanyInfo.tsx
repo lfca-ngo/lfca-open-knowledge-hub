@@ -22,6 +22,7 @@ import useIsClient from '../../../hooks/useIsClient'
 import companyTagStatsData from '../../../next-fetch-during-build/data/_company-tag-stats.json'
 import companyTagsData from '../../../next-fetch-during-build/data/_company-tags-data.json'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { OnboardingSharedStateProps } from '../../../pages/onboarding'
 import { Country } from '../../../services/contentful'
 import { CompanySubscriptionType } from '../../../services/lfca-backend'
 import {
@@ -30,7 +31,7 @@ import {
 } from '../../../utils'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
-import { StepPropsWithSharedState } from './..'
+import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
 const { useForm, useWatch } = Form
@@ -76,9 +77,11 @@ export const CompanyInfo = ({
   setSharedState,
   sharedState,
   title,
-}: StepPropsWithSharedState & {
+}: DefaultStepProps & {
   countries: Country[]
   country?: string | string[]
+  sharedState?: OnboardingSharedStateProps
+  setSharedState?: (state: OnboardingSharedStateProps) => void
 }) => {
   const analytics = useAnalytics()
   const isDesktop = useBreakpoints().md

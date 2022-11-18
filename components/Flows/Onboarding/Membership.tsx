@@ -27,6 +27,7 @@ import { useState } from 'react'
 import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { useUser } from '../../../hooks/user'
 import subscriptionsData from '../../../next-fetch-during-build/data/_subscriptions-data.json'
+import { OnboardingSharedStateProps } from '../../../pages/onboarding'
 import { ContentfulContentCollectionFields } from '../../../services/contentful'
 import {
   CompanySubscriptionType,
@@ -39,7 +40,7 @@ import { Section } from '../../Layout'
 import { ListSelect, OptionKey } from '../../ListSelect'
 import { SizeInput } from '../../SubscriptionSelector/SizeInput'
 import { calculatePricePoint } from '../../SubscriptionSelector/utils'
-import { StepPropsWithSharedState } from './..'
+import { DefaultStepProps } from '..'
 import styles from './styles.module.less'
 
 export const MembershipContent = ({
@@ -49,8 +50,10 @@ export const MembershipContent = ({
   setSharedState,
   sharedState,
   title,
-}: StepPropsWithSharedState & {
+}: DefaultStepProps & {
   membershipFaq?: ContentfulContentCollectionFields
+  sharedState?: OnboardingSharedStateProps
+  setSharedState?: (state: OnboardingSharedStateProps) => void
 }) => {
   const [{ fetching }, updateCompany] = useUpdateCompanyMutation()
   const analytics = useAnalytics()
@@ -60,7 +63,7 @@ export const MembershipContent = ({
     const [subscription] = value
 
     setSharedState?.({
-      selectedSubscriptionType: subscription,
+      selectedSubscriptionType: subscription as CompanySubscriptionType,
     })
   }
 
@@ -130,7 +133,7 @@ export const MembershipContent = ({
                   ? s.name
                   : `${s.name} Supporter`,
             }))}
-            value={sharedState?.selectedSubscriptionType}
+            value={[sharedState?.selectedSubscriptionType] as OptionKey[]}
           />
         </Form.Item>
       </Form>
@@ -195,7 +198,11 @@ export const MembershipContent = ({
 
 export const Membership = withAuth(MembershipContent)
 
-export const MembershipSide = ({ sharedState }: StepPropsWithSharedState) => {
+export const MembershipSide = ({
+  sharedState,
+}: DefaultStepProps & {
+  sharedState?: OnboardingSharedStateProps
+}) => {
   const { company, isVentureCapitalCompany } = useUser()
 
   const plan = subscriptionsData.find(

@@ -9,8 +9,3 @@ export interface DefaultStepProps {
   onPrev?: () => void
   title?: string
 }
-
-export interface StepPropsWithSharedState extends DefaultStepProps {
-  sharedState: any
-  setSharedState?: (newState: any) => void
-}

@@ -6,6 +6,7 @@ import React, { useEffect } from 'react'
 import { FloatingHelp } from '../components/FloatingHelp'
 import {
   CompanyInfo,
+  CompanyInfoFormProps,
   CompanyInfoSide,
   Groups,
   GroupsSide,
@@ -38,7 +39,11 @@ import {
   fetchAllCountries,
   fetchContentCollectionById,
 } from '../services/contentful'
-import { EventParticipantStatus } from '../services/lfca-backend'
+import {
+  CompanySubscriptionType,
+  EventParticipantStatus,
+  RegisterUserInput,
+} from '../services/lfca-backend'
 
 const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
 
@@ -93,6 +98,12 @@ interface OnboardingProps {
   actionsContent: Record<string, ContentfulActionFields>
   countries: Country[]
   membershipFaq: ContentfulContentCollectionFields
+}
+
+export interface OnboardingSharedStateProps {
+  selectedSubscriptionType?: CompanySubscriptionType
+  company?: CompanyInfoFormProps
+  personal?: RegisterUserInput
 }
 
 const Onboarding: NextPage<OnboardingProps> = ({
