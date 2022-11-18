@@ -77,7 +77,11 @@ export const PersonalInfo = ({
         analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 
         // clear persisted form data
-        setSharedState?.({ ...sharedState, company: undefined })
+        setSharedState?.({
+          ...sharedState, // keep the preselected subscription type "PREMIUM"
+          company: undefined,
+          personal: undefined,
+        })
 
         // log user in automatically
         await login(userInfo.email, userInfo.password)
