@@ -1,6 +1,7 @@
 import { ArrowRightOutlined, SlackOutlined } from '@ant-design/icons'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { Button, Drawer, Modal, Space, Tag } from 'antd'
+import { StaticImageData } from 'next/image'
 import { useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
@@ -17,6 +18,13 @@ import { ActionListProps, ActionsList } from '../../ActionsList'
 import { CompleteActionForm } from '../../CompleteActionForm'
 import { InfoCarousel } from '../../InfoCarousel'
 import { VideoWrapper } from '../../VideoWrapper'
+
+export interface CarouselElementProps {
+  description: string
+  icon: JSX.Element
+  image: StaticImageData
+  title: string
+}
 
 const ELEMENTS = [
   {

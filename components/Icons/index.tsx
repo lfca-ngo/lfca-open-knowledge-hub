@@ -9,7 +9,10 @@ import styles from './styles.module.less'
 const DEFAULT_COLOR = '#fff'
 
 const COLOR_MAP: {
-  [key: string]: any
+  [key: string]: {
+    from: string
+    to: string
+  }
 } = {
   'color-1': {
     from: DEFAULT_COLOR,
