@@ -3332,7 +3332,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-signature-canvas@1.0.2":
+"@types/react-signature-canvas@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/react-signature-canvas/-/react-signature-canvas-1.0.2.tgz#c27bae1b3452c779315cc0ef6e9a2907116ce1bb"
   integrity sha512-uDHDoo2JM/9qYS+U7PRKDLBgOnQOOUEkDdXjCxBvI19fWtOLqXisrjiquPu+enu5iu2oWIfU7cVhn1QJZPkLTg==

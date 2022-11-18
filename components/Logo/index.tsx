@@ -9,7 +9,7 @@ const SIZE_SM = 38
 const SIZE_MD = 48
 const SIZE_LG = 64
 
-const variants = (theme: any) => ({
+const variants = (theme: string) => ({
   animate: {
     strokeDashoffset: 0,
   },
