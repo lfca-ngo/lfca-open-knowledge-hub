@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   client,
   parseResponse,
 } from '../../../next-fetch-during-build/next-contentful'
 import { createKey, getData, setData } from './cache'
 
-export const getEntry = async (id: any, query: any) => {
+export const getEntry = async (id: string, query: any) => {
   const cacheKey = createKey({ ...query, id })
 
   const cachedData = getData(cacheKey)

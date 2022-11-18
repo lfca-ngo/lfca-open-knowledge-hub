@@ -26,8 +26,8 @@ import { useState } from 'react'
 
 import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import { useUser } from '../../../hooks/user'
-import subscriptionsData from '../../../public/data/_subscriptions-data.json'
 import { OnboardingSharedStateProps } from '../../../pages/onboarding'
+import subscriptionsData from '../../../public/data/_subscriptions-data.json'
 import { ContentfulContentCollectionFields } from '../../../services/contentful'
 import {
   CompanySubscriptionType,
