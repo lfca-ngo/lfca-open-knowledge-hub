@@ -1405,6 +1405,22 @@
             "args": []
           },
           {
+            "name": "nextOccurrenceEnd",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "nextOccurrenceStart",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "participants",
             "type": {
               "kind": "NON_NULL",
@@ -1502,6 +1518,23 @@
             "type": {
               "kind": "SCALAR",
               "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "remindersBeforeStart",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
             },
             "args": []
           },
@@ -2423,6 +2456,17 @@
                 }
               }
             ]
+          },
+          {
+            "name": "sendEventReminders",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           },
           {
             "name": "triggerDeployment",

@@ -1,11 +1,8 @@
-import { Collapse, Divider } from 'antd'
+import { Divider } from 'antd'
 
 import { EventFragment } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
-import { Recurrence, Status } from '../EventCard/EventMeta'
-import { MarkdownContent } from '../MarkdownContent'
-
-const { Panel } = Collapse
+import { EventMeta } from '../EventMeta'
 
 export interface EventCardDefaultProps {
   event?: EventFragment
@@ -17,19 +14,7 @@ export const EventDetails = ({ event }: EventCardDefaultProps) => {
   return (
     <div>
       <h1>{event.title}</h1>
-      <Collapse accordion>
-        <Panel header="Event Description" key="details">
-          <MarkdownContent content={event?.description || ''} />
-        </Panel>
-        <Panel header="Time & Date" key="time">
-          {event && (
-            <>
-              <Recurrence event={event} />
-              <Status event={event} />
-            </>
-          )}
-        </Panel>
-      </Collapse>
+      <EventMeta event={event} />
 
       <Divider />
       <h4 style={{ margin: '10px 0 20px' }}>Add this event to your calendar</h4>

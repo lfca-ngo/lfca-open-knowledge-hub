@@ -1,4 +1,4 @@
-import { Button, Collapse, Form, Input, message } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 
 import {
   EventFragment,
@@ -6,16 +6,13 @@ import {
   useProcessEventInviteTokenMutation,
 } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
-import { Recurrence, Status } from '../EventCard/EventMeta'
-import { MarkdownContent } from '../MarkdownContent'
+import { EventMeta } from '../EventMeta'
 
 interface EventSignUpProps {
   event: EventFragment
   mode?: string
   token: string
 }
-
-const { Panel } = Collapse
 
 export const EventSignUp = ({ event, token }: EventSignUpProps) => {
   const [{ data, fetching }, processInviteToken] =
@@ -86,19 +83,9 @@ export const EventSignUp = ({ event, token }: EventSignUpProps) => {
             Sign up for event
           </Button>
         </Form.Item>
-
-        <Form.Item label="Event Details">
-          <Collapse accordion>
-            <Panel header="Time & Date" key="time">
-              <Recurrence event={event} />
-              <Status event={event} />
-            </Panel>
-            <Panel header="Event Description" key="details">
-              <MarkdownContent content={event?.description || ''} />
-            </Panel>
-          </Collapse>
-        </Form.Item>
       </Form>
+
+      <EventMeta event={event} />
     </div>
   )
 }

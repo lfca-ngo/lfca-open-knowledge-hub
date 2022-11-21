@@ -2,7 +2,7 @@ import { EyeOutlined } from '@ant-design/icons'
 import { Avatar, Card, Space } from 'antd'
 
 import { EventParticipantStatus } from '../../services/lfca-backend'
-import { Recurrence, Status } from './EventMeta'
+import { Recurrence, Status } from '../EventMeta'
 import styles from './styles.module.less'
 import { getUniqueParticipatingCompanies, matchStringToIcon } from './utils'
 

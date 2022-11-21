@@ -2,9 +2,9 @@ import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
 
 import { EventParticipantStatus } from '../../services/lfca-backend'
+import { Recurrence, Status, Time } from '../EventMeta'
 import { LogoGroup } from '../LogoGroup'
 import { EventCardDefaultProps } from '.'
-import { Recurrence, Status, Time } from './EventMeta'
 import styles from './styles.module.less'
 import { getUniqueParticipatingCompanies } from './utils'
 
