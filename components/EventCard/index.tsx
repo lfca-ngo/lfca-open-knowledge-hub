@@ -5,13 +5,11 @@ import {
   EventParticipantStatus,
   EventWithParticipantsFragment,
 } from '../../services/lfca-backend'
+import { Recurrence, Status, Time } from '../EventMeta'
 import {
-  ParticipationRequestsApproved,
-  ParticipationRequestsPending,
-  Recurrence,
-  Status,
-  Time,
-} from './EventMeta'
+  ParticipationCountAwaitingAdminApproval,
+  ParticipationCountRSVPAccepted,
+} from './ParticipationCount'
 import styles from './styles.module.less'
 
 export interface EventCardProps {
@@ -114,8 +112,11 @@ export const EventCard = ({
             <Status event={event} />
             <Time event={event} />
             <Recurrence event={event} />
-            <ParticipationRequestsApproved event={event} minApprovedCount={5} />
-            <ParticipationRequestsPending event={event} minApprovedCount={5} />
+            <ParticipationCountRSVPAccepted event={event} minCount={5} />
+            <ParticipationCountAwaitingAdminApproval
+              event={event}
+              minCount={5}
+            />
             <LogoGroup
               data={getUniqueParticipatingCompanies(event)}
               maxCount={10}
