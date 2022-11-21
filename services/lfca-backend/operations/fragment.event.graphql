@@ -4,6 +4,8 @@ fragment Event on Event {
   end
   id
   initialInviteStatus
+  nextOccurrenceEnd
+  nextOccurrenceStart
   participantsAwaitingAdminApprovalCount
   participantsAwaitingUserRSVPCount
   participantsUserRSVPAcceptedCount

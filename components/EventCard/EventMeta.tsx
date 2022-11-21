@@ -6,7 +6,7 @@ import {
   SolutionOutlined,
 } from '@ant-design/icons'
 import { Space } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { useMemo } from 'react'
 import { RRule } from 'rrule'
 
@@ -75,12 +75,22 @@ export const Recurrence = ({ event }: EventMetaProps) => {
 }
 
 export const Time = ({ event }: EventMetaProps) => {
+  const dateString = useMemo(() => {
+    if (!event.nextOccurrenceEnd || !event.nextOccurrenceStart) return '-'
+
+    return `${event.recurrenceRule ? 'next meeting on' : 'on'} ${moment(
+      event.nextOccurrenceStart
+    )
+      .tz('Europe/Berlin')
+      .format('lll')} - ${moment(event.nextOccurrenceEnd)
+      .tz('Europe/Berlin')
+      .format('LT z')}`
+  }, [event.nextOccurrenceEnd, event.nextOccurrenceStart, event.recurrenceRule])
+
   return (
     <Space align="start">
       <ClockCircleOutlined />
-      {`${moment(event.start).format('LT')} - ${moment(event.end).format(
-        'LT'
-      )}`}
+      {dateString}
     </Space>
   )
 }
@@ -89,23 +99,16 @@ export const Status = ({ event }: EventMetaProps) => {
   const statusString = useMemo(() => {
     switch (event.status) {
       case EventStatus.UPCOMING: {
-        if (event.recurrenceRule) {
-          return `starts ${moment(event.start).format('LL')}`
-        }
         return 'upcoming'
       }
       case EventStatus.RUNNING: {
-        if (event.recurrenceRule) {
-          return `running since ${moment(event.start).format('MMM Do')}`
-        }
-
         return 'running'
       }
       case EventStatus.EXPIRED:
       default:
         return 'expired'
     }
-  }, [event.recurrenceRule, event.start, event.status])
+  }, [event.status])
 
   return (
     <Space align="start">
