@@ -18,7 +18,6 @@ export const createEvent: UpdateResolver<
       variables: {
         input: {
           filter: {
-            category: args.input.category,
             includeCancelled: true,
           },
         },
