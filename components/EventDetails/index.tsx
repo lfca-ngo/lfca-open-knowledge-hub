@@ -1,4 +1,4 @@
-import { Collapse, Divider } from 'antd'
+import { Divider } from 'antd'
 
 import { EventFragment } from '../../services/lfca-backend'
 import { EventCalendarLinks } from '../EventCalendarLinks'
