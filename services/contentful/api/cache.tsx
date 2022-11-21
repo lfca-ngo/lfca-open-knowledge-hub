@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import crypto from 'crypto'
 import fs from 'fs'
 import path from 'path'
@@ -6,7 +7,7 @@ export const createKey = (query: any) => {
   return crypto.createHash('md5').update(JSON.stringify(query)).digest('hex')
 }
 
-export const setData = (key: any, data: any) => {
+export const setData = (key: string, data: any) => {
   const CACHE_PATH = path.join(__dirname, `.${key}`)
   try {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data), 'utf8')
@@ -15,7 +16,7 @@ export const setData = (key: any, data: any) => {
   }
 }
 
-export const getData = (key: any) => {
+export const getData = (key: string) => {
   if (process.env.DISABLE_CONTENTFUL_SERVICE_CACHE) return null
   const CACHE_PATH = path.join(__dirname, `.${key}`)
 

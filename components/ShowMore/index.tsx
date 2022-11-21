@@ -13,23 +13,25 @@ export const ShowMore = ({
 }: {
   blurColor?: string
   buttonProps?: ButtonProps
-  text: any
+  text: string | React.ReactNode
   maxHeight: number
   maskMode?: 'transparent' | 'blur'
 }) => {
   const [isInactive, setIsInactive] = useState(false)
   const [isShowMoreVisible, setIsShowMoreVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
-  const contentRef: any = createRef()
+  const contentRef = createRef<HTMLDivElement>()
 
   React.useEffect(() => {
-    const element: any = contentRef.current
+    const element = contentRef.current
 
-    if (!element.return)
-      setIsShowMoreVisible(element.scrollHeight > element.clientHeight)
+    const clientHeight = element?.clientHeight || 0
+    const scrollHeight = element?.scrollHeight || 0
+
+    if (element) setIsShowMoreVisible(scrollHeight > clientHeight)
 
     // if the element size is smaller than the maxHeight, do not restrict size
-    if (element.clientHeight < maxHeight) {
+    if (clientHeight < maxHeight) {
       setIsExpanded(true)
       setIsInactive(true)
     }

@@ -16,6 +16,7 @@ import { useEffect } from 'react'
 
 import { useFirebase } from '../../../hooks/firebase'
 import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
+import { OnboardingSharedStateProps } from '../../../pages/onboarding'
 import {
   CompanySubscriptionType,
   CreateCompanyInput,
@@ -27,7 +28,7 @@ import { PRIVACY_URL, TERMS_OF_SERVICE_URL } from '../../../utils'
 import { passwordValidator } from '../../../utils/password-validator'
 import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
 import { ImageUpload } from '../../FileUpload/ImageUpload'
-import { StepPropsWithSharedState } from './..'
+import { DefaultStepProps } from '..'
 
 const { useForm } = Form
 
@@ -37,7 +38,10 @@ export const PersonalInfo = ({
   setSharedState,
   sharedState,
   title,
-}: StepPropsWithSharedState) => {
+}: DefaultStepProps & {
+  sharedState?: OnboardingSharedStateProps
+  setSharedState?: (state: OnboardingSharedStateProps) => void
+}) => {
   const analytics = useAnalytics()
   const [personalInfoForm] = useForm()
   const { login } = useFirebase()
@@ -73,7 +77,11 @@ export const PersonalInfo = ({
         analytics.track(ONBOARDING_STEPS.COMPLETED_USER_REGISTRATION_STEP)
 
         // clear persisted form data
-        setSharedState?.({ ...sharedState, company: null })
+        setSharedState?.({
+          ...sharedState, // keep the preselected subscription type "PREMIUM"
+          company: undefined,
+          personal: undefined,
+        })
 
         // log user in automatically
         await login(userInfo.email, userInfo.password)

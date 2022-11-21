@@ -1,20 +1,22 @@
 import { ArrowLeftOutlined, EllipsisOutlined } from '@ant-design/icons'
 import { Button, Dropdown } from 'antd'
+import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import styles from './styles.module.less'
 
-const Menu = ({ nav }: { nav: any }) => {
+const Menu = ({ nav }: { nav: MenuItemType[] }) => {
   const router = useRouter()
+
   return (
     <ul className={styles['top-nav']}>
-      {nav.map((item: any, i: any) => (
+      {nav.map((item, i) => (
         <li key={`item-${i}`}>
-          <Link href={item.path}>
-            <Button type={router.pathname === item.path ? 'default' : 'link'}>
-              {item.title}
+          <Link href={`${item.key}`}>
+            <Button type={router.pathname === item.key ? 'default' : 'link'}>
+              {item.label}
             </Button>
           </Link>
         </li>
@@ -23,10 +25,16 @@ const Menu = ({ nav }: { nav: any }) => {
   )
 }
 
-export const TopNav = ({ goBack, nav }: { nav: any; goBack: any }) => {
+export const TopNav = ({
+  goBack,
+  nav,
+}: {
+  nav?: MenuItemType[]
+  goBack?: () => void
+}) => {
   const isDesktop = useBreakpoints().md
-  const shouldRenderGoBack = goBack
-  const shouldRenderNav = nav?.length > 0
+  const shouldRenderGoBack = !!goBack
+  const shouldRenderNav = !!nav
 
   // go back button precedes list of nav items
   if (shouldRenderGoBack) {

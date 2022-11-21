@@ -1,4 +1,19 @@
-import axios from 'axios'
+import { UploadChangeParam, UploadFile } from 'antd/lib/upload'
+import axios, { AxiosRequestHeaders } from 'axios'
+import type { UploadRequestOption } from 'rc-upload/lib/interface'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyUploadFile = UploadFile<any>
+export type UploadInfo = UploadChangeParam<AnyUploadFile>
+
+export interface CustomRequestOptions {
+  action: string
+  file: File
+  headers: AxiosRequestHeaders
+  onError: (event: Error, body?: Record<string, unknown>) => void
+  onProgress: (event: { percent: number }, file: File) => void
+  onSuccess: (response: Record<string, unknown>, file: File) => void
+  withCredentials: boolean
+}
 
 export const CLOUDINARY_CLOUD_NAME = 'dhpk1grmy'
 export const CLOUDINARY_API_KEY = '933727136379134'
@@ -21,8 +36,8 @@ export const handleCustomRequest = (
     onProgress,
     onSuccess,
     withCredentials,
-  }: any,
-  customPreset: any
+  }: UploadRequestOption,
+  customPreset?: string
 ) => {
   const formData = new FormData()
   const preset = customPreset || CLOUDINARY_DEFAULT_PRESET
@@ -36,12 +51,12 @@ export const handleCustomRequest = (
     .post(action, formData, {
       headers,
       onUploadProgress: ({ loaded, total }) => {
-        onProgress({ percent: Math.round((loaded / total) * 100) }, file)
+        onProgress?.({ percent: Math.round((loaded / total) * 100) })
       },
       withCredentials,
     })
     .then(({ data: response }) => {
-      onSuccess(response, file)
+      onSuccess?.(response)
     })
     .catch(onError)
 

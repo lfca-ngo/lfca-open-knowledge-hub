@@ -14,31 +14,28 @@ export const VerifyEmail = ({ actionCode }: { actionCode: string }) => {
 
   const { auth } = useFirebase()
 
-  const verifyCode = () => {
-    // Try to apply the email verification code.
-    applyActionCode(auth, actionCode).then(
-      () => {
-        // Email address has been verified.
-        setVerifiedCode(true)
-        setValidCode(true)
-      },
-      (error) => {
-        // Code is invalid or expired. Ask the user to verify their email address
-        // again.
-        setError(error.message)
-        setVerifiedCode(true)
-        setValidCode(false)
-      }
-    )
-  }
-
   useEffect(() => {
     if (actionCode) {
-      verifyCode()
+      // Try to apply the email verification code.
+      applyActionCode(auth, actionCode).then(
+        () => {
+          // Email address has been verified.
+          setVerifiedCode(true)
+          setValidCode(true)
+        },
+        (error) => {
+          // Code is invalid or expired. Ask the user to verify their email address
+          // again.
+          setError(error.message)
+          setVerifiedCode(true)
+          setValidCode(false)
+        }
+      )
     }
-  }, [actionCode])
+  }, [actionCode, auth])
 
   let component = null
+
   if (!verifiedCode) {
     component = <LoadingOutlined />
   } else if (verifiedCode && validCode) {

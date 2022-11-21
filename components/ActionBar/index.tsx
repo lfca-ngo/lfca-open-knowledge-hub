@@ -29,62 +29,56 @@ export const ActionBar = ({ action, actionDetails }: ActionBarProps) => {
 
   return (
     <div className={styles['actions-bar']}>
-      <div className="wrapper">
-        <h4>Action Status</h4>
-        <StatusButton
-          action={action}
-          canExpire={!!actionDetails.expiresAfterDays}
-        />
+      <h4>Action Status</h4>
+      <StatusButton
+        action={action}
+        canExpire={!!actionDetails.expiresAfterDays}
+      />
 
-        <Divider />
-        <h4>Community activity</h4>
+      <Divider />
+      <h4>Community activity</h4>
 
-        <LogoGroup
-          data={action.recentCompaniesDoing}
-          label={`${action.companiesDoingCount} working on this`}
-          size={'large'}
-        />
+      <LogoGroup
+        data={action.recentCompaniesDoing}
+        label={`${action.companiesDoingCount} working on this`}
+        size={'large'}
+      />
 
-        <>
-          <Divider orientation="left" orientationMargin={0}>
-            Latest
-          </Divider>
+      <>
+        <Divider orientation="left" orientationMargin={0}>
+          Latest
+        </Divider>
 
-          <ConfigProvider renderEmpty={() => 'No activity yet'}>
-            <List
-              dataSource={latestComments || EMPTY_COMMENTS}
-              renderItem={(item) => (
-                <List.Item className="news">
-                  <Skeleton
-                    avatar={{ shape: 'square', size: 'small' }}
-                    loading={fetching}
-                    paragraph={false}
-                  >
-                    <Avatar
-                      shape="square"
-                      size="small"
-                      src={item.author?.picture}
-                    />
-                    <div className="text">
-                      {item.author?.firstName} left a comment
-                    </div>
-                  </Skeleton>
-                </List.Item>
-              )}
-            />
-          </ConfigProvider>
+        <ConfigProvider renderEmpty={() => 'No activity yet'}>
+          <List
+            dataSource={latestComments || EMPTY_COMMENTS}
+            renderItem={(item) => (
+              <List.Item className="news">
+                <Skeleton
+                  avatar={{ shape: 'square', size: 'small' }}
+                  loading={fetching}
+                  paragraph={false}
+                >
+                  <Avatar
+                    shape="square"
+                    size="small"
+                    src={item.author?.picture}
+                  />
+                  <div className="text">
+                    {item.author?.firstName} left a comment
+                  </div>
+                </Skeleton>
+              </List.Item>
+            )}
+          />
+        </ConfigProvider>
 
-          <Divider
-            className="see-all"
-            orientation="center"
-            orientationMargin={0}
-          >
-            <Button onClick={() => scrollToId('community')} size="small">
-              See all
-            </Button>
-          </Divider>
-        </>
-      </div>
+        <Divider className="see-all" orientation="center" orientationMargin={0}>
+          <Button onClick={() => scrollToId('community')} size="small">
+            See all
+          </Button>
+        </Divider>
+      </>
     </div>
   )
 }

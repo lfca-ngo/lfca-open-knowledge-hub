@@ -128,7 +128,12 @@ export const EventCard = ({
         <Space direction="vertical" style={{ width: '100%' }}>
           {eventIsApproved && event.videoConferenceUrl && (
             <a href={event.videoConferenceUrl} rel="noreferrer" target="_blank">
-              <Button block icon={<VideoCameraAddOutlined />} type="primary">
+              <Button
+                block
+                icon={<VideoCameraAddOutlined />}
+                size="large"
+                type="primary"
+              >
                 Join meeting
               </Button>
             </a>

@@ -8,6 +8,7 @@ import { useFirebase } from '../../hooks/firebase'
 import { ACTIONS } from '../../utils/routes'
 
 export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
+  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -16,35 +17,19 @@ export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
 
   const { auth } = useFirebase()
 
-  const verifyCode = () => {
-    // Verify the password reset code is valid.
-    verifyPasswordResetCode(auth, actionCode).then(
-      (email) => {
-        // Password reset code is valid.
-        setVerifiedCode(true)
-        setValidCode(true)
-        setEmail(email)
-      },
-      (error) => {
-        // Invalid or expired action code. Ask user to try to reset the password
-        // again.
-        setError(error.message)
-        setVerifiedCode(true)
-        setValidCode(false)
-      }
-    )
-  }
-
   const handleResetPassword = ({ password }: { password: string }) => {
+    setLoading(true)
     // Save the new password.
     confirmPasswordReset(auth, actionCode, password).then(
       () => {
         // Password reset has been confirmed and new password updated.
+        setLoading(false)
         setSuccess(true)
       },
       (error) => {
         // Error occurred during confirmation. The code might have expired or the
         // password is too weak.
+        setLoading(false)
         setError(error.message)
       }
     )
@@ -52,9 +37,23 @@ export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
 
   useEffect(() => {
     if (actionCode) {
-      verifyCode()
+      verifyPasswordResetCode(auth, actionCode).then(
+        (email) => {
+          // Password reset code is valid.
+          setVerifiedCode(true)
+          setValidCode(true)
+          setEmail(email)
+        },
+        (error) => {
+          // Invalid or expired action code. Ask user to try to reset the password
+          // again.
+          setError(error.message)
+          setVerifiedCode(true)
+          setValidCode(false)
+        }
+      )
     }
-  }, [actionCode])
+  }, [actionCode, auth])
 
   let component = null
   if (!verifiedCode) {
@@ -72,14 +71,15 @@ export const ResetPassword = ({ actionCode }: { actionCode: string }) => {
   } else if (verifiedCode && email) {
     component = (
       <div className="ResetPassword">
-        <h1>Reset your password for {email}</h1>
+        <h1>Reset your password</h1>
+        <p>for your Email: {email}</p>
 
         <Form onFinish={handleResetPassword}>
           <Form.Item name="password">
             <Input placeholder="******" type="password" />
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary">
+            <Button htmlType="submit" loading={loading} type="primary">
               Reset password
             </Button>
           </Form.Item>

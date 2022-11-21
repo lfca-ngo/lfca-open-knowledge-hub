@@ -24,12 +24,12 @@ const Mode = ({ actionCode, mode }: ModeProps) => {
 }
 
 const AccountActions: NextPage = () => {
-  const router = useRouter()
-  const { mode, oobCode: actionCode } = router.query
+  const { isReady, query } = useRouter()
+  const { mode, oobCode: actionCode } = query
 
   return (
     <OneColLayout>
-      <Mode actionCode={`${actionCode}`} mode={`${mode}`} />
+      {isReady ? <Mode actionCode={`${actionCode}`} mode={`${mode}`} /> : null}
     </OneColLayout>
   )
 }

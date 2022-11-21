@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const contentful = require('contentful')
-
+const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 const accessToken = process.env.CF_ACCESS_TOKEN || ''
 const previewAccessToken = process.env.CF_PREVIEW_ACCESS_TOKEN || ''
 const spaceId = process.env.CF_SPACE_ID || ''
+const CACHE_PATH = path.join(process.cwd(), `./public/data`)
+
+exports.CACHE_PATH = CACHE_PATH
 
 /**
  * Contentful client

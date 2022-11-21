@@ -5,11 +5,18 @@ import { Compare, Footprint, Share } from '../components/Flows/RenewalLeader'
 import { StepsLayout } from '../components/Layout'
 import { useUser } from '../hooks/user'
 import { useSteps } from '../hooks/useSteps'
-import { fetchAllQuestionnaires } from '../services/contentful'
+import {
+  ContentfulQuestionnaireFields,
+  fetchAllQuestionnaires,
+} from '../services/contentful'
 import { DEFAULT_COUNTRY } from '../utils'
 import { withAuth } from '../utils-server-only'
 
-const OnboardingLeader: NextPage = (props: any) => {
+interface RenewPledgeProps {
+  questionnaires: Record<string, ContentfulQuestionnaireFields>
+}
+
+const RenewPledge: NextPage<RenewPledgeProps> = ({ questionnaires }) => {
   const router = useRouter()
   const { user } = useUser()
 
@@ -37,7 +44,7 @@ const OnboardingLeader: NextPage = (props: any) => {
 
   const Step = RenewalLeaderSteps[currentStepIndex]?.component
   const userCountry = user?.country || DEFAULT_COUNTRY
-  const defaultQuestionnaire = props?.questionnaires[DEFAULT_COUNTRY]
+  const defaultQuestionnaire = questionnaires[DEFAULT_COUNTRY]
 
   return (
     <StepsLayout
@@ -49,9 +56,7 @@ const OnboardingLeader: NextPage = (props: any) => {
       {Step ? (
         <Step
           onNext={next}
-          questionnaire={
-            props?.questionnaires[userCountry] || defaultQuestionnaire
-          }
+          questionnaire={questionnaires[userCountry] || defaultQuestionnaire}
         />
       ) : null}
     </StepsLayout>
@@ -68,4 +73,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default withAuth(OnboardingLeader)
+export default withAuth(RenewPledge)

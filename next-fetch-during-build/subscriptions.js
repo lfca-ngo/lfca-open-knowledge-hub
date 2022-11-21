@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const nextContentful = require('./next-contentful')
-const path = require('path')
 const fs = require('fs')
+const { CACHE_PATH } = require('./next-contentful')
 
 const fetchAndSaveByKey = async (key) => {
   // we could fetch the category tree here
@@ -26,20 +26,14 @@ const fetchAndSaveByKey = async (key) => {
   const employeeTiers = basicTier?.pricing.map((p) => p?.maxEmployees) || []
 
   // fetch stuff here
-  const CACHE_PATH_SUBSCRIPTIONS = path.join(__dirname, `/data/${key}.json`)
-  const CACHE_PATH_EMPLOYEE_TIERS = path.join(
-    __dirname,
-    `/data/_employee-tiers.json`
-  )
-
   try {
     fs.writeFileSync(
-      CACHE_PATH_SUBSCRIPTIONS,
+      `${CACHE_PATH}/${key}.json`,
       JSON.stringify(sortedSubscriptions),
       'utf8'
     )
     fs.writeFileSync(
-      CACHE_PATH_EMPLOYEE_TIERS,
+      `${CACHE_PATH}/_employee-tiers.json`,
       JSON.stringify(employeeTiers),
       'utf8'
     )

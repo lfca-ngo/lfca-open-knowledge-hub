@@ -1,19 +1,33 @@
 import { CloseCircleFilled } from '@ant-design/icons'
 import { Button, Checkbox } from 'antd'
+import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import React, { useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 
 import styles from './styles.module.less'
 
-const ChecklistElement = (props: any) => {
+const ChecklistElement = ({
+  checked,
+  onToggle,
+  text,
+  title,
+}: {
+  checked: boolean
+  onToggle: (checked: boolean) => void
+  text: string
+  title: string
+}) => {
   return (
     <div className="checklist-element">
       <div className="checkbox">
-        <Checkbox onClick={(e: any) => props.onToggle(e.target.checked)} />
+        <Checkbox
+          onChange={(e: CheckboxChangeEvent) => onToggle(e.target.checked)}
+          value={checked}
+        />
       </div>
       <div className="content">
-        <div className="title">{props.title}</div>
-        <div className="text">{props.text}</div>
+        <div className="title">{title}</div>
+        <div className="text">{text}</div>
       </div>
     </div>
   )
@@ -41,22 +55,28 @@ const PLEDGE = () => [
 const initialState = new Array(PLEDGE().length).fill(false)
 const CANVAS_WIDTH = 300
 
-export const Pledge = (props: any) => {
+export const Pledge = ({
+  name,
+  onFinish,
+}: {
+  name?: string
+  onFinish: () => void
+}) => {
   const [checkboxes, setCheckboxes] = useState(initialState)
   const [hasSigned, setHasSigned] = useState(false)
   const [showClear, setShowClear] = useState(false)
   const isComplete = checkboxes.every((c) => c)
   const completeAndSigned = isComplete && hasSigned
-  const signatureRef = useRef() as React.MutableRefObject<any>
+  const signatureRef = useRef<SignatureCanvas>(null)
 
-  const handleToggle = (i: any, checked: boolean) => {
+  const handleToggle = (i: number, checked: boolean) => {
     const newState = [...checkboxes]
     newState[i] = checked
     setCheckboxes(newState)
   }
 
   const handleNext = () => {
-    props.onFinish()
+    onFinish()
   }
 
   const handleDone = () => {
@@ -70,7 +90,7 @@ export const Pledge = (props: any) => {
   }
 
   const handleSignatureEnd = () => {
-    const sig: any = signatureRef.current
+    const sig = signatureRef.current
     if (sig) {
       if (sig.isEmpty()) handleUndone()
       else handleDone()
@@ -78,7 +98,7 @@ export const Pledge = (props: any) => {
   }
 
   const clearSignature = () => {
-    const sig: any = signatureRef.current
+    const sig = signatureRef.current
     if (sig) {
       sig.clear()
       handleUndone()
@@ -109,7 +129,7 @@ export const Pledge = (props: any) => {
           ref={signatureRef}
         />
         <div className="written-name">
-          {props.name}
+          {name}
           <div className="btn-wrapper">
             {showClear && (
               <Button

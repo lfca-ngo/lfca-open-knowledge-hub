@@ -6,6 +6,7 @@ import React, { useEffect } from 'react'
 import { FloatingHelp } from '../components/FloatingHelp'
 import {
   CompanyInfo,
+  CompanyInfoFormProps,
   CompanyInfoSide,
   Groups,
   GroupsSide,
@@ -38,9 +39,11 @@ import {
   fetchAllCountries,
   fetchContentCollectionById,
 } from '../services/contentful'
-import { EventParticipantStatus } from '../services/lfca-backend'
-
-const DEFAULT_SUBSCRIPTION_TYPE = 'PREMIUM'
+import {
+  CompanySubscriptionType,
+  EventParticipantStatus,
+  RegisterUserInput,
+} from '../services/lfca-backend'
 
 const OnboardingSteps = [
   {
@@ -95,6 +98,16 @@ interface OnboardingProps {
   membershipFaq: ContentfulContentCollectionFields
 }
 
+export interface OnboardingSharedStateProps {
+  selectedSubscriptionType?: CompanySubscriptionType
+  company?: CompanyInfoFormProps
+  personal?: RegisterUserInput
+}
+
+const INITIAL_STATE: OnboardingSharedStateProps = {
+  selectedSubscriptionType: CompanySubscriptionType.PREMIUM,
+}
+
 const Onboarding: NextPage<OnboardingProps> = ({
   actionsContent,
   countries,
@@ -104,9 +117,10 @@ const Onboarding: NextPage<OnboardingProps> = ({
   const { push, query } = useRouter()
   const { country } = query
 
-  const [sharedState, setSharedState] = useLocalStorage('onboarding_state', {
-    selectedSubscriptionType: DEFAULT_SUBSCRIPTION_TYPE,
-  })
+  const [sharedState, setSharedState] = useLocalStorage(
+    'onboarding_state',
+    INITIAL_STATE
+  )
 
   const { currentStepIndex, goTo, next, prev } = useSteps(
     OnboardingSteps.length,
@@ -115,9 +129,8 @@ const Onboarding: NextPage<OnboardingProps> = ({
 
   useEffect(() => {
     if (currentStepIndex === 0 && user) {
-      // when user is already logged in and flow
-      // is just starting (e.g. after verifying
-      // their email), skip registration steps
+      // when user is already logged in and flow is just starting
+      // (e.g. after verifying their email), skip registration steps
       message.info('Already logged in. Skipping registration')
       goTo(2)
     }
@@ -131,12 +144,7 @@ const Onboarding: NextPage<OnboardingProps> = ({
   return (
     <StepsLayout
       asideChildren={
-        SideComponent ? (
-          <SideComponent
-            setSharedState={setSharedState}
-            sharedState={sharedState}
-          />
-        ) : null
+        SideComponent ? <SideComponent sharedState={sharedState} /> : null
       }
       backgroundImage={BackgroundImage}
       canClose

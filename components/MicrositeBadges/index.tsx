@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Input, Select, Table } from 'antd'
 import React, { useState } from 'react'
 
@@ -144,6 +145,7 @@ export const MicrositeBadges = ({
     setLangPrefix(val)
   }
   const data = attributionData(micrositeSlug, langPrefix)
+
   return (
     <div className={styles['attribution-table']}>
       <p>
@@ -172,7 +174,7 @@ export const MicrositeBadges = ({
                 }`}
               >
                 <div className="inner">
-                  <img src={elem.data} />
+                  <img alt="badge" src={elem.data} />
                 </div>
               </div>
             )

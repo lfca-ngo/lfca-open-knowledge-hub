@@ -1,17 +1,36 @@
 import {
+  AppstoreAddOutlined,
+  AppstoreOutlined,
   BankOutlined,
+  CalculatorOutlined,
+  CalendarOutlined,
+  CarryOutOutlined,
+  CheckCircleOutlined,
+  InsertRowLeftOutlined,
   LikeOutlined,
   LoadingOutlined,
+  LockOutlined,
   LogoutOutlined,
+  MessageOutlined,
+  ProfileOutlined,
   QuestionCircleOutlined,
+  RocketOutlined,
+  SettingOutlined,
+  ShareAltOutlined,
+  StarOutlined,
+  TeamOutlined,
   ThunderboltOutlined,
+  UsergroupAddOutlined,
   UserOutlined,
 } from '@ant-design/icons'
+import { ItemType } from 'antd/lib/menu/hooks/useItems'
 
 import {
+  ACHIEVEMENTS,
   ACTIONS,
   ACTIONS_COMPLETED,
   ACTIONS_PLANNED,
+  ADMIN,
   ADMIN_ACTIONS,
   ADMIN_COMMENTS,
   ADMIN_COMPANIES,
@@ -20,38 +39,79 @@ import {
   ADMIN_SETTINGS,
   ADMIN_USERS,
   COMMUNITY_GROUPS,
+  PERSONAL_FOOTPRINT_CALCULATOR,
+  REFERRAL_PROGRAM,
+  SERVICE_PROVIDERS,
   SETTINGS,
   SETTINGS_COMPANY,
   SETTINGS_INVITE,
   SETTINGS_SUBSCRIPTION,
   SUPPORT,
+  TOOLS,
+  USEFUL_LINKS,
 } from './routes'
 
 export const LOGOUT = 'logout'
 
 export const ACTIONS_NAV = [
-  { path: ACTIONS, title: 'Dashboard' },
-  { path: ACTIONS_PLANNED, title: 'Planned Actions' },
-  { path: ACTIONS_COMPLETED, title: 'Completed Actions' },
+  { icon: <ProfileOutlined />, key: ACTIONS, label: 'Dashboard' },
+  {
+    icon: <CalendarOutlined />,
+    key: ACTIONS_PLANNED,
+    label: 'Planned Actions',
+  },
+  {
+    icon: <CheckCircleOutlined />,
+    key: ACTIONS_COMPLETED,
+    label: 'Completed Actions',
+  },
 ]
 
 export const ADMIN_NAV = [
-  { path: ADMIN_USERS, title: 'Users' },
-  { path: ADMIN_COMPANIES, title: 'Companies' },
-  { path: ADMIN_GROUPS, title: 'Events' },
-  { path: ADMIN_REVIEWS, title: 'Reviews' },
-  { path: ADMIN_COMMENTS, title: 'Comments' },
-  { path: ADMIN_ACTIONS, title: 'Actions' },
-  { path: ADMIN_SETTINGS, title: 'Settings' },
+  { icon: <UsergroupAddOutlined />, key: ADMIN_USERS, label: 'Users' },
+  { icon: <BankOutlined />, key: ADMIN_COMPANIES, label: 'Companies' },
+  { icon: <TeamOutlined />, key: ADMIN_GROUPS, label: 'Events' },
+  { icon: <StarOutlined />, key: ADMIN_REVIEWS, label: 'Reviews' },
+  { icon: <MessageOutlined />, key: ADMIN_COMMENTS, label: 'Comments' },
+  { icon: <AppstoreOutlined />, key: ADMIN_ACTIONS, label: 'Actions' },
+  { icon: <SettingOutlined />, key: ADMIN_SETTINGS, label: 'Settings' },
 ]
 
-export const COMMUNITY_NAV = [{ path: COMMUNITY_GROUPS, title: 'Groups' }]
+export const COMMUNITY_NAV = [{ key: COMMUNITY_GROUPS, label: 'Groups' }]
 
 export const SETTINGS_NAV = [
-  { path: SETTINGS, title: 'Edit Profile' },
-  { path: SETTINGS_COMPANY, title: 'Edit Company' },
-  { path: SETTINGS_INVITE, title: 'Invite Team' },
-  { path: SETTINGS_SUBSCRIPTION, title: 'Your membership' },
+  { key: SETTINGS, label: 'Edit Profile' },
+  { key: SETTINGS_COMPANY, label: 'Edit Company' },
+  { key: SETTINGS_INVITE, label: 'Invite Team' },
+  { key: SETTINGS_SUBSCRIPTION, label: 'Your membership' },
+]
+
+export const OTHER_NAV = [
+  {
+    icon: <AppstoreAddOutlined />,
+    key: SERVICE_PROVIDERS,
+    label: 'Tool Comparison',
+  },
+  {
+    icon: <CalculatorOutlined />,
+    key: PERSONAL_FOOTPRINT_CALCULATOR,
+    label: 'Personal Footprint Calculator',
+  },
+  {
+    icon: <ShareAltOutlined />,
+    key: REFERRAL_PROGRAM,
+    label: 'Referral',
+  },
+  {
+    icon: <ProfileOutlined />,
+    key: USEFUL_LINKS,
+    label: 'Links',
+  },
+  {
+    icon: <QuestionCircleOutlined />,
+    key: SUPPORT,
+    label: 'Help',
+  },
 ]
 
 export const PROFILE_NAV = (loading: boolean) => [
@@ -84,5 +144,41 @@ export const PROFILE_NAV = (loading: boolean) => [
     icon: loading ? <LoadingOutlined /> : <LogoutOutlined />,
     key: LOGOUT,
     label: 'Logout',
+  },
+]
+
+export const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS]
+
+export const NAV_ITEMS_DEFAULT: ItemType[] = [
+  {
+    children: ACTIONS_NAV,
+    icon: <CarryOutOutlined />,
+    key: 'dashboard',
+    label: 'Knowledge Hub',
+  },
+  {
+    icon: <TeamOutlined />,
+    key: COMMUNITY_GROUPS,
+    label: 'Mastermind Groups',
+  },
+  {
+    icon: <RocketOutlined />,
+    key: ACHIEVEMENTS,
+    label: 'Achievements',
+  },
+  {
+    children: OTHER_NAV,
+    icon: <InsertRowLeftOutlined />,
+    key: TOOLS,
+    label: 'Quick Access',
+  },
+]
+
+export const NAV_ITEMS_ADMIN: ItemType[] = [
+  {
+    children: ADMIN_NAV,
+    icon: <LockOutlined />,
+    key: ADMIN,
+    label: 'Admin',
   },
 ]
