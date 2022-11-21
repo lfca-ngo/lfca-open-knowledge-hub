@@ -41,6 +41,8 @@ const BASIC_PLAN = subscriptionsData.find(
 )
 const COMMUNITY_ADMITTANCE_URL =
   'https://lfca.earth/become-a-member#requirements'
+const COMMUNITY_GUIDELINES_URL =
+  'https://lfca.earth/ALL_de/community-guidelines/'
 
 const FUND_SIZE_OPTIONS = BASIC_PLAN?.pricingVentureCapital.reduce(
   (acc, val, i) => {
@@ -278,11 +280,15 @@ export const CompanyInfo = ({
           valuePropName="checked"
         >
           <Checkbox>
-            I hereby confirm that the organization I represent meets the LFCA
-            membership criteria.{' '}
+            I hereby confirm that the organization I represent meets the{' '}
             <a href={COMMUNITY_ADMITTANCE_URL} rel="noreferrer" target="_blank">
-              Read more
+              membership requirements
+            </a>{' '}
+            and I agree to the{' '}
+            <a href={COMMUNITY_GUIDELINES_URL} rel="noreferrer" target="_blank">
+              community guidelines
             </a>
+            .
           </Checkbox>
         </Form.Item>
 
