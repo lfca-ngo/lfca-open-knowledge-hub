@@ -7,6 +7,7 @@ import {
   CompanyAchievementFragment,
   isAchievementReached,
 } from '../../services/lfca-backend'
+import { ShowMore } from '../ShowMore'
 import { ActionsStatusList, SuccessAvatar } from './'
 import styles from './styles.module.less'
 
@@ -38,8 +39,13 @@ export const AchievementCard = ({
           )}
         </div>
         <div className="achievement-description">
-          {achievement.description &&
-            documentToReactComponents(achievement.description)}
+          <ShowMore
+            maxHeight={100}
+            text={
+              achievement.description &&
+              documentToReactComponents(achievement.description)
+            }
+          />
         </div>
         <Divider />
         <ActionsStatusList

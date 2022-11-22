@@ -172,6 +172,7 @@ export type CompanyAchievement = {
   completedCompanyActionsCount: Scalars['Int'];
   completedRequiredCompanyActionsCount: Scalars['Int'];
   contentId: Scalars['ID'];
+  description?: Maybe<Scalars['JSON']>;
   editableCompanyProperties: Array<Scalars['String']>;
   micrositeUrl?: Maybe<Scalars['String']>;
   minCompletedCompanyActionsCount?: Maybe<Scalars['Int']>;
@@ -424,6 +425,7 @@ export type Event = {
   participationStatus?: Maybe<EventParticipantStatus>;
   recurrenceOverrides?: Maybe<Array<EventRecurrenceOverride>>;
   recurrenceRule?: Maybe<Scalars['String']>;
+  recurrenceRuleReadable?: Maybe<Scalars['String']>;
   remindersBeforeStart: Array<Scalars['Int']>;
   start: Scalars['DateTime'];
   status: EventStatus;
@@ -506,8 +508,12 @@ export type EventsInput = {
 
 export type EventsInputFilter = {
   category?: InputMaybe<EventCategory>;
+  /** Default: false */
   includeCancelled?: InputMaybe<Scalars['Boolean']>;
+  /** Default: false */
   includeExpired?: InputMaybe<Scalars['Boolean']>;
+  /** Default: true */
+  includeUpcoming?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ExternalUser = {
@@ -1246,7 +1252,7 @@ export type CategoryFragment = { __typename?: 'Category', id: string, name?: str
 
 export type CompanyAchievementMiniFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, minCompletedCompanyActionsCount?: number | null, name: string, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null }> };
 
-export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
+export type CompanyAchievementFragment = { __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, description?: any | null, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> };
 
 export type CompanyActionDetailsFragment = { __typename?: 'CompanyAction', id: string, categories: Array<{ __typename?: 'Category', name?: string | null, id: string }>, serviceProviderList?: { __typename?: 'ServiceProviderList', id: string, title: string, featured: Array<{ __typename?: 'ServiceProvider', featureCta?: string | null, featureDescription?: string | null, featureTitle?: string | null, id: string, featureImage?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null }>, filters: Array<{ __typename?: 'ServiceProviderFilter', attribute: string, condition: ServiceProviderFilterCondition, id: string, label: string, question?: string | null, type: ServiceProviderFilterType, values?: Array<{ __typename?: 'ServiceProviderFilterValue', id: string, integerValue?: number | null, label: string, stringValue?: string | null, type: ServiceProviderFilterValueType }> | null }>, items: Array<{ __typename?: 'ServiceProvider', averageRating?: number | null, description?: any | null, email?: string | null, freeDemo: boolean, highestPrice?: number | null, id: string, isPrivate: boolean, lowestPrice?: number | null, memberId?: string | null, name: string, reviewsCount: number, size?: string | null, year?: number | null, website?: string | null, logo?: { __typename?: 'ContentAsset', id: string, url?: string | null } | null, tags: Array<{ __typename?: 'Tag', categoryId: string, help?: string | null, id: string, name?: string | null, sortWeight?: number | null }> }> } | null };
 
@@ -1541,7 +1547,7 @@ export type CompanyAchievementsMiniQuery = { __typename?: 'Query', company: { __
 export type CompanyAchievementsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompanyAchievementsQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> }> } } };
+export type CompanyAchievementsQuery = { __typename?: 'Query', company: { __typename?: 'Company', id: string, program: { __typename?: 'CompanyProgram', contentId: string, achievements: Array<{ __typename?: 'CompanyAchievement', completedCompanyActionsCount: number, completedRequiredCompanyActionsCount: number, contentId: string, description?: any | null, micrositeUrl?: string | null, minCompletedCompanyActionsCount?: number | null, name: string, editableCompanyProperties: Array<string>, recommendedActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }>, requiredActions: Array<{ __typename?: 'CompanyAction', id: string, title?: string | null, completedAt?: any | null, contentId: string }> }> } } };
 
 export type CompanyActionDetailsQueryVariables = Exact<{
   input: CompanyActionInput;
@@ -1709,6 +1715,7 @@ export const CompanyAchievementFragmentDoc = gql`
   completedCompanyActionsCount
   completedRequiredCompanyActionsCount
   contentId
+  description
   micrositeUrl
   minCompletedCompanyActionsCount
   name
