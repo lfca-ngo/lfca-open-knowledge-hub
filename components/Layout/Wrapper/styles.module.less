@@ -1,5 +1,9 @@
 .wrapper {
   border: 1px solid @grey;
-  padding: 30px;
+  padding: @default-padding-xs;
   border-radius: @border-radius-base;
+
+  @media (min-width: @screen-xl) {
+    padding: @default-padding;
+  }
 }
