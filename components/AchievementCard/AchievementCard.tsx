@@ -1,4 +1,5 @@
 import { CheckCircleOutlined } from '@ant-design/icons'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Button, Card, Divider, Space } from 'antd'
 import classNames from 'classnames'
 
@@ -37,9 +38,8 @@ export const AchievementCard = ({
           )}
         </div>
         <div className="achievement-description">
-          {/* {achievement.description &&
-            documentToReactComponents(achievement.description)} */}
-          {`You have to fulfill at least ${achievement.minCompletedCompanyActionsCount} actions in total to reach this achievement.`}
+          {achievement.description &&
+            documentToReactComponents(achievement.description)}
         </div>
         <Divider />
         <ActionsStatusList
