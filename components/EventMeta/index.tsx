@@ -7,7 +7,6 @@ import { Collapse } from 'antd'
 import { Space } from 'antd'
 import moment from 'moment-timezone'
 import { useMemo } from 'react'
-import { RRule } from 'rrule'
 
 import { EventFragment, EventStatus } from '../../services/lfca-backend'
 import { MarkdownContent } from '../MarkdownContent'
@@ -22,9 +21,7 @@ export const Recurrence = ({ event }: EventMetaProps) => {
   return (
     <Space align="start">
       <CalendarOutlined />
-      {event.recurrenceRule
-        ? RRule.fromString(event.recurrenceRule).toText()
-        : moment(event.start).format('LL')}
+      {event.recurrenceRuleReadable || moment(event.start).format('LL')}
     </Space>
   )
 }

@@ -17,7 +17,7 @@ export const convertFormValues = (
     description: description?.length
       ? convertValueToMarkdown(description)
       : undefined,
-    end: end.set('second', 0).toDate(),
-    start: start.set('second', 0).toDate(),
+    end: end.set('second', 0).set('milliseconds', 0).toDate(),
+    start: start.set('second', 0).set('milliseconds', 0).toDate(),
   }
 }
