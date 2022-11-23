@@ -284,18 +284,21 @@ const Action: NextPage<ActionProps> = ({ action }) => {
           )}
 
           {action?.relatedActions && (
-            <div>
-              <h5 style={{ margin: '20px 0 5px' }}>Related Actions</h5>
+            <Wrapper>
+              <h5>Related Actions</h5>
               <List
-                className="without-divider"
                 dataSource={action.relatedActions}
                 renderItem={(action) => (
                   <List.Item>
-                    <ActionCardMini action={action} key={action.actionId} />
+                    <ActionCardMini
+                      action={action}
+                      bordered={false}
+                      key={action.actionId}
+                    />
                   </List.Item>
                 )}
               />
-            </div>
+            </Wrapper>
           )}
         </Section>
       </Sider>

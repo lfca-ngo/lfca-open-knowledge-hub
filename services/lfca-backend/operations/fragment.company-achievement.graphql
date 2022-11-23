@@ -2,6 +2,7 @@ fragment CompanyAchievement on CompanyAchievement {
   completedCompanyActionsCount
   completedRequiredCompanyActionsCount
   contentId
+  description
   micrositeUrl
   minCompletedCompanyActionsCount
   name
