@@ -4,6 +4,7 @@ import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import {
   EventCategory,
   EventParticipantStatus,
+  EventStatus,
   useEventsQuery,
 } from '../../../services/lfca-backend'
 import { withAuth } from '../../../utils-server-only'
@@ -27,6 +28,7 @@ const GroupsContent = ({
           category: EventCategory.ONBOARDING_COURSE,
           includeCancelled: false,
           includeExpired: false,
+          status: EventStatus.UPCOMING,
         },
       },
     },

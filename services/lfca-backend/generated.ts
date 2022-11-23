@@ -512,8 +512,8 @@ export type EventsInputFilter = {
   includeCancelled?: InputMaybe<Scalars['Boolean']>;
   /** Default: false */
   includeExpired?: InputMaybe<Scalars['Boolean']>;
-  /** Default: true */
-  includeUpcoming?: InputMaybe<Scalars['Boolean']>;
+  /** Overrules potentially conflicting filters (e.g. status=CANCELLED + includeCancelled=false) */
+  status?: InputMaybe<EventStatus>;
 };
 
 export type ExternalUser = {
