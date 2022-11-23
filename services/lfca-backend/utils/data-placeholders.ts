@@ -60,6 +60,7 @@ export const EMPTY_EVENT: EventWithParticipantsFragment = {
   participantsUserRSVPDeclinedCount: 0,
   participationStatus: null,
   recurrenceRule: null,
+  remindersBeforeStart: [],
   start: '',
   status: EventStatus.UPCOMING,
   title: '',
