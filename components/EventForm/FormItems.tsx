@@ -1,4 +1,12 @@
-import { DatePicker, Form, FormInstance, Input, Radio, Space } from 'antd'
+import {
+  DatePicker,
+  Form,
+  FormInstance,
+  Input,
+  Radio,
+  Select,
+  Space,
+} from 'antd'
 
 import { EventParticipantStatus } from '../../services/lfca-backend'
 import { RecurrenceRuleInput } from '../RecurrenceRuleInput'
@@ -8,6 +16,33 @@ import { FormValues } from '.'
 interface FormItemsProps {
   form: FormInstance
 }
+
+const REMINDER_OPTIONS = [
+  {
+    label: '10 min',
+    value: 600,
+  },
+  {
+    label: '30 min',
+    value: 1800,
+  },
+  {
+    label: '1 hr',
+    value: 3600,
+  },
+  {
+    label: '24 hr',
+    value: 86400,
+  },
+  {
+    label: '2 days',
+    value: 172800,
+  },
+  {
+    label: '1 week',
+    value: 604800,
+  },
+]
 
 export const FormItems = ({}: FormItemsProps) => {
   /* eslint-disable sort-keys */
@@ -90,6 +125,21 @@ export const FormItems = ({}: FormItemsProps) => {
             </Radio>
           </Space>
         </Radio.Group>
+      </Form.Item>
+    ),
+    remindersBeforeStart: (
+      <Form.Item
+        key="remindersBeforeStart"
+        label="Send reminders before event(s)?"
+        name="remindersBeforeStart"
+      >
+        <Select
+          allowClear
+          filterOption={true}
+          mode="multiple"
+          options={REMINDER_OPTIONS}
+          style={{ width: '100%' }}
+        />
       </Form.Item>
     ),
   }

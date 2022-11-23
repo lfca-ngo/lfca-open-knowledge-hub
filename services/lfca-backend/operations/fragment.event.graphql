@@ -13,6 +13,7 @@ fragment Event on Event {
   participationStatus
   recurrenceRule
   recurrenceRuleReadable
+  remindersBeforeStart
   start
   status
   title
