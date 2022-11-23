@@ -669,6 +669,14 @@
             "args": []
           },
           {
+            "name": "description",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "editableCompanyProperties",
             "type": {
               "kind": "NON_NULL",
@@ -1515,6 +1523,14 @@
           },
           {
             "name": "recurrenceRule",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "recurrenceRuleReadable",
             "type": {
               "kind": "SCALAR",
               "name": "Any"

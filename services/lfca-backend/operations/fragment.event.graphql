@@ -12,6 +12,7 @@ fragment Event on Event {
   participantsUserRSVPDeclinedCount
   participationStatus
   recurrenceRule
+  recurrenceRuleReadable
   start
   status
   title
