@@ -8,7 +8,6 @@ import { getEventsByParticipationStatus } from '../../components/EventsList/util
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import { EventCategory, useEventsQuery } from '../../services/lfca-backend'
-import { COMMUNITY_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils-server-only'
 
 const Groups: NextPage = () => {
@@ -25,7 +24,7 @@ const Groups: NextPage = () => {
   const eventsByParticipation = getEventsByParticipationStatus(data?.events)
 
   return (
-    <SiderLayout nav={COMMUNITY_NAV}>
+    <SiderLayout>
       <Main>
         <Section
           bordered={false}

@@ -77,8 +77,6 @@ export const ADMIN_NAV = [
   { icon: <SettingOutlined />, key: ADMIN_SETTINGS, label: 'Settings' },
 ]
 
-export const COMMUNITY_NAV = [{ key: COMMUNITY_GROUPS, label: 'Groups' }]
-
 export const SETTINGS_NAV = [
   { key: SETTINGS, label: 'Edit Profile' },
   { key: SETTINGS_COMPANY, label: 'Edit Company' },

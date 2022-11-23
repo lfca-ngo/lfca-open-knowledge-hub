@@ -7,13 +7,20 @@ import styles from './styles.module.less'
 
 interface ActionCardMiniProps {
   action: ContentfulActionFields
+  bordered: boolean
 }
 
-export const ActionCardMini = ({ action }: ActionCardMiniProps) => {
+export const ActionCardMini = ({
+  action,
+  bordered = true,
+}: ActionCardMiniProps) => {
   return (
     <Link href={`/action/${action.actionId}`}>
       <Tooltip title={action.title}>
-        <Button className={styles['action-card-mini']}>
+        <Button
+          className={styles['action-card-mini']}
+          type={bordered ? 'default' : 'link'}
+        >
           <div className="hero-wrapper">
             <Image
               alt={action.actionId}

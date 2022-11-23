@@ -192,6 +192,14 @@
   font-size: @font-size-sm;
   color: @text-color;
 
+  &[class~='ant-btn-link'] {
+    padding: 0;
+    &:hover {
+      background: transparent;
+      text-decoration: underline;
+    }
+  }
+
   :global {
     .hero-wrapper {
       border-radius: 6px;
