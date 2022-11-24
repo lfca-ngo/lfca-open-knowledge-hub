@@ -32,6 +32,7 @@ export const options = {
     // eslint-disable-next-line react/display-name
     [BLOCKS.EMBEDDED_ENTRY]: (node: Node) => {
       if (!node.data.target) return null
+
       const { fields, sys } = node.data.target
       const typename = sys?.contentType?.sys?.id
 
@@ -46,6 +47,7 @@ export const options = {
     },
     [INLINES.EMBEDDED_ENTRY]: (node: Node) => {
       if (!node.data.target) return null
+
       const { fields, sys } = node.data.target
       const typename = sys?.contentType?.sys?.id
 
