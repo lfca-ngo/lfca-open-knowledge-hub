@@ -147,6 +147,7 @@ export const MembershipContent = ({
         />
       ) : (
         <Alert
+          className="blue"
           description={
             <>
               <p>
