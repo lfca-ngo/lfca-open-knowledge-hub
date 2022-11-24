@@ -129,6 +129,7 @@ export const FormItems = ({}: FormItemsProps) => {
     ),
     remindersBeforeStart: (
       <Form.Item
+        initialValue={[600]}
         key="remindersBeforeStart"
         label="Send reminders before event(s)?"
         name="remindersBeforeStart"
