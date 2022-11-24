@@ -537,6 +537,17 @@ export type FileInput = {
 
 export type InternalExternalUser = ExternalUser | User;
 
+export type MessageEventParticipantsInput = {
+  eventId: Scalars['String'];
+  filter?: InputMaybe<MessageEventParticipantsInputFilter>;
+  message: Scalars['String'];
+  subject?: InputMaybe<Scalars['String']>;
+};
+
+export type MessageEventParticipantsInputFilter = {
+  status?: InputMaybe<EventParticipantStatus>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addEventParticipant: Event;
@@ -561,6 +572,7 @@ export type Mutation = {
   deleteCompany: Company;
   deleteServiceProviderReview: ServiceProviderReview;
   deleteUser: User;
+  messageEventParticipants: Scalars['Boolean'];
   planCompanyAction: CompanyAction;
   processCompanyActionDeprecation: Scalars['Boolean'];
   processCompanyActionExpiry: Scalars['Boolean'];
@@ -660,6 +672,11 @@ export type MutationDeleteServiceProviderReviewArgs = {
 
 export type MutationDeleteUserArgs = {
   input: DeleteUserInput;
+};
+
+
+export type MutationMessageEventParticipantsArgs = {
+  input: MessageEventParticipantsInput;
 };
 
 
@@ -1414,6 +1431,13 @@ export type DeleteUserMutationVariables = Exact<{
 
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', country: string, deletedAt?: any | null, email: string, firstName: string, jobRole?: string | null, id: string, lastName: string, phone?: string | null, picture?: string | null, roles: Array<string>, sortWeight: number, company?: { __typename?: 'Company', id: string, logoUrl?: string | null, name?: string | null, programContentId: string, subscriptionType: CompanySubscriptionType, employeeCount: number, fundSize?: number | null, tags: Array<{ __typename?: 'CompanyTag', name: string }> } | null } };
+
+export type MessageEventParticipantsMutationVariables = Exact<{
+  input: MessageEventParticipantsInput;
+}>;
+
+
+export type MessageEventParticipantsMutation = { __typename?: 'Mutation', messageEventParticipants: boolean };
 
 export type PlanCompanyActionMutationVariables = Exact<{
   input: PlanCompanyActionInput;
@@ -2247,6 +2271,15 @@ export const DeleteUserDocument = gql`
 
 export function useDeleteUserMutation() {
   return Urql.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument);
+};
+export const MessageEventParticipantsDocument = gql`
+    mutation messageEventParticipants($input: MessageEventParticipantsInput!) {
+  messageEventParticipants(input: $input)
+}
+    `;
+
+export function useMessageEventParticipantsMutation() {
+  return Urql.useMutation<MessageEventParticipantsMutation, MessageEventParticipantsMutationVariables>(MessageEventParticipantsDocument);
 };
 export const PlanCompanyActionDocument = gql`
     mutation planCompanyAction($input: PlanCompanyActionInput!) {
