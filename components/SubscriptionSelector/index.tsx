@@ -67,11 +67,13 @@ export const SubscriptionSelector = () => {
   }
 
   const menu = () => {
-    const menuItems = subscriptions.map((s) => ({
-      icon: currentPlan?.name === s.name ? <CheckOutlined /> : undefined,
-      key: s.name,
-      label: s.name,
-    }))
+    const menuItems = subscriptions
+      .filter((s) => s.name !== CompanySubscriptionType.FREE)
+      .map((s) => ({
+        icon: currentPlan?.name === s.name ? <CheckOutlined /> : undefined,
+        key: s.name,
+        label: s.name,
+      }))
     return <Menu items={menuItems} onClick={handleUpgrade} />
   }
 
