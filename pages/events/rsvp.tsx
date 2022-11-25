@@ -12,7 +12,15 @@ import {
 } from '../../services/lfca-backend'
 import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 
+const STATUS_URL_PARAM_MAP: Record<string, EventParticipantStatus> = {
+  accept: EventParticipantStatus.USER_RSVP_ACCEPTED,
+  decline: EventParticipantStatus.USER_RSVP_DECLINED,
+  unsubscribe: EventParticipantStatus.USER_UNSUBSCRIBED,
+}
+
 const EventRSVPPage: NextPage = () => {
+  const [hasInvalidParamsError, setHasInvalidParamsError] =
+    React.useState(false)
   const { isReady, query } = useRouter()
   const { method, token } = query
 
@@ -20,23 +28,25 @@ const EventRSVPPage: NextPage = () => {
     useProcessEventRsvpTokenMutation()
 
   React.useEffect(() => {
-    if (
-      typeof method !== 'string' ||
-      (method !== 'accept' && method !== 'decline') ||
-      typeof token !== 'string'
-    )
-      return
+    if (!isReady) return
+
+    if (typeof method !== 'string' || typeof token !== 'string') {
+      return setHasInvalidParamsError(true)
+    }
+
+    const status = STATUS_URL_PARAM_MAP[method]
+
+    if (!status) {
+      return setHasInvalidParamsError(true)
+    }
 
     processEventRSVPToken({
       input: {
-        status:
-          method === 'accept'
-            ? EventParticipantStatus.USER_RSVP_ACCEPTED
-            : EventParticipantStatus.USER_RSVP_DECLINED,
+        status,
         token,
       },
     })
-  }, [method, processEventRSVPToken, token])
+  }, [isReady, method, processEventRSVPToken, token])
 
   return (
     <OneColLayout backgroundImage={EventBackgroundImage}>
@@ -52,7 +62,7 @@ const EventRSVPPage: NextPage = () => {
             width: '100%',
           }}
         />
-      ) : error ? (
+      ) : error || hasInvalidParamsError ? (
         <>
           <h1>Something went wrong...</h1>
           <p>

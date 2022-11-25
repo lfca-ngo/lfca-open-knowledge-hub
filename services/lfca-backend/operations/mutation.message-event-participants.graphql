@@ -1,0 +1,3 @@
+mutation messageEventParticipants($input: MessageEventParticipantsInput!) {
+  messageEventParticipants(input: $input)
+}

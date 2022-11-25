@@ -1,22 +1,24 @@
-import { Button, Form, Input, List, message } from 'antd'
+import { CollapseProps, Divider, List } from 'antd'
+import { Collapse } from 'antd'
 import React from 'react'
 
 import {
   EventFragment,
-  EventParticipantStatus,
-  useAddEventParticipantMutation,
-  useAddExternalEventParticipantMutation,
   useEventParticipantsQuery,
 } from '../../services/lfca-backend'
-import { UserIdSearchInput } from '../UserIdSearchInput'
 import { AdminEventParticipantItem } from './AdminEventParticipantItem'
+import { InviteParticipantForm } from './InviteParticipantForm'
+import { MessageParticipantsForm } from './MessageParticipantsForm'
+
+const { Panel } = Collapse
 
 interface ParticipantsListProps {
   event: EventFragment
 }
 
 export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
-  const [form] = Form.useForm()
+  const [openPanel, setOpenPanel] =
+    React.useState<CollapseProps['activeKey']>(undefined)
 
   const [{ data, fetching: fetchingParticipants }] = useEventParticipantsQuery({
     pause: !event.id,
@@ -27,135 +29,29 @@ export const AdminEventParticipants = ({ event }: ParticipantsListProps) => {
     },
   })
 
-  const handleAlreadyInvitedUser = () =>
-    message.error('Selected user is already invited')
-
-  const [{ fetching: fetchingAddEventParticipant }, addEventParticipant] =
-    useAddEventParticipantMutation()
-  const [
-    { fetching: fetchingAddExternalEventParticipant },
-    addExternalEventParticipant,
-  ] = useAddExternalEventParticipantMutation()
-
-  const handleAdd = async ({
-    externalUserEmail,
-    userId,
-  }: {
-    externalUserEmail?: string
-    userId?: string
-  }) => {
-    let errorMessage: string | undefined
-
-    if (userId) {
-      // check if participant is already invited
-      const isAlreadyInvited = !!data?.eventParticipants.find(
-        (p) => p.user.id === userId
-      )
-      if (isAlreadyInvited) return handleAlreadyInvitedUser()
-
-      const res = await addEventParticipant({
-        input: {
-          eventId: event.id,
-          status: EventParticipantStatus.AWAITING_USER_RSVP,
-          userId,
-        },
-      })
-
-      errorMessage = res.error?.message
-    } else if (externalUserEmail) {
-      // check if external participant is already invited
-      const isAlreadyInvited = !!data?.eventParticipants.find(
-        (p) => p.user.email === externalUserEmail
-      )
-      if (isAlreadyInvited) return handleAlreadyInvitedUser()
-
-      const res = await addExternalEventParticipant({
-        input: {
-          eventId: event.id,
-          externalUserEmail,
-          status: EventParticipantStatus.AWAITING_USER_RSVP,
-        },
-      })
-
-      errorMessage = res.error?.message
-    }
-
-    if (errorMessage) {
-      message.error(errorMessage)
-    } else {
-      form.resetFields()
-    }
-  }
-
   return (
     <>
       <div>
         <h1>{event?.title}</h1>
-        <Form form={form} layout="vertical" onFinish={handleAdd}>
-          <Form.Item
-            dependencies={['externalUserEmail']}
-            label="Invite a specific community member"
-            name="userId"
-            rules={[
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (
-                    (!value && !getFieldValue('externalUserEmail')) ||
-                    (value && getFieldValue('externalUserEmail'))
-                  ) {
-                    return Promise.reject(
-                      new Error(
-                        'Select a community member OR enter an external email!'
-                      )
-                    )
-                  }
-                  return Promise.resolve()
-                },
-              }),
-            ]}
-          >
-            <UserIdSearchInput />
-          </Form.Item>
+        <Collapse accordion activeKey={openPanel} onChange={setOpenPanel}>
+          <Panel header="Invite users" key="1">
+            <InviteParticipantForm
+              eventId={event.id}
+              existingParticipants={data?.eventParticipants}
+            />
+          </Panel>
+          <Panel header="Send message to participants" key="2">
+            <MessageParticipantsForm
+              eventId={event.id}
+              onSuccess={() => setOpenPanel(undefined)}
+            />
+          </Panel>
+        </Collapse>
 
-          <Form.Item
-            dependencies={['userId']}
-            key="externalUserEmail"
-            label="or invite an external user to this event"
-            name="externalUserEmail"
-            rules={[
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (
-                    (!value && !getFieldValue('userId')) ||
-                    (value && getFieldValue('userId'))
-                  ) {
-                    return Promise.reject(
-                      new Error(
-                        'Select a community member OR enter an external email!'
-                      )
-                    )
-                  }
-                  return Promise.resolve()
-                },
-              }),
-            ]}
-          >
-            <Input placeholder="greta@thunbergvc.earth" type="email" />
-          </Form.Item>
+        <Divider orientation="left" orientationMargin={0}>
+          Participants
+        </Divider>
 
-          <Form.Item>
-            <Button
-              htmlType="submit"
-              loading={
-                fetchingAddEventParticipant ||
-                fetchingAddExternalEventParticipant
-              }
-              type="primary"
-            >
-              Invite
-            </Button>
-          </Form.Item>
-        </Form>
         <List
           dataSource={data?.eventParticipants || []}
           itemLayout="horizontal"
