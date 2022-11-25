@@ -7,6 +7,7 @@ import {
 import { DEFAULT_SUPPORT_EMAIL } from '../../utils'
 import { EventAccepted } from './EventAccepted'
 import { EventDeclined } from './EventDeclined'
+import { EventUnsubscribed } from './EventUnsubscribed'
 
 interface EventRSVPResultProps {
   event?: EventFragment
@@ -19,6 +20,9 @@ export const EventRSVPResult = ({ event, token }: EventRSVPResultProps) => {
 
   if (event?.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED)
     return <EventAccepted event={event} token={token} />
+
+  if (event?.participationStatus === null)
+    return <EventUnsubscribed event={event} />
 
   return (
     <>
