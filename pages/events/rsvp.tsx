@@ -31,15 +31,12 @@ const EventRSVPPage: NextPage = () => {
     if (!isReady) return
 
     if (typeof method !== 'string' || typeof token !== 'string') {
-      console.log('invalid param')
       return setHasInvalidParamsError(true)
     }
 
     const status = STATUS_URL_PARAM_MAP[method]
-    console.log('status', status)
 
     if (!status) {
-      console.log('invalid status')
       return setHasInvalidParamsError(true)
     }
 
@@ -50,10 +47,6 @@ const EventRSVPPage: NextPage = () => {
       },
     })
   }, [isReady, method, processEventRSVPToken, token])
-
-  console.log('data', data)
-  console.log('error', error)
-  console.log('hasInvalidParamsError', hasInvalidParamsError)
 
   return (
     <OneColLayout backgroundImage={EventBackgroundImage}>
