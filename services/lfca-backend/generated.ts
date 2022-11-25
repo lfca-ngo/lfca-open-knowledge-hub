@@ -439,6 +439,7 @@ export type EventParticipantsArgs = {
 };
 
 export enum EventCategory {
+  COMMUNITY_EVENTS = 'COMMUNITY_EVENTS',
   MASTERMIND_GROUP = 'MASTERMIND_GROUP',
   ONBOARDING_COURSE = 'ONBOARDING_COURSE'
 }
