@@ -98,7 +98,10 @@ export const EventForm = ({
 
       <Form
         form={form}
-        initialValues={parseInitialValues(initialValues)}
+        initialValues={
+          // Set a default reminder for newly created events
+          parseInitialValues(initialValues) || { remindersBeforeStart: [600] }
+        }
         layout="vertical"
         onFinish={handleSubmit}
       >

@@ -74,14 +74,7 @@ export const FormItems = ({}: FormItemsProps) => {
       </Form.Item>
     ),
     recurrenceRule: (
-      <Form.Item
-        key="recurrenceRule"
-        label="Repeat"
-        name="recurrenceRule"
-        rules={[
-          { message: 'Please choose a repetition cycle!', required: true },
-        ]}
-      >
+      <Form.Item key="recurrenceRule" label="Repeat" name="recurrenceRule">
         <RecurrenceRuleInput />
       </Form.Item>
     ),
@@ -129,7 +122,6 @@ export const FormItems = ({}: FormItemsProps) => {
     ),
     remindersBeforeStart: (
       <Form.Item
-        initialValue={[600]}
         key="remindersBeforeStart"
         label="Send reminders before event(s)?"
         name="remindersBeforeStart"
