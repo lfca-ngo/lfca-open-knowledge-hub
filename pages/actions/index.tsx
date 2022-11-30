@@ -41,7 +41,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
   const router = useRouter()
 
   // Fetch events to show upcoming
-  const [{ data, error, fetching }] = useEventsQuery()
+  const [{ data, fetching }] = useEventsQuery()
   const eventsByParticipation = getEventsByParticipationStatus(data?.events)
 
   // TODO: UI for error state
@@ -118,7 +118,7 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
         <Section title="Your groups">
           <EventsList
-            events={error ? [] : eventsByParticipation.participatingEvents}
+            events={eventsByParticipation?.participatingEvents || []}
             fetching={fetching}
             isAllowedToJoin={true}
             type="compact"

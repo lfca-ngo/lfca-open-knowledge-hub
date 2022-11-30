@@ -1,11 +1,10 @@
 import {
-  EMPTY_EVENTS,
   EventParticipantStatus,
   EventWithParticipantsFragment,
 } from '../../services/lfca-backend'
 
 export const getEventsByParticipationStatus = (
-  events: EventWithParticipantsFragment[] | undefined = EMPTY_EVENTS
+  events: EventWithParticipantsFragment[] = []
 ) =>
   events.reduce(
     (acc, curr) => {

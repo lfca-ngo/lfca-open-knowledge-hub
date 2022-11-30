@@ -3,7 +3,10 @@ import { Button, ConfigProvider, List, message } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { EventWithParticipantsFragment } from '../../services/lfca-backend'
+import {
+  EMPTY_EVENTS,
+  EventWithParticipantsFragment,
+} from '../../services/lfca-backend'
 import { COMMUNITY_GROUPS } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 import { EventCard, EventCardProps } from '../EventCard'
@@ -62,7 +65,7 @@ export const EventsList = ({
       >
         <List
           className="no-padding"
-          dataSource={events}
+          dataSource={fetching ? EMPTY_EVENTS : events}
           pagination={{
             hideOnSinglePage: true,
             pageSize: 30,

@@ -17,7 +17,7 @@ const Groups: NextPage = () => {
   )
 
   // specific events by category
-  const [{ data, error, fetching }] = useEventsQuery({
+  const [{ data, fetching }] = useEventsQuery({
     variables: {
       input: {
         filter: {
@@ -96,7 +96,7 @@ const Groups: NextPage = () => {
                 title="No upcoming groups or events"
               />
             }
-            events={error || !data?.events ? [] : data.events}
+            events={data?.events || []}
             fetching={fetching}
             isAllowedToJoin={
               selectedEventCategoryMeta?.maxSubscriptionsCount
@@ -110,7 +110,7 @@ const Groups: NextPage = () => {
       <Sider>
         <Section bordered={true} title="Your groups">
           <EventsList
-            events={error ? [] : usersEventsByParticipation.participatingEvents}
+            events={usersEventsByParticipation?.participatingEvents || []}
             fetching={fetchingUsersEvents}
             isAllowedToJoin={true}
             type="compact"
