@@ -80,7 +80,6 @@ const Groups: NextPage = () => {
           {eventCategoryMetaData(eventCategory as EventCategory).description}
 
           <EventsList
-            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
             customEmptyState={
               <EmptyState
                 alignment="center"
@@ -91,6 +90,9 @@ const Groups: NextPage = () => {
             }
             events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
+            isAllowedToJoin={
+              error ? false : eventsByParticipation.appliedEvents?.length < 1
+            }
             participatingEvents={
               error ? [] : eventsByParticipation.participatingEvents
             }
@@ -100,11 +102,9 @@ const Groups: NextPage = () => {
       <Sider>
         <Section bordered={true} title="Your groups">
           <EventsList
-            appliedEvents={
-              error ? [] : usersEventsByParticipation.appliedEvents
-            }
             events={error ? [] : usersEventsByParticipation.participatingEvents}
             fetching={fetchingUsersEvents}
+            isAllowedToJoin={true}
             participatingEvents={
               error ? [] : usersEventsByParticipation.participatingEvents
             }

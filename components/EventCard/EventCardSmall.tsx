@@ -1,14 +1,12 @@
 import { EyeOutlined } from '@ant-design/icons'
 import { Avatar, Card, Space } from 'antd'
 
-import { EventParticipantStatus } from '../../services/lfca-backend'
 import { Recurrence, Status, Time } from '../EventMeta'
 import styles from './styles.module.less'
 import { matchStringToIcon } from './utils'
 
 export interface EventCardSmallProps extends EventCardDefaultProps {
-  hasAppliedForAtLeastOneEvent: boolean
-  isParticipatingAtLeastOneEvent: boolean
+  canUpdateSubscription: boolean
 }
 
 import { useState } from 'react'
@@ -17,14 +15,10 @@ import { EventCardDefaultProps } from '.'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 
 export const EventCardSmall = ({
+  canUpdateSubscription,
   event,
-  hasAppliedForAtLeastOneEvent,
-  isParticipatingAtLeastOneEvent,
   onClick,
-  statusOnJoin,
 }: EventCardSmallProps) => {
-  const isPending =
-    event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
   const [isHovered, setIsHovered] = useState(false)
 
   const handleMouseEnter = () => {
@@ -77,12 +71,9 @@ export const EventCardSmall = ({
           <Space>
             <ToggleSubscribeButton
               buttonProps={{
-                disabled:
-                  (hasAppliedForAtLeastOneEvent && !isPending) ||
-                  isParticipatingAtLeastOneEvent,
+                disabled: canUpdateSubscription,
               }}
               event={event}
-              statusOnJoin={statusOnJoin}
             />
           </Space>
         </div>

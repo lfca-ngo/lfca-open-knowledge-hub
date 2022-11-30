@@ -14,11 +14,7 @@ import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const GroupsContent = ({
-  onNext,
-  statusOnJoinGroup,
-  title,
-}: DefaultStepProps & { statusOnJoinGroup: EventParticipantStatus }) => {
+const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
   const analytics = useAnalytics()
 
   const [{ data, fetching }] = useEventsQuery({
@@ -68,10 +64,9 @@ const GroupsContent = ({
           <List.Item className="list-item" key={item.id}>
             <EventCardSkeleton fetching={false} type={'small'}>
               <EventCard
-                appliedEventsCount={0}
                 event={item}
+                isAllowedToJoin={eventsStatus.appliedEvents?.length < 1}
                 participatingEventsCount={0}
-                statusOnJoin={statusOnJoinGroup}
                 type={'small'}
               />
             </EventCardSkeleton>

@@ -118,9 +118,9 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
         </Section>
         <Section title="Your groups">
           <EventsList
-            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
             events={error ? [] : eventsByParticipation.participatingEvents}
             fetching={fetching}
+            isAllowedToJoin={true}
             participatingEvents={
               error ? [] : eventsByParticipation.participatingEvents
             }

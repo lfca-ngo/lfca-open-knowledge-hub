@@ -14,7 +14,7 @@ import { EventCardSkeleton } from '../EventCard/EventCardSkeleton'
 import styles from './styles.module.less'
 
 interface EventsListProps {
-  appliedEvents: EventFragment[]
+  isAllowedToJoin: boolean
   customEmptyState?: React.ReactNode
   events: EventWithParticipantsFragment[]
   fetching: boolean
@@ -23,10 +23,10 @@ interface EventsListProps {
 }
 
 export const EventsList = ({
-  appliedEvents,
   customEmptyState,
   events,
   fetching,
+  isAllowedToJoin,
   participatingEvents,
   type,
 }: EventsListProps) => {
@@ -81,8 +81,8 @@ export const EventsList = ({
               >
                 <EventCardSkeleton fetching={fetching} type={type}>
                   <EventCard
-                    appliedEventsCount={appliedEvents.length}
                     event={item}
+                    isAllowedToJoin={isAllowedToJoin}
                     participatingEventsCount={participatingEvents.length}
                     type={type}
                   />

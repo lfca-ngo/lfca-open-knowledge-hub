@@ -14,9 +14,8 @@ import styles from './styles.module.less'
 
 export interface EventCardProps {
   event: EventWithParticipantsFragment
-  appliedEventsCount: number
+  isAllowedToJoin: boolean
   participatingEventsCount: number
-  statusOnJoin?: EventParticipantStatus
   type?: 'compact' | 'default' | 'small'
 }
 
@@ -36,35 +35,25 @@ export interface EventCardDefaultProps {
   event: EventWithParticipantsFragment
   onClick: () => void
   onClose: () => void
-  statusOnJoin?: EventParticipantStatus
 }
 
-export const EventCard = ({
-  appliedEventsCount,
-  event,
-  participatingEventsCount,
-  statusOnJoin,
-  type,
-}: EventCardProps) => {
+export const EventCard = ({ event, isAllowedToJoin, type }: EventCardProps) => {
   const [detailsVisible, setDetailsVisible] = useState<boolean>(false)
   const eventIsApproved =
     event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
   const eventIsPending =
     event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
-  const isParticipatingAtLeastOneEvent = participatingEventsCount > 0
-  const hasAppliedForAtLeastOneEvent = appliedEventsCount > 0
+  const canUpdateSubscription = isAllowedToJoin || eventIsPending
 
   const renderCard = () => {
     switch (type) {
       case 'small':
         return (
           <EventCardSmall
+            canUpdateSubscription={canUpdateSubscription}
             event={event}
-            hasAppliedForAtLeastOneEvent={hasAppliedForAtLeastOneEvent}
-            isParticipatingAtLeastOneEvent={isParticipatingAtLeastOneEvent}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
-            statusOnJoin={statusOnJoin}
           />
         )
       case 'compact':
@@ -73,18 +62,15 @@ export const EventCard = ({
             event={event}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
-            statusOnJoin={statusOnJoin}
           />
         )
       default:
         return (
           <EventCardDefault
+            canUpdateSubscription={canUpdateSubscription}
             event={event}
-            hasAppliedForAtLeastOneEvent={hasAppliedForAtLeastOneEvent}
-            isParticipatingAtLeastOneEvent={isParticipatingAtLeastOneEvent}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
-            statusOnJoin={statusOnJoin}
           />
         )
     }
@@ -150,14 +136,11 @@ export const EventCard = ({
           <ToggleSubscribeButton
             buttonProps={{
               block: true,
-              disabled:
-                (hasAppliedForAtLeastOneEvent && !eventIsPending) ||
-                (isParticipatingAtLeastOneEvent && !eventIsApproved),
+              disabled: !canUpdateSubscription,
               size: 'large',
             }}
             event={event}
             key="toggle-subscribe"
-            statusOnJoin={statusOnJoin}
           />
         </Space>
 
