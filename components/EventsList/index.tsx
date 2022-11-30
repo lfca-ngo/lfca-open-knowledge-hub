@@ -18,7 +18,6 @@ interface EventsListProps {
   customEmptyState?: React.ReactNode
   events: EventWithParticipantsFragment[]
   fetching: boolean
-  participatingEvents: EventFragment[]
   type?: EventCardProps['type']
 }
 
@@ -27,7 +26,6 @@ export const EventsList = ({
   events,
   fetching,
   isAllowedToJoin,
-  participatingEvents,
   type,
 }: EventsListProps) => {
   const { asPath, push } = useRouter()
@@ -83,7 +81,6 @@ export const EventsList = ({
                   <EventCard
                     event={item}
                     isAllowedToJoin={isAllowedToJoin}
-                    participatingEventsCount={participatingEvents.length}
                     type={type}
                   />
                 </EventCardSkeleton>

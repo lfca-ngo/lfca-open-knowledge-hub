@@ -15,7 +15,6 @@ import styles from './styles.module.less'
 export interface EventCardProps {
   event: EventWithParticipantsFragment
   isAllowedToJoin: boolean
-  participatingEventsCount: number
   type?: 'compact' | 'default' | 'small'
 }
 

@@ -65,7 +65,6 @@ const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
               <EventCard
                 event={item}
                 isAllowedToJoin={eventsStatus.appliedEvents?.length < 1}
-                participatingEventsCount={0}
                 type={'small'}
               />
             </EventCardSkeleton>

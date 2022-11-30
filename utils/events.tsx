@@ -116,14 +116,6 @@ export const eventCategoryMetaData = (category: EventCategory) => {
       }
     case EventCategory.ONBOARDING_COURSE:
       return {
-        description: (
-          <>
-            <p>
-              Kickstart your journey with us and join this series of 4 online
-              sessions.
-            </p>
-          </>
-        ),
         icon: <CommentOutlined />,
         name: 'Onboarding Courses',
         sortValue: 100,

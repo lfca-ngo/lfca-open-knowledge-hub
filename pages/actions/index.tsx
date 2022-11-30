@@ -121,9 +121,6 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             events={error ? [] : eventsByParticipation.participatingEvents}
             fetching={fetching}
             isAllowedToJoin={true}
-            participatingEvents={
-              error ? [] : eventsByParticipation.participatingEvents
-            }
             type="compact"
           />
         </Section>

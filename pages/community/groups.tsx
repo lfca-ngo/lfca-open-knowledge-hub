@@ -88,13 +88,10 @@ const Groups: NextPage = () => {
                 title="No upcoming groups or events"
               />
             }
-            events={error ? [] : eventsByParticipation.otherEvents}
+            events={error || !data?.events ? [] : data.events}
             fetching={fetching}
             isAllowedToJoin={
               error ? false : eventsByParticipation.appliedEvents?.length < 1
-            }
-            participatingEvents={
-              error ? [] : eventsByParticipation.participatingEvents
             }
           />
         </Section>
@@ -105,9 +102,6 @@ const Groups: NextPage = () => {
             events={error ? [] : usersEventsByParticipation.participatingEvents}
             fetching={fetchingUsersEvents}
             isAllowedToJoin={true}
-            participatingEvents={
-              error ? [] : usersEventsByParticipation.participatingEvents
-            }
             type="compact"
           />
         </Section>
