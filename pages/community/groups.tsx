@@ -1,21 +1,28 @@
 import { ExperimentOutlined } from '@ant-design/icons'
-import { Popover, Tag } from 'antd'
+import { Popover, Tabs, Tag } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { fetchAllContentCollections } from '../../services/contentful/fetch-all-content-collections'
 import { EventCategory, useEventsQuery } from '../../services/lfca-backend'
+import { eventCategoryMetaData } from '../../utils/events'
 import { withAuth } from '../../utils-server-only'
 
 const Groups: NextPage = () => {
+  const [eventCategory, setEventCategory] = useState<EventCategory | undefined>(
+    EventCategory.MASTERMIND_GROUP
+  )
+
+  // specific events by category
   const [{ data, error, fetching }] = useEventsQuery({
     variables: {
       input: {
         filter: {
-          category: EventCategory.MASTERMIND_GROUP,
+          category: eventCategory,
+          includeExpired: false,
         },
       },
     },
@@ -23,51 +30,58 @@ const Groups: NextPage = () => {
 
   const eventsByParticipation = getEventsByParticipationStatus(data?.events)
 
+  // all events to check for users upcoming events
+  const [{ data: usersEventsData, fetching: fetchingUsersEvents }] =
+    useEventsQuery({
+      variables: {
+        input: {
+          filter: {
+            includeExpired: false,
+          },
+        },
+      },
+    })
+
+  const usersEventsByParticipation = getEventsByParticipationStatus(
+    usersEventsData?.events
+  )
+
   return (
     <SiderLayout>
       <Main>
         <Section
           bordered={false}
-          title={
-            <span>
-              Mastermind Groups{' '}
-              <Popover
-                content="During our BETA program, the master mind groups are available to all community members. From 03/23 they will be part of the BASIC+ tiers"
-                overlayClassName="popover-lg"
-              >
-                <Tag
-                  color="blue"
-                  icon={<ExperimentOutlined />}
-                  style={{ verticalAlign: 'middle' }}
-                >
-                  BETA
-                </Tag>
-              </Popover>
-            </span>
-          }
+          title={<span>Groups & Events</span>}
           titleSize="big"
         >
-          <div style={{ marginBottom: '40px' }}>
-            <p>
-              Our online Mastermind Groups connect sustainability practitioners
-              across 10-15 companies from the same industry – it’s a
-              peer-to-peer mentoring format that supports you in your work on
-              sustainability projects. This is the space where you can ask
-              questions, bounce ideas, share knowledge, and build
-              collaborations.{' '}
-            </p>
+          <Tabs
+            activeKey={eventCategory}
+            items={Object.keys(EventCategory)
+              .sort((a, b) => {
+                return (
+                  eventCategoryMetaData(b as EventCategory).sortValue -
+                  eventCategoryMetaData(a as EventCategory).sortValue
+                )
+              })
+              .map((category) => ({
+                key: category,
+                label: (
+                  <>
+                    {eventCategoryMetaData(category as EventCategory).icon}
+                    {eventCategoryMetaData(category as EventCategory).name}
+                  </>
+                ),
+              }))}
+            onChange={(key) => setEventCategory(key as EventCategory)}
+          />
 
-            <p>
-              <b>How to join:</b> Choose the group that fits your business best.
-              Once your application is approved, you’ll receive a recurring
-              calendar invite. From then on, you’ll be part of a long-term,
-              close-knit team – and your hour together each month will be an
-              invaluable source of mutual support.
-            </p>
-          </div>
+          {/* Events and description for the selected category */}
+
+          {eventCategoryMetaData(eventCategory as EventCategory).description}
 
           <EventsList
             appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
+            customEmptyState={<div>jo</div>}
             events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
             participatingEvents={
@@ -79,11 +93,13 @@ const Groups: NextPage = () => {
       <Sider>
         <Section bordered={false} title="Your groups">
           <EventsList
-            appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
-            events={error ? [] : eventsByParticipation.participatingEvents}
-            fetching={fetching}
+            appliedEvents={
+              error ? [] : usersEventsByParticipation.appliedEvents
+            }
+            events={error ? [] : usersEventsByParticipation.participatingEvents}
+            fetching={fetchingUsersEvents}
             participatingEvents={
-              error ? [] : eventsByParticipation.participatingEvents
+              error ? [] : usersEventsByParticipation.participatingEvents
             }
             type="compact"
           />

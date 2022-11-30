@@ -1,11 +1,19 @@
 import {
+  CalendarOutlined,
   CheckOutlined,
   CloseOutlined,
+  CommentOutlined,
   ExclamationOutlined,
+  NotificationOutlined,
   QuestionOutlined,
+  TeamOutlined,
 } from '@ant-design/icons'
 
-import { EventParticipantStatus, EventStatus } from '../services/lfca-backend'
+import {
+  EventCategory,
+  EventParticipantStatus,
+  EventStatus,
+} from '../services/lfca-backend'
 
 export const readableEventStatus = (status: EventStatus): string => {
   switch (status) {
@@ -53,5 +61,62 @@ export const eventParticipantStatusIcon = (
       return <CloseOutlined />
     default:
       return 'unknown'
+  }
+}
+
+export const eventCategoryMetaData = (category: EventCategory) => {
+  switch (category) {
+    case EventCategory.COMMUNITY_EVENTS:
+      return {
+        icon: <NotificationOutlined />,
+        name: 'Events',
+        sortValue: 200,
+      }
+    case EventCategory.MASTERMIND_GROUP:
+      return {
+        description: (
+          <>
+            <p>
+              Our online Mastermind Groups connect sustainability practitioners
+              across 10-15 companies from the same industry – it’s a
+              peer-to-peer mentoring format that supports you in your work on
+              sustainability projects. This is the space where you can ask
+              questions, bounce ideas, share knowledge, and build
+              collaborations.{' '}
+            </p>
+
+            <p>
+              <b>How to join:</b> Choose the group that fits your business best.
+              Once your application is approved, you’ll receive a recurring
+              calendar invite. From then on, you’ll be part of a long-term,
+              close-knit team – and your hour together each month will be an
+              invaluable source of mutual support.
+            </p>
+          </>
+        ),
+        icon: <TeamOutlined />,
+        name: 'Mastermind Groups',
+        sortValue: 300,
+      }
+    case EventCategory.ONBOARDING_COURSE:
+      return {
+        description: (
+          <>
+            <p>
+              Kickstart your journey with us and join this series of 4 online
+              sessions.
+            </p>
+          </>
+        ),
+        icon: <CommentOutlined />,
+        name: 'Onboarding Courses',
+        sortValue: 100,
+      }
+    default:
+      return {
+        icon: <CalendarOutlined />,
+        name: category,
+        sortValue: 0,
+      }
   }
 }

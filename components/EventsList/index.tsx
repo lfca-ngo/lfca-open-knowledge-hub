@@ -15,6 +15,7 @@ import styles from './styles.module.less'
 
 interface EventsListProps {
   appliedEvents: EventFragment[]
+  customEmptyState?: React.ReactNode
   events: EventWithParticipantsFragment[]
   fetching: boolean
   participatingEvents: EventFragment[]
@@ -23,6 +24,7 @@ interface EventsListProps {
 
 export const EventsList = ({
   appliedEvents,
+  customEmptyState,
   events,
   fetching,
   participatingEvents,
@@ -40,26 +42,28 @@ export const EventsList = ({
   return (
     <div className={styles['events-list']}>
       <ConfigProvider
-        renderEmpty={() => (
-          <EmptyState
-            actions={[
-              <Button
-                block
-                icon={<UserAddOutlined />}
-                key="goto"
-                onClick={handleJoin}
-                type="primary"
-              >
-                Join a group
-              </Button>,
-            ]}
-            alignment="left"
-            icon={<MessageOutlined />}
-            size="small"
-            text="Join a Mastermind Group and meet monthly with peers to exchange learnings."
-            title="No groups"
-          />
-        )}
+        renderEmpty={() =>
+          customEmptyState || (
+            <EmptyState
+              actions={[
+                <Button
+                  block
+                  icon={<UserAddOutlined />}
+                  key="goto"
+                  onClick={handleJoin}
+                  type="primary"
+                >
+                  Join a group
+                </Button>,
+              ]}
+              alignment="left"
+              icon={<MessageOutlined />}
+              size="small"
+              text="Join a Mastermind Group and meet monthly with peers to exchange learnings."
+              title="No groups"
+            />
+          )
+        }
       >
         <List
           className="no-padding"
