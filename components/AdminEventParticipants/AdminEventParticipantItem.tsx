@@ -52,7 +52,7 @@ export const AdminEventParticipantItem = ({
       input: {
         eventId,
         isExternal: participant.isExternal,
-        status: EventParticipantStatus.AWAITING_USER_RSVP,
+        status: EventParticipantStatus.USER_RSVP_ACCEPTED,
         userId: participant.user.id,
       },
     })

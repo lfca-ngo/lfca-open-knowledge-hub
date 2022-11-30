@@ -157,7 +157,7 @@ export const NAV_ITEMS_DEFAULT: ItemType[] = [
   {
     icon: <TeamOutlined />,
     key: COMMUNITY_GROUPS,
-    label: 'Mastermind Groups',
+    label: 'Groups & Events',
   },
   {
     icon: <RocketOutlined />,

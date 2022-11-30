@@ -3,7 +3,6 @@ import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import {
   EventCategory,
-  EventParticipantStatus,
   EventStatus,
   useEventsQuery,
 } from '../../../services/lfca-backend'
@@ -14,11 +13,7 @@ import { getEventsByParticipationStatus } from '../../EventsList/utils'
 import { DefaultStepProps } from './..'
 import styles from './styles.module.less'
 
-const GroupsContent = ({
-  onNext,
-  statusOnJoinGroup,
-  title,
-}: DefaultStepProps & { statusOnJoinGroup: EventParticipantStatus }) => {
+const GroupsContent = ({ onNext, title }: DefaultStepProps) => {
   const analytics = useAnalytics()
 
   const [{ data, fetching }] = useEventsQuery({
@@ -68,10 +63,8 @@ const GroupsContent = ({
           <List.Item className="list-item" key={item.id}>
             <EventCardSkeleton fetching={false} type={'small'}>
               <EventCard
-                appliedEventsCount={0}
                 event={item}
-                participatingEventsCount={0}
-                statusOnJoin={statusOnJoinGroup}
+                isAllowedToJoin={eventsStatus.appliedEvents?.length < 1}
                 type={'small'}
               />
             </EventCardSkeleton>
