@@ -5,6 +5,17 @@ fragment ActionComment on ActionComment {
   author {
     ...UserAvatar
   }
+  children {
+    attachments {
+      ...ActionCommentAttachment
+    }
+    author {
+      ...UserAvatar
+    }
+    id
+    message
+    createdAt
+  }
   id
   message
   createdAt

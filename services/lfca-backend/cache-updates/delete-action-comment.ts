@@ -12,7 +12,7 @@ export const deleteActionComment: UpdateResolver<
   if (result.deleteActionComment) {
     cache.invalidate({
       __typename: 'ActionComment',
-      id: args.input.id,
+      id: args.input.actionCommentId,
     })
   }
 }

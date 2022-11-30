@@ -1,169 +1,63 @@
-.action-comments {
+.comments {
   width: 100%;
+}
 
+.tabs {
   :global {
-    .ant-list-pagination {
-      margin: 10px 0;
+    .ant-tabs-nav {
+      max-height: 270px;
     }
 
-    .message-skeleton {
-      .ant-skeleton-paragraph {
-        > li {
-          &:first-of-type {
-            height: 160px;
-          }
-          &:nth-of-type(2) {
-            width: 20% !important;
-          }
-        }
-      }
+    .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
+      margin: 0;
     }
+    .ant-tabs-nav .ant-tabs-tab {
+      margin-top: 0;
+      padding-bottom: 16px;
+      padding-top: 16px;
+      max-width: 180px;
+      padding-left: 0;
+      border-bottom: 1px solid @grey-white;
 
-    .attachments-element {
-      color: @text-color;
-      display: flex;
-      align-items: center;
-
-      .ant-avatar {
-        margin-right: 10px;
-      }
-    }
-
-    .avatar-skeleton {
-      .ant-skeleton-avatar {
-        border-radius: @border-radius-base;
-      }
-    }
-
-    .comments-tabs {
-      .ant-tabs-nav {
-        max-height: 270px;
-      }
-
-      .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
-        margin: 0;
-      }
-      .ant-tabs-nav .ant-tabs-tab {
-        margin-top: 0;
-        padding-bottom: 16px;
-        padding-top: 16px;
-        max-width: 180px;
-        padding-left: 0;
-        border-bottom: 1px solid @grey-white;
-
-        .ant-tabs-tab-btn {
-          max-width: 100%;
-          display: flex;
-        }
-      }
-    }
-
-    .comment-item {
-      width: 100%;
-      margin: 0 0 10px;
-      display: flex;
-
-      .main-message-wrapper {
-        flex: 1;
-      }
-
-      .ant-avatar {
-        margin-right: 12px;
-      }
-
-      .time {
-        font-size: 12px;
-        color: @text-color;
-        margin: 0 6px;
-      }
-
-      .message {
+      .ant-tabs-tab-btn {
+        max-width: 100%;
         display: flex;
-
-        .attachments {
-          margin: 8px 0 0;
-
-          .ant-btn {
-            background: transparent;
-          }
-        }
-
-        .body {
-          display: flex;
-          padding: 12px 20px;
-          background: @white-grey;
-          border-radius: @border-radius-base;
-          margin: 0 0 10px;
-
-          .show-more-content {
-            p {
-              margin-bottom: 3px;
-            }
-
-            li {
-              &::marker {
-                float: left;
-              }
-            }
-
-            ul,
-            ol {
-              padding-inline-start: 20px;
-            }
-          }
-        }
       }
-    }
-
-    .richtext-editor {
-      margin: 12px 0;
     }
   }
 }
 
-.share-learnings-form {
+.authorSkeleton {
   :global {
-    .buzzwords {
-      font-size: 13px;
-      margin-top: -10px;
-      margin-bottom: 20px;
+    .ant-skeleton-avatar {
+      border-radius: @border-radius-base;
+    }
+  }
+}
 
-      .ant-tag {
-        font-size: 13px;
-        margin: 2px;
-        border-color: transparent;
-        color: @wine;
-        background-color: fade(@wine, 8%);
+.messageSkeleton {
+  :global {
+    .ant-skeleton-paragraph {
+      > li {
+        &:first-of-type {
+          height: 160px;
+        }
+        &:nth-of-type(2) {
+          width: 20% !important;
+        }
       }
     }
   }
 }
 
-.avatar-meta {
+.attachmentsLabel {
+  color: @text-color;
   display: flex;
-  flex-direction: row;
-  max-width: 100%;
+  align-items: center;
 
   :global {
-    .text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-left: 16px;
-      justify-content: center;
-      flex: 1;
-      overflow: hidden;
-      text-align: left;
-
-      .company {
-        font-size: @font-size-xs;
-        color: fade(@black, 40%);
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100%;
-      }
+    .ant-avatar {
+      margin-right: 10px;
     }
   }
 }

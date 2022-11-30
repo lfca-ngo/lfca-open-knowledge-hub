@@ -1,40 +1,23 @@
 import {
-  CommentOutlined,
   ContainerOutlined,
   DownloadOutlined,
-  EllipsisOutlined,
   MessageOutlined,
   PlusOutlined,
-  SlackOutlined,
 } from '@ant-design/icons'
-import {
-  Avatar,
-  Button,
-  Col,
-  Divider,
-  Popover,
-  Row,
-  Skeleton,
-  Space,
-  Tabs,
-} from 'antd'
-import { useEffect, useState } from 'react'
+import { Avatar, Button, Col, Divider, Row, Skeleton, Tabs } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
 
-import { useBreakpoints } from '../../hooks/useBreakpoints'
-import { useUser } from '../../hooks/user'
 import {
+  ActionCommentAttachmentFragment,
   ActionCommentFragment,
-  useActionCommentAttachmentsQuery,
   useActionCommentsQuery,
-  useDeleteActionCommentMutation,
-  UserAvatarFragment,
 } from '../../services/lfca-backend'
-import { OPEN_SLACK_LINK } from '../../utils'
 import { AttachmentsList } from '../AttachmentsList'
 import { EmptyState } from '../EmptyState'
-import { UserAvatar } from '../UserAvatar'
-import { CommentItem } from './CommentItem'
+import { CommentAuthor } from './CommentAuthor'
 import { CommentModal } from './CommentModal'
+import { CommentsActions } from './CommentsActions'
+import { CommentThread } from './CommentThread'
 import styles from './styles.module.less'
 
 const ATTACHMENTS_KEY = 'attachments'
@@ -42,47 +25,19 @@ const LOADING_KEY = 'loading'
 const EMPTY_KEY = 'empty'
 const INITIAL_KEY = '0'
 
-const TabsSkeletonChild = {
-  children: (
-    <Skeleton
-      active
-      className="message-skeleton"
-      paragraph={{ rows: 2 }}
-      title={false}
-    />
-  ),
-  key: LOADING_KEY,
-  label: (
-    <Skeleton.Avatar
-      active
-      className="avatar-skeleton"
-      shape="square"
-      size="large"
-    />
-  ),
-}
-
 interface CommentsProps {
   actionContentId: string
   title?: React.ReactNode
 }
 
-const CommentAuthor = ({ author }: { author: UserAvatarFragment }) => {
-  return (
-    <div className={styles['avatar-meta']}>
-      <UserAvatar avatarProps={{ shape: 'square', size: 45 }} user={author} />
-      <div className="text">
-        <div className="name">{author?.firstName}</div>
-        <div className="company">{author?.company?.name}</div>
-      </div>
-    </div>
-  )
-}
-
 export const Comments = ({ actionContentId, title }: CommentsProps) => {
-  const [activeComment, setActiveComment] = useState(LOADING_KEY)
-  const [visible, setVisible] = useState(false)
+  const [activeTab, setActiveTab] = useState(LOADING_KEY)
+  const [commentModalVisible, setCommentModalVisible] = useState(false)
+  const [parentActionCommentId, setParentActionCommentId] = useState<
+    string | undefined
+  >(undefined)
   const [editingComment, setEditingComment] = useState<ActionCommentFragment>()
+
   const [{ data, fetching }] = useActionCommentsQuery({
     pause: !actionContentId,
     variables: {
@@ -90,189 +45,159 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
     },
   })
 
-  const [{ data: attachmentsData, fetching: fetchingAttachments }] =
-    useActionCommentAttachmentsQuery({
-      variables: { input: { actionContentId: actionContentId } },
-    })
+  const attachments = useMemo(() => {
+    function getAttachments(comments: ActionCommentFragment[]) {
+      return comments.reduce((acc, curr) => {
+        if (curr.attachments) {
+          acc.push(...curr.attachments)
+        }
 
-  const [, deleteActionComment] = useDeleteActionCommentMutation()
-  const hasComments = (data?.actionComments || []).length > 0
+        if (curr.children) {
+          acc.push(...getAttachments(curr.children as ActionCommentFragment[]))
+        }
 
-  const { isAdmin } = useUser()
+        return acc
+      }, [] as ActionCommentAttachmentFragment[])
+    }
 
-  const onDelete = async (comment: ActionCommentFragment) => {
-    await deleteActionComment({
-      input: {
-        id: comment.id,
-      },
-    })
-  }
+    return getAttachments(data?.actionComments || [])
+  }, [data])
 
   useEffect(() => {
     // once loading is done, set the active tab based
     // on whether or not comments are available
-    if (activeComment === LOADING_KEY) {
-      setActiveComment(hasComments ? INITIAL_KEY : EMPTY_KEY)
+    if (activeTab === LOADING_KEY) {
+      setActiveTab(data?.actionComments.length ? INITIAL_KEY : EMPTY_KEY)
     }
     // if the comments where empty and a new one is being added
     // jump to the new comment
-    if (activeComment === EMPTY_KEY && hasComments) {
-      setActiveComment(INITIAL_KEY)
+    if (activeTab === EMPTY_KEY && data?.actionComments.length) {
+      setActiveTab(INITIAL_KEY)
     }
-  }, [hasComments, activeComment])
-
-  const EmptyChild = {
-    children: (
-      <EmptyState
-        actions={[
-          <Button
-            block
-            icon={<PlusOutlined />}
-            key="create"
-            onClick={() => {
-              setEditingComment(undefined)
-              setVisible(true)
-            }}
-            type="primary"
-          >
-            Comment
-          </Button>,
-        ]}
-        alignment="center"
-        icon={<MessageOutlined />}
-        size="small"
-        text="Comment about your experience with this action."
-        title="Be the first to leave a comment"
-      />
-    ),
-    key: EMPTY_KEY,
-    label: (
-      <Avatar
-        className="black-inverse"
-        icon={<ContainerOutlined />}
-        shape="square"
-        size="large"
-      />
-    ),
-  }
-
-  const isDesktop = useBreakpoints().md
-
-  const CommentsActions = (
-    <Space direction={isDesktop ? 'horizontal' : 'vertical'}>
-      <Popover content="Coming soon: Save comments directly from Slack to our Knowledge Base">
-        <Button
-          icon={<SlackOutlined />}
-          onClick={() => window.open(OPEN_SLACK_LINK, '_blank')}
-        >
-          {' '}
-          Open Slack
-        </Button>
-      </Popover>
-      <Popover content="Comments">
-        <Button icon={<CommentOutlined />}>
-          {' '}
-          {data?.actionComments?.length}
-        </Button>
-      </Popover>
-      <Popover content="Comments">
-        <Button
-          icon={<DownloadOutlined />}
-          onClick={() => setActiveComment(ATTACHMENTS_KEY)}
-        >
-          {' '}
-          {attachmentsData?.actionCommentAttachments.length}
-        </Button>
-      </Popover>
-
-      <Button
-        icon={<PlusOutlined />}
-        key="create"
-        onClick={() => {
-          setEditingComment(undefined)
-          setVisible(true)
-        }}
-        type="primary"
-      >
-        Comment
-      </Button>
-    </Space>
-  )
+  }, [data, activeTab])
 
   return (
-    <div className={styles['action-comments']}>
+    <div className={styles.comments}>
       <Row align="middle">
         <Col md={6} xs={18}>
           <h2 className={'section-title no-margin'}>{title}</h2>
         </Col>
         <Col md={18} style={{ textAlign: 'right' }} xs={6}>
-          {isDesktop ? (
-            CommentsActions
-          ) : (
-            <Popover content={CommentsActions} placement="left">
-              <Button icon={<EllipsisOutlined />} />
-            </Popover>
-          )}
+          <CommentsActions
+            attachmentsCount={attachments.length || 0}
+            commentsCount={data?.actionComments?.length || 0}
+            onAddComment={() => {
+              setEditingComment(undefined)
+              setCommentModalVisible(true)
+            }}
+            onClickAttachments={() => setActiveTab(ATTACHMENTS_KEY)}
+            onClickComments={() => setActiveTab(INITIAL_KEY)}
+          />
         </Col>
       </Row>
 
       <Divider />
 
       <Tabs
-        activeKey={activeComment}
-        className={'comments-tabs'}
+        activeKey={activeTab}
+        className={styles.tabs}
         destroyInactiveTabPane
         id="test"
         items={
           fetching
-            ? [TabsSkeletonChild]
-            : !hasComments
-            ? [EmptyChild]
+            ? [
+                {
+                  children: (
+                    <Skeleton
+                      active
+                      className={styles.messageSkeleton}
+                      paragraph={{ rows: 2 }}
+                      title={false}
+                    />
+                  ),
+                  key: LOADING_KEY,
+                  label: (
+                    <Skeleton.Avatar
+                      active
+                      className={styles.authorSkeleton}
+                      shape="square"
+                      size="large"
+                    />
+                  ),
+                },
+              ]
+            : !data?.actionComments.length
+            ? [
+                {
+                  children: (
+                    <EmptyState
+                      actions={[
+                        <Button
+                          block
+                          icon={<PlusOutlined />}
+                          key="create"
+                          onClick={() => {
+                            setEditingComment(undefined)
+                            setCommentModalVisible(true)
+                          }}
+                          type="primary"
+                        >
+                          Comment
+                        </Button>,
+                      ]}
+                      alignment="center"
+                      icon={<MessageOutlined />}
+                      size="small"
+                      text="Comment about your experience with this action."
+                      title="Be the first to leave a comment"
+                    />
+                  ),
+                  key: EMPTY_KEY,
+                  label: (
+                    <Avatar
+                      className="black-inverse"
+                      icon={<ContainerOutlined />}
+                      shape="square"
+                      size="large"
+                    />
+                  ),
+                },
+              ]
             : [
                 ...(data?.actionComments || []).map((comment, i) => {
-                  const id = String(i)
                   return {
                     children: (
                       <div>
-                        <CommentItem
+                        <CommentThread
                           comment={comment}
-                          isAdmin={isAdmin}
-                          onDelete={() => onDelete(comment)}
-                          onEdit={() => {
+                          onEdit={(comment) => {
                             setEditingComment(comment)
-                            setVisible(true)
+                            setCommentModalVisible(true)
                           }}
-                        />
-
-                        <CommentModal
-                          actionContentId={actionContentId}
-                          editingComment={editingComment}
-                          onClose={() => {
-                            setVisible(false)
+                          onReply={() => {
+                            setParentActionCommentId(comment.id)
                             setEditingComment(undefined)
+                            setCommentModalVisible(true)
                           }}
-                          visible={visible}
                         />
                       </div>
                     ),
-                    key: id,
-                    label: comment.author ? (
-                      <CommentAuthor author={comment.author} />
-                    ) : null,
+                    key: i.toString(),
+                    label: (
+                      <CommentAuthor author={comment.author ?? undefined} />
+                    ),
                   }
                 }),
                 {
                   children: (
                     <AttachmentsList
-                      attachments={
-                        attachmentsData?.actionCommentAttachments || []
-                      }
-                      fetching={fetchingAttachments}
+                      attachments={attachments}
+                      fetching={fetching}
                     />
                   ),
                   key: ATTACHMENTS_KEY,
                   label: (
-                    <div className="attachments-element">
+                    <div className={styles.attachmentsLabel}>
                       <Avatar
                         className="black-inverse"
                         icon={<DownloadOutlined />}
@@ -284,7 +209,7 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
                 },
               ]
         }
-        onChange={(key) => setActiveComment(key)}
+        onChange={(key) => setActiveTab(key)}
         tabPosition={'left'}
       />
 
@@ -292,10 +217,12 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
         actionContentId={actionContentId}
         editingComment={editingComment}
         onClose={() => {
-          setVisible(false)
+          setCommentModalVisible(false)
+          setParentActionCommentId(undefined)
           setEditingComment(undefined)
         }}
-        visible={visible}
+        parentActionCommentId={parentActionCommentId}
+        visible={commentModalVisible}
       />
     </div>
   )

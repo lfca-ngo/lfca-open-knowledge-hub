@@ -3,13 +3,13 @@ import { Button, Checkbox, Form, Input, Tag, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { Descendant } from 'slate'
 
-import { useUser } from '../../hooks/user'
-import { ActionCommentAttachment } from '../../services/lfca-backend'
-import { File, FileUpload } from '../FileUpload/FileUpload'
-import { CLOUDINARY_PRESETS } from '../FileUpload/helper'
-import { convertValueToMarkdown } from '../RichTextEditor/utils'
-import { RichTextInput } from '../RichTextInput'
-import { UserIdSearchInput } from '../UserIdSearchInput'
+import { useUser } from '../../../hooks/user'
+import { ActionCommentAttachment } from '../../../services/lfca-backend'
+import { File, FileUpload } from '../../FileUpload/FileUpload'
+import { CLOUDINARY_PRESETS } from '../../FileUpload/helper'
+import { convertValueToMarkdown } from '../../RichTextEditor/utils'
+import { RichTextInput } from '../../RichTextInput'
+import { UserIdSearchInput } from '../../UserIdSearchInput'
 import styles from './styles.module.less'
 
 const { TextArea } = Input
@@ -21,6 +21,7 @@ interface CommentFormProps {
     authorId: string
     message: Descendant[]
   }
+  isReply?: boolean
   loading?: boolean
   onSubmit: (props: {
     attachments?: File[]
@@ -34,6 +35,7 @@ interface CommentFormProps {
 export const CommentForm = ({
   ctaText = 'Submit',
   initialValues,
+  isReply = false,
   loading,
   onSubmit,
   showNotes = false,
@@ -69,7 +71,7 @@ export const CommentForm = ({
 
   return (
     <Form
-      className={styles['share-learnings-form']}
+      className={styles.commentForm}
       form={form}
       initialValues={initialValues}
       layout="vertical"
@@ -83,24 +85,28 @@ export const CommentForm = ({
 
       <Form.Item
         label={
-          <Tooltip
-            placement="left"
-            title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?"
-          >
-            Leave a comment about this action <QuestionCircleOutlined />
-          </Tooltip>
+          !isReply && (
+            <Tooltip
+              placement="left"
+              title="By sharing your learnings, you help others overcome common hurdles more quickly. Think about: What did you struggle with, what went well, what not?"
+            >
+              Leave a comment about this action <QuestionCircleOutlined />
+            </Tooltip>
+          )
         }
         name="message"
       >
         <RichTextInput placeholder="The most difficult thing was solving xyz. Luckily we found this overview that really helped us (attached)." />
       </Form.Item>
-      <div className="buzzwords">
-        <span>Think of:</span> <Tag>Costs</Tag>
-        <Tag>Team benefits</Tag>
-        <Tag>Hurdles</Tag>
-        <Tag>Successes</Tag>
-        <Tag>{`How to's`}</Tag>
-      </div>
+      {!isReply ? (
+        <div className={styles.buzzwords}>
+          <span>Think of:</span> <Tag>Costs</Tag>
+          <Tag>Team benefits</Tag>
+          <Tag>Hurdles</Tag>
+          <Tag>Successes</Tag>
+          <Tag>{`How to's`}</Tag>
+        </div>
+      ) : null}
       <Form.Item
         label={
           <Tooltip

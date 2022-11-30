@@ -14,6 +14,7 @@ interface CommentModalProps {
   actionContentId: string
   editingComment?: ActionCommentFragment
   onClose: () => void
+  parentActionCommentId?: string
   visible: boolean
 }
 
@@ -21,6 +22,7 @@ export const CommentModal = ({
   actionContentId,
   editingComment,
   onClose,
+  parentActionCommentId,
   visible,
 }: CommentModalProps) => {
   const [{ fetching: updatingComment }, updateActionComment] =
@@ -40,6 +42,7 @@ export const CommentModal = ({
     if (!editingComment) return
     await updateActionComment({
       input: {
+        actionCommentId: editingComment.id,
         attachments: attachments?.map((a) => ({
           fileName: a.fileName,
           fileSize: a.fileSize,
@@ -47,7 +50,6 @@ export const CommentModal = ({
           source: a.source,
         })),
         authorId,
-        id: editingComment.id,
         message: message,
       },
     })
@@ -71,6 +73,7 @@ export const CommentModal = ({
           source: a.source,
         })),
         message: message,
+        parentActionCommentId,
       },
     })
     onClose()
@@ -83,7 +86,11 @@ export const CommentModal = ({
       footer={null}
       onCancel={onClose}
       open={visible}
-      title={`${editingComment ? 'Edit' : 'Create'} comment`}
+      title={
+        parentActionCommentId
+          ? 'Reply to comment'
+          : `${editingComment ? 'Edit' : 'Create'} comment`
+      }
     >
       <CommentForm
         initialValues={
@@ -95,6 +102,7 @@ export const CommentModal = ({
               : createEmptyValue(),
           }
         }
+        isReply={!!parentActionCommentId}
         loading={creatingComment || updatingComment}
         onSubmit={editingComment ? onSave : onCreate}
       />

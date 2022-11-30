@@ -1,13 +1,13 @@
 import { List } from 'antd'
 
-import { ActionCommentAttachmentsQuery } from '../../services/lfca-backend'
+import { ActionCommentAttachmentFragment } from '../../services/lfca-backend'
 import { AttachmentButton } from './AttachmentButton'
 
 export const AttachmentsList = ({
   attachments,
   fetching,
 }: {
-  attachments: ActionCommentAttachmentsQuery['actionCommentAttachments']
+  attachments: ActionCommentAttachmentFragment[]
   fetching: boolean
 }) => (
   <List
