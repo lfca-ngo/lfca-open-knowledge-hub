@@ -96,6 +96,7 @@ export const eventCategoryMetaData = (category: EventCategory) => {
           </>
         ),
         icon: null,
+        maxSubscriptionsCount: 1,
         name: (
           <>
             Mastermind Groups{' '}
@@ -117,6 +118,7 @@ export const eventCategoryMetaData = (category: EventCategory) => {
     case EventCategory.ONBOARDING_COURSE:
       return {
         icon: <CommentOutlined />,
+        maxSubscriptionsCount: 1,
         name: 'Onboarding Courses',
         sortValue: 100,
       }

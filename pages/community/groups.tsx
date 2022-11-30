@@ -46,6 +46,14 @@ const Groups: NextPage = () => {
     usersEventsData?.events
   )
 
+  const subscribedEventsCount =
+    eventsByParticipation.appliedEvents?.length +
+    eventsByParticipation.participatingEvents?.length
+
+  const selectedEventCategoryMeta = eventCategoryMetaData(
+    eventCategory as EventCategory
+  )
+
   return (
     <SiderLayout>
       <Main>
@@ -77,7 +85,7 @@ const Groups: NextPage = () => {
 
           {/* Events and description for the selected category */}
 
-          {eventCategoryMetaData(eventCategory as EventCategory).description}
+          {selectedEventCategoryMeta.description}
 
           <EventsList
             customEmptyState={
@@ -91,7 +99,10 @@ const Groups: NextPage = () => {
             events={error || !data?.events ? [] : data.events}
             fetching={fetching}
             isAllowedToJoin={
-              error ? false : eventsByParticipation.appliedEvents?.length < 1
+              selectedEventCategoryMeta?.maxSubscriptionsCount
+                ? subscribedEventsCount <
+                  selectedEventCategoryMeta.maxSubscriptionsCount
+                : true
             }
           />
         </Section>

@@ -3,10 +3,7 @@ import { Button, ConfigProvider, List, message } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import {
-  EventFragment,
-  EventWithParticipantsFragment,
-} from '../../services/lfca-backend'
+import { EventWithParticipantsFragment } from '../../services/lfca-backend'
 import { COMMUNITY_GROUPS } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 import { EventCard, EventCardProps } from '../EventCard'

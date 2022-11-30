@@ -42,7 +42,8 @@ export const EventCard = ({ event, isAllowedToJoin, type }: EventCardProps) => {
     event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
   const eventIsPending =
     event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
-  const canUpdateSubscription = isAllowedToJoin || eventIsPending
+  const canUpdateSubscription =
+    isAllowedToJoin || eventIsPending || eventIsApproved
 
   const renderCard = () => {
     switch (type) {
