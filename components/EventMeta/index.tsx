@@ -1,7 +1,7 @@
 import {
   CalendarOutlined,
   ClockCircleOutlined,
-  FieldTimeOutlined,
+  ControlOutlined,
 } from '@ant-design/icons'
 import { Collapse } from 'antd'
 import { Space } from 'antd'
@@ -64,7 +64,7 @@ export const Status = ({ event }: EventMetaProps) => {
 
   return (
     <Space align="start">
-      <FieldTimeOutlined />
+      <ControlOutlined />
       {statusString}
     </Space>
   )

@@ -3,10 +3,7 @@ import { Button, ConfigProvider, List, message } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import {
-  EventFragment,
-  EventWithParticipantsFragment,
-} from '../../services/lfca-backend'
+import { EventWithParticipantsFragment } from '../../services/lfca-backend'
 import { COMMUNITY_GROUPS } from '../../utils/routes'
 import { EmptyState } from '../EmptyState'
 import { EventCard, EventCardProps } from '../EventCard'
@@ -14,18 +11,18 @@ import { EventCardSkeleton } from '../EventCard/EventCardSkeleton'
 import styles from './styles.module.less'
 
 interface EventsListProps {
-  appliedEvents: EventFragment[]
+  isAllowedToJoin: boolean
+  customEmptyState?: React.ReactNode
   events: EventWithParticipantsFragment[]
   fetching: boolean
-  participatingEvents: EventFragment[]
   type?: EventCardProps['type']
 }
 
 export const EventsList = ({
-  appliedEvents,
+  customEmptyState,
   events,
   fetching,
-  participatingEvents,
+  isAllowedToJoin,
   type,
 }: EventsListProps) => {
   const { asPath, push } = useRouter()
@@ -40,26 +37,28 @@ export const EventsList = ({
   return (
     <div className={styles['events-list']}>
       <ConfigProvider
-        renderEmpty={() => (
-          <EmptyState
-            actions={[
-              <Button
-                block
-                icon={<UserAddOutlined />}
-                key="goto"
-                onClick={handleJoin}
-                type="primary"
-              >
-                Join a group
-              </Button>,
-            ]}
-            alignment="left"
-            icon={<MessageOutlined />}
-            size="small"
-            text="Join a Mastermind Group and meet monthly with peers to exchange learnings."
-            title="No groups"
-          />
-        )}
+        renderEmpty={() =>
+          customEmptyState || (
+            <EmptyState
+              actions={[
+                <Button
+                  block
+                  icon={<UserAddOutlined />}
+                  key="goto"
+                  onClick={handleJoin}
+                  type="primary"
+                >
+                  Join a group
+                </Button>,
+              ]}
+              alignment="left"
+              icon={<MessageOutlined />}
+              size="small"
+              text="Join a Mastermind Group and meet monthly with peers to exchange learnings."
+              title="No groups"
+            />
+          )
+        }
       >
         <List
           className="no-padding"
@@ -77,9 +76,8 @@ export const EventsList = ({
               >
                 <EventCardSkeleton fetching={fetching} type={type}>
                   <EventCard
-                    appliedEventsCount={appliedEvents.length}
                     event={item}
-                    participatingEventsCount={participatingEvents.length}
+                    isAllowedToJoin={isAllowedToJoin}
                     type={type}
                   />
                 </EventCardSkeleton>

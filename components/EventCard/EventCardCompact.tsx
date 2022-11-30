@@ -35,7 +35,7 @@ export const EventCardCompact = ({ event, onClick }: EventCardDefaultProps) => {
         <div className="actions" onClick={(e) => e.stopPropagation()}>
           {eventIsApproved && event.videoConferenceUrl && (
             <a href={event.videoConferenceUrl} rel="noreferrer" target="_blank">
-              <Button block icon={<VideoCameraAddOutlined />} type="primary">
+              <Button icon={<VideoCameraAddOutlined />} type="primary">
                 Join meeting
               </Button>
             </a>

@@ -41,7 +41,6 @@ import {
 } from '../services/contentful'
 import {
   CompanySubscriptionType,
-  EventParticipantStatus,
   RegisterUserInput,
 } from '../services/lfca-backend'
 
@@ -163,7 +162,6 @@ const Onboarding: NextPage<OnboardingProps> = ({
           onPrev={prev}
           setSharedState={setSharedState}
           sharedState={sharedState}
-          statusOnJoinGroup={EventParticipantStatus.USER_RSVP_ACCEPTED}
           title={StepItem?.title}
         />
       ) : null}
