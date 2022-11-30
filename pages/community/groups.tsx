@@ -98,7 +98,7 @@ const Groups: NextPage = () => {
         </Section>
       </Main>
       <Sider>
-        <Section bordered={false} title="Your groups">
+        <Section bordered={true} title="Your groups">
           <EventsList
             appliedEvents={
               error ? [] : usersEventsByParticipation.appliedEvents

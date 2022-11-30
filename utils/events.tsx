@@ -7,7 +7,6 @@ import {
   ExperimentOutlined,
   NotificationOutlined,
   QuestionOutlined,
-  TeamOutlined,
 } from '@ant-design/icons'
 import { Popover, Tag } from 'antd'
 
