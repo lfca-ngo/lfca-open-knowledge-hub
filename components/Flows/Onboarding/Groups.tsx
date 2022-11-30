@@ -3,7 +3,6 @@ import { Alert, Button, List, Popover, Space, Tag } from 'antd'
 import { ONBOARDING_STEPS, useAnalytics } from '../../../hooks/segment'
 import {
   EventCategory,
-  EventParticipantStatus,
   EventStatus,
   useEventsQuery,
 } from '../../../services/lfca-backend'
