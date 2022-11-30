@@ -1,7 +1,7 @@
 import { EyeOutlined } from '@ant-design/icons'
 import { Avatar, Card, Space } from 'antd'
 
-import { Recurrence, Status, Time } from '../EventMeta'
+import { Recurrence, Time } from '../EventMeta'
 import styles from './styles.module.less'
 import { matchStringToIcon } from './utils'
 
@@ -55,28 +55,29 @@ export const EventCardSmall = ({
             size={105}
           />
         </div>
-        <div className="summary">
-          <div className="title">{event.title}</div>
-          <div className="info">
-            <div className="event-meta">
-              <Space size="large">
-                <Status event={event} />
-                <Recurrence event={event} />
-                <Time event={event} />
-              </Space>
+        <Space>
+          <div className="summary">
+            <div className="title">{event.title}</div>
+            <div className="info">
+              <div className="event-meta">
+                <Space size="large">
+                  <Recurrence event={event} />
+                  <Time event={event} />
+                </Space>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="actions">
-          <Space>
-            <ToggleSubscribeButton
-              buttonProps={{
-                disabled: canUpdateSubscription,
-              }}
-              event={event}
-            />
-          </Space>
-        </div>
+          <div className="actions">
+            <Space>
+              <ToggleSubscribeButton
+                buttonProps={{
+                  disabled: !canUpdateSubscription,
+                }}
+                event={event}
+              />
+            </Space>
+          </div>
+        </Space>
       </div>
     </Card>
   )
