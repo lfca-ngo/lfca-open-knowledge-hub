@@ -6,7 +6,7 @@ import styles from './styles.module.less'
 import { matchStringToIcon } from './utils'
 
 export interface EventCardSmallProps extends EventCardDefaultProps {
-  canUpdateSubscription: boolean
+  canUpdateEventStatus: boolean
 }
 
 import { useState } from 'react'
@@ -15,7 +15,7 @@ import { EventCardDefaultProps } from '.'
 import { ToggleSubscribeButton } from './ToggleSubscribeButton'
 
 export const EventCardSmall = ({
-  canUpdateSubscription,
+  canUpdateEventStatus,
   event,
   onClick,
 }: EventCardSmallProps) => {
@@ -71,7 +71,7 @@ export const EventCardSmall = ({
             <Space>
               <ToggleSubscribeButton
                 buttonProps={{
-                  disabled: !canUpdateSubscription,
+                  disabled: !canUpdateEventStatus,
                 }}
                 event={event}
               />

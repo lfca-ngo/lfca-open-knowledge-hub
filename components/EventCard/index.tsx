@@ -42,7 +42,7 @@ export const EventCard = ({ event, isAllowedToJoin, type }: EventCardProps) => {
     event.participationStatus === EventParticipantStatus.USER_RSVP_ACCEPTED
   const eventIsPending =
     event.participationStatus === EventParticipantStatus.AWAITING_ADMIN_APPROVAL
-  const canUpdateSubscription =
+  const canUpdateEventStatus =
     isAllowedToJoin || eventIsPending || eventIsApproved
 
   const renderCard = () => {
@@ -50,7 +50,7 @@ export const EventCard = ({ event, isAllowedToJoin, type }: EventCardProps) => {
       case 'small':
         return (
           <EventCardSmall
-            canUpdateSubscription={canUpdateSubscription}
+            canUpdateEventStatus={canUpdateEventStatus}
             event={event}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
@@ -67,7 +67,7 @@ export const EventCard = ({ event, isAllowedToJoin, type }: EventCardProps) => {
       default:
         return (
           <EventCardDefault
-            canUpdateSubscription={canUpdateSubscription}
+            canUpdateEventStatus={canUpdateEventStatus}
             event={event}
             onClick={() => setDetailsVisible(true)}
             onClose={() => setDetailsVisible(false)}
@@ -136,7 +136,7 @@ export const EventCard = ({ event, isAllowedToJoin, type }: EventCardProps) => {
           <ToggleSubscribeButton
             buttonProps={{
               block: true,
-              disabled: !canUpdateSubscription,
+              disabled: !canUpdateEventStatus,
               size: 'large',
             }}
             event={event}
