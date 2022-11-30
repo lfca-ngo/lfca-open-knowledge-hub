@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+}
+
+.text {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  margin-left: 16px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.company {
+  color: fade(@black, 40%);
+  display: inline-block;
+  font-size: @font-size-xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}

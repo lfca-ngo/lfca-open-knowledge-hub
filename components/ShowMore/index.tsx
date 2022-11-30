@@ -5,12 +5,14 @@ import React, { createRef, useState } from 'react'
 import styles from './styles.module.less'
 
 export const ShowMore = ({
+  className,
   blurColor = '#fff',
   buttonProps = { size: 'small' },
   maxHeight,
   maskMode = 'blur',
   text,
 }: {
+  className?: string
   blurColor?: string
   buttonProps?: ButtonProps
   text: string | React.ReactNode
@@ -45,7 +47,7 @@ export const ShowMore = ({
       })}
     >
       <div
-        className="show-more-content"
+        className={`show-more-content ${className || ''}`}
         ref={contentRef}
         style={isExpanded ? undefined : { maxHeight: maxHeight }}
       >
