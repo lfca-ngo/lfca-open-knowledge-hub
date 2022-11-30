@@ -1,8 +1,8 @@
-import { ExperimentOutlined } from '@ant-design/icons'
-import { Popover, Tabs, Tag } from 'antd'
+import { Tabs } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useState } from 'react'
 
+import { EmptyState } from '../../components/EmptyState'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -81,7 +81,14 @@ const Groups: NextPage = () => {
 
           <EventsList
             appliedEvents={error ? [] : eventsByParticipation.appliedEvents}
-            customEmptyState={<div>jo</div>}
+            customEmptyState={
+              <EmptyState
+                alignment="center"
+                size="small"
+                text="Keep an eye on your emails to make sure you don't miss out!"
+                title="No upcoming groups or events"
+              />
+            }
             events={error ? [] : eventsByParticipation.otherEvents}
             fetching={fetching}
             participatingEvents={

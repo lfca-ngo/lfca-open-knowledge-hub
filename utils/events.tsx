@@ -4,10 +4,12 @@ import {
   CloseOutlined,
   CommentOutlined,
   ExclamationOutlined,
+  ExperimentOutlined,
   NotificationOutlined,
   QuestionOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
+import { Popover, Tag } from 'antd'
 
 import {
   EventCategory,
@@ -94,8 +96,23 @@ export const eventCategoryMetaData = (category: EventCategory) => {
             </p>
           </>
         ),
-        icon: <TeamOutlined />,
-        name: 'Mastermind Groups',
+        icon: null,
+        name: (
+          <>
+            Mastermind Groups{' '}
+            <Popover
+              content="During our BETA program, the master mind groups are available to all community members. From 03/23 they will be part of the BASIC+ tiers"
+              overlayClassName="popover-lg"
+            >
+              <Tag
+                color="blue"
+                icon={<ExperimentOutlined style={{ margin: 0 }} />}
+              >
+                BETA
+              </Tag>
+            </Popover>
+          </>
+        ),
         sortValue: 300,
       }
     case EventCategory.ONBOARDING_COURSE:
