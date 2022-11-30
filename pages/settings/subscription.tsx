@@ -3,11 +3,12 @@ import type { NextPage } from 'next'
 import { Main, Section, SiderLayout } from '../../components/Layout'
 import { Container } from '../../components/Layout/Container'
 import { SubscriptionSelector } from '../../components/SubscriptionSelector'
+import { SETTINGS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils-server-only'
 
 const SubscriptionPage: NextPage = () => {
   return (
-    <SiderLayout>
+    <SiderLayout nav={SETTINGS_NAV}>
       <Main>
         <Section title="Your membership" titleSize="big">
           <Container size="lg">
