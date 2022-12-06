@@ -157,7 +157,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       ),
       renderCondition: () => true,
     },
-
     {
       children: () => (
         <>
