@@ -66,15 +66,15 @@ export const Comments = ({ actionContentId, title }: CommentsProps) => {
   useEffect(() => {
     // once loading is done, set the active tab based
     // on whether or not comments are available
-    if (activeTab === LOADING_KEY) {
+    if (activeTab === LOADING_KEY && !fetching) {
       setActiveTab(data?.actionComments.length ? INITIAL_KEY : EMPTY_KEY)
     }
     // if the comments where empty and a new one is being added
     // jump to the new comment
-    if (activeTab === EMPTY_KEY && data?.actionComments.length) {
+    else if (activeTab === EMPTY_KEY && data?.actionComments.length) {
       setActiveTab(INITIAL_KEY)
     }
-  }, [data, activeTab])
+  }, [data, activeTab, fetching])
 
   return (
     <div className={styles.comments}>
