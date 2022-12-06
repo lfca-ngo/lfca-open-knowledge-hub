@@ -46,7 +46,13 @@ export const MainNav = () => {
   }, [isAdmin, isPaying]) as ItemType[]
 
   const handleSelect = ({ key }: { key: string }) => {
-    router.push(key)
+    const isExternalLink = key.startsWith('http')
+    // open external links in a new tab
+    if (isExternalLink) {
+      window.open(key, '_blank')
+    } else {
+      router.push(key)
+    }
   }
 
   return (

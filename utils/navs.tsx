@@ -1,12 +1,11 @@
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
+  ArrowRightOutlined,
   BankOutlined,
-  CalculatorOutlined,
   CalendarOutlined,
   CarryOutOutlined,
   CheckCircleOutlined,
-  InsertRowLeftOutlined,
   LikeOutlined,
   LoadingOutlined,
   LockOutlined,
@@ -17,6 +16,7 @@ import {
   RocketOutlined,
   SettingOutlined,
   ShareAltOutlined,
+  SlackOutlined,
   StarOutlined,
   TeamOutlined,
   ThunderboltOutlined,
@@ -25,6 +25,7 @@ import {
 } from '@ant-design/icons'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
 
+import { OPEN_SLACK_LINK, SLACK_INVITE_URL } from '.'
 import {
   ACHIEVEMENTS,
   ACTIONS,
@@ -39,7 +40,6 @@ import {
   ADMIN_SETTINGS,
   ADMIN_USERS,
   COMMUNITY_GROUPS,
-  PERSONAL_FOOTPRINT_CALCULATOR,
   REFERRAL_PROGRAM,
   SERVICE_PROVIDERS,
   SETTINGS,
@@ -48,7 +48,6 @@ import {
   SETTINGS_SUBSCRIPTION,
   SUPPORT,
   TOOLS,
-  USEFUL_LINKS,
 } from './routes'
 
 export const LOGOUT = 'logout'
@@ -84,31 +83,16 @@ export const SETTINGS_NAV = [
   { key: SETTINGS_SUBSCRIPTION, label: 'Your membership' },
 ]
 
-export const OTHER_NAV = [
+export const SLACK_NAV: ItemType[] = [
   {
-    icon: <AppstoreAddOutlined />,
-    key: SERVICE_PROVIDERS,
-    label: 'Tool Comparison',
-  },
-  {
-    icon: <CalculatorOutlined />,
-    key: PERSONAL_FOOTPRINT_CALCULATOR,
-    label: 'Personal Footprint Calculator',
+    icon: <ArrowRightOutlined />,
+    key: OPEN_SLACK_LINK,
+    label: 'Open',
   },
   {
     icon: <ShareAltOutlined />,
-    key: REFERRAL_PROGRAM,
-    label: 'Referral',
-  },
-  {
-    icon: <ProfileOutlined />,
-    key: USEFUL_LINKS,
-    label: 'Links',
-  },
-  {
-    icon: <QuestionCircleOutlined />,
-    key: SUPPORT,
-    label: 'Help',
+    key: SLACK_INVITE_URL,
+    label: 'Register',
   },
 ]
 
@@ -145,7 +129,7 @@ export const PROFILE_NAV = (loading: boolean) => [
   },
 ]
 
-export const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS]
+export const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS, SERVICE_PROVIDERS]
 
 export const NAV_ITEMS_DEFAULT: ItemType[] = [
   {
@@ -165,10 +149,20 @@ export const NAV_ITEMS_DEFAULT: ItemType[] = [
     label: 'Achievements',
   },
   {
-    children: OTHER_NAV,
-    icon: <InsertRowLeftOutlined />,
-    key: TOOLS,
-    label: 'Quick Access',
+    icon: <AppstoreAddOutlined />,
+    key: SERVICE_PROVIDERS,
+    label: 'Tool Comparison',
+  },
+  {
+    icon: <ShareAltOutlined />,
+    key: REFERRAL_PROGRAM,
+    label: 'Referral',
+  },
+  {
+    children: SLACK_NAV,
+    icon: <SlackOutlined />,
+    key: SLACK_INVITE_URL,
+    label: 'Slack',
   },
 ]
 
