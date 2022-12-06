@@ -10,8 +10,9 @@ import EmojiPicker, {
   SkinTones,
   Theme,
 } from 'emoji-picker-react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
+import { useLocalStorage } from '../../../hooks/useLocalStorage'
 import { useUser } from '../../../hooks/user'
 import AddReactionIcon from '../../../public/img/icons/add-reaction.svg'
 import {
@@ -41,17 +42,14 @@ const SKIN_TONE_STORAGE_KEY = 'emoji_skin_tone'
 
 export const CommentItem = ({ comment, isChild, onEdit }: CommentItemProps) => {
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false)
-  const [emojiSkinTone, setEmojiSkinTone] = useState<SkinTones>(
-    (localStorage.getItem(SKIN_TONE_STORAGE_KEY) as SkinTones) ||
-      SkinTones.NEUTRAL
+
+  const [emojiSkinTone, setEmojiSkinTone] = useLocalStorage<SkinTones>(
+    SKIN_TONE_STORAGE_KEY,
+    SkinTones.NEUTRAL
   )
+
   const [, deleteActionComment] = useDeleteActionCommentMutation()
   const [, reactOnActionComment] = useReactOnActionCommentMutation()
-
-  // Persist skintone changes in local storage
-  useEffect(() => {
-    localStorage.setItem(SKIN_TONE_STORAGE_KEY, emojiSkinTone)
-  }, [emojiSkinTone])
 
   const onDelete = async () => {
     await deleteActionComment({
