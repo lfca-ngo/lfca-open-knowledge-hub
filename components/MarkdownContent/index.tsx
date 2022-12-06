@@ -7,7 +7,10 @@ const renderer = new marked.Renderer()
 const linkRenderer = renderer.link
 renderer.link = (href: string, title: string, text: string) => {
   const html = linkRenderer.call(renderer, href, title, text)
-  return html.replace(/^<a /, '<a target="_blank" rel="nofollow" ')
+  return html.replace(
+    /^<a /,
+    '<a style="word-break: break-all;" target="_blank" rel="nofollow" '
+  )
 }
 
 interface MarkdownContentProps {
