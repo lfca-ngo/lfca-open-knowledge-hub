@@ -3,11 +3,14 @@ import Icon, {
   EditOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
 import { Button, Popconfirm, Popover, Space } from 'antd'
 import classNames from 'classnames'
-import React, { useState } from 'react'
+import EmojiPicker, {
+  SkinTonePickerLocation,
+  SkinTones,
+  Theme,
+} from 'emoji-picker-react'
+import React, { useEffect, useState } from 'react'
 
 import { useUser } from '../../../hooks/user'
 import AddReactionIcon from '../../../public/img/icons/add-reaction.svg'
@@ -34,11 +37,21 @@ interface CommentItemProps {
 }
 
 const VISIBLE_ROWS = 7
+const SKIN_TONE_STORAGE_KEY = 'emoji_skin_tone'
 
 export const CommentItem = ({ comment, isChild, onEdit }: CommentItemProps) => {
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false)
+  const [emojiSkinTone, setEmojiSkinTone] = useState<SkinTones>(
+    (localStorage.getItem(SKIN_TONE_STORAGE_KEY) as SkinTones) ||
+      SkinTones.NEUTRAL
+  )
   const [, deleteActionComment] = useDeleteActionCommentMutation()
   const [, reactOnActionComment] = useReactOnActionCommentMutation()
+
+  // Persist skintone changes in local storage
+  useEffect(() => {
+    localStorage.setItem(SKIN_TONE_STORAGE_KEY, emojiSkinTone)
+  }, [emojiSkinTone])
 
   const onDelete = async () => {
     await deleteActionComment({
@@ -140,13 +153,16 @@ export const CommentItem = ({ comment, isChild, onEdit }: CommentItemProps) => {
         )}
         <Popover
           content={
-            <Picker
-              data={data}
-              onEmojiSelect={({ native }: { native: string }) => {
-                onReact(native)
+            <EmojiPicker
+              autoFocusSearch={false}
+              defaultSkinTone={emojiSkinTone}
+              onEmojiClick={({ activeSkinTone, emoji }) => {
+                onReact(emoji)
+                setEmojiSkinTone(activeSkinTone)
                 setEmojiPickerOpen(false)
               }}
-              theme="light"
+              skinTonePickerLocation={SkinTonePickerLocation.SEARCH}
+              theme={Theme.LIGHT}
             />
           }
           destroyTooltipOnHide={true}
