@@ -14,7 +14,7 @@ export const CommentAuthor = ({ author, className }: CommentAuthorProps) => {
     <div className={`${styles.wrapper} ${className || ''}`}>
       <UserAvatar avatarProps={{ shape: 'square', size: 45 }} user={author} />
       <div className={styles.text}>
-        <div className={styles.name}>{author?.firstName}</div>
+        <div className={styles.name}>{author?.firstName || 'Anonymous'}</div>
         <div className={styles.company}>{author?.company?.name}</div>
       </div>
     </div>

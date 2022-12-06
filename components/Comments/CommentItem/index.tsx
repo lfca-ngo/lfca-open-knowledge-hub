@@ -159,6 +159,9 @@ export const CommentItem = ({ comment, isChild, onEdit }: CommentItemProps) => {
                 setEmojiSkinTone(activeSkinTone)
                 setEmojiPickerOpen(false)
               }}
+              previewConfig={{
+                showPreview: false,
+              }}
               skinTonePickerLocation={SkinTonePickerLocation.SEARCH}
               theme={Theme.LIGHT}
             />
