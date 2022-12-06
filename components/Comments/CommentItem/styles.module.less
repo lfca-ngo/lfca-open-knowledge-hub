@@ -1,4 +1,8 @@
-.commentItem {
+.commentContainer {
+  width: 100%;
+}
+
+.commentContent {
   align-items: flex-start;
   display: flex;
   flex-direction: row;
@@ -14,12 +18,49 @@
   background: @white-grey;
   border-radius: @border-radius-base;
   flex: 1;
-  margin: 0 0 12px;
+  margin: 0;
   padding: 12px 20px;
   position: relative;
 
   &.childComment {
     margin-left: 12px;
+  }
+}
+
+.commentReactions {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 4px 0 12px 0;
+
+  :global {
+    .ant-btn {
+      font-size: 14px;
+      height: 22px;
+      padding: 0px 6px;
+      margin-left: 4px;
+    }
+  }
+}
+
+.reactionButton {
+  &[class~='ant-btn-primary'] {
+    background: @grey-light !important;
+    border-color: @grey-light;
+    font-weight: 600;
+  }
+}
+
+.emojiPickerPopover {
+  :global {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+
+    .EmojiPickerReact {
+      border-width: 0 !important;
+    }
   }
 }
 

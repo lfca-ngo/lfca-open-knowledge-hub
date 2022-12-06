@@ -23,6 +23,7 @@
     "cloudinary": "1.32.0",
     "contentful": "9.2.5",
     "crypto": "1.0.1",
+    "emoji-picker-react": "4.4.6",
     "firebase": "9.10.0",
     "flat": "5.0.2",
     "framer-motion": "6.3.3",

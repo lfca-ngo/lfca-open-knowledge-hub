@@ -1,0 +1,5 @@
+mutation reactOnActionComment($input: ReactOnActionCommentInput!) {
+  reactOnActionComment(input: $input) {
+    ...ActionComment
+  }
+}

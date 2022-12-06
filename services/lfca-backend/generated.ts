@@ -49,6 +49,7 @@ export type ActionComment = {
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   message: Scalars['String'];
+  reactions: Scalars['JSON'];
 };
 
 export type ActionCommentAttachment = {
@@ -583,6 +584,7 @@ export type Mutation = {
   processEventInviteToken: Event;
   processEventRSVPToken: Event;
   purgeCache: Scalars['Boolean'];
+  reactOnActionComment: ActionComment;
   registerUser: User;
   removeEventParticipant: Event;
   requestPasswordReset: Scalars['Boolean'];
@@ -695,6 +697,11 @@ export type MutationProcessEventRsvpTokenArgs = {
 };
 
 
+export type MutationReactOnActionCommentArgs = {
+  input: ReactOnActionCommentInput;
+};
+
+
 export type MutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
@@ -782,6 +789,7 @@ export type QualifiedCompaniesInputFilter = {
 export type Query = {
   __typename?: 'Query';
   achievementFunnelStats: AchievementFunnelStats;
+  /** @deprecated Use `actionComments` query */
   actionCommentAttachments: Array<ActionCommentAttachment>;
   actionComments: Array<ActionComment>;
   actionStats: Array<ActionStats>;
@@ -911,6 +919,12 @@ export type QueryUserInvitesArgs = {
 
 export type QueryUsersArgs = {
   input?: InputMaybe<UsersInput>;
+};
+
+export type ReactOnActionCommentInput = {
+  actionCommentId: Scalars['ID'];
+  reaction: Scalars['String'];
+  remove?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type RegisterUserCompanyInput = {
@@ -1263,7 +1277,7 @@ export type UsersResult = {
 
 export type ActionCommentAttachmentFragment = { __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string };
 
-export type ActionCommentFragment = { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> };
+export type ActionCommentFragment = { __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> };
 
 export type CategoryFragment = { __typename?: 'Category', id: string, name?: string | null };
 
@@ -1352,7 +1366,7 @@ export type CreateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> } };
+export type CreateActionCommentMutation = { __typename?: 'Mutation', createActionComment: { __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> } };
 
 export type CreateCompanyExportMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -1465,6 +1479,13 @@ export type PurgeCacheMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type PurgeCacheMutation = { __typename?: 'Mutation', purgeCache: boolean };
 
+export type ReactOnActionCommentMutationVariables = Exact<{
+  input: ReactOnActionCommentInput;
+}>;
+
+
+export type ReactOnActionCommentMutation = { __typename?: 'Mutation', reactOnActionComment: { __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> } };
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -1505,7 +1526,7 @@ export type UpdateActionCommentMutationVariables = Exact<{
 }>;
 
 
-export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> } };
+export type UpdateActionCommentMutation = { __typename?: 'Mutation', updateActionComment: { __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> } };
 
 export type UpdateCompanyMutationVariables = Exact<{
   input: UpdateCompanyInput;
@@ -1547,7 +1568,7 @@ export type ActionCommentsQueryVariables = Exact<{
 }>;
 
 
-export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', id: string, message: string, createdAt: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> }> };
+export type ActionCommentsQuery = { __typename?: 'Query', actionComments: Array<{ __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null, children: Array<{ __typename?: 'ActionComment', createdAt: any, id: string, message: string, reactions: any, attachments: Array<{ __typename?: 'ActionCommentAttachment', fileName: string, fileSize: number, id: string, mimeType: string, source: string }>, author?: { __typename?: 'User', email: string, firstName: string, id: string, picture?: string | null, company?: { __typename?: 'Company', id: string, name?: string | null } | null } | null }> }> };
 
 export type CompaniesQueryVariables = Exact<{
   input?: InputMaybe<CompaniesInput>;
@@ -1712,13 +1733,15 @@ export const ActionCommentFragmentDoc = gql`
     author {
       ...UserAvatar
     }
+    createdAt
     id
     message
-    createdAt
+    reactions
   }
+  createdAt
   id
   message
-  createdAt
+  reactions
 }
     ${ActionCommentAttachmentFragmentDoc}
 ${UserAvatarFragmentDoc}`;
@@ -2327,6 +2350,17 @@ export const PurgeCacheDocument = gql`
 
 export function usePurgeCacheMutation() {
   return Urql.useMutation<PurgeCacheMutation, PurgeCacheMutationVariables>(PurgeCacheDocument);
+};
+export const ReactOnActionCommentDocument = gql`
+    mutation reactOnActionComment($input: ReactOnActionCommentInput!) {
+  reactOnActionComment(input: $input) {
+    ...ActionComment
+  }
+}
+    ${ActionCommentFragmentDoc}`;
+
+export function useReactOnActionCommentMutation() {
+  return Urql.useMutation<ReactOnActionCommentMutation, ReactOnActionCommentMutationVariables>(ReactOnActionCommentDocument);
 };
 export const RegisterUserDocument = gql`
     mutation registerUser($input: RegisterUserInput!) {
