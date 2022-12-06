@@ -12,11 +12,13 @@ fragment ActionComment on ActionComment {
     author {
       ...UserAvatar
     }
+    createdAt
     id
     message
-    createdAt
+    reactions
   }
+  createdAt
   id
   message
-  createdAt
+  reactions
 }
