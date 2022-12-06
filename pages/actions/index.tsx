@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 
@@ -8,19 +8,13 @@ import {
   CompanyActionListItemFragmentWithRootCategory,
 } from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
-import { ContentList } from '../../components/ContentList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import categoryTreeData from '../../public/data/_category-tree-data.json'
-import {
-  ContentfulContentCollectionFields,
-  RootCategoryLookUpProps,
-} from '../../services/contentful'
-import { CategoryTreeProps } from '../../services/contentful'
-import { fetchContentCollectionById } from '../../services/contentful/fetch-all-content-collections'
+import { RootCategoryLookUpProps } from '../../services/contentful'
 import {
   EMPTY_ACTIONS,
   useCompanyActionsListQuery,
@@ -29,12 +23,7 @@ import {
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils-server-only'
 
-interface HomePageProps {
-  content: ContentfulContentCollectionFields
-  categoryTree: CategoryTreeProps
-}
-
-const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
+const Home: NextPage = () => {
   const rootCategoryLookUp: RootCategoryLookUpProps =
     categoryTreeData.rootCategoryLookUp
   const { resetPosition } = usePersistentNavigation(false)
@@ -124,23 +113,9 @@ const Home: NextPage<HomePageProps> = ({ content }: HomePageProps) => {
             type="compact"
           />
         </Section>
-
-        <Section title="Links">
-          <ContentList content={content} type="mini-list" />
-        </Section>
       </Sider>
     </SiderLayout>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const content = await fetchContentCollectionById('community')
-
-  return {
-    props: {
-      content,
-    },
-  }
 }
 
 export default withAuth(Home)
