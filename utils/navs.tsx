@@ -161,7 +161,7 @@ export const NAV_ITEMS_DEFAULT: ItemType[] = [
   {
     children: SLACK_NAV,
     icon: <SlackOutlined />,
-    key: SLACK_INVITE_URL,
+    key: 'slack',
     label: 'Slack',
   },
 ]

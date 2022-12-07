@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Radio, Space } from 'antd'
+import { Button, Checkbox, Form, Input, message, Radio, Space } from 'antd'
 import React from 'react'
 
 import {
@@ -22,12 +22,16 @@ export const MessageParticipantsForm = ({
 
   const handleSubmit = async ({
     body,
+    includeAddToCalendarBtn,
+    includeJoinCallBtn,
     status,
     subject,
   }: {
     subject?: string
     body: string
-    status: EventParticipantStatus | null
+    includeAddToCalendarBtn: boolean
+    includeJoinCallBtn: boolean
+    status?: EventParticipantStatus
   }) => {
     const res = await messageEventParticipants({
       input: {
@@ -35,6 +39,8 @@ export const MessageParticipantsForm = ({
         filter: {
           status,
         },
+        includeAddToCalendarBtn,
+        includeJoinCallBtn,
         message: body,
         subject,
       },
@@ -50,13 +56,19 @@ export const MessageParticipantsForm = ({
   }
 
   return (
-    <Form form={form} layout="vertical" onFinish={handleSubmit}>
+    <Form
+      form={form}
+      initialValues={{
+        status: EventParticipantStatus.USER_RSVP_ACCEPTED,
+      }}
+      layout="vertical"
+      onFinish={handleSubmit}
+    >
       <Form.Item label="Subject (optional)" name="subject">
         <Input placeholder="Event title is used if none is provided" />
       </Form.Item>
 
       <Form.Item
-        key="body"
         label="Message"
         name="body"
         rules={[{ message: 'Please write a message!', required: true }]}
@@ -64,21 +76,7 @@ export const MessageParticipantsForm = ({
         <Input.TextArea placeholder="Type here..." />
       </Form.Item>
 
-      <Form.Item
-        initialValue={EventParticipantStatus.USER_RSVP_ACCEPTED}
-        key="status"
-        label="Participant status"
-        name="status"
-        rules={[
-          {
-            validator: (_, value) =>
-              value === null ||
-              Object.values(EventParticipantStatus).includes(value)
-                ? Promise.resolve()
-                : Promise.reject(new Error('Please select an option')),
-          },
-        ]}
-      >
+      <Form.Item label="Participant status" name="status">
         <Radio.Group>
           <Space direction="vertical">
             <Radio value={EventParticipantStatus.USER_RSVP_ACCEPTED}>
@@ -93,9 +91,25 @@ export const MessageParticipantsForm = ({
             <Radio value={EventParticipantStatus.AWAITING_ADMIN_APPROVAL}>
               Awaiting admin approval
             </Radio>
-            <Radio value={null}>All</Radio>
+            <Radio value={undefined}>All</Radio>
           </Space>
         </Radio.Group>
+      </Form.Item>
+
+      <Form.Item
+        name="includeAddToCalendarBtn"
+        style={{ marginBottom: 0 }}
+        valuePropName="checked"
+      >
+        <Checkbox>
+          Include <b>&quot;Add to calendar&quot;</b> CTA
+        </Checkbox>
+      </Form.Item>
+
+      <Form.Item name="includeJoinCallBtn" valuePropName="checked">
+        <Checkbox>
+          Include <b>&quot;Join call&quot;</b> CTA
+        </Checkbox>
       </Form.Item>
 
       <Form.Item>

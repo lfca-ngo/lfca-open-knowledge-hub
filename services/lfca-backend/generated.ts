@@ -545,6 +545,8 @@ export type InternalExternalUser = ExternalUser | User;
 export type MessageEventParticipantsInput = {
   eventId: Scalars['String'];
   filter?: InputMaybe<MessageEventParticipantsInputFilter>;
+  includeAddToCalendarBtn?: InputMaybe<Scalars['Boolean']>;
+  includeJoinCallBtn?: InputMaybe<Scalars['Boolean']>;
   message: Scalars['String'];
   subject?: InputMaybe<Scalars['String']>;
 };
