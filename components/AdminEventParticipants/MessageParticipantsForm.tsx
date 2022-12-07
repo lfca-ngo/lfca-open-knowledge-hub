@@ -22,11 +22,15 @@ export const MessageParticipantsForm = ({
 
   const handleSubmit = async ({
     body,
+    includeAddToCalendarBtn,
+    includeJoinCallBtn,
     status,
     subject,
   }: {
     subject?: string
     body: string
+    includeAddToCalendarBtn: boolean
+    includeJoinCallBtn: boolean
     status?: EventParticipantStatus
   }) => {
     const res = await messageEventParticipants({
@@ -35,6 +39,8 @@ export const MessageParticipantsForm = ({
         filter: {
           status,
         },
+        includeAddToCalendarBtn,
+        includeJoinCallBtn,
         message: body,
         subject,
       },
