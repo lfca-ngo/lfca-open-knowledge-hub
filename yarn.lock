@@ -6274,6 +6274,11 @@ map-cache@^0.2.0:
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
   integrity sha512-8y/eV9QQZCiyn1SprXSrCmqJN0yNRATe+PO8ztwqrvrbdRLA3eYJF0yaR0YayLWkMbsQSKWS9N2gPcGEc4UsZg==
 
+marked-plaintext@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/marked-plaintext/-/marked-plaintext-0.0.2.tgz#5d1a39311a2a91002f4715dcb519231c67adf097"
+  integrity sha512-6u/EfbyqTV8p9CqxFUOK3RUGo1KGULVUaiacKRjb+9VzXpGYYQlgff76xjlfxOGYpsDkzYg+l28CtGd86I6c0w==
+
 marked@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/marked/-/marked-4.1.0.tgz#3fc6e7485f21c1ca5d6ec4a39de820e146954796"
