@@ -1,5 +1,5 @@
 @sider-max-width: 300px;
-@main-max-width: 1200px;
+@main-max-width: 1150px;
 @container-max-width: calc(@main-max-width + @sider-max-width);
 
 .top-nav-layout {
@@ -7,18 +7,33 @@
   grid-template-columns:
     minmax(0, 1fr)
     minmax(0, @main-max-width)
-    minmax(@sider-max-width, auto)
+    minmax(0, 1fr)
     minmax(0, 1fr);
   grid-template-rows: 90px minmax(240px, auto) 240px;
   column-gap: 30px;
   max-width: 100%;
 
+  @media (min-width: @screen-xl) {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, @main-max-width)
+      minmax(@sider-max-width, auto)
+      minmax(0, 1fr);
+  }
+
   &.with-aside-left {
     grid-template-columns:
       minmax(0, 1fr)
-      minmax(@sider-max-width, auto)
+      minmax(0, 1fr)
       minmax(0, @main-max-width)
       minmax(0, 1fr);
+    @media (min-width: @screen-xl) {
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(@sider-max-width, auto)
+        minmax(0, @main-max-width)
+        minmax(0, 1fr);
+    }
   }
 }
 
@@ -46,8 +61,13 @@
 
   > div {
     max-width: @sider-max-width;
-    position: sticky;
-    top: 0;
+  }
+
+  &.sticky-sidebar {
+    > div {
+      position: sticky;
+      top: 0;
+    }
   }
 
   &.left {
@@ -68,4 +88,9 @@
   align-items: center;
   justify-content: center;
   max-width: 100vw;
+}
+
+.toggle-aside-btn {
+  position: absolute;
+  right: 0;
 }

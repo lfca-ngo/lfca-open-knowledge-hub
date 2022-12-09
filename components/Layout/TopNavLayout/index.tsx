@@ -4,17 +4,20 @@ import classNames from 'classnames'
 import React from 'react'
 
 import { Logo } from '../../Logo'
-import { Footer } from '../Footer'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
+import { Aside } from './Aside'
 import styles from './styles.module.less'
 
 const { Content, Header } = Layout
 
+export type AsidePosition = 'right' | 'left'
+
 interface TopNavLayoutProps {
   children: React.ReactNode
   aside?: React.ReactNode
-  asidePosition?: 'right' | 'left'
+  asidePosition?: AsidePosition
+  stickySidebar?: boolean
   nav?: MenuItemType[]
   goBack?: () => void
 }
@@ -25,6 +28,7 @@ export const TopNavLayout = ({
   children,
   goBack,
   nav,
+  stickySidebar,
 }: TopNavLayoutProps) => {
   const withAside = !!aside
 
@@ -40,6 +44,7 @@ export const TopNavLayout = ({
         <TopNav goBack={goBack} nav={nav} />
         <SettingsNav />
       </Header>
+
       {/* Main content */}
       <Content
         className={classNames(styles['top-nav-main'], {
@@ -49,19 +54,14 @@ export const TopNavLayout = ({
       >
         {children}
       </Content>
+
       {/* Side bar */}
       {aside && (
-        <aside
-          className={classNames(
-            styles['top-nav-aside'],
-            styles[`${asidePosition}`]
-          )}
-        >
+        <Aside asidePosition={asidePosition} stickySidebar={stickySidebar}>
           {aside}
-        </aside>
+        </Aside>
       )}
       <footer className={styles['top-nav-footer']}>Footer</footer>
-      {/* <Footer  /> */}
     </Layout>
   )
 }

@@ -1,6 +1,7 @@
-import { Form, FormInstance, Input, Select, Space } from 'antd'
+import { Button, Form, FormInstance, Input, Select, Space } from 'antd'
 import classNames from 'classnames'
-import React from 'react'
+import React, { useState } from 'react'
+import { useBreakpoints } from '../../hooks/useBreakpoints'
 
 import { CategoryTreeComponent } from './CategoryTree'
 import { RootCategorySelector } from './RootCategorySelector'
@@ -30,6 +31,35 @@ export const FilterBar = ({
   mode = 'default',
   onValuesChange,
 }: FilterBarProps) => {
+  const isDesktop = useBreakpoints().lg
+  const [open, setOpen] = useState(false)
+
+  const HeaderBar = (
+    <>
+      <div className="header-bar">
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Form.Item name="sorting">
+            <Select placeholder="Please select" size="small">
+              {SORT_OPTIONS.map((option) => (
+                <Select.Option key={option.key}>{option.label}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="search">
+            <Search placeholder="Search..." size="small" />
+          </Form.Item>
+        </Space>
+      </div>
+
+      <Space className="category-tree-container" direction="vertical">
+        <Form.Item name="categories">
+          <CategoryTreeComponent />
+        </Form.Item>
+      </Space>
+    </>
+  )
+
   return (
     <Form
       className={`filter-bar ${classNames(mode)}`}
@@ -48,30 +78,15 @@ export const FilterBar = ({
         </Space>
       ) : (
         <>
-          <div className="header-bar">
-            {/* <div className="title">Browse all actions</div> */}
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <Form.Item name="sorting">
-                <Select placeholder="Please select" size="small">
-                  {SORT_OPTIONS.map((option) => (
-                    <Select.Option key={option.key}>
-                      {option.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
+          {isDesktop ? (
+            HeaderBar
+          ) : (
+            <>
+              <Button onClick={() => setOpen(!open)}>Open</Button>
 
-              <Form.Item name="search">
-                <Search placeholder="Search..." size="small" />
-              </Form.Item>
-            </Space>
-          </div>
-
-          <Space className="category-tree-container" direction="vertical">
-            <Form.Item name="categories">
-              <CategoryTreeComponent />
-            </Form.Item>
-          </Space>
+              {open && HeaderBar}
+            </>
+          )}
         </>
       )}
     </Form>

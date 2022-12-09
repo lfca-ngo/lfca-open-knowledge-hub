@@ -51,13 +51,6 @@ export const ActionsCarousel = ({
         slidesToShow: 2,
       },
     },
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesToScroll: 3,
-        slidesToShow: 3,
-      },
-    },
   ]
 
   if (actions.length === 0)

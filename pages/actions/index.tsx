@@ -1,8 +1,8 @@
+import { Select } from 'antd'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 
-import { AchievementsListMini } from '../../components/AchievementsList'
 import {
   ActionsCarousel,
   CompanyActionListItemFragmentWithRootCategory,
@@ -10,16 +10,10 @@ import {
 import { ActionsList } from '../../components/ActionsList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
-import {
-  Main,
-  Section,
-  Sider,
-  SiderLayout,
-  TopNavLayout,
-} from '../../components/Layout'
-import { PayWall } from '../../components/PayWall'
+import { Main, Section, TopNavLayout } from '../../components/Layout'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
+import { useUser } from '../../hooks/user'
 import categoryTreeData from '../../public/data/_category-tree-data.json'
 import { RootCategoryLookUpProps } from '../../services/contentful'
 import {
@@ -31,8 +25,6 @@ import {
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils-server-only'
-import { Select } from 'antd'
-import { useUser } from '../../hooks/user'
 
 const DEFAULT_ACHIEVEMENT = 'netzeroready'
 
@@ -105,6 +97,7 @@ const Home: NextPage = () => {
         </Section>
       }
       nav={ACTIONS_NAV}
+      stickySidebar
     >
       <Main>
         <Section
@@ -113,6 +106,7 @@ const Home: NextPage = () => {
               {`What's next, ${user?.firstName}?`}
 
               <Select
+                loading={fetchingAchievements}
                 onChange={(val) => setAchievementId(val)}
                 size="large"
                 style={{
