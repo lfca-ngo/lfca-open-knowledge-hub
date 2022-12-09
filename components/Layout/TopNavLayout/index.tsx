@@ -30,28 +30,35 @@ export const TopNavLayout = ({
 
   return (
     <Layout
-      className={classNames(
-        styles['top-nav-layout'],
-        {
-          [styles['with-aside']]: withAside,
-        },
-        asidePosition
-      )}
+      className={classNames(styles['top-nav-layout'], {
+        [styles['with-aside']]: withAside,
+        [styles[`with-aside-${asidePosition}`]]: withAside,
+      })}
     >
       <Header className={styles['top-nav-header']}>
         <Logo centered />
         <TopNav goBack={goBack} nav={nav} />
         <SettingsNav />
       </Header>
-      {/* Left side bar */}
-      {asidePosition === 'left' && aside && (
-        <Content className={styles['top-nav-aside']}>{aside}</Content>
-      )}
       {/* Main content */}
-      <Content className={styles['top-nav-main']}>{children}</Content>
-      {/* Right side bar */}
-      {asidePosition === 'right' && aside && (
-        <Content className={styles['top-nav-aside']}>{aside}</Content>
+      <Content
+        className={classNames(styles['top-nav-main'], {
+          [styles[`with-aside-${asidePosition}`]]: withAside,
+        })}
+        style={{ width: 'auto' }}
+      >
+        {children}
+      </Content>
+      {/* Side bar */}
+      {aside && (
+        <aside
+          className={classNames(
+            styles['top-nav-aside'],
+            styles[`${asidePosition}`]
+          )}
+        >
+          {aside}
+        </aside>
       )}
       <footer className={styles['top-nav-footer']}>Footer</footer>
       {/* <Footer  /> */}

@@ -11,8 +11,15 @@
     minmax(0, 1fr);
   grid-template-rows: 90px minmax(240px, auto) 240px;
   column-gap: 30px;
-
   max-width: 100%;
+
+  &.with-aside-left {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(@sider-max-width, auto)
+      minmax(0, @main-max-width)
+      minmax(0, 1fr);
+  }
 }
 
 .top-nav-header {
@@ -26,6 +33,10 @@
 .top-nav-main {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+
+  &.with-aside-left {
+    grid-column: 3 / 4;
+  }
 }
 
 .top-nav-aside {
@@ -37,6 +48,14 @@
     max-width: @sider-max-width;
     position: sticky;
     top: 0;
+  }
+
+  &.left {
+    grid-column: 1 / 3;
+    > div {
+      margin-right: 0;
+      margin-left: auto;
+    }
   }
 }
 
