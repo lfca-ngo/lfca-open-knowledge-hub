@@ -10,20 +10,44 @@ import {
 import { ActionsList } from '../../components/ActionsList'
 import { EventsList } from '../../components/EventsList'
 import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
-import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import {
+  Main,
+  Section,
+  Sider,
+  SiderLayout,
+  TopNavLayout,
+} from '../../components/Layout'
 import { PayWall } from '../../components/PayWall'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import categoryTreeData from '../../public/data/_category-tree-data.json'
 import { RootCategoryLookUpProps } from '../../services/contentful'
 import {
+  EMPTY_ACHIEVEMENTS,
   EMPTY_ACTIONS,
+  useCompanyAchievementsMiniQuery,
   useCompanyActionsListQuery,
   useEventsQuery,
 } from '../../services/lfca-backend'
 import { ACTIONS_NAV } from '../../utils/navs'
 import { withAuth } from '../../utils-server-only'
+import { Select } from 'antd'
+import { useUser } from '../../hooks/user'
+
+const DEFAULT_ACHIEVEMENT = 'netzeroready'
 
 const Home: NextPage = () => {
+  const [{ data: companyAchievementsData, fetching: fetchingAchievements }] =
+    useCompanyAchievementsMiniQuery()
+
+  const { user } = useUser()
+  const achievements =
+    companyAchievementsData?.company?.program.achievements || EMPTY_ACHIEVEMENTS
+
+  const [achievementId, setAchievementId] = useLocalStorage(
+    'selected_achievement',
+    DEFAULT_ACHIEVEMENT
+  )
   const rootCategoryLookUp: RootCategoryLookUpProps =
     categoryTreeData.rootCategoryLookUp
   const { resetPosition } = usePersistentNavigation(false)
@@ -48,8 +72,12 @@ const Home: NextPage = () => {
       (actionsData?.companyActions || EMPTY_ACTIONS)
         .filter(
           (companyAction) =>
-            (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
-              companyAction.requiredForCompanyAchievementIds.length > 0 ||
+            (companyAction.recommendedForCompanyAchievementIds.indexOf(
+              achievementId
+            ) > -1 ||
+              companyAction.requiredForCompanyAchievementIds.indexOf(
+                achievementId
+              ) > -1 ||
               companyAction.plannedAt !== null) &&
             !companyAction.completedAt
         )
@@ -61,13 +89,49 @@ const Home: NextPage = () => {
               rootCategory: rootCategoryLookUp[action.categories[0]?.id],
             } as CompanyActionListItemFragmentWithRootCategory)
         ),
-    [actionsData, rootCategoryLookUp]
+    [actionsData, achievementId, rootCategoryLookUp]
   )
 
   return (
-    <SiderLayout nav={ACTIONS_NAV}>
+    <TopNavLayout
+      aside={
+        <Section title="Your groups">
+          <EventsList
+            events={eventsByParticipation?.participatingEvents || []}
+            fetching={fetching}
+            isAllowedToJoin={true}
+            type="compact"
+          />
+        </Section>
+      }
+      nav={ACTIONS_NAV}
+    >
       <Main>
-        <Section title="What's next?" titleSize="big">
+        <Section
+          title={
+            <div style={{ alignItems: 'center', display: 'flex' }}>
+              {`What's next, ${user?.firstName}?`}
+
+              <Select
+                onChange={(val) => setAchievementId(val)}
+                size="large"
+                style={{
+                  marginLeft: 'auto',
+                  marginRight: '0',
+                  width: '200px',
+                }}
+                value={achievementId}
+              >
+                {achievements?.map((achievement) => (
+                  <Select.Option key={achievement.contentId}>
+                    {achievement.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
+          }
+          titleSize="big"
+        >
           <ActionsCarousel
             actions={highlightedActions}
             fetching={fetchingActions}
@@ -88,33 +152,7 @@ const Home: NextPage = () => {
           />
         </Section>
       </Main>
-      <Sider>
-        <Section title="Achievements">
-          <PayWall
-            popoverContent={
-              <div>
-                <p>
-                  By unlocking achievements, you get your own custom microsite
-                  to share your climate action journey in realtime with your
-                  team and partners.
-                </p>
-              </div>
-            }
-            popoverTitle="What's waiting for you"
-          >
-            <AchievementsListMini />
-          </PayWall>
-        </Section>
-        <Section title="Your groups">
-          <EventsList
-            events={eventsByParticipation?.participatingEvents || []}
-            fetching={fetching}
-            isAllowedToJoin={true}
-            type="compact"
-          />
-        </Section>
-      </Sider>
-    </SiderLayout>
+    </TopNavLayout>
   )
 }
 

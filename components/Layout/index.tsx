@@ -3,6 +3,7 @@ import { OneColLayout } from './OneColLayout'
 import { Main, Section, Sider } from './Sections'
 import { SiderLayout } from './SiderLayout'
 import { StepsLayout } from './StepsLayout'
+import { TopNavLayout } from './TopNavLayout'
 
 export {
   Container,
@@ -12,4 +13,5 @@ export {
   Sider,
   SiderLayout,
   StepsLayout,
+  TopNavLayout,
 }

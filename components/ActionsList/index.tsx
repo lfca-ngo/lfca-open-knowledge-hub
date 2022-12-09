@@ -1,4 +1,5 @@
-import { Divider, Form, List } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Col, Divider, Form, List, Row, Space } from 'antd'
 import React, { useMemo } from 'react'
 
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
@@ -84,48 +85,69 @@ export const ActionsList = ({
 
   return (
     <div className={styles['actions-list']}>
-      <FilterBar
-        form={form}
-        initialValues={formOptions}
-        mode={mode}
-        onValuesChange={handleChange}
-      />
-      <Divider />
-      <List
-        className="no-padding"
-        dataSource={filteredActions}
-        pagination={{
-          current: currentPage,
-          defaultCurrent: currentPage,
-          onChange: (page) =>
-            persistentNavigation &&
-            savePosition({
-              ...persistentNavigation,
-              currentPage: page,
-              scrollPosition: window.scrollY,
-            }),
-          pageSize: pageSize,
-        }}
-        renderItem={(item) => {
-          return (
-            <List.Item>
-              <ActionCardSkeleton fetching={fetching}>
-                <ActionCardWrapper
-                  action={item}
-                  onSavePosition={() => {
-                    persistentNavigation &&
-                      savePosition({
-                        ...persistentNavigation,
-                        scrollPosition: window.scrollY,
-                      })
-                  }}
-                  {...actionListItemProps}
-                />
-              </ActionCardSkeleton>
-            </List.Item>
-          )
-        }}
-      />
+      <Row>
+        <Col
+          style={{ alignItems: 'center', display: 'flex', width: '100%' }}
+          xs={24}
+        >
+          <h2 style={{ margin: '0' }}>Browse all actions</h2>
+          <Button
+            icon={<PlusOutlined />}
+            style={{ marginLeft: 'auto', marginRight: '0' }}
+            type="primary"
+          >
+            Create
+          </Button>
+        </Col>
+      </Row>
+      <Divider style={{ marginBottom: '30px' }} />
+      <Row gutter={40}>
+        <Col lg={6} xs={24}>
+          <FilterBar
+            form={form}
+            initialValues={formOptions}
+            mode={mode}
+            onValuesChange={handleChange}
+          />
+        </Col>
+        <Col lg={18} xs={24}>
+          <List
+            className="no-padding"
+            dataSource={filteredActions}
+            pagination={{
+              current: currentPage,
+              defaultCurrent: currentPage,
+              onChange: (page) =>
+                persistentNavigation &&
+                savePosition({
+                  ...persistentNavigation,
+                  currentPage: page,
+                  scrollPosition: window.scrollY,
+                }),
+              pageSize: pageSize,
+            }}
+            renderItem={(item) => {
+              return (
+                <List.Item>
+                  <ActionCardSkeleton fetching={fetching}>
+                    <ActionCardWrapper
+                      action={item}
+                      onSavePosition={() => {
+                        persistentNavigation &&
+                          savePosition({
+                            ...persistentNavigation,
+                            scrollPosition: window.scrollY,
+                          })
+                      }}
+                      {...actionListItemProps}
+                    />
+                  </ActionCardSkeleton>
+                </List.Item>
+              )
+            }}
+          />
+        </Col>
+      </Row>
     </div>
   )
 }

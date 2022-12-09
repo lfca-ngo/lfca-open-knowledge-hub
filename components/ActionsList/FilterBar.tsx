@@ -49,8 +49,8 @@ export const FilterBar = ({
       ) : (
         <>
           <div className="header-bar">
-            <div className="title">Browse all actions</div>
-            <Space>
+            {/* <div className="title">Browse all actions</div> */}
+            <Space direction="vertical" style={{ width: '100%' }}>
               <Form.Item name="sorting">
                 <Select placeholder="Please select" size="small">
                   {SORT_OPTIONS.map((option) => (
