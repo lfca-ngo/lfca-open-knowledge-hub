@@ -1,8 +1,8 @@
 import { Button, Form, FormInstance, Input, Select, Space } from 'antd'
 import classNames from 'classnames'
 import React, { useState } from 'react'
-import { useBreakpoints } from '../../hooks/useBreakpoints'
 
+import { useBreakpoints } from '../../hooks/useBreakpoints'
 import { CategoryTreeComponent } from './CategoryTree'
 import { RootCategorySelector } from './RootCategorySelector'
 

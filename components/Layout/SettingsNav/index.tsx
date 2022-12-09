@@ -45,12 +45,12 @@ export const SettingsNav = () => {
             style={{ backgroundColor: '#6A1246' }}
           />
         </div>
-        <div className="profile-info">
+        {/* <div className="profile-info">
           <div className="name">
             {user?.firstName || ''} {user?.lastName || ''}
           </div>
           <div className="company">{user?.company?.name}</div>
-        </div>
+        </div> */}
       </a>
     </Dropdown>
   )

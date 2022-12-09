@@ -2,23 +2,19 @@ import { ArrowLeftOutlined, EllipsisOutlined } from '@ant-design/icons'
 import { Button, Dropdown } from 'antd'
 import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
+// import { useRouter } from 'next/router'
 import { useBreakpoints } from '../../../hooks/useBreakpoints'
 import styles from './styles.module.less'
 
 const Menu = ({ nav }: { nav: MenuItemType[] }) => {
-  const router = useRouter()
+  // const router = useRouter()
 
   return (
     <ul className={styles['top-nav']}>
       {nav.map((item, i) => (
         <li key={`item-${i}`}>
-          <Link href={`${item.key}`}>
-            <Button type={router.pathname === item.key ? 'default' : 'link'}>
-              {item.label}
-            </Button>
-          </Link>
+          <Link href={`${item.key}`}>{item.label}</Link>
         </li>
       ))}
     </ul>
