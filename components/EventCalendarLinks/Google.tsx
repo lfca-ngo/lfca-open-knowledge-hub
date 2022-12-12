@@ -4,7 +4,7 @@ import {
   hasGrantedAllScopesGoogle,
   useGoogleLogin,
 } from '@react-oauth/google'
-import { Button, message, Modal, Radio, Space } from 'antd'
+import { Button, message, Modal, Radio, Skeleton, Space } from 'antd'
 import axios from 'axios'
 import React, { useState } from 'react'
 
@@ -47,6 +47,7 @@ export const GoogleButton = ({ event }: GoogleProps) => {
         )
         if (!hasAccess) throw new Error('Missing calendar permission')
         setAccessToken(access_token)
+        setEventListModalOpen(true)
 
         const calendarList = await axios.get('/api/get-google-calendar-list', {
           params: {
@@ -55,7 +56,6 @@ export const GoogleButton = ({ event }: GoogleProps) => {
         })
         setCalendarList(calendarList.data)
         setSelectedCalendarId(calendarList.data[0]?.id)
-        setEventListModalOpen(true)
       } catch (e) {
         message.error(
           (e as { message?: string }).message || 'Seomthing went wrong'
@@ -101,18 +101,25 @@ export const GoogleButton = ({ event }: GoogleProps) => {
         open={eventListModalOpen}
         title="Select a calendar where the event should be added"
       >
-        <Radio.Group
-          onChange={(e) => setSelectedCalendarId(e.target.value)}
-          value={selectedCalendarId}
+        <Skeleton
+          active
+          loading={!calendarList.length}
+          paragraph={{ rows: 2 }}
+          title={false}
         >
-          <Space direction="vertical">
-            {calendarList.map((c) => (
-              <Radio key={c.id} value={c.id}>
-                {c.name}
-              </Radio>
-            ))}
-          </Space>
-        </Radio.Group>
+          <Radio.Group
+            onChange={(e) => setSelectedCalendarId(e.target.value)}
+            value={selectedCalendarId}
+          >
+            <Space direction="vertical">
+              {calendarList.map((c) => (
+                <Radio key={c.id} value={c.id}>
+                  {c.name}
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        </Skeleton>
       </Modal>
     </>
   )

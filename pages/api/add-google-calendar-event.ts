@@ -55,7 +55,9 @@ export default async function handler(
               timeZone: 'Europe/Berlin',
             },
             iCalUID: event.id,
-            recurrence: [`RRULE:${event.recurrenceRule}`],
+            recurrence: event.recurrenceRule
+              ? [`RRULE:${event.recurrenceRule}`]
+              : undefined,
             start: {
               dateTime: event.start,
               timeZone: 'Europe/Berlin',
