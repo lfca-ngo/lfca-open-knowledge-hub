@@ -124,7 +124,7 @@ interface GoogleProps {
 
 export const Google = (props: GoogleProps) => {
   return (
-    <GoogleOAuthProvider clientId="808063399899-0u75ta5m573moec6b3v0m5udu7qbgrb1.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
       <GoogleButton {...props} />
     </GoogleOAuthProvider>
   )
