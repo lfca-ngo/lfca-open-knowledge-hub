@@ -3,6 +3,7 @@ import { Button, Space } from 'antd'
 import React, { useMemo } from 'react'
 
 import { EVENTS, useAnalytics } from '../../hooks/segment'
+import { useUser } from '../../hooks/user'
 import { EventFragment } from '../../services/lfca-backend'
 import { generateCalendarLinks } from '../../utils/generate-calendar-links'
 import { Google } from './Google'
@@ -15,6 +16,8 @@ interface EventCalendarLinksProps {
 export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
   const analytics = useAnalytics()
 
+  const { isAdmin } = useUser()
+
   const { icsLink } = useMemo(() => generateCalendarLinks(event), [event])
 
   const navigateToUrl = (url: string) => {
@@ -26,7 +29,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <Google event={event} />
+      {isAdmin ? <Google event={event} /> : null}
 
       <Button
         block
