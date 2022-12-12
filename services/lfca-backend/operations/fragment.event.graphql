@@ -11,6 +11,9 @@ fragment Event on Event {
   participantsUserRSVPAcceptedCount
   participantsUserRSVPDeclinedCount
   participationStatus
+  recurrenceOverrides {
+    ...EventRecurrenceOverride
+  }
   recurrenceRule
   recurrenceRuleReadable
   remindersBeforeStart

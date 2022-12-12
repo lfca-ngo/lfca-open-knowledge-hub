@@ -77,17 +77,11 @@ export const EventMeta = ({ event }: EventMetaProps) => {
     <Collapse accordion>
       <Panel header="Time & Date" key="time">
         {event && (
-          <>
-            <p>
-              <Status event={event} />
-            </p>
-            <p>
-              <Time event={event} />
-            </p>
-            <p>
-              <Recurrence event={event} />
-            </p>
-          </>
+          <Space direction="vertical" size="large">
+            <Status event={event} />
+            <Time event={event} />
+            <Recurrence event={event} />
+          </Space>
         )}
       </Panel>
       <Panel header="Event Description" key="description">

@@ -18,6 +18,7 @@ export const EventDetails = ({ event }: EventCardDefaultProps) => {
 
       <Divider />
       <h4 style={{ margin: '10px 0 20px' }}>Add this event to your calendar</h4>
+      <p>If this event is already in your calendar, it will be updated.</p>
       <EventCalendarLinks event={event} />
 
       <p style={{ margin: '20px 0 10px' }}>
