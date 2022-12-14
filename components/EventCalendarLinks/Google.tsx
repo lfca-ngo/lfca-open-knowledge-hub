@@ -86,14 +86,26 @@ export const GoogleButton = ({ event }: GoogleProps) => {
 
   return (
     <>
-      <Button
-        block
-        icon={<Icon component={GoogleIcon} />}
-        onClick={() => login()}
-        size="large"
+      <Space
+        align="center"
+        direction="horizontal"
+        style={{
+          alignItems: 'center',
+        }}
       >
-        Add to Google Calendar
-      </Button>
+        <Button
+          block
+          icon={<Icon component={GoogleIcon} />}
+          onClick={() => login()}
+          size="large"
+        >
+          Sign in with Google
+        </Button>
+        <p style={{ marginBottom: 0 }}>
+          to add the event to your Google Calendar
+        </p>
+      </Space>
+
       <Modal
         confirmLoading={syncLoading}
         onCancel={() => setEventListModalOpen(false)}
