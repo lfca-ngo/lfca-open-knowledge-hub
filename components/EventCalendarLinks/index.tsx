@@ -34,7 +34,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
         onClick={() => navigateToUrl(icsLink)}
         size="large"
       >
-        Download iCal file
+        Outlook & Apple Calendar (.ics)
       </Button>
     </Space>
   )
