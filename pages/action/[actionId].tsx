@@ -19,6 +19,7 @@ import { getActionStatus } from '../../components/ActionBar/StatusButton'
 import { ActionCardMini } from '../../components/ActionCard/ActionCardMini'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
+import { ActionLastUpdatedAt } from '../../components/ActionLastUpdatedAt'
 import { Comments } from '../../components/Comments'
 import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -223,6 +224,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             items={sections.map((s) => ({ ...s, children: null }))}
             onChange={(key) => scrollToId(key)}
             size="middle"
+            tabBarExtraContent={
+              <ActionLastUpdatedAt lastUpdatedAt={action.lastUpdatedAt} />
+            }
           />
         </Section>
 

@@ -1,5 +1,4 @@
-import { HistoryOutlined } from '@ant-design/icons'
-import { Popover, Skeleton } from 'antd'
+import { Skeleton } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import React from 'react'
@@ -19,12 +18,7 @@ export const ActionDetails = ({
   fetching,
   rootCategory,
 }: ActionDetailsProps) => {
-  // TODO: UI for error state
   const rootCategoryMetaData = rootTreeMetaData[rootCategory]
-  const lastUpdatedAt = new Date(`${action?.lastUpdatedAt}`).toLocaleDateString(
-    'en-us',
-    { day: 'numeric', month: 'long', year: 'numeric' }
-  )
 
   return (
     <Skeleton
@@ -56,14 +50,6 @@ export const ActionDetails = ({
             </div>
           </div>
         </div>
-        {action?.lastUpdatedAt && (
-          <Popover content="Last updated at" placement="left">
-            <div className="last-updated-at">
-              <HistoryOutlined />
-              {lastUpdatedAt}
-            </div>
-          </Popover>
-        )}
       </div>
     </Skeleton>
   )
