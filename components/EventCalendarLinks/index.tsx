@@ -16,8 +16,6 @@ interface EventCalendarLinksProps {
 export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
   const analytics = useAnalytics()
 
-  const { isAdmin } = useUser()
-
   const { icsLink } = useMemo(() => generateCalendarLinks(event), [event])
 
   const navigateToUrl = (url: string) => {
@@ -29,7 +27,7 @@ export const EventCalendarLinks = ({ event }: EventCalendarLinksProps) => {
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      {isAdmin ? <Google event={event} /> : null}
+      <Google event={event} />
 
       <Button
         block
