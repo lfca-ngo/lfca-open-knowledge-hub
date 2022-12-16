@@ -3,18 +3,22 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import React from 'react'
 
-import { CompanyActionListItemFragmentWithRootCategory } from '../ActionsCarousel'
+import { ContentfulActionFields } from '../../services/contentful'
 import { rootTreeMetaData } from '../ActionsList/utils'
 import styles from './styles.module.less'
 
 interface ActionDetailsProps {
-  action: CompanyActionListItemFragmentWithRootCategory
+  action: ContentfulActionFields
   fetching: boolean
+  rootCategory: string
 }
 
-export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
-  // TODO: UI for error state
-  const rootCategoryMetaData = rootTreeMetaData[action.rootCategory]
+export const ActionDetails = ({
+  action,
+  fetching,
+  rootCategory,
+}: ActionDetailsProps) => {
+  const rootCategoryMetaData = rootTreeMetaData[rootCategory]
 
   return (
     <Skeleton

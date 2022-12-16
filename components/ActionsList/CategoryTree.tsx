@@ -1,4 +1,4 @@
-import { Checkbox } from 'antd'
+import { Checkbox, Popover } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 import categoryTreeData from '../../public/data/_category-tree-data.json'
@@ -38,7 +38,6 @@ export const CategoryTreeComponent = ({
     const children = childrenArrays?.flat()
 
     // classical tree behaviour - parent and child nodes selection
-    // has different consequences
     if (hasChildren) {
       // if checked element is a parent node => perform operations
       // for all children and childrens children as well
@@ -89,10 +88,16 @@ export const CategoryTreeComponent = ({
                     name={tree.categoryId}
                     onChange={(e) => handleChange(e, 'elements' in tree)}
                   >
-                    <div className="name">
-                      {treeMetaData?.icon}
-                      {tree.name}
-                    </div>
+                    <Popover
+                      content={treeMetaData.description}
+                      overlayClassName="popover-md"
+                      title={tree.name}
+                    >
+                      <div className="name">
+                        {treeMetaData?.icon}
+                        {tree.name}
+                      </div>
+                    </Popover>
                   </Checkbox>
 
                   {tree.elements?.map((element, j) => (
