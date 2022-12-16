@@ -6,6 +6,7 @@ import { ContentfulActionFields } from './types'
 export const fetchAllActions = async () => {
   const selectedFields = [
     'title',
+    'lastUpdatedAt',
     'actionId',
     'requirements',
     'tags',

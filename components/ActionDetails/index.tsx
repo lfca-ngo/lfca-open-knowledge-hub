@@ -1,20 +1,30 @@
-import { Skeleton } from 'antd'
+import { HistoryOutlined } from '@ant-design/icons'
+import { Popover, Skeleton } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 import React from 'react'
 
-import { CompanyActionListItemFragmentWithRootCategory } from '../ActionsCarousel'
+import { ContentfulActionFields } from '../../services/contentful'
 import { rootTreeMetaData } from '../ActionsList/utils'
 import styles from './styles.module.less'
 
 interface ActionDetailsProps {
-  action: CompanyActionListItemFragmentWithRootCategory
+  action: ContentfulActionFields
   fetching: boolean
+  rootCategory: string
 }
 
-export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
+export const ActionDetails = ({
+  action,
+  fetching,
+  rootCategory,
+}: ActionDetailsProps) => {
   // TODO: UI for error state
-  const rootCategoryMetaData = rootTreeMetaData[action.rootCategory]
+  const rootCategoryMetaData = rootTreeMetaData[rootCategory]
+  const lastUpdatedAt = new Date(`${action?.lastUpdatedAt}`).toLocaleDateString(
+    'en-us',
+    { day: 'numeric', month: 'long', year: 'numeric' }
+  )
 
   return (
     <Skeleton
@@ -46,6 +56,14 @@ export const ActionDetails = ({ action, fetching }: ActionDetailsProps) => {
             </div>
           </div>
         </div>
+        {action?.lastUpdatedAt && (
+          <Popover content="Last updated at" placement="left">
+            <div className="last-updated-at">
+              <HistoryOutlined />
+              {lastUpdatedAt}
+            </div>
+          </Popover>
+        )}
       </div>
     </Skeleton>
   )
