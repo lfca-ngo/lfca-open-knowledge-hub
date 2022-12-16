@@ -3,7 +3,6 @@ import { Button, Space } from 'antd'
 import React, { useMemo } from 'react'
 
 import { EVENTS, useAnalytics } from '../../hooks/segment'
-import { useUser } from '../../hooks/user'
 import { EventFragment } from '../../services/lfca-backend'
 import { generateCalendarLinks } from '../../utils/generate-calendar-links'
 import { Google } from './Google'
