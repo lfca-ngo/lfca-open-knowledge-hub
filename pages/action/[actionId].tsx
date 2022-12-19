@@ -19,7 +19,7 @@ import { getActionStatus } from '../../components/ActionBar/StatusButton'
 import { ActionCardMini } from '../../components/ActionCard/ActionCardMini'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionHistory } from '../../components/ActionHistory'
-import { CompanyActionListItemFragmentWithRootCategory } from '../../components/ActionsCarousel'
+import { ActionLastUpdatedAt } from '../../components/ActionLastUpdatedAt'
 import { Comments } from '../../components/Comments'
 import { EmptyState } from '../../components/EmptyState'
 import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
@@ -90,10 +90,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   const actionStatus = getActionStatus(actionData?.companyAction)
   const [firstCategory] = actionData?.companyAction?.categories || []
   const rootCategory = rootCategoryLookUp[firstCategory?.id]
-  const actionDetails = {
-    ...actionData?.companyAction,
-    rootCategory,
-  } as CompanyActionListItemFragmentWithRootCategory
   const docHeight = isBrowser() ? document.documentElement.offsetHeight : 0
   const tabElement = isBrowser()
     ? (document?.querySelector('#tab-container') as HTMLElement)
@@ -216,8 +212,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       <Main>
         <Section className={styles['header-section']}>
           <ActionDetails
-            action={actionDetails || EMPTY_ACTION}
+            action={action || EMPTY_ACTION}
             fetching={fetchingAction}
+            rootCategory={rootCategory}
           />
         </Section>
         <Section className="sticky" id="tab-container">
@@ -227,6 +224,9 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             items={sections.map((s) => ({ ...s, children: null }))}
             onChange={(key) => scrollToId(key)}
             size="middle"
+            tabBarExtraContent={
+              <ActionLastUpdatedAt lastUpdatedAt={action.lastUpdatedAt} />
+            }
           />
         </Section>
 
