@@ -9,7 +9,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 
 import { EventFragment } from '../../services/lfca-backend'
-import GoogleIcon from './icons/google.svg'
+import GoogleCalendarIcon from './icons/google_calendar.svg'
 
 const CALENDAR_SCOPES = [
   'https://www.googleapis.com/auth/calendar.events',
@@ -86,25 +86,14 @@ export const GoogleButton = ({ event }: GoogleProps) => {
 
   return (
     <>
-      <Space
-        align="center"
-        direction="horizontal"
-        style={{
-          alignItems: 'center',
-        }}
+      <Button
+        block
+        icon={<Icon component={GoogleCalendarIcon} />}
+        onClick={() => login()}
+        size="large"
       >
-        <Button
-          block
-          icon={<Icon component={GoogleIcon} />}
-          onClick={() => login()}
-          size="large"
-        >
-          Sign in with Google
-        </Button>
-        <p style={{ marginBottom: 0 }}>
-          to add the event to your Google Calendar
-        </p>
-      </Space>
+        Add to Google Calendar
+      </Button>
 
       <Modal
         confirmLoading={syncLoading}
