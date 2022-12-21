@@ -69,6 +69,7 @@ export interface ContentfulActionFields {
   requirements: ContentfulRequirementFields[]
   tags: ContentfulCategoryFields[]
   heroImage: Image
+  lastUpdatedAt?: Date
   impactValue: number
   aboutText: Document
   benefits: Document

@@ -1,0 +1,9 @@
+fragment EventRecurrenceOverride on EventRecurrenceOverride {
+  description
+  end
+  id
+  isCancelled
+  start
+  title
+  videoConferenceUrl
+}
