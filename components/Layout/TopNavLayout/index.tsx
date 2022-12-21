@@ -1,8 +1,8 @@
 import { Layout } from 'antd'
-import { MenuItemType } from 'antd/lib/menu/hooks/useItems'
 import classNames from 'classnames'
 import React from 'react'
 
+import { ACTIONS_NAV } from '../../../utils/navs'
 import { Logo } from '../../Logo'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
@@ -18,7 +18,6 @@ interface TopNavLayoutProps {
   aside?: React.ReactNode
   asidePosition?: AsidePosition
   stickySidebar?: boolean
-  nav?: MenuItemType[]
   goBack?: () => void
 }
 
@@ -27,7 +26,6 @@ export const TopNavLayout = ({
   asidePosition = 'right',
   children,
   goBack,
-  nav,
   stickySidebar,
 }: TopNavLayoutProps) => {
   const withAside = !!aside
@@ -41,7 +39,7 @@ export const TopNavLayout = ({
     >
       <Header className={styles['top-nav-header']}>
         <Logo centered />
-        <TopNav goBack={goBack} nav={nav} />
+        <TopNav goBack={goBack} nav={ACTIONS_NAV} />
         <SettingsNav />
       </Header>
 

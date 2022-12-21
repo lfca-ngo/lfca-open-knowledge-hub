@@ -90,7 +90,7 @@ export const ActionsList = ({
         mode={mode}
         onValuesChange={handleChange}
       />
-      <Divider style={{ marginBottom: '30px' }} />
+      <Divider style={{ marginBottom: '20px' }} />
       <List
         className="no-padding"
         dataSource={filteredActions}

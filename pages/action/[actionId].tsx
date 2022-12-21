@@ -22,7 +22,6 @@ import {
 import { EMPTY_ACTION } from '../../services/lfca-backend'
 import { DEFAULT_FONT_SIZE, DEFAULT_LINE_HEIGHT, isBrowser } from '../../utils'
 import { options } from '../../utils/rich-text-options'
-import { withAuth } from '../../utils-server-only'
 import styles from './styles.module.less'
 
 interface ActionProps {
@@ -171,4 +170,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default withAuth(Action)
+export default Action

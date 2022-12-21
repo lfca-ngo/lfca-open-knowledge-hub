@@ -51,7 +51,10 @@ export const FilterBar = ({
           <Row className="header-bar" gutter={12}>
             <Col md={16} xs={24}>
               <Form.Item name="search">
-                <Search placeholder="Search..." size="large" />
+                <Search
+                  placeholder="Search for climate action..."
+                  size="large"
+                />
               </Form.Item>
             </Col>
             <Col md={8} xs={24}>

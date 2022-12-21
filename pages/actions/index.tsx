@@ -8,8 +8,6 @@ import {
   fetchAllActions,
 } from '../../services/contentful'
 import { EMPTY_ACTIONS } from '../../services/lfca-backend'
-import { ACTIONS_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils-server-only'
 
 interface DashboardProps {
   actions: ContentfulActionFields[]
@@ -17,9 +15,12 @@ interface DashboardProps {
 
 const Home: NextPage<DashboardProps> = ({ actions }) => {
   return (
-    <TopNavLayout nav={ACTIONS_NAV}>
+    <TopNavLayout>
       <Main>
-        <h1>Browse our action modules</h1>
+        <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '40px' }}>Browse our action modules</h1>
+        </div>
+
         <Section bordered={false} id="browse-actions">
           <ActionsList
             actionListItemProps={{
@@ -48,4 +49,4 @@ export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
   }
 }
 
-export default withAuth(Home)
+export default Home
