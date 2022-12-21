@@ -7,18 +7,26 @@
   grid-template-columns:
     minmax(0, 1fr)
     minmax(0, @main-max-width)
-    minmax(0, 1fr)
     minmax(0, 1fr);
   grid-template-rows: 90px minmax(240px, auto) 240px;
   column-gap: 30px;
   max-width: 100%;
 
-  @media (min-width: @screen-xl) {
+  &.with-aside {
     grid-template-columns:
       minmax(0, 1fr)
       minmax(0, @main-max-width)
-      minmax(@sider-max-width, auto)
+      minmax(0, 1fr)
       minmax(0, 1fr);
+    grid-template-rows: 90px minmax(240px, auto) 240px;
+
+    @media (min-width: @screen-xl) {
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, @main-max-width)
+        minmax(@sider-max-width, auto)
+        minmax(0, 1fr);
+    }
   }
 
   &.with-aside-left {

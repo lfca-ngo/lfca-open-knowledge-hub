@@ -106,7 +106,7 @@
         padding: @column-gap-width;
 
         @media @desktop {
-          // width: calc(100% / 4);
+          width: calc(100% / 4);
         }
 
         // add colors
@@ -207,21 +207,11 @@
       .header-bar {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         align-items: center;
         width: 100%;
         margin: 0 0 10px;
         border-bottom: 1px solid @grey-light;
         padding-bottom: 10px;
-
-        > .title {
-          .h2();
-        }
-
-        > .ant-space {
-          margin-right: 0;
-          margin-left: auto;
-        }
       }
 
       .ant-form-item {

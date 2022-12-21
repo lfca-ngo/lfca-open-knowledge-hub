@@ -1,33 +1,16 @@
-import {
-  AppstoreOutlined,
-  BulbOutlined,
-  HistoryOutlined,
-  InfoCircleOutlined,
-  MessageOutlined,
-  OrderedListOutlined,
-} from '@ant-design/icons'
+import { InfoCircleOutlined, OrderedListOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Button, List, Tabs } from 'antd'
-import classNames from 'classnames'
+import { Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { ActionBar } from '../../components/ActionBar'
-import { getActionStatus } from '../../components/ActionBar/StatusButton'
-import { ActionCardMini } from '../../components/ActionCard/ActionCardMini'
 import { ActionDetails } from '../../components/ActionDetails'
-import { ActionHistory } from '../../components/ActionHistory'
 import { ActionLastUpdatedAt } from '../../components/ActionLastUpdatedAt'
-import { Comments } from '../../components/Comments'
-import { EmptyState } from '../../components/EmptyState'
-import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
+import { Main, Section, TopNavLayout } from '../../components/Layout'
 import {
   scrollToId,
   SectionWrapper,
 } from '../../components/Layout/SectionWrapper'
-import { Wrapper } from '../../components/Layout/Wrapper'
 import { RequirementsListTabs } from '../../components/RequirementsListTabs'
 import { ShowMore } from '../../components/ShowMore'
 import categoryTreeData from '../../public/data/_category-tree-data.json'
@@ -36,18 +19,8 @@ import {
   fetchAllActions,
   RootCategoryLookUpProps,
 } from '../../services/contentful'
-import {
-  EMPTY_ACTION,
-  useCompanyActionDetailsQuery,
-  useCompanyActionExtendedDetailsQuery,
-} from '../../services/lfca-backend'
-import { ServiceProviderComparison } from '../../tools/ServiceProviderComparison'
-import {
-  DEFAULT_FONT_SIZE,
-  DEFAULT_LINE_HEIGHT,
-  DEFAULT_SUPPORT_EMAIL,
-  isBrowser,
-} from '../../utils'
+import { EMPTY_ACTION } from '../../services/lfca-backend'
+import { DEFAULT_FONT_SIZE, DEFAULT_LINE_HEIGHT, isBrowser } from '../../utils'
 import { options } from '../../utils/rich-text-options'
 import { withAuth } from '../../utils-server-only'
 import styles from './styles.module.less'
@@ -57,7 +30,6 @@ interface ActionProps {
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
-  const router = useRouter()
   /**
    * Local State
    */
@@ -65,31 +37,13 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   const [activeNavItem, setActiveNavItem] = useState('')
 
   /**
-   * Data fetching
-   */
-  const [{ data: actionData, fetching: fetchingAction }] =
-    useCompanyActionDetailsQuery({
-      variables: { input: { actionContentId: action.actionId } },
-    })
-  const [
-    {
-      data: actionDataExtended,
-      fetching: fetchingActionExtended,
-      stale: staleActionExtended,
-    },
-  ] = useCompanyActionExtendedDetailsQuery({
-    requestPolicy: 'cache-and-network',
-    variables: { input: { actionContentId: action.actionId } },
-  })
-
-  /**
    * Local variables
    */
   const rootCategoryLookUp: RootCategoryLookUpProps =
     categoryTreeData.rootCategoryLookUp
-  const actionStatus = getActionStatus(actionData?.companyAction)
-  const [firstCategory] = actionData?.companyAction?.categories || []
-  const rootCategory = rootCategoryLookUp[firstCategory?.id]
+
+  const [firstCategory] = action.tags || []
+  const rootCategory = rootCategoryLookUp[firstCategory?.categoryId]
   const docHeight = isBrowser() ? document.documentElement.offsetHeight : 0
   const tabElement = isBrowser()
     ? (document?.querySelector('#tab-container') as HTMLElement)
@@ -105,7 +59,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
         <ShowMore
           buttonProps={{ type: 'link' }}
           maskMode="transparent"
-          maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * 4}
+          maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * 10}
           text={
             action?.aboutText &&
             documentToReactComponents(action?.aboutText, options)
@@ -124,7 +78,6 @@ const Action: NextPage<ActionProps> = ({ action }) => {
     {
       children: () => (
         <RequirementsListTabs
-          action={actionData?.companyAction}
           actionContent={action}
           activeStatusTab={activeStatusTab}
           setActiveStatusTab={setActiveStatusTab}
@@ -138,82 +91,15 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       ),
       renderCondition: () => true,
     },
-    {
-      children: ({ label }: { label: React.ReactNode }) => (
-        <div style={{ margin: '40px 0 0' }}>
-          <Comments actionContentId={action.actionId} title={label} />
-        </div>
-      ),
-      hideSectionTitle: true,
-      key: 'community',
-      label: (
-        <span>
-          <MessageOutlined /> Community
-        </span>
-      ),
-      renderCondition: () => true,
-    },
-    {
-      children: () => (
-        <>
-          {actionDataExtended?.companyAction.serviceProviderList ? (
-            <ServiceProviderComparison
-              loading={fetchingActionExtended || staleActionExtended}
-              serviceProviderList={
-                actionDataExtended.companyAction.serviceProviderList
-              }
-              showTitle={false}
-            />
-          ) : (
-            <EmptyState
-              actions={[
-                <a href={`mailto:${DEFAULT_SUPPORT_EMAIL}`} key="share">
-                  <Button size="large" type="primary">
-                    Share idea
-                  </Button>
-                </a>,
-              ]}
-              bordered
-              icon={<BulbOutlined />}
-              text={
-                <div>
-                  We are gradually adding more and more community powered
-                  content to the platform. You can check the{' '}
-                  <Link href={`/action/companyPledge`}>Measurement Action</Link>{' '}
-                  as an example. If you have relevant content ideas for this
-                  module, please share them with us!
-                </div>
-              }
-              title="There is more to come..."
-            />
-          )}
-        </>
-      ),
-      key: 'providers',
-      label: (
-        <span>
-          <AppstoreOutlined /> Services
-        </span>
-      ),
-      renderCondition: () =>
-        !!actionDataExtended?.companyAction.serviceProviderList,
-    },
   ]
 
-  // update the steps tab according to the action status
-  useEffect(() => {
-    if (action.requirements.find((s) => s.stage === actionStatus.statusLabel)) {
-      setActiveStatusTab(`${actionStatus.key}`)
-    }
-  }, [actionStatus, action])
-
   return (
-    <SiderLayout goBack={() => router.back()}>
+    <TopNavLayout>
       <Main>
         <Section className={styles['header-section']}>
           <ActionDetails
             action={action || EMPTY_ACTION}
-            fetching={fetchingAction}
+            fetching={false}
             rootCategory={rootCategory}
           />
         </Section>
@@ -250,58 +136,13 @@ const Action: NextPage<ActionProps> = ({ action }) => {
                   title={s.hideSectionTitle ? null : s.label}
                   titleSize="small"
                 >
-                  {s.children({ label: s.label })}
+                  {s.children()}
                 </Section>
               </SectionWrapper>
             ))}
-
-          {/* History section is hidden in tabs menu */}
-          <SectionWrapper id="history" key="history">
-            <Section
-              title={
-                <div>
-                  <HistoryOutlined /> History
-                </div>
-              }
-              titleSize="small"
-            >
-              <ActionHistory contentId={actionData?.companyAction.contentId} />
-            </Section>
-          </SectionWrapper>
         </div>
       </Main>
-
-      <Sider>
-        <Section className={classNames(styles['sticky-sider'], 'sticky')}>
-          {actionData?.companyAction && (
-            <Wrapper style={{ margin: '20px 0' }}>
-              <ActionBar
-                action={actionData?.companyAction}
-                actionDetails={action}
-              />
-            </Wrapper>
-          )}
-
-          {action?.relatedActions && (
-            <Wrapper>
-              <h5>Related Actions</h5>
-              <List
-                dataSource={action.relatedActions}
-                renderItem={(action) => (
-                  <List.Item>
-                    <ActionCardMini
-                      action={action}
-                      bordered={false}
-                      key={action.actionId}
-                    />
-                  </List.Item>
-                )}
-              />
-            </Wrapper>
-          )}
-        </Section>
-      </Sider>
-    </SiderLayout>
+    </TopNavLayout>
   )
 }
 
