@@ -4,6 +4,7 @@ import {
   ArrowRightOutlined,
   BankOutlined,
   CalendarOutlined,
+  HomeOutlined,
   LikeOutlined,
   LoadingOutlined,
   LockOutlined,
@@ -54,6 +55,11 @@ export const MAIN_NAV = [
     icon: <CalendarOutlined />,
     key: ACHIEVEMENTS,
     label: 'Programs',
+  },
+  {
+    icon: <HomeOutlined />,
+    key: TOOLS,
+    label: 'Tools',
   },
 ]
 
