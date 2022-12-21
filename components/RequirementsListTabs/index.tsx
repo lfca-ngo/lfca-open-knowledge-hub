@@ -2,7 +2,6 @@ import { Tabs } from 'antd'
 import { useMemo } from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
-import { CompanyActionListItemFragment } from '../../services/lfca-backend'
 import { ACTION_STATES } from '../ActionBar/StatusButton'
 import { RequirementsList } from './RequirementsList'
 
@@ -22,14 +21,12 @@ const STEPS_OPTIONS = [
 ]
 
 interface RequirementsListTabsProps {
-  action?: CompanyActionListItemFragment
   actionContent: ContentfulActionFields
   activeStatusTab: string | undefined
   setActiveStatusTab: (key: string) => void
 }
 
 export const RequirementsListTabs = ({
-  action,
   actionContent,
   activeStatusTab,
   setActiveStatusTab,
@@ -48,7 +45,6 @@ export const RequirementsListTabs = ({
         children: (
           <RequirementsList
             actionContentId={actionContent.actionId}
-            requirements={action?.requirements}
             requirementsContent={actionContent?.requirements.filter(
               (r) => r.stage === s.label
             )}
@@ -56,7 +52,7 @@ export const RequirementsListTabs = ({
         ),
       })),
     ],
-    [actionContent, action]
+    [actionContent]
   )
 
   // @TODO: Remove after migration is complete
@@ -66,7 +62,6 @@ export const RequirementsListTabs = ({
       children: (
         <RequirementsList
           actionContentId={actionContent.actionId}
-          requirements={action?.requirements}
           requirementsContent={actionContent?.requirements.filter(
             (r) => !r.stage
           )}

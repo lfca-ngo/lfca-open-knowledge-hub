@@ -1,4 +1,4 @@
-import { Form, FormInstance, Input, Select, Space } from 'antd'
+import { Col, Form, FormInstance, Input, Row, Select, Space } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
@@ -48,11 +48,18 @@ export const FilterBar = ({
         </Space>
       ) : (
         <>
-          <div className="header-bar">
-            <div className="title">Browse all actions</div>
-            <Space>
+          <Row className="header-bar" gutter={12}>
+            <Col md={16} xs={24}>
+              <Form.Item name="search">
+                <Search
+                  placeholder="Search for climate action..."
+                  size="large"
+                />
+              </Form.Item>
+            </Col>
+            <Col md={8} xs={24}>
               <Form.Item name="sorting">
-                <Select placeholder="Please select" size="small">
+                <Select placeholder="Please select" size="large">
                   {SORT_OPTIONS.map((option) => (
                     <Select.Option key={option.key}>
                       {option.label}
@@ -60,12 +67,8 @@ export const FilterBar = ({
                   ))}
                 </Select>
               </Form.Item>
-
-              <Form.Item name="search">
-                <Search placeholder="Search..." size="small" />
-              </Form.Item>
-            </Space>
-          </div>
+            </Col>
+          </Row>
 
           <Space className="category-tree-container" direction="vertical">
             <Form.Item name="categories">

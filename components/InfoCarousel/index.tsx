@@ -3,7 +3,6 @@ import { CarouselRef } from 'antd/lib/carousel'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 
-import { CarouselElementProps } from '../Flows/OnboardingOfficer'
 import styles from './styles.module.less'
 
 const CarouselNav = ({
@@ -12,7 +11,7 @@ const CarouselNav = ({
   goTo,
 }: {
   activeSlide: number
-  elements: CarouselElementProps[]
+  elements: any[]
   goTo: (i: number) => void
 }) => {
   return (
@@ -41,11 +40,7 @@ const CarouselNav = ({
   )
 }
 
-export const InfoCarousel = ({
-  elements,
-}: {
-  elements: CarouselElementProps[]
-}) => {
+export const InfoCarousel = ({ elements }: { elements: any[] }) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const carouselEl = useRef<CarouselRef>(null)
 

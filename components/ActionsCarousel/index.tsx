@@ -45,7 +45,7 @@ export const ActionsCarousel = ({
     },
     {
       breakpoint:
-        LAYOUT_BREAKPOINTS.find((l) => l.name === 'xl')?.minWidth || 0,
+        LAYOUT_BREAKPOINTS.find((l) => l.name === 'lg')?.minWidth || 0,
       settings: {
         slidesToScroll: 2,
         slidesToShow: 2,

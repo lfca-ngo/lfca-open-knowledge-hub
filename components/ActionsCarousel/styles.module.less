@@ -1,9 +1,9 @@
-@card-height: 165px;
-@card-border-radius: 16px;
+@card-height: 180px;
+@card-border-radius: 8px;
 
 .color-card(@color, @text-color: @white) {
-  background-color: @color;
-  color: @text-color;
+  background-color: @chalk;
+  color: @black;
 
   &:hover {
     background-color: fade(@color, 90%);
@@ -11,19 +11,19 @@
 
   :global {
     .logo-group-label {
-      color: spin(@text-color, 180);
+      color: @black;
     }
 
     .ant-tag {
       border-color: transparent;
-      background-color: fade(spin(@text-color, 180), 20%);
-      color: spin(@text-color, 180);
+      background-color: fade(@black, 10%);
+      color: @black;
     }
   }
 }
 
 .actions-carousel {
-  @gutter-width: 7px;
+  @gutter-width: 8px;
   margin-top: 20px;
 
   :global {

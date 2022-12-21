@@ -45,7 +45,8 @@ export const EMPTY_ACHIEVEMENT: CompanyAchievementFragment = {
 }
 
 // create array with 2 empty achievements
-export const EMPTY_ACHIEVEMENTS = Array(2).fill(EMPTY_ACHIEVEMENT)
+export const EMPTY_ACHIEVEMENTS: CompanyAchievementFragment[] =
+  Array(2).fill(EMPTY_ACHIEVEMENT)
 
 // empty event object
 export const EMPTY_EVENT: EventWithParticipantsFragment = {

@@ -1,121 +1,52 @@
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import React, { useMemo } from 'react'
+import type { GetStaticProps, NextPage } from 'next'
+import React from 'react'
 
-import { AchievementsListMini } from '../../components/AchievementsList'
-import {
-  ActionsCarousel,
-  CompanyActionListItemFragmentWithRootCategory,
-} from '../../components/ActionsCarousel'
 import { ActionsList } from '../../components/ActionsList'
-import { EventsList } from '../../components/EventsList'
-import { getEventsByParticipationStatus } from '../../components/EventsList/utils'
-import { Main, Section, Sider, SiderLayout } from '../../components/Layout'
-import { PayWall } from '../../components/PayWall'
-import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
-import categoryTreeData from '../../public/data/_category-tree-data.json'
-import { RootCategoryLookUpProps } from '../../services/contentful'
+import { Main, Section, TopNavLayout } from '../../components/Layout'
 import {
-  EMPTY_ACTIONS,
-  useCompanyActionsListQuery,
-  useEventsQuery,
-} from '../../services/lfca-backend'
-import { ACTIONS_NAV } from '../../utils/navs'
-import { withAuth } from '../../utils-server-only'
+  ContentfulActionFields,
+  fetchAllActions,
+} from '../../services/contentful'
+import { EMPTY_ACTIONS } from '../../services/lfca-backend'
 
-const Home: NextPage = () => {
-  const rootCategoryLookUp: RootCategoryLookUpProps =
-    categoryTreeData.rootCategoryLookUp
-  const { resetPosition } = usePersistentNavigation(false)
-  const router = useRouter()
+interface DashboardProps {
+  actions: ContentfulActionFields[]
+}
 
-  // Fetch events to show upcoming
-  const [{ data, fetching }] = useEventsQuery()
-  const eventsByParticipation = getEventsByParticipationStatus(data?.events)
-
-  // TODO: UI for error state
-  const [{ data: actionsData, fetching: fetchingActions }] =
-    useCompanyActionsListQuery()
-
-  /**
-   * Highlight actions that are
-   * - required or mandatory for one of the company's achievements
-   * - not completed
-   * - planned
-   */
-  const highlightedActions = useMemo(
-    () =>
-      (actionsData?.companyActions || EMPTY_ACTIONS)
-        .filter(
-          (companyAction) =>
-            (companyAction.recommendedForCompanyAchievementIds.length > 0 ||
-              companyAction.requiredForCompanyAchievementIds.length > 0 ||
-              companyAction.plannedAt !== null) &&
-            !companyAction.completedAt
-        )
-        .map(
-          (action) =>
-            ({
-              ...action,
-              // we are using the first category to define the root category
-              rootCategory: rootCategoryLookUp[action.categories[0]?.id],
-            } as CompanyActionListItemFragmentWithRootCategory)
-        ),
-    [actionsData, rootCategoryLookUp]
-  )
-
+const Home: NextPage<DashboardProps> = ({ actions }) => {
   return (
-    <SiderLayout nav={ACTIONS_NAV}>
+    <TopNavLayout>
       <Main>
-        <Section title="What's next?" titleSize="big">
-          <ActionsCarousel
-            actions={highlightedActions}
-            fetching={fetchingActions}
-            onSelect={(action) => {
-              resetPosition()
-              router.push(`/action/${action.contentId}`)
-            }}
-          />
-        </Section>
+        <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '40px' }}>Browse our action modules</h1>
+        </div>
+
         <Section bordered={false} id="browse-actions">
           <ActionsList
             actionListItemProps={{
               renderAsLink: true,
               unselectText: 'View',
             }}
-            actions={actionsData?.companyActions || EMPTY_ACTIONS}
-            fetching={fetchingActions}
+            actions={actions || EMPTY_ACTIONS}
+            fetching={false}
           />
         </Section>
       </Main>
-      <Sider>
-        <Section title="Achievements">
-          <PayWall
-            popoverContent={
-              <div>
-                <p>
-                  By unlocking achievements, you get your own custom microsite
-                  to share your climate action journey in realtime with your
-                  team and partners.
-                </p>
-              </div>
-            }
-            popoverTitle="What's waiting for you"
-          >
-            <AchievementsListMini />
-          </PayWall>
-        </Section>
-        <Section title="Your groups">
-          <EventsList
-            events={eventsByParticipation?.participatingEvents || []}
-            fetching={fetching}
-            isAllowedToJoin={true}
-            type="compact"
-          />
-        </Section>
-      </Sider>
-    </SiderLayout>
+    </TopNavLayout>
   )
 }
 
-export default withAuth(Home)
+export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
+  const actionsById = await fetchAllActions()
+  const actions: ContentfulActionFields[] = Object.keys(actionsById).map(
+    (id) => actionsById[id]
+  )
+
+  return {
+    props: {
+      actions,
+    },
+  }
+}
+
+export default Home

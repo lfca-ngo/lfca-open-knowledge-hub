@@ -1,19 +1,44 @@
-import type { NextPage } from 'next'
+import { List } from 'antd'
+import type { GetStaticProps, NextPage } from 'next'
+import React from 'react'
 
-import { AchievementsList } from '../components/AchievementsList'
-import { Main, Section, SiderLayout } from '../components/Layout'
-import { withAuth } from '../utils-server-only'
+import { Main, Section, TopNavLayout } from '../components/Layout'
+import {
+  ContentfulProgramFields,
+  fetchAllPrograms,
+} from '../services/contentful'
 
-const Achievements: NextPage = () => {
+interface DashboardProps {
+  programs: ContentfulProgramFields[]
+}
+
+const Achievements: NextPage<DashboardProps> = ({ programs }) => {
   return (
-    <SiderLayout>
+    <TopNavLayout>
       <Main>
-        <Section title="Achievements" titleSize="big">
-          <AchievementsList />
+        <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '40px' }}>Programs</h1>
+        </div>
+
+        <Section bordered={false} id="browse-actions">
+          <List
+            dataSource={programs}
+            renderItem={(program) => <List.Item>{program.name}</List.Item>}
+          />
         </Section>
       </Main>
-    </SiderLayout>
+    </TopNavLayout>
   )
 }
 
-export default withAuth(Achievements)
+export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
+  const programs = await fetchAllPrograms()
+
+  return {
+    props: {
+      programs,
+    },
+  }
+}
+
+export default Achievements

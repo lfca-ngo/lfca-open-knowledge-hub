@@ -2,7 +2,7 @@ import { Divider, Form, List } from 'antd'
 import React, { useMemo } from 'react'
 
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
-import { CompanyActionListItemFragment } from '../../services/lfca-backend'
+import { ContentfulActionFields } from '../../services/contentful'
 import { lowerCaseSearch } from '../../utils'
 import { ActionCardProps, ActionCardWrapper } from '../ActionCard'
 import { ActionCardSkeleton } from '../ActionCard/ActionCardSkeleton'
@@ -12,7 +12,7 @@ import styles from './styles.module.less'
 export const LS_ACTION_LIST = 'actions_list'
 
 export interface ActionListProps {
-  actions: CompanyActionListItemFragment[]
+  actions: ContentfulActionFields[]
   actionListItemProps?: Omit<ActionCardProps, 'action'>
   fetching?: boolean
   mode?: 'default' | 'compact'
@@ -59,7 +59,7 @@ export const ActionsList = ({
       actions
         // the below applies the search and category filter
         .filter((action) => {
-          const actionCategories = action.categories.map((c) => c.id)
+          const actionCategories = action.tags.map((c) => c.categoryId)
           const intersectingCategories = actionCategories.filter((value) =>
             activeCategories.includes(value)
           )
@@ -76,7 +76,7 @@ export const ActionsList = ({
           if (activeSorting === 'impact') {
             return b.impactValue - a.impactValue
           } else {
-            return b?.companiesDoingCount - a?.companiesDoingCount
+            return -1
           }
         })
     )
@@ -90,7 +90,7 @@ export const ActionsList = ({
         mode={mode}
         onValuesChange={handleChange}
       />
-      <Divider />
+      <Divider style={{ marginBottom: '20px' }} />
       <List
         className="no-padding"
         dataSource={filteredActions}
