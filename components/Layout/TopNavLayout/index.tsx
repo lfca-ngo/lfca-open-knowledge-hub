@@ -2,7 +2,7 @@ import { Layout } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
-import { ACTIONS_NAV } from '../../../utils/navs'
+import { MAIN_NAV } from '../../../utils/navs'
 import { Logo } from '../../Logo'
 import { SettingsNav } from '../SettingsNav'
 import { TopNav } from '../TopNav'
@@ -39,7 +39,7 @@ export const TopNavLayout = ({
     >
       <Header className={styles['top-nav-header']}>
         <Logo centered />
-        <TopNav goBack={goBack} nav={ACTIONS_NAV} />
+        <TopNav goBack={goBack} nav={MAIN_NAV} />
         <SettingsNav />
       </Header>
 

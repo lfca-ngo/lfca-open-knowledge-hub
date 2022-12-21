@@ -4,8 +4,6 @@ import {
   ArrowRightOutlined,
   BankOutlined,
   CalendarOutlined,
-  CarryOutOutlined,
-  CheckCircleOutlined,
   LikeOutlined,
   LoadingOutlined,
   LockOutlined,
@@ -29,8 +27,6 @@ import { OPEN_SLACK_LINK, SLACK_INVITE_URL } from '.'
 import {
   ACHIEVEMENTS,
   ACTIONS,
-  ACTIONS_COMPLETED,
-  ACTIONS_PLANNED,
   ADMIN,
   ADMIN_ACTIONS,
   ADMIN_COMMENTS,
@@ -52,17 +48,12 @@ import {
 
 export const LOGOUT = 'logout'
 
-export const ACTIONS_NAV = [
-  { icon: <ProfileOutlined />, key: ACTIONS, label: 'Dashboard' },
+export const MAIN_NAV = [
+  { icon: <ProfileOutlined />, key: ACTIONS, label: 'Actions' },
   {
     icon: <CalendarOutlined />,
-    key: ACTIONS_PLANNED,
-    label: 'Planned Actions',
-  },
-  {
-    icon: <CheckCircleOutlined />,
-    key: ACTIONS_COMPLETED,
-    label: 'Completed Actions',
+    key: ACHIEVEMENTS,
+    label: 'Programs',
   },
 ]
 
@@ -132,12 +123,6 @@ export const PROFILE_NAV = (loading: boolean) => [
 export const NAV_ITEMS_BEHIND_PAYWALL = [ACHIEVEMENTS, TOOLS, SERVICE_PROVIDERS]
 
 export const NAV_ITEMS_DEFAULT: ItemType[] = [
-  {
-    children: ACTIONS_NAV,
-    icon: <CarryOutOutlined />,
-    key: 'dashboard',
-    label: 'Knowledge Hub',
-  },
   {
     icon: <TeamOutlined />,
     key: COMMUNITY_GROUPS,
