@@ -144,10 +144,10 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
       <Main>
         <Section bordered={false} id="browse-actions">
           <List
-            className="no-padding"
+            className="equal-height"
             dataSource={filteredActions}
             grid={{
-              gutter: 16,
+              gutter: 24,
               lg: 2,
               md: 2,
               sm: 2,
@@ -165,7 +165,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
                   currentPage: page,
                   scrollPosition: window.scrollY,
                 }),
-              pageSize: 10,
+              pageSize: 20,
             }}
             renderItem={(item) => {
               return (
