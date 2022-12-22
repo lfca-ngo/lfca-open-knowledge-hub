@@ -59,7 +59,9 @@ export const TopNavLayout = ({
           {aside}
         </Aside>
       )}
-      <footer className={styles['top-nav-footer']}>Footer</footer>
+      <footer className={styles['top-nav-footer']}>
+        lfca.ngo © {`${new Date().getFullYear()}`}
+      </footer>
     </Layout>
   )
 }
