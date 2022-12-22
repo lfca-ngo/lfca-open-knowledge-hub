@@ -25,7 +25,11 @@ export const DetailPageLayout = ({
           <div className={styles['header-left']}>
             <Space size="large">
               <Logo centered />
-              {goBack && <Button icon={<ArrowLeftOutlined />}>Back</Button>}
+              {goBack && (
+                <Button icon={<ArrowLeftOutlined />} onClick={goBack}>
+                  Back
+                </Button>
+              )}
             </Space>
           </div>
 
