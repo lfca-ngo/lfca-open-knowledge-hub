@@ -13,6 +13,8 @@ interface TopNavLayoutProps {
   children: React.ReactNode
   aside?: React.ReactNode
   asidePosition?: AsidePosition
+  filterBar?: React.ReactNode
+  header?: React.ReactNode
   stickySidebar?: boolean
   goBack?: () => void
 }
@@ -21,15 +23,24 @@ export const TopNavLayout = ({
   aside,
   asidePosition = 'right',
   children,
+  filterBar,
   goBack,
+  header,
   stickySidebar,
 }: TopNavLayoutProps) => {
   return (
     <div className={styles['layout']}>
       <div className={styles['header']}>
-        <Logo centered />
-        <TopNav goBack={goBack} nav={MAIN_NAV} />
-        <SettingsNav />
+        <div className={styles['main-header']}>
+          <div className={styles['header-left']}>
+            <Logo centered />
+          </div>
+          <div className={styles['header-center']}>{header}</div>
+          <div className={styles['header-right']}>
+            <SettingsNav />
+          </div>
+        </div>
+        {filterBar && <div className={styles['filter-bar']}>{filterBar}</div>}
       </div>
       <Aside asidePosition={asidePosition} stickySidebar={stickySidebar}>
         {aside}

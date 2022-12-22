@@ -1,4 +1,4 @@
-@header-height: 75px;
+@header-height: 125px;
 @sider-width: 300px;
 
 .layout {
@@ -19,7 +19,30 @@
   grid-area: header;
   display: flex;
   align-items: center;
+  flex-direction: column;
   padding: 0 30px;
+
+  .main-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .header-left,
+  .header-right {
+    flex: 1;
+    display: flex;
+  }
+
+  .header-center {
+    max-width: 300px;
+  }
 }
 .aside {
   grid-area: sidebar;

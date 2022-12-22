@@ -1,4 +1,4 @@
-import { Form, List } from 'antd'
+import { Form, Input, List } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 import { ActionCardWrapper } from '../../components/ActionCard'
@@ -95,6 +95,8 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
         </div>
       }
       asidePosition="left"
+      filterBar={<div>jo</div>}
+      header={<Input style={{ width: '100px' }} placeholder="search" />}
     >
       <Main>
         <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
@@ -105,6 +107,15 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
           <List
             className="no-padding"
             dataSource={filteredActions}
+            grid={{
+              gutter: 16,
+              lg: 3,
+              md: 3,
+              sm: 2,
+              xl: 3,
+              xs: 1,
+              xxl: 3,
+            }}
             pagination={{
               current: currentPage,
               defaultCurrent: currentPage,
