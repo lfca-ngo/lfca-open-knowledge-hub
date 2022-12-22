@@ -7,7 +7,7 @@ interface DropdownSelectorProps {
   buttonContent?: React.ReactNode
   buttonProps?: ButtonProps
   items: MenuProps['items']
-  onSelect: ({ key }: { key: string }) => void
+  onSelect?: ({ key }: { key: string }) => void
 }
 
 export const DropdownSelector = ({

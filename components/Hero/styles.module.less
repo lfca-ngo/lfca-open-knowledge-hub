@@ -1,3 +1,25 @@
+@max-text-width: 900px;
+
 .hero {
+  padding: 80px 0;
   text-align: center;
+  background: @chalk;
+  border-bottom: 1px solid fade(@black, 5%);
+
+  h1,
+  h2 {
+    max-width: @max-text-width;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 62px;
+  }
+
+  h2 {
+    .font-regular();
+    color: @text-color;
+    margin: 30px auto 0;
+    line-height: 1.3;
+  }
 }

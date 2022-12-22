@@ -1,5 +1,5 @@
 import { EllipsisOutlined } from '@ant-design/icons'
-import { Form, Input, List, Select, Space } from 'antd'
+import { Form, Input, List, Space } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 
@@ -109,7 +109,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
                     type: 'link',
                   }}
                   items={SORT_OPTIONS}
-                  onSelect={(key) => console.log(key)}
+                  // onSelect={(key) => console.log(key)}
                 />
               </Form.Item>
               <Form.Item name="sorting">
@@ -121,7 +121,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
                     type: 'link',
                   }}
                   items={SORT_OPTIONS}
-                  onSelect={(key) => console.log(key)}
+                  // onSelect={(key) => console.log(key)}
                 />
               </Form.Item>
             </Space>
@@ -129,7 +129,9 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
         </div>
       }
       header={
-        <Form onValuesChange={({ search }) => console.log(search)}>
+        <Form
+        // onValuesChange={({ search }) => console.log(search)}
+        >
           <Form.Item name="search">
             <Search
               placeholder="Search for climate action..."
@@ -139,7 +141,14 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
           </Form.Item>
         </Form>
       }
-      hero={<Hero title={'Hello'} />}
+      hero={
+        <Hero
+          title={'Explore our actions'}
+          subtitle={
+            'Our action library is open and accessible to the public. If you have any questions, please reach out to us'
+          }
+        />
+      }
     >
       <Main>
         <Section bordered={false} id="browse-actions">
