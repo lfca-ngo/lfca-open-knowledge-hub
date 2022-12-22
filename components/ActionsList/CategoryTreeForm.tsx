@@ -1,4 +1,4 @@
-import { Form, FormInstance, Space } from 'antd'
+import { Form, FormInstance } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
@@ -9,24 +9,27 @@ export const SORT_OPTIONS = [
   { key: 'impact', label: 'Impact' },
 ]
 
-export interface FilterFormItems {
+export interface CategoryTreeFormItems {
   search?: string
   sorting?: string
 }
 
-interface FilterBarProps {
-  form: FormInstance<FilterFormItems>
+interface CategoryTreeFormProps {
+  form: FormInstance<CategoryTreeFormItems>
   mode?: 'default' | 'compact'
-  initialValues?: FilterFormItems
-  onValuesChange?: (_: FilterFormItems, allValues: FilterFormItems) => void
+  initialValues?: CategoryTreeFormItems
+  onValuesChange?: (
+    _: CategoryTreeFormItems,
+    allValues: CategoryTreeFormItems
+  ) => void
 }
 
-export const FilterBar = ({
+export const CategoryTreeForm = ({
   form,
   initialValues,
   mode = 'default',
   onValuesChange,
-}: FilterBarProps) => {
+}: CategoryTreeFormProps) => {
   return (
     <Form
       className={`filter-bar ${classNames(mode)}`}

@@ -1,16 +1,14 @@
-import { EllipsisOutlined } from '@ant-design/icons'
-import { Form, Input, List, Space } from 'antd'
+import { Form, Input, List } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 
 import { ActionCardWrapper } from '../../components/ActionCard'
 import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkeleton'
 import {
-  FilterBar,
-  FilterFormItems,
-  SORT_OPTIONS,
-} from '../../components/ActionsList/FilterBar'
-import { DropdownSelector } from '../../components/DropdownSelector'
+  CategoryTreeForm,
+  CategoryTreeFormItems,
+} from '../../components/ActionsList/CategoryTreeForm'
+import { FilterBar } from '../../components/FilterBar'
 import { Hero } from '../../components/Hero'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
@@ -39,9 +37,10 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
   const [form] = Form.useForm()
 
   const handleChange = (
-    latestChange: FilterFormItems,
-    allValues: FilterFormItems
+    latestChange: CategoryTreeFormItems,
+    allValues: CategoryTreeFormItems
   ) => {
+    console.log(allValues)
     savePosition({ ...persistentNavigation, ...allValues })
     // when searching, clear out all other filters
     if (latestChange?.search) {
@@ -57,22 +56,31 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
     const activeCategories = formOptions?.categories || []
     const activeSearch = formOptions?.search || ''
     const activeSorting = formOptions?.sorting
+    const activeHasRelatedActions = formOptions?.hasRelatedActions
 
     return (
       actions
         // the below applies the search and category filter
         .filter((action) => {
+          const hasRelatedActions = (action.relatedActions?.length || 0) > 0
+          const shouldFilterRelatedActions = activeHasRelatedActions === 'yes'
           const actionCategories = action.tags.map((c) => c.categoryId)
           const intersectingCategories = actionCategories.filter((value) =>
             activeCategories.includes(value)
           )
 
+          const matchesRelatedActions =
+            activeHasRelatedActions === 'all'
+              ? true
+              : shouldFilterRelatedActions
+              ? hasRelatedActions
+              : !hasRelatedActions
           const matchesCategory = intersectingCategories.length > 0
           const matchesSearch = lowerCaseSearch(
             activeSearch,
             action.title || ''
           )
-          return matchesSearch && matchesCategory
+          return matchesSearch && matchesCategory && matchesRelatedActions
         })
         // the below applies the sorting filter
         .sort((a, b) => {
@@ -88,7 +96,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
   return (
     <TopNavLayout
       aside={
-        <FilterBar
+        <CategoryTreeForm
           form={form}
           initialValues={formOptions}
           mode={'default'}
@@ -97,41 +105,14 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
       }
       asidePosition="left"
       filterBar={
-        <div>
-          <Form layout="inline">
-            <Space>
-              <Form.Item name="sorting">
-                <DropdownSelector
-                  buttonContent={'Tags'}
-                  buttonProps={{
-                    icon: <EllipsisOutlined />,
-                    size: 'small',
-                    type: 'link',
-                  }}
-                  items={SORT_OPTIONS}
-                  // onSelect={(key) => console.log(key)}
-                />
-              </Form.Item>
-              <Form.Item name="sorting">
-                <DropdownSelector
-                  buttonContent={'Tags'}
-                  buttonProps={{
-                    icon: <EllipsisOutlined />,
-                    size: 'small',
-                    type: 'link',
-                  }}
-                  items={SORT_OPTIONS}
-                  // onSelect={(key) => console.log(key)}
-                />
-              </Form.Item>
-            </Space>
-          </Form>
-        </div>
+        <FilterBar
+          filterItemsTags={[]}
+          form={form}
+          onValuesChange={handleChange}
+        />
       }
       header={
-        <Form
-        // onValuesChange={({ search }) => console.log(search)}
-        >
+        <Form form={form} onValuesChange={handleChange}>
           <Form.Item name="search">
             <Search
               placeholder="Search for climate action..."
@@ -143,10 +124,10 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
       }
       hero={
         <Hero
-          title={'Explore our actions'}
           subtitle={
-            'Our action library is open and accessible to the public. If you have any questions, please reach out to us'
+            'Our action library is open source and fully accessible to the public. If you have any questions, please reach out to us'
           }
+          title={'Open Climate Knowledge'}
         />
       }
     >

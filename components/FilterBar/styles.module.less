@@ -1,0 +1,29 @@
+.filter-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  :global {
+    .ant-form {
+      width: 100%;
+
+      .align-right {
+        align-items: flex-end;
+        justify-content: flex-end;
+        display: flex;
+
+        .ant-form-item-label {
+          margin-right: 0;
+          margin-left: auto;
+          label {
+            font-size: @font-size-xs;
+          }
+        }
+        .ant-form-item-control-input-content {
+          justify-content: flex-end;
+          display: flex;
+        }
+      }
+    }
+  }
+}

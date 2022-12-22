@@ -135,6 +135,14 @@
   display: flex;
   margin: 0 -@column-gap-width;
   flex-wrap: wrap;
+  overflow-y: scroll;
+  max-height: 100vh;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   :global {
     .show-more {

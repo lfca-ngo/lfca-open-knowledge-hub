@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 
-import { SORT_OPTIONS } from '../components/ActionsList/FilterBar'
+import { SORT_OPTIONS } from '../components/ActionsList/CategoryTreeForm'
 import categoryTreeData from '../public/data/_category-tree-data.json'
 import { isBrowser } from '../utils'
 import { useLocalStorage } from './useLocalStorage'
 
-interface NavigationOptions {
+export interface NavigationOptions {
+  hasRelatedActions?: 'all' | 'yes' | 'no'
   scrollPosition?: number
   currentPage?: number
   search?: string
@@ -24,6 +25,7 @@ const LS_KEY = 'persistent_navigation'
 const initialOptions: NavigationOptions = {
   categories: Object.keys(categoryTreeData.lookUp),
   currentPage: 1,
+  hasRelatedActions: 'all',
   scrollPosition: 0,
   sorting: SORT_OPTIONS[0].key,
 }
