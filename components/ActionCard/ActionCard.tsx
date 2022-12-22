@@ -1,4 +1,4 @@
-import { Button, Card, Space } from 'antd'
+import { Button, Card, Space, Tag } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 
@@ -33,6 +33,13 @@ export const ActionCard = ({
       </div>
       <div className="content">
         <div className="title">{action.title}</div>
+        <div className="tags">
+          {action.tags.map((t) => (
+            <Tag color="blue" key={t.categoryId}>
+              {t.name}
+            </Tag>
+          ))}
+        </div>
       </div>
       <div className="actions">
         <Space>
