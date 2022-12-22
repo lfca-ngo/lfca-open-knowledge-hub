@@ -40,7 +40,6 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
     latestChange: CategoryTreeFormItems,
     allValues: CategoryTreeFormItems
   ) => {
-    console.log(allValues)
     savePosition({ ...persistentNavigation, ...allValues })
     // when searching, clear out all other filters
     if (latestChange?.search) {

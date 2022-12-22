@@ -1,4 +1,4 @@
-import { AppstoreAddOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { AppstoreAddOutlined } from '@ant-design/icons'
 import { Button, Drawer } from 'antd'
 import classNames from 'classnames'
 import { useState } from 'react'

@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionLastUpdatedAt } from '../../components/ActionLastUpdatedAt'
-import { Main, Section, TopNavLayout } from '../../components/Layout'
+import { Main, Section } from '../../components/Layout'
 import { DetailPageLayout } from '../../components/Layout/DetailPageLayout'
 import {
   scrollToId,
