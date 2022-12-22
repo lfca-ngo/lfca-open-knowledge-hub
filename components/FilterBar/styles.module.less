@@ -8,9 +8,11 @@
       width: 100%;
 
       .align-right {
-        align-items: flex-end;
-        justify-content: flex-end;
         display: flex;
+        @media (min-width: @screen-md) {
+          align-items: flex-end;
+          justify-content: flex-end;
+        }
 
         .ant-form-item-label {
           margin-right: 0;
@@ -20,8 +22,10 @@
           }
         }
         .ant-form-item-control-input-content {
-          justify-content: flex-end;
           display: flex;
+          @media (min-width: @screen-md) {
+            justify-content: flex-end;
+          }
         }
       }
     }

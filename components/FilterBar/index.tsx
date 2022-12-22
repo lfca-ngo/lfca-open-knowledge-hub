@@ -1,7 +1,9 @@
 import { AppstoreAddOutlined, SortAscendingOutlined } from '@ant-design/icons'
 import { Col, Form, FormInstance, Radio, Row, Space } from 'antd'
 
+import { useBreakpoints } from '../../hooks/useBreakpoints'
 import { SORT_OPTIONS } from '../ActionsList/CategoryTreeForm'
+import { CollapseDrawer } from '../CollapseDrawer'
 import { DropdownSelector, KeyLabel } from '../DropdownSelector'
 import styles from './styles.module.less'
 
@@ -23,67 +25,71 @@ export const FilterBar = ({
   form,
   onValuesChange,
 }: FilterBarProps) => {
+  const isDesktop = useBreakpoints().lg
+
   return (
-    <div className={styles['filter-bar']}>
-      <Form
-        form={form}
-        initialValues={{ sorting: 'impact' }}
-        onValuesChange={onValuesChange}
-      >
-        <Row>
-          <Col md={12} xs={24}>
-            <Space>
-              <Form.Item name="hasRelatedActions">
-                <DropdownSelector
-                  buttonContent={`Filter by related actions`}
-                  buttonProps={{
-                    icon: <SortAscendingOutlined />,
-                    size: 'small',
-                    type: 'link',
-                  }}
-                  items={[
-                    {
-                      key: 'all',
-                      label: 'Show all',
-                    },
-                    {
-                      key: 'yes',
-                      label: 'With related actions',
-                    },
-                    {
-                      key: 'no',
-                      label: 'Without related actions',
-                    },
-                  ]}
-                />
+    <CollapseDrawer>
+      <div className={styles['filter-bar']}>
+        <Form
+          form={form}
+          initialValues={{ sorting: 'impact' }}
+          onValuesChange={onValuesChange}
+        >
+          <Row>
+            <Col md={12} xs={24}>
+              <Space direction={isDesktop ? 'horizontal' : 'vertical'}>
+                <Form.Item name="hasRelatedActions">
+                  <DropdownSelector
+                    buttonContent={`Filter by related actions`}
+                    buttonProps={{
+                      icon: <SortAscendingOutlined />,
+                      size: 'small',
+                      type: 'link',
+                    }}
+                    items={[
+                      {
+                        key: 'all',
+                        label: 'Show all',
+                      },
+                      {
+                        key: 'yes',
+                        label: 'With related actions',
+                      },
+                      {
+                        key: 'no',
+                        label: 'Without related actions',
+                      },
+                    ]}
+                  />
+                </Form.Item>
+                <Form.Item name="filtering">
+                  <DropdownSelector
+                    buttonContent={`Filter by tags`}
+                    buttonProps={{
+                      disabled: true,
+                      icon: <AppstoreAddOutlined />,
+                      size: 'small',
+                      type: 'link',
+                    }}
+                    items={filterItemsTags}
+                  />
+                </Form.Item>
+              </Space>
+            </Col>
+            <Col className="align-right" md={12} xs={24}>
+              <Form.Item label="Sort by" name="sorting">
+                <Radio.Group size="small">
+                  {SORT_OPTIONS.map((option) => (
+                    <Radio.Button key={option.key} value={option.key}>
+                      {option.label}
+                    </Radio.Button>
+                  ))}
+                </Radio.Group>
               </Form.Item>
-              <Form.Item name="filtering">
-                <DropdownSelector
-                  buttonContent={`Filter by tags`}
-                  buttonProps={{
-                    disabled: true,
-                    icon: <AppstoreAddOutlined />,
-                    size: 'small',
-                    type: 'link',
-                  }}
-                  items={filterItemsTags}
-                />
-              </Form.Item>
-            </Space>
-          </Col>
-          <Col className="align-right" md={12} xs={24}>
-            <Form.Item label="Sort by" name="sorting">
-              <Radio.Group size="small">
-                {SORT_OPTIONS.map((option) => (
-                  <Radio.Button key={option.key} value={option.key}>
-                    {option.label}
-                  </Radio.Button>
-                ))}
-              </Radio.Group>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-    </div>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </CollapseDrawer>
   )
 }

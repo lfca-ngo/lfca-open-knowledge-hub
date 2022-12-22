@@ -1,7 +1,7 @@
 @max-text-width: 900px;
 
 .hero {
-  padding: 80px 0;
+  padding: 80px @default-padding;
   text-align: center;
   background: @chalk;
   border-bottom: 1px solid fade(@black, 5%);
@@ -13,7 +13,19 @@
   }
 
   h1 {
-    font-size: 62px;
+    font-size: 36px;
+
+    @media (min-width: @screen-md) {
+      font-size: 48px;
+    }
+
+    @media (min-width: @screen-lg) {
+      font-size: 56px;
+    }
+
+    @media (min-width: @screen-xl) {
+      font-size: 62px;
+    }
   }
 
   h2 {
