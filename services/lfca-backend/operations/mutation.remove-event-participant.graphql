@@ -1,5 +1,0 @@
-mutation removeEventParticipant($input: RemoveEventParticipantInput!) {
-  removeEventParticipant(input: $input) {
-    ...EventWithParticipants
-  }
-}

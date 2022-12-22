@@ -1,34 +1,183 @@
+import { Form, Input, List } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
-import React from 'react'
+import React, { useMemo } from 'react'
 
-import { ActionsList } from '../../components/ActionsList'
+import { ActionCardWrapper } from '../../components/ActionCard'
+import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkeleton'
+import {
+  CategoryTreeForm,
+  CategoryTreeFormItems,
+} from '../../components/ActionsList/CategoryTreeForm'
+import { FilterBar } from '../../components/FilterBar'
+import { Hero } from '../../components/Hero'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
+import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
   ContentfulActionFields,
   fetchAllActions,
 } from '../../services/contentful'
-import { EMPTY_ACTIONS } from '../../services/lfca-backend'
+import { lowerCaseSearch } from '../../utils'
+
+const { Search } = Input
+
+export const LS_ACTION_LIST = 'actions_list'
 
 interface DashboardProps {
   actions: ContentfulActionFields[]
 }
 
 const Home: NextPage<DashboardProps> = ({ actions }) => {
-  return (
-    <TopNavLayout>
-      <Main>
-        <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
-          <h1 style={{ fontSize: '40px' }}>Browse our action modules</h1>
-        </div>
+  const { persistentNavigation, resetPosition, savePosition } =
+    usePersistentNavigation(true)
 
+  // the currentPage is needed for the list component,
+  // the rest for the filter form component
+  const { ...formOptions } = persistentNavigation
+  const currentPage = persistentNavigation?.currentPage
+  const [form] = Form.useForm()
+
+  const handleChange = (
+    latestChange: CategoryTreeFormItems,
+    allValues: CategoryTreeFormItems
+  ) => {
+    savePosition({ ...persistentNavigation, ...allValues })
+    // when searching, clear out all other filters
+    if (latestChange?.search) {
+      resetPosition()
+      savePosition({ ...persistentNavigation, search: latestChange.search })
+    } else {
+      // for other operations, keep the state
+      savePosition({ ...persistentNavigation, ...allValues })
+    }
+  }
+
+  const filteredActions = useMemo(() => {
+    const activeCategories = formOptions?.categories || []
+    const activeSearch = formOptions?.search || ''
+    const activeSorting = formOptions?.sorting
+    const activeHasRelatedActions = formOptions?.hasRelatedActions
+
+    return (
+      actions
+        // the below applies the search and category filter
+        .filter((action) => {
+          const hasRelatedActions = (action.relatedActions?.length || 0) > 0
+          const shouldFilterRelatedActions = activeHasRelatedActions === 'yes'
+          const actionCategories = action.tags.map((c) => c.categoryId)
+          const intersectingCategories = actionCategories.filter((value) =>
+            activeCategories.includes(value)
+          )
+
+          const matchesRelatedActions =
+            activeHasRelatedActions === 'all'
+              ? true
+              : shouldFilterRelatedActions
+              ? hasRelatedActions
+              : !hasRelatedActions
+          const matchesCategory = intersectingCategories.length > 0
+          const matchesSearch = lowerCaseSearch(
+            activeSearch,
+            action.title || ''
+          )
+          return matchesSearch && matchesCategory && matchesRelatedActions
+        })
+        // the below applies the sorting filter
+        .sort((a, b) => {
+          if (activeSorting === 'impact') {
+            return b.impactValue - a.impactValue
+          } else {
+            return -1
+          }
+        })
+    )
+  }, [actions, formOptions])
+
+  return (
+    <TopNavLayout
+      aside={
+        <CategoryTreeForm
+          form={form}
+          initialValues={formOptions}
+          mode={'default'}
+          onValuesChange={handleChange}
+        />
+      }
+      asidePosition="left"
+      filterBar={
+        <FilterBar
+          filterItemsTags={[]}
+          form={form}
+          onValuesChange={handleChange}
+        />
+      }
+      header={
+        <Form form={form} onValuesChange={handleChange}>
+          <Form.Item name="search">
+            <Search
+              placeholder="Search for climate action..."
+              size="middle"
+              style={{ width: '100%' }}
+            />
+          </Form.Item>
+        </Form>
+      }
+      hero={
+        <Hero
+          subtitle={
+            'Our action library is open source and fully accessible to the public. If you have any questions, please reach out to us'
+          }
+          title={'Open Climate Knowledge'}
+        />
+      }
+    >
+      <Main>
         <Section bordered={false} id="browse-actions">
-          <ActionsList
-            actionListItemProps={{
-              renderAsLink: true,
-              unselectText: 'View',
+          <List
+            className="equal-height"
+            dataSource={filteredActions}
+            grid={{
+              gutter: 24,
+              lg: 2,
+              md: 2,
+              sm: 2,
+              xl: 3,
+              xs: 1,
+              xxl: 4,
             }}
-            actions={actions || EMPTY_ACTIONS}
-            fetching={false}
+            pagination={{
+              current: currentPage,
+              defaultCurrent: currentPage,
+              onChange: (page) =>
+                persistentNavigation &&
+                savePosition({
+                  ...persistentNavigation,
+                  currentPage: page,
+                  scrollPosition: window.scrollY,
+                }),
+              pageSize: 20,
+            }}
+            renderItem={(item) => {
+              return (
+                <List.Item>
+                  <ActionCardSkeleton fetching={false}>
+                    <ActionCardWrapper
+                      action={item}
+                      onSavePosition={() => {
+                        persistentNavigation &&
+                          savePosition({
+                            ...persistentNavigation,
+                            scrollPosition: window.scrollY,
+                          })
+                      }}
+                      {...{
+                        renderAsLink: true,
+                        unselectText: 'View',
+                      }}
+                    />
+                  </ActionCardSkeleton>
+                </List.Item>
+              )
+            }}
           />
         </Section>
       </Main>

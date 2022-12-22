@@ -1,5 +1,0 @@
-query company($input: CompanyInput) {
-  company(input: $input) {
-    ...Company
-  }
-}

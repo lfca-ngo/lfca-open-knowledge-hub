@@ -1,6 +1,5 @@
 import { DefaultOptionType } from 'antd/lib/select'
 
-import { CompanyActionListItemFragment } from '../services/lfca-backend'
 import { RemoveNull } from '../types'
 
 export const isDev = process.env.NODE_ENV === 'development'
@@ -129,10 +128,6 @@ export const CSS_THEME_DARK = !isBrowser()
   : getComputedStyle(document.documentElement)
       ?.getPropertyValue('--THEME--DARK')
       .trim() || THEME_DARK
-
-export const actionHasReviews = (action?: CompanyActionListItemFragment) => {
-  return !!action?.serviceProviderList?.id
-}
 
 export const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message

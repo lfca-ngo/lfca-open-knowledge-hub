@@ -156,8 +156,10 @@ body {
     .ant-row {
       > div {
         display: flex;
+        margin-bottom: 24px;
         .ant-list-item {
           height: 100%;
+          margin: 0;
         }
       }
     }
@@ -301,6 +303,12 @@ body {
   border-color: transparent;
   color: @black;
 }
+.ant-btn.btn-dropdown {
+  background-color: transparent;
+  &:hover {
+    background-color: @white;
+  }
+}
 
 .ant-btn.ant-btn-background-ghost:hover,
 .ant-btn.ant-btn-background-ghost:focus {
@@ -378,9 +386,20 @@ a.ant-btn {
 
 // Radio
 .ant-radio-group {
+  &.ant-radio-group-small {
+    .ant-radio-button-wrapper {
+      font-size: @font-size-xs;
+    }
+  }
   .ant-radio-button-wrapper {
+    border-color: transparent;
+
     &.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
       color: @black;
+      border-color: transparent;
+    }
+    &.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+      background-color: transparent;
     }
   }
 }

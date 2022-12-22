@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const companyTags = require('./next-fetch-during-build/company-tags')
 const rootCategories = require('./next-fetch-during-build/root-categories')
-const subscriptions = require('./next-fetch-during-build/subscriptions')
-const companyTagStats = require('./next-fetch-during-build/company-tag-stats')
 const withLess = require('next-with-less')
 const path = require('path')
 
@@ -15,9 +12,6 @@ module.exports = async () => {
   // fetch global data that needs to be accessible throughout the app
   // here and make it accessible in a simple json structure
   await rootCategories.fetchAndSaveByKey('_category-tree-data')
-  await companyTags.fetchAndSaveByKey('_company-tags-data')
-  await subscriptions.fetchAndSaveByKey('_subscriptions-data')
-  await companyTagStats.fetchAndSaveByKey('_company-tag-stats')
 
   return withLess({
     images: {

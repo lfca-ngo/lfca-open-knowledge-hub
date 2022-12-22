@@ -1,7 +1,0 @@
-mutation createServiceProviderReview(
-  $input: CreateServiceProviderReviewInput!
-) {
-  createServiceProviderReview(input: $input) {
-    ...ServiceProviderReview
-  }
-}

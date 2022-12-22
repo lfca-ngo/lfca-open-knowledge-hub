@@ -1,7 +1,0 @@
-mutation addExternalEventParticipant(
-  $input: AddExternalEventParticipantInput!
-) {
-  addExternalEventParticipant(input: $input) {
-    ...EventWithParticipants
-  }
-}

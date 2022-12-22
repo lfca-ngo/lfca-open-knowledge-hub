@@ -1,4 +1,4 @@
-import { MenuFoldOutlined } from '@ant-design/icons'
+import { AppstoreAddOutlined } from '@ant-design/icons'
 import { Button, Drawer } from 'antd'
 import classNames from 'classnames'
 import { useState } from 'react'
@@ -19,18 +19,14 @@ export const Aside = ({
   stickySidebar = false,
 }: AsideProps) => {
   const [open, setOpen] = useState(false)
-  const isDesktop = useBreakpoints().xl
+  const isDesktop = useBreakpoints().lg
 
   if (isDesktop) {
     return (
       <aside
-        className={classNames(
-          styles['top-nav-aside'],
-          styles[`${asidePosition}`],
-          {
-            [styles['sticky-sidebar']]: stickySidebar,
-          }
-        )}
+        className={classNames(styles['aside'], styles[`${asidePosition}`], {
+          [styles['sticky-sidebar']]: stickySidebar,
+        })}
       >
         {children}
       </aside>
@@ -40,7 +36,7 @@ export const Aside = ({
       <>
         <Button
           className={styles['toggle-aside-btn']}
-          icon={<MenuFoldOutlined />}
+          icon={<AppstoreAddOutlined />}
           onClick={() => setOpen(!open)}
         />
 

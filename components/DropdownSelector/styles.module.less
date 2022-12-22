@@ -1,0 +1,32 @@
+.dropdown-btn {
+  background: red;
+}
+
+.overlay-menu {
+  background: @white;
+  border-radius: @border-radius-base;
+  box-shadow: 2px 2px 2px fade(@black, 10%);
+  overflow: hidden;
+
+  :global {
+    ul {
+      list-style-type: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+
+      li {
+        margin: 4px 0;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: @font-size-sm;
+
+        &.active {
+          background: fade(@black, 10%);
+        }
+        &:hover {
+          background: fade(@black, 5%);
+        }
+      }
+    }
+  }
+}

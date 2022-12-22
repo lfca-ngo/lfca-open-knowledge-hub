@@ -1,5 +1,0 @@
-mutation createEvent($input: CreateEventInput!) {
-  createEvent(input: $input) {
-    ...EventWithParticipants
-  }
-}

@@ -1,35 +1,26 @@
 .action-card {
   @card-padding: @action-card-padding;
-  .list-hover-effect(8px);
 
   width: 100%;
-  border-radius: 0;
-  background-color: transparent;
+  border: 1px solid fade(@black, 10%);
 
   :global {
     .ant-card-body {
       display: flex;
       width: 100%;
-      padding: @action-card-padding 0;
+      padding: 0;
       flex-direction: column;
-
-      @media @desktop {
-        flex-direction: row;
-      }
+      height: 100%;
 
       .hero {
-        display: none;
-
-        @media @desktop {
-          display: block;
-        }
-
         .wrapper {
           position: relative;
           overflow: hidden;
           border-radius: 10px;
-          width: @action-card-hero-size;
-          height: @action-card-hero-size;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+          width: 100%;
+          height: 300px;
         }
       }
 
@@ -37,107 +28,24 @@
         display: flex;
         flex-direction: column;
         flex: 1;
-        padding: 0 0;
+        padding: 20px;
         justify-content: center;
-
-        @media @desktop {
-          padding: 0 10px 0 25px;
-        }
 
         .title {
           margin-bottom: 10px;
           .h5();
         }
 
-        .stats {
+        .tags {
+          margin: 10px 0 30px;
+        }
+
+        .actions {
           display: flex;
-          flex-direction: row;
-        }
-      }
-
-      .actions {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin: 10px 0 0;
-
-        @media @desktop {
-          margin: 0;
-          margin-right: 0;
-          justify-content: flex-end;
-        }
-      }
-    }
-  }
-}
-
-.action-card-compact {
-  @card-padding: @action-card-padding;
-
-  width: 100%;
-  border-radius: 0;
-  background-color: transparent;
-
-  :global {
-    .ant-card-body {
-      display: flex;
-      width: 100%;
-      padding: @action-card-padding 0;
-      flex-direction: column;
-
-      @media @desktop {
-        flex-direction: row;
-      }
-
-      .hero {
-        display: none;
-
-        @media @desktop {
-          display: block;
-        }
-
-        .wrapper {
-          position: relative;
-          overflow: hidden;
-          border-radius: 10px;
-          width: @action-card-hero-size;
-          height: @action-card-hero-size;
-        }
-      }
-
-      .content {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        padding: 0 0;
-        justify-content: center;
-
-        @media @desktop {
-          padding: 0 10px 0 25px;
-        }
-
-        .title {
-          font-size: 18px;
-          margin-bottom: 10px;
-          .font-semi();
-        }
-
-        .stats {
-          display: flex;
-          flex-direction: row;
-        }
-      }
-
-      .actions {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin: 10px 0 0;
-
-        @media @desktop {
-          margin: 0;
-          margin-right: 0;
-          justify-content: flex-end;
+          align-items: center;
+          justify-content: flex-start;
+          margin-bottom: 0;
+          margin-top: auto;
         }
       }
     }
@@ -148,6 +56,7 @@
   text-decoration: none;
   display: flex;
   width: 100%;
+  height: 100%;
 }
 
 .action-card-skeleton {
@@ -178,46 +87,6 @@
           margin-top: 10px;
         }
       }
-    }
-  }
-}
-
-.action-card-mini {
-  display: flex;
-  align-items: center;
-  height: auto;
-  padding: 12px;
-  white-space: normal;
-  text-align: left;
-  font-size: @font-size-sm;
-  color: @text-color;
-
-  &[class~='ant-btn-link'] {
-    padding: 0;
-    &:hover {
-      background: transparent;
-      text-decoration: underline;
-    }
-  }
-
-  :global {
-    .hero-wrapper {
-      border-radius: 6px;
-      margin-right: 12px;
-      position: relative;
-      width: 45px;
-      height: 45px;
-      overflow: hidden;
-      border-radius: @border-radius-base;
-    }
-
-    .text {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
     }
   }
 }

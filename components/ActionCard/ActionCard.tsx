@@ -1,8 +1,7 @@
-import { Button, Card, Space } from 'antd'
+import { Button, Card, Space, Tag } from 'antd'
 import classNames from 'classnames'
 import Image from 'next/image'
 
-import { ActionStats } from '../ActionStats'
 import { ActionCardProps } from '.'
 import styles from './styles.module.less'
 
@@ -34,20 +33,20 @@ export const ActionCard = ({
       </div>
       <div className="content">
         <div className="title">{action.title}</div>
-        <ActionStats
-          commentAttachmentCount={0}
-          commentCount={0}
-          companiesDoingCount={0}
-          mode={mode}
-          recentCompaniesDoing={[]}
-        />
-      </div>
-      <div className="actions">
-        <Space>
-          <Button onClick={handleSelect} type={'primary'}>
-            {selectText}
-          </Button>
-        </Space>
+        <div className="tags">
+          {action.tags.map((t) => (
+            <Tag color="blue" key={t.categoryId}>
+              {t.name}
+            </Tag>
+          ))}
+        </div>
+        <div className="actions">
+          <Space>
+            <Button onClick={handleSelect} type={'primary'}>
+              {selectText}
+            </Button>
+          </Space>
+        </div>
       </div>
     </Card>
   )

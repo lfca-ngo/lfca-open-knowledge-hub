@@ -1,5 +1,0 @@
-query companyActionsList($input: CompanyActionsInput) {
-  companyActions(input: $input) {
-    ...CompanyActionListItem
-  }
-}

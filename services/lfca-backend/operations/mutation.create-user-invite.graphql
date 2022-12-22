@@ -1,6 +1,0 @@
-mutation createUserInvite($input: CreateUserInviteInput!) {
-  createUserInvite(input: $input) {
-    email
-    userRole
-  }
-}

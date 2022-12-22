@@ -1,3 +1,0 @@
-mutation resendEmailVerification($input: ResendEmailVerificationInput!) {
-  resendEmailVerification(input: $input)
-}
