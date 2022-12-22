@@ -3,12 +3,11 @@ import React from 'react'
 import { Logo } from '../../Logo'
 import { Footer } from '../Footer'
 import { SettingsNav } from '../SettingsNav'
-import { Aside } from './Aside'
 import styles from './styles.module.less'
 
 export type AsidePosition = 'right' | 'left'
 
-interface TopNavLayoutProps {
+interface DetailPageLayoutProps {
   children: React.ReactNode
   aside?: React.ReactNode
   asidePosition?: AsidePosition
@@ -19,15 +18,7 @@ interface TopNavLayoutProps {
   goBack?: () => void
 }
 
-export const TopNavLayout = ({
-  aside,
-  asidePosition = 'right',
-  children,
-  filterBar,
-  header,
-  hero,
-  stickySidebar,
-}: TopNavLayoutProps) => {
+export const DetailPageLayout = ({ children }: DetailPageLayoutProps) => {
   return (
     <div className={styles['layout']}>
       <header className={styles['header']}>
@@ -36,18 +27,14 @@ export const TopNavLayout = ({
             <Logo centered />
           </div>
           <div className={styles['header-center']}>
-            <div className={styles['header-content']}>{header}</div>
+            {/* <div className={styles['header-content']}>{header}</div> */}
           </div>
           <div className={styles['header-right']}>
             <SettingsNav />
           </div>
         </div>
-        {filterBar && <div className={styles['filter-bar']}>{filterBar}</div>}
       </header>
-      <div className={styles['hero']}>{hero}</div>
-      <Aside asidePosition={asidePosition} stickySidebar={stickySidebar}>
-        {aside}
-      </Aside>
+
       <main className={styles['main']}>{children}</main>
       <footer className={styles['footer']}>
         <Footer />

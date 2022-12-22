@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { ActionDetails } from '../../components/ActionDetails'
 import { ActionLastUpdatedAt } from '../../components/ActionLastUpdatedAt'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
+import { DetailPageLayout } from '../../components/Layout/DetailPageLayout'
 import {
   scrollToId,
   SectionWrapper,
@@ -92,7 +93,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   ]
 
   return (
-    <TopNavLayout>
+    <DetailPageLayout>
       <Main>
         <Section className={styles['header-section']}>
           <ActionDetails
@@ -140,7 +141,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
             ))}
         </div>
       </Main>
-    </TopNavLayout>
+    </DetailPageLayout>
   )
 }
 
