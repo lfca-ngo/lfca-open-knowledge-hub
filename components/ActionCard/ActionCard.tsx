@@ -40,13 +40,13 @@ export const ActionCard = ({
             </Tag>
           ))}
         </div>
-      </div>
-      <div className="actions">
-        <Space>
-          <Button onClick={handleSelect} type={'primary'}>
-            {selectText}
-          </Button>
-        </Space>
+        <div className="actions">
+          <Space>
+            <Button onClick={handleSelect} type={'primary'}>
+              {selectText}
+            </Button>
+          </Space>
+        </div>
       </div>
     </Card>
   )

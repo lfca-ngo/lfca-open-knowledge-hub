@@ -1,9 +1,7 @@
 import React from 'react'
 
-import { MAIN_NAV } from '../../../utils/navs'
 import { Logo } from '../../Logo'
 import { SettingsNav } from '../SettingsNav'
-import { TopNav } from '../TopNav'
 import { Aside } from './Aside'
 import styles from './styles.module.less'
 
@@ -24,7 +22,6 @@ export const TopNavLayout = ({
   asidePosition = 'right',
   children,
   filterBar,
-  goBack,
   header,
   stickySidebar,
 }: TopNavLayoutProps) => {

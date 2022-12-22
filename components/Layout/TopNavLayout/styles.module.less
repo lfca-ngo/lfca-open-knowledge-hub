@@ -1,8 +1,11 @@
-@header-height: 125px;
+@header-height: 118px;
 @sider-width: 300px;
 
 .layout {
   display: grid;
+  background: @white;
+  row-gap: 30px;
+  column-gap: 30px;
   grid-template-rows: @header-height auto;
   grid-template-columns: @sider-width auto;
   grid-template-areas:
@@ -20,12 +23,15 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 0 30px;
+  padding: 0 20px;
+  border-bottom: 1px solid fade(@black, 5%);
+  background: @chalk;
 
   .main-header {
     display: flex;
     align-items: center;
     width: 100%;
+    padding: 15px 0;
   }
 
   .filter-bar {
@@ -41,11 +47,20 @@
   }
 
   .header-center {
-    max-width: 300px;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+  }
+
+  :global {
+    .ant-form-item {
+      margin: 0;
+    }
   }
 }
 .aside {
   grid-area: sidebar;
+  padding: 30px;
 }
 .main {
   grid-area: content;

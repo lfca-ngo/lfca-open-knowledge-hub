@@ -1,16 +1,16 @@
-import { Form, Input, List } from 'antd'
+import { EllipsisOutlined } from '@ant-design/icons'
+import { Form, Input, List, Select } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
+
 import { ActionCardWrapper } from '../../components/ActionCard'
 import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkeleton'
-
-import { ActionsList } from '../../components/ActionsList'
-// import { ActionCardProps, ActionCardWrapper } from '../../components/ActionCard'
-// import { ActionCardSkeleton } from '../../components/ActionCard/ActionCardSkeleton'
 import {
   FilterBar,
   FilterFormItems,
+  SORT_OPTIONS,
 } from '../../components/ActionsList/FilterBar'
+import { DropdownSelector } from '../../components/DropdownSelector'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
@@ -18,6 +18,8 @@ import {
   fetchAllActions,
 } from '../../services/contentful'
 import { lowerCaseSearch } from '../../utils'
+
+const { Search } = Input
 
 export const LS_ACTION_LIST = 'actions_list'
 
@@ -95,8 +97,35 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
         </div>
       }
       asidePosition="left"
-      filterBar={<div>jo</div>}
-      header={<Input style={{ width: '100px' }} placeholder="search" />}
+      filterBar={
+        <div>
+          <Form>
+            <Form.Item name="sorting">
+              <DropdownSelector
+                buttonContent={'Choose'}
+                buttonProps={{
+                  icon: <EllipsisOutlined />,
+                  size: 'small',
+                  type: 'link',
+                }}
+                items={SORT_OPTIONS}
+                onSelect={(key) => console.log(key)}
+              />
+            </Form.Item>
+          </Form>
+        </div>
+      }
+      header={
+        <Form onValuesChange={({ search }) => console.log(search)}>
+          <Form.Item name="search">
+            <Search
+              placeholder="Search for climate action..."
+              size="middle"
+              style={{ width: '100%' }}
+            />
+          </Form.Item>
+        </Form>
+      }
     >
       <Main>
         <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
@@ -109,10 +138,10 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
             dataSource={filteredActions}
             grid={{
               gutter: 16,
-              lg: 3,
-              md: 3,
+              lg: 2,
+              md: 2,
               sm: 2,
-              xl: 3,
+              xl: 2,
               xs: 1,
               xxl: 3,
             }}
@@ -141,10 +170,10 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
                             scrollPosition: window.scrollY,
                           })
                       }}
-                      // actionListItemProps={{
-                      //   renderAsLink: true,
-                      //   unselectText: 'View',
-                      // }}
+                      {...{
+                        renderAsLink: true,
+                        unselectText: 'View',
+                      }}
                     />
                   </ActionCardSkeleton>
                 </List.Item>
