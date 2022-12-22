@@ -1,3 +1,5 @@
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import { Button, Space } from 'antd'
 import React from 'react'
 
 import { Logo } from '../../Logo'
@@ -9,26 +11,24 @@ export type AsidePosition = 'right' | 'left'
 
 interface DetailPageLayoutProps {
   children: React.ReactNode
-  aside?: React.ReactNode
-  asidePosition?: AsidePosition
-  filterBar?: React.ReactNode
-  header?: React.ReactNode
-  hero?: React.ReactNode
-  stickySidebar?: boolean
   goBack?: () => void
 }
 
-export const DetailPageLayout = ({ children }: DetailPageLayoutProps) => {
+export const DetailPageLayout = ({
+  children,
+  goBack,
+}: DetailPageLayoutProps) => {
   return (
     <div className={styles['layout']}>
       <header className={styles['header']}>
         <div className={styles['main-header']}>
           <div className={styles['header-left']}>
-            <Logo centered />
+            <Space size="large">
+              <Logo centered />
+              {goBack && <Button icon={<ArrowLeftOutlined />}>Back</Button>}
+            </Space>
           </div>
-          <div className={styles['header-center']}>
-            {/* <div className={styles['header-content']}>{header}</div> */}
-          </div>
+
           <div className={styles['header-right']}>
             <SettingsNav />
           </div>

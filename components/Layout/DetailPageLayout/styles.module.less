@@ -26,10 +26,7 @@
   flex-direction: column;
   padding: 0 20px;
   border-bottom: 1px solid fade(@black, 5%);
-  background: @chalk;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  background: @white;
 
   .main-header {
     display: flex;
@@ -47,6 +44,7 @@
   .header-left,
   .header-right {
     display: flex;
+    align-items: center;
   }
 
   .header-right {
@@ -72,6 +70,7 @@
     }
   }
 }
+
 .aside {
   grid-area: sidebar;
   padding: 30px;
@@ -79,8 +78,10 @@
   top: @header-height;
   align-self: start;
 }
+
 .main {
   grid-area: content;
   margin: 30px auto;
   max-width: @lg-container-width;
+  padding: 0 @default-padding;
 }

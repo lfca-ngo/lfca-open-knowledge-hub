@@ -1,4 +1,4 @@
-@action-details-hero-size: 90px;
+@action-details-hero-size: 120px;
 
 .action-details {
   display: flex;
@@ -50,8 +50,14 @@
 
       h1 {
         flex: 1;
+
+        @media (min-width: @screen-lg) {
+          font-size: 40px;
+        }
+
         @media (min-width: @screen-xl) {
           padding-right: 120px;
+          font-size: 42px;
         }
       }
 

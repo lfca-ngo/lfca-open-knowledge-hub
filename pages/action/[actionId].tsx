@@ -2,6 +2,7 @@ import { InfoCircleOutlined, OrderedListOutlined } from '@ant-design/icons'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Tabs } from 'antd'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { ActionDetails } from '../../components/ActionDetails'
@@ -13,14 +14,13 @@ import {
   SectionWrapper,
 } from '../../components/Layout/SectionWrapper'
 import { RequirementsListTabs } from '../../components/RequirementsListTabs'
-import { ShowMore } from '../../components/ShowMore'
 import categoryTreeData from '../../public/data/_category-tree-data.json'
 import {
   ContentfulActionFields,
   fetchAllActions,
   RootCategoryLookUpProps,
 } from '../../services/contentful'
-import { DEFAULT_FONT_SIZE, DEFAULT_LINE_HEIGHT, isBrowser } from '../../utils'
+import { isBrowser } from '../../utils'
 import { options } from '../../utils/rich-text-options'
 import styles from './styles.module.less'
 
@@ -29,6 +29,7 @@ interface ActionProps {
 }
 
 const Action: NextPage<ActionProps> = ({ action }) => {
+  const { back } = useRouter()
   /**
    * Local State
    */
@@ -55,15 +56,10 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   const sections = [
     {
       children: () => (
-        <ShowMore
-          buttonProps={{ type: 'link' }}
-          maskMode="transparent"
-          maxHeight={DEFAULT_FONT_SIZE * DEFAULT_LINE_HEIGHT * 10}
-          text={
-            action?.aboutText &&
-            documentToReactComponents(action?.aboutText, options)
-          }
-        />
+        <>
+          {action?.aboutText &&
+            documentToReactComponents(action?.aboutText, options)}
+        </>
       ),
       hideSectionTitle: true,
       key: 'about',
@@ -93,7 +89,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   ]
 
   return (
-    <DetailPageLayout>
+    <DetailPageLayout goBack={() => back()}>
       <Main>
         <Section className={styles['header-section']}>
           <ActionDetails
