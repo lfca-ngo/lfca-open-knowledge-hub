@@ -34,11 +34,9 @@ export const FilterBar = ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
-      <Space className="category-tree-container" direction="vertical">
-        <Form.Item name="categories">
-          <CategoryTreeComponent />
-        </Form.Item>
-      </Space>
+      <Form.Item name="categories">
+        <CategoryTreeComponent />
+      </Form.Item>
     </Form>
   )
 }

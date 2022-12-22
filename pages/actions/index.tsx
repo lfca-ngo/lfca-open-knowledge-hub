@@ -1,5 +1,5 @@
 import { EllipsisOutlined } from '@ant-design/icons'
-import { Form, Input, List, Select } from 'antd'
+import { Form, Input, List, Select, Space } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 
@@ -11,6 +11,7 @@ import {
   SORT_OPTIONS,
 } from '../../components/ActionsList/FilterBar'
 import { DropdownSelector } from '../../components/DropdownSelector'
+import { Hero } from '../../components/Hero'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
@@ -87,31 +88,43 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
   return (
     <TopNavLayout
       aside={
-        <div>
-          <FilterBar
-            form={form}
-            initialValues={formOptions}
-            mode={'default'}
-            onValuesChange={handleChange}
-          />
-        </div>
+        <FilterBar
+          form={form}
+          initialValues={formOptions}
+          mode={'default'}
+          onValuesChange={handleChange}
+        />
       }
       asidePosition="left"
       filterBar={
         <div>
-          <Form>
-            <Form.Item name="sorting">
-              <DropdownSelector
-                buttonContent={'Choose'}
-                buttonProps={{
-                  icon: <EllipsisOutlined />,
-                  size: 'small',
-                  type: 'link',
-                }}
-                items={SORT_OPTIONS}
-                onSelect={(key) => console.log(key)}
-              />
-            </Form.Item>
+          <Form layout="inline">
+            <Space>
+              <Form.Item name="sorting">
+                <DropdownSelector
+                  buttonContent={'Tags'}
+                  buttonProps={{
+                    icon: <EllipsisOutlined />,
+                    size: 'small',
+                    type: 'link',
+                  }}
+                  items={SORT_OPTIONS}
+                  onSelect={(key) => console.log(key)}
+                />
+              </Form.Item>
+              <Form.Item name="sorting">
+                <DropdownSelector
+                  buttonContent={'Tags'}
+                  buttonProps={{
+                    icon: <EllipsisOutlined />,
+                    size: 'small',
+                    type: 'link',
+                  }}
+                  items={SORT_OPTIONS}
+                  onSelect={(key) => console.log(key)}
+                />
+              </Form.Item>
+            </Space>
           </Form>
         </div>
       }
@@ -126,12 +139,9 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
           </Form.Item>
         </Form>
       }
+      hero={<Hero title={'Hello'} />}
     >
       <Main>
-        <div style={{ margin: '20px 0 0', textAlign: 'center' }}>
-          <h1 style={{ fontSize: '40px' }}>Browse our action modules</h1>
-        </div>
-
         <Section bordered={false} id="browse-actions">
           <List
             className="no-padding"
@@ -141,9 +151,9 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
               lg: 2,
               md: 2,
               sm: 2,
-              xl: 2,
+              xl: 3,
               xs: 1,
-              xxl: 3,
+              xxl: 4,
             }}
             pagination={{
               current: currentPage,

@@ -6,18 +6,25 @@
   background: @white;
   row-gap: 30px;
   column-gap: 30px;
-  grid-template-rows: @header-height auto;
+  grid-template-rows: @header-height auto auto;
   grid-template-columns: @sider-width auto;
   grid-template-areas:
     'header header'
+    'hero hero'
     'content content';
 
   @media (min-width: @screen-lg) {
     grid-template-areas:
       'header header'
+      'hero hero'
       'sidebar content';
   }
 }
+
+.hero {
+  grid-area: hero;
+}
+
 .header {
   grid-area: header;
   display: flex;
@@ -26,12 +33,15 @@
   padding: 0 20px;
   border-bottom: 1px solid fade(@black, 5%);
   background: @chalk;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
   .main-header {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 15px 0;
+    padding: 15px 0 10px;
   }
 
   .filter-bar {
@@ -42,14 +52,24 @@
 
   .header-left,
   .header-right {
-    flex: 1;
     display: flex;
   }
 
+  .header-right {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
   .header-center {
-    max-width: 800px;
+    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    .header-content {
+      flex: 1;
+      max-width: 1000px;
+    }
   }
 
   :global {
@@ -61,6 +81,9 @@
 .aside {
   grid-area: sidebar;
   padding: 30px;
+  position: sticky;
+  top: @header-height;
+  align-self: start;
 }
 .main {
   grid-area: content;

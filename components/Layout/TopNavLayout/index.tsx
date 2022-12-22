@@ -13,6 +13,7 @@ interface TopNavLayoutProps {
   asidePosition?: AsidePosition
   filterBar?: React.ReactNode
   header?: React.ReactNode
+  hero?: React.ReactNode
   stickySidebar?: boolean
   goBack?: () => void
 }
@@ -23,26 +24,30 @@ export const TopNavLayout = ({
   children,
   filterBar,
   header,
+  hero,
   stickySidebar,
 }: TopNavLayoutProps) => {
   return (
     <div className={styles['layout']}>
-      <div className={styles['header']}>
+      <header className={styles['header']}>
         <div className={styles['main-header']}>
           <div className={styles['header-left']}>
             <Logo centered />
           </div>
-          <div className={styles['header-center']}>{header}</div>
+          <div className={styles['header-center']}>
+            <div className={styles['header-content']}>{header}</div>
+          </div>
           <div className={styles['header-right']}>
             <SettingsNav />
           </div>
         </div>
         {filterBar && <div className={styles['filter-bar']}>{filterBar}</div>}
-      </div>
+      </header>
+      <div className={styles['hero']}>{hero}</div>
       <Aside asidePosition={asidePosition} stickySidebar={stickySidebar}>
         {aside}
       </Aside>
-      <div className={styles['main']}>{children}</div>
+      <main className={styles['main']}>{children}</main>
       <footer className={styles['footer']}>
         lfca.ngo © {`${new Date().getFullYear()}`}
       </footer>

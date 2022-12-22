@@ -82,122 +82,6 @@
       }
     }
 
-    .category-tree {
-      @column-gap-width: 10px;
-
-      display: flex;
-      margin: 0 -@column-gap-width;
-      flex-wrap: wrap;
-
-      .show-more {
-        > .show-more-button {
-          > .ant-btn {
-            border-color: @grey-light;
-            &:hover {
-              background-color: fade(@black, 6%);
-            }
-          }
-        }
-      }
-
-      .tree-col {
-        width: calc(100% / 1);
-        margin: 0 0 15px;
-        padding: @column-gap-width;
-
-        @media @desktop {
-          width: calc(100% / 4);
-        }
-
-        // add colors
-        &.yellow {
-          .color-checkbox(darken(@yellow, 5%));
-        }
-        &.wine {
-          .color-checkbox(@wine);
-        }
-        &.blue {
-          .color-checkbox(@blue);
-        }
-        &.green {
-          .color-checkbox(@green);
-        }
-
-        // parent level checkbox
-        .main-tree-checkbox {
-          display: flex;
-          flex-direction: row-reverse;
-          width: 100%;
-          margin: 10px 0 20px;
-
-          // content field under the wrapper (e.g. title + icon)
-          > span:not(.ant-checkbox) {
-            margin-left: 0;
-            margin-right: auto;
-            font-size: 18px;
-            padding: 0;
-            .font-semi();
-
-            .anticon {
-              padding: 4px;
-              border-radius: 6px;
-              margin-right: 12px;
-              background: fade(@black, 10%);
-              color: @black;
-            }
-          }
-        }
-
-        // subtree level checkbox
-        .sub-tree-checkbox {
-          display: flex;
-          width: 100%;
-          background: fade(@black, 10%);
-          padding: 4px 8px;
-          border-radius: 4px;
-          margin: 4px 0;
-          font-size: @font-size-sm;
-
-          > span:not(.ant-checkbox) {
-            padding-left: 10px;
-            padding-right: 0;
-            display: flex;
-            flex: 1;
-
-            .text {
-              flex: 1;
-            }
-
-            .ant-btn {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              width: 24px;
-              height: 24px;
-              padding: 6px;
-              border-radius: 6px;
-
-              .anticon {
-                font-size: @font-size-sm;
-                transition: all 0.3s ease-in-out;
-              }
-            }
-          }
-        }
-
-        // sub-sub-tree level checkbox
-        .sub-sub-tree-checkbox {
-          display: flex;
-          width: 100%;
-          background: fade(@black, 10%);
-          padding: 4px 8px;
-          border-radius: 4px;
-          margin: 4px 0;
-          font-size: @font-size-sm;
-        }
-      }
-    }
-
     .filter-bar {
       width: 100%;
       display: flex;
@@ -240,6 +124,120 @@
         .ant-skeleton-paragraph {
           margin-top: 10px;
         }
+      }
+    }
+  }
+}
+
+.category-tree {
+  @column-gap-width: 10px;
+
+  display: flex;
+  margin: 0 -@column-gap-width;
+  flex-wrap: wrap;
+
+  :global {
+    .show-more {
+      > .show-more-button {
+        > .ant-btn {
+          border-color: @grey-light;
+          &:hover {
+            background-color: fade(@black, 6%);
+          }
+        }
+      }
+    }
+
+    .tree-col {
+      width: calc(100% / 1);
+      margin: 0 0 15px;
+      padding: @column-gap-width;
+
+      // add colors
+      &.yellow {
+        .color-checkbox(darken(@yellow, 5%));
+      }
+      &.wine {
+        .color-checkbox(@wine);
+      }
+      &.blue {
+        .color-checkbox(@blue);
+      }
+      &.green {
+        .color-checkbox(@green);
+      }
+
+      // parent level checkbox
+      .main-tree-checkbox {
+        display: flex;
+        flex-direction: row-reverse;
+        width: 100%;
+        margin: 10px 0 20px;
+
+        // content field under the wrapper (e.g. title + icon)
+        > span:not(.ant-checkbox) {
+          margin-left: 0;
+          margin-right: auto;
+          font-size: 18px;
+          padding: 0;
+          .font-semi();
+
+          .anticon {
+            padding: 4px;
+            border-radius: 6px;
+            margin-right: 12px;
+            background: fade(@black, 10%);
+            color: @black;
+          }
+        }
+      }
+
+      // subtree level checkbox
+      .sub-tree-checkbox {
+        display: flex;
+        width: 100%;
+        background: fade(@black, 10%);
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin: 4px 0;
+        font-size: @font-size-sm;
+
+        > span:not(.ant-checkbox) {
+          padding-left: 10px;
+          padding-right: 0;
+          display: flex;
+          flex: 1;
+
+          .text {
+            flex: 1;
+          }
+
+          .ant-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding: 6px;
+            border-radius: 6px;
+
+            .anticon {
+              font-size: @font-size-sm;
+              transition: all 0.3s ease-in-out;
+            }
+          }
+        }
+      }
+
+      // sub-sub-tree level checkbox
+      .sub-sub-tree-checkbox {
+        display: flex;
+        width: 100%;
+        background: fade(@black, 10%);
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin: 4px 0;
+        font-size: @font-size-sm;
       }
     }
   }

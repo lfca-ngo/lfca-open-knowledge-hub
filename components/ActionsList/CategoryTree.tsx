@@ -8,6 +8,7 @@ import {
 } from '../../services/contentful'
 import { ShowMore } from '../ShowMore'
 import { CategoryTreeElement } from './CategoryTreeElement'
+import styles from './styles.module.less'
 import {
   findCategoryChildren,
   findCategoryParents,
@@ -72,7 +73,7 @@ export const CategoryTreeComponent = ({
   }
 
   return (
-    <div className="category-tree">
+    <div className={styles['category-tree']}>
       {categoryTree.map((tree, i) => {
         const treeMetaData = rootTreeMetaData[tree.categoryId]
         return (
