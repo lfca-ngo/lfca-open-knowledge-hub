@@ -1,5 +1,0 @@
-mutation createActionComment($input: CreateActionCommentInput!) {
-  createActionComment(input: $input) {
-    ...ActionComment
-  }
-}

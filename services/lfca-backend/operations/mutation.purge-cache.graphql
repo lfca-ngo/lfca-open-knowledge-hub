@@ -1,3 +1,0 @@
-mutation purgeCache {
-  purgeCache
-}

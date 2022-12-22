@@ -1,5 +1,0 @@
-mutation createCompany($input: CreateCompanyInput!) {
-  createCompany(input: $input) {
-    ...Company
-  }
-}

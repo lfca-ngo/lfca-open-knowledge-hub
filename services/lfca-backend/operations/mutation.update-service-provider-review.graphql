@@ -1,7 +1,0 @@
-mutation updateServiceProviderReview(
-  $input: UpdateServiceProviderReviewInput!
-) {
-  updateServiceProviderReview(input: $input) {
-    ...ServiceProviderReview
-  }
-}

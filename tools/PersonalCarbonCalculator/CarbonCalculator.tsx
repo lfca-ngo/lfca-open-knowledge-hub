@@ -1,13 +1,7 @@
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  PieChartOutlined,
-  WarningOutlined,
-} from '@ant-design/icons'
+import { PieChartOutlined, WarningOutlined } from '@ant-design/icons'
 import { Alert, Button, Card, Carousel, Col, List, Modal, Row } from 'antd'
 import React from 'react'
 
-import { ArrowWrapper } from '../../components/ActionsCarousel/ArrowWrapper'
 import { Container } from '../../components/Layout'
 import { openInNewTab, toFixedNumber } from '../../utils'
 import { CustomIcon } from './components/Category'
@@ -114,8 +108,6 @@ export const CarbonCalculator = (props: any) => {
                     className="provider-slider"
                     dots={false}
                     infinite={false}
-                    nextArrow={<ArrowWrapper icon={<ArrowRightOutlined />} />}
-                    prevArrow={<ArrowWrapper icon={<ArrowLeftOutlined />} />}
                     slidesToScroll={3}
                     slidesToShow={3}
                   >

@@ -1,7 +1,0 @@
-mutation deleteServiceProviderReview(
-  $input: DeleteServiceProviderReviewInput!
-) {
-  deleteServiceProviderReview(input: $input) {
-    ...ServiceProviderReview
-  }
-}

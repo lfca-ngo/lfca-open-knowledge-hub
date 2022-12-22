@@ -1,5 +1,0 @@
-mutation processEventInviteToken($input: ProcessEventInviteTokenInput!) {
-  processEventInviteToken(input: $input) {
-    ...Event
-  }
-}

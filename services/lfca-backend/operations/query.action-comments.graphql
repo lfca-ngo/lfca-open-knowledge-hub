@@ -1,5 +1,0 @@
-query actionComments($input: ActionCommentsInput!) {
-  actionComments(input: $input) {
-    ...ActionComment
-  }
-}

@@ -2,20 +2,19 @@ import { Tabs } from 'antd'
 import { useMemo } from 'react'
 
 import { ContentfulActionFields } from '../../services/contentful'
-import { ACTION_STATES } from '../ActionBar/StatusButton'
 import { RequirementsList } from './RequirementsList'
 
 const STEPS_OPTIONS = [
   {
-    key: `${ACTION_STATES.BACKLOG.key}`,
+    key: `Backlog`,
     label: 'Plan',
   },
   {
-    key: `${ACTION_STATES.PLANNED.key}`,
+    key: `Planned`,
     label: 'Proceed',
   },
   {
-    key: `${ACTION_STATES.COMPLETE.key}`,
+    key: `Complete`,
     label: 'Share',
   },
 ]

@@ -19,7 +19,6 @@ import {
   fetchAllActions,
   RootCategoryLookUpProps,
 } from '../../services/contentful'
-import { EMPTY_ACTION } from '../../services/lfca-backend'
 import { DEFAULT_FONT_SIZE, DEFAULT_LINE_HEIGHT, isBrowser } from '../../utils'
 import { options } from '../../utils/rich-text-options'
 import styles from './styles.module.less'
@@ -97,7 +96,7 @@ const Action: NextPage<ActionProps> = ({ action }) => {
       <Main>
         <Section className={styles['header-section']}>
           <ActionDetails
-            action={action || EMPTY_ACTION}
+            action={action}
             fetching={false}
             rootCategory={rootCategory}
           />

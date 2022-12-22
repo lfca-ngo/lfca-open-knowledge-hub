@@ -7,7 +7,6 @@ import {
   ContentfulActionFields,
   fetchAllActions,
 } from '../../services/contentful'
-import { EMPTY_ACTIONS } from '../../services/lfca-backend'
 
 interface DashboardProps {
   actions: ContentfulActionFields[]
@@ -27,7 +26,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
               renderAsLink: true,
               unselectText: 'View',
             }}
-            actions={actions || EMPTY_ACTIONS}
+            actions={actions}
             fetching={false}
           />
         </Section>

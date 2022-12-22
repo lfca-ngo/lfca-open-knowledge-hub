@@ -1,5 +1,0 @@
-query userInvites($input: UserInvitesInput) {
-  userInvites(input: $input) {
-    ...UserInvite
-  }
-}

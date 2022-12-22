@@ -1,5 +1,0 @@
-mutation processEventRSVPToken($input: ProcessEventRSVPTokenInput!) {
-  processEventRSVPToken(input: $input) {
-    ...Event
-  }
-}

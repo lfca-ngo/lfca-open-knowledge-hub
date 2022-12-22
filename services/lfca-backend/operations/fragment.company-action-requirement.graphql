@@ -1,7 +1,0 @@
-fragment CompanyActionRequirement on CompanyActionRequirement {
-  contentId
-  title
-  completedAt
-  description
-  id
-}
