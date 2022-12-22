@@ -2,8 +2,8 @@ import styles from './styles.module.less'
 
 export const Footer = () => {
   return (
-    <footer
+    <div
       className={styles.footer}
-    >{`lfca.earth © ${new Date().getFullYear()}`}</footer>
+    >{`lfca.earth © ${new Date().getFullYear()}`}</div>
   )
 }

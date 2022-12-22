@@ -24,7 +24,7 @@ export const CollapseDrawer = ({ children }: CollapseDrawerProps) => {
           onClick={() => setOpen(!open)}
         />
 
-        <Drawer onClose={() => setOpen(false)} open={open}>
+        <Drawer onClose={() => setOpen(false)} open={open} placement="left">
           {children}
         </Drawer>
       </>

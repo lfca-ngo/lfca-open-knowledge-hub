@@ -1,4 +1,4 @@
-import { MenuFoldOutlined } from '@ant-design/icons'
+import { AppstoreAddOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { Button, Drawer } from 'antd'
 import classNames from 'classnames'
 import { useState } from 'react'
@@ -36,7 +36,7 @@ export const Aside = ({
       <>
         <Button
           className={styles['toggle-aside-btn']}
-          icon={<MenuFoldOutlined />}
+          icon={<AppstoreAddOutlined />}
           onClick={() => setOpen(!open)}
         />
 

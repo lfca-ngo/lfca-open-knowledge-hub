@@ -1,27 +1,30 @@
 @header-height: 118px;
 @header-height-mobile: 78px;
 @sider-width: 300px;
+@footer-height: 120px;
 
 .layout {
   display: grid;
   background: @white;
   row-gap: 0 30px;
-  grid-template-rows: @header-height-mobile auto auto;
+  grid-template-rows: @header-height-mobile auto auto auto;
   grid-template-columns: @sider-width auto;
   grid-template-areas:
     'header header'
     'hero hero'
-    'content content';
+    'content content'
+    'footer footer';
 
   @media (min-width: @screen-md) {
-    grid-template-rows: @header-height auto auto;
+    grid-template-rows: @header-height auto auto auto;
   }
 
   @media (min-width: @screen-lg) {
     grid-template-areas:
       'header header'
       'hero hero'
-      'sidebar content';
+      'sidebar content'
+      'sidebar footer';
   }
 }
 
@@ -93,4 +96,17 @@
 .main {
   grid-area: content;
   margin: 30px @default-padding;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.toggle-aside-btn {
+  position: absolute;
+  top: @default-floating-btn-top;
+  right: 0;
+  z-index: 100;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
