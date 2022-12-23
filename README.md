@@ -1,34 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# lfca-open-knowledge-hub
 
-## Getting Started
+## Running locally
 
-First, run the development server:
+1. Install dependencies:
+   ```bash
+   yarn
+   ```
+2. Create `.env.local` file:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Update values in `.env.local` file
 
-```bash
-npm run dev
-# or
-yarn dev
+## Available scripts
+
+- `dev`: Runs server in dev mode while watching for file changes
+- `build`: Builds production build into `./next` folder
+- `start`: Runs production server from `./next` folder
+- `lint`: Runs linter
+- `lint:fix`: Runs linter and tries to fix all errors
+- `sync-less-vars`: Sync less variables with css
+
+## Contributing
+
+1. Create a new branch for your changes that includes a [scope](#scopes) (e.g. `feat/my_awesome_new_feature`)
+2. If you make changes to the DB schema make sure to run `yarn migrate:dev` to generate the required migrations
+3. Commit your changes including a [scope](#scopes) in the commit message (e.g. `feat: added my awesome new feature`)
+4. Create a PR and give it a title that also includes a [scope](#scopes) (e.g. `feat: added my awesome new feature`)
+
+### Scopes
+
+For branch names, commit messages and PR titles we follow a simplified version of the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) specification by ensuring we always add a scope to our name/message/title.
+
+Use one of the following scopes:
+
+- `feat`: new feature for the user
+- `fix`: bug fix for the user
+- `refactor`: refactoring code, eg. renaming a variable
+- `test`: adding missing tests, refactoring tests; no production code change
+- `style`: formatting, missing semi colons, etc; no production code change
+- `ci`: changes to the CI configuration files and scripts
+- `chore`: updating autamated scripts, project setup etc; no production code change
+- `docs`: changes to the documentation
+
+#### Usage with branch names
+
+For branch names we use a `/` as delimiter:
+
+```
+feat/my_awesome_feature
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Usage with commit messages
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+For commit messages we use a `:` as delimiter:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+feat: added some new feature
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Usage PR titles
 
-## Learn More
+For PR titles we use a `:` as delimiter:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+feat: added some new feature
+```

@@ -1,5 +1,5 @@
 {
-  "name": "lfca-community-app",
+  "name": "lfca-open-knowledge-hub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "sync-less-vars": "node ./styles/_sync-vars-to-root.js"
   },
   "dependencies": {
