@@ -44,12 +44,18 @@ jobs:
           cond: ${{ github.ref_name == 'main' }}
           if_true: '--prod'
           if_false: ''
+      - name: Determine alias-domain
+        uses: haya14busa/action-cond@v1
+        id: alias-domain
+        with:
+          cond: ${{ github.ref_name == 'main' }}
+          if_true: ''
+          if_false: 'preview-lfca-open-knowledge-hub.vercel.app'
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
         id: vercel-deploy
         with:
-          cf-space-id: ${{ secrets.CF_SPACE_ID }}
-          cf-access-token: ${{ secrets.CF_ACCESS_TOKEN }}
+          alias-domains: ${{ steps.alias-domain.outputs.value }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: ${{ steps.vercel-args.outputs.value }}
