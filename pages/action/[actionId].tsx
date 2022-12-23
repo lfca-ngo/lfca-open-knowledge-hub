@@ -56,10 +56,11 @@ const Action: NextPage<ActionProps> = ({ action }) => {
   const sections = [
     {
       children: () => (
-        <>
+        <div className={styles['about-section']}>
+          <h2>What is this action about?</h2>
           {action?.aboutText &&
             documentToReactComponents(action?.aboutText, options)}
-        </>
+        </div>
       ),
       hideSectionTitle: true,
       key: 'about',

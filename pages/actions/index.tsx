@@ -125,9 +125,9 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
         <Hero
           subtitle={
             <>
-              This action library is open source and fully accessible to the
-              public. Questions?{' '}
-              <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
+              Are you looking for ways to take action climate? This open source
+              library is continously updated and fully accessible to the public.
+              Questions? <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
             </>
           }
           title={'Open Climate Knowledge'}
