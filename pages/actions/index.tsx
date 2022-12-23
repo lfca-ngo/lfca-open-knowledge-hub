@@ -1,5 +1,4 @@
-import { ControlOutlined } from '@ant-design/icons'
-import { Divider, Form, Input, List } from 'antd'
+import { Form, Input, List } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 
@@ -96,23 +95,12 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
   return (
     <TopNavLayout
       aside={
-        <Section
-          title={
-            <h4>
-              <ControlOutlined style={{ marginRight: '6px' }} />
-              Filter by pillar
-              <Divider style={{ margin: '20px 0 0' }} />
-            </h4>
-          }
-          titleSize="small"
-        >
-          <CategoryTreeForm
-            form={form}
-            initialValues={formOptions}
-            mode={'default'}
-            onValuesChange={handleChange}
-          />
-        </Section>
+        <CategoryTreeForm
+          form={form}
+          initialValues={formOptions}
+          mode={'default'}
+          onValuesChange={handleChange}
+        />
       }
       asidePosition="left"
       filterBar={

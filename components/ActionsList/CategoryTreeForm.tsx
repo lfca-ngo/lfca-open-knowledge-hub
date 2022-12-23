@@ -1,8 +1,9 @@
-import { Form, FormInstance } from 'antd'
-import classNames from 'classnames'
+import { ControlOutlined } from '@ant-design/icons'
+import { Divider, Form, FormInstance } from 'antd'
 import React from 'react'
 
 import { CategoryTreeComponent } from './CategoryTree'
+import styles from './styles.module.less'
 
 export const SORT_OPTIONS = [
   { key: 'popularity', label: 'Popularity' },
@@ -27,16 +28,20 @@ interface CategoryTreeFormProps {
 export const CategoryTreeForm = ({
   form,
   initialValues,
-  mode = 'default',
   onValuesChange,
 }: CategoryTreeFormProps) => {
   return (
     <Form
-      className={`filter-bar ${classNames(mode)}`}
+      className={styles['filter-bar']}
       form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
     >
+      <h4>
+        <ControlOutlined style={{ marginRight: '6px' }} />
+        Filter by pillar
+        <Divider style={{ margin: '20px 0 0' }} />
+      </h4>
       <Form.Item name="categories">
         <CategoryTreeComponent />
       </Form.Item>

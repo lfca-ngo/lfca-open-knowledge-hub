@@ -1,8 +1,8 @@
 import styles from './styles.module.less'
 
 interface HeroProps {
-  subtitle?: string
-  title: string
+  subtitle?: React.ReactNode | string
+  title: React.ReactNode | string
 }
 
 export const Hero = ({ subtitle, title }: HeroProps) => {

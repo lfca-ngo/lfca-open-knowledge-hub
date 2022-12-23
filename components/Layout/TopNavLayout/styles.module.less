@@ -1,14 +1,13 @@
-@header-height: 118px;
-@header-height-mobile: 78px;
-@sider-width: 300px;
-@footer-height: 120px;
+@top-nav-header-height: 118px;
+@top-nav-header-height-mobile: 78px;
+@top-nav-sider-width: 300px;
 
 .layout {
   display: grid;
   background: @white;
   row-gap: 0 30px;
-  grid-template-rows: @header-height-mobile auto auto auto;
-  grid-template-columns: @sider-width auto;
+  grid-template-rows: @top-nav-header-height-mobile auto auto auto;
+  grid-template-columns: @top-nav-sider-width auto;
   grid-template-areas:
     'header header'
     'hero hero'
@@ -16,7 +15,7 @@
     'footer footer';
 
   @media (min-width: @screen-md) {
-    grid-template-rows: @header-height auto auto auto;
+    grid-template-rows: @top-nav-header-height auto auto auto;
   }
 
   @media (min-width: @screen-lg) {
@@ -90,7 +89,7 @@
   grid-area: sidebar;
   padding: 30px;
   position: sticky;
-  top: @header-height;
+  top: @top-nav-header-height;
   align-self: start;
 }
 .main {

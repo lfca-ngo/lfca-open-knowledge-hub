@@ -60,72 +60,37 @@
   }
 }
 
-// main styles of component
-.actions-list {
-  > :global(.ant-divider) {
-    margin: 15px 0 0;
-    border-color: @grey-light;
+.filter-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  overflow-y: scroll;
+  max-height: calc(100vh - @top-nav-header-height-mobile);
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 
-  :global {
-    .filter-bar.compact {
-      > .header-bar {
-        position: relative;
-        border-bottom: none;
-        margin-bottom: 0;
-      }
+  @media (min-width: @screen-md) {
+    max-height: calc(100vh - @top-nav-header-height);
+  }
 
-      .compact-filter-bar {
-        > .ant-space-item {
-          width: 100%;
-        }
-      }
-    }
+  .header-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 10px;
+    border-bottom: 1px solid @grey-light;
+    padding-bottom: 20px;
+  }
 
-    .filter-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      flex-direction: column;
-
-      .header-bar {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        margin: 0 0 10px;
-        border-bottom: 1px solid @grey-light;
-        padding-bottom: 20px;
-      }
-
-      .ant-form-item {
-        margin: 0;
-      }
-    }
-
-    .ant-skeleton {
-      display: flex;
-      align-items: center;
-      padding: @action-card-padding 0;
-      .ant-skeleton-avatar {
-        width: @action-card-hero-size;
-        height: @action-card-hero-size;
-        border-radius: @border-radius-base;
-      }
-      .ant-skeleton-header {
-        display: flex;
-        align-items: center;
-        margin-right: 16px;
-      }
-      .ant-skeleton-content {
-        .ant-skeleton-title {
-          margin: 0;
-        }
-        .ant-skeleton-paragraph {
-          margin-top: 10px;
-        }
-      }
-    }
+  .ant-form-item {
+    margin: 0;
   }
 }
 
@@ -135,14 +100,6 @@
   display: flex;
   margin: 0 -@column-gap-width;
   flex-wrap: wrap;
-  overflow-y: scroll;
-  max-height: 100vh;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 
   :global {
     .show-more {
