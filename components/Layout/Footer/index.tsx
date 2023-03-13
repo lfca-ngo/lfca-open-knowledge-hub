@@ -14,6 +14,17 @@ export const Footer = () => {
       <div className={styles.copyright}>
         {`lfca.ngo © ${new Date().getFullYear()} - No cookies, no worries 🍪`}
       </div>
+      <div className={styles.licensing}>
+        Except where otherwise noted, content on this site is licensed under a{' '}
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Creative Commons Attribution 4.0 International
+        </a>{' '}
+        license.
+      </div>
       <div className={styles.links}>
         <ul>
           {LINKS.map((link) => (
