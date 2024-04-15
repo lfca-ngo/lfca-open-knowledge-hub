@@ -14,7 +14,9 @@ import { Main, Section, TopNavLayout } from '../../components/Layout'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
   ContentfulActionFields,
+  ContentfulSourceFields,
   fetchAllActions,
+  fetchAllTemplates,
 } from '../../services/contentful'
 import { lowerCaseSearch } from '../../utils'
 
@@ -24,9 +26,10 @@ export const LS_ACTION_LIST = 'actions_list'
 
 interface DashboardProps {
   actions: ContentfulActionFields[]
+  templates: ContentfulSourceFields[]
 }
 
-const Home: NextPage<DashboardProps> = ({ actions }) => {
+const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
   const { persistentNavigation, resetPosition, savePosition } =
     usePersistentNavigation(true)
 
@@ -92,6 +95,8 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
     )
   }, [actions, formOptions])
 
+  console.log(templates)
+
   return (
     <TopNavLayout
       aside={
@@ -125,12 +130,13 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
         <Hero
           subtitle={
             <>
-              Are you looking for ways to take action climate? This open source
-              library is continously updated and fully accessible to the public.
-              Questions? <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
+              Are you looking for ways to take action for our planet? This open
+              source library is continously updated and fully accessible to the
+              public. Questions?{' '}
+              <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
             </>
           }
-          title={'Open Climate Knowledge'}
+          title={'Open Sustainability Knowledge'}
         />
       }
     >
@@ -190,6 +196,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
 }
 
 export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
+  const templates = await fetchAllTemplates()
   const actionsById = await fetchAllActions()
   const actions: ContentfulActionFields[] = Object.keys(actionsById).map(
     (id) => actionsById[id]
@@ -198,6 +205,7 @@ export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
   return {
     props: {
       actions,
+      templates,
     },
   }
 }

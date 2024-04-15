@@ -1,61 +1,57 @@
-// PlusJakartaSans Font
+// Poppins Font
 @font-face {
-  font-family: 'PlusJakartaSans';
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  src: local(''), url('/fonts/Poppins Light.woff2') format('woff2'),
+    url('/fonts/Poppins Light.woff2') format('woff');
+}
+@font-face {
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
-  src: local(''), url('/fonts/PlusJakartaSans-Regular.woff2') format('woff2'),
-    url('/fonts/PlusJakartaSans-Regular.woff2') format('woff');
+  src: local(''), url('/fonts/Poppins Regular.woff2') format('woff2'),
+    url('/fonts/Poppins Regular.woff2') format('woff');
 }
 @font-face {
-  font-family: 'PlusJakartaSans';
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
-  src: local(''), url('/fonts/PlusJakartaSans-Medium.woff2') format('woff2'),
-    url('/fonts/PlusJakartaSans-Medium.woff2') format('woff');
+  src: local(''), url('/fonts/Poppins Medium.woff2') format('woff2'),
+    url('/fonts/Poppins Medium.woff2') format('woff');
 }
 @font-face {
-  font-family: 'PlusJakartaSans';
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
-  src: local(''), url('/fonts/PlusJakartaSans-SemiBold.woff2') format('woff2'),
-    url('/fonts/PlusJakartaSans-SemiBold.woff2') format('woff');
-}
-@font-face {
-  font-family: 'PlusJakartaSans';
-  font-style: normal;
-  font-weight: 700;
-  src: local(''), url('/fonts/PlusJakartaSans-Bold.woff2') format('woff2'),
-    url('/fonts/PlusJakartaSans-Bold.woff2') format('woff');
+  src: local(''), url('/fonts/Poppins SemiBold.woff2') format('woff2'),
+    url('/fonts/Poppins SemiBold.woff2') format('woff');
 }
 
 .font-bold(@color: var(--heading-color)) {
   font-family: @font-family;
-  font-weight: 700;
-  font-style: normal;
+  font-weight: 600;
   color: @color;
   line-height: 1.2;
 }
 
 .font-semi(@color: var(--heading-color)) {
   font-family: @font-family;
-  font-weight: 600;
-  font-style: normal;
+  font-weight: 500;
   color: @color;
   line-height: 1.2;
 }
 
 .font-medium(@color: var(--heading-color)) {
   font-family: @font-family;
-  font-weight: 500;
-  font-style: normal;
+  font-weight: 400;
   color: @color;
   line-height: 1.2;
 }
 
 .font-regular(@color: var(--text-color)) {
   font-family: @font-family;
-  font-weight: 400;
-  font-style: normal;
+  font-weight: 300;
   color: @color;
 }
 
