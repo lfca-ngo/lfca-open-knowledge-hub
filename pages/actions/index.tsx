@@ -1,4 +1,4 @@
-import { Form, Input, List } from 'antd'
+import { Divider, Form, Input, List } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 
@@ -11,6 +11,7 @@ import {
 import { FilterBar } from '../../components/FilterBar'
 import { Hero } from '../../components/Hero'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
+import { SourcesCarousel } from '../../components/SourcesCarousel'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
   ContentfulActionFields,
@@ -95,8 +96,6 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
     )
   }, [actions, formOptions])
 
-  console.log(templates)
-
   return (
     <TopNavLayout
       aside={
@@ -142,6 +141,16 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
     >
       <Main>
         <Section bordered={false} id="browse-actions">
+          <Divider orientation="left" orientationMargin={0}>
+            Templates
+          </Divider>
+          <div style={{ margin: '0 0 40px' }}>
+            <SourcesCarousel sources={templates} />
+          </div>
+
+          <Divider orientation="left" orientationMargin={0}>
+            How to guides
+          </Divider>
           <List
             className="equal-height"
             dataSource={filteredActions}
