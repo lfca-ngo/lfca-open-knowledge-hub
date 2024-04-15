@@ -1,4 +1,4 @@
-import { Form, Input, List } from 'antd'
+import { Divider, Form, Input, List } from 'antd'
 import type { GetStaticProps, NextPage } from 'next'
 import React, { useMemo } from 'react'
 
@@ -11,10 +11,13 @@ import {
 import { FilterBar } from '../../components/FilterBar'
 import { Hero } from '../../components/Hero'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
+import { SourcesCarousel } from '../../components/SourcesCarousel'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
   ContentfulActionFields,
+  ContentfulSourceFields,
   fetchAllActions,
+  fetchAllTemplates,
 } from '../../services/contentful'
 import { lowerCaseSearch } from '../../utils'
 
@@ -24,9 +27,10 @@ export const LS_ACTION_LIST = 'actions_list'
 
 interface DashboardProps {
   actions: ContentfulActionFields[]
+  templates: ContentfulSourceFields[]
 }
 
-const Home: NextPage<DashboardProps> = ({ actions }) => {
+const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
   const { persistentNavigation, resetPosition, savePosition } =
     usePersistentNavigation(true)
 
@@ -125,17 +129,28 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
         <Hero
           subtitle={
             <>
-              Are you looking for ways to take action climate? This open source
-              library is continously updated and fully accessible to the public.
-              Questions? <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
+              Are you looking for ways to take action for our planet? This open
+              source library is continously updated and fully accessible to the
+              public. Questions?{' '}
+              <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
             </>
           }
-          title={'Open Climate Knowledge'}
+          title={'Open Sustainability Knowledge'}
         />
       }
     >
       <Main>
         <Section bordered={false} id="browse-actions">
+          <Divider orientation="left" orientationMargin={0}>
+            Templates
+          </Divider>
+          <div style={{ margin: '0 0 40px' }}>
+            <SourcesCarousel sources={templates} />
+          </div>
+
+          <Divider orientation="left" orientationMargin={0}>
+            How to guides
+          </Divider>
           <List
             className="equal-height"
             dataSource={filteredActions}
@@ -190,6 +205,7 @@ const Home: NextPage<DashboardProps> = ({ actions }) => {
 }
 
 export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
+  const templates = await fetchAllTemplates()
   const actionsById = await fetchAllActions()
   const actions: ContentfulActionFields[] = Object.keys(actionsById).map(
     (id) => actionsById[id]
@@ -198,6 +214,7 @@ export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
   return {
     props: {
       actions,
+      templates,
     },
   }
 }

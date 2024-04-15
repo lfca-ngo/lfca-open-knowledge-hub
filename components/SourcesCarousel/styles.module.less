@@ -1,0 +1,31 @@
+.sourcesCarousel {
+  .equal-height-columns(10px);
+
+  :global {
+    .slick-slide {
+      > div {
+        .ant-card {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.emptyStateWrapper {
+  border: 1px solid @grey-white;
+  border-radius: @border-radius-base;
+
+  :global {
+    .empty-state {
+      margin-top: 0;
+
+      .text {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+  }
+}

@@ -126,9 +126,13 @@ export interface ContentfulQuestionnaireFields {
 
 export interface ContentfulSourceFields {
   title: string
+  description: string
   type: 'link' | 'image' | 'pdf'
   file?: ContentfulMedia
   url?: string
+  readingTime?: number
+  previewImage?: Image
+  tags?: string[]
 }
 
 export interface ContentfulCallToActionFields {
