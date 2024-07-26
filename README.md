@@ -30,7 +30,7 @@
 
 ### Scopes
 
-For branch names, commit messages and PR titles we follow a simplified version of the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) specification by ensuring we always add a scope to our name/message/title.
+For branch names, commit messages and PR titles we follow a simplified version of the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) specification by ensuring we always add a scope to our name/message/title
 
 Use one of the following scopes:
 
