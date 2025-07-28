@@ -32,13 +32,13 @@ export const SourcesCarousel = ({
         breakpoint:
           LAYOUT_BREAKPOINTS.find((l) => l.name === 'xl')?.minWidth || 0,
         settings: {
-          slidesToScroll: 2,
-          slidesToShow: 2,
+          slidesToScroll: 4,
+          slidesToShow: 4,
         },
       },
     ],
-    slidesToScroll: 3,
-    slidesToShow: 3,
+    slidesToScroll: 5,
+    slidesToShow: 5,
   },
 }: SourcesCarouselProps) => {
   if (sources.length === 0 && !fetching)

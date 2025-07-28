@@ -26,7 +26,11 @@ export const CategoryTreeComponent = ({
 }: CategoryTreeComponentProps) => {
   const lookUp: LookUpProps = categoryTreeData.lookUp
   const categoryTree: ContentfulCategoryTreeFields[] =
-    categoryTreeData.categoryTree
+    categoryTreeData.categoryTree.sort((a, b) => {
+      if (a.sortWeight < b.sortWeight) return -1
+      if (a.sortWeight > b.sortWeight) return 1
+      return 0
+    }) || []
 
   const handleChange = (e: CheckboxChangeEvent, hasChildren: boolean) => {
     const name = e.target.name

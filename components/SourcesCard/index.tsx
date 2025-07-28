@@ -2,6 +2,8 @@ import { InfoOutlined } from '@ant-design/icons'
 import { Avatar, Card, Popover, Skeleton, Tag } from 'antd'
 import Image from 'next/image'
 
+const ICON_SIZE = 24
+
 import { ContentfulSourceFields } from '../../services/contentful'
 import styles from './styles.module.less'
 
@@ -12,30 +14,43 @@ interface SourcesCardProps {
 
 export const SourcesCard = ({ fetching, item }: SourcesCardProps) => {
   const renderSourceType = () => {
-    // const isMiroUrl = item.url?.toLowerCase().includes('miro.com')
-    // const isGoogleSlidesUrl = item.url
-    //   ?.toLowerCase()
-    //   .includes('docs.google.com/presentation')
+    const isMiroUrl = item.url?.toLowerCase().includes('miro.com')
+    const isGoogleSlidesUrl = item.url
+      ?.toLowerCase()
+      .includes('docs.google.com/presentation')
+    const isGoogleSheetsUrl = item.url
+      ?.toLowerCase()
+      .includes('docs.google.com/spreadsheets')
 
-    // if (isMiroUrl)
-    //   return (
-    //     <Image
-    //       alt="stripe"
-    //       height={ICON_SIZE}
-    //       src={`/img/icons/miro.svg`}
-    //       width={ICON_SIZE}
-    //     />
-    //   )
+    if (isGoogleSheetsUrl)
+      return (
+        <Image
+          alt="stripe"
+          height={ICON_SIZE}
+          src={`/img/icons/google-sheets.svg`}
+          width={ICON_SIZE}
+        />
+      )
 
-    // if (isGoogleSlidesUrl)
-    //   return (
-    //     <Image
-    //       alt="stripe"
-    //       height={ICON_SIZE}
-    //       src={`/img/icons/google-slides.svg`}
-    //       width={ICON_SIZE}
-    //     />
-    //   )
+    if (isMiroUrl)
+      return (
+        <Image
+          alt="stripe"
+          height={ICON_SIZE}
+          src={`/img/icons/miro.svg`}
+          width={ICON_SIZE}
+        />
+      )
+
+    if (isGoogleSlidesUrl)
+      return (
+        <Image
+          alt="stripe"
+          height={ICON_SIZE}
+          src={`/img/icons/google-slides.svg`}
+          width={ICON_SIZE}
+        />
+      )
 
     return <Avatar className="black-inverse" icon={<InfoOutlined />} />
   }

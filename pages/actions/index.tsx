@@ -129,9 +129,10 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
         <Hero
           subtitle={
             <>
-              Are you looking for ways to take action for our planet? This open
-              source library is continously updated and fully accessible to the
-              public. Questions?{' '}
+              This open-source library is constantly updated and freely
+              accessible to everyone. It offers a wealth of resources to help
+              you make a difference — whether through individual action or by
+              driving change within your company. Questions?{' '}
               <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
             </>
           }

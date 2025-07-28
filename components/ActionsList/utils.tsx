@@ -1,6 +1,7 @@
 import {
   FallOutlined,
   FieldBinaryOutlined,
+  SmileOutlined,
   SoundOutlined,
   StarOutlined,
 } from '@ant-design/icons'
@@ -50,6 +51,12 @@ export const rootTreeMetaData: { [key: string]: MetaDataProps } = {
       'Use your social, financial, and political power to become an active agent of change.',
     icon: <SoundOutlined />,
     name: 'Influence',
+  },
+  'tree-personal': {
+    color: 'purple',
+    description: 'Take immediate action in your personal sphere of influence.',
+    icon: <SmileOutlined />,
+    name: 'Personal',
   },
   'tree-stepup': {
     color: 'wine',
