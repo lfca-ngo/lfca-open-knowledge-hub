@@ -67,7 +67,7 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
         .filter((action) => {
           const hasRelatedActions = (action.relatedActions?.length || 0) > 0
           const shouldFilterRelatedActions = activeHasRelatedActions === 'yes'
-          const actionCategories = action.tags.map((c) => c.categoryId)
+          const actionCategories = (action.tags || []).map((c) => c.categoryId)
           const intersectingCategories = actionCategories.filter((value) =>
             activeCategories.includes(value)
           )
