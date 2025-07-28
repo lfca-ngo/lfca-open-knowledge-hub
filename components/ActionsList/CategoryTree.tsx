@@ -27,8 +27,8 @@ export const CategoryTreeComponent = ({
   const lookUp: LookUpProps = categoryTreeData.lookUp
   const categoryTree: ContentfulCategoryTreeFields[] =
     categoryTreeData.categoryTree.sort((a, b) => {
-      if (a.sortWeight < b.sortWeight) return -1
-      if (a.sortWeight > b.sortWeight) return 1
+      if (a.sortWeight < b.sortWeight) return 1
+      if (a.sortWeight > b.sortWeight) return -1
       return 0
     }) || []
 

@@ -131,8 +131,8 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
             <>
               This open-source library is constantly updated and freely
               accessible to everyone. It offers a wealth of resources to help
-              you make a difference — whether through individual action or by
-              driving change within your company. Questions?{' '}
+              you make a difference — whether through personal action or by
+              driving change as a team member within your company. Questions?{' '}
               <a href={`mailto:piotr@lfca.ngo`}>Drop us a line!</a>
             </>
           }

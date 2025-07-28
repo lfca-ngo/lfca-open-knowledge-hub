@@ -6,8 +6,8 @@ import { CategoryTreeComponent } from './CategoryTree'
 import styles from './styles.module.less'
 
 export const SORT_OPTIONS = [
-  { key: 'popularity', label: 'Popularity' },
   { key: 'impact', label: 'Impact' },
+  { key: 'popularity', label: 'Popularity' },
 ]
 
 export interface CategoryTreeFormItems {
