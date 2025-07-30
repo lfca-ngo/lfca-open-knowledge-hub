@@ -11,13 +11,11 @@ import {
 import { FilterBar } from '../../components/FilterBar'
 import { Hero } from '../../components/Hero'
 import { Main, Section, TopNavLayout } from '../../components/Layout'
-import { SourcesCarousel } from '../../components/SourcesCarousel'
+import { NavBar } from '../../components/NavBar'
 import { usePersistentNavigation } from '../../hooks/usePersistentNavigation'
 import {
   ContentfulActionFields,
-  ContentfulSourceFields,
   fetchAllActions,
-  fetchAllTemplates,
 } from '../../services/contentful'
 import { lowerCaseSearch } from '../../utils'
 
@@ -27,10 +25,9 @@ export const LS_ACTION_LIST = 'actions_list'
 
 interface DashboardProps {
   actions: ContentfulActionFields[]
-  templates: ContentfulSourceFields[]
 }
 
-const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
+const Home: NextPage<DashboardProps> = ({ actions }) => {
   const { persistentNavigation, resetPosition, savePosition } =
     usePersistentNavigation(true)
 
@@ -114,17 +111,7 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
           onValuesChange={handleChange}
         />
       }
-      header={
-        <Form form={form} onValuesChange={handleChange}>
-          <Form.Item name="search">
-            <Search
-              placeholder="Search for climate action..."
-              size="middle"
-              style={{ width: '100%' }}
-            />
-          </Form.Item>
-        </Form>
-      }
+      header={<NavBar />}
       hero={
         <Hero
           subtitle={
@@ -142,11 +129,16 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
     >
       <Main>
         <Section bordered={false} id="browse-actions">
-          <Divider orientation="left" orientationMargin={0}>
-            Templates
-          </Divider>
-          <div style={{ margin: '0 0 40px' }}>
-            <SourcesCarousel sources={templates} />
+          <div>
+            <Form form={form} onValuesChange={handleChange}>
+              <Form.Item name="search">
+                <Search
+                  placeholder="Search for climate action..."
+                  size="middle"
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+            </Form>
           </div>
 
           <Divider orientation="left" orientationMargin={0}>
@@ -206,7 +198,6 @@ const Home: NextPage<DashboardProps> = ({ actions, templates }) => {
 }
 
 export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
-  const templates = await fetchAllTemplates()
   const actionsById = await fetchAllActions()
   const actions: ContentfulActionFields[] = Object.keys(actionsById).map(
     (id) => actionsById[id]
@@ -215,7 +206,6 @@ export const getStaticProps: GetStaticProps<DashboardProps> = async () => {
   return {
     props: {
       actions,
-      templates,
     },
   }
 }

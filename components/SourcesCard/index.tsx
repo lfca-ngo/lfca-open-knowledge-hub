@@ -6,6 +6,7 @@ const ICON_SIZE = 24
 
 import { ContentfulSourceFields } from '../../services/contentful'
 import styles from './styles.module.less'
+import { getSourceType, SOURCE_TYPES } from './utils'
 
 interface SourcesCardProps {
   fetching?: boolean
@@ -14,15 +15,9 @@ interface SourcesCardProps {
 
 export const SourcesCard = ({ fetching, item }: SourcesCardProps) => {
   const renderSourceType = () => {
-    const isMiroUrl = item.url?.toLowerCase().includes('miro.com')
-    const isGoogleSlidesUrl = item.url
-      ?.toLowerCase()
-      .includes('docs.google.com/presentation')
-    const isGoogleSheetsUrl = item.url
-      ?.toLowerCase()
-      .includes('docs.google.com/spreadsheets')
+    const sourceType = getSourceType(item)
 
-    if (isGoogleSheetsUrl)
+    if (sourceType === SOURCE_TYPES.googleSheets)
       return (
         <Image
           alt="stripe"
@@ -32,7 +27,7 @@ export const SourcesCard = ({ fetching, item }: SourcesCardProps) => {
         />
       )
 
-    if (isMiroUrl)
+    if (sourceType === SOURCE_TYPES.miro)
       return (
         <Image
           alt="stripe"
@@ -42,7 +37,7 @@ export const SourcesCard = ({ fetching, item }: SourcesCardProps) => {
         />
       )
 
-    if (isGoogleSlidesUrl)
+    if (sourceType === SOURCE_TYPES.googleSlides)
       return (
         <Image
           alt="stripe"
