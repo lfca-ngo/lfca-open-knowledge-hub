@@ -22,8 +22,8 @@ interface TemplatesProps {
 
 const Templates: NextPage<TemplatesProps> = ({ templates }) => {
   const [selectedSourceType, setSelectedSourceType] = React.useState<
-    string | null
-  >(null)
+    string | ''
+  >('')
   const { persistentNavigation, savePosition } = usePersistentNavigation(true)
 
   // the currentPage is needed for the list component,
@@ -55,12 +55,12 @@ const Templates: NextPage<TemplatesProps> = ({ templates }) => {
             style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
             value={selectedSourceType}
           >
+            <Radio value={''}>All Templates</Radio>
             {Object.values(SOURCE_TYPES).map((type) => (
               <Radio key={type} value={type}>
                 {type.charAt(0).toUpperCase() + type.slice(1)}
               </Radio>
             ))}
-            <Radio value={''}>All</Radio>
           </Radio.Group>
         </div>
       }
