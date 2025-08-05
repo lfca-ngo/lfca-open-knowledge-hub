@@ -1,6 +1,6 @@
 # lfca-open-knowledge-hub
 
-## Running local
+## Running locally
 
 1. Install dependencies:
    ```bash
